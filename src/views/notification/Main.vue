@@ -467,9 +467,7 @@
                   >
                     <img
                       alt="Icewall Tailwind HTML Admin Template"
-                      :src="
-                        require(`/src/assets/images/${$f()[0].photos[0]}`).default
-                      "
+                      :src="`/src/assets/images/${$f()[0].photos[0]}`"
                     />
                   </div>
                   <div class="ml-4 sm:mr-28">
@@ -519,7 +517,7 @@
                           >
                             <img
                               alt="Icewall Tailwind HTML Admin Template"
-                              :src="require(`/src/assets/images/${$f()[0].photos[0]}`).default"
+                              :src="`/src/assets/images/${$f()[0].photos[0]}`"
                             />
                           </div>
                           <div class="ml-4 sm:mr-28">
@@ -990,7 +988,7 @@ export default defineComponent({
       // Close notification event
       cash(avatarNotification.toastElement)
         .find('[data-dismiss="notification"]')
-        .on('click', function() {
+        .on('click', function () {
           avatarNotification.hideToast()
         })
     }
@@ -1013,7 +1011,7 @@ export default defineComponent({
       // Close notification event
       cash(splitButtonsNotification.toastElement)
         .find('[data-dismiss="notification"]')
-        .on('click', function() {
+        .on('click', function () {
           splitButtonsNotification.hideToast()
         })
     }

@@ -79,9 +79,7 @@
                       tag="img"
                       alt="Icewall Tailwind HTML Admin Template"
                       class="rounded-full"
-                      :src="
-                        require(`/src/assets/images/${faker.images[0]}`).default
-                      "
+                      :src="`/src/assets/images/${faker.images[0]}`"
                       :content="`Uploaded at ${faker.dates[0]}`"
                     />
                   </div>
@@ -90,9 +88,7 @@
                       tag="img"
                       alt="Icewall Tailwind HTML Admin Template"
                       class="rounded-full"
-                      :src="
-                        require(`/src/assets/images/${faker.images[1]}`).default
-                      "
+                      :src="`/src/assets/images/${faker.images[1]}`"
                       :content="`Uploaded at ${faker.dates[0]}`"
                     />
                   </div>
@@ -101,9 +97,7 @@
                       tag="img"
                       alt="Icewall Tailwind HTML Admin Template"
                       class="rounded-full"
-                      :src="
-                        require(`/src/assets/images/${faker.images[2]}`).default
-                      "
+                      :src="`/src/assets/images/${faker.images[2]}`"
                       :content="`Uploaded at ${faker.dates[0]}`"
                     />
                   </div>
@@ -112,7 +106,7 @@
               <td>
                 <a href class="font-medium whitespace-nowrap">
                   {{
-                  faker.products[0].name
+                    faker.products[0].name
                   }}
                 </a>
                 <div

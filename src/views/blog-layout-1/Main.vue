@@ -46,7 +46,7 @@
             <img
               alt="Icewall Tailwind HTML Admin Template"
               class="rounded-full"
-              :src="require(`/src/assets/images/${faker.photos[0]}`).default"
+              :src="`/src/assets/images/${faker.photos[0]}`"
             />
           </div>
           <div class="ml-3 mr-auto">
@@ -91,12 +91,12 @@
             <img
               alt="Icewall Tailwind HTML Admin Template"
               class="rounded-md"
-              :src="require(`/src/assets/images/${faker.images[0]}`).default"
+              :src="`/src/assets/images/${faker.images[0]}`"
             />
           </div>
           <a href class="block font-medium text-base mt-5">
             {{
-            faker.news[0].title
+              faker.news[0].title
             }}
           </a>
           <div
@@ -120,7 +120,7 @@
                 tag="img"
                 alt="Icewall Tailwind HTML Admin Template"
                 class="rounded-full border border-white zoom-in"
-                :src="require(`/src/assets/images/${faker.photos[0]}`).default"
+                :src="`/src/assets/images/${faker.photos[0]}`"
                 :content="faker.users[0].name"
               />
             </div>
@@ -129,7 +129,7 @@
                 tag="img"
                 alt="Icewall Tailwind HTML Admin Template"
                 class="rounded-full border border-white zoom-in"
-                :src="require(`/src/assets/images/${faker.photos[1]}`).default"
+                :src="`/src/assets/images/${faker.photos[1]}`"
                 :content="faker.users[1].name"
               />
             </div>
@@ -138,7 +138,7 @@
                 tag="img"
                 alt="Icewall Tailwind HTML Admin Template"
                 class="rounded-full border border-white zoom-in"
-                :src="require(`/src/assets/images/${faker.photos[2]}`).default"
+                :src="`/src/assets/images/${faker.photos[2]}`"
                 :content="faker.users[2].name"
               />
             </div>
@@ -180,7 +180,7 @@
               <img
                 alt="Icewall Tailwind HTML Admin Template"
                 class="rounded-full"
-                :src="require(`/src/assets/images/${faker.photos[0]}`).default"
+                :src="`/src/assets/images/${faker.photos[0]}`"
               />
             </div>
             <div class="flex-1 relative text-gray-700">

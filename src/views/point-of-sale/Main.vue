@@ -128,9 +128,7 @@
                 <div class="pos-image__preview image-fit">
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
-                    :src="
-                      require(`/src/assets/images/${faker.foods[0].image}`).default
-                    "
+                    :src="`/src/assets/images/${faker.foods[0].image}`"
                   />
                 </div>
               </div>

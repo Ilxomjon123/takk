@@ -17,7 +17,7 @@
             <img
               alt="Icewall Tailwind HTML Admin Template"
               class="rounded-full"
-              :src="require(`/src/assets/images/${$f()[0].photos[0]}`).default"
+              :src="`/src/assets/images/${$f()[0].photos[0]}`"
             />
             <div
               class="absolute mb-1 mr-1 flex items-center justify-center bottom-0 right-0 bg-theme-1 rounded-full p-2"
@@ -382,9 +382,7 @@
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="
-                      require(`/src/assets/images/${$f()[0].photos[0]}`).default
-                    "
+                    :src="`/src/assets/images/${$f()[0].photos[0]}`"
                   />
                 </div>
                 <div class="ml-4 mr-auto">
@@ -400,9 +398,7 @@
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="
-                      require(`/src/assets/images/${$f()[1].photos[0]}`).default
-                    "
+                    :src="`/src/assets/images/${$f()[1].photos[0]}`"
                   />
                 </div>
                 <div class="ml-4 mr-auto">
@@ -418,9 +414,7 @@
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="
-                      require(`/src/assets/images/${$f()[2].photos[0]}`).default
-                    "
+                    :src="`/src/assets/images/${$f()[2].photos[0]}`"
                   />
                 </div>
                 <div class="ml-4 mr-auto">

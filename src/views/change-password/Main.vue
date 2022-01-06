@@ -14,7 +14,7 @@
               <img
                 alt="Icewall Tailwind HTML Admin Template"
                 class="rounded-full"
-                :src="require(`/src/assets/images/${$f()[0].photos[0]}`).default"
+                :src="`/src/assets/images/${$f()[0].photos[0]}`"
               />
             </div>
             <div class="ml-4 mr-auto">

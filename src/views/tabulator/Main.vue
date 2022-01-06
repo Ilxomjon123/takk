@@ -206,11 +206,9 @@ export default defineComponent({
             download: false,
             formatter(cell) {
               return `<div>
-                <div class="font-medium whitespace-nowrap">${
-                  cell.getData().name
+                <div class="font-medium whitespace-nowrap">${cell.getData().name
                 }</div>
-                <div class="text-gray-600 text-xs whitespace-nowrap">${
-                  cell.getData().category
+                <div class="text-gray-600 text-xs whitespace-nowrap">${cell.getData().category
                 }</div>
               </div>`
             }
@@ -226,22 +224,13 @@ export default defineComponent({
             formatter(cell) {
               return `<div class="flex lg:justify-center">
                   <div class="intro-x w-10 h-10 image-fit">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="${
-                      require('/src/assets/images/' + cell.getData().images[0])
-                        .default
-                    }">
+                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="${'/src/assets/images/' + cell.getData().images[0]}">
                   </div>
                   <div class="intro-x w-10 h-10 image-fit -ml-5">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="${
-                      require('/src/assets/images/' + cell.getData().images[1])
-                        .default
-                    }">
+                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="${'/src/assets/images/' + cell.getData().images[1]}">
                   </div>
                   <div class="intro-x w-10 h-10 image-fit -ml-5">
-                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="${
-                      require('/src/assets/images/' + cell.getData().images[2])
-                        .default
-                    }">
+                    <img alt="Icewall Tailwind HTML Admin Template" class="rounded-full" src="${'/src/assets/images/' + cell.getData().images[2]}">
                   </div>
               </div>`
             }
@@ -264,11 +253,9 @@ export default defineComponent({
             print: false,
             download: false,
             formatter(cell) {
-              return `<div class="flex items-center lg:justify-center ${
-                cell.getData().status ? 'text-theme-9' : 'text-theme-6'
-              }">
-                <i data-feather="check-square" class="w-4 h-4 mr-2"></i> ${
-                  cell.getData().status ? 'Active' : 'Inactive'
+              return `<div class="flex items-center lg:justify-center ${cell.getData().status ? 'text-theme-9' : 'text-theme-6'
+                }">
+                <i data-feather="check-square" class="w-4 h-4 mr-2"></i> ${cell.getData().status ? 'Active' : 'Inactive'
                 }
               </div>`
             }
@@ -291,7 +278,7 @@ export default defineComponent({
                   <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
                 </a>
               </div>`)
-              cash(a).on('click', function() {
+              cash(a).on('click', function () {
                 // On click actions
               })
 

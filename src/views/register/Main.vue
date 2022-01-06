@@ -9,7 +9,7 @@
             <img
               alt="Icewall Tailwind HTML Admin Template"
               class="w-6"
-              :src="require(`/src/assets/images/logo.svg`).default"
+              :src="`/src/assets/images/logo.svg`"
             />
             <span class="text-white text-lg ml-3">
               Ru
@@ -20,7 +20,7 @@
             <img
               alt="Icewall Tailwind HTML Admin Template"
               class="-intro-x w-1/2 -mt-16"
-              :src="require(`/src/assets/images/illustration.svg`).default"
+              :src="`/src/assets/images/illustration.svg`"
             />
             <div
               class="-intro-x text-white font-medium text-4xl leading-tight mt-10"

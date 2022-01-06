@@ -816,10 +816,7 @@
                     <div class="h-full image-fit rounded-md overflow-hidden">
                       <img
                         alt="Icewall Tailwind HTML Admin Template"
-                        :src="
-                          require(`/src/assets/images/${$f()[0].images[0]}`)
-                            .default
-                        "
+                        :src="`/src/assets/images/${$f()[0].images[0]}`"
                       />
                     </div>
                   </div>
@@ -827,10 +824,7 @@
                     <div class="h-full image-fit rounded-md overflow-hidden">
                       <img
                         alt="Icewall Tailwind HTML Admin Template"
-                        :src="
-                          require(`/src/assets/images/${$f()[1].images[1]}`)
-                            .default
-                        "
+                        :src="`/src/assets/images/${$f()[1].images[1]}`"
                       />
                     </div>
                   </div>
@@ -838,10 +832,7 @@
                     <div class="h-full image-fit rounded-md overflow-hidden">
                       <img
                         alt="Icewall Tailwind HTML Admin Template"
-                        :src="
-                          require(`/src/assets/images/${$f()[2].images[2]}`)
-                            .default
-                        "
+                        :src="`/src/assets/images/${$f()[2].images[2]}`"
                       />
                     </div>
                   </div>
@@ -878,7 +869,7 @@
                             <div class="h-full image-fit rounded-md overflow-hidden">
                               <img
                                 alt="Icewall Tailwind HTML Admin Template"
-                                :src="require(`/src/assets/images/${$f()[0].images[0]}`).default"
+                                :src="`/src/assets/images/${$f()[0].images[0]}`"
                               />
                             </div>
                           </div>
@@ -886,7 +877,7 @@
                             <div class="h-full image-fit rounded-md overflow-hidden">
                               <img
                                 alt="Icewall Tailwind HTML Admin Template"
-                                :src="require(`/src/assets/images/${$f()[1].images[1]}`).default"
+                                :src="`/src/assets/images/${$f()[1].images[1]}`"
                               />
                             </div>
                           </div>
@@ -894,7 +885,7 @@
                             <div class="h-full image-fit rounded-md overflow-hidden">
                               <img
                                 alt="Icewall Tailwind HTML Admin Template"
-                                :src="require(`/src/assets/images/${$f()[2].images[2]}`).default"
+                                :src="`/src/assets/images/${$f()[2].images[2]}`"
                               />
                             </div>
                           </div>

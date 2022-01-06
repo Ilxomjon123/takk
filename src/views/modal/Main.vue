@@ -1711,11 +1711,8 @@
                             >
                               <img
                                 alt="Icewall Tailwind HTML Admin Template"
-                                :src="
-                                  require(`/src/assets/images/${
-                                    $f()[0].images[0]
-                                  }`).default
-                                "
+                                :src="`/src/assets/images/${$f()[0].images[0]
+                                }`"
                               />
                             </div>
                           </div>
@@ -1725,11 +1722,8 @@
                             >
                               <img
                                 alt="Icewall Tailwind HTML Admin Template"
-                                :src="
-                                  require(`/src/assets/images/${
-                                    $f()[0].images[1]
-                                  }`).default
-                                "
+                                :src="`/src/assets/images/${$f()[0].images[1]
+                                }`"
                               />
                             </div>
                           </div>
@@ -1739,11 +1733,8 @@
                             >
                               <img
                                 alt="Icewall Tailwind HTML Admin Template"
-                                :src="
-                                  require(`/src/assets/images/${
-                                    $f()[0].images[2]
-                                  }`).default
-                                "
+                                :src="`/src/assets/images/${$f()[0].images[2]
+                                }`"
                               />
                             </div>
                           </div>
@@ -1753,11 +1744,8 @@
                             >
                               <img
                                 alt="Icewall Tailwind HTML Admin Template"
-                                :src="
-                                  require(`/src/assets/images/${
-                                    $f()[0].images[3]
-                                  }`).default
-                                "
+                                :src="`/src/assets/images/${$f()[0].images[3]
+                                }`"
                               />
                             </div>
                           </div>
@@ -1826,11 +1814,9 @@
                                     >
                                       <img
                                         alt="Icewall Tailwind HTML Admin Template"
-                                        :src="
-                                          require(`/src/assets/images/${
+                                        :src="`/src/assets/images/${
                                             $f()[0].images[0]
-                                          }`).default
-                                        "
+                                          }`"
                                       />
                                     </div>
                                   </div>
@@ -1840,11 +1826,9 @@
                                     >
                                       <img
                                         alt="Icewall Tailwind HTML Admin Template"
-                                        :src="
-                                          require(`/src/assets/images/${
+                                        :src="`/src/assets/images/${
                                             $f()[0].images[1]
-                                          }`).default
-                                        "
+                                          }`"
                                       />
                                     </div>
                                   </div>
@@ -1854,11 +1838,9 @@
                                     >
                                       <img
                                         alt="Icewall Tailwind HTML Admin Template"
-                                        :src="
-                                          require(`/src/assets/images/${
+                                        :src="`/src/assets/images/${
                                             $f()[0].images[2]
-                                          }`).default
-                                        "
+                                          }`"
                                       />
                                     </div>
                                   </div>
@@ -1868,11 +1850,9 @@
                                     >
                                       <img
                                         alt="Icewall Tailwind HTML Admin Template"
-                                        :src="
-                                          require(`/src/assets/images/${
+                                        :src="`/src/assets/images/${
                                             $f()[0].images[3]
-                                          }`).default
-                                        "
+                                          }`"
                                       />
                                     </div>
                                   </div>

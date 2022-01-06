@@ -59,9 +59,7 @@
                 <div class="w-full h-64 my-5 image-fit">
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
-                    :src="
-                      require(`/src/assets/images/${$f()[0].images[0]}`).default
-                    "
+                    :src="`/src/assets/images/${$f()[0].images[0]}`"
                     data-action="zoom"
                     class="w-full rounded-md"
                   />
@@ -108,9 +106,7 @@
                 <div class="w-3/5 h-64 mr-6 float-left image-fit">
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
-                    :src="
-                      require(`/src/assets/images/${$f()[0].images[1]}`).default
-                    "
+                    :src="`/src/assets/images/${$f()[0].images[1]}`"
                     data-action="zoom"
                     class="w-full rounded-md"
                   />
@@ -199,7 +195,7 @@
                         <div class="w-full h-64 my-5 image-fit">
                           <img
                             alt="Icewall Tailwind HTML Admin Template"
-                            :src="require(`/src/assets/images/${$f()[0].images[0]}`).default"
+                            :src="`/src/assets/images/${$f()[0].images[0]}`"
                             data-action="zoom"
                             class="w-full rounded-md"
                           />
@@ -246,7 +242,7 @@
                         <div class="w-3/5 h-64 mr-6 float-left image-fit">
                           <img
                             alt="Icewall Tailwind HTML Admin Template"
-                            :src="require(`/src/assets/images/${$f()[0].images[1]}`).default"
+                            :src="`/src/assets/images/${$f()[0].images[1]}`"
                             data-action="zoom"
                             class="w-full rounded-md"
                           />

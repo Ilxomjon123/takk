@@ -298,9 +298,7 @@
                     <img
                       alt="Icewall Tailwind HTML Admin Template"
                       class="rounded-full"
-                      :src="
-                        require(`/src/assets/images/${faker.photos[0]}`).default
-                      "
+                      :src="`/src/assets/images/${faker.photos[0]}`"
                     />
                   </div>
                   <div
@@ -310,7 +308,7 @@
                 <div class="w-64 sm:w-auto truncate">
                   <span class="inbox__item--highlight">
                     {{
-                    faker.news[0].superShortContent
+                      faker.news[0].superShortContent
                     }}
                   </span>
                   {{ faker.news[0].shortContent }}

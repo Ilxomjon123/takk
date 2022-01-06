@@ -60,7 +60,7 @@
               <img
                 alt="Icewall Tailwind HTML Admin Template"
                 class="rounded-full"
-                :src="require(`/src/assets/images/${faker.photos[0]}`).default"
+                :src="`/src/assets/images/${faker.photos[0]}`"
               />
             </div>
             <div

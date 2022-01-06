@@ -87,9 +87,7 @@
                     <img
                       alt="Icewall Tailwind HTML Admin Template"
                       class="rounded-full"
-                      :src="
-                        require(`/src/assets/images/${faker.photos[0]}`).default
-                      "
+                      :src="`/src/assets/images/${faker.photos[0]}`"
                     />
                   </div>
                   <div class="ml-3">{{ faker.users[0].name }}</div>
@@ -109,7 +107,7 @@
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="require(`/src/assets/images/${faker.images[0]}`).default"
+                    :src="`/src/assets/images/${faker.images[0]}`"
                   />
                 </div>
                 <div class="ml-3">{{ faker.products[0].name }}</div>
@@ -145,7 +143,7 @@
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="require(`/src/assets/images/${faker.photos[0]}`).default"
+                    :src="`/src/assets/images/${faker.photos[0]}`"
                   />
                   <div
                     class="w-3 h-3 bg-theme-9 absolute right-0 bottom-0 rounded-full border-2 border-white"
@@ -179,7 +177,7 @@
           >
             <img
               alt="Icewall Tailwind HTML Admin Template"
-              :src="require(`/src/assets/images/${$f()[9].photos[0]}`).default"
+              :src="`/src/assets/images/${$f()[9].photos[0]}`"
             />
           </div>
           <div class="dropdown-menu w-56">

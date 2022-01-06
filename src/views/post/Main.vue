@@ -180,10 +180,7 @@
                           <img
                             class="rounded-md"
                             alt="Icewall Tailwind HTML Admin Template"
-                            :src="
-                              require(`/src/assets/images/${faker.images[0]}`)
-                                .default
-                            "
+                            :src="`/src/assets/images/${faker.images[0]}`"
                           />
                           <Tippy
                             tag="div"
@@ -231,9 +228,7 @@
                   <img
                     class="rounded"
                     alt="Icewall Tailwind HTML Admin Template"
-                    :src="
-                      require(`/src/assets/images/${$f()[0].photos[0]}`).default
-                    "
+                    :src="`/src/assets/images/${$f()[0].photos[0]}`"
                   />
                 </div>
                 <div class="truncate">{{ $f()[0].users[0].name }}</div>
@@ -251,9 +246,7 @@
                       <img
                         class="rounded"
                         alt="Icewall Tailwind HTML Admin Template"
-                        :src="
-                          require(`/src/assets/images/${faker.photos[0]}`).default
-                        "
+                        :src="`/src/assets/images/${faker.photos[0]}`"
                       />
                     </div>
                     <div class="ml-8 pl-1">{{ faker.users[0].name }}</div>

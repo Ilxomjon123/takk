@@ -190,11 +190,9 @@
               <div class="file__icon--image__preview image-fit">
                 <img
                   alt="Icewall Tailwind HTML Admin Template"
-                  :src="
-                    require(`/src/assets/images/${$_.toLower(
-                      faker.files[0]['fileName']
-                    )}`).default
-                  "
+                  :src="`/src/assets/images/${$_.toLower(
+                    faker.files[0]['fileName']
+                  )}`"
                 />
               </div>
             </a>
@@ -203,7 +201,7 @@
             </a>
             <a href class="block font-medium mt-4 text-center truncate">
               {{
-              faker.files[0].fileName
+                faker.files[0].fileName
               }}
             </a>
             <div

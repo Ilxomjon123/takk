@@ -12,7 +12,7 @@
         <span class="mx-1">•</span>
         <a class="text-theme-1 dark:text-theme-10" href>
           {{
-          $f()[0].products[0].category
+            $f()[0].products[0].category
           }}
         </a>
         <span class="mx-1">•</span> 7 Min read
@@ -22,7 +22,7 @@
           <img
             alt="Icewall Tailwind HTML Admin Template"
             class="rounded-md"
-            :src="require(`/src/assets/images/${$f()[0].images[0]}`).default"
+            :src="`/src/assets/images/${$f()[0].images[0]}`"
           />
         </div>
       </div>
@@ -41,7 +41,7 @@
               tag="img"
               alt="Icewall Tailwind HTML Admin Template"
               class="rounded-full border border-white zoom-in"
-              :src="require(`/src/assets/images/${$f()[0].photos[0]}`).default"
+              :src="`/src/assets/images/${$f()[0].photos[0]}`"
               :content="$f()[0].users[0].name"
             />
           </div>
@@ -50,7 +50,7 @@
               tag="img"
               alt="Icewall Tailwind HTML Admin Template"
               class="rounded-full border border-white zoom-in"
-              :src="require(`/src/assets/images/${$f()[0].photos[1]}`).default"
+              :src="`/src/assets/images/${$f()[0].photos[1]}`"
               :content="$f()[0].users[1].name"
             />
           </div>
@@ -59,7 +59,7 @@
               tag="img"
               alt="Icewall Tailwind HTML Admin Template"
               class="rounded-full border border-white zoom-in"
-              :src="require(`/src/assets/images/${$f()[0].photos[2]}`).default"
+              :src="`/src/assets/images/${$f()[0].photos[2]}`"
               :content="$f()[0].users[2].name"
             />
           </div>
@@ -110,7 +110,7 @@
             <img
               alt="Icewall Tailwind HTML Admin Template"
               class="rounded-full"
-              :src="require(`/src/assets/images/${$f()[0].photos[0]}`).default"
+              :src="`/src/assets/images/${$f()[0].photos[0]}`"
             />
           </div>
           <div class="ml-3 mr-auto">
@@ -172,7 +172,7 @@
               <img
                 alt="Icewall Tailwind HTML Admin Template"
                 class="rounded-full"
-                :src="require(`/src/assets/images/${$f()[0].photos[0]}`).default"
+                :src="`/src/assets/images/${$f()[0].photos[0]}`"
               />
             </div>
             <div class="ml-3 flex-1">
@@ -193,7 +193,7 @@
               <img
                 alt="Icewall Tailwind HTML Admin Template"
                 class="rounded-full"
-                :src="require(`/src/assets/images/${$f()[0].photos[1]}`).default"
+                :src="`/src/assets/images/${$f()[0].photos[1]}`"
               />
             </div>
             <div class="ml-3 flex-1">

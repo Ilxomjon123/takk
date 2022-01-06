@@ -102,7 +102,7 @@
                         <img
                           alt="Icewall Tailwind HTML Admin Template"
                           class="rounded-full"
-                          :src="require(`/src/assets/images/${faker.photos[0]}`).default"
+                          :src="`/src/assets/images/${faker.photos[0]}`"
                         />
                         <div
                           class="w-3 h-3 bg-theme-9 absolute right-0 bottom-0 rounded-full border-2 border-white"
@@ -130,7 +130,7 @@
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="require(`/src/assets/images/${faker.photos[0]}`).default"
+                    :src="`/src/assets/images/${faker.photos[0]}`"
                   />
                   <div
                     class="w-3 h-3 bg-theme-9 absolute right-0 bottom-0 rounded-full border-2 border-white"
@@ -140,7 +140,7 @@
                   <div class="flex items-center">
                     <a href="javascript:;" class="font-medium">
                       {{
-                      faker.users[0].name
+                        faker.users[0].name
                       }}
                     </a>
                     <div
@@ -193,7 +193,7 @@
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="require(`/src/assets/images/${$f()[0].photos[0]}`).default"
+                    :src="`/src/assets/images/${$f()[0].photos[0]}`"
                   />
                   <div
                     class="w-3 h-3 bg-theme-9 absolute right-0 bottom-0 rounded-full border-2 border-white"
@@ -203,7 +203,7 @@
                   <div class="flex items-center">
                     <a href class="font-medium">
                       {{
-                      $f()[0].users[0].name
+                        $f()[0].users[0].name
                       }}
                     </a>
                   </div>
@@ -246,7 +246,7 @@
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="require(`/src/assets/images/${$f()[1].photos[0]}`).default"
+                    :src="`/src/assets/images/${$f()[1].photos[0]}`"
                   />
                   <div
                     class="w-3 h-3 bg-theme-9 absolute right-0 bottom-0 rounded-full border-2 border-white"
@@ -256,7 +256,7 @@
                   <div class="flex items-center">
                     <a href class="font-medium">
                       {{
-                      $f()[1]["users"][0]["name"]
+                        $f()[1]["users"][0]["name"]
                       }}
                     </a>
                   </div>
@@ -300,7 +300,7 @@
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="require(`/src/assets/images/${$f()[2].photos[0]}`).default"
+                    :src="`/src/assets/images/${$f()[2].photos[0]}`"
                   />
                   <div
                     class="w-3 h-3 bg-theme-9 absolute right-0 bottom-0 rounded-full border-2 border-white"
@@ -310,7 +310,7 @@
                   <div class="flex items-center">
                     <a href class="font-medium">
                       {{
-                      $f()[2]["users"][0]["name"]
+                        $f()[2]["users"][0]["name"]
                       }}
                     </a>
                   </div>
@@ -353,7 +353,7 @@
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="require(`/src/assets/images/${$f()[3].photos[0]}`).default"
+                    :src="`/src/assets/images/${$f()[3].photos[0]}`"
                   />
                   <div
                     class="w-3 h-3 bg-theme-9 absolute right-0 bottom-0 rounded-full border-2 border-white"
@@ -363,7 +363,7 @@
                   <div class="flex items-center">
                     <a href class="font-medium">
                       {{
-                      $f()[3]["users"][0]["name"]
+                        $f()[3]["users"][0]["name"]
                       }}
                     </a>
                   </div>
@@ -406,7 +406,7 @@
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="require(`/src/assets/images/${$f()[4].photos[0]}`).default"
+                    :src="`/src/assets/images/${$f()[4].photos[0]}`"
                   />
                   <div
                     class="w-3 h-3 bg-theme-9 absolute right-0 bottom-0 rounded-full border-2 border-white"
@@ -416,7 +416,7 @@
                   <div class="flex items-center">
                     <a href class="font-medium">
                       {{
-                      $f()[4]["users"][0]["name"]
+                        $f()[4]["users"][0]["name"]
                       }}
                     </a>
                   </div>
@@ -467,7 +467,7 @@
                 >
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
-                    :src="require(`/src/assets/images/${$f()[0].photos[0]}`).default"
+                    :src="`/src/assets/images/${$f()[0].photos[0]}`"
                   />
                 </div>
                 <div class="text-center mt-3">
@@ -535,7 +535,7 @@
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="require(`/src/assets/images/${$f()[0].photos[0]}`).default"
+                    :src="`/src/assets/images/${$f()[0].photos[0]}`"
                   />
                 </div>
                 <div class="ml-3 mr-auto">
@@ -592,7 +592,7 @@
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="require(`/src/assets/images/${$f()[0].photos[0]}`).default"
+                    :src="`/src/assets/images/${$f()[0].photos[0]}`"
                   />
                 </div>
                 <div
@@ -666,7 +666,7 @@
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="require(`/src/assets/images/${$f()[1].photos[0]}`).default"
+                    :src="`/src/assets/images/${$f()[1].photos[0]}`"
                   />
                 </div>
               </div>
@@ -709,7 +709,7 @@
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="require(`/src/assets/images/${$f()[1].photos[0]}`).default"
+                    :src="`/src/assets/images/${$f()[1].photos[0]}`"
                   />
                 </div>
               </div>
@@ -724,7 +724,7 @@
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="require(`/src/assets/images/${$f()[0].photos[0]}`).default"
+                    :src="`/src/assets/images/${$f()[0].photos[0]}`"
                   />
                 </div>
                 <div
@@ -798,7 +798,7 @@
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="require(`/src/assets/images/${$f()[1].photos[0]}`).default"
+                    :src="`/src/assets/images/${$f()[1].photos[0]}`"
                   />
                 </div>
               </div>
@@ -810,7 +810,7 @@
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="require(`/src/assets/images/${$f()[0].photos[0]}`).default"
+                    :src="`/src/assets/images/${$f()[0].photos[0]}`"
                   />
                 </div>
                 <div
@@ -5088,7 +5088,7 @@
               >
                 <img
                   alt="Icewall Tailwind HTML Admin Template"
-                  :src="require(`/src/assets/images/${$f()[0].photos[0]}`).default"
+                  :src="`/src/assets/images/${$f()[0].photos[0]}`"
                 />
               </div>
               <div class="mt-3">
