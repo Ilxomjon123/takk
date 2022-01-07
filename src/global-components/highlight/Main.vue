@@ -11,6 +11,7 @@ import { copySource } from './index'
 import jsBeautify from 'js-beautify'
 import hljs from 'highlight.js'
 import _ from 'lodash'
+import cash from 'cash-dom'
 
 export default defineComponent({
   directives: {
@@ -48,7 +49,7 @@ export default defineComponent({
       copySource
     }
   }
-})
+});
 </script>
 
 <style scoped>

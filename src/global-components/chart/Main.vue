@@ -5,7 +5,8 @@
 <script>
 import { defineComponent, onMounted, ref, inject, watch } from 'vue'
 import { helper as $h } from '@/utils/helper'
-import Chart from 'chart.js'
+import { Chart } from 'chart.js'
+import cash from 'cash-dom'
 
 export default defineComponent({
   props: {
@@ -61,15 +62,15 @@ export default defineComponent({
 
     const setSize = () => {
       if (props.width) {
-        // cash(chartRef.value).attr({
-        //   width: props.width
-        // })
+        cash(chartRef.value).attr({
+          width: props.width
+        })
       }
 
       if (props.height) {
-        // cash(chartRef.value).attr({
-        //   height: props.height
-        // })
+        cash(chartRef.value).attr({
+          height: props.height
+        })
       }
     }
 
@@ -92,5 +93,5 @@ export default defineComponent({
       chartRef
     }
   }
-})
+});
 </script>

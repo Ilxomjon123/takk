@@ -63,35 +63,33 @@ export default defineComponent({
     const options = computed(() => {
       return {
         scales: {
-          xAxes: [
-            {
-              ticks: {
-                fontSize: '12',
-                fontColor: '#777777'
-              },
-              gridLines: {
-                display: false
-              }
+          xAxes:
+          {
+            ticks: {
+              fontSize: '12',
+              fontColor: '#777777'
+            },
+            gridLines: {
+              display: false
             }
-          ],
-          yAxes: [
-            {
-              ticks: {
-                fontSize: '12',
-                fontColor: '#777777',
-                callback: function(value) {
-                  return '$' + value
-                }
-              },
-              gridLines: {
-                color: '#D8D8D8',
-                zeroLineColor: '#D8D8D8',
-                borderDash: [2, 2],
-                zeroLineBorderDash: [2, 2],
-                drawBorder: false
+          },
+          yAxes:
+          {
+            ticks: {
+              fontSize: '12',
+              fontColor: '#777777',
+              callback: function (value) {
+                return '$' + value
               }
+            },
+            gridLines: {
+              color: '#D8D8D8',
+              zeroLineColor: '#D8D8D8',
+              borderDash: [2, 2],
+              zeroLineBorderDash: [2, 2],
+              drawBorder: false
             }
-          ]
+          }
         }
       }
     })
@@ -101,5 +99,5 @@ export default defineComponent({
       options
     }
   }
-})
+});
 </script>

@@ -1,4 +1,5 @@
 import Velocity from 'velocity-animate'
+import cash from 'cash-dom'
 
 ;(function(cash) {
   'use strict'

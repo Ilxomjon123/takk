@@ -1,6 +1,7 @@
-import Toastify from 'toastify-js';
+import Toastify from 'toastify-js'
+import cash from 'cash-dom'
 
-(function(cash) {
+;(function(cash) {
   'use strict'
 
   // Copy original code

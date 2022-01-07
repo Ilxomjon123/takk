@@ -39,5 +39,5 @@ export default defineComponent({
       data
     }
   }
-})
+});
 </script>

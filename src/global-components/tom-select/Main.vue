@@ -7,6 +7,7 @@
 <script>
 import { defineComponent, computed, watch } from 'vue'
 import { setValue, init, reInit } from './index'
+import cash from 'cash-dom'
 
 export default defineComponent({
   directives: {
@@ -56,12 +57,12 @@ export default defineComponent({
         options = {
           persist: false,
           create: true,
-          onDelete: function(values) {
+          onDelete: function (values) {
             return confirm(
               values.length > 1
                 ? 'Are you sure you want to remove these ' +
-                    values.length +
-                    ' items?'
+                values.length +
+                ' items?'
                 : 'Are you sure you want to remove "' + values[0] + '"?'
             )
           },
@@ -92,5 +93,5 @@ export default defineComponent({
       computedOptions
     }
   }
-})
+});
 </script>

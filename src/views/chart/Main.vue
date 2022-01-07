@@ -14,9 +14,10 @@
             <div
               class="w-full sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0"
             >
-              <label class="form-check-label ml-0 sm:ml-2" for="show-example-1"
-                >Show example code</label
-              >
+              <label
+                class="form-check-label ml-0 sm:ml-2"
+                for="show-example-1"
+              >Show example code</label>
               <input
                 id="show-example-1"
                 data-target="#vertical-bar-chart"
@@ -34,7 +35,7 @@
                 data-target="#copy-vertical-bar-chart"
                 class="copy-code btn py-1 px-2 btn-outline-secondary"
               >
-                <FileIcon class="w-4 h-4 mr-2" /> Copy example code
+                <FileIcon class="w-4 h-4 mr-2" />Copy example code
               </button>
               <div class="overflow-y-auto mt-3 rounded-md">
                 <Highlight id="copy-vertical-bar-chart" class="source-preview">
@@ -60,9 +61,10 @@
             <div
               class="w-full sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0"
             >
-              <label class="form-check-label ml-0 sm:ml-2" for="show-example-2"
-                >Show example code</label
-              >
+              <label
+                class="form-check-label ml-0 sm:ml-2"
+                for="show-example-2"
+              >Show example code</label>
               <input
                 id="show-example-2"
                 data-target="#horizontal-bar-chart"
@@ -80,7 +82,7 @@
                 data-target="#copy-horizontal-bar-chart"
                 class="copy-code btn py-1 px-2 btn-outline-secondary"
               >
-                <FileIcon class="w-4 h-4 mr-2" /> Copy example code
+                <FileIcon class="w-4 h-4 mr-2" />Copy example code
               </button>
               <div class="overflow-y-auto mt-3 rounded-md">
                 <Highlight
@@ -109,9 +111,10 @@
             <div
               class="w-full sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0"
             >
-              <label class="form-check-label ml-0 sm:ml-2" for="show-example-3"
-                >Show example code</label
-              >
+              <label
+                class="form-check-label ml-0 sm:ml-2"
+                for="show-example-3"
+              >Show example code</label>
               <input
                 id="show-example-3"
                 data-target="#donut-chart"
@@ -129,7 +132,7 @@
                 data-target="#copy-donut-chart"
                 class="copy-code btn py-1 px-2 btn-outline-secondary"
               >
-                <FileIcon class="w-4 h-4 mr-2" /> Copy example code
+                <FileIcon class="w-4 h-4 mr-2" />Copy example code
               </button>
               <div class="overflow-y-auto mt-3 rounded-md">
                 <Highlight id="copy-donut-chart" class="source-preview">
@@ -157,9 +160,10 @@
             <div
               class="w-full sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0"
             >
-              <label class="form-check-label ml-0 sm:ml-2" for="show-example-4"
-                >Show example code</label
-              >
+              <label
+                class="form-check-label ml-0 sm:ml-2"
+                for="show-example-4"
+              >Show example code</label>
               <input
                 id="show-example-4"
                 data-target="#stacked-bar-chart"
@@ -177,7 +181,7 @@
                 data-target="#copy-stacked-bar-chart"
                 class="copy-code btn py-1 px-2 btn-outline-secondary"
               >
-                <FileIcon class="w-4 h-4 mr-2" /> Copy example code
+                <FileIcon class="w-4 h-4 mr-2" />Copy example code
               </button>
               <div class="overflow-y-auto mt-3 rounded-md">
                 <Highlight id="copy-stacked-bar-chart" class="source-preview">
@@ -203,9 +207,10 @@
             <div
               class="w-full sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0"
             >
-              <label class="form-check-label ml-0 sm:ml-2" for="show-example-5"
-                >Show example code</label
-              >
+              <label
+                class="form-check-label ml-0 sm:ml-2"
+                for="show-example-5"
+              >Show example code</label>
               <input
                 id="show-example-5"
                 data-target="#line-chart"
@@ -223,7 +228,7 @@
                 data-target="#copy-line-chart"
                 class="copy-code btn py-1 px-2 btn-outline-secondary"
               >
-                <FileIcon class="w-4 h-4 mr-2" /> Copy example code
+                <FileIcon class="w-4 h-4 mr-2" />Copy example code
               </button>
               <div class="overflow-y-auto mt-3 rounded-md">
                 <Highlight id="copy-line-chart" class="source-preview">
@@ -249,9 +254,10 @@
             <div
               class="w-full sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0"
             >
-              <label class="form-check-label ml-0 sm:ml-2" for="show-example-6"
-                >Show example code</label
-              >
+              <label
+                class="form-check-label ml-0 sm:ml-2"
+                for="show-example-6"
+              >Show example code</label>
               <input
                 id="show-example-6"
                 data-target="#pie-chart"
@@ -269,7 +275,7 @@
                 data-target="#copy-pie-chart"
                 class="copy-code btn py-1 px-2 btn-outline-secondary"
               >
-                <FileIcon class="w-4 h-4 mr-2" /> Copy example code
+                <FileIcon class="w-4 h-4 mr-2" />Copy example code
               </button>
               <div class="overflow-y-auto mt-3 rounded-md">
                 <Highlight id="copy-pie-chart" class="source-preview">
@@ -309,5 +315,5 @@ export default defineComponent({
     DonutChart,
     PieChart
   }
-})
+});
 </script>
