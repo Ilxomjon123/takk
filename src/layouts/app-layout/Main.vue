@@ -1,5 +1,5 @@
 <template>
-  <div class="app-content">
+  <div class>
     <AppTopBar />
     <main>
       <router-view />
@@ -14,7 +14,10 @@ import AppFooter from '../../components/global-blocks/app-footer/index.vue';
 </script>
 
 <style>
+html,
 html body {
   padding: 0 !important;
+  background: white !important;
+  min-width: 100%;
 }
 </style>

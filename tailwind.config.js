@@ -1,7 +1,7 @@
-const primaryColors = require('@left4code/tw-starter/dist/js/colors')
+const primaryColors = require('@left4code/tw-starter/dist/js/colors');
 
 module.exports = {
-  mode: 'jit',
+  // mode: 'jit',
   content: [
     './src/**/*.{php,html,js,jsx,ts,tsx,vue}',
     './resources/**/*.{php,html,js,jsx,ts,tsx,vue}',
@@ -49,7 +49,9 @@ module.exports = {
         27: '#203FAD',
         28: '#BBC8FD',
         29: '#284EB2',
-        30: '#98AFF5'
+        30: '#98AFF5',
+        31: '#01E3C7',
+        32: '#919191'
       }
     },
     extend: {
@@ -76,4 +78,4 @@ module.exports = {
       boxShadow: ['dark']
     }
   }
-}
+};
