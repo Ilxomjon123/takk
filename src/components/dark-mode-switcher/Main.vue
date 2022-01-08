@@ -30,11 +30,11 @@ export default defineComponent({
 
     const switchMode = () => {
       store.dispatch('main/setDarkMode', !darkMode.value)
-      // setDarkModeClass()
+      setDarkModeClass()
     }
 
     onMounted(() => {
-      // setDarkModeClass()
+      setDarkModeClass()
     })
 
     return {
@@ -42,5 +42,5 @@ export default defineComponent({
       darkMode
     }
   }
-})
+});
 </script>

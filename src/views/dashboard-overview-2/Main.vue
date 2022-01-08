@@ -509,7 +509,7 @@
                   <td>
                     <a href class="font-medium whitespace-nowrap">
                       {{
-                      faker.products[0].name
+                        faker.products[0].name
                       }}
                     </a>
                     <div
@@ -799,7 +799,7 @@
                     Has changed
                     <a class="text-theme-1 dark:text-theme-10" href>
                       {{
-                      $f()[7].products[0].name
+                        $f()[7].products[0].name
                       }}
                     </a>
                     price and description
@@ -826,7 +826,7 @@
                     Has changed
                     <a class="text-theme-1 dark:text-theme-10" href>
                       {{
-                      $f()[6].products[0].name
+                        $f()[6].products[0].name
                       }}
                     </a>
                     description
@@ -1031,5 +1031,5 @@ export default defineComponent({
       nextImportantNotes
     }
   }
-})
+});
 </script>

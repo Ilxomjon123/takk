@@ -116,7 +116,7 @@
                               lastSubMenu.subMenu
                                 ? 'javascript:;'
                                 : router.resolve({ name: lastSubMenu.pageName })
-                                    .path
+                                  .path
                             "
                             class="side-menu"
                             :class="{ 'side-menu--active': lastSubMenu.active }"

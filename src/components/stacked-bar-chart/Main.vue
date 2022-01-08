@@ -65,8 +65,7 @@ export default defineComponent({
     const options = computed(() => {
       return {
         scales: {
-          xAxes:
-          {
+          xAxes: {
             stacked: true,
             ticks: {
               fontSize: '12',
@@ -75,10 +74,8 @@ export default defineComponent({
             gridLines: {
               display: false
             }
-          }
-          ,
-          yAxes:
-          {
+          },
+          yAxes: {
             stacked: true,
             ticks: {
               fontSize: '12',

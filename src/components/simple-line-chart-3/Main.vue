@@ -66,26 +66,22 @@ export default defineComponent({
           display: false
         },
         scales: {
-          xAxes: [
-            {
-              ticks: {
-                display: false
-              },
-              gridLines: {
-                display: false
-              }
+          xAxes: {
+            ticks: {
+              display: false
+            },
+            gridLines: {
+              display: false
             }
-          ],
-          yAxes: [
-            {
-              ticks: {
-                display: false
-              },
-              gridLines: {
-                display: false
-              }
+          },
+          yAxes: {
+            ticks: {
+              display: false
+            },
+            gridLines: {
+              display: false
             }
-          ]
+          }
         }
       }
     })

@@ -74,31 +74,27 @@ export default defineComponent({
           display: false
         },
         scales: {
-          xAxes: [
-            {
-              ticks: {
-                fontSize: 11,
-                fontColor: '#718096'
-              },
-              gridLines: {
-                display: false
-              }
+          xAxes: {
+            ticks: {
+              fontSize: 11,
+              fontColor: '#718096'
+            },
+            gridLines: {
+              display: false
             }
-          ],
-          yAxes: [
-            {
-              ticks: {
-                display: false
-              },
-              gridLines: {
-                color: '#D8D8D8',
-                zeroLineColor: '#D8D8D8',
-                borderDash: [2, 2],
-                zeroLineBorderDash: [2, 2],
-                drawBorder: false
-              }
+          },
+          yAxes: {
+            ticks: {
+              display: false
+            },
+            gridLines: {
+              color: '#D8D8D8',
+              zeroLineColor: '#D8D8D8',
+              borderDash: [2, 2],
+              zeroLineBorderDash: [2, 2],
+              drawBorder: false
             }
-          ]
+          }
         }
       }
     })

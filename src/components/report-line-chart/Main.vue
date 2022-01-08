@@ -69,35 +69,31 @@ export default defineComponent({
           display: false
         },
         scales: {
-          xAxes: [
-            {
-              ticks: {
-                fontSize: '12',
-                fontColor: darkMode.value ? '#718096' : '#777777'
-              },
-              gridLines: {
-                display: false
-              }
+          xAxes: {
+            ticks: {
+              fontSize: '12',
+              fontColor: darkMode.value ? '#718096' : '#777777'
+            },
+            gridLines: {
+              display: false
             }
-          ],
-          yAxes: [
-            {
-              ticks: {
-                fontSize: '12',
-                fontColor: darkMode.value ? '#718096' : '#777777',
-                callback: function(value) {
-                  return '$' + value
-                }
-              },
-              gridLines: {
-                color: darkMode.value ? '#718096' : '#D8D8D8',
-                zeroLineColor: darkMode.value ? '#718096' : '#D8D8D8',
-                borderDash: [2, 2],
-                zeroLineBorderDash: [2, 2],
-                drawBorder: false
+          },
+          yAxes: {
+            ticks: {
+              fontSize: '12',
+              fontColor: darkMode.value ? '#718096' : '#777777',
+              callback: function (value) {
+                return '$' + value
               }
+            },
+            gridLines: {
+              color: darkMode.value ? '#718096' : '#D8D8D8',
+              zeroLineColor: darkMode.value ? '#718096' : '#D8D8D8',
+              borderDash: [2, 2],
+              zeroLineBorderDash: [2, 2],
+              drawBorder: false
             }
-          ]
+          }
         }
       }
     })
