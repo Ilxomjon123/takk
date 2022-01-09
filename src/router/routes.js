@@ -60,7 +60,7 @@ import Chart from '../views/chart/Main.vue';
 import Slider from '../views/slider/Main.vue';
 import ImageZoom from '../views/image-zoom/Main.vue';
 import Home from '../views/home/index.vue';
-import AppLayout from '../layouts/app-layout/Main.vue';
+import AppLayout from '../layouts/app-layout/index.vue';
 
 const routes = [
   {
