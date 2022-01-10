@@ -1,9 +1,7 @@
 <template>
   <header>
     <!-- <div class="container"> -->
-    <nav
-      class="container flex items-center p-4 whitespace-nowrap mt-4 sm:mt-12"
-    >
+    <nav class="container flex items-center p-4 whitespace-nowrap">
       <div class="py-1">
         <img src="/src/assets/images/Takk Logo.png" alt="takk logo" />
       </div>

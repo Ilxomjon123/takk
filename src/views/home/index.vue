@@ -1,6 +1,26 @@
 <template>
-  <!-- Hero rectangle -->
-  <section class="hero-rectangle">
+  <div>
+    <!-- Hero rectangle -->
+    <section>
+      <div
+        class="container grid grid-cols-1 md:grid-cols-2 rounded-3xl bg-theme-2 shadow-outline"
+      >
+        <div class="my-auto">
+          <h2
+            class="text-3xl md:text-4xl text-black font-bold lg:text-5xl text-center lg:text-left mb-6"
+          >The all you need app for your coffee shop.</h2>
+          <button type="button" class="btn-primary">Sign Up</button>
+        </div>
+        <div class="order-first md:order-last">
+          <img
+            class
+            src="/src/assets/images/Hero coffee img.png"
+            alt="Hero image"
+          />
+        </div>
+      </div>
+    </section>
+    <!-- <section class="hero-rectangle">
     <div
       class="container flex flex-col-reverse lg:flex-row items-center gap-12 mt-5 lg:mt-10 rounded-lg"
     >
@@ -16,19 +36,20 @@
         <img src="/src/assets/images/Hero coffee img.png" alt="Hero image" />
       </div>
     </div>
-  </section>
-  <section class="preordering-rectangle rounded-lg">
-    <div
-      class="container flex flex-col-reverse lg:flex-row items-center gap-12 mt-5 lg:mt-10 rounded-lg"
-    >
-      <div class="flex flex-1 flex-col">
-        <img
-          src="/src/assets/images/preordering-img.png"
-          alt="Preordering image"
-        />
+    </section>-->
+    <section class="preordering-rectangle rounded-lg">
+      <div
+        class="container flex flex-col-reverse lg:flex-row items-center gap-12 mt-5 lg:mt-10 rounded-lg"
+      >
+        <div class="flex flex-1 flex-col">
+          <img
+            src="/src/assets/images/preordering-img.png"
+            alt="Preordering image"
+          />
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <script setup>
@@ -47,8 +68,8 @@ const str = ref("Hello Takk");
 }
 
 .hero-rectangle .container {
-  background-image: url("/src/assets/images/Hero Rectangle.png");
+  /* background-image: url("/src/assets/images/Hero Rectangle.png");
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover; */
 }
 </style>
