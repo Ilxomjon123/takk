@@ -16,7 +16,7 @@
 <script>
 import { defineComponent, onMounted, computed } from 'vue'
 import { useStore } from '@/store'
-
+import cash from 'cash-dom';
 export default defineComponent({
   setup() {
     const store = useStore()
