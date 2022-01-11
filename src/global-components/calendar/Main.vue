@@ -4,6 +4,7 @@
 
 <script>
 import { defineComponent, ref, onMounted } from 'vue'
+import '@fullcalendar/core/vdom' // solves problem with Vite
 import { Calendar } from '@fullcalendar/core'
 
 export default defineComponent({

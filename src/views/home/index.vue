@@ -187,27 +187,25 @@
       <div class="modal-content">
         <div class="modal-body p-10">
           <div class="flex flex-row gap-10">
-            <div class="text-center box basis-1/2 pt-16">
-              <router-link class="my-auto" to="/">
+            <div class="text-center box basis-1/2">
+              <button class="mt-16" @click="goto('/')">
                 <img
                   class="mx-auto"
                   src="@/assets/images/Icon metro-shop.svg"
                   alt="For Coffee Shops Icon"
                 />
-                <br />
-                <h1 class="text-lg md:text-4xl font-bold">For Coffee Shops</h1>
-              </router-link>
+                <h1 class="text-lg md:text-4xl font-bold mt-10">For Coffee Shops</h1>
+              </button>
             </div>
-            <div class="text-center box basis-1/2 pt-16">
-              <router-link class="my-auto" to="/for-customers">
+            <div class="text-center box basis-1/2">
+              <button class="mt-16" @click="goto('/for-customers')">
                 <img
                   class="mx-auto"
                   src="@/assets/images/Group 2557.svg"
                   alt="For Costumers Icon"
                 />
-                <br />
-                <h1 class="text-lg md:text-4xl font-bold">For Costumers</h1>
-              </router-link>
+                <h1 class="text-lg md:text-4xl font-bold mt-10">For Costumers</h1>
+              </button>
             </div>
           </div>
         </div>
@@ -218,16 +216,29 @@
 
 <script setup>
 import cash from 'cash-dom'
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
+
+const atFirstTime = ref(true)
 
 onMounted(() => {
-  showProgrammaticallyShowModal();
+  if (atFirstTime.value === true)
+    showProgrammaticallyShowModal();
 })
 
 // Show modal
 function showProgrammaticallyShowModal() {
   cash("#entry-modal").modal("show");
-};
+}
+
+// select page func
+function goto(path) {
+  atFirstTime.value = false
+  cash("#entry-modal").modal("hide");
+  router.push(path)
+}
 </script>
 
 <style scoped>
