@@ -8,7 +8,7 @@ import './libs';
 
 // SASS Theme
 // import './assets/sass/_tailwind.scss';
-// import './assets/sass/app.scss';
+import './assets/sass/app.scss';
 
 const app = createApp(App)
   .use(store)

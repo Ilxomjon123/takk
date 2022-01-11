@@ -60,6 +60,7 @@ import Chart from '../views/chart/Main.vue';
 import Slider from '../views/slider/Main.vue';
 import ImageZoom from '../views/image-zoom/Main.vue';
 import Home from '../views/home/index.vue';
+import ForCustomers from '../views/for-customers/index.vue';
 import AppLayout from '../layouts/app-layout/index.vue';
 
 const routes = [
@@ -71,6 +72,11 @@ const routes = [
         path: '/',
         name: 'coffee-shops-home',
         component: Home
+      },
+      {
+        path: '/for-customers',
+        name: 'for-customers',
+        component: ForCustomers
       }
     ]
   },

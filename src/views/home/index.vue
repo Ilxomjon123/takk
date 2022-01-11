@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- Hero rectangle -->
     <section id="hero-rectangle">
       <div class="container grid grid-cols-1 md:grid-cols-2">
         <div class="grid">
@@ -183,13 +182,52 @@
       </div>
     </section>
   </div>
+  <div id="entry-modal" class="modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-body p-10">
+          <div class="flex flex-row gap-10">
+            <div class="text-center box basis-1/2 pt-16">
+              <router-link class="my-auto" to="/">
+                <img
+                  class="mx-auto"
+                  src="@/assets/images/Icon metro-shop.svg"
+                  alt="For Coffee Shops Icon"
+                />
+                <br />
+                <h1 class="text-lg md:text-4xl font-bold">For Coffee Shops</h1>
+              </router-link>
+            </div>
+            <div class="text-center box basis-1/2 pt-16">
+              <router-link class="my-auto" to="/for-customers">
+                <img
+                  class="mx-auto"
+                  src="@/assets/images/Group 2557.svg"
+                  alt="For Costumers Icon"
+                />
+                <br />
+                <h1 class="text-lg md:text-4xl font-bold">For Costumers</h1>
+              </router-link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import cash from 'cash-dom'
+import { onMounted } from 'vue';
 
-const str = ref("Hello Takk");
+onMounted(() => {
+  showProgrammaticallyShowModal();
+})
 
+// Show modal
+function showProgrammaticallyShowModal() {
+  cash("#entry-modal").modal("show");
+};
 </script>
 
 <style scoped>
@@ -210,6 +248,16 @@ const str = ref("Hello Takk");
   min-height: 45rem;
 }
 
+#entry-modal .modal-content {
+  background-image: url("/src/assets/images/mask_group_16.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* box-shadow: 0 0 10px 1px #e8f6f9; */
+  box-shadow: 0 0 15px #45cbeb4d;
+  border-radius: 50px;
+  /* min-height: 45rem; */
+}
+
 #fees-rectangle .container {
   background-image: url("/src/assets/images/mask_group_16.png");
   background-repeat: no-repeat;
@@ -221,7 +269,7 @@ const str = ref("Hello Takk");
 }
 
 #fees-rectangle .box {
-  box-shadow: 0px 10px 15px #00000026;
+  box-shadow: 0 10px 15px #00000026;
   border-radius: 40px;
   background-color: #fff;
 }
@@ -237,7 +285,6 @@ const str = ref("Hello Takk");
 }
 
 .colored-underline1 {
-  /* position: relative; */
   background-image: url("/src/assets/images/Hero coffee shop undrline.png");
   background-position: bottom;
   background-repeat: no-repeat;
@@ -245,33 +292,20 @@ const str = ref("Hello Takk");
 }
 
 .colored-underline2 {
-  /* position: relative; */
   background-image: url("/src/assets/images/Rectangle Our Fees Sentence underline.png");
   background-position: bottom;
   background-repeat: no-repeat;
   background-size: contain;
 }
 
-/* .colored-underline::before {
-  background-color: #fdd5b3;
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 35%;
-  z-index: 0;
-  margin-bottom: -0.3rem;
-} */
+#entry-modal .box {
+  box-shadow: 0 10px 15px #00000025;
+  border-radius: 50px;
+  background-color: #fafeff;
+  min-height: 400px;
+}
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-span {
-  color: #2f2e41;
+#entry-modal .box:hover {
+  box-shadow: 0 20px 25px #00000075;
 }
 </style>
