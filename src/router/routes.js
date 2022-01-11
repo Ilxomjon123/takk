@@ -1,4 +1,5 @@
 import Login from '../views/login/Main.vue';
+import ErrorPage from '../views/error/index.vue';
 import Home from '../views/home/index.vue';
 import ForCustomers from '../views/for-customers/index.vue';
 import AppLayout from '../layouts/app-layout/index.vue';
@@ -24,6 +25,10 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login
+  },
+  {
+    path: '/:pathMatch(.*)',
+    component: ErrorPage
   }
 ];
 

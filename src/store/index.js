@@ -1,20 +1,22 @@
-import { createStore } from 'vuex'
-import main from './main'
-import sideMenu from './side-menu'
-import simpleMenu from './simple-menu'
-import topMenu from './top-menu'
+import { createStore } from 'vuex';
+import main from './main';
+import sideMenu from './side-menu';
+import simpleMenu from './simple-menu';
+import topMenu from './top-menu';
+import user from './user';
 
 const store = createStore({
   modules: {
     main,
     sideMenu,
     simpleMenu,
-    topMenu
+    topMenu,
+    user
   }
-})
+});
 
 export function useStore() {
-  return store
+  return store;
 }
 
-export default store
+export default store;

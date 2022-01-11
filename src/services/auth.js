@@ -1,12 +1,18 @@
 import axios from 'axios';
 // axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
-function signin(form) {
+async function signin(form) {
   try {
-    let res = axios.post('/api/users/register/', form);
-    return res;
+    let res = await axios.post('/api/users/register/', form);
+    return {
+      status: true,
+      data: res.data
+    };
   } catch (err) {
-    console.log(err);
+    return {
+      status: false,
+      data: err.response
+    };
   }
 }
 
