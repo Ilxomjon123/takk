@@ -5,12 +5,14 @@
       <div class="container grid grid-cols-1 md:grid-cols-2">
         <div class="grid">
           <div class="md:ml-16 my-auto">
-            <h2
-              class="text-3xl md:text-4xl font-bold lg:text-7xl text-center lg:text-left mb-10"
+            <h1
+              class="text-3xl md:text-4xl font-bold lg:text-6xl text-center lg:text-left mb-10"
             >
               The all you need app for your
-              <span class="underline">coffee shop.</span>
-            </h2>
+              <span
+                class="colored-underline1 whitespace-nowrap"
+              >coffee shop.</span>
+            </h1>
             <button type="button" class="btn-primary">Sign Up</button>
           </div>
         </div>
@@ -151,26 +153,30 @@
     </section>
     <section id="fees-rectangle" class="mt-10">
       <div class="container grid bg-theme-33">
-        <div class="grid grid-cols-12 md:my-16">
-          <div class="col-start-3 col-span-8">
-            <h2
-              class="text-3xl md:text-4xl lg:text-6xl font-extrabold text-center lg:text-left mb-10"
-            >Our fees are low, and straightforward.</h2>
-          </div>
-
-          <div class="box col-start-3 col-span-8 px-36 py-16">
+        <div class="grid md:my-16 justify-center">
+          <h2
+            class="text-3xl md:text-4xl lg:text-6xl font-extrabold lg:text-left mb-10"
+          >
+            <span
+              class="colored-underline2"
+            >Our fees are low, and straightforward.</span>
+          </h2>
+        </div>
+        <div class="grid lg:grid-cols-12 lg:mb-16 justify-center">
+          <div class="box lg:col-start-3 lg:col-span-8 lg:p-16 xl:px-36">
             <h1
               class="text-4xl md:text-5xl lg:text-7xl text-center font-medium mb-10"
             >Only Pay for Results</h1>
             <p
-              class="text-center text-2xl md:text-3xl lg:text-5xl mb-5 font-normal"
+              class="text-center text-2xl md:text-3xl lg:text-4xl xl:text-5xl mb-5 font-normal"
             >Regular use of Takk is free of charge for independent coffeeshops.</p>
             <p
-              class="text-center text-2xl md:text-3xl lg:text-5xl mb-5 font-normal"
+              class="text-center text-2xl md:text-3xl lg:text-4xl xl:text-5xl mb-5 font-normal"
             >We charge 3% of the sales, if payment is made through prepaid Takk Budget (guaranteed return customer).</p>
             <p
-              class="text-center text-2xl md:text-3xl lg:text-5xl mb-5 font-normal"
+              class="text-center text-2xl md:text-3xl lg:text-4xl xl:text-5xl mb-5 font-normal"
             >The regular card processing fees (the latest is 2.9%+30cent) still apply on each transaction and are passed on to payment processors.</p>
+            <br />
             <button type="button" class="btn-primary w-full h-24">Sign Up</button>
           </div>
         </div>
@@ -217,11 +223,12 @@ const str = ref("Hello Takk");
 #fees-rectangle .box {
   box-shadow: 0px 10px 15px #00000026;
   border-radius: 40px;
+  background-color: #fff;
 }
 
 #fees-rectangle .box p {
   color: #525252;
-  font-size: 40px;
+  /* font-size: 40px; */
 }
 .rectangle {
   border: 5px solid #b2e2ed;
@@ -229,11 +236,33 @@ const str = ref("Hello Takk");
   min-height: 45rem;
 }
 
-.underline {
-  text-decoration-color: #fdd5b3;
-  text-decoration-thickness: 0.4em;
-  /* text-underline-offset: -0.1em; */
+.colored-underline1 {
+  /* position: relative; */
+  background-image: url("/src/assets/images/Hero coffee shop undrline.png");
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
+
+.colored-underline2 {
+  /* position: relative; */
+  background-image: url("/src/assets/images/Rectangle Our Fees Sentence underline.png");
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+/* .colored-underline::before {
+  background-color: #fdd5b3;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 35%;
+  z-index: 0;
+  margin-bottom: -0.3rem;
+} */
 
 h1,
 h2,
