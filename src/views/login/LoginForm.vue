@@ -1,4 +1,11 @@
 <template>
+  <h2
+    class="intro-x font-bold text-2xl xl:text-3xl text-center xl:text-left"
+  >{{ headText }}</h2>
+  <div class="intro-x mt-2 text-gray-500 xl:hidden text-center">
+    A few more clicks to sign in to your account. Manage all your
+    e-commerce accounts in one place
+  </div>
   <form @submit.prevent="submit">
     <div class="intro-x mt-8">
       <input
@@ -15,7 +22,7 @@
         class="intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4"
         placeholder="SMS Code"
         v-model="form.sms_code"
-        :disabled="isDisabled"
+        v-if="!isDisabled"
       />
       <input
         v-if="isRegister"
@@ -23,7 +30,6 @@
         class="intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4"
         placeholder="Username"
         v-model="form.username"
-        :disabled="isDisabled"
       />
       <input
         v-if="isRegister"
@@ -31,7 +37,6 @@
         class="intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4"
         placeholder="Email"
         v-model="form.email"
-        :disabled="isDisabled"
       />
       <p class="text-theme-6" v-text="errorText" />
     </div>
@@ -41,7 +46,15 @@
     <div class="intro-x mt-5 xl:mt-8 text-center xl:text-center">
       <button
         class="btn btn-primary py-3 px-5 w-full xl:w-32 xl:mr-3 align-top"
-      >{{ submitText }}</button>
+      >
+        {{ submitText }}
+        <LoadingIcon
+          v-if="isLoading"
+          icon="three-dots"
+          color="white"
+          class="w-8 h-8 ml-2"
+        />
+      </button>
     </div>
   </form>
   <div
@@ -69,34 +82,41 @@ export default defineComponent({
       isDisabled: true,
       submitText: "Send Code",
       isRegister: false,
-      errorText: ""
+      errorText: "",
+      isLoading: false,
+      headText: "Enter phone number"
     }
   },
   methods: {
     ...mapMutations(['setUser', 'setToken']),
     async submit() {
       this.errorText = "";
+      const oldButtonText = this.submitText;
+      this.submitText = "";
+      this.isLoading = true;
       const res = await signin(this.form);
       if (res.status) {
-        console.log(res);
         if (!res.data.token) {
           // Telefon Raqam kiritilgandan so'ng
-          this.isRegister = res.is_register;
+          this.isRegister = res.data.is_register;
           this.isDisabled = false;
-          this.submitText = this.isRegister ? 'Sign Up' : 'Sign In'
+          this.submitText = this.isRegister ? 'Sign Up' : 'Sign In';
+          this.headText = this.isRegister ? 'Fill the form above' : 'Enter SMS code';
         } else {
-          console.log('ok');
           // Login muvaffaqiyatli bo'lsa
+          this.submitText = oldButtonText;
           this.setToken(res.data.token);
           this.setUser(res.data.user);
-          this.$router.push('/dashboard');
+          window.location.replace("/dashboard");
+          // this.$router.push('/dashboard');
         }
       }
       // API dan xato qaytsa
       else {
+        this.submitText = oldButtonText;
         this.errorText = res.data.data.detail;
       }
-
+      this.isLoading = false;
     }
   },
 });
