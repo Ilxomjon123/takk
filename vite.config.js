@@ -13,7 +13,7 @@ export default defineConfig({
   server: {
     proxy: {
       // with options
-      '/api': {
+      '^/api': {
         target: 'https://api.echtmal.com/api/v3/dashboard',
         changeOrigin: true,
         rewrite: path => path.replace(/^\/api/, '')

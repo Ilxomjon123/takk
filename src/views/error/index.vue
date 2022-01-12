@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <!-- <DarkModeSwitcher /> -->
+  <div class="bg-theme-1">
     <div class="container">
       <!-- BEGIN: Error Page -->
       <div
@@ -10,7 +9,7 @@
           <img
             alt="Icewall Tailwind HTML Admin Template"
             class="h-48 lg:h-auto"
-            :src="`/src/assets/images/error-illustration.svg`"
+            src="@/assets/images/error-illustration.svg"
           />
         </div>
         <div class="text-white mt-10 lg:mt-0">
@@ -21,9 +20,10 @@
           <div
             class="intro-x text-lg mt-3"
           >You may have mistyped the address or the page may have moved.</div>
-          <button
+          <router-link
+            to="/"
             class="intro-x btn py-3 px-4 text-white border-white dark:border-dark-5 dark:text-gray-300 mt-10"
-          >Back to Home</button>
+          >Back to Home</router-link>
         </div>
       </div>
       <!-- END: Error Page -->
@@ -33,19 +33,16 @@
 
 <script>
 import { defineComponent, onMounted } from 'vue'
-import DarkModeSwitcher from '@/components/dark-mode-switcher/Main.vue'
-import cash from 'cash-dom'
+// import cash from 'cash-dom'
+
 export default defineComponent({
-  components: {
-    DarkModeSwitcher
-  },
   setup() {
-    onMounted(() => {
-      cash('body')
-        .removeClass('main')
-        .removeClass('login')
-        .addClass('error-page')
-    })
+    // onMounted(() => {
+    //   cash('body')
+    //     .removeClass('main')
+    //     .removeClass('login')
+    //     .addClass('error-page')
+    // })
   }
-})
+});
 </script>

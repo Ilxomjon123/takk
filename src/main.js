@@ -9,7 +9,6 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 
 // SASS Theme
-// import './assets/sass/_tailwind.scss';
 import './assets/sass/app.scss';
 
 const app = createApp(App)

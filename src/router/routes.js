@@ -27,7 +27,7 @@ const routes = [
     component: Login
   },
   {
-    path: '/:pathMatch(.*)',
+    path: '/:pathMatch(.*)*',
     component: ErrorPage
   }
 ];
