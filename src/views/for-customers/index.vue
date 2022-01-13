@@ -32,6 +32,22 @@
         </div>
       </div>
     </section>
+    <section>
+      <div class="container md:flex md:gap-10">
+        <div class="box p-5 md:p-10 md:basis-1/2 grid">
+          <img class src="@/assets/images/skip_the_line_img.svg" alt="image" />
+          <h1
+            class="text-3xl md:text-5xl font-bold mt-auto"
+          >Skip the line and order your coffee drink for pick up through the Takk app.</h1>
+        </div>
+        <div class="box p-5 md:p-10 md:basis-1/2 grid">
+          <img class src="@/assets/images/rewards_img.svg" alt="image" />
+          <h1
+            class="text-3xl md:text-5xl font-bold mt-auto"
+          >Support your local café and get rewarded with loyalty cashback on your orders.</h1>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -51,5 +67,12 @@ export default defineComponent({
   box-shadow: 0 0 15px #45cbeb4d;
   border-radius: 50px;
   min-height: 45rem;
+}
+
+.box {
+  /* box-shadow: inset 0px 3px 6px #00000029; */
+  border: 5px solid #b2e2ed;
+  border-radius: 50px;
+  /* padding: 2.5rem; */
 }
 </style>

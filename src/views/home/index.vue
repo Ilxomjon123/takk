@@ -182,29 +182,38 @@
       </div>
     </section>
   </div>
-  <div id="entry-modal" class="modal" tabindex="-1" aria-hidden="true">
+
+  <!-- Modal -->
+  <div
+    id="entry-modal"
+    class="modal w-full h-full"
+    tabindex="-1"
+    aria-hidden="true"
+  >
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
-        <div class="modal-body p-10">
-          <div class="flex flex-row gap-10">
-            <div class="text-center box basis-1/2">
-              <button class="mt-16" @click="goto('/')">
+        <div class="modal-body p-5 md:p-10">
+          <div class="md:flex md:flex-row md:gap-10">
+            <div class="text-center box md:basis-1/2 mb-10 md:mb-0">
+              <button class="mt-8 md:mt-16" @click="goto('/')">
                 <img
-                  class="mx-auto"
+                  class="mx-auto w-1/2 md:w-full"
                   src="@/assets/images/Icon metro-shop.svg"
                   alt="For Coffee Shops Icon"
                 />
-                <h1 class="text-lg md:text-4xl font-bold mt-10">For Coffee Shops</h1>
+                <h1
+                  class="text-2xl md:text-4xl font-bold mt-10"
+                >For Coffee Shops</h1>
               </button>
             </div>
-            <div class="text-center box basis-1/2">
-              <button class="mt-16" @click="goto('/for-customers')">
+            <div class="text-center box md:basis-1/2">
+              <button class="mt-8 md:mt-16" @click="goto('/for-customers')">
                 <img
-                  class="mx-auto"
+                  class="mx-auto w-1/2 md:w-full"
                   src="@/assets/images/Group 2557.svg"
                   alt="For Costumers Icon"
                 />
-                <h1 class="text-lg md:text-4xl font-bold mt-10">For Costumers</h1>
+                <h1 class="text-2xl md:text-4xl font-bold mt-10">For Costumers</h1>
               </button>
             </div>
           </div>
@@ -313,7 +322,7 @@ function goto(path) {
   box-shadow: 0 10px 15px #00000025;
   border-radius: 50px;
   background-color: #fafeff;
-  min-height: 400px;
+  min-height: 300px;
 }
 
 #entry-modal .box:hover {
