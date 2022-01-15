@@ -18,7 +18,7 @@
         <div class="grid">
           <img
             class="m-auto"
-            src="/src/assets/images/Hero coffee img.png"
+            src="@/assets/images/Hero coffee img.png"
             alt="Hero image"
           />
         </div>
@@ -31,7 +31,7 @@
         <div class="grid">
           <img
             class="m-auto"
-            src="/src/assets/images/preordering-img.png"
+            src="@/assets/images/preordering-img.png"
             alt="Preordering image"
           />
         </div>
@@ -67,7 +67,7 @@
         <div class="grid order-first md:order-last">
           <img
             class="m-auto"
-            src="/src/assets/images/delivery_img.png"
+            src="@/assets/images/delivery_img.png"
             alt="Deliver image"
           />
         </div>
@@ -80,7 +80,7 @@
         <div class="grid">
           <img
             class="m-auto"
-            src="/src/assets/images/loyalty_stamps_img.png"
+            src="@/assets/images/loyalty_stamps_img.png"
             alt="Loyalty Stamps image"
           />
         </div>
@@ -116,7 +116,7 @@
         <div class="grid order-first md:order-last">
           <img
             class="m-auto"
-            src="/src/assets/images/self_checkout.png"
+            src="@/assets/images/self_checkout.png"
             alt="Deliver image"
           />
         </div>
@@ -129,7 +129,7 @@
         <div class="grid">
           <img
             class="m-auto"
-            src="/src/assets/images/analytics_img.png"
+            src="@/assets/images/analytics_img.png"
             alt="Loyalty Stamps image"
           />
         </div>
@@ -265,7 +265,7 @@ function goto(path) {
 }
 
 #hero-rectangle .container {
-  background-image: url("/src/assets/images/mask_group_16.png");
+  background-image: url("@/assets/images/mask_group_16.png");
   background-repeat: no-repeat;
   background-size: cover;
   /* box-shadow: 0 0 10px 1px #e8f6f9; */
@@ -275,7 +275,7 @@ function goto(path) {
 }
 
 #entry-modal .modal-content {
-  background-image: url("/src/assets/images/mask_group_16.png");
+  background-image: url("@/assets/images/mask_group_16.png");
   background-repeat: no-repeat;
   background-size: cover;
   /* box-shadow: 0 0 10px 1px #e8f6f9; */
@@ -285,7 +285,7 @@ function goto(path) {
 }
 
 #fees-rectangle .container {
-  background-image: url("/src/assets/images/mask_group_16.png");
+  background-image: url("@/assets/images/mask_group_16.png");
   background-repeat: no-repeat;
   background-size: cover;
   /* box-shadow: 0 0 10px 1px #e8f6f9; */
@@ -311,14 +311,14 @@ function goto(path) {
 }
 
 .colored-underline1 {
-  background-image: url("/src/assets/images/Hero coffee shop undrline.png");
+  background-image: url("@/assets/images/Hero coffee shop undrline.png");
   background-position: bottom;
   background-repeat: no-repeat;
   background-size: contain;
 }
 
 .colored-underline2 {
-  background-image: url("/src/assets/images/Rectangle Our Fees Sentence underline.png");
+  background-image: url("@/assets/images/Rectangle Our Fees Sentence underline.png");
   background-position: bottom;
   background-repeat: no-repeat;
   background-size: contain;
