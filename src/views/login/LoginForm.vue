@@ -8,6 +8,19 @@
   </div>
   <form @submit.prevent="submit">
     <div class="intro-x mt-8">
+      <!-- <vue-tel-input
+        styleClasses="intro-x login__input form-control px-4 border-gray-300"
+        :inputOptions="{
+          autofocus: true,
+          required: true,
+          maxlength: 20,
+          showDialCode: true,
+          placeholder: 'Phone'
+        }"
+        autoformat
+        mode="international"
+        v-model="form.phone"
+      ></vue-tel-input>-->
       <input
         autofocus
         type="text"
@@ -38,7 +51,7 @@
         placeholder="Email"
         v-model="form.email"
       />
-      <p class="text-theme-6" v-text="errorText" />
+      <div class="text-theme-6 mt-2" v-text="errorText" />
     </div>
     <div
       class="intro-x flex text-gray-700 dark:text-gray-600 text-xs sm:text-sm mt-4"
@@ -46,6 +59,7 @@
     <div class="intro-x mt-5 xl:mt-8 text-center xl:text-center">
       <button
         class="btn btn-primary py-3 px-5 w-full xl:w-32 xl:mr-3 align-top"
+        :disabled="isLoading"
       >
         {{ submitText }}
         <LoadingIcon
@@ -72,8 +86,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import { mapMutations } from "vuex";
-import signin from "../../services/auth";
+import { mapActions, mapMutations } from "vuex";
 
 export default defineComponent({
   data() {
@@ -89,12 +102,15 @@ export default defineComponent({
   },
   methods: {
     ...mapMutations(['setUser', 'setToken']),
+    ...mapActions(['signin']),
     async submit() {
       this.errorText = "";
       const oldButtonText = this.submitText;
       this.submitText = "";
       this.isLoading = true;
-      const res = await signin(this.form);
+      const res = await this.$store.dispatch('signin', this.form);
+      // this.signin(this.form);
+      console.log(res);
       if (res.status) {
         if (!res.data.token) {
           // Telefon Raqam kiritilgandan so'ng
@@ -107,8 +123,8 @@ export default defineComponent({
           this.submitText = oldButtonText;
           this.setToken(res.data.token);
           this.setUser(res.data.user);
-          window.location.replace("/dashboard");
-          // this.$router.push('/dashboard');
+          // window.location.replace("/dashboard");
+          this.$router.push('/steps/');
         }
       }
       // API dan xato qaytsa

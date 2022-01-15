@@ -3,7 +3,9 @@ import main from './main';
 import sideMenu from './side-menu';
 import simpleMenu from './simple-menu';
 import topMenu from './top-menu';
-import user from './user';
+import user from './modules/user';
+import common from './modules/common';
+import steps from './modules/steps';
 
 const store = createStore({
   modules: {
@@ -11,7 +13,9 @@ const store = createStore({
     sideMenu,
     simpleMenu,
     topMenu,
-    user
+    user,
+    common,
+    steps
   }
 });
 
