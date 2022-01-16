@@ -1,21 +1,23 @@
 <template>
   <div>
     <section id="hero-rectangle">
-      <div class="container grid grid-cols-1 md:grid-cols-2">
+      <div class="container grid grid-cols-1 md:grid-cols-2 px-5 py-10">
         <div class="grid">
           <div class="md:ml-16 my-auto">
             <h1
-              class="text-3xl md:text-4xl font-bold lg:text-6xl text-center lg:text-left mb-10"
+              class="text-5xl font-black lg:text-6xl md:text-center lg:text-left mb-16 md:mb-10 leading-tight"
             >The all you need app for your coffee craving.</h1>
-            <div class="flex">
+            <div class="hidden md:flex">
               <router-link to="/">
                 <img
+                  class="w-11/12"
                   src="@/assets/images/App Store badge US.png"
                   alt="App Store badge"
                 />
               </router-link>
               <router-link to="/" class="md:ml-16">
                 <img
+                  class="w-11/12"
                   src="@/assets/images/Google Play Badge.png"
                   alt="Google Play Badge"
                 />
@@ -25,71 +27,106 @@
         </div>
         <div class="grid">
           <img
-            class="-mt-12"
+            class="-mt-10 md:-mt-20"
             src="/src/assets/images/Phone mockups.png"
             alt="Phone mockups"
           />
-        </div>
-      </div>
-    </section>
-    <section class="pt-10">
-      <div class="container md:flex md:gap-10">
-        <div class="box p-5 md:p-10 md:basis-1/2 grid">
-          <img
-            class="mb-10"
-            src="@/assets/images/skip_the_line_img.svg"
-            alt="image"
-          />
-          <h1
-            class="text-3xl md:text-5xl font-bold mt-auto"
-          >Skip the line and order your coffee drink for pick up through the Takk app.</h1>
-        </div>
-        <div class="box p-5 md:p-10 md:basis-1/2 grid">
-          <img class="mb-10" src="@/assets/images/rewards_img.svg" alt="image" />
-          <h1
-            class="text-3xl md:text-5xl font-bold mt-auto"
-          >Support your local café and get rewarded with loyalty cashback on your orders.</h1>
-        </div>
-      </div>
-    </section>
-    <section class="pt-10">
-      <div class="container md:flex md:gap-10">
-        <div class="box p-5 md:p-10 md:basis-1/2 grid">
-          <img class="mb-10" src="@/assets/images/budget_img.svg" alt="image" />
-          <h1
-            class="text-3xl md:text-5xl font-bold mt-auto"
-          >Set a budget for your spendings and auto refill your balance as needed.</h1>
-        </div>
-        <div class="box p-5 md:p-10 md:basis-1/2 grid">
-          <img class="mb-10" src="@/assets/images/delivery_img.svg" alt="image" />
-          <h1
-            class="text-3xl md:text-5xl font-bold mt-auto"
-          >Local food deliveries at participating coffee shops.</h1>
-        </div>
-      </div>
-    </section>
-    <section id="available-rectangle" class="pt-10">
-      <div class="container pt-10">
-        <div class="apps">
-          <div class="flex flex-col text-center">
-            <h1 class="text-3xl md:text-5xl font-black">Available on</h1>
-            <h1
-              class="text-3xl md:text-5xl font-bold mt-5"
-            >App Store & Google Play</h1>
-          </div>
-          <div class="flex justify-center pt-20">
+          <div class="flex md:hidden justify-between mt-5">
             <router-link to="/">
               <img
+                class="w-11/12"
                 src="@/assets/images/App Store badge US.png"
                 alt="App Store badge"
               />
             </router-link>
-            <router-link to="/" class="md:ml-16">
+            <router-link to="/">
               <img
+                class="w-11/12 ml-auto"
                 src="@/assets/images/Google Play Badge.png"
                 alt="Google Play Badge"
               />
             </router-link>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="mt-6 lg:mt-10">
+      <div class="container md:flex md:gap-10">
+        <div class="box p-5 md:p-10 md:basis-1/2 grid">
+          <img
+            class="mb-10 w-10/12 mx-auto"
+            src="@/assets/images/skip_the_line_img.svg"
+            alt="image"
+          />
+          <h1 class="text-3xl md:text-5xl">
+            Skip the line and order your coffee drink for pick up through the
+            <span
+              class="font-bold"
+            >Takk app</span>.
+          </h1>
+        </div>
+        <div class="box p-5 md:p-10 md:basis-1/2 grid mt-6 md:mt-0">
+          <img
+            class="w-auto mt-auto mx-auto"
+            src="@/assets/images/rewards_img.svg"
+            alt="image"
+          />
+          <h1
+            class="text-3xl md:text-5xl"
+          >Support your local café and get rewarded with loyalty cashback on your orders.</h1>
+        </div>
+      </div>
+    </section>
+    <section class="mt-6 lg:mt-10">
+      <div class="container md:flex md:gap-10">
+        <div class="box p-5 md:p-10 md:basis-1/2 grid">
+          <img
+            class="mb-10 w-10/12 m-auto"
+            src="@/assets/images/budget_img.svg"
+            alt="image"
+          />
+          <h1
+            class="text-3xl md:text-5xl"
+          >Set a budget for your spendings and auto refill your balance as needed.</h1>
+        </div>
+        <div class="box p-5 md:p-10 md:basis-1/2 grid mt-6 md:mt-0">
+          <img
+            class="w-auto mt-auto mx-auto"
+            src="@/assets/images/delivery_img.svg"
+            alt="image"
+          />
+          <h1
+            class="text-3xl md:text-5xl"
+          >Local food deliveries at participating coffee shops.</h1>
+        </div>
+      </div>
+    </section>
+    <section id="available-rectangle" class="mt-6 lg:mt-10">
+      <div class="container pt-10">
+        <div class="apps">
+          <div class="flex flex-col text-center">
+            <h1 class="text-3xl md:text-7xl font-black">Available on</h1>
+            <h1
+              class="text-3xl md:text-7xl font-bold mt-5"
+            >App Store & Google Play</h1>
+          </div>
+          <div class="flex flex-col md:flex-row justify-center pt-10 md:pt-20">
+            <div class="flex justify-between mt-5">
+              <router-link to="/">
+                <img
+                  class
+                  src="@/assets/images/App Store badge US.png"
+                  alt="App Store badge"
+                />
+              </router-link>
+              <router-link to="/" class="md:ml-20">
+                <img
+                  class="ml-auto"
+                  src="@/assets/images/Google Play Badge.png"
+                  alt="Google Play Badge"
+                />
+              </router-link>
+            </div>
           </div>
         </div>
         <img
@@ -108,7 +145,9 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+$mobile: 425px;
+
 #hero-rectangle .container {
   background-color: #d1f2f8;
   background-image: url("/src/assets/images/mask_group_16.png");
@@ -116,16 +155,21 @@ export default defineComponent({
   background-size: cover;
   box-shadow: 0 0 15px #45cbeb4d;
   border-radius: 50px;
-  min-height: 45rem;
+  // min-height: 45rem;
+  @media screen and (max-width: $mobile) {
+    border-radius: 20px;
+  }
 }
 
 .box {
   /* box-shadow: inset 0px 3px 6px #00000029; */
   border: 5px solid #b2e2ed;
   border-radius: 50px;
-  /* padding: 2.5rem; */
-  /* @apply bg-theme-33; */
   background-color: #fafeff;
+  @media screen and (max-width: $mobile) {
+    border-radius: 20px;
+    min-height: 420px;
+  }
 }
 
 .box h1 {
@@ -139,14 +183,11 @@ export default defineComponent({
   /* box-shadow: 0 0 10px 1px #e8f6f9; */
   box-shadow: 0 0 15px #45cbeb4d;
   border-radius: 50px;
-  min-height: 45rem;
+  // min-height: 45rem;
   background-color: #fafeff;
   box-shadow: 0px 0px 15px #8080804d;
+  @media screen and (max-width: $mobile) {
+    border-radius: 20px;
+  }
 }
-
-/* #available-rectangle .apps {
-  background-image: url("@/assets/images/Phone mockups - Available on rect.png");
-  background-repeat: no-repeat;
-  background-position: bottom;
-} */
 </style>
