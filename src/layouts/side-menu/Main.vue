@@ -7,14 +7,14 @@
       <nav class="side-nav">
         <!-- BEGIN: Logo -->
         <router-link
-          :to="{ name: 'side-menu-dashboard-overview-1' }"
+          to="/dashboard"
           tag="a"
           class="intro-x flex items-center pl-5 pt-4"
         >
           <img
             alt="Icewall Tailwind HTML Admin Template"
             class="w-6"
-            src="/src/assets/images/logo.svg"
+            src="/src/assets/images/new-logo.png"
           />
           <span class="hidden xl:block text-white text-lg ml-3">
             Ru
@@ -31,7 +31,7 @@
               :key="menu + menuKey"
               class="side-nav__devider my-6"
             ></li>
-            <li v-else :key="menu + menuKey">
+            <li v-else :key="menu + menuKey + '2'">
               <SideMenuTooltip
                 tag="a"
                 :content="menu.title"
