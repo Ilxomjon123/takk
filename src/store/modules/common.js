@@ -4,7 +4,7 @@ const state = () => {
   return {
     countries: [],
     cities: [],
-    selectedCountry: '',
+    selectedCountry: 'United States',
     selectedCity: ''
   };
 };

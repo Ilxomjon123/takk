@@ -5,8 +5,8 @@
         class="flex flex-row items-center p-5 border-b border-gray-200 dark:border-dark-5"
       >
         <h2 class="font-medium text-xl mr-auto">Create Cafe</h2>
-        <div class="form-check sm:mt-0">
-          <button class="btn btn-success">Skip -></button>
+        <div class="form-check mt-3 sm:mt-0">
+          <button class="btn btn-primary">Skip</button>
         </div>
       </div>
       <div class="p-5">

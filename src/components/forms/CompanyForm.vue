@@ -44,6 +44,25 @@
         <div class="text-theme-6" v-text="getError('email')" />
       </div>
       <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
+        <label for="cashback" class="form-label">Cashback Percent</label>
+        <div class="input-group">
+          <div id="input-group-percent" class="input-group-text">%</div>
+          <input
+            id="cashback"
+            type="number"
+            class="form-control"
+            :class="getError('cashback_percent') != null ? 'border-theme-6' : 'border-gray-300'"
+            min="5"
+            max="10"
+            maxlength="2"
+            placeholder="10"
+            v-model="form.cashback_percent"
+            aria-describedby="input-group-percent"
+          />
+          <div class="text-theme-6 mt-2" v-text="getError('cashback_percent')" />
+        </div>
+      </div>
+      <!-- <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
         <label for="website" class="form-label">Website</label>
         <input
           id="website"
@@ -54,7 +73,7 @@
           v-model="form.website"
         />
         <div class="text-theme-6" v-text="getError('website')" />
-      </div>
+      </div>-->
     </div>
     <div class="flex flex-wrap -mx-3 mb-3">
       <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
@@ -75,7 +94,7 @@
       </div>
     </div>
     <div class="flex flex-wrap -mx-3 mb-3">
-      <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
+      <div class="w-full px-3 mb-3 md:mb-0">
         <label for="address" class="form-label">Address</label>
         <input
           id="address"
@@ -87,8 +106,8 @@
         />
         <div class="text-theme-6" v-text="getError('address')" />
       </div>
-      <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
-        <label for="second-address" class="form-label">Second Address</label>
+      <!-- <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
+        <label for="second-address" class="form-label">Additional address line</label>
         <input
           id="second-address"
           type="text"
@@ -98,9 +117,9 @@
           v-model="form.second_address"
         />
         <div class="text-theme-6 mt-2" v-text="getError('second_address')" />
-      </div>
+      </div>-->
     </div>
-    <div class="flex flex-wrap -mx-3 mb-3">
+    <!-- <div class="flex flex-wrap -mx-3 mb-3">
       <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
         <label for="postal-code" class="form-label">Postal Code</label>
         <input
@@ -114,11 +133,11 @@
         <div class="text-theme-6" v-text="getError('postal_code')" />
       </div>
       <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
-        <label for="postal-code" class="form-label">Cashbeck Percent</label>
+        <label for="cashback" class="form-label">Cashback Percent</label>
         <div class="input-group">
           <div id="input-group-percent" class="input-group-text">%</div>
           <input
-            id="postal-code"
+            id="cashback"
             type="number"
             class="form-control"
             :class="getError('cashback_percent') != null ? 'border-theme-6' : 'border-gray-300'"
@@ -144,14 +163,14 @@
         v-model="form.about"
       />
       <div class="text-theme-6" v-text="getError('about')" />
-    </div>
+    </div>-->
     <div>
       <button
         type="submit"
         class="btn btn-primary py-3 px-4 block mx-auto mt-8 px-10 align-top"
         :disabled="isLoading"
       >
-        {{ isLoading ? '' : 'Next' }}
+        {{ isLoading ? '' : 'Submit' }}
         <LoadingIcon
           v-if="isLoading"
           icon="three-dots"

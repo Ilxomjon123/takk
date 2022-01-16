@@ -1,15 +1,17 @@
 
   <template>
-  <div class="bg-theme-1 h-screen">
-    <div class="container pt-20 mb-24">
+  <div class="bg-theme-1 min-h-screen py-10">
+    <div class="container pt-20">
       <div class="intro-y flex items-center">
-        <h2 class="text-lg font-medium mr-auto text-white">My Cabinet</h2>
+        <h2
+          class="text-xl font-medium mr-auto text-white lg:text-center"
+        >My Cabinet</h2>
       </div>
-      <div class="container p-10 bg-theme-2 rounded-md mt-8">
+      <div class="container p-10 bg-theme-2 rounded-md mt-8 mb-24">
         <div class="intro-y flex items-center">
           <!-- BEGIN: Pricing Layout -->
           <div class="intro-y box flex flex-col lg:flex-row">
-            <div class="intro-y flex-1 px-5 py-16 bg-theme-1 text-white">
+            <div class="intro-y flex-1 px-5 bg-theme-1 text-white">
               <CreditCardIcon
                 class="block w-12 h-12 text-theme-2 dark:text-theme-10 mx-auto"
               />
@@ -41,7 +43,7 @@
               >Create</a>
             </div>
             <div
-              class="intro-y border-b border-t lg:border-b-0 lg:border-t-0 flex-1 p-5 lg:border-l lg:border-r border-gray-200 dark:border-dark-5 py-16"
+              class="intro-y border-b border-t lg:border-b-0 lg:border-t-0 flex-1 p-5 lg:border-l lg:border-r border-gray-200 dark:border-dark-5"
             >
               <BriefcaseIcon
                 class="block w-12 h-12 text-theme-1 dark:text-theme-10 mx-auto"
@@ -71,7 +73,7 @@
                 class="btn btn-rounded-primary py-3 px-4 block mx-auto mt-8"
               >PURCHASE NOW</button>
             </div>
-            <div class="intro-y flex-1 px-5 py-16">
+            <div class="intro-y flex-1 px-5">
               <ShoppingBagIcon
                 class="block w-12 h-12 text-theme-1 dark:text-theme-10 mx-auto"
               />
@@ -115,7 +117,7 @@
             <XCircleIcon class="w-16 h-16 text-theme-6 mx-auto mt-3" />
             <div class="text-3xl mt-5">Do you want to integrate with SquareApp</div>
             <div class="text-gray-600 mt-2">
-              <div class="sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0">
+              <!-- <div class="sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0">
                 <input
                   id="show-example-1"
                   data-target="#basic-button"
@@ -126,7 +128,7 @@
                   class="form-check-label ml-0 sm:ml-2"
                   for="show-example-1"
                 >Do you want to get notifications on SquareApp?</label>
-              </div>
+              </div>-->
             </div>
           </div>
           <div class="px-5 pb-8 text-center">

@@ -117,14 +117,14 @@ export default defineComponent({
           this.isRegister = res.data.is_register;
           this.isDisabled = false;
           this.submitText = this.isRegister ? 'Sign Up' : 'Sign In';
-          this.headText = this.isRegister ? 'Fill the form above' : 'Enter SMS code';
+          this.headText = this.isRegister ? 'Fill the form below' : 'Enter SMS code';
         } else {
           // Login muvaffaqiyatli bo'lsa
           this.submitText = oldButtonText;
           this.setToken(res.data.token);
           this.setUser(res.data.user);
           // window.location.replace("/dashboard");
-          this.$router.push('/steps/');
+          this.$router.push('/entry');
         }
       }
       // API dan xato qaytsa

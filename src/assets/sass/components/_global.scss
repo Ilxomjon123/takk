@@ -1,5 +1,5 @@
 html body {
-  -webkit-font-smoothing: antialiased;
+  // -webkit-font-smoothing: antialiased;
   @apply font-roboto;
   // @apply overflow-x-hidden py-3 px-8 font-roboto text-sm text-gray-800 bg-theme-1;
   @include media-breakpoint-down(sm) {
