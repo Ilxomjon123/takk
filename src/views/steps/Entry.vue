@@ -1,6 +1,6 @@
 
   <template>
-  <div class="bg-theme-1 min-h-screen py-10">
+  <div class="min-h-screen py-10">
     <div class="container pt-20">
       <div class="intro-y flex items-center">
         <h2
