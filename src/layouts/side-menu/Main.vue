@@ -13,13 +13,9 @@
         >
           <img
             alt="Icewall Tailwind HTML Admin Template"
-            class="w-6"
+            class="w-24"
             src="/src/assets/images/new-logo.png"
           />
-          <span class="hidden xl:block text-white text-lg ml-3">
-            Ru
-            <span class="font-medium">bick</span>
-          </span>
         </router-link>
         <!-- END: Logo -->
         <div class="side-nav__devider my-6"></div>

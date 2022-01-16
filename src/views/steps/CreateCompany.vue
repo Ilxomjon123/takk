@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-theme-1 min-h-screen py-10">
+  <div class="min-h-screen py-10">
     <div class="intro-y box mx-10">
       <div
         class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200 dark:border-dark-5"
