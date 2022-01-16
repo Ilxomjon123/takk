@@ -6,6 +6,8 @@ import ForCustomers from '../views/for-customers/index.vue';
 import AppLayout from '../layouts/app-layout/index.vue';
 import CreateCompany from '../views/steps/CreateCompany.vue';
 import CreateCafe from '../views/steps/CreateCafe.vue';
+import DashboardLayout from '../layouts/side-menu/Main.vue';
+import DashboardMain from '../views/dashboard/Main.vue';
 
 const routes = [
   {
@@ -23,6 +25,11 @@ const routes = [
         component: ForCustomers
       }
     ]
+  },
+  {
+    path: '/dashboard',
+    component: DashboardLayout,
+    children: [{ path: '/', name: 'dashboard-main', component: DashboardMain }]
   },
   {
     path: '/login',

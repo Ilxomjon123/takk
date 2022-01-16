@@ -32,7 +32,7 @@ export default defineComponent({
 </script>
 
 
-<style >
+<style scoped>
 @media (max-width: 639px) {
   html body {
     padding-left: 0 !important;
