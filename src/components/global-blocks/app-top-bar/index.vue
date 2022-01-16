@@ -1,14 +1,14 @@
 <template>
   <header class="w-full">
     <div class="container py-10">
+      <div class="mr-5 min-">
+        <img
+          class="object-cover"
+          src="/src/assets/images/Takk Logo.png"
+          alt="takk logo"
+        />
+      </div>
       <nav class="grid grid-flow-col items-center whitespace-nowrap">
-        <div class>
-          <img
-            class="object-cover"
-            src="/src/assets/images/Takk Logo.png"
-            alt="takk logo"
-          />
-        </div>
         <ul
           v-if="$route.path === '/'"
           ref="menu"
@@ -45,38 +45,38 @@
             <router-link to="/">Google Play</router-link>
           </span>.
         </h1>
-        <ul
-          class="md:grid grid-flow-col items-center md:gap-7 text-xl font-medium ml-auto"
-        >
-          <li>
-            <router-link
-              v-if="$route.path == '/'"
-              to="/for-customers"
-              class="px-10 py-3 bg-theme-31 text-white rounded-full font-bold hover:bg-theme-2 hover:text-black shadow-lg"
-            >
-              <span>For Customers</span>
-            </router-link>
-            <router-link
-              v-if="$route.path == '/for-customers'"
-              to="/"
-              class="px-10 py-3 bg-theme-31 text-white rounded-full font-bold hover:bg-theme-2 hover:text-black shadow-lg"
-            >
-              <span>For Coffee Shops</span>
-            </router-link>
-          </li>
-          <li>
-            <button
-              type="button"
-              class="px-7 py-3 border-2 border-theme-31 rounded-full font-bold text-gray-600 hover:bg-theme-31 hover:text-white shadow-lg"
-            >
-              <span>Contact us</span>
-            </button>
-          </li>
-        </ul>
-        <button class="ml-auto sm:hidden" ref="burger" @click="toggleMenu">
-          <MenuIcon />
-        </button>
       </nav>
+      <ul
+        class="md:grid grid-flow-col items-center md:gap-7 text-xl font-medium ml-auto"
+      >
+        <li>
+          <router-link
+            v-if="$route.path == '/'"
+            to="/for-customers"
+            class="px-10 py-3 bg-theme-31 text-white rounded-full font-bold hover:bg-theme-2 hover:text-black shadow-lg"
+          >
+            <span>For Customers</span>
+          </router-link>
+          <router-link
+            v-if="$route.path == '/for-customers'"
+            to="/"
+            class="px-10 py-3 bg-theme-31 text-white rounded-full font-bold hover:bg-theme-2 hover:text-black shadow-lg"
+          >
+            <span>For Coffee Shops</span>
+          </router-link>
+        </li>
+        <li>
+          <button
+            type="button"
+            class="px-7 py-3 border-2 border-theme-31 rounded-full font-bold text-gray-600 hover:bg-theme-31 hover:text-white shadow-lg"
+          >
+            <span>Contact us</span>
+          </button>
+        </li>
+      </ul>
+      <button class="ml-auto md:hidden" ref="burger" @click="toggleMenu">
+        <MenuIcon />
+      </button>
     </div>
   </header>
 </template>
