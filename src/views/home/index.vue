@@ -155,7 +155,9 @@
     <section id="fees-rectangle" class="mt-6 lg:mt-10">
       <div class="container grid md:bg-theme-33 px-5 lg:px-10 py-16 lg:py-32">
         <div class="grid md:my-16 justify-center">
-          <h2 class="text-5xl lg:text-6xl font-extrabold mb-10 md:text-center">
+          <h2
+            class="text-5xl lg:text-6xl font-bold md:font-extrabold mb-10 md:text-center"
+          >
             <span
               class="colored-underline2"
             >Our fees are low, and straightforward.</span>
@@ -305,7 +307,7 @@ $mobile: 425px;
   @media screen and (max-width: $mobile) {
     background-color: transparent;
     box-shadow: none;
-    border-radius: 20px;
+    border-radius: 0;
   }
 }
 
