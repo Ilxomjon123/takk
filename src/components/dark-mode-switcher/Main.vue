@@ -24,8 +24,8 @@ export default defineComponent({
 
     const setDarkModeClass = () => {
       darkMode.value
-        ? cash('html').addClass('dark')
-        : cash('html').removeClass('dark')
+        ? cash('body').addClass('dark')
+        : cash('body').removeClass('dark')
     }
 
     const switchMode = () => {

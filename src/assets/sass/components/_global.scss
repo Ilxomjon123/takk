@@ -1,5 +1,22 @@
-html {
-  @apply bg-theme-1;
+// html {
+// @apply bg-theme-1;
+// &.dark {
+//   @apply bg-dark-2;
+//   body {
+//     @apply text-gray-300;
+//     *,
+//     ::before,
+//     ::after {
+//       @apply border-dark-3;
+//     }
+//   }
+// }
+#app {
+  -webkit-font-smoothing: antialiased;
+  @apply overflow-x-hidden py-3 px-8 font-roboto text-sm text-theme-35 bg-theme-2;
+  @include media-breakpoint-down(sm) {
+    @apply px-3;
+  }
   &.dark {
     @apply bg-dark-2;
     body {
@@ -11,11 +28,5 @@ html {
       }
     }
   }
-  body {
-    -webkit-font-smoothing: antialiased;
-    @apply overflow-x-hidden py-3 px-8 font-roboto text-sm text-theme-35;
-    @include media-breakpoint-down(sm) {
-      @apply px-3;
-    }
-  }
 }
+// }

@@ -195,5 +195,5 @@ export default defineComponent({
       leave
     }
   }
-})
+});
 </script>
