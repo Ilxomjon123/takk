@@ -27,10 +27,11 @@ const routes = [
     ]
   },
   {
-    path: '/admin',
+    path: '/dashboard',
     component: DashboardLayout,
     children: [
-      { path: 'dashboard', name: 'dashboard-main', component: DashboardMain }
+      { path: '', name: 'dashboard', component: DashboardMain },
+      { path: 'test', name: 'test', component: DashboardMain }
     ]
   },
   {

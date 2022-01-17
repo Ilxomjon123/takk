@@ -2,13 +2,13 @@
   <!-- BEGIN: Mobile Menu -->
   <div class="mobile-menu md:hidden">
     <div class="mobile-menu-bar">
-      <a href class="flex mr-auto">
+      <router-link to="/dashboard" class="flex mr-auto">
         <img
           alt="Icewall Tailwind HTML Admin Template"
-          class="w-6"
-          src="/src/assets/images/logo.svg"
+          class="w-28"
+          src="/src/assets/images/new-logo.png"
         />
-      </a>
+      </router-link>
       <BarChart2Icon
         class="w-8 h-8 text-white transform -rotate-90"
         @click="toggleMobileMenu"
@@ -23,7 +23,7 @@
             :key="menu + menuKey"
             class="menu__devider my-6"
           ></li>
-          <li v-else :key="menu + menuKey">
+          <li v-else :key="menu + menuKey + '2'">
             <a
               href="javascript:;"
               class="menu"

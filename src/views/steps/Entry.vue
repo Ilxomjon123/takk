@@ -1,5 +1,6 @@
 
   <template>
+  <DarkModeSwitcher />
   <div class="min-h-screen py-10">
     <div class="container pt-20">
       <div class="intro-y flex items-center">
@@ -147,11 +148,10 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { mapActions } from 'vuex'
 import CountrySelect from '../../components/selects/CountrySelect.vue'
-
+import DarkModeSwitcher from '@/components/dark-mode-switcher/Main.vue'
 export default defineComponent({
-  components: { CountrySelect }
+  components: { CountrySelect, DarkModeSwitcher }
 })
 </script>
 

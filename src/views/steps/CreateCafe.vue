@@ -1,4 +1,5 @@
 <template>
+  <DarkModeSwitcher />
   <div class="min-h-screen py-10">
     <div class="intro-y box mx-10">
       <div
@@ -20,9 +21,10 @@
 <script>
 import { defineComponent } from 'vue'
 import CafeForm from '../../components/forms/CafeForm.vue'
+import DarkModeSwitcher from '@/components/dark-mode-switcher/Main.vue'
 
 export default defineComponent({
-  components: { CafeForm }
+  components: { CafeForm, DarkModeSwitcher }
   , methods: {
     skip() {
       this.$router.push('/create-menu')
