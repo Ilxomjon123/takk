@@ -1,25 +1,49 @@
 <template>
   <footer class="static bottom-0 w-full py-10">
-    <div class="container px-4">
-      <div class="grid md:grid-flow-col auto-cols-max justify-between">
-        <div class="grid md:grid-flow-col auto-cols-max">
-          <img src="/src/assets/images/Takk footer.png" alt="takk logo" />
-          <div class="grid grid-flow-col gap-8 md:ml-24 mt-16 md:mt-0">
-            <img src="/src/assets/images/38-instagram.png" alt="instagram logo" />
-            <img src="/src/assets/images/06-facebook.png" alt="facebook logo" />
-            <img src="/src/assets/images/E-mail.png" alt="mail logo" />
-          </div>
-        </div>
-        <div class="grid mt-16 md:mt-0">
-          <ul
-            class="grid md:grid-flow-col items-center gap-12 text-3xl text-theme-32 font-medium"
-          >
-            <li class="cursor-pointer">Terms</li>
-            <li class="cursor-pointer">Privacy</li>
-            <li class="cursor-pointer">Copyright</li>
-          </ul>
-        </div>
+    <div class="container py-5 flex flex-wrap justify-between">
+      <div class="flex lg:mr-5 px-1 py-2">
+        <a href="/">
+          <img
+            class="hidden md:inline-block"
+            src="@/assets/images/Takk footer.png"
+            alt="takk logo"
+          />
+          <img
+            class="md:hidden mt-2"
+            src="@/assets/images/Takk Logo mobile footer.svg"
+            alt="takk logo"
+          />
+        </a>
       </div>
+      <div
+        class="flex flex-wrap gap-4 lg:gap-8 content-center ml-auto lg:ml-10 p-2"
+      >
+        <img
+          class="w-1/5 md:w-auto ml-auto"
+          src="/src/assets/images/38-instagram.png"
+          alt="instagram logo"
+        />
+        <img
+          class="w-1/5 md:w-auto"
+          src="/src/assets/images/06-facebook.png"
+          alt="facebook logo"
+        />
+        <img
+          class="w-1/5 md:w-auto"
+          src="/src/assets/images/E-mail.png"
+          alt="mail logo"
+        />
+      </div>
+      <div class="flex w-full lg:w-auto lg:ml-auto mt-5 md:mt-0">
+        <ul
+          class="flex flex-wrap p-1 md:p-2 gap-10 content-center text-xl lg:text-3xl text-theme-32 font-medium justify-center w-full"
+        >
+          <li class="cursor-pointer">Terms</li>
+          <li class="cursor-pointer">Privacy</li>
+          <li class="cursor-pointer">Copyright</li>
+        </ul>
+      </div>
+      <!-- </div> -->
     </div>
   </footer>
 </template>

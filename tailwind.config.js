@@ -65,7 +65,8 @@ module.exports = {
         31: '#01E3C7',
         32: '#919191',
         33: '#E8F6F9',
-        34: '#FBFEFF'
+        34: '#FBFEFF',
+        35: '#2f2e41'
       }
     },
     extend: {

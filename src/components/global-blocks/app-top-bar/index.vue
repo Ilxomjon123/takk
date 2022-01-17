@@ -1,42 +1,52 @@
 <template>
   <header class="w-full">
-    <div class="container py-10">
-      <div class="mr-5 min-">
-        <img
-          class="object-cover"
-          src="/src/assets/images/Takk Logo.png"
-          alt="takk logo"
-        />
+    <div class="container py-5 flex flex-wrap justify-between">
+      <div class="flex lg:mr-5 px-1 py-2">
+        <a href="/">
+          <img
+            class="w-1/2 md:w-auto"
+            src="@/assets/images/Takk Logo.png"
+            alt="takk logo"
+          />
+        </a>
       </div>
-      <nav class="grid grid-flow-col items-center whitespace-nowrap">
+      <div class="hidden w-full md:flex lg:w-auto justify-between">
         <ul
           v-if="$route.path === '/'"
           ref="menu"
-          class="md:grid grid-flow-col items-center md:gap-7 text-xl text-theme-32 font-medium ml-auto"
-          :class="{ hidden: !isOpen }"
+          class="flex flex-wrap p-1 md:p-2 text-xl text-theme-32 font-medium content-center"
         >
-          <li>
-            <a href="#preordering-rectangle">Preordering</a>
+          <li class="mx-1 px-1 py-2">
+            <a
+              class="whitespace-no-wrap"
+              href="#preordering-rectangle"
+            >Preordering</a>
           </li>
-          <li>
-            <a href="#delivery-rectangle">Delivery</a>
+          <li class="mx-1 px-1 py-2">
+            <a class="whitespace-no-wrap" href="#delivery-rectangle">Delivery</a>
           </li>
-          <li>
-            <a href="#loyalty-stamps-rectangle">Loyalty Stamps</a>
+          <li class="mx-1 px-1 py-2">
+            <a
+              class="whitespace-no-wrap"
+              href="#loyalty-stamps-rectangle"
+            >Loyalty Stamps</a>
           </li>
-          <li>
-            <a href="#self-checkout-rectangle">Self Checkout System</a>
+          <li class="mx-1 px-1 py-2">
+            <a
+              class="whitespace-no-wrap"
+              href="#self-checkout-rectangle"
+            >Self Checkout System</a>
           </li>
-          <li>
-            <a href="#analytics-rectangle">Analytics</a>
+          <li class="mx-1 px-1 py-2">
+            <a class="whitespace-no-wrap" href="#analytics-rectangle">Analytics</a>
           </li>
-          <li>
-            <router-link to="/login" class="px-7 py-3 text-theme-31 font-bold">
+          <li class="mx-1 px-1 py-2">
+            <router-link to="/login" class="text-theme-31 font-bold">
               <span>Sign In</span>
             </router-link>
           </li>
         </ul>
-        <h1 v-else class="text-xl font-bold text-gray-600">
+        <h1 v-else class="text-xl font-bold text-gray-600 my-auto p-4">
           Takk app is available on
           <span class="text-theme-31">
             <router-link to="/">App Store</router-link>
@@ -45,42 +55,50 @@
             <router-link to="/">Google Play</router-link>
           </span>.
         </h1>
-      </nav>
-      <ul
-        class="md:grid grid-flow-col items-center md:gap-7 text-xl font-medium ml-auto"
+      </div>
+      <div class="hidden md:flex w-full lg:w-auto">
+        <ul
+          class="flex flex-wrap p-1 md:p-2 text-sm md:text-base font-medium content-center"
+        >
+          <li class="mx-1 px-1 py-2">
+            <router-link
+              v-if="$route.path == '/'"
+              to="/for-customers"
+              class="px-6 py-2 border-2 border-theme-31 bg-theme-31 text-white rounded-full font-bold hover:bg-theme-2 hover:text-black shadow-lg"
+            >
+              <span>For Customers</span>
+            </router-link>
+            <router-link
+              v-if="$route.path == '/for-customers'"
+              to="/"
+              class="px-6 py-2 border-2 border-theme-31 bg-theme-31 text-white rounded-full font-bold hover:bg-theme-2 hover:text-black shadow-lg"
+            >
+              <span>For Coffee Shops</span>
+            </router-link>
+          </li>
+          <li class="mx-1 px-1 py-2">
+            <router-link
+              to="/"
+              class="px-6 py-2 border-2 border-theme-31 rounded-full font-bold text-gray-600 hover:bg-theme-31 hover:text-white shadow-lg"
+            >
+              <span>Contact us</span>
+            </router-link>
+          </li>
+        </ul>
+      </div>
+      <button
+        v-if="$route.path === '/'"
+        class="ml-auto md:hidden"
+        ref="burger"
+        @click="toggleMenu"
       >
-        <li>
-          <router-link
-            v-if="$route.path == '/'"
-            to="/for-customers"
-            class="px-10 py-3 bg-theme-31 text-white rounded-full font-bold hover:bg-theme-2 hover:text-black shadow-lg"
-          >
-            <span>For Customers</span>
-          </router-link>
-          <router-link
-            v-if="$route.path == '/for-customers'"
-            to="/"
-            class="px-10 py-3 bg-theme-31 text-white rounded-full font-bold hover:bg-theme-2 hover:text-black shadow-lg"
-          >
-            <span>For Coffee Shops</span>
-          </router-link>
-        </li>
-        <li>
-          <button
-            type="button"
-            class="px-7 py-3 border-2 border-theme-31 rounded-full font-bold text-gray-600 hover:bg-theme-31 hover:text-white shadow-lg"
-          >
-            <span>Contact us</span>
-          </button>
-        </li>
-      </ul>
-      <button class="ml-auto md:hidden" ref="burger" @click="toggleMenu">
-        <MenuIcon />
+        <img src="@/assets/images/Icon feather-menu.svg" alt="Menu Icon" />
       </button>
     </div>
   </header>
 </template>
-<script setup>import { ref } from 'vue'
+<script setup>
+import { ref } from 'vue'
 
 const isOpen = ref(false);
 
