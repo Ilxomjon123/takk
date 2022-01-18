@@ -28,7 +28,7 @@ export default defineComponent({
       this.$router.push('/create-menu')
     }
   }
-})
+});
 </script>
 
 

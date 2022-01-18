@@ -16,7 +16,7 @@
           <img
             alt="Icewall Tailwind HTML Admin Template"
             class="w-6"
-            src="/src/assets/images/logo.svg"
+            src="@/assets/images/logo.svg"
           />
           <span class="text-white text-lg ml-3">
             Ru
@@ -87,7 +87,7 @@
                     <img
                       alt="Icewall Tailwind HTML Admin Template"
                       class="rounded-full"
-                      :src="`/src/assets/images/${faker.photos[0]}`"
+                      :src="`@/assets/images/${faker.photos[0]}`"
                     />
                   </div>
                   <div class="ml-3">{{ faker.users[0].name }}</div>
@@ -107,7 +107,7 @@
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="`/src/assets/images/${faker.images[0]}`"
+                    :src="`@/assets/images/${faker.images[0]}`"
                   />
                 </div>
                 <div class="ml-3">{{ faker.products[0].name }}</div>
@@ -143,7 +143,7 @@
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="`/src/assets/images/${faker.photos[0]}`"
+                    :src="`@/assets/images/${faker.photos[0]}`"
                   />
                   <div
                     class="w-3 h-3 bg-theme-9 absolute right-0 bottom-0 rounded-full border-2 border-white"
@@ -177,7 +177,7 @@
           >
             <img
               alt="Icewall Tailwind HTML Admin Template"
-              :src="`/src/assets/images/${$f()[9].photos[0]}`"
+              :src="`@/assets/images/${$f()[9].photos[0]}`"
             />
           </div>
           <div class="dropdown-menu w-56">

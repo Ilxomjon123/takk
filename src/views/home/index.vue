@@ -235,7 +235,13 @@
 import cash from 'cash-dom'
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { login } from '@/api';
 
+onMounted(() => {
+  const res = login({ username: 'shefteli', password: 'qaun' })
+  console.log('response from login request: ', res);
+
+})
 const router = useRouter()
 
 const atFirstTime = ref(true)

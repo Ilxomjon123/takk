@@ -6,7 +6,7 @@
         <img
           alt="Icewall Tailwind HTML Admin Template"
           class="w-6"
-          src="/src/assets/images/logo.svg"
+          src="@/assets/images/new-logo.png"
         />
       </a>
       <BarChart2Icon
@@ -23,7 +23,7 @@
             :key="menu + menuKey"
             class="menu__devider my-6"
           ></li>
-          <li v-else :key="menu + menuKey">
+          <li v-else :key="menu + menuKey + 'mobile'">
             <a
               href="javascript:;"
               class="menu"

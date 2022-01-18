@@ -609,7 +609,7 @@ export default defineComponent({
             map: map,
             position: point,
             icon: {
-              url: '/src/assets/images/map-marker.png'
+              url: '@/assets/images/map-marker.png'
             }
           })
 
@@ -638,7 +638,7 @@ export default defineComponent({
               width: 51,
               height: 50,
               textColor: 'white',
-              url: '/src/assets/images/map-marker-region.png',
+              url: '@/assets/images/map-marker-region.png',
               anchor: [0, 0],
               anchorText: [19, 0],
               fontWeight: 'bold'

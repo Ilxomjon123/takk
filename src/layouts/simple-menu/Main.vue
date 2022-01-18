@@ -14,7 +14,7 @@
           <img
             alt="Icewall Tailwind HTML Admin Template"
             class="w-6"
-            src="/src/assets/images/logo.svg"
+            src="@/assets/images/logo.svg"
           />
         </router-link>
         <!-- END: Logo -->

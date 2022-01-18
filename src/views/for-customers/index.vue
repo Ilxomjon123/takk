@@ -28,7 +28,7 @@
         <div class="grid">
           <img
             class="-mt-10 md:-mt-20"
-            src="/src/assets/images/Phone mockups.png"
+            src="@/assets/images/Phone mockups.png"
             alt="Phone mockups"
           />
           <div class="flex md:hidden justify-between mt-5">
@@ -150,7 +150,7 @@ $mobile: 425px;
 
 #hero-rectangle .container {
   background-color: #d1f2f8;
-  background-image: url("/src/assets/images/mask_group_16.png");
+  background-image: url("@/assets/images/mask_group_16.png");
   background-repeat: no-repeat;
   background-size: cover;
   box-shadow: 0 0 15px #45cbeb4d;
