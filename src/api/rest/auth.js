@@ -4,7 +4,7 @@ import makeRequest from '../makeRequest.js';
 export const login = async ({ username, password }) => {
   try {
     const res = await makeRequest({
-      url: '/api/auth/login',
+      url: '/api/users/register',
       method: 'post',
       data: {
         username,
