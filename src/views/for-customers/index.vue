@@ -28,7 +28,7 @@
         <div class="grid">
           <img
             class="-mt-10 md:-mt-20"
-            src="/src/assets/images/Phone mockups.png"
+            src="@/assets/images/Phone mockups.png"
             alt="Phone mockups"
           />
           <div class="flex md:hidden justify-between mt-5">
@@ -110,7 +110,7 @@
               class="text-3xl md:text-7xl font-bold mt-5"
             >App Store & Google Play</h1>
           </div>
-          <div class="flex flex-col md:flex-row justify-center pt-10 md:pt-20">
+          <div class="flex flex-col md:flex-row justify-center pt-8 md:pt-16">
             <div class="flex justify-between mt-5">
               <router-link to="/">
                 <img
@@ -129,10 +129,10 @@
             </div>
           </div>
         </div>
-        <img
+        <!-- <img
           src="@/assets/images/Phone mockups - Available on rect.png"
           alt="Phone mockups - Available on rect"
-        />
+        />-->
       </div>
     </section>
   </div>
@@ -150,7 +150,7 @@ $mobile: 425px;
 
 #hero-rectangle .container {
   background-color: #d1f2f8;
-  background-image: url("/src/assets/images/mask_group_16.png");
+  background-image: url("@/assets/images/mask_group_16.png");
   background-repeat: no-repeat;
   background-size: cover;
   box-shadow: 0 0 15px #45cbeb4d;
@@ -170,24 +170,26 @@ $mobile: 425px;
     border-radius: 20px;
     min-height: 420px;
   }
-}
-
-.box h1 {
-  line-height: 1.5;
+  & h1 {
+    line-height: 1.5;
+  }
 }
 
 #available-rectangle .container {
-  background-image: url("@/assets/images/mask_group_16.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  /* box-shadow: 0 0 10px 1px #e8f6f9; */
+  background-image: url("@/assets/images/Phone mockups - Available on rect.png"),
+    url("@/assets/images/mask_group_16.png");
+  background-repeat: no-repeat, no-repeat;
+  // background-size: cover, ;
+  background-position: center bottom;
   box-shadow: 0 0 15px #45cbeb4d;
   border-radius: 50px;
-  // min-height: 45rem;
+  min-height: 54rem;
   background-color: #fafeff;
   box-shadow: 0px 0px 15px #8080804d;
   @media screen and (max-width: $mobile) {
     border-radius: 20px;
+    background-size: 210%;
+    min-height: 31rem;
   }
 }
 </style>

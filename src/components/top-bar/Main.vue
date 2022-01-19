@@ -54,7 +54,7 @@
           </div>
           <div class="search-result__content__title">Users</div>
           <div class="mb-5">
-            <a
+            <!-- <a
               v-for="(faker, fakerKey) in $_.take($f(), 4)"
               :key="fakerKey"
               href
@@ -64,17 +64,17 @@
                 <img
                   alt="Icewall Tailwind HTML Admin Template"
                   class="rounded-full"
-                  :src="`/src/assets/images/${faker.photos[0]}`"
+                  :src="`@/assets/images/${faker.photos[0]}`"
                 />
               </div>
               <div class="ml-3">{{ faker.users[0].name }}</div>
               <div
                 class="ml-auto w-48 truncate text-gray-600 text-xs text-right"
               >{{ faker.users[0].email }}</div>
-            </a>
+            </a>-->
           </div>
           <div class="search-result__content__title">Products</div>
-          <a
+          <!-- <a
             v-for="(faker, fakerKey) in $_.take($f(), 4)"
             :key="fakerKey"
             href
@@ -84,14 +84,14 @@
               <img
                 alt="Icewall Tailwind HTML Admin Template"
                 class="rounded-full"
-                :src="`/src/assets/images/${faker.images[0]}`"
+                :src="`@/assets/images/${faker.images[0]}`"
               />
             </div>
             <div class="ml-3">{{ faker.products[0].name }}</div>
             <div
               class="ml-auto w-48 truncate text-gray-600 text-xs text-right"
             >{{ faker.products[0].category }}</div>
-          </a>
+          </a>-->
         </div>
       </div>
     </div>
@@ -110,7 +110,7 @@
           class="notification-content__box dropdown-menu__content box dark:bg-dark-6"
         >
           <div class="notification-content__title">Notifications</div>
-          <div
+          <!-- <div
             v-for="(faker, fakerKey) in $_.take($f(), 5)"
             :key="fakerKey"
             class="cursor-pointer relative flex items-center"
@@ -120,7 +120,7 @@
               <img
                 alt="Icewall Tailwind HTML Admin Template"
                 class="rounded-full"
-                :src="`/src/assets/images/${faker.photos[0]}`"
+                :src="`@/assets/images/${faker.photos[0]}`"
               />
               <div
                 class="w-3 h-3 bg-theme-9 absolute right-0 bottom-0 rounded-full border-2 border-white"
@@ -141,7 +141,7 @@
                 class="w-full truncate text-gray-600 mt-0.5"
               >{{ faker.news[0].shortContent }}</div>
             </div>
-          </div>
+          </div>-->
         </div>
       </div>
     </div>
@@ -153,20 +153,17 @@
         role="button"
         aria-expanded="false"
       >
-        <img
-          alt="Icewall Tailwind HTML Admin Template"
-          :src="`/src/assets/images/${$f()[9].photos[0]}`"
-        />
+        <img alt="Icewall Tailwind HTML Admin Template" src />
       </div>
       <div class="dropdown-menu w-56">
         <div
           class="dropdown-menu__content box bg-theme-26 dark:bg-dark-6 text-white"
         >
           <div class="p-4 border-b border-theme-27 dark:border-dark-3">
-            <div class="font-medium">{{ $f()[0].users[0].name }}</div>
+            <div class="font-medium">User name</div>
             <div
               class="text-xs text-theme-28 mt-0.5 dark:text-gray-600"
-            >{{ $f()[0].jobs[0] }}</div>
+            >Developer</div>
           </div>
           <div class="p-2">
             <a

@@ -20,17 +20,17 @@
       >
         <img
           class="w-1/5 md:w-auto ml-auto"
-          src="/src/assets/images/38-instagram.png"
+          src="@/assets/images/38-instagram.png"
           alt="instagram logo"
         />
         <img
           class="w-1/5 md:w-auto"
-          src="/src/assets/images/06-facebook.png"
+          src="@/assets/images/06-facebook.png"
           alt="facebook logo"
         />
         <img
           class="w-1/5 md:w-auto"
-          src="/src/assets/images/E-mail.png"
+          src="@/assets/images/E-mail.png"
           alt="mail logo"
         />
       </div>

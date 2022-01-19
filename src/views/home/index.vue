@@ -184,65 +184,21 @@
       </div>
     </section>
   </div>
-
-  <!-- Modal -->
-  <div
-    id="entry-modal"
-    class="modal w-full h-full"
-    tabindex="-1"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-xl min-w-fit">
-      <div class="modal-content rounded-3xl md:rounded-large">
-        <div class="modal-body md:p-10">
-          <div class="grid md:grid-cols-2 md:gap-10 auto-cols-auto">
-            <div
-              class="grid justify-center text-center box md:p-10 mb-10 md:mb-0 h-72 md:h-auto rounded-3xl md:rounded-large"
-            >
-              <button class @click="goto('/')">
-                <img
-                  class="mx-auto w-28 md:w-auto"
-                  src="@/assets/images/Icon metro-shop.svg"
-                  alt="For Coffee Shops Icon"
-                />
-                <h1
-                  class="text-2xl md:text-4xl font-bold mt-10 whitespace-nowrap"
-                >For Coffee Shops</h1>
-              </button>
-            </div>
-            <div
-              class="grid justify-center text-center box md:p-10 h-72 md:h-auto rounded-3xl md:rounded-large"
-            >
-              <button class @click="goto('/for-customers')">
-                <img
-                  class="mx-auto w-1/2"
-                  src="@/assets/images/Group 2557.svg"
-                  alt="For Costumers Icon"
-                />
-                <h1
-                  class="text-2xl md:text-4xl font-bold mt-10 whitespace-nowrap"
-                >For Costumers</h1>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
 
 <script setup>
 import cash from 'cash-dom'
 import { onMounted, ref } from 'vue';
-import { useRouter } from 'vue-router';
-
-const router = useRouter()
-
-const atFirstTime = ref(true)
+import { login } from '@/api';
 
 onMounted(() => {
-  if (atFirstTime.value === true)
-    showProgrammaticallyShowModal();
+  const res = login({ username: 'shefteli', password: 'qaun' })
+  console.log('response from login request: ', res);
+
+})
+
+onMounted(() => {
+  showProgrammaticallyShowModal();
 })
 
 // Show modal
@@ -250,20 +206,15 @@ function showProgrammaticallyShowModal() {
   cash("#entry-modal").modal("show");
 }
 
-// select page func
-function goto(path) {
-  atFirstTime.value = false
-  cash("#entry-modal").modal("hide");
-  router.push(path)
-}
 </script>
 
 <style scoped lang="scss">
 $mobile: 425px;
 
-.btn {
-  @apply shadow-md py-3 px-6 transition duration-300 rounded-full font-bold;
-}
+// .btn {
+//   @apply shadow-md py-3 px-6 transition duration-300 rounded-full font-bold;
+// }
+
 .btn-primary {
   @apply bg-theme-31 text-white border-0 shadow-lg py-4 px-12 rounded-full font-bold hover:bg-theme-2 hover:text-black text-2xl lg:text-4xl;
 }
@@ -278,15 +229,6 @@ $mobile: 425px;
   @media screen and (max-width: $mobile) {
     border-radius: 20px;
   }
-}
-
-#entry-modal .modal-content {
-  background-image: url("@/assets/images/mask_group_16.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  /* box-shadow: 0 0 10px 1px #e8f6f9; */
-  box-shadow: 0 0 15px #45cbeb4d;
-  /* border-radius: 50px; */
 }
 
 #fees-rectangle .container {
@@ -309,12 +251,11 @@ $mobile: 425px;
     box-shadow: none;
     border-radius: 0;
   }
+  & p {
+    color: #525252;
+  }
 }
 
-#fees-rectangle .box p {
-  color: #525252;
-  /* font-size: 40px; */
-}
 .rectangle {
   border: 5px solid #b2e2ed;
   border-radius: 50px;
@@ -336,18 +277,5 @@ $mobile: 425px;
   background-position: bottom;
   background-repeat: no-repeat;
   background-size: contain;
-}
-
-#entry-modal .box {
-  box-shadow: 0 10px 15px #00000025;
-  /* border-radius: 50px; */
-  background-color: #fafeff;
-  /* min-height: 300px;
-  max-height: 500px;
-  height: 400px; */
-}
-
-#entry-modal .box:hover {
-  box-shadow: 0 20px 25px #00000075;
 }
 </style>

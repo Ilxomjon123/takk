@@ -14,7 +14,7 @@
           <img
             alt="Icewall Tailwind HTML Admin Template"
             class="w-24"
-            src="/src/assets/images/new-logo.png"
+            src="@/assets/images/new-logo.png"
           />
         </router-link>
         <!-- END: Logo -->
@@ -195,5 +195,13 @@ export default defineComponent({
       leave
     }
   }
-})
+});
 </script>
+
+<style lang="scss">
+.main {
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  @apply py-5;
+}
+</style>

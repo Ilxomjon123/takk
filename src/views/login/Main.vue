@@ -9,7 +9,7 @@
             <img
               alt="Icewall Tailwind HTML Admin Template"
               class="w-40"
-              :src="`/src/assets/images/new-logo.png`"
+              :src="`@/assets/images/new-logo.png`"
             />
             <!-- <span class="text-white text-lg ml-3">
               Ru
@@ -20,7 +20,7 @@
             <img
               alt="Icewall Tailwind HTML Admin Template"
               class="-intro-x w-1/2 -mt-4"
-              :src="`/src/assets/images/Hero coffee img.png`"
+              :src="`@/assets/images/Hero coffee img.png`"
             />
             <div
               class="-intro-x text-white font-medium text-4xl leading-tight mt-10"

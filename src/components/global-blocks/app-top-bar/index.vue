@@ -41,9 +41,9 @@
             <a class="whitespace-no-wrap" href="#analytics-rectangle">Analytics</a>
           </li>
           <li class="mx-1 px-1 py-2">
-            <router-link to="/login" class="text-theme-31 font-bold">
+            <a href="/login" class="text-theme-31 font-bold">
               <span>Sign In</span>
-            </router-link>
+            </a>
           </li>
         </ul>
         <h1 v-else class="text-xl font-bold text-gray-600 my-auto p-4">

@@ -23,7 +23,7 @@
             :key="menu + menuKey"
             class="menu__devider my-6"
           ></li>
-          <li v-else :key="menu + menuKey + '2'">
+          <li v-else :key="menu + menuKey + 'mobile'">
             <a
               href="javascript:;"
               class="menu"
