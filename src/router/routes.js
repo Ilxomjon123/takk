@@ -6,7 +6,9 @@ import ForCustomers from '../views/for-customers/index.vue';
 import AppLayout from '../layouts/app-layout/index.vue';
 import CreateCompany from '../views/steps/CreateCompany.vue';
 import CreateCafe from '../views/steps/CreateCafe.vue';
+import CreateMenu from '../views/steps/CreateMenu.vue';
 import DashboardLayout from '../layouts/side-menu/Main.vue';
+import EntryLayout from '../layouts/entry/Main.vue';
 import DashboardMain from '../views/dashboard/Main.vue';
 
 const routes = [
@@ -29,6 +31,9 @@ const routes = [
   {
     path: '/dashboard',
     component: DashboardLayout,
+    meta: {
+      requiresAuth: true
+    },
     children: [
       { path: '', name: 'dashboard', component: DashboardMain },
       { path: 'test', name: 'test', component: DashboardMain }
@@ -41,24 +46,28 @@ const routes = [
   },
   {
     path: '/entry',
-    component: Entry,
+    component: EntryLayout,
     meta: {
       requiresAuth: true
-    }
-  },
-  {
-    path: '/create-company',
-    component: CreateCompany,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: '/create-cafe',
-    component: CreateCafe,
-    meta: {
-      requiresAuth: true
-    }
+    },
+    children: [
+      {
+        path: '',
+        component: Entry
+      },
+      {
+        path: 'company',
+        component: CreateCompany
+      },
+      {
+        path: 'cafe',
+        component: CreateCafe
+      },
+      {
+        path: 'menu',
+        component: CreateMenu
+      }
+    ]
   },
   {
     path: '/:pathMatch(.*)*',

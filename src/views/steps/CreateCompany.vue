@@ -1,15 +1,12 @@
 <template>
-  <DarkModeSwitcher />
-  <div class="min-h-screen py-10">
-    <div class="intro-y box mx-10">
-      <div
-        class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200 dark:border-dark-5"
-      >
-        <h2 class="font-medium text-xl mr-auto">Create Company</h2>
-      </div>
-      <div class="p-5">
-        <CompanyForm />
-      </div>
+  <div class="intro-y box mx-10">
+    <div
+      class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200 dark:border-dark-5"
+    >
+      <h2 class="font-medium text-xl mr-auto">Create Company</h2>
+    </div>
+    <div class="p-5">
+      <CompanyForm />
     </div>
   </div>
 </template>

@@ -197,14 +197,20 @@ export default defineComponent({
     }
   },
   methods: {
-    ...mapActions(['postCompany']),
+    ...mapActions(['postCompany', 'putStep']),
     async submit() {
       this.isLoading = true;
       this.errors = {};
       const res = await this.postCompany(this.form);
       if (res.status) {
         this.errors = {};
-        this.$router.push('/create-cafe')
+        const resp = await this.putStep(this.$store.state.user.STEP_CAFE)
+        if (resp.status) {
+          this.$router.push('/entry/company')
+        } else {
+          this.$refs.errorNotification.show()
+        }
+        this.$router.push('/entry/cafe')
       } else {
         this.errors = res.data;
       }
