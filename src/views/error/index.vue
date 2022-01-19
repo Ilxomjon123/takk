@@ -33,16 +33,16 @@
 
 <script>
 import { defineComponent, onMounted } from 'vue'
-// import cash from 'cash-dom'
+import cash from 'cash-dom'
 
 export default defineComponent({
   setup() {
-    // onMounted(() => {
-    //   cash('body')
-    //     .removeClass('main')
-    //     .removeClass('login')
-    //     .addClass('error-page')
-    // })
+    onMounted(() => {
+      cash('body')
+        .removeClass('main')
+        .removeClass('login')
+        .addClass('error-page')
+    })
   }
 });
 </script>

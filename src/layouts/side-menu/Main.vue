@@ -154,7 +154,7 @@ import MobileMenu from '@/components/mobile-menu/Main.vue'
 import DarkModeSwitcher from '@/components/dark-mode-switcher/Main.vue'
 import SideMenuTooltip from '@/components/side-menu-tooltip/Main.vue'
 import { linkTo, nestedMenu, enter, leave } from './index'
-// import '@/assets/sass/app.scss';
+import cash from 'cash-dom'
 
 export default defineComponent({
   components: {
@@ -180,10 +180,10 @@ export default defineComponent({
     )
 
     onMounted(() => {
-      // cash('body')
-      //   .removeClass('error-page')
-      //   .removeClass('login')
-      //   .addClass('main')
+      cash('body')
+        .removeClass('error-page')
+        .removeClass('login')
+        .addClass('main')
       formattedMenu.value = $h.toRaw(sideMenu.value)
     })
 
