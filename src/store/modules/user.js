@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const state = () => {
   return {
-    user: {},
     token: null,
+    user: {},
     STEP_ENTRY: null,
     STEP_COMPANY: 1,
     STEP_CAFE: 2,
@@ -14,21 +14,22 @@ const state = () => {
 
 const getters = {
   getUser(state, getters) {
-    if (!state.user) {
-      const res = axios
-        .get('/api/user/profile/', getters.getHttpHeader)
-        .then(res => (state.user = res.data));
-    }
-    return state.user;
+    const user = JSON.parse(localStorage.getItem('user'));
+    // if (!state.user) {
+    //   const res = axios
+    //     .get('/api/user/profile/', getters.getHttpHeader)
+    //     .then(res => (state.user = res.data));
+    // }
+    return user;
   },
   getToken: state => {
-    if (state.token != null) {
-      return state.token;
-    } else {
-      const token = localStorage.getItem('token');
-      if (token != null) state.token = token;
-    }
-    return state.token;
+    // if (state.token != null) {
+    //   return state.token;
+    // } else {
+    const token = localStorage.getItem('token');
+    //   if (token != null) state.token = token;
+    // }
+    return token;
   },
   getHttpHeader(state, getters) {
     return {
@@ -41,6 +42,7 @@ const getters = {
 };
 const mutations = {
   setUser(state, payload) {
+    localStorage.setItem('user', JSON.stringify(payload));
     state.user = payload;
   },
   setToken(state, payload) {
