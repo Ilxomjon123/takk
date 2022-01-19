@@ -130,7 +130,7 @@
               <div class="flex items-center">
                 <a href="javascript:;" class="font-medium truncate mr-5">
                   {{
-                  faker.users[0].name
+                    faker.users[0].name
                   }}
                 </a>
                 <div

@@ -86,7 +86,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import { mapActions, mapMutations } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default defineComponent({
   data() {

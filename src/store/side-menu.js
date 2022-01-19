@@ -1,6 +1,52 @@
 const state = () => {
   return {
-    menu: []
+    menu: [
+      {
+        icon: 'HomeIcon',
+        pageName: 'dashboard',
+        title: 'Dashboard'
+      },
+      {
+        icon: 'HomeIcon',
+        pageName: 'test',
+        title: 'Company Settings'
+      },
+      {
+        icon: 'HomeIcon',
+        pageName: 'test',
+        title: 'My Cafes'
+      },
+      {
+        icon: 'HomeIcon',
+        pageName: 'test',
+        title: 'Products'
+      },
+      {
+        icon: 'HomeIcon',
+        pageName: 'test',
+        title: 'Modifires'
+      },
+      {
+        icon: 'HomeIcon',
+        pageName: 'test',
+        title: 'Employee'
+      },
+      {
+        icon: 'HomeIcon',
+        pageName: 'test',
+        title: 'Transactions'
+      },
+      {
+        icon: 'HomeIcon',
+        pageName: 'test',
+        title: 'News'
+      },
+      {
+        icon: 'HomeIcon',
+        pageName: 'test',
+        title: 'Customer'
+      }
+    ]
     // menu: [
     //   {
     //     icon: 'HomeIcon',
