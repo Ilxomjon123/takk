@@ -90,7 +90,7 @@
         v-if="$route.path === '/'"
         class="ml-auto md:hidden"
         ref="burger"
-        @click="toggleMenu"
+        @click="openMobileMenu"
       >
         <img src="@/assets/images/Icon feather-menu.svg" alt="Menu Icon" />
       </button>
@@ -98,12 +98,11 @@
   </header>
 </template>
 <script setup>
+import cash from 'cash-dom';
 import { ref } from 'vue'
 
-const isOpen = ref(false);
-
-function toggleMenu() {
-  isOpen.value = !isOpen.value
+function openMobileMenu() {
+  cash("#mobile-over-menu").modal("show");
 }
 </script>
 
