@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const REQUIRED_DETAILS = 'required_details';
+
 const state = () => {
   return {
     token: null,
@@ -14,7 +16,7 @@ const state = () => {
 
 const getters = {
   getUser() {
-    const user = JSON.parse(localStorage.getItem('required_details'))?.user;
+    const user = JSON.parse(localStorage.getItem(REQUIRED_DETAILS))?.user;
     // const user = JSON.parse(localStorage.getItem('user'));
     // if (!state.user) {
     //   const res = axios
@@ -28,7 +30,7 @@ const getters = {
     //   return state.token;
     // } else {
     // const token = localStorage.getItem('token');
-    const token = JSON.parse(localStorage.getItem('required_details'))?.token;
+    const token = JSON.parse(localStorage.getItem(REQUIRED_DETAILS))?.token;
 
     //   if (token != null) state.token = token;
     // }
@@ -46,21 +48,21 @@ const getters = {
 const mutations = {
   // setUser(state, payload) {
   //   // localStorage.setItem('user', JSON.stringify(payload));
-  //   let details = JSON.parse(localStorage.getItem('required_details'));
+  //   let details = JSON.parse(localStorage.getItem(REQUIRED_DETAILS));
   //   details.user = payload;
-  //   localStorage.setItem('required_details', JSON.stringify(details));
+  //   localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(details));
   //   state.user = payload;
   // },
   // setToken(state, payload) {
   //   state.token = payload;
-  //   let details = JSON.parse(localStorage.getItem('required_details'));
+  //   let details = JSON.parse(localStorage.getItem(REQUIRED_DETAILS));
   //   details.token = payload;
-  //   localStorage.setItem('required_details', JSON.stringify(details));
+  //   localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(details));
   //   // localStorage.setItem('token', payload);
   // },
   setRequiredDetails(state, payload) {
     state.token = payload;
-    localStorage.setItem('required_details', JSON.stringify(payload));
+    localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(payload));
   },
   setStep(state, payload) {
     let user = JSON.parse(localStorage.getItem('user'));
@@ -106,6 +108,9 @@ const actions = {
         data: err.response
       };
     }
+  },
+  logout() {
+    localStorage.removeItem(REQUIRED_DETAILS);
   }
 };
 

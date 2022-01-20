@@ -11,6 +11,7 @@ import DashboardLayout from '../layouts/dashboard/Main.vue';
 import CompanyLayout from '../layouts/dashboard/company/Main.vue';
 import EntryLayout from '../layouts/entry/Main.vue';
 import DashboardMain from '../views/dashboard/Main.vue';
+import Company from '../views/dashboard/company/Main.vue';
 
 const routes = [
   {
@@ -39,12 +40,9 @@ const routes = [
       { path: '', name: 'dashboard', component: DashboardMain },
       { path: 'test', name: 'test', component: DashboardMain },
       {
-        path: 'companies',
+        path: 'company',
         component: CompanyLayout,
-        children: [
-          { path: '', name: 'companies', component: DashboardMain },
-          { path: ':id', name: 'companies-id', component: DashboardMain }
-        ]
+        children: [{ path: '', name: 'company', component: Company }]
       }
     ]
   },

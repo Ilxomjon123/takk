@@ -13,11 +13,7 @@
           tag="a"
           class="-intro-x hidden md:flex"
         >
-          <img
-            alt="Icewall Tailwind HTML Admin Template"
-            class="w-6"
-            src="@/assets/images/logo.svg"
-          />
+          <img alt="Takk" class="w-6" src="@/assets/images/logo.svg" />
           <span class="text-white text-lg ml-3">
             Ru
             <span class="font-medium">bick</span>
@@ -85,7 +81,7 @@
                 >
                   <div class="w-8 h-8 image-fit">
                     <img
-                      alt="Icewall Tailwind HTML Admin Template"
+                      alt="Takk"
                       class="rounded-full"
                       :src="`@/assets/images/${faker.photos[0]}`"
                     />
@@ -105,7 +101,7 @@
               >
                 <div class="w-8 h-8 image-fit">
                   <img
-                    alt="Icewall Tailwind HTML Admin Template"
+                    alt="Takk"
                     class="rounded-full"
                     :src="`@/assets/images/${faker.images[0]}`"
                   />
@@ -141,7 +137,7 @@
               >
                 <div class="w-12 h-12 flex-none image-fit mr-1">
                   <img
-                    alt="Icewall Tailwind HTML Admin Template"
+                    alt="Takk"
                     class="rounded-full"
                     :src="`@/assets/images/${faker.photos[0]}`"
                   />
@@ -175,10 +171,7 @@
             role="button"
             aria-expanded="false"
           >
-            <img
-              alt="Icewall Tailwind HTML Admin Template"
-              :src="`@/assets/images/${$f()[9].photos[0]}`"
-            />
+            <img alt="Takk" :src="`@/assets/images/${$f()[9].photos[0]}`" />
           </div>
           <div class="dropdown-menu w-56">
             <div
