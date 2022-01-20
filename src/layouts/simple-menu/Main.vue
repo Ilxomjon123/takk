@@ -11,11 +11,7 @@
           tag="a"
           class="intro-x flex items-center pl-5 pt-4"
         >
-          <img
-            alt="Icewall Tailwind HTML Admin Template"
-            class="w-6"
-            src="@/assets/images/logo.svg"
-          />
+          <img alt="Takk" class="w-6" src="@/assets/images/logo.svg" />
         </router-link>
         <!-- END: Logo -->
         <div class="side-nav__devider my-6"></div>

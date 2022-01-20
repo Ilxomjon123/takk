@@ -8,7 +8,7 @@ const state = () => {
       },
       {
         icon: 'SettingsIcon',
-        pageName: 'companies',
+        pageName: 'company',
         title: 'Company Settings'
       },
       {

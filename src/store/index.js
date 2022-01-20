@@ -6,6 +6,7 @@ import topMenu from './top-menu';
 import user from './modules/user';
 import common from './modules/common';
 import steps from './modules/steps';
+import companyDashboard from './modules/dashboard/company';
 
 const store = createStore({
   modules: {
@@ -15,7 +16,8 @@ const store = createStore({
     topMenu,
     user,
     common,
-    steps
+    steps,
+    companyDashboard
   }
 });
 
