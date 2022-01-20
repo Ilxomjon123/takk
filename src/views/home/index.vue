@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="scroll-smooth">
     <section id="hero-rectangle">
       <div class="container grid grid-cols-1 md:grid-cols-2 px-5 py-10">
         <div class="grid">
@@ -13,6 +13,7 @@
             <button
               type="button"
               class="btn-primary hidden md:inline-block"
+              @click="gotoLoginPage"
             >Sign Up</button>
           </div>
         </div>
@@ -22,7 +23,11 @@
             src="@/assets/images/Hero coffee img.png"
             alt="Hero image"
           />
-          <button type="button" class="btn-primary md:hidden mt-16">Sign Up</button>
+          <button
+            type="button"
+            class="btn-primary md:hidden mt-16"
+            @click="gotoLoginPage"
+          >Sign Up</button>
         </div>
       </div>
     </section>
@@ -190,6 +195,9 @@
 import cash from 'cash-dom'
 import { onMounted, ref } from 'vue';
 import { login } from '@/api';
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
 
 onMounted(() => {
   const res = login({ username: 'shefteli', password: 'qaun' })
@@ -204,6 +212,10 @@ onMounted(() => {
 // Show modal
 function showProgrammaticallyShowModal() {
   cash("#entry-modal").modal("show");
+}
+
+function gotoLoginPage() {
+  window.location.href = '/login'
 }
 
 </script>
