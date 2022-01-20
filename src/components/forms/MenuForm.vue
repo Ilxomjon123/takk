@@ -1,9 +1,9 @@
 <template>
   <form @submit.prevent="submit">
     <div class="flex flex-wrap -mx-3 mb-3">
-      <div class="w-full md:w-1/2 px-3 md:mb-0">
+      <div class="w-full px-3 md:mb-0">
         <label for="company-name" class="form-label">
-          Name
+          Title
           <span class="text-theme-6">*</span>
         </label>
         <input
@@ -11,7 +11,7 @@
           type="text"
           class="form-control"
           :class="getError('name') != null ? 'border-theme-6' : ''"
-          placeholder="Cafe Name"
+          placeholder="Title"
           v-model="form.name"
           required
         />
@@ -40,7 +40,7 @@
 import { defineComponent } from 'vue'
 import CountrySelect from '../../components/selects/CountrySelect.vue'
 import CitySelect from '../../components/selects/CitySelect.vue';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default defineComponent({
   data() {
@@ -51,21 +51,22 @@ export default defineComponent({
         location: {
           lat: 0,
           lon: 0
-        }
+        },
       },
       isLoading: false,
       errors: {}
     }
   },
   methods: {
-    ...mapActions(['postCafe']),
+    ...mapActions(['postMenu']),
     async submit() {
       this.isLoading = true;
       this.errors = {};
-      const res = await this.postCafe(this.form);
+      this.form.company = this.getUser.company_id;
+      const res = await this.postMenu(this.form);
       console.log(res);
       if (res.status) {
-        this.errors = {};
+        this.$router.push('/dashboard')
       } else {
         this.errors = res.data;
       }
@@ -74,6 +75,9 @@ export default defineComponent({
     getError(key) {
       return this.errors[key]?.[0];
     }
+  },
+  computed: {
+    ...mapGetters(['getUser'])
   },
   components: { CountrySelect, CitySelect }
 })

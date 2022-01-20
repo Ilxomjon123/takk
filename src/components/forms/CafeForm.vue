@@ -343,7 +343,7 @@ export default defineComponent({
       const res = await this.postCafe(this.form);
       console.log(res);
       if (res.status) {
-        this.errors = {};
+        this.$router.push('/entry/menu')
       } else {
         this.errors = res.data;
       }

@@ -13,8 +13,9 @@ const state = () => {
 };
 
 const getters = {
-  getUser(state, getters) {
-    const user = JSON.parse(localStorage.getItem('user'));
+  getUser() {
+    const user = JSON.parse(localStorage.getItem('required_details'))?.user;
+    // const user = JSON.parse(localStorage.getItem('user'));
     // if (!state.user) {
     //   const res = axios
     //     .get('/api/user/profile/', getters.getHttpHeader)
@@ -22,11 +23,13 @@ const getters = {
     // }
     return user;
   },
-  getToken: state => {
+  getToken() {
     // if (state.token != null) {
     //   return state.token;
     // } else {
-    const token = localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
+    const token = JSON.parse(localStorage.getItem('required_details'))?.token;
+
     //   if (token != null) state.token = token;
     // }
     return token;
@@ -37,17 +40,32 @@ const getters = {
     };
   },
   getStep(state, getters) {
-    return getters.getUser.state_step;
+    return getters.getUser.state_steps;
   }
 };
 const mutations = {
-  setUser(state, payload) {
-    localStorage.setItem('user', JSON.stringify(payload));
-    state.user = payload;
-  },
-  setToken(state, payload) {
+  // setUser(state, payload) {
+  //   // localStorage.setItem('user', JSON.stringify(payload));
+  //   let details = JSON.parse(localStorage.getItem('required_details'));
+  //   details.user = payload;
+  //   localStorage.setItem('required_details', JSON.stringify(details));
+  //   state.user = payload;
+  // },
+  // setToken(state, payload) {
+  //   state.token = payload;
+  //   let details = JSON.parse(localStorage.getItem('required_details'));
+  //   details.token = payload;
+  //   localStorage.setItem('required_details', JSON.stringify(details));
+  //   // localStorage.setItem('token', payload);
+  // },
+  setRequiredDetails(state, payload) {
     state.token = payload;
-    localStorage.setItem('token', payload);
+    localStorage.setItem('required_details', JSON.stringify(payload));
+  },
+  setStep(state, payload) {
+    let user = JSON.parse(localStorage.getItem('user'));
+    user.state_steps = payload;
+    localStorage.setItem('user', JSON.stringify(user));
   }
 };
 const actions = {
@@ -66,6 +84,7 @@ const actions = {
     }
   },
   async putStep({ commit, rootGetters }, payload) {
+    console.log(payload);
     try {
       let res = await axios.put(
         '/api/steps/',
@@ -76,6 +95,7 @@ const actions = {
           headers: rootGetters.getHttpHeader
         }
       );
+      commit('setStep', payload);
       return {
         status: true,
         data: res.data
@@ -90,7 +110,6 @@ const actions = {
 };
 
 export default {
-  namecpaced: true,
   state,
   getters,
   actions,

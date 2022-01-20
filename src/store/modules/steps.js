@@ -7,13 +7,15 @@ const getters = {};
 const mutations = {};
 
 const actions = {
-  async postCompany({ commit, rootGetters }, payload) {
+  async postCompany({ commit, rootGetters, rootState, dispatch }, payload) {
     let response;
     await axios
       .post('/api/companies/', payload, {
         headers: rootGetters.getHttpHeader
       })
-      .then(res => {
+      .then(async res => {
+        await dispatch('putStep', rootState.user.STEP_CAFE);
+
         response = {
           status: true,
           data: res.data
@@ -27,13 +29,36 @@ const actions = {
       });
     return response;
   },
-  async postCafe({ commit, rootGetters }, payload) {
+  async postCafe({ commit, rootGetters, rootState, dispatch }, payload) {
     let response;
     await axios
       .post('/api/cafes/', payload, {
         headers: rootGetters.getHttpHeader
       })
-      .then(res => {
+      .then(async res => {
+        await dispatch('putStep', rootState.user.STEP_MENU);
+
+        response = {
+          status: true,
+          data: res.data
+        };
+      })
+      .catch(err => {
+        response = {
+          status: false,
+          data: err.response.data
+        };
+      });
+    return response;
+  },
+  async postMenu({ commit, rootGetters, rootState, dispatch }, payload) {
+    let response;
+    await axios
+      .post('/api/menus/', payload, {
+        headers: rootGetters.getHttpHeader
+      })
+      .then(async res => {
+        await dispatch('putStep', rootState.user.STEP_DASHBOARD);
         response = {
           status: true,
           data: res.data
@@ -50,7 +75,6 @@ const actions = {
 };
 
 export default {
-  namecpaced: true,
   state,
   getters,
   actions,

@@ -49,24 +49,30 @@
 </template>
 
 <script>
-import { defineComponent, onMounted } from 'vue'
+import { defineComponent } from 'vue'
 import DarkModeSwitcher from '@/components/dark-mode-switcher/Main.vue'
 import cash from 'cash-dom';
 import LoginForm from './LoginForm.vue';
-// import '@/assets/sass/app.scss';
+import { mapGetters } from 'vuex';
 
 export default defineComponent({
   components: {
     DarkModeSwitcher,
     LoginForm
   },
-  setup() {
-    onMounted(() => {
+  computed: {
+    ...mapGetters(['getToken'])
+  },
+  mounted() {
+    if (this.getToken) {
+      console.log(typeof this.getToken);
+      this.$router.push('/entry')
+    } else {
       cash('body')
         .removeClass('main')
         .removeClass('error-page')
         .addClass('login')
-    })
-  }
+    }
+  },
 })
 </script>

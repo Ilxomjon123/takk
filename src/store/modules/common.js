@@ -61,7 +61,6 @@ const actions = {
 };
 
 export default {
-  namecpaced: true,
   state,
   getters,
   actions,

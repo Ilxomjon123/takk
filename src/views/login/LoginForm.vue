@@ -101,7 +101,7 @@ export default defineComponent({
     }
   },
   methods: {
-    ...mapMutations(['setUser', 'setToken']),
+    ...mapMutations(['setRequiredDetails']),
     ...mapActions(['signin']),
     async submit() {
       this.errorText = "";
@@ -121,9 +121,7 @@ export default defineComponent({
         } else {
           // Login muvaffaqiyatli bo'lsa
           this.submitText = oldButtonText;
-          this.setToken(res.data.token);
-          this.setUser(res.data.user);
-          // window.location.replace("/dashboard");
+          this.setRequiredDetails({ user: res.data.user, token: res.data.token })
           this.$router.push('/entry');
         }
       }

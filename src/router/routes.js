@@ -7,7 +7,8 @@ import AppLayout from '../layouts/app-layout/index.vue';
 import CreateCompany from '../views/steps/CreateCompany.vue';
 import CreateCafe from '../views/steps/CreateCafe.vue';
 import CreateMenu from '../views/steps/CreateMenu.vue';
-import DashboardLayout from '../layouts/side-menu/Main.vue';
+import DashboardLayout from '../layouts/dashboard/Main.vue';
+import CompanyLayout from '../layouts/dashboard/company/Main.vue';
 import EntryLayout from '../layouts/entry/Main.vue';
 import DashboardMain from '../views/dashboard/Main.vue';
 
@@ -36,7 +37,15 @@ const routes = [
     },
     children: [
       { path: '', name: 'dashboard', component: DashboardMain },
-      { path: 'test', name: 'test', component: DashboardMain }
+      { path: 'test', name: 'test', component: DashboardMain },
+      {
+        path: 'companies',
+        component: CompanyLayout,
+        children: [
+          { path: '', name: 'companies', component: DashboardMain },
+          { path: ':id', name: 'companies-id', component: DashboardMain }
+        ]
+      }
     ]
   },
   {
