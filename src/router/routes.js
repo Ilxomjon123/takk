@@ -11,6 +11,7 @@ import DashboardLayout from '../layouts/dashboard/Main.vue';
 import CompanyLayout from '../layouts/dashboard/company/Main.vue';
 import EntryLayout from '../layouts/entry/Main.vue';
 import DashboardMain from '../views/dashboard/Main.vue';
+import Cafes from '../views/cafes/index.vue';
 
 const routes = [
   {
@@ -37,6 +38,7 @@ const routes = [
     },
     children: [
       { path: '', name: 'dashboard', component: DashboardMain },
+      { path: 'cafes', name: 'cafes', component: Cafes },
       { path: 'test', name: 'test', component: DashboardMain },
       {
         path: 'companies',

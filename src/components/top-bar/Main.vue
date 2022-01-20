@@ -55,7 +55,7 @@
           <div class="search-result__content__title">Users</div>
           <div class="mb-5">
             <!-- <a
-              v-for="(faker, fakerKey) in $_.take($f(), 4)"
+              v-for="(faker, fakerKey) in take($f(), 4)"
               :key="fakerKey"
               href
               class="flex items-center mt-2"
@@ -75,7 +75,7 @@
           </div>
           <div class="search-result__content__title">Products</div>
           <!-- <a
-            v-for="(faker, fakerKey) in $_.take($f(), 4)"
+            v-for="(faker, fakerKey) in take($f(), 4)"
             :key="fakerKey"
             href
             class="flex items-center mt-2"
@@ -111,7 +111,7 @@
         >
           <div class="notification-content__title">Notifications</div>
           <!-- <div
-            v-for="(faker, fakerKey) in $_.take($f(), 5)"
+            v-for="(faker, fakerKey) in take($f(), 5)"
             :key="fakerKey"
             class="cursor-pointer relative flex items-center"
             :class="{ 'mt-5': fakerKey }"
@@ -153,7 +153,8 @@
         role="button"
         aria-expanded="false"
       >
-        <img alt="Icewall Tailwind HTML Admin Template" src />
+        <!-- <img alt="Icewall Tailwind HTML Admin Template" src="@/assets/images/" /> -->
+        <UserIcon size="2x" class="m-auto" />
       </div>
       <div class="dropdown-menu w-56">
         <div
@@ -208,7 +209,8 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref } from 'vue';
+import { take } from 'lodash'
 
 export default defineComponent({
   setup() {

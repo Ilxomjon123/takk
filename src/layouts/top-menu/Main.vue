@@ -78,7 +78,7 @@
               <div class="search-result__content__title">Users</div>
               <div class="mb-5">
                 <a
-                  v-for="(faker, fakerKey) in $_.take($f(), 4)"
+                  v-for="(faker, fakerKey) in take($f(), 4)"
                   :key="fakerKey"
                   href
                   class="flex items-center mt-2"
@@ -98,7 +98,7 @@
               </div>
               <div class="search-result__content__title">Products</div>
               <a
-                v-for="(faker, fakerKey) in $_.take($f(), 4)"
+                v-for="(faker, fakerKey) in take($f(), 4)"
                 :key="fakerKey"
                 href
                 class="flex items-center mt-2"
@@ -134,7 +134,7 @@
             >
               <div class="notification-content__title">Notifications</div>
               <div
-                v-for="(faker, fakerKey) in $_.take($f(), 5)"
+                v-for="(faker, fakerKey) in take($f(), 5)"
                 :key="fakerKey"
                 class="cursor-pointer relative flex items-center"
                 :class="{ 'mt-5': fakerKey }"
@@ -328,6 +328,7 @@ import MobileMenu from '@/components/mobile-menu/Main.vue'
 import DarkModeSwitcher from '@/components/dark-mode-switcher/Main.vue'
 import { searchDropdown, showSearchDropdown, hideSearchDropdown } from './index'
 import { nestedMenu, linkTo } from '@/layouts/side-menu'
+import { take } from 'lodash'
 
 export default defineComponent({
   components: {
@@ -363,8 +364,8 @@ export default defineComponent({
       hideSearchDropdown,
       formattedMenu,
       router,
-      linkTo
+      linkTo, take
     }
   }
-})
+});
 </script>

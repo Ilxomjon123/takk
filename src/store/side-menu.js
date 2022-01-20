@@ -13,7 +13,7 @@ const state = () => {
       },
       {
         icon: 'HomeIcon',
-        pageName: 'test',
+        pageName: 'cafes',
         title: 'My Cafes'
       },
       {
