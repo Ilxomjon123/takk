@@ -97,6 +97,7 @@
     </div>
   </header>
 </template>
+
 <script setup>
 import cash from 'cash-dom';
 import { ref } from 'vue'

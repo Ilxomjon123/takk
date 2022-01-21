@@ -17,7 +17,7 @@ import AppTopBar from '@/components/global-blocks/app-top-bar/index.vue';
 import AppFooter from '@/components/global-blocks/app-footer/index.vue';
 import cash from 'cash-dom';
 import EntryModal from '@/components/modals/EntryModal.vue';
-import MobileOverlayMenu from '@/components/overlay-menu/index.vue';
+import MobileOverlayMenu from '@/components/overlay-menus/mobile-menu/index.vue';
 import { onMounted, onUnmounted } from 'vue';
 
 onMounted(() => {
