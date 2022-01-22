@@ -65,9 +65,14 @@ const mutations = {
     localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(payload));
   },
   setStep(state, payload) {
-    let user = JSON.parse(localStorage.getItem('user'));
-    user.state_steps = payload;
-    localStorage.setItem('user', JSON.stringify(user));
+    let required_details = JSON.parse(localStorage.getItem(REQUIRED_DETAILS));
+    required_details.user.state_steps = payload;
+    localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(required_details));
+  },
+  setCompanyId(state, payload) {
+    let required_details = JSON.parse(localStorage.getItem(REQUIRED_DETAILS));
+    required_details.user.company_id = payload;
+    localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(required_details));
   }
 };
 const actions = {

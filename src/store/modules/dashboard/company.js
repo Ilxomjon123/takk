@@ -35,8 +35,11 @@ const actions = {
   async putCompany({ rootGetters }, payload) {
     let response;
     await axios
-      .put(`/api/companies/${payload.id}/`, payload, {
-        headers: rootGetters.getHttpHeader
+      .put(`/api/companies/${payload.id}/`, payload.form, {
+        headers: {
+          ...rootGetters.getHttpHeader,
+          'Content-Type': 'multipart/form-data'
+        }
       })
       .then(async res => {
         response = {

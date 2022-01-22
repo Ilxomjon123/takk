@@ -1,5 +1,8 @@
 <template>
-  <form @submit.prevent="submit">
+  <form
+    @submit.prevent="submit"
+    class="col-span-12 lg:col-span-8 2xl:col-span-9"
+  >
     <div class="flex flex-wrap -mx-3 mb-3">
       <div class="w-full md:w-1/2 px-3 md:mb-0">
         <label for="company-name" class="form-label">
@@ -251,8 +254,7 @@ export default defineComponent({
   components: { CountrySelect, CitySelect, SuccessNotification, ErrorNotification }
 })
 </script>
-
-<style>
+<style scoped>
 /* Chrome, Safari, Edge, Opera */
 input::-webkit
 /* Chrome, Safari, Edge, Opera */
@@ -263,6 +265,9 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
 input[type="number"] {
   -moz-appearance: textfield;
 }

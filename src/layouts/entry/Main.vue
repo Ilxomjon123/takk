@@ -15,6 +15,7 @@ export default defineComponent({
   },
   mounted() {
     const step = this.getStep;
+    console.log(step);
     let path;
     switch (step) {
       case this.$store.state.user.STEP_COMPANY: path = '/entry/company'; break;
