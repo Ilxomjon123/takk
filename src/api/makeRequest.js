@@ -1,6 +1,9 @@
 import axios from 'axios';
 import * as config from './config';
 
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
+// axios.defaults.headers.get['Content-Type'] = 'application/json';
+
 export default async ({
   url = '/',
   method = 'get',
@@ -9,7 +12,7 @@ export default async ({
   data = {}
 }) => {
   if (headers && headers.authorization) {
-    headers.authorization = config.token;
+    headers.authorization = 'Token ' + config.getToken();
   }
 
   try {

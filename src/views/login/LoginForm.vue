@@ -1,10 +1,10 @@
 <template>
-  <h2
-    class="intro-x font-bold text-2xl xl:text-3xl text-center xl:text-left"
-  >{{ headText }}</h2>
+  <h2 class="intro-x font-bold text-2xl xl:text-3xl text-center xl:text-left">
+    {{ headText }}
+  </h2>
   <div class="intro-x mt-2 text-gray-500 xl:hidden text-center">
-    A few more clicks to sign in to your account. Manage all your
-    e-commerce accounts in one place
+    A few more clicks to sign in to your account. Manage all your e-commerce
+    accounts in one place
   </div>
   <form @submit.prevent="submit">
     <div class="intro-x mt-8">
@@ -82,31 +82,30 @@
   </div>
 </template>
 
-
-
 <script>
-import { defineComponent } from "vue";
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import { defineComponent } from 'vue';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+import { setToken } from '@/api/config.js';
 
 export default defineComponent({
   data() {
     return {
       form: {},
       isDisabled: true,
-      submitText: "Send Code",
+      submitText: 'Send Code',
       isRegister: false,
-      errorText: "",
+      errorText: '',
       isLoading: false,
-      headText: "Enter phone number"
-    }
+      headText: 'Enter phone number'
+    };
   },
   methods: {
     ...mapMutations(['setRequiredDetails']),
     ...mapActions(['signin']),
     async submit() {
-      this.errorText = "";
+      this.errorText = '';
       const oldButtonText = this.submitText;
-      this.submitText = "";
+      this.submitText = '';
       this.isLoading = true;
       const res = await this.$store.dispatch('signin', this.form);
       // this.signin(this.form);
@@ -117,11 +116,17 @@ export default defineComponent({
           this.isRegister = res.data.is_register;
           this.isDisabled = false;
           this.submitText = this.isRegister ? 'Sign Up' : 'Sign In';
-          this.headText = this.isRegister ? 'Fill the form below' : 'Enter SMS code';
+          this.headText = this.isRegister
+            ? 'Fill the form below'
+            : 'Enter SMS code';
         } else {
           // Login muvaffaqiyatli bo'lsa
           this.submitText = oldButtonText;
-          this.setRequiredDetails({ user: res.data.user, token: res.data.token })
+          this.setRequiredDetails({
+            user: res.data.user,
+            token: res.data.token
+          });
+          setToken(res.data.token);
           this.$router.push('/entry');
         }
       }
@@ -132,6 +137,6 @@ export default defineComponent({
       }
       this.isLoading = false;
     }
-  },
+  }
 });
 </script>
