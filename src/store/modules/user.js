@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 const REQUIRED_DETAILS = 'required_details';
 
 const state = () => {

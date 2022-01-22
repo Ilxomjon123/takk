@@ -5,7 +5,9 @@
       <div
         class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"
       >
-        <button class="btn btn-primary shadow-md mr-2">Add New Product</button>
+        <button class="btn btn-primary shadow-md mr-2" @click="gotoForm(null)">
+          Add New Product
+        </button>
         <div class="dropdown">
           <button
             class="dropdown-toggle btn px-2 box text-gray-700 dark:text-gray-300"
@@ -38,9 +40,9 @@
             </div>
           </div>
         </div>
-        <div
-          class="hidden md:block mx-auto text-gray-600"
-        >Showing 1 to 10 of 150 entries</div>
+        <div class="hidden md:block mx-auto text-gray-600">
+          Showing 1 to 10 of 150 entries
+        </div>
         <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
           <div class="w-56 relative text-gray-700 dark:text-gray-300">
             <input
@@ -79,9 +81,7 @@
                       tag="img"
                       alt="Icewall Tailwind HTML Admin Template"
                       class="rounded-full"
-                      :src="
-                        `@/assets/images/${cafe.images[0]}`
-                      "
+                      :src="`@/assets/images/${cafe.images[0]}`"
                       :content="`Uploaded at ${cafe.dates[0]}`"
                     />
                   </div>
@@ -90,9 +90,7 @@
                       tag="img"
                       alt="Icewall Tailwind HTML Admin Template"
                       class="rounded-full"
-                      :src="
-                        `@/assets/images/${cafe.images[1]}`
-                      "
+                      :src="`@/assets/images/${cafe.images[1]}`"
                       :content="`Uploaded at ${cafe.dates[0]}`"
                     />
                   </div>
@@ -101,9 +99,7 @@
                       tag="img"
                       alt="Icewall Tailwind HTML Admin Template"
                       class="rounded-full"
-                      :src="
-                        `@/assets/images/${cafe.images[2]}`
-                      "
+                      :src="`@/assets/images/${cafe.images[2]}`"
                       :content="`Uploaded at ${cafe.dates[0]}`"
                     />
                   </div>
@@ -111,13 +107,11 @@
               </td>
               <td>
                 <a href class="font-medium whitespace-nowrap">
-                  {{
-                    cafe.products[0].name
-                  }}
+                  {{ cafe.products[0].name }}
                 </a>
-                <div
-                  class="text-gray-600 text-xs whitespace-nowrap mt-0.5"
-                >{{ cafe.products[0].category }}</div>
+                <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5">
+                  {{ cafe.products[0].category }}
+                </div>
               </td>
               <td class="text-center">{{ cafe.stocks[0] }}</td>
               <td class="w-40">
@@ -217,8 +211,7 @@
               <div class="text-3xl mt-5">Are you sure?</div>
               <div class="text-gray-600 mt-2">
                 Do you really want to delete these records?
-                <br />This process
-                cannot be undone.
+                <br />This process cannot be undone.
               </div>
             </div>
             <div class="px-5 pb-8 text-center">
@@ -226,7 +219,9 @@
                 type="button"
                 data-dismiss="modal"
                 class="btn btn-outline-secondary w-24 mr-1"
-              >Cancel</button>
+              >
+                Cancel
+              </button>
               <button type="button" class="btn btn-danger w-24">Delete</button>
             </div>
           </div>
@@ -240,6 +235,20 @@
 <script setup>
 import { ref } from 'vue';
 import { take } from 'lodash';
+import { cafeList } from '@/api/index.js';
+import { useStore } from 'vuex';
+import { useRoute, useRouter } from 'vue-router';
 
-const list = ref([]);
+const router = useRouter();
+const store = useStore();
+const companyId = store.getters.getUser.company_id;
+console.log('companyId: ', companyId);
+const list = ref(cafeList(companyId));
+
+function gotoForm(id) {
+  console.log('cafe id: ', id);
+  if (id) {
+    router.push(`/dashboard/cafes/${id}`);
+  } else router.push(`/dashboard/cafes/create`);
+}
 </script>
