@@ -16,6 +16,7 @@ const actions = {
       })
       .then(async res => {
         await dispatch('putStep', rootState.user.STEP_CAFE);
+        await dispatch('setCompanyId', res.data.id);
 
         response = {
           status: true,
