@@ -6,7 +6,7 @@
         class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"
       >
         <button class="btn btn-primary shadow-md mr-2" @click="gotoForm(null)">
-          Add New Product
+          Add New Cafe
         </button>
         <div class="dropdown">
           <button
@@ -41,7 +41,7 @@
           </div>
         </div>
         <div class="hidden md:block mx-auto text-gray-600">
-          Showing 1 to 10 of 150 entries
+          Showing 1 to 10 of {{ list.length }} entries
         </div>
         <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
           <div class="w-56 relative text-gray-700 dark:text-gray-300">
@@ -61,84 +61,35 @@
         <table class="table table-report -mt-2">
           <thead>
             <tr>
-              <th class="whitespace-nowrap">IMAGES</th>
-              <th class="whitespace-nowrap">PRODUCT NAME</th>
-              <th class="text-center whitespace-nowrap">STOCK</th>
-              <th class="text-center whitespace-nowrap">STATUS</th>
-              <th class="text-center whitespace-nowrap">ACTIONS</th>
+              <th class="whitespace-nowrap">Name</th>
+              <th class="whitespace-nowrap">Description</th>
+              <th class="text-center whitespace-nowrap">Call center</th>
+              <th class="text-center whitespace-nowrap">Website</th>
+              <th class="text-center whitespace-nowrap">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="(cafe, index) in take(list, 9)"
-              :key="index"
-              class="intro-x"
-            >
-              <td class="w-40">
-                <div class="flex">
-                  <div class="w-10 h-10 image-fit zoom-in">
-                    <Tippy
-                      tag="img"
-                      alt="Icewall Tailwind HTML Admin Template"
-                      class="rounded-full"
-                      :src="`@/assets/images/${cafe.images[0]}`"
-                      :content="`Uploaded at ${cafe.dates[0]}`"
-                    />
-                  </div>
-                  <div class="w-10 h-10 image-fit zoom-in -ml-5">
-                    <Tippy
-                      tag="img"
-                      alt="Icewall Tailwind HTML Admin Template"
-                      class="rounded-full"
-                      :src="`@/assets/images/${cafe.images[1]}`"
-                      :content="`Uploaded at ${cafe.dates[0]}`"
-                    />
-                  </div>
-                  <div class="w-10 h-10 image-fit zoom-in -ml-5">
-                    <Tippy
-                      tag="img"
-                      alt="Icewall Tailwind HTML Admin Template"
-                      class="rounded-full"
-                      :src="`@/assets/images/${cafe.images[2]}`"
-                      :content="`Uploaded at ${cafe.dates[0]}`"
-                    />
-                  </div>
-                </div>
-              </td>
-              <td>
-                <a href class="font-medium whitespace-nowrap">
-                  {{ cafe.products[0].name }}
-                </a>
-                <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5">
-                  {{ cafe.products[0].category }}
-                </div>
-              </td>
-              <td class="text-center">{{ cafe.stocks[0] }}</td>
-              <td class="w-40">
-                <div
-                  class="flex items-center justify-center"
-                  :class="{
-                    'text-theme-9': cafe.trueFalse[0],
-                    'text-theme-6': !cafe.trueFalse[0]
-                  }"
-                >
-                  <CheckSquareIcon class="w-4 h-4 mr-2" />
-                  {{ cafe.trueFalse[0] ? 'Active' : 'Inactive' }}
-                </div>
-              </td>
+            <tr v-for="(cafe, index) in list" :key="index" class="intro-x">
+              <td>{{ cafe.name }}</td>
+              <td>{{ cafe.description }}</td>
+              <td>{{ cafe.call_center }}</td>
+              <td>{{ cafe.website }}</td>
               <td class="table-report__action w-56">
                 <div class="flex justify-center items-center">
-                  <a class="flex items-center mr-3" href="javascript:;">
+                  <button
+                    class="flex items-center mr-3"
+                    @click="gotoForm(cafe.id)"
+                  >
                     <CheckSquareIcon class="w-4 h-4 mr-1" />Edit
-                  </a>
-                  <a
+                  </button>
+                  <button
                     class="flex items-center text-theme-6"
-                    href="javascript:;"
                     data-toggle="modal"
                     data-target="#delete-confirmation-modal"
+                    @click="deleteItem(cafe.id)"
                   >
                     <Trash2Icon class="w-4 h-4 mr-1" />Delete
-                  </a>
+                  </button>
                 </div>
               </td>
             </tr>
@@ -233,22 +184,26 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { take } from 'lodash';
-import { cafeList } from '@/api/index.js';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 
 const router = useRouter();
 const store = useStore();
-const companyId = store.getters.getUser.company_id;
-console.log('companyId: ', companyId);
-const list = ref(cafeList(companyId));
+
+store.dispatch('cafes/fetchCafeList');
+const list = computed(() => store.getters['cafes/getCafeList']);
 
 function gotoForm(id) {
   console.log('cafe id: ', id);
   if (id) {
     router.push(`/dashboard/cafes/${id}`);
   } else router.push(`/dashboard/cafes/create`);
+}
+
+function deleteItem(id) {
+  // store.dispatch('cafes/deleteCafe', id)
+  console.log('deleted: ', id);
 }
 </script>

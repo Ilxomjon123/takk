@@ -27,6 +27,7 @@ const actions = {
       })
       .then(res => {
         commit('setCompany', res.data);
+        commit('cafes/setCafeList', res.data[0].cafes, { root: true });
       })
       .catch(err => {
         commit('setCompany', err.response.data);

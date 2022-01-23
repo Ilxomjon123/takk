@@ -548,6 +548,11 @@
   resolved "https://registry.yarnpkg.com/@vitejs/plugin-vue/-/plugin-vue-2.0.1.tgz#db0e5eacf96358e04cc501c9008079b25a70a4ac"
   integrity sha512-wtdMnGVvys9K8tg+DxowU1ytTrdVveXr3LzdhaKakysgGXyrsfaeds2cDywtvujEASjWOwWL/OgWM+qoeM8Plg==
 
+"@vue-leaflet/vue-leaflet@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@vue-leaflet/vue-leaflet/-/vue-leaflet-0.6.1.tgz#d731a5d2256d049e345f58330616180191d88b12"
+  integrity sha512-/sm0bdrdftXh5nSGEPsoKrJI1D/GtKiEsBo9X/TA2yu4lYTDcaem6U4t1Ea5CoLleiZRCNUrZr9PG/xHdUPXYA==
+
 "@vue/compiler-core@3.2.26":
   version "3.2.26"
   resolved "https://registry.yarnpkg.com/@vue/compiler-core/-/compiler-core-3.2.26.tgz#9ab92ae624da51f7b6064f4679c2d4564f437cc8"
@@ -1341,6 +1346,11 @@ json-parse-even-better-errors@^2.3.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/json-parse-even-better-errors/-/json-parse-even-better-errors-2.3.1.tgz#7c47805a94319928e05777405dc12e1f7a4ee02d"
   integrity sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w==
+
+leaflet@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.7.1.tgz#10d684916edfe1bf41d688a3b97127c0322a2a19"
+  integrity sha512-/xwPEBidtg69Q3HlqPdU3DnrXQOvQU/CCHA1tcDQVzOwm91YMYaILjNp7L4Eaw5Z4sOYdbBz6koWyibppd8Zqw==
 
 libphonenumber-js@^1.9.6:
   version "1.9.44"
