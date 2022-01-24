@@ -11,9 +11,9 @@ import DashboardLayout from '../layouts/dashboard/Main.vue';
 import CompanyLayout from '../layouts/dashboard/company/Main.vue';
 import EntryLayout from '../layouts/entry/Main.vue';
 import DashboardMain from '../views/dashboard/Main.vue';
-import Cafes from '../views/cafes/index.vue';
-import CafesEditForm from '../views/cafes/EditForm.vue';
-import CafesCreateForm from '../views/cafes/CreateForm.vue';
+import CafeDataList from '../views/cafes/index.vue';
+import CafeAdd from '../views/cafes/AddForm.vue';
+import CafeEdit from '../views/cafes/EditForm.vue';
 import Company from '../views/dashboard/company/Main.vue';
 
 const routes = [
@@ -42,19 +42,19 @@ const routes = [
     children: [
       { path: '', name: 'dashboard', component: DashboardMain },
       {
-        path: 'cafes',
-        name: 'cafes',
-        component: Cafes
+        path: 'cafe-data-list',
+        name: 'side-menu-cafe-data-list',
+        component: CafeDataList
       },
       {
-        path: 'cafes/:id',
-        name: 'cafes-edit-form',
-        component: CafesEditForm
+        path: 'cafe-add-form',
+        name: 'side-menu-cafe-add-form',
+        component: CafeAdd
       },
       {
-        path: 'cafes/create',
-        name: 'cafes-create-form',
-        component: CafesCreateForm
+        path: 'cafe-edit-form/:id',
+        name: 'side-menu-cafe-edit-form',
+        component: CafeEdit
       },
       { path: 'test', name: 'test', component: DashboardMain },
       {

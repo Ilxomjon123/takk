@@ -6,14 +6,14 @@
         class="form-check-switch"
         type="checkbox"
         name="delivery_is_available"
-        v-model="deliveryFields.delivery_available"
+        v-model="delivery.delivery_available"
       />
       <label class="form-check-label" for="delivery_is_available"
         >Delivery available</label
       >
     </div>
   </div>
-  <template v-if="deliveryFields.delivery_available">
+  <template v-if="delivery.delivery_available">
     <div class="flex gap-5">
       <div class="input-form mt-3 basis-1/2">
         <label
@@ -24,7 +24,7 @@
         </label>
         <input
           id="delivery_max_distance"
-          v-model="deliveryFields.delivery_max_distance"
+          v-model="delivery.delivery_max_distance"
           type="number"
           name="delivery_max_distance"
           class="form-control"
@@ -40,7 +40,7 @@
         </label>
         <input
           id="delivery_min_amount"
-          v-model="deliveryFields.delivery_min_amount"
+          v-model="delivery.delivery_min_amount"
           type="number"
           step="0.001"
           name="delivery_min_amount"
@@ -59,7 +59,7 @@
         </label>
         <input
           id="delivery_fee"
-          v-model="deliveryFields.delivery_fee"
+          v-model="delivery.delivery_fee"
           type="number"
           step="0.001"
           name="delivery_fee"
@@ -76,7 +76,7 @@
         </label>
         <input
           id="delivery_percent"
-          v-model="deliveryFields.delivery_percent"
+          v-model="delivery.delivery_percent"
           type="number"
           step="0.001"
           name="delivery_percent"
@@ -95,7 +95,7 @@
         </label>
         <input
           id="delivery_km_amount"
-          v-model="deliveryFields.delivery_km_amount"
+          v-model="delivery.delivery_km_amount"
           type="number"
           name="delivery_km_amount"
           class="form-control"
@@ -111,7 +111,7 @@
         </label>
         <input
           id="delivery_min_time"
-          v-model="deliveryFields.delivery_min_time"
+          v-model="delivery.delivery_min_time"
           type="number"
           name="delivery_min_time"
           class="form-control"
@@ -123,9 +123,17 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue-demi';
-
-const deliveryFields = reactive({});
+defineProps({
+  delivery: {
+    delivery_available: false,
+    delivery_max_distance: null,
+    delivery_min_amount: null,
+    delivery_fee: null,
+    delivery_percent: null,
+    delivery_km_amount: null,
+    delivery_min_time: null
+  }
+});
 </script>
 
 <style></style>

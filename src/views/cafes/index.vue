@@ -40,21 +40,6 @@
             </div>
           </div>
         </div>
-        <div class="hidden md:block mx-auto text-gray-600">
-          Showing 1 to 10 of {{ list.length }} entries
-        </div>
-        <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
-          <div class="w-56 relative text-gray-700 dark:text-gray-300">
-            <input
-              type="text"
-              class="form-control w-56 box pr-10 placeholder-theme-13"
-              placeholder="Search..."
-            />
-            <SearchIcon
-              class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0"
-            />
-          </div>
-        </div>
       </div>
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
@@ -97,55 +82,6 @@
         </table>
       </div>
       <!-- END: Data List -->
-      <!-- BEGIN: Pagination -->
-      <div
-        class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center"
-      >
-        <ul class="pagination">
-          <li>
-            <a class="pagination__link" href>
-              <ChevronsLeftIcon class="w-4 h-4" />
-            </a>
-          </li>
-          <li>
-            <a class="pagination__link" href>
-              <ChevronLeftIcon class="w-4 h-4" />
-            </a>
-          </li>
-          <li>
-            <a class="pagination__link" href>...</a>
-          </li>
-          <li>
-            <a class="pagination__link" href>1</a>
-          </li>
-          <li>
-            <a class="pagination__link pagination__link--active" href>2</a>
-          </li>
-          <li>
-            <a class="pagination__link" href>3</a>
-          </li>
-          <li>
-            <a class="pagination__link" href>...</a>
-          </li>
-          <li>
-            <a class="pagination__link" href>
-              <ChevronRightIcon class="w-4 h-4" />
-            </a>
-          </li>
-          <li>
-            <a class="pagination__link" href>
-              <ChevronsRightIcon class="w-4 h-4" />
-            </a>
-          </li>
-        </ul>
-        <select class="w-20 form-select box mt-3 sm:mt-0">
-          <option>10</option>
-          <option>25</option>
-          <option>35</option>
-          <option>50</option>
-        </select>
-      </div>
-      <!-- END: Pagination -->
     </div>
     <!-- BEGIN: Delete Confirmation Modal -->
     <div
@@ -196,10 +132,9 @@ store.dispatch('cafes/fetchCafeList');
 const list = computed(() => store.getters['cafes/getCafeList']);
 
 function gotoForm(id) {
-  console.log('cafe id: ', id);
   if (id) {
-    router.push(`/dashboard/cafes/${id}`);
-  } else router.push(`/dashboard/cafes/create`);
+    router.push(`/dashboard/cafe-edit-form/${id}`);
+  } else router.push(`/dashboard/cafe-add-form`);
 }
 
 function deleteItem(id) {

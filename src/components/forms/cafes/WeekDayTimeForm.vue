@@ -7,6 +7,7 @@
           @input="$emit('update:modelValue', $event.target.value)"
           type="text"
           class="form-control"
+          disabled
         />
       </div>
       <div class="form-check w-auto">

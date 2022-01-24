@@ -11,10 +11,27 @@ const state = () => {
         pageName: 'company',
         title: 'Company Settings'
       },
+      // {
+      //   icon: 'HomeIcon',
+      //   pageName: 'cafes',
+      //   title: 'My Cafes'
+      // },
       {
-        icon: 'HomeIcon',
-        pageName: 'cafes',
-        title: 'My Cafes'
+        icon: 'CoffeeIcon',
+        pageName: 'side-menu-cafe',
+        title: 'My cafes',
+        subMenu: [
+          {
+            icon: '',
+            pageName: 'side-menu-cafe-data-list',
+            title: 'List'
+          },
+          {
+            icon: '',
+            pageName: 'side-menu-cafe-add-form',
+            title: 'Add new cafe'
+          }
+        ]
       },
       {
         icon: 'HomeIcon',

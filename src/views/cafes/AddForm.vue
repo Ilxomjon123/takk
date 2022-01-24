@@ -22,9 +22,7 @@
                     <label
                       for="cafe_timezone"
                       class="form-label w-full flex flex-col sm:flex-row"
-                    >
-                      Cafe timezone
-                    </label>
+                    >Cafe timezone</label>
                     <TomSelect
                       id="cafe_timezone"
                       name="cafe_timezone"
@@ -41,17 +39,14 @@
                         v-for="(zone, index) in timeZones"
                         :key="zone + index"
                         :value="zone"
-                        >{{ zone }}</option
-                      >
+                      >{{ zone }}</option>
                     </TomSelect>
                     <template v-if="validate.cafe_timezone.$error">
                       <div
                         v-for="(error, index) in validate.cafe_timezone.$errors"
                         :key="index"
                         class="text-theme-6 mt-2"
-                      >
-                        {{ error.$message }}
-                      </div>
+                      >{{ error.$message }}</div>
                     </template>
                   </div>
                   <div class="input-form mt-3">
@@ -62,8 +57,7 @@
                       Cafe name
                       <span
                         class="sm:ml-auto mt-1 sm:mt-0 text-xs text-gray-600"
-                        >Required, at least 1 characters</span
-                      >
+                      >Required, at least 1 characters</span>
                     </label>
                     <input
                       id="validation-form-1"
@@ -79,34 +73,36 @@
                         v-for="(error, index) in validate.name.$errors"
                         :key="index"
                         class="text-theme-6 mt-2"
-                      >
-                        {{ error.$message }}
-                      </div>
+                      >{{ error.$message }}</div>
                     </template>
                   </div>
                   <div class="input-form mt-3">
                     <label
                       for="call_center"
                       class="form-label w-full flex flex-col sm:flex-row"
-                    >
-                      Call center
-                    </label>
+                    >Call center</label>
                     <input
                       id="call_center"
                       v-model.trim="validate.call_center.$model"
                       type="text"
                       name="call_center"
                       class="form-control"
+                      :class="{ 'border-theme-6': validate.call_center.$error }"
                       placeholder="Call center phone"
                     />
+                    <template v-if="validate.call_center.$error">
+                      <div
+                        v-for="(error, index) in validate.call_center.$errors"
+                        :key="index"
+                        class="text-theme-6 mt-2"
+                      >{{ error.$message }}</div>
+                    </template>
                   </div>
                   <div class="input-form mt-3">
                     <label
                       for="website"
                       class="form-label w-full flex flex-col sm:flex-row"
-                    >
-                      Website
-                    </label>
+                    >Website</label>
                     <input
                       id="website"
                       v-model.trim="validate.website.$model"
@@ -123,31 +119,34 @@
                       name="status"
                       v-model="validate.status.$model"
                       class="w-full"
+                      :class="{ 'border-theme-6': validate.status.$error }"
                     >
                       <option
-                        v-for="(status, index) in formFields.status.options"
+                        v-for="(status, index) in statusOptions"
                         :key="status.label + index"
                         :value="status.value"
-                        >{{ status.label }}</option
-                      >
+                      >{{ status.label }}</option>
                     </TomSelect>
+                    <template v-if="validate.status.$error">
+                      <div
+                        v-for="(error, index) in validate.status.$errors"
+                        :key="index"
+                        class="text-theme-6 mt-2"
+                      >{{ error.$message }}</div>
+                    </template>
                   </div>
                   <div class="input-form mt-3">
                     <label
                       for="country"
                       class="form-label w-full flex flex-col sm:flex-row"
-                    >
-                      Country
-                    </label>
+                    >Country</label>
                     <CountrySelect v-model="validate.country.$model" />
                   </div>
                   <div class="input-form mt-3">
                     <label
                       for="city"
                       class="form-label w-full flex flex-col sm:flex-row"
-                    >
-                      City
-                    </label>
+                    >City</label>
                     <CitySelect v-model="validate.city.$model" />
                   </div>
                   <div class="flex gap-5 pt-3">
@@ -155,9 +154,7 @@
                       <label
                         for="state"
                         class="form-label w-full flex flex-col sm:flex-row"
-                      >
-                        State
-                      </label>
+                      >State</label>
                       <input
                         id="state"
                         v-model.trim="validate.state.$model"
@@ -171,9 +168,7 @@
                       <label
                         for="postal_code"
                         class="form-label w-full flex flex-col sm:flex-row"
-                      >
-                        Postal code
-                      </label>
+                      >Postal code</label>
                       <input
                         id="postal_code"
                         v-model.trim="validate.postal_code.$model"
@@ -188,9 +183,7 @@
                     <label
                       for="address"
                       class="form-label w-full flex flex-col sm:flex-row"
-                    >
-                      Address
-                    </label>
+                    >Address</label>
                     <input
                       id="address"
                       v-model.trim="validate.address.$model"
@@ -204,9 +197,7 @@
                     <label
                       for="second_address"
                       class="form-label w-full flex flex-col sm:flex-row"
-                    >
-                      Second address
-                    </label>
+                    >Second address</label>
                     <input
                       id="second_address"
                       v-model.trim="validate.second_address.$model"
@@ -220,27 +211,30 @@
                     <label
                       for="description"
                       class="form-label w-full flex flex-col sm:flex-row"
-                    >
-                      Description
-                    </label>
+                    >Description</label>
                     <textarea
                       id="description"
                       v-model.trim="validate.description.$model"
                       class="form-control"
+                      :class="{ 'border-theme-6': validate.description.$error }"
                       name="description"
                       placeholder="Type your cafe description"
                     ></textarea>
+                    <template v-if="validate.description.$error">
+                      <div
+                        v-for="(error, index) in validate.description.$errors"
+                        :key="index"
+                        class="text-theme-6 mt-2"
+                      >{{ error.$message }}</div>
+                    </template>
                   </div>
                 </div>
                 <div class="flex-1">
                   <div
                     class="flex flex-col sm:flex-row items-center mb-5 border-b border-gray-200 dark:border-dark-5"
                   >
-                    <h2 class="font-medium text-base mr-auto">
-                      Cafe weeek time
-                    </h2>
+                    <h2 class="font-medium text-base mr-auto">Cafe weeek time</h2>
                   </div>
-                  <!-- <WeekDayTimeForm :week_time="validate.week_time.$model" /> -->
                   <WeekDayTimeForm
                     v-for="day in formData.week_time"
                     :key="day.day"
@@ -249,42 +243,54 @@
                   <div
                     class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
                   >
-                    <h2 class="font-medium text-base mr-auto">
-                      Cafe delivery info
-                    </h2>
+                    <h2 class="font-medium text-base mr-auto">Cafe delivery info</h2>
                   </div>
                   <div class="flex gap-5">
                     <div class="input-form mt-3 basis-1/2">
                       <label
                         for="tax_rate"
                         class="form-label w-full flex flex-col sm:flex-row"
-                      >
-                        Tax rate
-                      </label>
+                      >Tax rate</label>
                       <input
                         id="tax_rate"
                         v-model.trim="validate.tax_rate.$model"
                         type="number"
                         name="tax_rate"
                         class="form-control"
+                        :class="{ 'border-theme-6': validate.tax_rate.$error }"
                         placeholder="Type.."
                       />
+                      <template v-if="validate.tax_rate.$error">
+                        <div
+                          v-for="(error, index) in validate.tax_rate.$errors"
+                          :key="index"
+                          class="text-theme-6 mt-2"
+                        >{{ error.$message }}</div>
+                      </template>
                     </div>
                     <div class="input-form mt-3 basis-1/2">
                       <label
                         for="order_limit"
                         class="form-label w-full flex flex-col sm:flex-row"
-                      >
-                        Order limit
-                      </label>
+                      >Order limit</label>
                       <input
                         id="order_limit"
                         v-model.trim="validate.order_limit.$model"
                         type="number"
                         name="order_limit"
                         class="form-control"
+                        :class="{
+                          'border-theme-6': validate.order_limit.$error
+                        }"
                         placeholder="Type order limit"
                       />
+                      <template v-if="validate.order_limit.$error">
+                        <div
+                          v-for="(error, index) in validate.order_limit.$errors"
+                          :key="index"
+                          class="text-theme-6 mt-2"
+                        >{{ error.$message }}</div>
+                      </template>
                     </div>
                   </div>
                   <div class="flex gap-5">
@@ -292,33 +298,48 @@
                       <label
                         for="order_time_limit"
                         class="form-label w-full flex flex-col sm:flex-row"
-                      >
-                        Order time limit
-                      </label>
+                      >Order time limit</label>
                       <input
                         id="order_time_limit"
                         v-model.trim="validate.order_time_limit.$model"
                         type="text"
                         name="order_time_limit"
                         class="form-control"
+                        :class="{
+                          'border-theme-6': validate.order_time_limit.$error
+                        }"
                         placeholder="Type order time limit"
                       />
+                      <template v-if="validate.order_time_limit.$error">
+                        <div
+                          v-for="(error, index) in validate.order_time_limit
+                          .$errors"
+                          :key="index"
+                          class="text-theme-6 mt-2"
+                        >{{ error.$message }}</div>
+                      </template>
                     </div>
                     <div class="input-form mt-3 basis-1/2">
                       <label
                         for="version"
                         class="form-label w-full flex flex-col sm:flex-row"
-                      >
-                        Version
-                      </label>
+                      >Version</label>
                       <input
                         id="version"
                         v-model.trim="validate.version.$model"
                         type="number"
                         name="version"
                         class="form-control"
+                        :class="{ 'border-theme-6': validate.version.$error }"
                         placeholder="Type a version"
                       />
+                      <template v-if="validate.version.$error">
+                        <div
+                          v-for="(error, index) in validate.version.$errors"
+                          :key="index"
+                          class="text-theme-6 mt-2"
+                        >{{ error.$message }}</div>
+                      </template>
                     </div>
                   </div>
                   <div class="flex gap-5 pt-3">
@@ -330,9 +351,10 @@
                         name="is_use_square"
                         v-model.trim="validate.is_use_square.$model"
                       />
-                      <label class="form-check-label" for="is_use_square"
-                        >Is use square</label
-                      >
+                      <label
+                        class="form-check-label"
+                        for="is_use_square"
+                      >Is use square</label>
                     </div>
                     <div
                       class="input-form"
@@ -341,9 +363,7 @@
                       <label
                         for="square_location_id"
                         class="form-label w-full flex flex-col sm:flex-row"
-                      >
-                        Square location id
-                      </label>
+                      >Square location id</label>
                       <input
                         id="square_location_id"
                         v-model.trim="validate.square_location_id.$model"
@@ -354,14 +374,21 @@
                       />
                     </div>
                   </div>
-                  <CafeDeliveryFields />
+                  <CafeDeliveryFields :delivery="validate.delivery.$model" />
                 </div>
               </div>
-              <LatLongField :location="validate.location.$model" />
+              <LatLongField
+                :location="validate.location.$model"
+                :latError="validate.location.lat.$error"
+                :latErrors="validate.location.lat.$errors"
+                :lonError="validate.location.lon.$error"
+                :lonErrors="validate.location.lon.$errors"
+              />
               <div class="flex">
-                <button type="submit" class="btn btn-primary mt-5 lg:ml-auto">
-                  Save
-                </button>
+                <button
+                  type="submit"
+                  class="btn btn-primary mt-5 lg:ml-auto"
+                >Save</button>
               </div>
             </form>
             <!-- END: Validation Form -->
@@ -373,9 +400,9 @@
               <CheckCircleIcon class="text-theme-9" />
               <div class="ml-4 mr-4">
                 <div class="font-medium">Data saved successfully!</div>
-                <div class="text-gray-600 mt-1">
-                  Please check your e-mail for further info!
-                </div>
+                <div
+                  class="text-gray-600 mt-1"
+                >Please check your e-mail for further info!</div>
               </div>
             </div>
             <!-- END: Success Notification Content -->
@@ -387,9 +414,7 @@
               <XCircleIcon class="text-theme-6" />
               <div class="ml-4 mr-4">
                 <div class="font-medium">Data save failed!</div>
-                <div class="text-gray-600 mt-1">
-                  Please check the fileld form.
-                </div>
+                <div class="text-gray-600 mt-1">Please check the fileld form.</div>
               </div>
             </div>
             <!-- END: Failed Notification Content -->
@@ -417,21 +442,22 @@ import {
 } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import Toastify from 'toastify-js';
-import formFields from './formFields.js';
 import timeZones from './timezones.js';
 import cash from 'cash-dom';
 import { useStore } from 'vuex';
 import CountrySelect from '@/components/selects/CountrySelect.vue';
 import CitySelect from '@/components/selects/CitySelect.vue';
-import CafeWeektimeForm from './CafeWeektimeForm.vue';
-import MondayForm from '@/components/forms/cafes/MondayForm.vue';
-import TuesdayForm from '@/components/forms/cafes/TuesdayForm.vue';
 import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
 import LatLongField from '@/components/forms/cafes/LatLongField.vue';
 import CafeDeliveryFields from '@/components/forms/cafes/CafeDeliveryFields.vue';
-import { each } from 'lodash';
 
 const store = useStore();
+
+const statusOptions = reactive([
+  { label: 'Inactive', value: 0 },
+  { label: 'Active', value: 1 },
+  { label: 'Unknown', value: 2 }
+]);
 const formData = reactive({
   name: '',
   description: '',
@@ -486,7 +512,7 @@ const formData = reactive({
   },
   call_center: '',
   website: '',
-  status: '',
+  status: 0,
   country: '',
   city: '',
   state: '',
@@ -508,11 +534,14 @@ const formData = reactive({
   order_time_limit: '',
   is_use_square: false,
   square_location_id: '',
-  company: '',
-  menu: '',
-  is_open: false
+  menu: ''
 });
 
+// Vuelidate
+const alpha = helpers.regex(
+  'alpha',
+  /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+);
 const rules = {
   name: {
     required,
@@ -527,37 +556,36 @@ const rules = {
       is_open: {}
     }
   },
-  description: {
-    minLength: minLength(1)
-  },
+  description: { required, minLength: minLength(1) },
   cafe_timezone: { required },
   location: {
     lat: { required, maxValue: 91, minValue: -91 },
     lon: { required, maxValue: 181, minValue: -181 }
   },
-  call_center: { maxLength: 50 },
-  website: {},
-  status: {},
+  call_center: { required, maxLength: 50 },
+  website: { alpha },
+  status: { required },
   country: {},
   city: {},
   state: {},
   postal_code: { maxLength: 12 },
   address: {},
   second_address: {},
-  tax_rate: {},
-  delivery_available: {},
-  delivery_max_distance: {},
-  delivery_min_amount: {},
-  delivery_fee: {},
-  delivery_percent: {},
-  delivery_km_amount: {},
-  delivery_min_time: {},
-  version: {},
-  order_limit: {},
-  order_time_limit: {},
+  tax_rate: { required },
+  delivery: {
+    delivery_available: {},
+    delivery_max_distance: {},
+    delivery_min_amount: {},
+    delivery_fee: {},
+    delivery_percent: {},
+    delivery_km_amount: {},
+    delivery_min_time: {}
+  },
+  version: { required },
+  order_limit: { required },
+  order_time_limit: { required },
   is_use_square: {},
   square_location_id: {},
-  company: {},
   menu: {}
 };
 
@@ -565,7 +593,6 @@ const validate = useVuelidate(rules, toRefs(formData));
 
 async function save() {
   validate.value.$touch();
-  console.log('cafe formData: ', formData);
   console.log('cafe formData: ', validate);
 
   if (validate.value.$invalid) {

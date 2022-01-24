@@ -1,15 +1,14 @@
 <template>
   <div class="flex flex-col">
     <div class="my-5 border-b border-gray-200 dark:border-dark-5">
-      <h2 class="font-medium text-base">
-        Cafe location
-      </h2>
+      <h2 class="font-medium text-base">Cafe location</h2>
     </div>
     <div class="flex gap-5">
       <div class="basis-1/2 input-form mt-3">
-        <label for="lat" class="form-label w-full flex flex-col sm:flex-row">
-          Latitude
-        </label>
+        <label
+          for="lat"
+          class="form-label w-full flex flex-col sm:flex-row"
+        >Latitude</label>
         <input
           id="lat"
           v-model="location.lat"
@@ -18,22 +17,21 @@
           step="0.000000000000001"
           name="lat"
           class="form-control"
-          :class="{ 'border-theme-6': errors }"
+          :class="{ 'border-theme-6': latError }"
         />
-        <template v-if="errors">
+        <template v-if="latError">
           <div
-            v-for="(error, index) in errors"
+            v-for="(error, index) in latErrors"
             :key="index"
             class="text-theme-6 mt-2"
-          >
-            {{ error.$message }}
-          </div>
+          >{{ error.$message }}</div>
         </template>
       </div>
       <div class="basis-1/2 input-form mt-3">
-        <label for="lon" class="form-label w-full flex flex-col sm:flex-row">
-          Longitude
-        </label>
+        <label
+          for="lon"
+          class="form-label w-full flex flex-col sm:flex-row"
+        >Longitude</label>
         <input
           id="lon"
           v-model="location.lon"
@@ -42,16 +40,14 @@
           step="0.000000000000001"
           name="lon"
           class="form-control"
-          :class="{ 'border-theme-6': errors }"
+          :class="{ 'border-theme-6': lonError }"
         />
-        <template v-if="errors">
+        <template v-if="lonError">
           <div
-            v-for="(error, index) in errors"
+            v-for="(error, index) in lonErrors"
             :key="index"
             class="text-theme-6 mt-2"
-          >
-            {{ error.$message }}
-          </div>
+          >{{ error.$message }}</div>
         </template>
       </div>
     </div>
@@ -70,7 +66,7 @@
         >
           <!-- <LPopup>
             lol
-          </LPopup> -->
+          </LPopup>-->
         </LMarker>
       </LMap>
     </div>
@@ -83,18 +79,24 @@ import { LMap, LTileLayer, LMarker, LPopup } from '@vue-leaflet/vue-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 const zoom = ref(10);
-const mapCenter = reactive([37.0902, -95.7129]);
 const props = defineProps({
   location: {
     lat: null,
     lon: null
-  }
+  },
+  latError: '',
+  latErrors: [],
+  lonError: '',
+  lonErrors: [],
 });
+
+const mapCenter = reactive([props.location.lat, props.location.lon]);
 
 function changeLatLong(e) {
   props.location.lat = e.target.getLatLng().lat;
   props.location.lon = e.target.getLatLng().lng;
 }
+
 </script>
 
 <style lang="scss" scoped>
