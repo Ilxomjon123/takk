@@ -563,7 +563,7 @@ const rules = {
     lon: { required, maxValue: 181, minValue: -181 }
   },
   call_center: { required, maxLength: 50 },
-  website: { alpha },
+  website: {},
   status: { required },
   country: {},
   city: {},

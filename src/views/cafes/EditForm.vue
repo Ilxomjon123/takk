@@ -428,7 +428,7 @@
 </template>
 
 <script setup>
-import { reactive, toRefs } from 'vue';
+import { computed, onMounted, reactive, toRefs } from 'vue';
 import {
   required,
   minLength,
@@ -450,14 +450,13 @@ import CitySelect from '@/components/selects/CitySelect.vue';
 import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
 import LatLongField from '@/components/forms/cafes/LatLongField.vue';
 import CafeDeliveryFields from '@/components/forms/cafes/CafeDeliveryFields.vue';
+import { useRoute } from 'vue-router';
 
 const store = useStore();
+const route = useRoute();
 
-const statusOptions = reactive([
-  { label: 'Inactive', value: 0 },
-  { label: 'Active', value: 1 },
-  { label: 'Unknown', value: 2 }
-]);
+store.dispatch('cafes/fetchCafeById', route.params.id)
+
 const formData = reactive({
   name: '',
   description: '',
@@ -537,6 +536,48 @@ const formData = reactive({
   menu: ''
 });
 
+const cafeById = store.getters['cafes/getCafeById']
+console.log('cafeById: ', cafeById);
+
+onMounted(() => {
+  formData.name = cafeById.name
+  formData.description = cafeById.description
+  formData.cafe_timezone = cafeById.cafe_timezone
+  formData.location.lat = cafeById.location?.coordinates[0]
+  formData.location.lon = cafeById.location?.coordinates[1]
+  formData.call_center = cafeById.call_center
+  formData.website = cafeById.website
+  formData.status = cafeById.status
+  formData.country = cafeById.country
+  formData.city = cafeById.city
+  formData.state = cafeById.state
+  formData.postal_code = cafeById.postal_code
+  formData.address = cafeById.address
+  formData.second_address = cafeById.second_address
+  formData.tax_rate = cafeById.tax_rate
+  formData.delivery = {
+    delivery_available: cafeById.delivery_available,
+    delivery_max_distance: cafeById.delivery_max_distance,
+    delivery_min_amount: cafeById.delivery_min_amount,
+    delivery_fee: cafeById.delivery_fee,
+    delivery_percent: cafeById.delivery_percent,
+    delivery_km_amount: cafeById.delivery_km_amount,
+    delivery_min_time: cafeById.delivery_min_time
+  }
+  formData.version = cafeById.version
+  formData.order_limit = cafeById.order_limit
+  formData.order_time_limit = cafeById.order_time_limit
+  formData.is_use_square = cafeById.is_use_square
+  formData.square_location_id = cafeById.square_location_id
+  formData.menu = cafeById.menu
+})
+
+const statusOptions = reactive([
+  { label: 'Inactive', value: 0 },
+  { label: 'Active', value: 1 },
+  { label: 'Unknown', value: 2 }
+]);
+
 // Vuelidate
 const alpha = helpers.regex(
   'alpha',
@@ -563,7 +604,7 @@ const rules = {
     lon: { required, maxValue: 181, minValue: -181 }
   },
   call_center: { required, maxLength: 50 },
-  website: { alpha },
+  website: {},
   status: { required },
   country: {},
   city: {},
@@ -608,7 +649,7 @@ async function save() {
       stopOnFocus: true
     }).showToast();
   } else {
-    const res = await store.dispatch('cafes/cafePost', formData);
+    // const res = await store.dispatch('cafes/cafePost', formData);
     if (res.status) {
       Toastify({
         node: cash('#success-notification-content')

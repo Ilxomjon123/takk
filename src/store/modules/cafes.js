@@ -4,14 +4,14 @@ import axios from 'axios';
 const state = () => {
   return {
     cafeList: [],
-    oneCafe: null
+    cafeById: {}
   };
 };
 
 // getters
 const getters = {
   getCafeList: state => state.cafeList,
-  getOneCafe: state => state.oneCafe
+  getCafeById: state => state.cafeById
 };
 
 // mutations
@@ -19,8 +19,8 @@ const mutations = {
   setCafeList(state, payload) {
     state.cafeList = payload;
   },
-  setOneCafe(state, payload) {
-    state.oneCafe = payload;
+  setCafeById(state, payload) {
+    state.cafeById = payload;
   }
 };
 
@@ -34,7 +34,19 @@ const actions = {
       });
 
       commit('setCafeList', res.data[0].cafes);
-      return res.data[0].cafes;
+    } catch (err) {
+      return console.log('error while fetching cafes: ', err);
+    }
+  },
+
+  async fetchCafeById({ rootGetters, commit }, payload) {
+    try {
+      const res = await axios.get('/api/cafes/' + payload + '/', {
+        // params: { id: payload },
+        headers: rootGetters.getHttpHeader
+      });
+
+      commit('setCafeById', res.data);
     } catch (err) {
       return console.log('error while fetching cafes: ', err);
     }

@@ -75,7 +75,7 @@
 
 <script setup>
 import { reactive, ref } from 'vue-demi';
-import { LMap, LTileLayer, LMarker, LPopup } from '@vue-leaflet/vue-leaflet';
+import { LMap, LTileLayer, LMarker } from '@vue-leaflet/vue-leaflet';
 import 'leaflet/dist/leaflet.css';
 
 const zoom = ref(10);
@@ -89,6 +89,8 @@ const props = defineProps({
   lonError: '',
   lonErrors: [],
 });
+
+console.log('latLong from props: ', props.location);
 
 const mapCenter = reactive([props.location.lat, props.location.lon]);
 
