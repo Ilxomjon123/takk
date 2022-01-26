@@ -415,6 +415,11 @@
               <div class="ml-4 mr-4">
                 <div class="font-medium">Data save failed!</div>
                 <div class="text-gray-600 mt-1">Please check the fileld form.</div>
+                <div v-for="error in resErrors" class="text-gray-600 mt-1">
+                  <ul>
+                    <li v-for="item in error">{{ item }}</li>
+                  </ul>
+                </div>
               </div>
             </div>
             <!-- END: Failed Notification Content -->
@@ -428,7 +433,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, toRefs } from 'vue';
+import { computed, onMounted, reactive, ref, toRefs } from 'vue';
 import {
   required,
   minLength,
@@ -451,12 +456,11 @@ import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
 import LatLongField from '@/components/forms/cafes/LatLongField.vue';
 import CafeDeliveryFields from '@/components/forms/cafes/CafeDeliveryFields.vue';
 import { useRoute } from 'vue-router';
+import { fetchCafe, updateCafe } from '../../api/index.js';
 
 const store = useStore();
 const route = useRoute();
-
-store.dispatch('cafes/fetchCafeById', route.params.id)
-
+const resErrors = ref({})
 const formData = reactive({
   name: '',
   description: '',
@@ -536,40 +540,39 @@ const formData = reactive({
   menu: ''
 });
 
-const cafeById = store.getters['cafes/getCafeById']
-console.log('cafeById: ', cafeById);
-
-onMounted(() => {
-  formData.name = cafeById.name
-  formData.description = cafeById.description
-  formData.cafe_timezone = cafeById.cafe_timezone
-  formData.location.lat = cafeById.location?.coordinates[0]
-  formData.location.lon = cafeById.location?.coordinates[1]
-  formData.call_center = cafeById.call_center
-  formData.website = cafeById.website
-  formData.status = cafeById.status
-  formData.country = cafeById.country
-  formData.city = cafeById.city
-  formData.state = cafeById.state
-  formData.postal_code = cafeById.postal_code
-  formData.address = cafeById.address
-  formData.second_address = cafeById.second_address
-  formData.tax_rate = cafeById.tax_rate
+fetchCafe(route.params.id).then(res => {
+  console.log('cafeById: ', res);
+  res.country && store.dispatch('fetchCities', res.country)
+  formData.name = res.name
+  formData.description = res.description
+  formData.cafe_timezone = res.cafe_timezone
+  formData.location.lat = res.location.coordinates[0]
+  formData.location.lon = res.location.coordinates[1]
+  formData.call_center = res.call_center
+  formData.website = res.website
+  formData.status = res.status
+  formData.country = res.country
+  formData.city = res.city
+  formData.state = res.state
+  formData.postal_code = res.postal_code
+  formData.address = res.address
+  formData.second_address = res.second_address
+  formData.tax_rate = res.tax_rate
   formData.delivery = {
-    delivery_available: cafeById.delivery_available,
-    delivery_max_distance: cafeById.delivery_max_distance,
-    delivery_min_amount: cafeById.delivery_min_amount,
-    delivery_fee: cafeById.delivery_fee,
-    delivery_percent: cafeById.delivery_percent,
-    delivery_km_amount: cafeById.delivery_km_amount,
-    delivery_min_time: cafeById.delivery_min_time
+    delivery_available: res.delivery_available,
+    delivery_max_distance: res.delivery_max_distance,
+    delivery_min_amount: res.delivery_min_amount,
+    delivery_fee: res.delivery_fee,
+    delivery_percent: res.delivery_percent,
+    delivery_km_amount: res.delivery_km_amount,
+    delivery_min_time: res.delivery_min_time
   }
-  formData.version = cafeById.version
-  formData.order_limit = cafeById.order_limit
-  formData.order_time_limit = cafeById.order_time_limit
-  formData.is_use_square = cafeById.is_use_square
-  formData.square_location_id = cafeById.square_location_id
-  formData.menu = cafeById.menu
+  formData.version = res.version
+  formData.order_limit = res.order_limit
+  formData.order_time_limit = res.order_time_limit
+  formData.is_use_square = res.is_use_square
+  formData.square_location_id = res.square_location_id
+  formData.menu = res.menu
 })
 
 const statusOptions = reactive([
@@ -649,8 +652,9 @@ async function save() {
       stopOnFocus: true
     }).showToast();
   } else {
-    // const res = await store.dispatch('cafes/cafePost', formData);
-    if (res.status) {
+    try {
+      const res = await updateCafe({ id: route.params.id, data: formData });
+
       Toastify({
         node: cash('#success-notification-content')
           .clone()
@@ -662,7 +666,30 @@ async function save() {
         position: 'right',
         stopOnFocus: true
       }).showToast();
+
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data);
+        resErrors.value = error.response.data;
+
+        Toastify({
+          node: cash('#failed-notification-content')
+            .clone()
+            .removeClass('hidden')[0],
+          // duration: 3000,
+          newWindow: true,
+          close: true,
+          gravity: 'top',
+          position: 'right',
+          stopOnFocus: true
+        }).showToast();
+        // console.log(error.response.status);
+        // console.log(error.response.headers);
+      }
+      // resErrors = error && error.response && error.response.data
+      // console.log(error.response);
     }
+
   }
 }
 </script>

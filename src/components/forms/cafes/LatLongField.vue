@@ -52,7 +52,12 @@
       </div>
     </div>
     <div class="mt-5 map_container">
-      <LMap ref="map" v-model:zoom="zoom" :center="mapCenter">
+      <LMap
+        ref="map"
+        v-model:zoom="zoom"
+        :center="mapCenter"
+        @ready="onMapReady"
+      >
         <LTileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           layer-type="base"
@@ -60,7 +65,7 @@
         ></LTileLayer>
 
         <LMarker
-          :lat-lng="[location.lat, location.lon]"
+          :lat-lng="latLng(location.lat, location.lon)"
           draggable
           @moveend="changeLatLong"
         >
@@ -74,8 +79,9 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue-demi';
+import { reactive, ref, onMounted, computed, toRefs } from 'vue';
 import { LMap, LTileLayer, LMarker } from '@vue-leaflet/vue-leaflet';
+import L from 'leaflet'
 import 'leaflet/dist/leaflet.css';
 
 const zoom = ref(10);
@@ -90,13 +96,23 @@ const props = defineProps({
   lonErrors: [],
 });
 
-console.log('latLong from props: ', props.location);
+const { location } = toRefs(props)
 
-const mapCenter = reactive([props.location.lat, props.location.lon]);
+const mapCenter = latLng(props.location.lat, props.location.lon);
 
 function changeLatLong(e) {
+  console.log('in changeLatLong func: ', e);
   props.location.lat = e.target.getLatLng().lat;
   props.location.lon = e.target.getLatLng().lng;
+}
+
+function latLng(lat, lng) {
+  return L.latLng(lat, lng);
+}
+
+function onMapReady() {
+  console.log('marker location on map ready: ', props.location);
+  latLng(props.location.lat, props.location.lon)
 }
 
 </script>

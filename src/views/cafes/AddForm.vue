@@ -388,7 +388,16 @@
                 <button
                   type="submit"
                   class="btn btn-primary mt-5 lg:ml-auto"
-                >Save</button>
+                  :disabled="isLoading"
+                >
+                  <LoadingIcon
+                    v-if="isLoading"
+                    icon="tail-spin"
+                    class="w-4 h-4 mr-3"
+                    color="#fff"
+                  />
+                  <span>Save</span>
+                </button>
               </div>
             </form>
             <!-- END: Validation Form -->
@@ -428,7 +437,7 @@
 </template>
 
 <script setup>
-import { reactive, toRefs } from 'vue';
+import { reactive, ref, toRefs } from 'vue';
 import {
   required,
   minLength,
@@ -452,6 +461,7 @@ import LatLongField from '@/components/forms/cafes/LatLongField.vue';
 import CafeDeliveryFields from '@/components/forms/cafes/CafeDeliveryFields.vue';
 
 const store = useStore();
+const isLoading = ref(false)
 
 const statusOptions = reactive([
   { label: 'Inactive', value: 0 },
@@ -592,6 +602,8 @@ const rules = {
 const validate = useVuelidate(rules, toRefs(formData));
 
 async function save() {
+  isLoading.value = true
+
   validate.value.$touch();
   console.log('cafe formData: ', validate);
 
@@ -623,5 +635,7 @@ async function save() {
       }).showToast();
     }
   }
+  isLoading.value = false
+
 }
 </script>
