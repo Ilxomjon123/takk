@@ -5,9 +5,10 @@
       <div
         class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"
       >
-        <button class="btn btn-primary shadow-md mr-2" @click="gotoForm(null)">
-          Add New Cafe
-        </button>
+        <button
+          class="btn btn-primary shadow-md mr-2"
+          @click="gotoForm(null)"
+        >Add New Cafe</button>
         <div class="dropdown">
           <button
             class="dropdown-toggle btn px-2 box text-gray-700 dark:text-gray-300"
@@ -43,13 +44,20 @@
       </div>
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
+        <div
+          v-if="isLoading"
+          class="absolute h-full w-full z-50 col-span-6 sm:col-span-3 xl:col-span-2 flex flex-col justify-center items-center"
+          style="background-color: rgba(100, 100, 100, 0.1);"
+        >
+          <LoadingIcon icon="tail-spin" class="w-16 h-16" />
+        </div>
         <table class="table table-report -mt-2">
           <thead>
             <tr>
               <th class="whitespace-nowrap">Name</th>
               <th class="whitespace-nowrap">Description</th>
-              <th class="text-center whitespace-nowrap">Call center</th>
-              <th class="text-center whitespace-nowrap">Website</th>
+              <th class="whitespace-nowrap">Call center</th>
+              <th class="whitespace-nowrap">Website</th>
               <th class="text-center whitespace-nowrap">Actions</th>
             </tr>
           </thead>
@@ -69,9 +77,7 @@
                   </button>
                   <button
                     class="flex items-center text-theme-6"
-                    data-toggle="modal"
-                    data-target="#delete-confirmation-modal"
-                    @click="deleteItem(cafe.id)"
+                    @click="openConfirmModal(cafe.id)"
                   >
                     <Trash2Icon class="w-4 h-4 mr-1" />Delete
                   </button>
@@ -106,10 +112,12 @@
                 type="button"
                 data-dismiss="modal"
                 class="btn btn-outline-secondary w-24 mr-1"
-              >
-                Cancel
-              </button>
-              <button type="button" class="btn btn-danger w-24">Delete</button>
+              >Cancel</button>
+              <button
+                type="button"
+                class="btn btn-danger w-24"
+                @click="deleteObj"
+              >Delete</button>
             </div>
           </div>
         </div>
@@ -121,15 +129,21 @@
 
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue';
-import { take } from 'lodash';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
+import cash from 'cash-dom';
+import { deleteCafe, fetchCafeList } from '../../api';
 
 const router = useRouter();
 const store = useStore();
+const rowId = ref(null)
+const isLoading = ref(true)
+const list = ref([])
 
-store.dispatch('cafes/fetchCafeList');
-const list = computed(() => store.getters['cafes/getCafeList']);
+fetchCafeList().then(res => {
+  list.value = res
+  isLoading.value = false
+})
 
 function gotoForm(id) {
   if (id) {
@@ -137,8 +151,18 @@ function gotoForm(id) {
   } else router.push(`/dashboard/cafe-add-form`);
 }
 
-function deleteItem(id) {
-  // store.dispatch('cafes/deleteCafe', id)
+function openConfirmModal(id) {
+  cash('#delete-confirmation-modal').modal('show')
   console.log('deleted: ', id);
+  rowId.value = id
+}
+
+function deleteObj() {
+  isLoading.value = true
+  cash('#delete-confirmation-modal').modal('hide')
+  deleteCafe(rowId.value).then(res => {
+    store.dispatch('cafes/fetchCafeList');
+  })
+  isLoading.value = false
 }
 </script>
