@@ -7,9 +7,11 @@
     }"
     class="w-full"
   >
-    <option v-for="(item, index) in getCountries" :key="index" :value="item">{{
-      item
-    }}</option>
+    <option v-for="(item, index) in getCountries" :key="index" :value="item">
+      {{
+        item
+      }}
+    </option>
   </TomSelect>
 </template>
 
@@ -18,8 +20,18 @@ import { defineComponent } from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 
 export default defineComponent({
+  props: {
+    selectedCountry: {
+      type: String,
+      default: null
+    }
+  },
   async mounted() {
+    if (this.selectedCountry != null) {
+      this.$state.selectedCountry = this.selectedCountry;
+    }
     await this.fetchCountries();
+    await this.$store.dispatch('fetchCities');
   },
   methods: {
     ...mapActions(['fetchCountries'])

@@ -7,12 +7,12 @@
     }"
     class="w-full"
   >
-    <option v-if="getCities.length == 0" disabled
-      >Firstly select country</option
-    >
-    <option v-for="(item, index) in getCities" :key="index" :value="item">{{
-      item
-    }}</option>
+    <option v-if="getCities.length == 0" disabled>Firstly select country</option>
+    <option v-for="(item, index) in getCities" :key="index" :value="item">
+      {{
+        item
+      }}
+    </option>
   </TomSelect>
 </template>
 

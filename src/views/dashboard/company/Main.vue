@@ -33,7 +33,6 @@
                         class="rounded-md"
                         alt="Icewall Tailwind HTML Admin Template"
                         :src="getCompany.logo"
-                        @click="clickInput('logo-image')"
                       />
                       <input
                         type="file"
@@ -41,75 +40,22 @@
                         id="logo-image"
                         @change="e => changeImage(e, 'logo')"
                       />
+                      <!-- <Tippy
+                        tag="div"
+                        content="Remove this profile photo?"
+                        class="w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-6 right-0 top-0 -mr-2 -mt-2"
+                        @click="removeLogo"
+                      >
+                        <xIcon class="w-4 h-4" />
+                      </Tippy>-->
                     </div>
-                    <!-- <label class="form-label">Loading App Image</label>
-                    <div
-                      class="h-40 image-fit cursor-pointer zoom-in mx-auto mb-3"
-                    >
-                      <img
-                        class="rounded-md"
-                        alt="Icewall Tailwind HTML Admin Template"
-                        :src="getCompany.loading_app_image"
-                        @click="clickInput('loading-app-image')"
-                      />
-                      <input
-                        type="file"
-                        hidden
-                        id="loading-app-image"
-                        @change="e => changeImage(e, 'loading_app_image')"
-                      />
+                    <div class="mx-auto cursor-pointer relative mt-5">
+                      <button
+                        type="button"
+                        @click="clickInput('logo-image')"
+                        class="btn btn-primary w-full"
+                      >Change Photo</button>
                     </div>
-                    <label class="form-label">App Image Morning</label>
-                    <div
-                      class="h-40 image-fit cursor-pointer zoom-in mx-auto mb-3"
-                    >
-                      <img
-                        class="rounded-md"
-                        alt="Icewall Tailwind HTML Admin Template"
-                        :src="getCompany.app_image_morning"
-                        @click="clickInput('app-image-morning')"
-                      />
-                      <input
-                        type="file"
-                        hidden
-                        id="app-image-morning"
-                        @change="e => changeImage(e, 'app_image_morning')"
-                      />
-                    </div>
-                    <label class="form-label">App Image Day</label>
-                    <div
-                      class="h-40 image-fit cursor-pointer zoom-in mx-auto mb-3"
-                    >
-                      <img
-                        class="rounded-md"
-                        alt="Icewall Tailwind HTML Admin Template"
-                        :src="getCompany.app_image_day"
-                        @click="clickInput('app-image-day')"
-                      />
-                      <input
-                        type="file"
-                        hidden
-                        id="app-image-day"
-                        @change="e => changeImage(e, 'app_image_day')"
-                      />
-                    </div>
-                    <label class="form-label">App Image Evening</label>
-                    <div
-                      class="h-40 image-fit cursor-pointer zoom-in mx-auto mb-3"
-                    >
-                      <img
-                        class="rounded-md"
-                        alt="Icewall Tailwind HTML Admin Template"
-                        :src="getCompany.app_image_evening"
-                        @click="clickInput('app-image-evening')"
-                      />
-                      <input
-                        type="file"
-                        hidden
-                        id="app-image-evening"
-                        @change="e => changeImage(e, 'app_image_evening')"
-                      />
-                    </div>-->
                   </div>
                 </div>
               </div>
@@ -179,6 +125,7 @@
                     <CountrySelect
                       :class="getError('country') != null ? 'border-theme-6' : 'border-gray-300'"
                       v-model="getCompany.country"
+                      :selectedCountry="getCompany.country"
                     />
                     <div
                       class="text-theme-6 mt-2"
@@ -362,17 +309,21 @@ export default defineComponent({
       document.getElementById(name).click();
     },
     changeImage(e, name) {
-      console.log(name);
       this.images[name] = e.target.files[0];
-      console.log('images:', this.images);
       const fileUrl = URL.createObjectURL(e.target.files[0])
-      console.log(fileUrl);
       this.getCompany[name] = fileUrl;
+    },
+    removeLogo() {
+      console.log(111);
+      this.images['logo'] == null;
+      this.getCompany.logo == null;
     },
     async submit() {
       this.isLoading = true;
       let form = this.getCompany;
       delete form.logo;
+      delete form.owner;
+      delete form.cafes;
       delete form.loading_app_image;
       delete form.app_image_morning;
       delete form.app_image_evening;
@@ -385,17 +336,15 @@ export default defineComponent({
       }
       this.errors = {};
       const res = await this.putCompany({ form: formData, id: form.id });
+      await this.fetchCompany();
       if (res.status) {
         this.errors = {};
-        // const resp = await this.putStep(this.$store.state.user.STEP_CAFE)
         if (res.status) {
           this.$refs.successNotification.show();
-          // this.$router.push('/entry/company')
         }
         else {
           this.$refs.errorNotification.show();
         }
-        // this.$router.push('/entry/cafe')
       }
       else {
         this.errors = res.data;
