@@ -383,6 +383,7 @@
                 :latErrors="validate.location.lat.$errors"
                 :lonError="validate.location.lon.$error"
                 :lonErrors="validate.location.lon.$errors"
+                :locationErrors="$externalResults.location"
               />
               <div class="flex">
                 <button
@@ -415,11 +416,11 @@
               <div class="ml-4 mr-4">
                 <div class="font-medium">Data save failed!</div>
                 <div class="text-gray-600 mt-1">Please check the fileld form.</div>
-                <div v-for="error in resErrors" class="text-gray-600 mt-1">
+                <!-- <div v-for="error in resErrors" class="text-gray-600 mt-1">
                   <ul>
                     <li v-for="item in error">{{ item }}</li>
                   </ul>
-                </div>
+                </div>-->
               </div>
             </div>
             <!-- END: Failed Notification Content -->
@@ -460,7 +461,9 @@ import { fetchCafe, updateCafe } from '../../api/index.js';
 
 const store = useStore();
 const route = useRoute();
-const resErrors = ref({})
+const $externalResults = ref({})
+// const resErrors = ref({})
+
 const formData = reactive({
   name: '',
   description: '',
@@ -633,7 +636,7 @@ const rules = {
   menu: {}
 };
 
-const validate = useVuelidate(rules, toRefs(formData));
+const validate = useVuelidate(rules, toRefs(formData), { $externalResults });
 
 async function save() {
   validate.value.$touch();
@@ -670,26 +673,10 @@ async function save() {
     } catch (error) {
       if (error.response) {
         console.log(error.response.data);
-        resErrors.value = error.response.data;
-
-        Toastify({
-          node: cash('#failed-notification-content')
-            .clone()
-            .removeClass('hidden')[0],
-          // duration: 3000,
-          newWindow: true,
-          close: true,
-          gravity: 'top',
-          position: 'right',
-          stopOnFocus: true
-        }).showToast();
-        // console.log(error.response.status);
-        // console.log(error.response.headers);
+        $externalResults.value = error.response.data;
       }
-      // resErrors = error && error.response && error.response.data
-      // console.log(error.response);
-    }
 
+    }
   }
 }
 </script>

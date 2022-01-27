@@ -133,6 +133,9 @@
       <!-- BEGIN: Content -->
       <div class="content">
         <TopBar />
+        <div class="relative">
+          <GlobalLoader />
+        </div>
         <router-view />
       </div>
       <!-- END: Content -->
@@ -151,13 +154,15 @@ import DarkModeSwitcher from '@/components/dark-mode-switcher/Main.vue'
 import SideMenuTooltip from '@/components/side-menu-tooltip/Main.vue'
 import { linkTo, nestedMenu, enter, leave } from './index'
 import cash from 'cash-dom'
+import GlobalLoader from '../../components/GlobalLoader.vue'
 
 export default defineComponent({
   components: {
     TopBar,
     MobileMenu,
     DarkModeSwitcher,
-    SideMenuTooltip
+    SideMenuTooltip,
+    GlobalLoader
   },
   setup() {
     const route = useRoute()
