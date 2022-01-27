@@ -11,7 +11,7 @@
         >Latitude</label>
         <input
           id="lat"
-          v-model="location.lat"
+          :value="location.lat"
           @input="$emit('update:modelValue', $event.target.value)"
           type="number"
           step="0.000000000000001"
@@ -34,7 +34,7 @@
         >Longitude</label>
         <input
           id="lon"
-          v-model="location.lon"
+          :value="location.lon"
           @input="$emit('update:modelValue', $event.target.value)"
           type="number"
           step="0.000000000000001"
@@ -51,11 +51,19 @@
         </template>
       </div>
     </div>
+    <template v-if="locationErrors">
+      <div
+        v-for="(error, index) in locationErrors"
+        :key="index"
+        class="text-theme-6 mt-2"
+      >{{ error }}</div>
+    </template>
     <div class="mt-5 map_container">
       <LMap
         ref="map"
         v-model:zoom="zoom"
         :center="mapCenter"
+        @update:center="changeLatLong"
         @ready="onMapReady"
       >
         <LTileLayer
@@ -81,7 +89,7 @@
 <script setup>
 import { reactive, ref, onMounted, computed, toRefs } from 'vue';
 import { LMap, LTileLayer, LMarker } from '@vue-leaflet/vue-leaflet';
-import L from 'leaflet'
+// import L from 'leaflet'
 import 'leaflet/dist/leaflet.css';
 
 const zoom = ref(10);
@@ -94,25 +102,28 @@ const props = defineProps({
   latErrors: [],
   lonError: '',
   lonErrors: [],
+  locationErrors: [],
 });
 
-const { location } = toRefs(props)
+// const { location } = toRefs(props)
 
-const mapCenter = latLng(props.location.lat, props.location.lon);
+const mapCenter = ref(latLng(props.location.lat, props.location.lon));
 
 function changeLatLong(e) {
   console.log('in changeLatLong func: ', e);
-  props.location.lat = e.target.getLatLng().lat;
-  props.location.lon = e.target.getLatLng().lng;
+  const targetLatLng = e.target.getLatLng()
+  props.location.lat = targetLatLng.lat;
+  props.location.lon = targetLatLng.lng;
+  mapCenter.value = latLng(targetLatLng.lat, targetLatLng.lng)
 }
 
 function latLng(lat, lng) {
-  return L.latLng(lat, lng);
+  return [lat, lng];
 }
 
 function onMapReady() {
   console.log('marker location on map ready: ', props.location);
-  latLng(props.location.lat, props.location.lon)
+  mapCenter.value = latLng(location.lat, location.lon)
 }
 
 </script>
