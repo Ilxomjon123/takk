@@ -5,7 +5,8 @@ const state = () => {
     countries: [],
     cities: [],
     selectedCountry: 'United States',
-    selectedCity: ''
+    selectedCity: '',
+    loadingStatus: false
   };
 };
 
@@ -13,7 +14,8 @@ const getters = {
   getCountries: state => state.countries,
   getSelectedCountry: state => state.selectedCountry,
   getCities: state => state.cities,
-  getSelectedCity: state => state.selectedCity
+  getSelectedCity: state => state.selectedCity,
+  getLoadingStatus: state => state.loadingStatus
 };
 const mutations = {
   setCountries(state, payload) {
@@ -27,6 +29,9 @@ const mutations = {
   },
   setSelectedCity(state, payload) {
     state.selectedCity = payload;
+  },
+  setLoadingStatus(state, payload) {
+    state.loadingStatus = payload;
   }
 };
 

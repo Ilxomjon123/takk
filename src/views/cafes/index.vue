@@ -44,13 +44,6 @@
       </div>
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
-        <div
-          v-if="isLoading"
-          class="absolute h-full w-full z-50 col-span-6 sm:col-span-3 xl:col-span-2 flex flex-col justify-center items-center"
-          style="background-color: rgba(100, 100, 100, 0.1);"
-        >
-          <LoadingIcon icon="tail-spin" class="w-16 h-16" />
-        </div>
         <table class="table table-report -mt-2">
           <thead>
             <tr>
@@ -137,12 +130,14 @@ import { deleteCafe, fetchCafeList } from '../../api';
 const router = useRouter();
 const store = useStore();
 const rowId = ref(null)
-const isLoading = ref(true)
+// const isLoading = ref(true)
 const list = ref([])
 
+store.commit('setLoadingStatus', true)
 fetchCafeList().then(res => {
   list.value = res
-  isLoading.value = false
+  store.commit('setLoadingStatus', false)
+  // isLoading.value = false
 })
 
 function gotoForm(id) {
@@ -158,11 +153,16 @@ function openConfirmModal(id) {
 }
 
 function deleteObj() {
-  isLoading.value = true
+  store.commit('setLoadingStatus', true)
+  // isLoading.value = true
   cash('#delete-confirmation-modal').modal('hide')
   deleteCafe(rowId.value).then(res => {
-    store.dispatch('cafes/fetchCafeList');
+    fetchCafeList().then(res => {
+      list.value = res
+      store.commit('setLoadingStatus', false)
+    })
+    // store.commit('setLoadingStatus', false)
   })
-  isLoading.value = false
+  // isLoading.value = false
 }
 </script>

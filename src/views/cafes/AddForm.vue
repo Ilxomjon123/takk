@@ -622,6 +622,7 @@ async function save() {
       position: 'right',
       stopOnFocus: true
     }).showToast();
+    isLoading.value = false
   } else {
     try {
       const res = await store.dispatch('cafes/cafePost', formData);
@@ -643,10 +644,11 @@ async function save() {
         console.log(error.response.data);
         $externalResults.value = error.response.data;
       }
+    } finally {
+      isLoading.value = false
     }
 
   }
-  isLoading.value = false
 
 }
 </script>
