@@ -462,12 +462,14 @@ import CafeDeliveryFields from '@/components/forms/cafes/CafeDeliveryFields.vue'
 
 const store = useStore();
 const isLoading = ref(false)
+const $externalResults = ref({})
 
 const statusOptions = reactive([
   { label: 'Inactive', value: 0 },
   { label: 'Active', value: 1 },
   { label: 'Unknown', value: 2 }
 ]);
+
 const formData = reactive({
   name: '',
   description: '',
@@ -552,6 +554,7 @@ const alpha = helpers.regex(
   'alpha',
   /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
 );
+
 const rules = {
   name: {
     required,
@@ -599,7 +602,7 @@ const rules = {
   menu: {}
 };
 
-const validate = useVuelidate(rules, toRefs(formData));
+const validate = useVuelidate(rules, toRefs(formData), { $externalResults });
 
 async function save() {
   isLoading.value = true
@@ -620,20 +623,28 @@ async function save() {
       stopOnFocus: true
     }).showToast();
   } else {
-    const res = await store.dispatch('cafes/cafePost', formData);
-    if (res.status) {
-      Toastify({
-        node: cash('#success-notification-content')
-          .clone()
-          .removeClass('hidden')[0],
-        duration: 3000,
-        newWindow: true,
-        close: true,
-        gravity: 'top',
-        position: 'right',
-        stopOnFocus: true
-      }).showToast();
+    try {
+      const res = await store.dispatch('cafes/cafePost', formData);
+      if (res.status) {
+        Toastify({
+          node: cash('#success-notification-content')
+            .clone()
+            .removeClass('hidden')[0],
+          duration: 3000,
+          newWindow: true,
+          close: true,
+          gravity: 'top',
+          position: 'right',
+          stopOnFocus: true
+        }).showToast();
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data);
+        $externalResults.value = error.response.data;
+      }
     }
+
   }
   isLoading.value = false
 
