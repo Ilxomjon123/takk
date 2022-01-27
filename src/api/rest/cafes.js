@@ -1,10 +1,10 @@
 import makeRequest from '../makeRequest';
 
-const companyId = JSON.parse(localStorage.getItem('required_details'))?.user
-  ?.company_id;
-
 export const fetchCafeList = async () => {
   try {
+    const companyId = JSON.parse(localStorage.getItem('required_details'))?.user
+      ?.company_id;
+
     const res = await makeRequest({
       url: `/api/companies/${companyId}/`,
       headers: { authorization: true }
@@ -47,9 +47,10 @@ export const updateCafe = async payload => {
 };
 
 export const cafePost = async payload => {
-  const data = { ...payload, company: companyId };
-
   try {
+    const companyId = JSON.parse(localStorage.getItem('required_details'))?.user
+      ?.company_id;
+    const data = { ...payload, company: companyId };
     const res = await makeRequest({
       url: `/api/cafes/`,
       method: 'post',
