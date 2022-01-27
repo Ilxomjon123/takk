@@ -27,9 +27,6 @@ export default defineComponent({
     }
   },
   async mounted() {
-    if (this.selectedCountry != null) {
-      this.$state.selectedCountry = this.selectedCountry;
-    }
     await this.fetchCountries();
     await this.$store.dispatch('fetchCities');
   },

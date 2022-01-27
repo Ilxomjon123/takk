@@ -6,7 +6,13 @@
       <!-- END: Profile Menu -->
       <div class="col-span-12 lg:col-span-12 2xl:col-span-12">
         <!-- BEGIN: Display Information -->
-        <div class="intro-y box lg:mt-5">
+        <LoadingIcon
+          v-if="pageLoading"
+          icon="three-dots"
+          color="white"
+          class="w-8 h-8 my-2"
+        />
+        <div v-else class="intro-y box lg:mt-5">
           <div
             class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5"
           >
@@ -290,8 +296,8 @@ export default defineComponent({
   data() {
     return {
       images: {},
-      form: {},
       isLoading: false,
+      pageLoading: true,
       errors: {},
       successMessage: "Successfully saved!",
     };
@@ -301,7 +307,9 @@ export default defineComponent({
   },
   async mounted() {
     await this.fetchCompany();
-    this.form = this.getCompany;
+    this.$store.commit('setSelectedCountry', this.getCompany.country);
+    this.$store.commit('setSelectedCity', this.getCompany.city);
+    this.pageLoading = false;
   },
   methods: {
     ...mapActions(["putCompany", "putStep", "fetchCompany"]),

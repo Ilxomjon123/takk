@@ -2,23 +2,28 @@ import axios from 'axios';
 
 const state = () => {
   return {
-    company: [{}]
+    company: [{}],
+    customers: {}
   };
 };
 
 const getters = {
-  getCompany: state => state.company[0]
+  getCompany: state => state.company[0],
+  getCustomers: state => state.customers
 };
 
 const mutations = {
   setCompany(state, payload) {
     state.company = payload;
+  },
+  setCustomers(state, payload) {
+    state.customers = payload;
   }
 };
 
 const actions = {
   async fetchCompany({ commit, rootGetters }) {
-    axios
+    await axios
       .get('/api/companies/', {
         headers: rootGetters.getHttpHeader,
         params: {
@@ -55,6 +60,19 @@ const actions = {
         };
       });
     return response;
+  },
+  async fetchCustomers({ commit, rootGetters }, payload) {
+    await axios
+      .get(`/api/companies/${rootGetters.getUser.company_id}/customers/`, {
+        headers: rootGetters.getHttpHeader,
+        params: payload
+      })
+      .then(res => {
+        commit('setCustomers', res.data);
+      })
+      .catch(err => {
+        commit('setCustomers', err.response.data);
+      });
   }
 };
 
