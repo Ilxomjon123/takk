@@ -1,22 +1,17 @@
 <template>
   <div class="input-form mt-3">
     <label
-      for="validation-form-1"
+      for="call_center"
       class="form-label w-full flex flex-col sm:flex-row"
-    >
-      Cafe name
-      <span
-        class="sm:ml-auto mt-1 sm:mt-0 text-xs text-gray-600"
-      >Required, at least 1 characters</span>
-    </label>
+    >Phone number</label>
     <input
-      id="validation-form-1"
-      :value="title"
-      @input="$emit('update:title', $event.target.value)"
+      id="call_center"
+      :value="call_center"
+      @input="$emit('update:phone', $event.target.value)"
       type="text"
       class="form-control"
       :class="{ 'border-theme-6': errors.length > 0 }"
-      placeholder="Type your cafe name"
+      placeholder="Phone number"
     />
     <template v-if="errors.length > 0">
       <div
@@ -30,9 +25,9 @@
 
 <script setup>
 const props = defineProps({
-  title: String,
+  phone: String,
   errors: Array,
 });
 
-const emit = defineEmits(['update:title']);
+const emit = defineEmits(['update:phone']);
 </script>

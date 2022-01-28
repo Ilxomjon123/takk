@@ -53,29 +53,11 @@
                     v-model:title="validate.name.$model"
                     :errors="validate.name.$errors || $externalResults.name"
                   />
-                  <div class="input-form mt-3">
-                    <label
-                      for="call_center"
-                      class="form-label w-full flex flex-col sm:flex-row"
-                    >Phone number</label>
-                    <input
-                      id="call_center"
-                      v-model.trim="validate.call_center.$model"
-                      type="text"
-                      name="call_center"
-                      class="form-control"
-                      :class="{ 'border-theme-6': validate.call_center.$error }"
-                      placeholder="Phone number"
-                    />
-                    <template v-if="validate.call_center.$error">
-                      <div
-                        v-for="(error, index) in validate.call_center.$errors"
-                        :key="index"
-                        class="text-theme-6 mt-2"
-                      >{{ error.$message }}</div>
-                    </template>
-                  </div>
-                  <div class="input-form mt-3">
+                  <!-- <PhoneField
+                    v-model:phone="validate.name.$model"
+                    :errors="validate.name.$errors || $externalResults.name"
+                  />-->
+                  <!-- <div class="input-form mt-3">
                     <label
                       for="website"
                       class="form-label w-full flex flex-col sm:flex-row"
@@ -88,22 +70,25 @@
                       class="form-control"
                       placeholder="Type cafe website"
                     />
-                  </div>
+                  </div>-->
+                  <TextField
+                    title="Phone number"
+                    :vmodel="validate.call_center.$model"
+                    :errors="validate.call_center.$errors"
+                  />
+                  <TextField
+                    title="Website"
+                    :vmodel="validate.website.$model"
+                    :errors="validate.website.$errors"
+                  />
                   <div class="input-form flex-1 w-full mt-3">
                     <label for="status" class="form-label">Status</label>
-                    <TomSelect
+                    <StatusSelect
                       id="status"
-                      name="status"
-                      v-model="validate.status.$model"
-                      class="w-full"
-                      :class="{ 'border-theme-6': validate.status.$error }"
-                    >
-                      <option
-                        v-for="(status, index) in statusOptions"
-                        :key="status.label + index"
-                        :value="status.value"
-                      >{{ status.label }}</option>
-                    </TomSelect>
+                      :status="validate.status.$model"
+                      :errors="validate.status.$errors"
+                      :statusOptions="statusOptions"
+                    />
                     <template v-if="validate.status.$error">
                       <div
                         v-for="(error, index) in validate.status.$errors"
@@ -437,6 +422,9 @@ import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
 import LatLongField from '@/components/forms/cafes/LatLongField.vue';
 import CafeDeliveryFields from '@/components/forms/cafes/CafeDeliveryFields.vue';
 import TitleField from '../../components/forms/cafes/TitleField.vue';
+import PhoneField from '../../components/forms/cafes/PhoneField.vue';
+import TextField from '../../components/forms/cafes/TextField.vue';
+import StatusSelect from '../../components/forms/cafes/StatusSelect.vue';
 
 const store = useStore();
 const isLoading = ref(false)

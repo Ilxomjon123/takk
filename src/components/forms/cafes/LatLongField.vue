@@ -12,7 +12,7 @@
         <input
           id="lat"
           :value="location.lat"
-          @input="$emit('update:modelValue', $event.target.value)"
+          @input="$emit('update:latitude-value', $event.target.value)"
           type="number"
           step="0.000000000000001"
           name="lat"
@@ -35,7 +35,7 @@
         <input
           id="lon"
           :value="location.lon"
-          @input="$emit('update:modelValue', $event.target.value)"
+          @input="$emit('update:longitude-value', $event.target.value)"
           type="number"
           step="0.000000000000001"
           name="lon"
@@ -59,78 +59,79 @@
       >{{ error }}</div>
     </template>
     <div class="mt-5 map_container">
-      <LMap
-        ref="map"
-        v-model:zoom="zoom"
-        :center="mapCenter"
-        @update:center="changeLatLong"
-        @ready="onMapReady"
-      >
-        <LTileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          layer-type="base"
-          name="OpenStreetMap"
-        ></LTileLayer>
-
-        <LMarker
-          :lat-lng="latLng(location.lat, location.lon)"
-          draggable
-          @moveend="changeLatLong"
-        >
-          <!-- <LPopup>
-            lol
-          </LPopup>-->
-        </LMarker>
-      </LMap>
+      <div id="map"></div>
     </div>
   </div>
 </template>
 
-<script setup>
-import { reactive, ref, onMounted, computed, toRefs } from 'vue';
-import { LMap, LTileLayer, LMarker } from '@vue-leaflet/vue-leaflet';
-// import L from 'leaflet'
+<script>
+import { defineComponent } from 'vue';
+import L from 'leaflet'
 import 'leaflet/dist/leaflet.css';
 
-const zoom = ref(10);
-const props = defineProps({
-  location: {
-    lat: null,
-    lon: null
+export default defineComponent({
+  props: {
+    location: Object,
+    latError: Boolean,
+    latErrors: Array,
+    lonError: Boolean,
+    lonErrors: Array,
+    locationErrors: Array,
   },
-  latError: '',
-  latErrors: [],
-  lonError: '',
-  lonErrors: [],
-  locationErrors: [],
-});
+  data: () => ({
+    map: null,
+    mapCenter: []
+  }),
+  computed: {
+    setMapCenter() {
+      return this.mapCenter
+    }
+  },
+  mounted() {
+    this.mapCenter = this.latLng(this.location)
+    this.map = L.map("map").setView(this.setMapCenter, 7);
 
-// const { location } = toRefs(props)
+    L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(this.map);
 
-const mapCenter = ref(latLng(props.location.lat, props.location.lon));
+    L.marker([this.location.lat, this.location.lon], {
+      draggable: true
+    }).on('moveend', this.changeLatLong).addTo(this.map);
 
-function changeLatLong(e) {
-  console.log('in changeLatLong func: ', e);
-  const targetLatLng = e.target.getLatLng()
-  props.location.lat = targetLatLng.lat;
-  props.location.lon = targetLatLng.lng;
-  mapCenter.value = latLng(targetLatLng.lat, targetLatLng.lng)
-}
+  },
+  onBeforeUnmount() {
+    if (this.map) {
+      this.map.remove();
+    }
+  },
+  methods: {
+    changeLatLong(e) {
+      console.log('in changeLatLong func: ', e);
+      const targetLatLng = e.target.getLatLng()
+      this.location.lat = targetLatLng.lat;
+      this.location.lon = targetLatLng.lng;
+      this.map.panTo([targetLatLng.lat, targetLatLng.lng])
+    },
 
-function latLng(lat, lng) {
-  return [lat, lng];
-}
+    latLng(obj) {
+      return [obj.lat, obj.lon];
+    },
 
-function onMapReady() {
-  console.log('marker location on map ready: ', props.location);
-  mapCenter.value = latLng(location.lat, location.lon)
-}
+    onMapReady() {
+      console.log('marker location on map ready: ', this.location);
+      this.mapCenter = this.latLng(this.location)
+    }
+  }
+})
+
 
 </script>
 
 <style lang="scss" scoped>
-.map_container {
-  width: 100%;
+#map {
+  width: 50%;
   height: 400px;
 }
 </style>
