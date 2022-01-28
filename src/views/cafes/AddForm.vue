@@ -18,7 +18,7 @@
                   >
                     <h2 class="font-medium text-base mr-auto">Cafe info</h2>
                   </div>
-                  <div class="input-form mt-3">
+                  <!-- <div class="input-form mt-3">
                     <label
                       for="cafe_timezone"
                       class="form-label w-full flex flex-col sm:flex-row"
@@ -48,39 +48,16 @@
                         class="text-theme-6 mt-2"
                       >{{ error.$message }}</div>
                     </template>
-                  </div>
-                  <div class="input-form mt-3">
-                    <label
-                      for="validation-form-1"
-                      class="form-label w-full flex flex-col sm:flex-row"
-                    >
-                      Cafe name
-                      <span
-                        class="sm:ml-auto mt-1 sm:mt-0 text-xs text-gray-600"
-                      >Required, at least 1 characters</span>
-                    </label>
-                    <input
-                      id="validation-form-1"
-                      v-model.trim="validate.name.$model"
-                      type="text"
-                      name="name"
-                      class="form-control"
-                      :class="{ 'border-theme-6': validate.name.$error }"
-                      placeholder="Type your cafe name"
-                    />
-                    <template v-if="validate.name.$error">
-                      <div
-                        v-for="(error, index) in validate.name.$errors"
-                        :key="index"
-                        class="text-theme-6 mt-2"
-                      >{{ error.$message }}</div>
-                    </template>
-                  </div>
+                  </div>-->
+                  <TitleField
+                    v-model:title="validate.name.$model"
+                    :errors="validate.name.$errors || $externalResults.name"
+                  />
                   <div class="input-form mt-3">
                     <label
                       for="call_center"
                       class="form-label w-full flex flex-col sm:flex-row"
-                    >Call center</label>
+                    >Phone number</label>
                     <input
                       id="call_center"
                       v-model.trim="validate.call_center.$model"
@@ -88,7 +65,7 @@
                       name="call_center"
                       class="form-control"
                       :class="{ 'border-theme-6': validate.call_center.$error }"
-                      placeholder="Call center phone"
+                      placeholder="Phone number"
                     />
                     <template v-if="validate.call_center.$error">
                       <div
@@ -345,20 +322,20 @@
                   <div class="flex gap-5 pt-3">
                     <div class="form-check w-auto mt-6">
                       <input
-                        id="is_use_square"
+                        id="is_square_used"
                         class="form-check-switch"
                         type="checkbox"
-                        name="is_use_square"
-                        v-model.trim="validate.is_use_square.$model"
+                        name="is_square_used"
+                        v-model.trim="validate.is_square_used.$model"
                       />
                       <label
                         class="form-check-label"
-                        for="is_use_square"
+                        for="is_square_used"
                       >Is use square</label>
                     </div>
                     <div
                       class="input-form"
-                      v-if="validate.is_use_square.$model"
+                      v-if="validate.is_square_used.$model"
                     >
                       <label
                         for="square_location_id"
@@ -459,6 +436,7 @@ import CitySelect from '@/components/selects/CitySelect.vue';
 import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
 import LatLongField from '@/components/forms/cafes/LatLongField.vue';
 import CafeDeliveryFields from '@/components/forms/cafes/CafeDeliveryFields.vue';
+import TitleField from '../../components/forms/cafes/TitleField.vue';
 
 const store = useStore();
 const isLoading = ref(false)
@@ -517,7 +495,7 @@ const formData = reactive({
       is_open: false
     }
   ],
-  cafe_timezone: 'America/New_York',
+  // cafe_timezone: 'America/New_York',
   location: {
     lat: 37.0902,
     lon: -95.7129
@@ -544,7 +522,7 @@ const formData = reactive({
   version: '',
   order_limit: '',
   order_time_limit: '',
-  is_use_square: false,
+  is_square_used: false,
   square_location_id: '',
   menu: ''
 });
@@ -570,7 +548,7 @@ const rules = {
     }
   },
   description: { required, minLength: minLength(1) },
-  cafe_timezone: { required },
+  // cafe_timezone: { required },
   location: {
     lat: { required, maxValue: 91, minValue: -91 },
     lon: { required, maxValue: 181, minValue: -181 }
@@ -597,7 +575,7 @@ const rules = {
   version: { required },
   order_limit: { required },
   order_time_limit: { required },
-  is_use_square: {},
+  is_square_used: {},
   square_location_id: {},
   menu: {}
 };
