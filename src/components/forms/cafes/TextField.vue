@@ -3,7 +3,7 @@
     <label class="form-label w-full flex flex-col">
       {{ title }}
       <input
-        :value="vmodel"
+        :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
         type="text"
         class="form-control"
@@ -27,7 +27,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   props: {
     title: String,
-    vmodel: String,
+    modelValue: String,
     errors: Array,
   },
   emits: ['update:modelValue']

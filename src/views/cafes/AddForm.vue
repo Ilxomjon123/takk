@@ -8,7 +8,6 @@
         <!-- BEGIN: Form Validation -->
         <div class="intro-y box">
           <div id="form-validation" class="p-5">
-            <!-- <div class="preview"> -->
             <!-- BEGIN: Validation Form -->
             <form class="validate-form" @submit.prevent="save">
               <div class="flex flex-col md:flex-row gap-5">
@@ -18,76 +17,28 @@
                   >
                     <h2 class="font-medium text-base mr-auto">Cafe info</h2>
                   </div>
-                  <!-- <div class="input-form mt-3">
-                    <label
-                      for="cafe_timezone"
-                      class="form-label w-full flex flex-col sm:flex-row"
-                    >Cafe timezone</label>
-                    <TomSelect
-                      id="cafe_timezone"
-                      name="cafe_timezone"
-                      v-model.trim="validate.cafe_timezone.$model"
-                      class="w-full"
-                      :class="{
-                        'border-theme-6': validate.cafe_timezone.$error
-                      }"
-                      :options="{
-                        placeholder: 'Select a timezone'
-                      }"
-                    >
-                      <option
-                        v-for="(zone, index) in timeZones"
-                        :key="zone + index"
-                        :value="zone"
-                      >{{ zone }}</option>
-                    </TomSelect>
-                    <template v-if="validate.cafe_timezone.$error">
-                      <div
-                        v-for="(error, index) in validate.cafe_timezone.$errors"
-                        :key="index"
-                        class="text-theme-6 mt-2"
-                      >{{ error.$message }}</div>
-                    </template>
-                  </div>-->
-                  <TitleField
-                    v-model:title="validate.name.$model"
+                  <TextField
+                    v-model="validate.name.$model"
                     :errors="validate.name.$errors || $externalResults.name"
+                    title="Cafe name"
                   />
-                  <!-- <PhoneField
-                    v-model:phone="validate.name.$model"
-                    :errors="validate.name.$errors || $externalResults.name"
-                  />-->
-                  <!-- <div class="input-form mt-3">
-                    <label
-                      for="website"
-                      class="form-label w-full flex flex-col sm:flex-row"
-                    >Website</label>
-                    <input
-                      id="website"
-                      v-model.trim="validate.website.$model"
-                      type="text"
-                      name="website"
-                      class="form-control"
-                      placeholder="Type cafe website"
-                    />
-                  </div>-->
                   <TextField
                     title="Phone number"
-                    :vmodel="validate.call_center.$model"
+                    v-model="validate.call_center.$model"
                     :errors="validate.call_center.$errors"
                   />
                   <TextField
                     title="Website"
-                    :vmodel="validate.website.$model"
+                    v-model="validate.website.$model"
                     :errors="validate.website.$errors"
                   />
-                  <div class="input-form flex-1 w-full mt-3">
-                    <label for="status" class="form-label">Status</label>
+                  <div class="input-form mt-3">
+                    <label for="cafe_status" class="form-label">Status</label>
                     <StatusSelect
-                      id="status"
-                      :status="validate.status.$model"
+                      id-field="cafe_status"
+                      v-model="validate.status.$model"
                       :errors="validate.status.$errors"
-                      :statusOptions="statusOptions"
+                      :status-options="statusOptions"
                     />
                     <template v-if="validate.status.$error">
                       <div
@@ -112,63 +63,31 @@
                     <CitySelect v-model="validate.city.$model" />
                   </div>
                   <div class="flex gap-5 pt-3">
-                    <div class="input-form basis-1/2">
-                      <label
-                        for="state"
-                        class="form-label w-full flex flex-col sm:flex-row"
-                      >State</label>
-                      <input
-                        id="state"
-                        v-model.trim="validate.state.$model"
-                        type="text"
-                        name="state"
-                        class="form-control"
-                        placeholder="Type cafe state"
-                      />
-                    </div>
-                    <div class="input-form basis-1/2">
-                      <label
-                        for="postal_code"
-                        class="form-label w-full flex flex-col sm:flex-row"
-                      >Postal code</label>
-                      <input
-                        id="postal_code"
-                        v-model.trim="validate.postal_code.$model"
-                        type="text"
-                        name="postal_code"
-                        class="form-control"
-                        placeholder="Type cafe postal code"
-                      />
-                    </div>
-                  </div>
-                  <div class="input-form mt-3">
-                    <label
-                      for="address"
-                      class="form-label w-full flex flex-col sm:flex-row"
-                    >Address</label>
-                    <input
-                      id="address"
-                      v-model.trim="validate.address.$model"
-                      type="text"
-                      name="address"
-                      class="form-control"
-                      placeholder="Type cafe address"
+                    <TextField
+                      title="State"
+                      v-model="validate.state.$model"
+                      :errors="validate.state.$errors"
+                      class="basis-1/2"
+                    />
+                    <TextField
+                      title="Postal code"
+                      v-model="validate.postal_code.$model"
+                      :errors="validate.postal_code.$errors"
+                      class="basis-1/2"
                     />
                   </div>
-                  <div class="input-form mt-3">
-                    <label
-                      for="second_address"
-                      class="form-label w-full flex flex-col sm:flex-row"
-                    >Second address</label>
-                    <input
-                      id="second_address"
-                      v-model.trim="validate.second_address.$model"
-                      type="text"
-                      name="second_address"
-                      class="form-control"
-                      placeholder="Type.."
-                    />
-                  </div>
+                  <TextField
+                    title="Address"
+                    v-model="validate.address.$model"
+                    :errors="validate.address.$errors"
+                    class="basis-1/2"
+                  />
+                  <TextField
+                    title="Second address"
+                    v-model="validate.second_address.$model"
+                    :errors="validate.second_address.$errors"
+                    class="basis-1/2"
+                  />
                   <div class="input-form mt-3">
                     <label
                       for="description"
@@ -346,6 +265,27 @@
                 :lonError="validate.location.lon.$error"
                 :lonErrors="validate.location.lon.$errors"
               />
+              <div
+                class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5"
+              >
+                <label class="form-label">Cafe Logo</label>
+                <div class="h-40 image-fit cursor-pointer zoom-in mx-auto mb-3">
+                  <img class="rounded-md" alt="Logo" :src="logo" />
+                  <input
+                    type="file"
+                    hidden
+                    id="logo-image"
+                    @change="changeLogo"
+                  />
+                </div>
+                <div class="mx-auto cursor-pointer relative mt-5">
+                  <button
+                    type="button"
+                    @click="clickInput('logo-image')"
+                    class="btn btn-primary w-full"
+                  >Change Photo</button>
+                </div>
+              </div>
               <div class="flex">
                 <button
                   type="submit"
@@ -363,33 +303,6 @@
               </div>
             </form>
             <!-- END: Validation Form -->
-            <!-- BEGIN: Success Notification Content -->
-            <div
-              id="success-notification-content"
-              class="toastify-content hidden flex"
-            >
-              <CheckCircleIcon class="text-theme-9" />
-              <div class="ml-4 mr-4">
-                <div class="font-medium">Data saved successfully!</div>
-                <div
-                  class="text-gray-600 mt-1"
-                >Please check your e-mail for further info!</div>
-              </div>
-            </div>
-            <!-- END: Success Notification Content -->
-            <!-- BEGIN: Failed Notification Content -->
-            <div
-              id="failed-notification-content"
-              class="toastify-content hidden flex"
-            >
-              <XCircleIcon class="text-theme-6" />
-              <div class="ml-4 mr-4">
-                <div class="font-medium">Data save failed!</div>
-                <div class="text-gray-600 mt-1">Please check the fileld form.</div>
-              </div>
-            </div>
-            <!-- END: Failed Notification Content -->
-            <!-- </div> -->
           </div>
         </div>
         <!-- END: Form Validation -->
@@ -421,14 +334,14 @@ import CitySelect from '@/components/selects/CitySelect.vue';
 import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
 import LatLongField from '@/components/forms/cafes/LatLongField.vue';
 import CafeDeliveryFields from '@/components/forms/cafes/CafeDeliveryFields.vue';
-import TitleField from '../../components/forms/cafes/TitleField.vue';
-import PhoneField from '../../components/forms/cafes/PhoneField.vue';
 import TextField from '../../components/forms/cafes/TextField.vue';
-import StatusSelect from '../../components/forms/cafes/StatusSelect.vue';
+import StatusSelect from '../../components/forms/cafes/CafeStatusSelect.vue';
+import MultipleImageUpload from '../../components/forms/file-upload/MultipleImageUpload.vue';
 
 const store = useStore();
 const isLoading = ref(false)
 const $externalResults = ref({})
+const logo = ref(null)
 
 const statusOptions = reactive([
   { label: 'Inactive', value: 0 },
@@ -582,11 +495,6 @@ async function save() {
         .clone()
         .removeClass('hidden')[0],
       duration: 3000,
-      newWindow: true,
-      close: true,
-      gravity: 'top',
-      position: 'right',
-      stopOnFocus: true
     }).showToast();
     isLoading.value = false
   } else {
@@ -598,11 +506,6 @@ async function save() {
             .clone()
             .removeClass('hidden')[0],
           duration: 3000,
-          newWindow: true,
-          close: true,
-          gravity: 'top',
-          position: 'right',
-          stopOnFocus: true
         }).showToast();
       }
     } catch (error) {
@@ -616,5 +519,17 @@ async function save() {
 
   }
 
+}
+
+function clickInput(name) {
+  document.getElementById(name).click();
+}
+
+function changeLogo(e) {
+  logo.value = URL.createObjectURL(e.target.files[0])
+}
+
+function removeLogo() {
+  //
 }
 </script>
