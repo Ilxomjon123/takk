@@ -8,9 +8,10 @@
         name="delivery_is_available"
         v-model="delivery.delivery_available"
       />
-      <label class="form-check-label" for="delivery_is_available"
-        >Delivery available</label
-      >
+      <label
+        class="form-check-label"
+        for="delivery_is_available"
+      >Delivery available</label>
     </div>
   </div>
   <template v-if="delivery.delivery_available">
@@ -19,9 +20,7 @@
         <label
           for="delivery_max_distance"
           class="form-label w-full flex flex-col sm:flex-row"
-        >
-          Delivery max distance
-        </label>
+        >Delivery max distance</label>
         <input
           id="delivery_max_distance"
           v-model="delivery.delivery_max_distance"
@@ -35,9 +34,7 @@
         <label
           for="delivery_min_amount"
           class="form-label w-full flex flex-col sm:flex-row"
-        >
-          Delivery min amount
-        </label>
+        >Delivery min amount</label>
         <input
           id="delivery_min_amount"
           v-model="delivery.delivery_min_amount"
@@ -54,9 +51,7 @@
         <label
           for="delivery_fee"
           class="form-label w-full flex flex-col sm:flex-row"
-        >
-          Delivery fee
-        </label>
+        >Fixed fee</label>
         <input
           id="delivery_fee"
           v-model="delivery.delivery_fee"
@@ -71,9 +66,7 @@
         <label
           for="delivery_percent"
           class="form-label w-full flex flex-col sm:flex-row"
-        >
-          Delivery percent
-        </label>
+        >% of order fee</label>
         <input
           id="delivery_percent"
           v-model="delivery.delivery_percent"
@@ -90,9 +83,7 @@
         <label
           for="delivery_km_amount"
           class="form-label w-full flex flex-col sm:flex-row"
-        >
-          Delivery km amount
-        </label>
+        >Fee per kilometer</label>
         <input
           id="delivery_km_amount"
           v-model="delivery.delivery_km_amount"
@@ -106,9 +97,7 @@
         <label
           for="delivery_min_time"
           class="form-label w-full flex flex-col sm:flex-row"
-        >
-          Delivery min time
-        </label>
+        >Delivery min time</label>
         <input
           id="delivery_min_time"
           v-model="delivery.delivery_min_time"
