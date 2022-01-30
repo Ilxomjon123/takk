@@ -16,6 +16,8 @@ import CafeAdd from '../views/cafes/AddForm.vue';
 import CafeEdit from '../views/cafes/EditForm.vue';
 import Company from '../views/dashboard/company/Main.vue';
 import Customer from '../views/dashboard/customer/Main.vue';
+import Transaction from '../views/dashboard/transactions/Main.vue';
+import Profile from '../views/profile/Main.vue';
 
 const routes = [
   {
@@ -67,6 +69,16 @@ const routes = [
         path: 'customer',
         component: CompanyLayout,
         children: [{ path: '', name: 'customer', component: Customer }]
+      },
+      {
+        path: 'transactions',
+        component: CompanyLayout,
+        children: [{ path: '', name: 'transactions', component: Transaction }]
+      },
+      {
+        path: 'profile',
+        component: CompanyLayout,
+        children: [{ path: '', name: 'profile', component: Profile }]
       }
     ]
   },

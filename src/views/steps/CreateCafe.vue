@@ -1,11 +1,11 @@
 <template>
-  <div class="intro-y box mx-10">
+  <div class="intro-y box">
     <div
       class="flex flex-row items-center p-5 border-b border-gray-200 dark:border-dark-5"
     >
       <h2 class="font-medium text-xl mr-auto">Create Cafe</h2>
       <div class="form-check sm:mt-0">
-        <button class="btn btn-success" @click="skip">Skip -></button>
+        <button class="btn btn-success md:hidden" @click="skip">Skip -></button>
       </div>
     </div>
     <div class="p-5">
@@ -28,9 +28,11 @@ export default defineComponent({
   , methods: {
     ...mapActions(['putStep']),
     async skip() {
-      const res = await this.putStep(this.$store.state.user.STEP_MENU);
+      const res = await this.putStep(this.$store.state.user.STEP_DASHBOARD);
+      // const res = await this.putStep(this.$store.state.user.STEP_MENU);
       if (res.status) {
-        this.$router.push('/entry/menu')
+        this.$router.push('/dashboard')
+        // this.$router.push('/entry/menu')
       } else {
         this.$refs.errorNotification.show()
       }

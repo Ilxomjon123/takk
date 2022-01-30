@@ -1,0 +1,104 @@
+<template>
+  <div
+    class="hidden md:block mx-auto text-gray-600 text-center col-span-12"
+    v-if="total == 0"
+  >No Data</div>
+  <div
+    v-else
+    class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center"
+  >
+    <ul class="pagination">
+      <li>
+        <a class="pagination__link">
+          <ChevronsLeftIcon class="w-4 h-4" @click="paginate(1)" />
+        </a>
+      </li>
+      <li>
+        <a class="pagination__link">
+          <ChevronLeftIcon class="w-4 h-4" @click="paginate(currentPage - 1)" />
+        </a>
+      </li>
+      <li v-for="(item, index) in totalPages" :key="index">
+        <a
+          class="pagination__link"
+          @click="paginate(item)"
+          :class="item == currentPage ? 'pagination__link--active' : ''"
+        >{{ item }}</a>
+      </li>
+      <li>
+        <a class="pagination__link">
+          <ChevronRightIcon class="w-4 h-4" @click="paginate(currentPage + 1)" />
+        </a>
+      </li>
+      <li>
+        <a class="pagination__link">
+          <ChevronsRightIcon class="w-4 h-4" @click="paginate(totalPages)" />
+        </a>
+      </li>
+    </ul>
+    <div
+      class="hidden md:block mx-auto text-gray-600"
+    >Showing {{ firstIndex }} to {{ lastIndex }} of {{ total }} entries</div>
+    <select class="w-20 form-select box mt-3 sm:mt-0" @change="changePerpage">
+      <option
+        v-for="(item, index) in perPageList"
+        :key="index"
+        :selected="perPage == item"
+      >{{ item }}</option>
+    </select>
+  </div>
+</template>
+
+<script>
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  data() {
+    return {
+      perPage: 10
+    }
+  },
+  props: {
+    currentPage: {
+      type: Number,
+      required: true
+    },
+    total: {
+      type: Number,
+      required: true
+    },
+    perPageList: {
+      type: Array,
+      default: [10, 20, 50, 100]
+    },
+    showedPages: {
+      type: Number,
+      default: 3
+    }
+  },
+  computed: {
+    totalPages() {
+      const rem = this.total % this.perPage;
+      return rem == 0 ? Math.floor(this.total / this.perPage) : Math.floor(this.total / this.perPage) + 1
+    },
+    firstIndex() {
+      return (this.currentPage - 1) * this.perPage + 1
+    },
+    lastIndex() {
+      if (this.currentPage != this.totalPages)
+        return this.currentPage * this.perPage
+      else return this.total;
+    }
+  },
+  methods: {
+    paginate(val) {
+      if (1 <= val && val <= this.totalPages)
+        this.$emit('paginate', val);
+      // this.currentPage = val;
+    },
+    changePerpage(e) {
+      this.perPage = e.target.value;
+    }
+  }
+})
+</script>

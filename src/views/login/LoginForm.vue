@@ -1,7 +1,7 @@
 <template>
-  <h2 class="intro-x font-bold text-2xl xl:text-3xl text-center xl:text-left">
-    {{ headText }}
-  </h2>
+  <h2
+    class="intro-x font-bold text-2xl xl:text-3xl text-center xl:text-left"
+  >{{ headText }}</h2>
   <div class="intro-x mt-2 text-gray-500 xl:hidden text-center">
     A few more clicks to sign in to your account. Manage all your e-commerce
     accounts in one place
@@ -127,7 +127,8 @@ export default defineComponent({
             token: res.data.token
           });
           setToken(res.data.token);
-          this.$router.push('/entry');
+          // this.$router.push('/entry');
+          window.location.replace('/entry');
         }
       }
       // API dan xato qaytsa

@@ -47,18 +47,17 @@
         <label for="cashback" class="form-label">Cashback Percent</label>
         <div class="input-group">
           <div id="input-group-percent" class="input-group-text">%</div>
-          <input
+          <TomSelect
             id="cashback"
-            type="number"
-            class="form-control"
+            class="w-full"
             :class="getError('cashback_percent') != null ? 'border-theme-6' : 'border-gray-300'"
-            min="5"
-            max="10"
-            maxlength="2"
-            placeholder="10"
             v-model="form.cashback_percent"
             aria-describedby="input-group-percent"
-          />
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+          </TomSelect>
+
           <div class="text-theme-6 mt-2" v-text="getError('cashback_percent')" />
         </div>
       </div>

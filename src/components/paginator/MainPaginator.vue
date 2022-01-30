@@ -1,60 +1,19 @@
 <template>
-  <div
-    class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center"
-  >
-    <ul class="pagination">
-      <li>
-        <a class="pagination__link">
-          <ChevronsLeftIcon class="w-4 h-4" />
-        </a>
-      </li>
-      <li>
-        <a class="pagination__link">
-          <ChevronLeftIcon class="w-4 h-4" />
-        </a>
-      </li>
-      <li>
-        <a class="pagination__link">...</a>
-      </li>
-      <li>
-        <a class="pagination__link">1</a>
-      </li>
-      <li>
-        <a class="pagination__link pagination__link--active">2</a>
-      </li>
-      <li>
-        <a class="pagination__link">3</a>
-      </li>
-      <li>
-        <a class="pagination__link">...</a>
-      </li>
-      <li>
-        <a class="pagination__link">
-          <ChevronRightIcon class="w-4 h-4" />
-        </a>
-      </li>
-      <li>
-        <a class="pagination__link">
-          <ChevronsRightIcon class="w-4 h-4" />
-        </a>
-      </li>
-    </ul>
-    <div
-      class="hidden md:block mx-auto text-gray-600"
-    >Showing 1 to 10 of 150 entries</div>
-    <select class="w-20 form-select box mt-3 sm:mt-0">
-      <option>10</option>
-      <option>25</option>
-      <option>35</option>
-      <option>50</option>
-    </select>
-  </div>
+  <Pagination
+    :total="paginator.total"
+    :currentPage="paginator.page"
+    :perPage="paginator.limit"
+    @paginate="paginate($event)"
+    @changePerPage="changePerPage($event)"
+  />
 </template>
 
 <script>
 import { defineComponent } from 'vue'
+import Pagination from './Pagination.vue'
 
 export default defineComponent({
+  components: { Pagination },
   props: {
     dispatcher: {
       type: String,
@@ -63,18 +22,38 @@ export default defineComponent({
     form: {
       type: Object,
       default: {}
-    }
+    },
+
   },
   data() {
     return {
       paginator: {
-        page: 0,
+        page: 1,
         limit: 10,
-      }
+        total: 100,
+      },
     }
   },
   async mounted() {
-    await this.$store(this.dispatcher,)
+    await this.fetchData();
+  },
+  methods: {
+    async paginate(val) {
+      this.paginator.page = val
+      await this.fetchData();
+    },
+    async changePerPage(val) {
+      this.paginator.limit = val
+      await this.fetchData();
+    },
+    async fetchData() {
+      this.$store.commit('setLoadingStatus', true)
+      const res = await this.$store.dispatch(this.dispatcher, { ...this.form, ...this.paginator })
+      this.paginator.total = res.total_objects;
+      this.$emit('paginate', res.result);
+      this.$store.commit('setLoadingStatus', false)
+
+    }
   }
 })
 </script>
