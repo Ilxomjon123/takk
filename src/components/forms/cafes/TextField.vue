@@ -7,11 +7,11 @@
         @input="$emit('update:modelValue', $event.target.value)"
         type="text"
         class="form-control"
-        :class="{ 'border-theme-6': errors.length > 0 }"
+        :class="{ 'border-theme-6': error }"
         :placeholder="'Type ' + title"
       />
     </label>
-    <template v-if="errors.length > 0">
+    <template v-if="error">
       <div
         v-for="(error, index) in errors"
         :key="index"
@@ -28,6 +28,7 @@ export default defineComponent({
   props: {
     title: String,
     modelValue: String,
+    error: Boolean,
     errors: Array,
   },
   emits: ['update:modelValue']

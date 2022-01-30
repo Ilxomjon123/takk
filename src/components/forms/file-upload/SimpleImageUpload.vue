@@ -1,5 +1,5 @@
 <template>
-  <div class="w-52 mx-auto xl:mr-0 xl:ml-6">
+  <div class="w-52 mx-auto mb-5">
     <div
       class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5"
     >
@@ -14,7 +14,7 @@
         />
         <Tippy
           tag="div"
-          content="Remove this profile photo?"
+          content="Remove this logo?"
           class="w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-6 right-0 top-0 -mr-2 -mt-2"
           @click="removeImage"
         >
@@ -26,7 +26,7 @@
           type="button"
           class="btn btn-primary w-full"
           @click="$refs.inputFile.click()"
-        >Change Photo</button>
+        >Change logo</button>
         <input
           type="file"
           ref="inputFile"

@@ -44,6 +44,7 @@
     "tippy.js": "^6.2.7",
     "toastify-js": "^1.9.3",
     "tom-select": "^1.7.5",
+    "vee-validate": "^4.5.8",
     "velocity-animate": "^1.5.2",
     "vue": "^3.2.26",
     "vue-axios": "^3.4.0",
@@ -51,6 +52,7 @@
     "vue-tel-input": "^6.0.0-beta.6",
     "vuex": "^4.0.2",
     "xlsx": "^0.17.1",
+    "yup": "^0.32.11",
     "zoom-vanilla.js": "^2.0.6"
   },
   "devDependencies": {

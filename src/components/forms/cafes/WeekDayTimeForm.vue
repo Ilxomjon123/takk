@@ -2,27 +2,20 @@
   <div>
     <div class="flex justify-between mt-3">
       <div class="input-form basis-1/2">
-        <input
-          v-model="day.day"
-          @input="$emit('update:modelValue', $event.target.value)"
-          type="text"
-          class="form-control"
-          disabled
-        />
+        <input :value="day.day" type="text" class="form-control" disabled />
       </div>
       <div class="form-check w-auto">
         <input
           :id="day.day + '_is_open'"
           class="form-check-switch"
           type="checkbox"
-          v-model="day.is_open"
-          @input="$emit('update:modelValue', $event.target.value)"
+          :checked="day.is_open"
+          @input="$emit('update:is_open', $event.target.checked)"
         />
         <label
           class="form-check-label whitespace-nowrap"
           :for="day.day + '_is_open'"
-          >Is open</label
-        >
+        >Is open</label>
       </div>
     </div>
     <div class="flex gap-5 pt-3" v-if="day.is_open">
@@ -30,13 +23,11 @@
         <label
           :for="day.day + '_opening_time'"
           class="form-label w-full flex flex-col sm:flex-row"
-        >
-          Opening time
-        </label>
+        >Opening time</label>
         <input
           :id="day.day + '_opening_time'"
-          v-model="day.opening_time"
-          @input="$emit('update:modelValue', $event.target.value)"
+          :value="day.opening_time"
+          @input="$emit('update:opening_time', $event.target.value)"
           type="time"
           class="form-control timepicker"
         />
@@ -45,13 +36,11 @@
         <label
           :for="day.day + '_closing_time'"
           class="form-label w-full flex flex-col sm:flex-row"
-        >
-          Closing time
-        </label>
+        >Closing time</label>
         <input
           :id="day.day + '_closing_time'"
-          v-model="day.closing_time"
-          @input="$emit('update:modelValue', $event.target.value)"
+          :value="day.closing_time"
+          @input="$emit('update:closing_time', $event.target.value)"
           type="time"
           class="form-control timepicker"
         />
