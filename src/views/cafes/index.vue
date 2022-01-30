@@ -22,13 +22,13 @@
             <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
               <a
                 href
-                class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
               >
                 <PrinterIcon class="w-4 h-4 mr-2" />Print
               </a>
               <a
                 href
-                class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
               >
                 <FileTextIcon class="w-4 h-4 mr-2" />Export to Excel
               </a>

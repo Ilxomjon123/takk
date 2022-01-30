@@ -37,7 +37,7 @@
                 />
                 <h1
                   class="text-2xl md:text-4xl font-bold mt-10 whitespace-nowrap"
-                >Costumers</h1>
+                >Customer</h1>
               </button>
             </div>
           </div>

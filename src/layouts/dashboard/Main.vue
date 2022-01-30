@@ -139,6 +139,32 @@
         <router-view />
       </div>
       <!-- END: Content -->
+      <!-- BEGIN: Success Notification Content -->
+      <div
+        id="success-notification-content"
+        class="toastify-content hidden flex"
+      >
+        <CheckCircleIcon class="text-theme-9" />
+        <div class="ml-4 mr-4">
+          <div class="font-medium">Data saved successfully!</div>
+          <div
+            class="text-gray-600 mt-1"
+          >Please check your e-mail for further info!</div>
+        </div>
+      </div>
+      <!-- END: Success Notification Content -->
+      <!-- BEGIN: Failed Notification Content -->
+      <div
+        id="failed-notification-content"
+        class="toastify-content hidden flex"
+      >
+        <XCircleIcon class="text-theme-6" />
+        <div class="ml-4 mr-4">
+          <div class="font-medium">Data save failed!</div>
+          <div class="text-gray-600 mt-1">Please check the fileld form.</div>
+        </div>
+      </div>
+      <!-- END: Failed Notification Content -->
     </div>
   </div>
 </template>
