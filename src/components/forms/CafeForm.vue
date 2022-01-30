@@ -299,7 +299,7 @@
     <div>
       <button
         type="submit"
-        class="btn btn-primary py-3 px-4 block mx-auto mt-8 px-10 align-top"
+        class="btn btn-primary px-4 block mx-auto mt-8 px-10 align-top"
         :disabled="isLoading"
       >
         {{ isLoading ? '' : 'Submit' }}
@@ -343,7 +343,9 @@ export default defineComponent({
       const res = await this.postCafe(this.form);
       console.log(res);
       if (res.status) {
-        this.$router.push('/entry/menu')
+        this.$router.push('/dashboard')
+        // this.$router.push('/entry/menu')
+
       } else {
         this.errors = res.data;
       }

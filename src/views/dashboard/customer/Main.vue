@@ -39,11 +39,13 @@
           <div class="w-56 relative text-gray-700 dark:text-gray-300">
             <input
               type="text"
+              v-model="form.search"
               class="form-control w-56 box pr-10 placeholder-theme-13"
               placeholder="Search..."
             />
             <SearchIcon
-              class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0"
+              @click="search"
+              class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0 cursor-pointer"
             />
           </div>
         </div>
@@ -85,7 +87,12 @@
       </div>
       <!-- END: Data List -->
       <!-- BEGIN: Pagination -->
-      <MainPaginator dispatcher="fetchCustomers" @paginate="paginate($event)" />
+      <MainPaginator
+        dispatcher="fetchCustomers"
+        ref="paginator"
+        @paginate="paginate($event)"
+        :form="form"
+      />
       <!-- END: Pagination -->
     </div>
   </div>
@@ -99,12 +106,16 @@ export default defineComponent({
   components: { MainPaginator },
   data() {
     return {
-      items: []
+      items: [],
+      form: {}
     }
   },
   methods: {
     paginate(val) {
       this.items = val
+    },
+    search() {
+      this.$refs.paginator.paginate(1)
     }
   }
 })

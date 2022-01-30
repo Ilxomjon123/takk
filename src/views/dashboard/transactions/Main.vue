@@ -57,7 +57,7 @@
               <th class="whitespace-nowrap">CUSTOMER</th>
               <th class="whitespace-nowrap">ORDER</th>
               <th class="whitespace-nowrap">CAFE</th>
-              <th class="whitespace-nowrap">cREATED AT</th>
+              <th class="whitespace-nowrap">CREATED AT</th>
               <th class="whitespace-nowrap">UPDATED AT</th>
               <th class="whitespace-nowrap">ORDER DETAILS</th>
               <th class="whitespace-nowrap">LAST ORDER</th>

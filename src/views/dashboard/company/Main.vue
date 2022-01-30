@@ -6,7 +6,7 @@
       <!-- END: Profile Menu -->
       <div class="col-span-12 lg:col-span-12 2xl:col-span-12">
         <!-- BEGIN: Display Information -->
-        <div class="intro-y box lg:mt-5">
+        <div class="intro-y box lg:mt-5" v-if="!globalLoading">
           <div
             class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5"
           >
@@ -23,7 +23,7 @@
               >
                 <div class="intro-y">
                   <div
-                    class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5"
+                    class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5 items-center"
                   >
                     <label class="form-label">Company Logo</label>
                     <div
@@ -186,18 +186,16 @@
                     <label for="cashback" class="form-label">Cashback Percent</label>
                     <div class="input-group">
                       <div id="input-group-percent" class="input-group-text">%</div>
-                      <input
+                      <TomSelect
                         id="cashback"
-                        type="number"
-                        class="form-control"
+                        class="w-full"
                         :class="getError('cashback_percent') != null ? 'border-theme-6' : 'border-gray-300'"
-                        min="5"
-                        max="10"
-                        maxlength="2"
-                        placeholder="10"
                         v-model="getCompany.cashback_percent"
                         aria-describedby="input-group-percent"
-                      />
+                      >
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                      </TomSelect>
                       <div
                         class="text-theme-6 mt-2"
                         v-text="getError('cashback_percent')"
@@ -287,19 +285,22 @@ export default defineComponent({
     return {
       images: {},
       isLoading: false,
-      pageLoading: true,
       errors: {},
       successMessage: "Successfully saved!",
     };
   },
   computed: {
-    ...mapGetters(["getCompany"])
+    ...mapGetters(["getCompany"]),
+    globalLoading() {
+      return this.$store.state.common.loadingStatus
+    }
   },
-  async mounted() {
+  async created() {
+    this.$store.commit('setLoadingStatus', true);
     await this.fetchCompany();
     this.$store.commit('setSelectedCountry', this.getCompany.country);
     this.$store.commit('setSelectedCity', this.getCompany.city);
-    this.pageLoading = false;
+    this.$store.commit('setLoadingStatus', false);
   },
   methods: {
     ...mapActions(["putCompany", "putStep", "fetchCompany"]),

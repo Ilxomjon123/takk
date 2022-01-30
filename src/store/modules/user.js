@@ -3,8 +3,8 @@ const REQUIRED_DETAILS = 'required_details';
 
 const state = () => {
   return {
-    token: null,
-    user: {},
+    token: JSON.parse(localStorage.getItem(REQUIRED_DETAILS))?.token,
+    user: JSON.parse(localStorage.getItem(REQUIRED_DETAILS))?.user,
     STEP_ENTRY: null,
     STEP_COMPANY: 1,
     STEP_CAFE: 2,
@@ -14,27 +14,8 @@ const state = () => {
 };
 
 const getters = {
-  getUser() {
-    const user = JSON.parse(localStorage.getItem(REQUIRED_DETAILS))?.user;
-    // const user = JSON.parse(localStorage.getItem('user'));
-    // if (!state.user) {
-    //   const res = axios
-    //     .get('/api/user/profile/', getters.getHttpHeader)
-    //     .then(res => (state.user = res.data));
-    // }
-    return user;
-  },
-  getToken() {
-    // if (state.token != null) {
-    //   return state.token;
-    // } else {
-    // const token = localStorage.getItem('token');
-    const token = JSON.parse(localStorage.getItem(REQUIRED_DETAILS))?.token;
-
-    //   if (token != null) state.token = token;
-    // }
-    return token;
-  },
+  getUser: state => state.user,
+  getToken: state => state.token,
   getHttpHeader(state, getters) {
     return {
       Authorization: `Token ${getters.getToken}`
@@ -45,13 +26,12 @@ const getters = {
   }
 };
 const mutations = {
-  // setUser(state, payload) {
-  //   // localStorage.setItem('user', JSON.stringify(payload));
-  //   let details = JSON.parse(localStorage.getItem(REQUIRED_DETAILS));
-  //   details.user = payload;
-  //   localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(details));
-  //   state.user = payload;
-  // },
+  setUser(state, payload) {
+    let details = JSON.parse(localStorage.getItem(REQUIRED_DETAILS));
+    details.user = payload;
+    localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(details));
+    state.user = payload;
+  },
   // setToken(state, payload) {
   //   state.token = payload;
   //   let details = JSON.parse(localStorage.getItem(REQUIRED_DETAILS));
@@ -115,6 +95,44 @@ const actions = {
   },
   logout() {
     localStorage.removeItem(REQUIRED_DETAILS);
+  },
+  async fetchProfile({ commit, rootGetters }) {
+    await axios
+      .get('/api/users/profile/', {
+        headers: rootGetters.getHttpHeader
+      })
+      .then(res => {
+        response = res.data;
+        commit('setUser', res.data);
+      })
+      .catch(err => {
+        // response = err.response.data;
+        // commit('setTransactions', err.response.data);
+      });
+  },
+  async putProfile({ commit, rootGetters }, payload) {
+    let response;
+    await axios
+      .put(`/api/users/profile/`, payload, {
+        headers: {
+          ...rootGetters.getHttpHeader,
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(async res => {
+        response = {
+          status: true,
+          data: res.data
+        };
+        commit('setUser', res.data);
+      })
+      .catch(err => {
+        response = {
+          status: false,
+          data: err.response.data
+        };
+      });
+    return response;
   }
 };
 

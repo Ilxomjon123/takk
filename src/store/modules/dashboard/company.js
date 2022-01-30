@@ -69,7 +69,7 @@ const actions = {
   async fetchCustomers({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/api/companies/${rootGetters.getUser.company_id}/customers/`, {
+      .get('/api/customers/', {
         headers: rootGetters.getHttpHeader,
         params: payload
       })

@@ -38,7 +38,8 @@ const actions = {
         headers: rootGetters.getHttpHeader
       })
       .then(async res => {
-        await dispatch('putStep', rootState.user.STEP_MENU);
+        await dispatch('putStep', rootState.user.STEP_DASHBOARD);
+        // await dispatch('putStep', rootState.user.STEP_MENU);
 
         response = {
           status: true,
