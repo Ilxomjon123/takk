@@ -44,8 +44,8 @@ const state = () => {
         title: 'Employee'
       },
       {
-        icon: 'HomeIcon',
-        pageName: 'test',
+        icon: 'CreditCardIcon',
+        pageName: 'transactions',
         title: 'Transactions'
       },
       {

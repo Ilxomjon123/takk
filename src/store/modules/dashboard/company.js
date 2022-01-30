@@ -3,13 +3,15 @@ import axios from 'axios';
 const state = () => {
   return {
     company: [{}],
-    customers: {}
+    customers: [],
+    transactions: []
   };
 };
 
 const getters = {
   getCompany: state => state.company[0],
-  getCustomers: state => state.customers
+  getCustomers: state => state.customers,
+  getTransactions: state => state.transactions
 };
 
 const mutations = {
@@ -18,6 +20,9 @@ const mutations = {
   },
   setCustomers(state, payload) {
     state.customers = payload;
+  },
+  setTransactions(state, payload) {
+    state.transactions = payload;
   }
 };
 
@@ -62,17 +67,38 @@ const actions = {
     return response;
   },
   async fetchCustomers({ commit, rootGetters }, payload) {
+    let response;
     await axios
       .get(`/api/companies/${rootGetters.getUser.company_id}/customers/`, {
         headers: rootGetters.getHttpHeader,
         params: payload
       })
       .then(res => {
+        response = res.data;
         commit('setCustomers', res.data);
       })
       .catch(err => {
+        response = res.data;
         commit('setCustomers', err.response.data);
       });
+    return response;
+  },
+  async fetchTransactions({ commit, rootGetters }, payload) {
+    let response;
+    await axios
+      .get(`/api/companies/${rootGetters.getUser.company_id}/transactions/`, {
+        headers: rootGetters.getHttpHeader,
+        params: payload
+      })
+      .then(res => {
+        response = res.data;
+        commit('setTransactions', res.data);
+      })
+      .catch(err => {
+        response = res.data;
+        commit('setTransactions', err.response.data);
+      });
+    return response;
   }
 };
 

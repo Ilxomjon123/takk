@@ -1,6 +1,7 @@
 
   <template>
-  <div class="container pt-20">
+  <DarkModeSwitcher />
+  <div class="container">
     <div class="intro-y flex items-center">
       <h2
         class="text-xl font-medium mr-auto text-white lg:text-center"
@@ -9,12 +10,14 @@
     <div class="container p-10 bg-theme-2 rounded-md mt-8 mb-24">
       <div class="intro-y flex items-center">
         <!-- BEGIN: Pricing Layout -->
-        <div class="intro-y box flex flex-col lg:flex-row">
-          <div class="intro-y flex-1 px-5 bg-theme-1 text-white">
+        <div class="intro-y box flex flex-col lg:flex-row w-full">
+          <div
+            class="intro-y border-b border-t lg:border-b-0 lg:border-t-0 flex-1 p-5 lg:border-l lg:border-r border-gray-200 dark:border-dark-5"
+          >
             <CreditCardIcon
-              class="block w-12 h-12 text-theme-2 dark:text-theme-10 mx-auto"
+              class="block w-12 h-12 text-theme-1 dark:text-theme-10 mx-auto"
             />
-            <div class="text-xl font-medium text-center mt-10">Basic Plan</div>
+            <div class="text-xl font-medium text-center mt-10">Standard Plan</div>
             <div class="text-gray-700 dark:text-gray-600 text-center mt-5">
               1 Domain
               <span class="mx-1">•</span> 10 Users
@@ -31,15 +34,15 @@
                 <span
                   class="absolute text-2xl top-0 left-0 text-gray-600 -ml-4"
                 >$</span>
-                35
+                0
               </div>
             </div>
             <a
               href="javascript:;"
               data-toggle="modal"
               data-target="#delete-modal-preview"
-              class="btn btn-primary py-3 px-4 block mx-auto mt-8 bg-theme-2 text-black px-10"
-            >Create</a>
+              class="btn btn-rounded-primary py-3 px-4 block mx-auto mt-8"
+            >PURCHASE NOW</a>
           </div>
           <div
             class="intro-y border-b border-t lg:border-b-0 lg:border-t-0 flex-1 p-5 lg:border-l lg:border-r border-gray-200 dark:border-dark-5"
@@ -47,7 +50,7 @@
             <BriefcaseIcon
               class="block w-12 h-12 text-theme-1 dark:text-theme-10 mx-auto"
             />
-            <div class="text-xl font-medium text-center mt-10">Business</div>
+            <div class="text-xl font-medium text-center mt-10">Proprietary Plan</div>
             <div class="text-gray-700 dark:text-gray-600 text-center mt-5">
               1 Domain
               <span class="mx-1">•</span> 10 Users
@@ -64,46 +67,49 @@
                 <span
                   class="absolute text-2xl top-0 left-0 text-gray-600 -ml-4"
                 >$</span>
-                60
+                49
               </div>
             </div>
-            <button
+            <a
               type="button"
               class="btn btn-rounded-primary py-3 px-4 block mx-auto mt-8"
-            >PURCHASE NOW</button>
-          </div>
-          <div class="intro-y flex-1 px-5">
-            <ShoppingBagIcon
-              class="block w-12 h-12 text-theme-1 dark:text-theme-10 mx-auto"
-            />
-            <div class="text-xl font-medium text-center mt-10">Enterprise</div>
-            <div class="text-gray-700 dark:text-gray-600 text-center mt-5">
-              1 Domain
-              <span class="mx-1">•</span> 10 Users
-              <span class="mx-1">•</span> 20 Copies
-            </div>
-            <div
-              class="text-gray-600 dark:text-gray-400 px-10 text-center mx-auto mt-2"
-            >
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
-            </div>
-            <div class="flex justify-center">
-              <div class="relative text-5xl font-semibold mt-8 mx-auto">
-                <span
-                  class="absolute text-2xl top-0 left-0 text-gray-600 -ml-4"
-                >$</span>
-                120
-              </div>
-            </div>
-            <button
-              type="button"
-              class="btn btn-rounded-primary py-3 px-4 block mx-auto mt-8"
-            >PURCHASE NOW</button>
+            >PURCHASE NOW</a>
           </div>
         </div>
         <!-- END: Pricing Layout -->
       </div>
+    </div>
+    <div class="hidden md:flex justify-center">
+      <router-link to="/">
+        <img
+          class="w-11/12"
+          src="@/assets/images/App Store badge US.png"
+          alt="App Store badge"
+        />
+      </router-link>
+      <router-link to="/" class="md:ml-16">
+        <img
+          class="w-11/12"
+          src="@/assets/images/Google Play Badge.png"
+          alt="Google Play Badge"
+        />
+      </router-link>
+    </div>
+    <div class="flex md:hidden justify-between">
+      <router-link to="/">
+        <img
+          class="w-11/12"
+          src="@/assets/images/App Store badge US.png"
+          alt="App Store badge"
+        />
+      </router-link>
+      <router-link to="/">
+        <img
+          class="w-11/12 ml-auto"
+          src="@/assets/images/Google Play Badge.png"
+          alt="Google Play Badge"
+        />
+      </router-link>
     </div>
   </div>
 
@@ -112,8 +118,11 @@
       <div class="modal-content">
         <div class="modal-body p-0">
           <div class="p-5 text-center">
-            <XCircleIcon class="w-16 h-16 text-theme-6 mx-auto mt-3" />
-            <div class="text-3xl mt-5">Do you want to integrate with SquareApp</div>
+            <div class="flex justify-center h-10 my-3 h-10 mt-3">
+              <img src="@/assets/images/TAKK Logo.png" class="mr-3" />
+              <img src="@/assets/images/squareup.png" />
+            </div>
+            <div class="text-3xl mt-5">Do you want to integrate with SquareUp</div>
             <div class="text-gray-600 mt-2">
               <!-- <div class="sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0">
                 <input
@@ -166,9 +175,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped>
-body {
-  background-color: blue;
-}
-</style>

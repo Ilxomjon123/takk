@@ -6,13 +6,7 @@
       <!-- END: Profile Menu -->
       <div class="col-span-12 lg:col-span-12 2xl:col-span-12">
         <!-- BEGIN: Display Information -->
-        <LoadingIcon
-          v-if="pageLoading"
-          icon="three-dots"
-          color="white"
-          class="w-8 h-8 my-2"
-        />
-        <div v-else class="intro-y box lg:mt-5">
+        <div class="intro-y box lg:mt-5">
           <div
             class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5"
           >
@@ -33,13 +27,9 @@
                   >
                     <label class="form-label">Company Logo</label>
                     <div
-                      class="h-40 image-fit cursor-pointer zoom-in mx-auto mb-3"
+                      class="h-64 image-fit cursor-pointer zoom-in mx-auto mb-3"
                     >
-                      <img
-                        class="rounded-md"
-                        alt="Icewall Tailwind HTML Admin Template"
-                        :src="getCompany.logo"
-                      />
+                      <img class="rounded-md" alt="Takk" :src="getCompany.logo" />
                       <input
                         type="file"
                         hidden
@@ -70,7 +60,7 @@
                 class="col-span-12 lg:col-span-8 2xl:col-span-9"
               >
                 <div class="flex flex-wrap -mx-3 mb-3">
-                  <div class="w-full md:w-1/2 px-3 md:mb-0">
+                  <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
                     <label for="company-name" class="form-label">
                       Company Name
                       <span class="text-theme-6">*</span>
@@ -112,7 +102,7 @@
                     />
                     <div class="text-theme-6" v-text="getError('email')" />
                   </div>
-                  <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
+                  <div class="w-full md:w-1/2 px-3 md:mb-0">
                     <label for="website" class="form-label">Website</label>
                     <input
                       id="website"
@@ -125,8 +115,8 @@
                     <div class="text-theme-6" v-text="getError('website')" />
                   </div>
                 </div>
-                <div class="flex flex-wrap -mx-3 mb-3">
-                  <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
+                <div class="flex flex-wrap -mx-3 mb-1">
+                  <div class="w-full md:w-1/2 px-3 md:mb-0">
                     <label class="form-label">Country</label>
                     <CountrySelect
                       :class="getError('country') != null ? 'border-theme-6' : 'border-gray-300'"
@@ -138,7 +128,7 @@
                       v-text="getError('country')"
                     />
                   </div>
-                  <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
+                  <div class="w-full md:w-1/2 px-3 md:mb-0">
                     <label class="form-label">City</label>
                     <CitySelect
                       :class="getError('city') != null ? 'border-theme-6' : 'border-gray-300'"
@@ -147,7 +137,7 @@
                     <div class="text-theme-6 mt-2" v-text="getError('city')" />
                   </div>
                 </div>
-                <div class="flex flex-wrap -mx-3 mb-3">
+                <div class="flex flex-wrap -mx-3 mb-1">
                   <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
                     <label for="address" class="form-label">Address</label>
                     <input
@@ -160,7 +150,7 @@
                     />
                     <div class="text-theme-6" v-text="getError('address')" />
                   </div>
-                  <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
+                  <div class="w-full md:w-1/2 px-3 md:mb-0">
                     <label
                       for="second-address"
                       class="form-label"
@@ -179,7 +169,7 @@
                     />
                   </div>
                 </div>
-                <div class="flex flex-wrap -mx-3 mb-3">
+                <div class="flex flex-wrap -mx-3 md:mb-5">
                   <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
                     <label for="postal-code" class="form-label">Postal Code</label>
                     <input
@@ -327,7 +317,7 @@ export default defineComponent({
       this.getCompany.logo == null;
     },
     async submit() {
-      this.isLoading = true;
+      this.$store.commit('setLoadingStatus', true)
       let form = this.getCompany;
       delete form.logo;
       delete form.owner;
@@ -357,7 +347,7 @@ export default defineComponent({
       else {
         this.errors = res.data;
       }
-      this.isLoading = false;
+      this.$store.commit('setLoadingStatus', true);
     },
     getError(key) {
       return this.errors[key]?.[0];
@@ -366,24 +356,3 @@ export default defineComponent({
   components: { CountrySelect, CitySelect, SuccessNotification, ErrorNotification }
 })
 </script>
-<style scoped>
-/* Chrome, Saf
-/* Chrome, Safari, Edge, Opera */
-input::-webkit
-/* Chrome, Safari, Edge, Opera */
-input::-webkit
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type="number"] {
-  -moz-appearance: textfield;
-}
-input[type="number"] {
-  -moz-appearance: textfield;
-}
-</style>
