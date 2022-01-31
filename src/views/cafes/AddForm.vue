@@ -99,7 +99,7 @@
                         name="is_use_square"
                         class="form-check-switch"
                         type="checkbox"
-                        :value="false"
+                        :value="true"
                         @input="toggleFunc1"
                       />
                       <ErrorMessage
@@ -127,7 +127,119 @@
                       />
                     </div>
                   </div>
-                  <CafeDeliveryFields :delivery="schema.fields.delivery" />
+                  <!-- <CafeDeliveryFields :delivery="delivery" /> -->
+                  <div class="flex gap-5">
+                    <div class="form-check w-auto mt-9">
+                      <Field
+                        id="delivery_available"
+                        class="form-check-switch"
+                        type="checkbox"
+                        name="delivery.delivery_available"
+                        :value="true"
+                        @input="toggleFunc2"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="delivery_available"
+                      >Delivery available</label>
+                      <ErrorMessage name="delivery.delivery_available" />
+                    </div>
+                  </div>
+                  <template v-if="delivery.delivery_available">
+                    <div class="flex gap-5 pt-3">
+                      <div class="input-form basis-1/2">
+                        <label
+                          for="delivery_max_distance"
+                          class="form-label w-full flex flex-col sm:flex-row"
+                        >Delivery max distance</label>
+                        <input
+                          id="delivery_max_distance"
+                          v-model="delivery.delivery_max_distance"
+                          type="number"
+                          name="delivery_max_distance"
+                          class="form-control"
+                          placeholder="Type.."
+                        />
+                      </div>
+                      <div class="input-form basis-1/2">
+                        <label
+                          for="delivery_min_amount"
+                          class="form-label w-full flex flex-col sm:flex-row"
+                        >Delivery min amount</label>
+                        <input
+                          id="delivery_min_amount"
+                          v-model="delivery.delivery_min_amount"
+                          type="number"
+                          step="0.001"
+                          name="delivery_min_amount"
+                          class="form-control"
+                          placeholder="Type.."
+                        />
+                      </div>
+                    </div>
+                    <div class="flex gap-5">
+                      <div class="input-form mt-3 basis-1/2">
+                        <label
+                          for="delivery_fee"
+                          class="form-label w-full flex flex-col sm:flex-row"
+                        >Fixed fee</label>
+                        <input
+                          id="delivery_fee"
+                          v-model="delivery.delivery_fee"
+                          type="number"
+                          step="0.001"
+                          name="delivery_fee"
+                          class="form-control"
+                          placeholder="Type.."
+                        />
+                      </div>
+                      <div class="input-form mt-3 basis-1/2">
+                        <label
+                          for="delivery_percent"
+                          class="form-label w-full flex flex-col sm:flex-row"
+                        >% of order fee</label>
+                        <input
+                          id="delivery_percent"
+                          v-model="delivery.delivery_percent"
+                          type="number"
+                          step="0.001"
+                          name="delivery_percent"
+                          class="form-control"
+                          placeholder="Type.."
+                        />
+                      </div>
+                    </div>
+                    <div class="flex gap-5">
+                      <div class="input-form mt-3 basis-1/2">
+                        <label
+                          for="delivery_km_amount"
+                          class="form-label w-full flex flex-col sm:flex-row"
+                        >Fee per kilometer</label>
+                        <input
+                          id="delivery_km_amount"
+                          v-model="delivery.delivery_km_amount"
+                          type="number"
+                          name="delivery_km_amount"
+                          class="form-control"
+                          placeholder="Type.."
+                        />
+                      </div>
+                      <div class="input-form mt-3 basis-1/2">
+                        <label
+                          for="delivery_min_time"
+                          class="form-label w-full flex flex-col sm:flex-row"
+                        >Delivery min time</label>
+                        <input
+                          id="delivery_min_time"
+                          v-model="delivery.delivery_min_time"
+                          type="number"
+                          name="delivery_min_time"
+                          class="form-control"
+                          placeholder="Type.."
+                        />
+                      </div>
+                    </div>
+                  </template>
                 </div>
                 <div class="flex-1">
                   <div
@@ -243,12 +355,50 @@
                     ></Field>
                     <ErrorMessage name="description" class="text-theme-6 mt-2" />
                   </div>
-                  <LatLongField
+                  <!-- <LatLongField
                     :location="location"
                     @update:latitude-value="schema.fields.location.lat = $event"
                     @update:longitude-value="schema.fields.location.lon = $event"
                   />
-                  <ErrorMessage name="location" />
+                  <ErrorMessage name="location" />-->
+                  <div
+                    class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
+                  >
+                    <h2 class="font-medium text-base mr-auto">Cafe location info</h2>
+                  </div>
+                  <div class="flex gap-5 pt-3">
+                    <div class="input-form basis-1/2">
+                      <label for="latitude" class="form-label">Latitude</label>
+                      <Field
+                        id="latitude"
+                        name="location.lat"
+                        v-model="location.lat"
+                        class="form-control"
+                        type="number"
+                      />
+                      <ErrorMessage
+                        name="location.lat"
+                        class="text-theme-6 mt-2"
+                      />
+                    </div>
+                    <div class="input-form basis-1/2">
+                      <label for="longitude" class="form-label">Longitude</label>
+                      <Field
+                        id="longitude"
+                        name="location.lon"
+                        v-model="location.lon"
+                        class="form-control"
+                        type="number"
+                      />
+                      <ErrorMessage
+                        name="location.lon"
+                        class="text-theme-6 mt-2"
+                      />
+                    </div>
+                  </div>
+                  <div class="mt-5 map_container">
+                    <div id="map"></div>
+                  </div>
                 </div>
               </div>
               <div class="flex">
@@ -288,6 +438,9 @@ import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
 import LatLongField from '@/components/forms/cafes/LatLongField.vue';
 import CafeDeliveryFields from '@/components/forms/cafes/CafeDeliveryFields.vue';
 import TextInput from '../../components/forms/TextInput.vue';
+import L, { latLng, CRS } from 'leaflet'
+import 'leaflet/dist/leaflet.css';
+
 
 export default defineComponent({
   components: {
@@ -321,7 +474,7 @@ export default defineComponent({
           .max(180, "Must be less than 180")
           .required("This field is requried")
           .default(-95.1234)
-      }),
+      }), // ok
       call_center: yup.string().max(50, "Must be less than 50 characters").required("This field is requried"), // ok
       website: yup.string().url("Must be a url address").nullable(), // ok
       status: yup.number().positive().integer().default(1).required("This field is requried"),
@@ -331,7 +484,7 @@ export default defineComponent({
       second_address: yup.string(), // ok
       tax_rate: yup.number().positive().required("This field is requried"), // ok
       delivery: yup.object({
-        delivery_available: yup.boolean().default(false),
+        delivery_available: yup.boolean(), // ok
         delivery_max_distance: yup.number().positive().integer().default(1),
         delivery_min_amount: yup.number().positive().integer().default(50),
         delivery_fee: yup.number().positive().integer().default(3),
@@ -342,24 +495,21 @@ export default defineComponent({
       version: yup.number().positive().integer().required("This field is requried"), // ok
       order_limit: yup.number().positive().integer().required("This field is requried"), // ok
       order_time_limit: yup.number().positive().integer().required("This field is requried"), // ok
-      is_use_square: yup.boolean().default(false), // wrong value
-      // is_use_square: (value) => value === 'on' ? true : false,
+      is_use_square: yup.boolean(), // ok
       square_location_id: yup.string(), // ok
       // menu: yup.number().positive().integer()
     });
 
-    const isLoading = ref(false)
-    const isSquareUsed = ref(false);
     const statusOptions = reactive([
       { label: 'Inactive', value: 0 },
       { label: 'Active', value: 1 },
       { label: 'Unknown', value: 2 }
     ]);
 
-    const location = reactive({
+    const location = {
       lat: 35.1234,
       lon: -95.1234,
-    })
+    }
 
     const weekTime = reactive([
       {
@@ -406,15 +556,46 @@ export default defineComponent({
       }
     ])
 
+    const delivery = {
+      delivery_available: false,
+      delivery_max_distance: 1,
+      delivery_min_amount: 50,
+      delivery_fee: 3,
+      delivery_percent: 10,
+      delivery_km_amount: 0,
+      delivery_min_time: 30
+    }
+
     return {
       schema,
-      isLoading,
+      isLoading: false,
       logoPath: '',
       statusOptions,
       weekTime,
       location,
-      isSquareUsed
+      isSquareUsed: false,
+      map: null,
+      crs: CRS.EPSG4326,
+      delivery
     };
+  },
+  mounted() {
+    this.map = L.map("map").setView(this.latLng(this.location), 7);
+
+    L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(this.map);
+
+    L.marker([this.location.lat, this.location.lon], {
+      draggable: true
+    }).on('moveend', this.changeLatLng).addTo(this.map);
+
+  },
+  onBeforeUnmount() {
+    if (this.map) {
+      this.map.remove();
+    }
   },
   methods: {
     submit(values) {
@@ -423,7 +604,28 @@ export default defineComponent({
     },
     toggleFunc1(e) {
       this.isSquareUsed = e.target.checked ? true : false;
-    }
+    },
+    toggleFunc2(e) {
+      console.log('e in toggleFunc2: ', e.target.checked);
+      this.delivery.delivery_available = e.target.checked ? true : false;
+    },
+    changeLatLng(e) {
+      const targetLatLng = e.target.getLatLng()
+      this.location.lat = targetLatLng.lat;
+      this.location.lon = targetLatLng.lng;
+      this.map.panTo([targetLatLng.lat, targetLatLng.lng])
+    },
+
+    latLng(obj) {
+      return [obj.lat, obj.lon];
+    },
   },
 });
 </script>
+
+<style lang="scss" scoped>
+#map {
+  width: 100%;
+  height: 400px;
+}
+</style>
