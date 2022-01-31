@@ -16,7 +16,7 @@
               v-slot="{ values }"
             >
               <div class="flex flex-col md:flex-row gap-5">
-                <div class="flex-1">
+                <div class="md:basis-1/2 lg:basis-1/3">
                   <SimpleImageUpload
                     :image-path="logoPath"
                     @update-image-path="logoPath = $event"
@@ -241,60 +241,69 @@
                     </div>
                   </template>
                 </div>
-                <div class="flex-1">
+                <div class="md:basis-1/2 lg:basis-2/3">
                   <div
                     class="flex flex-col sm:flex-row items-center mb-5 border-b border-gray-200 dark:border-dark-5"
                   >
                     <h2 class="font-medium text-base mr-auto">Cafe info</h2>
                   </div>
-                  <div class="input-form mt-3">
-                    <label class="form-label" for="name">Cafe name</label>
-                    <Field id="name" name="name" class="form-control" />
-                    <ErrorMessage name="name" class="text-theme-6 mt-2" />
-                  </div>
-                  <div class="input-form mt-3">
-                    <label class="form-label" for="call_center">Phone number</label>
-                    <Field
-                      id="call_center"
-                      name="call_center"
-                      class="form-control"
-                    />
-                    <ErrorMessage name="call_center" class="text-theme-6 mt-2" />
-                  </div>
-                  <div class="input-form mt-3">
-                    <label class="form-label" for="website">Website</label>
-                    <Field id="website" name="website" class="form-control" />
-                    <ErrorMessage name="website" class="text-theme-6 mt-2" />
-                  </div>
-                  <div class="input-form mt-3">
-                    <label for="cafe_status" class="form-label">Status</label>
-                    <Field name="status">
-                      <TomSelect id="cafe_status">
-                        <option
-                          v-for="(item, index) in statusOptions"
-                          :key="item.label + index"
-                          :value="item.value"
-                        >{{ item.label }}</option>
-                      </TomSelect>
-                    </Field>
-                    <ErrorMessage name="status" class="text-theme-6 mt-2" />
-                  </div>
-                  <div class="input-form mt-3">
-                    <label for="country" class="form-label">Country</label>
-                    <Field name="country" class="form-control">
-                      <CountrySelect id="country" />
-                    </Field>
-                    <ErrorMessage name="country" class="text-theme-6 mt-2" />
-                  </div>
-                  <div class="input-form mt-3">
-                    <label for="city" class="form-label">City</label>
-                    <Field name="city" class="form-control">
-                      <CitySelect />
-                    </Field>
-                    <ErrorMessage name="city" class="text-theme-6 mt-2" />
+                  <div class="flex gap-5 pt-3">
+                    <div class="input-form md:basis-1/2">
+                      <label class="form-label" for="name">Cafe name</label>
+                      <Field id="name" name="name" class="form-control" />
+                      <ErrorMessage name="name" class="text-theme-6 mt-2" />
+                    </div>
+                    <div class="input-form md:basis-1/2">
+                      <label class="form-label" for="call_center">Phone number</label>
+                      <Field
+                        id="call_center"
+                        name="call_center"
+                        class="form-control"
+                      />
+                      <ErrorMessage
+                        name="call_center"
+                        class="text-theme-6 mt-2"
+                      />
+                    </div>
                   </div>
                   <div class="flex gap-5 pt-3">
-                    <div class="input-form">
+                    <div class="input-form md:basis-1/2">
+                      <label class="form-label" for="website">Website</label>
+                      <Field id="website" name="website" class="form-control" />
+                      <ErrorMessage name="website" class="text-theme-6 mt-2" />
+                    </div>
+                    <div class="input-form md:basis-1/2">
+                      <label for="cafe_status" class="form-label">Status</label>
+                      <Field name="status">
+                        <TomSelect id="cafe_status">
+                          <option
+                            v-for="(item, index) in statusOptions"
+                            :key="item.label + index"
+                            :value="item.value"
+                          >{{ item.label }}</option>
+                        </TomSelect>
+                      </Field>
+                      <ErrorMessage name="status" class="text-theme-6 mt-2" />
+                    </div>
+                  </div>
+                  <div class="flex gap-5 pt-3">
+                    <div class="input-form flex-1 md:basis-1/2">
+                      <label for="country" class="form-label">Country</label>
+                      <Field name="country" class="form-control">
+                        <CountrySelect id="country" />
+                      </Field>
+                      <ErrorMessage name="country" class="text-theme-6 mt-2" />
+                    </div>
+                    <div class="input-form flex-1 md:basis-1/2">
+                      <label for="city" class="form-label">City</label>
+                      <Field name="city" class="form-control">
+                        <CitySelect />
+                      </Field>
+                      <ErrorMessage name="city" class="text-theme-6 mt-2" />
+                    </div>
+                  </div>
+                  <div class="flex gap-5 pt-3">
+                    <div class="input-form md:basis-1/2">
                       <label class="form-label" for="state">State</label>
                       <Field
                         id="state"
@@ -304,7 +313,7 @@
                       />
                       <ErrorMessage name="state" class="text-theme-6 mt-2" />
                     </div>
-                    <div class="input-form">
+                    <div class="input-form md:basis-1/2">
                       <label class="form-label" for="postal_code">Postal code</label>
                       <Field
                         id="postal_code"
@@ -318,31 +327,33 @@
                       />
                     </div>
                   </div>
-                  <div class="input-form mt-3">
-                    <label class="form-label" for="address">Address</label>
-                    <Field
-                      id="address"
-                      name="address"
-                      class="form-control"
-                      placeholder="Type address"
-                    />
-                    <ErrorMessage name="address" class="text-theme-6 mt-2" />
-                  </div>
-                  <div class="input-form mt-3">
-                    <label
-                      class="form-label"
-                      for="second_address"
-                    >Second address</label>
-                    <Field
-                      id="second_address"
-                      name="second_address"
-                      class="form-control"
-                      placeholder="Type second address"
-                    />
-                    <ErrorMessage
-                      name="second_address"
-                      class="text-theme-6 mt-2"
-                    />
+                  <div class="flex gap-5 pt-3">
+                    <div class="input-form md:basis-1/2">
+                      <label class="form-label" for="address">Address</label>
+                      <Field
+                        id="address"
+                        name="address"
+                        class="form-control"
+                        placeholder="Type address"
+                      />
+                      <ErrorMessage name="address" class="text-theme-6 mt-2" />
+                    </div>
+                    <div class="input-form md:basis-1/2">
+                      <label
+                        class="form-label"
+                        for="second_address"
+                      >Second address</label>
+                      <Field
+                        id="second_address"
+                        name="second_address"
+                        class="form-control"
+                        placeholder="Type second address"
+                      />
+                      <ErrorMessage
+                        name="second_address"
+                        class="text-theme-6 mt-2"
+                      />
+                    </div>
                   </div>
                   <div class="input-form mt-3">
                     <label for="description" class="form-label">Description</label>

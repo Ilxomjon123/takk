@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="flex justify-between mt-3">
-      <div class="input-form basis-1/2">
+    <div class="flex mt-3 gap-5">
+      <div class="input-form">
         <input :value="day.day" type="text" class="form-control" disabled />
       </div>
       <div class="form-check w-auto">
