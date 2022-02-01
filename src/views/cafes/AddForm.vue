@@ -13,6 +13,7 @@
               class="validate-form"
               @submit="submit"
               :validation-schema="schema"
+              @invalid-submit="invalidSubmit"
               v-slot="{ values }"
             >
               <div class="flex flex-col md:flex-row gap-5">
@@ -34,11 +35,6 @@
                     @update:closing_time="weekTime[index]['closing_time'] = $event"
                     @update:is_open="weekTime[index]['is_open'] = $event"
                   />
-                  <div
-                    class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
-                  >
-                    <h2 class="font-medium text-base mr-auto">Cafe delivery info</h2>
-                  </div>
                   <div class="flex gap-5 pt-3">
                     <div class="input-form basis-1/2">
                       <label for="tax_rate" class="form-label">Tax rate</label>
@@ -93,7 +89,7 @@
                     </div>
                   </div>
                   <div class="flex gap-5 pt-3">
-                    <div class="form-check w-auto mt-6">
+                    <div class="form-check w-auto">
                       <Field
                         id="is_square_used"
                         name="is_use_square"
@@ -101,10 +97,6 @@
                         type="checkbox"
                         :value="true"
                         @input="toggleFunc1"
-                      />
-                      <ErrorMessage
-                        name="is_use_square"
-                        class="text-theme-6 mt-2"
                       />
                       <label
                         class="form-check-label"
@@ -121,28 +113,26 @@
                         name="square_location_id"
                         class="form-control"
                       />
-                      <ErrorMessage
-                        name="square_location_id"
-                        class="text-theme-6 mt-2"
-                      />
                     </div>
                   </div>
-                  <!-- <CafeDeliveryFields :delivery="delivery" /> -->
+                  <div
+                    class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
+                  >
+                    <h2 class="font-medium text-base mr-auto">Cafe delivery info</h2>
+                  </div>
                   <div class="flex gap-5">
-                    <div class="form-check w-auto mt-9">
-                      <Field
+                    <div class="form-check w-auto">
+                      <input
                         id="delivery_available"
                         class="form-check-switch"
                         type="checkbox"
-                        name="delivery.delivery_available"
-                        :value="true"
+                        v-model="delivery.delivery_available"
                         @input="toggleFunc2"
                       />
                       <label
                         class="form-check-label"
                         for="delivery_available"
                       >Delivery available</label>
-                      <ErrorMessage name="delivery.delivery_available" />
                     </div>
                   </div>
                   <template v-if="delivery.delivery_available">
@@ -274,14 +264,18 @@
                     </div>
                     <div class="input-form md:basis-1/2">
                       <label for="cafe_status" class="form-label">Status</label>
-                      <Field name="status">
-                        <TomSelect id="cafe_status">
-                          <option
-                            v-for="(item, index) in statusOptions"
-                            :key="item.label + index"
-                            :value="item.value"
-                          >{{ item.label }}</option>
-                        </TomSelect>
+                      <Field
+                        as="select"
+                        name="status"
+                        id="cafe_status"
+                        v-model="selectedStatus"
+                        class="form-select"
+                      >
+                        <option
+                          v-for="(item, index) in statusOptions"
+                          :key="item.label + index"
+                          :value="item.value"
+                        >{{ item.label }}</option>
                       </Field>
                       <ErrorMessage name="status" class="text-theme-6 mt-2" />
                     </div>
@@ -289,17 +283,11 @@
                   <div class="flex gap-5 pt-3">
                     <div class="input-form flex-1 md:basis-1/2">
                       <label for="country" class="form-label">Country</label>
-                      <Field name="country" class="form-control">
-                        <CountrySelect id="country" />
-                      </Field>
-                      <ErrorMessage name="country" class="text-theme-6 mt-2" />
+                      <CountrySelect v-bind="field" v-model="selectedCountry" />
                     </div>
                     <div class="input-form flex-1 md:basis-1/2">
                       <label for="city" class="form-label">City</label>
-                      <Field name="city" class="form-control">
-                        <CitySelect />
-                      </Field>
-                      <ErrorMessage name="city" class="text-theme-6 mt-2" />
+                      <CitySelect v-model="selectedCity" />
                     </div>
                   </div>
                   <div class="flex gap-5 pt-3">
@@ -366,12 +354,6 @@
                     ></Field>
                     <ErrorMessage name="description" class="text-theme-6 mt-2" />
                   </div>
-                  <!-- <LatLongField
-                    :location="location"
-                    @update:latitude-value="schema.fields.location.lat = $event"
-                    @update:longitude-value="schema.fields.location.lon = $event"
-                  />
-                  <ErrorMessage name="location" />-->
                   <div
                     class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
                   >
@@ -451,7 +433,9 @@ import CafeDeliveryFields from '@/components/forms/cafes/CafeDeliveryFields.vue'
 import TextInput from '../../components/forms/TextInput.vue';
 import L, { latLng, CRS } from 'leaflet'
 import 'leaflet/dist/leaflet.css';
-
+import Toastify from 'toastify-js';
+import { cafePost } from '../../api';
+import cash from 'cash-dom';
 
 export default defineComponent({
   components: {
@@ -470,17 +454,18 @@ export default defineComponent({
   data() {
     const schema = yup.object().shape({
       name: yup.string().min(1, "Please enter a name more than 1 character").required("This field is requried"), // ok
-      // logo: yup.object({}),
       description: yup.string().min(1, "Must be more than 1 characters").required("This field is requried"), // ok
       location: yup.object({
         lat: yup
           .number()
+          .typeError('must be a decimal number')
           .min(-90, 'Must be more than -90')
           .max(90, "Must be less than 90")
           .required("This field is requried")
           .default(35.1234),
         lon: yup
           .number()
+          .typeError('must be a decimal number')
           .min(-180, 'Must be more than -180')
           .max(180, "Must be less than 180")
           .required("This field is requried")
@@ -488,41 +473,42 @@ export default defineComponent({
       }), // ok
       call_center: yup.string().max(50, "Must be less than 50 characters").required("This field is requried"), // ok
       website: yup.string().url("Must be a url address").nullable(), // ok
-      status: yup.number().positive().integer().default(1).required("This field is requried"),
-      state: yup.string(), // ok
+      status: yup.number().integer().default(1).required("This field is requried"),
       postal_code: yup.string().max(12, "Must be less than 12 characters"), // ok
-      address: yup.string(), // ok
-      second_address: yup.string(), // ok
       tax_rate: yup.number().positive().required("This field is requried"), // ok
-      delivery: yup.object({
-        delivery_available: yup.boolean(), // ok
-        delivery_max_distance: yup.number().positive().integer().default(1),
-        delivery_min_amount: yup.number().positive().integer().default(50),
-        delivery_fee: yup.number().positive().integer().default(3),
-        delivery_percent: yup.number().positive().integer().default(10),
-        delivery_km_amount: yup.number().positive().integer().default(0),
-        delivery_min_time: yup.number().positive().integer().default(30)
-      }),
       version: yup.number().positive().integer().required("This field is requried"), // ok
       order_limit: yup.number().positive().integer().required("This field is requried"), // ok
       order_time_limit: yup.number().positive().integer().required("This field is requried"), // ok
+      address: yup.string(), // ok
+      second_address: yup.string(), // ok
+      // delivery: yup.object({
+      //   delivery_available: yup.boolean(), // ok
+      //   delivery_max_distance: yup.number().positive().integer().default(1),
+      //   delivery_min_amount: yup.number().positive().integer().default(50),
+      //   delivery_fee: yup.number().positive().integer().default(3),
+      //   delivery_percent: yup.number().positive().integer().default(10),
+      //   delivery_km_amount: yup.number().integer().default(0),
+      //   delivery_min_time: yup.number().positive().integer().default(30)
+      // }),
       is_use_square: yup.boolean(), // ok
       square_location_id: yup.string(), // ok
+      state: yup.string(), // ok
+      // country: yup.string(), // ok
       // menu: yup.number().positive().integer()
     });
 
-    const statusOptions = reactive([
+    const statusOptions = [
       { label: 'Inactive', value: 0 },
       { label: 'Active', value: 1 },
       { label: 'Unknown', value: 2 }
-    ]);
+    ];
 
     const location = {
       lat: 35.1234,
       lon: -95.1234,
-    }
+    };
 
-    const weekTime = reactive([
+    const weekTime = [
       {
         day: 'monday',
         opening_time: null,
@@ -565,7 +551,7 @@ export default defineComponent({
         closing_time: null,
         is_open: false
       }
-    ])
+    ];
 
     const delivery = {
       delivery_available: false,
@@ -575,7 +561,7 @@ export default defineComponent({
       delivery_percent: 10,
       delivery_km_amount: 0,
       delivery_min_time: 30
-    }
+    };
 
     return {
       schema,
@@ -587,7 +573,10 @@ export default defineComponent({
       isSquareUsed: false,
       map: null,
       crs: CRS.EPSG4326,
-      delivery
+      delivery,
+      selectedStatus: 1,
+      selectedCountry: 'United States',
+      externalErrors: {}
     };
   },
   mounted() {
@@ -609,9 +598,44 @@ export default defineComponent({
     }
   },
   methods: {
-    submit(values) {
-      console.log('values: ');
-      console.log(values);
+    async submit(values) {
+      const data = { ...values }
+      data.logo = this.logoPath
+      data.week_time = [...this.weekTime]
+      data.country = this.selectedCountry
+      data.city = this.selectedCity
+      data.delivery = { ...this.delivery }
+
+      this.isLoading = true
+      this.externalErrors = {}
+
+      try {
+        // const res = await store.dispatch('cafes/cafePost', toRefs(formData));
+        const res = await cafePost(JSON.stringify(data));
+        if (res.status) {
+          Toastify({
+            node: cash('#success-notification-content')
+              .clone()
+              .removeClass('hidden')[0],
+            duration: 3000,
+          }).showToast();
+        }
+      } catch (error) {
+        if (error.response) {
+          console.log(error.response.data);
+          this.externalErrors = error.response.data;
+        }
+      } finally {
+        this.isLoading = false
+      }
+    },
+    invalidSubmit() {
+      Toastify({
+        node: cash('#failed-notification-content')
+          .clone()
+          .removeClass('hidden')[0],
+        duration: 3000,
+      }).showToast('asdjajsd sadlkasldkja');
     },
     toggleFunc1(e) {
       this.isSquareUsed = e.target.checked ? true : false;
