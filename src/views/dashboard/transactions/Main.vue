@@ -38,12 +38,14 @@
         <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
           <div class="w-56 relative text-gray-700 dark:text-gray-300">
             <input
+              v-model="form.search"
               type="text"
               class="form-control w-56 box pr-10 placeholder-theme-13"
               placeholder="Search..."
             />
             <SearchIcon
               class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0"
+              @click="search"
             />
           </div>
         </div>
@@ -55,51 +57,35 @@
             <tr>
               <th class="whitespace-nowrap">ID</th>
               <th class="whitespace-nowrap">CUSTOMER</th>
-              <th class="whitespace-nowrap">ORDER</th>
-              <th class="whitespace-nowrap">CAFE</th>
-              <th class="whitespace-nowrap">CREATED AT</th>
-              <th class="whitespace-nowrap">UPDATED AT</th>
-              <th class="whitespace-nowrap">ORDER DETAILS</th>
-              <th class="whitespace-nowrap">LAST ORDER</th>
-              <th class="whitespace-nowrap">LAST4</th>
-              <th class="whitespace-nowrap">BRAND</th>
-              <th class="whitespace-nowrap">PAYMENT ID</th>
-              <th class="whitespace-nowrap">AMOUNT</th>
-              <th class="whitespace-nowrap">TAKK FEE</th>
-              <th class="whitespace-nowrap">STRIPE FEE</th>
-              <th class="whitespace-nowrap">CUSTOMER CASHBACK</th>
-              <th class="whitespace-nowrap">PAYMENT TYPE</th>
+              <th class="whitespace-nowrap">LAST 4 DIGITS</th>
+              <th class="whitespace-nowrap">CLIENT TYPE</th>
+              <th class="whitespace-nowrap">CAFE NAME</th>
+              <th class="whitespace-nowrap">NET PROCEEDS</th>
+              <th class="whitespace-nowrap">ORDERS</th>
               <th class="whitespace-nowrap">STATUS</th>
-              <th class="whitespace-nowrap">IS CAPTURE</th>
-              <th class="whitespace-nowrap">IS TRANSFER</th>
-              <th class="whitespace-nowrap">EMPLOYEE</th>
-              <th class="whitespace-nowrap">CARD</th>
-              <th class="whitespace-nowrap">FINAL TRANSACTION</th>
+              <th class="whitespace-nowrap">TRANSACTION DATE</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(item, index) in items" :key="index">
               <td v-text="item.id" />
-              <td v-text="item.customer.username" />
-              <td v-text="item.order" />
-              <td v-text="item.cafe" />
-              <td v-text="item.created_dt" />
-              <td v-text="item.updated_dt" />
-              <td v-text="item.order_detail" />
+              <td v-text="item.customer?.username" />
               <td v-text="item.last4" />
               <td v-text="item.brand" />
-              <td v-text="item.payment_id" />
-              <td v-text="item.amount" />
-              <td v-text="item.takk_fee" />
-              <td v-text="item.stripe_fee" />
-              <td v-text="item.customer_cashback" />
-              <td v-text="item.payment_type" />
+              <td v-text="item.cafe?.name" />
+              <td v-text="''" />
+              <td>
+                <a
+                  class="btn btn-primary"
+                  data-toggle="modal"
+                  data-target="#order-detail-modal"
+                  @click="setOrder(item.order)"
+                >
+                  <EyeIcon class="w-5 h-5" />
+                </a>
+              </td>
               <td v-text="item.status" />
-              <td v-text="item.is_capture" />
-              <td v-text="item.is_transfer" />
-              <td v-text="item.employee" />
-              <td v-text="item.card" />
-              <td v-text="item.final_transaction" />
+              <td v-text="item.updated_dt" />
             </tr>
           </tbody>
         </table>
@@ -109,8 +95,30 @@
       <MainPaginator
         dispatcher="fetchTransactions"
         @paginate="paginate($event)"
+        ref="paginator"
+        :form="form"
       />
       <!-- END: Pagination -->
+    </div>
+  </div>
+  <div id="order-detail-modal" class="modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="flex">
+            <div class="mr-auto">ID</div>
+            <div class="font-medium">{{ order.id }}</div>
+          </div>
+          <div class="flex mt-4">
+            <div class="mr-auto">Sub Total Price</div>
+            <div class="font-medium">{{ order.sub_total_price }}</div>
+          </div>
+          <div class="flex mt-4">
+            <div class="mr-auto">Delivery Price</div>
+            <div class="font-medium">{{ order.delivery_price }}</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -123,12 +131,20 @@ export default defineComponent({
   components: { MainPaginator },
   data() {
     return {
-      items: []
+      items: [],
+      order: {},
+      form: {}
     }
   },
   methods: {
     paginate(val) {
       this.items = val
+    },
+    setOrder(val) {
+      this.order = val;
+    },
+    search() {
+      this.$refs.paginator.paginate(1)
     }
   }
 })

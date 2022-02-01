@@ -27,7 +27,7 @@
                   >
                     <label class="form-label">Company Logo</label>
                     <div
-                      class="h-64 image-fit cursor-pointer zoom-in mx-auto mb-3"
+                      class="h-60 w-60 image-fit cursor-pointer zoom-in mx-auto mb-3"
                     >
                       <img class="rounded-md" alt="Takk" :src="getCompany.logo" />
                       <input
@@ -121,7 +121,6 @@
                     <CountrySelect
                       :class="getError('country') != null ? 'border-theme-6' : 'border-gray-300'"
                       v-model="getCompany.country"
-                      :selectedCountry="getCompany.country"
                     />
                     <div
                       class="text-theme-6 mt-2"
@@ -193,8 +192,8 @@
                         v-model="getCompany.cashback_percent"
                         aria-describedby="input-group-percent"
                       >
-                        <option value="5">5</option>
                         <option value="10">10</option>
+                        <option value="5">5</option>
                       </TomSelect>
                       <div
                         class="text-theme-6 mt-2"
@@ -298,8 +297,10 @@ export default defineComponent({
   async created() {
     this.$store.commit('setLoadingStatus', true);
     await this.fetchCompany();
-    this.$store.commit('setSelectedCountry', this.getCompany.country);
-    this.$store.commit('setSelectedCity', this.getCompany.city);
+    if (this.getCompany.country == null) this.getCompany.country = 'United States'
+    if (this.getCompany.city == null) this.getCompany.city = ''
+    // if (this.getCompany.country != null) this.$store.commit('setSelectedCountry', this.getCompany.country);
+    // if (this.getCompany.city != null) this.$store.commit('setSelectedCity', this.getCompany.city);
     this.$store.commit('setLoadingStatus', false);
   },
   methods: {
@@ -313,12 +314,12 @@ export default defineComponent({
       this.getCompany[name] = fileUrl;
     },
     removeLogo() {
-      console.log(111);
       this.images['logo'] == null;
       this.getCompany.logo == null;
     },
     async submit() {
-      this.$store.commit('setLoadingStatus', true)
+      // this.$store.commit('setLoadingStatus', true)
+      this.isLoading = true;
       let form = this.getCompany;
       delete form.logo;
       delete form.owner;
@@ -348,7 +349,8 @@ export default defineComponent({
       else {
         this.errors = res.data;
       }
-      this.$store.commit('setLoadingStatus', true);
+      // this.$store.commit('setLoadingStatus', false);
+      this.isLoading = false;
     },
     getError(key) {
       return this.errors[key]?.[0];

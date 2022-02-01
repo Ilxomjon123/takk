@@ -1,17 +1,66 @@
 <template>
   <DarkModeSwitcher />
-  <div class="py-10">
+  <!-- <div class="py-10">
     <router-view />
+  </div>-->
+  <div>
+    <div class="flex items-center mt-8">
+      <!-- <h2 class="intro-y text-lg font-medium mr-auto">Wizard Layout</h2> -->
+    </div>
+    <!-- BEGIN: Wizard Layout -->
+    <div class="intro-y box py-10 sm:py-20 mt-5">
+      <div
+        class="wizard flex flex-col lg:flex-row justify-center px-5 sm:px-20"
+      >
+        <div
+          class="intro-x lg:text-center flex items-center lg:block flex-1 z-10"
+        >
+          <button
+            class="w-10 h-10 rounded-full btn"
+            :class="isCompany ? 'btn-primary' : 'text-gray-600 bg-gray-200 dark:bg-dark-1'"
+          >1</button>
+          <div
+            :class="isCompany ? 'lg:w-32 font-medium text-base lg:mt-3 ml-3 lg:mx-auto' :
+            'lg:w-32 text-base lg:mt-3 ml-3 lg:mx-auto text-gray-700 dark:text-gray-600'"
+          >Setup Company</div>
+        </div>
+        <div
+          class="intro-x lg:text-center flex items-center mt-5 lg:mt-0 lg:block flex-1 z-10"
+        >
+          <button
+            class="w-10 h-10 rounded-full btn"
+            :class="!isCompany ? 'btn-primary' : 'text-gray-600 bg-gray-200 dark:bg-dark-1'"
+          >2</button>
+          <div
+            :class="!isCompany ? 'lg:w-32 font-medium text-base lg:mt-3 ml-3 lg:mx-auto' :
+            'lg:w-32 text-base lg:mt-3 ml-3 lg:mx-auto text-gray-700 dark:text-gray-600'"
+          >Create Cafe</div>
+        </div>
+        <div
+          class="wizard__line hidden lg:block w-2/5 bg-gray-200 dark:bg-dark-1 absolute mt-5"
+        ></div>
+      </div>
+      <div
+        class="px-5 sm:px-20 mt-10 pt-10 border-t border-gray-200 dark:border-dark-5"
+      >
+        <router-view />
+      </div>
+    </div>
+    <!-- END: Wizard Layout -->
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
 import { mapGetters } from 'vuex'
+import DarkModeSwitcher from '@/components/dark-mode-switcher/Main.vue'
 
 export default defineComponent({
   computed: {
-    ...mapGetters(['getStep'])
+    ...mapGetters(['getStep']),
+    isCompany() {
+      return this.$route.name == 'entry-company'
+    }
   },
   mounted() {
     const step = this.getStep;
@@ -25,6 +74,9 @@ export default defineComponent({
       default: path = '/entry';
     }
     this.$router.push(path);
+  },
+  components: {
+    DarkModeSwitcher
   }
 })
 </script>

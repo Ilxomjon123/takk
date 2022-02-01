@@ -39,7 +39,7 @@
     <div
       class="hidden md:block mx-auto text-gray-600"
     >Showing {{ firstIndex }} to {{ lastIndex }} of {{ total }} entries</div>
-    <select class="w-20 form-select box mt-3 sm:mt-0" @change="changePerpage">
+    <select class="w-20 form-select box mt-3 sm:mt-0" @change="changePerPage">
       <option
         v-for="(item, index) in perPageList"
         :key="index"
@@ -96,8 +96,9 @@ export default defineComponent({
         this.$emit('paginate', val);
       // this.currentPage = val;
     },
-    changePerpage(e) {
+    async changePerPage(e) {
       this.perPage = e.target.value;
+      await this.$emit('changePerPage', this.perPage);
     }
   }
 })
