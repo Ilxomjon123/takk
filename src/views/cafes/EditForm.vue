@@ -1,430 +1,437 @@
 <template>
   <div>
     <div class="intro-y flex items-center mt-8">
-      <h2 class="text-lg font-medium mr-auto">Cafe Create Form</h2>
+      <h2 class="text-lg font-medium mr-auto">Cafe Edit Form</h2>
     </div>
     <div class="grid grid-cols-12 gap-6 mt-5">
       <div class="intro-y col-span-12">
         <!-- BEGIN: Form Validation -->
         <div class="intro-y box">
           <div id="form-validation" class="p-5">
-            <!-- <div class="preview"> -->
             <!-- BEGIN: Validation Form -->
-            <form class="validate-form" @submit.prevent="save">
+            <Form
+              class="validate-form"
+              @submit="submit"
+              :validation-schema="schema"
+              @invalid-submit="invalidSubmit"
+              v-slot="{ values }"
+            >
               <div class="flex flex-col md:flex-row gap-5">
-                <div class="flex-1">
-                  <div
-                    class="flex flex-col sm:flex-row items-center mb-5 border-b border-gray-200 dark:border-dark-5"
-                  >
-                    <h2 class="font-medium text-base mr-auto">Cafe info</h2>
-                  </div>
-                  <div class="input-form mt-3">
-                    <label
-                      for="cafe_timezone"
-                      class="form-label w-full flex flex-col sm:flex-row"
-                    >Cafe timezone</label>
-                    <TomSelect
-                      id="cafe_timezone"
-                      name="cafe_timezone"
-                      v-model.trim="validate.cafe_timezone.$model"
-                      class="w-full"
-                      :class="{
-                        'border-theme-6': validate.cafe_timezone.$error
-                      }"
-                      :options="{
-                        placeholder: 'Select a timezone'
-                      }"
-                    >
-                      <option
-                        v-for="(zone, index) in timeZones"
-                        :key="zone + index"
-                        :value="zone"
-                      >{{ zone }}</option>
-                    </TomSelect>
-                    <template v-if="validate.cafe_timezone.$error">
-                      <div
-                        v-for="(error, index) in validate.cafe_timezone.$errors"
-                        :key="index"
-                        class="text-theme-6 mt-2"
-                      >{{ error.$message }}</div>
-                    </template>
-                  </div>
-                  <div class="input-form mt-3">
-                    <label
-                      for="validation-form-1"
-                      class="form-label w-full flex flex-col sm:flex-row"
-                    >
-                      Cafe name
-                      <span
-                        class="sm:ml-auto mt-1 sm:mt-0 text-xs text-gray-600"
-                      >Required, at least 1 characters</span>
-                    </label>
-                    <input
-                      id="validation-form-1"
-                      v-model.trim="validate.name.$model"
-                      type="text"
-                      name="name"
-                      class="form-control"
-                      :class="{ 'border-theme-6': validate.name.$error }"
-                      placeholder="Type your cafe name"
-                    />
-                    <template v-if="validate.name.$error">
-                      <div
-                        v-for="(error, index) in validate.name.$errors"
-                        :key="index"
-                        class="text-theme-6 mt-2"
-                      >{{ error.$message }}</div>
-                    </template>
-                  </div>
-                  <div class="input-form mt-3">
-                    <label
-                      for="call_center"
-                      class="form-label w-full flex flex-col sm:flex-row"
-                    >Call center</label>
-                    <input
-                      id="call_center"
-                      v-model.trim="validate.call_center.$model"
-                      type="text"
-                      name="call_center"
-                      class="form-control"
-                      :class="{ 'border-theme-6': validate.call_center.$error }"
-                      placeholder="Call center phone"
-                    />
-                    <template v-if="validate.call_center.$error">
-                      <div
-                        v-for="(error, index) in validate.call_center.$errors"
-                        :key="index"
-                        class="text-theme-6 mt-2"
-                      >{{ error.$message }}</div>
-                    </template>
-                  </div>
-                  <div class="input-form mt-3">
-                    <label
-                      for="website"
-                      class="form-label w-full flex flex-col sm:flex-row"
-                    >Website</label>
-                    <input
-                      id="website"
-                      v-model.trim="validate.website.$model"
-                      type="text"
-                      name="website"
-                      class="form-control"
-                      placeholder="Type cafe website"
-                    />
-                  </div>
-                  <div class="input-form flex-1 w-full mt-3">
-                    <label for="status" class="form-label">Status</label>
-                    <TomSelect
-                      id="status"
-                      name="status"
-                      v-model="validate.status.$model"
-                      class="w-full"
-                      :class="{ 'border-theme-6': validate.status.$error }"
-                    >
-                      <option
-                        v-for="(status, index) in statusOptions"
-                        :key="status.label + index"
-                        :value="status.value"
-                      >{{ status.label }}</option>
-                    </TomSelect>
-                    <template v-if="validate.status.$error">
-                      <div
-                        v-for="(error, index) in validate.status.$errors"
-                        :key="index"
-                        class="text-theme-6 mt-2"
-                      >{{ error.$message }}</div>
-                    </template>
-                  </div>
-                  <div class="input-form mt-3">
-                    <label
-                      for="country"
-                      class="form-label w-full flex flex-col sm:flex-row"
-                    >Country</label>
-                    <CountrySelect v-model="validate.country.$model" />
-                  </div>
-                  <div class="input-form mt-3">
-                    <label
-                      for="city"
-                      class="form-label w-full flex flex-col sm:flex-row"
-                    >City</label>
-                    <CitySelect v-model="validate.city.$model" />
-                  </div>
-                  <div class="flex gap-5 pt-3">
-                    <div class="input-form basis-1/2">
-                      <label
-                        for="state"
-                        class="form-label w-full flex flex-col sm:flex-row"
-                      >State</label>
-                      <input
-                        id="state"
-                        v-model.trim="validate.state.$model"
-                        type="text"
-                        name="state"
-                        class="form-control"
-                        placeholder="Type cafe state"
-                      />
-                    </div>
-                    <div class="input-form basis-1/2">
-                      <label
-                        for="postal_code"
-                        class="form-label w-full flex flex-col sm:flex-row"
-                      >Postal code</label>
-                      <input
-                        id="postal_code"
-                        v-model.trim="validate.postal_code.$model"
-                        type="text"
-                        name="postal_code"
-                        class="form-control"
-                        placeholder="Type cafe postal code"
-                      />
-                    </div>
-                  </div>
-                  <div class="input-form mt-3">
-                    <label
-                      for="address"
-                      class="form-label w-full flex flex-col sm:flex-row"
-                    >Address</label>
-                    <input
-                      id="address"
-                      v-model.trim="validate.address.$model"
-                      type="text"
-                      name="address"
-                      class="form-control"
-                      placeholder="Type cafe address"
-                    />
-                  </div>
-                  <div class="input-form mt-3">
-                    <label
-                      for="second_address"
-                      class="form-label w-full flex flex-col sm:flex-row"
-                    >Second address</label>
-                    <input
-                      id="second_address"
-                      v-model.trim="validate.second_address.$model"
-                      type="text"
-                      name="second_address"
-                      class="form-control"
-                      placeholder="Type.."
-                    />
-                  </div>
-                  <div class="input-form mt-3">
-                    <label
-                      for="description"
-                      class="form-label w-full flex flex-col sm:flex-row"
-                    >Description</label>
-                    <textarea
-                      id="description"
-                      v-model.trim="validate.description.$model"
-                      class="form-control"
-                      :class="{ 'border-theme-6': validate.description.$error }"
-                      name="description"
-                      placeholder="Type your cafe description"
-                    ></textarea>
-                    <template v-if="validate.description.$error">
-                      <div
-                        v-for="(error, index) in validate.description.$errors"
-                        :key="index"
-                        class="text-theme-6 mt-2"
-                      >{{ error.$message }}</div>
-                    </template>
-                  </div>
-                </div>
-                <div class="flex-1">
+                <div class="md:basis-1/2 lg:basis-1/3">
+                  <SimpleImageUpload
+                    :image-path="logoPath"
+                    @update-image-path="logoPath = $event"
+                  />
                   <div
                     class="flex flex-col sm:flex-row items-center mb-5 border-b border-gray-200 dark:border-dark-5"
                   >
                     <h2 class="font-medium text-base mr-auto">Cafe weeek time</h2>
                   </div>
                   <WeekDayTimeForm
-                    v-for="day in formData.week_time"
+                    v-for="day, index in weekTime"
                     :key="day.day"
                     :day="day"
+                    @update:opening_time="weekTime[index]['opening_time'] = $event"
+                    @update:closing_time="weekTime[index]['closing_time'] = $event"
+                    @update:is_open="weekTime[index]['is_open'] = $event"
                   />
+                  <div class="flex gap-5 pt-3">
+                    <div class="input-form basis-1/2">
+                      <label for="tax_rate" class="form-label">Tax rate</label>
+                      <Field
+                        id="tax_rate"
+                        name="tax_rate"
+                        class="form-control"
+                        type="number"
+                        v-model="tax_rate"
+                      />
+                      <ErrorMessage name="tax_rate" class="text-theme-6 mt-2" />
+                    </div>
+                    <div class="input-form basis-1/2">
+                      <label for="order_limit" class="form-label">Order limit</label>
+                      <Field
+                        id="order_limit"
+                        name="order_limit"
+                        class="form-control"
+                        type="number"
+                        v-model="order_limit"
+                      />
+                      <ErrorMessage
+                        name="order_limit"
+                        class="text-theme-6 mt-2"
+                      />
+                    </div>
+                  </div>
+                  <div class="flex gap-5 pt-3">
+                    <div class="input-form basis-1/2">
+                      <label
+                        for="order_time_limit"
+                        class="form-label"
+                      >Order time limit</label>
+                      <Field
+                        id="order_time_limit"
+                        name="order_time_limit"
+                        class="form-control"
+                        type="number"
+                        v-model="order_time_limit"
+                      />
+                      <ErrorMessage
+                        name="order_time_limit"
+                        class="text-theme-6 mt-2"
+                      />
+                    </div>
+                    <div class="input-form basis-1/2">
+                      <label for="version" class="form-label">Version</label>
+                      <Field
+                        id="version"
+                        name="version"
+                        class="form-control"
+                        type="number"
+                        v-model="version"
+                      />
+                      <ErrorMessage name="version" class="text-theme-6 mt-2" />
+                    </div>
+                  </div>
+                  <div class="flex gap-5 pt-3">
+                    <div class="form-check w-auto">
+                      <Field
+                        id="is_square_used"
+                        name="is_use_square"
+                        class="form-check-switch"
+                        type="checkbox"
+                        :value="isSquareUsed"
+                        @input="toggleFunc1"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="is_square_used"
+                      >Is square used</label>
+                    </div>
+                    <div class="input-form" v-if="isSquareUsed === true">
+                      <label
+                        for="square_location_id"
+                        class="form-label"
+                      >Square location id</label>
+                      <Field
+                        id="square_location_id"
+                        name="square_location_id"
+                        class="form-control"
+                        v-model="square_location_id"
+                      />
+                    </div>
+                  </div>
                   <div
                     class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
                   >
                     <h2 class="font-medium text-base mr-auto">Cafe delivery info</h2>
                   </div>
                   <div class="flex gap-5">
-                    <div class="input-form mt-3 basis-1/2">
-                      <label
-                        for="tax_rate"
-                        class="form-label w-full flex flex-col sm:flex-row"
-                      >Tax rate</label>
+                    <div class="form-check w-auto">
                       <input
-                        id="tax_rate"
-                        v-model.trim="validate.tax_rate.$model"
-                        type="number"
-                        name="tax_rate"
-                        class="form-control"
-                        :class="{ 'border-theme-6': validate.tax_rate.$error }"
-                        placeholder="Type.."
-                      />
-                      <template v-if="validate.tax_rate.$error">
-                        <div
-                          v-for="(error, index) in validate.tax_rate.$errors"
-                          :key="index"
-                          class="text-theme-6 mt-2"
-                        >{{ error.$message }}</div>
-                      </template>
-                    </div>
-                    <div class="input-form mt-3 basis-1/2">
-                      <label
-                        for="order_limit"
-                        class="form-label w-full flex flex-col sm:flex-row"
-                      >Order limit</label>
-                      <input
-                        id="order_limit"
-                        v-model.trim="validate.order_limit.$model"
-                        type="number"
-                        name="order_limit"
-                        class="form-control"
-                        :class="{
-                          'border-theme-6': validate.order_limit.$error
-                        }"
-                        placeholder="Type order limit"
-                      />
-                      <template v-if="validate.order_limit.$error">
-                        <div
-                          v-for="(error, index) in validate.order_limit.$errors"
-                          :key="index"
-                          class="text-theme-6 mt-2"
-                        >{{ error.$message }}</div>
-                      </template>
-                    </div>
-                  </div>
-                  <div class="flex gap-5">
-                    <div class="input-form mt-3 basis-1/2">
-                      <label
-                        for="order_time_limit"
-                        class="form-label w-full flex flex-col sm:flex-row"
-                      >Order time limit</label>
-                      <input
-                        id="order_time_limit"
-                        v-model.trim="validate.order_time_limit.$model"
-                        type="text"
-                        name="order_time_limit"
-                        class="form-control"
-                        :class="{
-                          'border-theme-6': validate.order_time_limit.$error
-                        }"
-                        placeholder="Type order time limit"
-                      />
-                      <template v-if="validate.order_time_limit.$error">
-                        <div
-                          v-for="(error, index) in validate.order_time_limit
-                          .$errors"
-                          :key="index"
-                          class="text-theme-6 mt-2"
-                        >{{ error.$message }}</div>
-                      </template>
-                    </div>
-                    <div class="input-form mt-3 basis-1/2">
-                      <label
-                        for="version"
-                        class="form-label w-full flex flex-col sm:flex-row"
-                      >Version</label>
-                      <input
-                        id="version"
-                        v-model.trim="validate.version.$model"
-                        type="number"
-                        name="version"
-                        class="form-control"
-                        :class="{ 'border-theme-6': validate.version.$error }"
-                        placeholder="Type a version"
-                      />
-                      <template v-if="validate.version.$error">
-                        <div
-                          v-for="(error, index) in validate.version.$errors"
-                          :key="index"
-                          class="text-theme-6 mt-2"
-                        >{{ error.$message }}</div>
-                      </template>
-                    </div>
-                  </div>
-                  <div class="flex gap-5 pt-3">
-                    <div class="form-check w-auto mt-6">
-                      <input
-                        id="is_use_square"
+                        id="delivery_available"
                         class="form-check-switch"
                         type="checkbox"
-                        name="is_use_square"
-                        v-model.trim="validate.is_use_square.$model"
+                        v-model="delivery.delivery_available"
+                        @input="toggleFunc2"
                       />
                       <label
                         class="form-check-label"
-                        for="is_use_square"
-                      >Is use square</label>
+                        for="delivery_available"
+                      >Delivery available</label>
                     </div>
-                    <div
-                      class="input-form"
-                      v-if="validate.is_use_square.$model"
-                    >
-                      <label
-                        for="square_location_id"
-                        class="form-label w-full flex flex-col sm:flex-row"
-                      >Square location id</label>
-                      <input
-                        id="square_location_id"
-                        v-model.trim="validate.square_location_id.$model"
-                        type="text"
-                        name="square_location_id"
+                  </div>
+                  <template v-if="delivery.delivery_available">
+                    <div class="flex gap-5 pt-3">
+                      <div class="input-form basis-1/2">
+                        <label
+                          for="delivery_max_distance"
+                          class="form-label w-full flex flex-col sm:flex-row"
+                        >Delivery max distance</label>
+                        <input
+                          id="delivery_max_distance"
+                          v-model="delivery.delivery_max_distance"
+                          type="number"
+                          name="delivery_max_distance"
+                          class="form-control"
+                          placeholder="Type.."
+                        />
+                      </div>
+                      <div class="input-form basis-1/2">
+                        <label
+                          for="delivery_min_amount"
+                          class="form-label w-full flex flex-col sm:flex-row"
+                        >Delivery min amount</label>
+                        <input
+                          id="delivery_min_amount"
+                          v-model="delivery.delivery_min_amount"
+                          type="number"
+                          step="0.001"
+                          name="delivery_min_amount"
+                          class="form-control"
+                          placeholder="Type.."
+                        />
+                      </div>
+                    </div>
+                    <div class="flex gap-5">
+                      <div class="input-form mt-3 basis-1/2">
+                        <label
+                          for="delivery_fee"
+                          class="form-label w-full flex flex-col sm:flex-row"
+                        >Fixed fee</label>
+                        <input
+                          id="delivery_fee"
+                          v-model="delivery.delivery_fee"
+                          type="number"
+                          step="0.001"
+                          name="delivery_fee"
+                          class="form-control"
+                          placeholder="Type.."
+                        />
+                      </div>
+                      <div class="input-form mt-3 basis-1/2">
+                        <label
+                          for="delivery_percent"
+                          class="form-label w-full flex flex-col sm:flex-row"
+                        >% of order fee</label>
+                        <input
+                          id="delivery_percent"
+                          v-model="delivery.delivery_percent"
+                          type="number"
+                          step="0.001"
+                          name="delivery_percent"
+                          class="form-control"
+                          placeholder="Type.."
+                        />
+                      </div>
+                    </div>
+                    <div class="flex gap-5">
+                      <div class="input-form mt-3 basis-1/2">
+                        <label
+                          for="delivery_km_amount"
+                          class="form-label w-full flex flex-col sm:flex-row"
+                        >Fee per kilometer</label>
+                        <input
+                          id="delivery_km_amount"
+                          v-model="delivery.delivery_km_amount"
+                          type="number"
+                          name="delivery_km_amount"
+                          class="form-control"
+                          placeholder="Type.."
+                        />
+                      </div>
+                      <div class="input-form mt-3 basis-1/2">
+                        <label
+                          for="delivery_min_time"
+                          class="form-label w-full flex flex-col sm:flex-row"
+                        >Delivery min time</label>
+                        <input
+                          id="delivery_min_time"
+                          v-model="delivery.delivery_min_time"
+                          type="number"
+                          name="delivery_min_time"
+                          class="form-control"
+                          placeholder="Type.."
+                        />
+                      </div>
+                    </div>
+                  </template>
+                </div>
+                <div class="md:basis-1/2 lg:basis-2/3">
+                  <div
+                    class="flex flex-col sm:flex-row items-center mb-5 border-b border-gray-200 dark:border-dark-5"
+                  >
+                    <h2 class="font-medium text-base mr-auto">Cafe info</h2>
+                  </div>
+                  <div class="flex gap-5 pt-3">
+                    <div class="input-form md:basis-1/2">
+                      <label class="form-label" for="name">Cafe name</label>
+                      <Field
+                        id="name"
+                        name="name"
                         class="form-control"
-                        placeholder="Type.."
+                        v-model="name"
+                      />
+                      <ErrorMessage name="name" class="text-theme-6 mt-2" />
+                    </div>
+                    <div class="input-form md:basis-1/2">
+                      <label class="form-label" for="call_center">Phone number</label>
+                      <Field
+                        id="call_center"
+                        name="call_center"
+                        class="form-control"
+                        v-model="call_center"
+                      />
+                      <ErrorMessage
+                        name="call_center"
+                        class="text-theme-6 mt-2"
                       />
                     </div>
                   </div>
-                  <CafeDeliveryFields :delivery="validate.delivery.$model" />
+                  <div class="flex gap-5 pt-3">
+                    <div class="input-form md:basis-1/2">
+                      <label class="form-label" for="website">Website</label>
+                      <Field
+                        id="website"
+                        name="website"
+                        class="form-control"
+                        v-model="website"
+                      />
+                      <ErrorMessage name="website" class="text-theme-6 mt-2" />
+                    </div>
+                    <div class="input-form md:basis-1/2">
+                      <label for="cafe_status" class="form-label">Status</label>
+                      <Field
+                        as="select"
+                        name="status"
+                        id="cafe_status"
+                        v-model="selectedStatus"
+                        class="form-select"
+                      >
+                        <option
+                          v-for="(item, index) in statusOptions"
+                          :key="item.label + index"
+                          :value="item.value"
+                        >{{ item.label }}</option>
+                      </Field>
+                      <ErrorMessage name="status" class="text-theme-6 mt-2" />
+                    </div>
+                  </div>
+                  <div class="flex gap-5 pt-3">
+                    <div class="input-form flex-1 md:basis-1/2">
+                      <label for="country" class="form-label">Country</label>
+                      <CountrySelect v-bind="field" v-model="selectedCountry" />
+                    </div>
+                    <div class="input-form flex-1 md:basis-1/2">
+                      <label for="city" class="form-label">City</label>
+                      <CitySelect v-model="selectedCity" />
+                    </div>
+                  </div>
+                  <div class="flex gap-5 pt-3">
+                    <div class="input-form md:basis-1/2">
+                      <label class="form-label" for="state">State</label>
+                      <Field
+                        id="state"
+                        name="state"
+                        class="form-control"
+                        placeholder="Type state"
+                        v-model="selectedState"
+                      />
+                      <ErrorMessage name="state" class="text-theme-6 mt-2" />
+                    </div>
+                    <div class="input-form md:basis-1/2">
+                      <label class="form-label" for="postal_code">Postal code</label>
+                      <Field
+                        id="postal_code"
+                        name="postal_code"
+                        class="form-control"
+                        placeholder="Type postal code"
+                        v-model="postal_code"
+                      />
+                      <ErrorMessage
+                        name="postal_code"
+                        class="text-theme-6 mt-2"
+                      />
+                    </div>
+                  </div>
+                  <div class="flex gap-5 pt-3">
+                    <div class="input-form md:basis-1/2">
+                      <label class="form-label" for="address">Address</label>
+                      <Field
+                        id="address"
+                        name="address"
+                        class="form-control"
+                        placeholder="Type address"
+                        v-model="address"
+                      />
+                      <ErrorMessage name="address" class="text-theme-6 mt-2" />
+                    </div>
+                    <div class="input-form md:basis-1/2">
+                      <label
+                        class="form-label"
+                        for="second_address"
+                      >Second address</label>
+                      <Field
+                        id="second_address"
+                        name="second_address"
+                        class="form-control"
+                        placeholder="Type second address"
+                        v-model="second_address"
+                      />
+                      <ErrorMessage
+                        name="second_address"
+                        class="text-theme-6 mt-2"
+                      />
+                    </div>
+                  </div>
+                  <div class="input-form mt-3">
+                    <label for="description" class="form-label">Description</label>
+                    <Field
+                      as="textarea"
+                      id="description"
+                      name="description"
+                      class="form-control"
+                      placeholder="Type your cafe description"
+                      v-model="description"
+                    ></Field>
+                    <ErrorMessage name="description" class="text-theme-6 mt-2" />
+                  </div>
+                  <div
+                    class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
+                  >
+                    <h2 class="font-medium text-base mr-auto">Cafe location info</h2>
+                  </div>
+                  <div class="flex gap-5 pt-3">
+                    <div class="input-form basis-1/2">
+                      <label for="latitude" class="form-label">Latitude</label>
+                      <Field
+                        id="latitude"
+                        name="location.lat"
+                        v-model="location.lat"
+                        class="form-control"
+                        type="number"
+                      />
+                      <ErrorMessage
+                        name="location.lat"
+                        class="text-theme-6 mt-2"
+                      />
+                    </div>
+                    <div class="input-form basis-1/2">
+                      <label for="longitude" class="form-label">Longitude</label>
+                      <Field
+                        id="longitude"
+                        name="location.lon"
+                        v-model="location.lon"
+                        class="form-control"
+                        type="number"
+                      />
+                      <ErrorMessage
+                        name="location.lon"
+                        class="text-theme-6 mt-2"
+                      />
+                    </div>
+                  </div>
+                  <div class="mt-5 map_container">
+                    <div id="map"></div>
+                  </div>
                 </div>
               </div>
-              <LatLongField
-                :location="validate.location.$model"
-                :latError="validate.location.lat.$error"
-                :latErrors="validate.location.lat.$errors"
-                :lonError="validate.location.lon.$error"
-                :lonErrors="validate.location.lon.$errors"
-                :locationErrors="$externalResults.location"
-              />
               <div class="flex">
                 <button
-                  type="submit"
                   class="btn btn-primary mt-5 lg:ml-auto"
-                >Save</button>
+                  :disabled="isLoading"
+                >
+                  <LoadingIcon
+                    v-if="isLoading"
+                    icon="tail-spin"
+                    class="w-4 h-4 mr-3"
+                    color="#fff"
+                  />
+                  <span>Save</span>
+                </button>
               </div>
-            </form>
+              <!-- <pre>{{ values }}</pre> -->
+            </Form>
             <!-- END: Validation Form -->
-            <!-- BEGIN: Success Notification Content -->
-            <div
-              id="success-notification-content"
-              class="toastify-content hidden flex"
-            >
-              <CheckCircleIcon class="text-theme-9" />
-              <div class="ml-4 mr-4">
-                <div class="font-medium">Data saved successfully!</div>
-                <div
-                  class="text-gray-600 mt-1"
-                >Please check your e-mail for further info!</div>
-              </div>
-            </div>
-            <!-- END: Success Notification Content -->
-            <!-- BEGIN: Failed Notification Content -->
-            <div
-              id="failed-notification-content"
-              class="toastify-content hidden flex"
-            >
-              <XCircleIcon class="text-theme-6" />
-              <div class="ml-4 mr-4">
-                <div class="font-medium">Data save failed!</div>
-                <div class="text-gray-600 mt-1">Please check the fileld form.</div>
-                <!-- <div v-for="error in resErrors" class="text-gray-600 mt-1">
-                  <ul>
-                    <li v-for="item in error">{{ item }}</li>
-                  </ul>
-                </div>-->
-              </div>
-            </div>
-            <!-- END: Failed Notification Content -->
-            <!-- </div> -->
           </div>
         </div>
         <!-- END: Form Validation -->
@@ -433,250 +440,310 @@
   </div>
 </template>
 
-<script setup>
-import { computed, onMounted, reactive, ref, toRefs } from 'vue';
-import {
-  required,
-  minLength,
-  maxLength,
-  email,
-  url,
-  integer,
-  maxValue,
-  minValue,
-  helpers
-} from '@vuelidate/validators';
-import { useVuelidate } from '@vuelidate/core';
-import Toastify from 'toastify-js';
-import timeZones from './timezones.js';
-import cash from 'cash-dom';
-import { useStore } from 'vuex';
+<script>
+import { defineComponent, reactive, ref, toRefs } from 'vue';
+import DynamicForm from '../../components/forms/DynamicForm.vue';
+import { Form, Field, ErrorMessage } from 'vee-validate';
+import * as yup from 'yup';
+import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 import CountrySelect from '@/components/selects/CountrySelect.vue';
 import CitySelect from '@/components/selects/CitySelect.vue';
 import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
 import LatLongField from '@/components/forms/cafes/LatLongField.vue';
 import CafeDeliveryFields from '@/components/forms/cafes/CafeDeliveryFields.vue';
-import { useRoute } from 'vue-router';
-import { fetchCafe, updateCafe } from '../../api/index.js';
+import TextInput from '../../components/forms/TextInput.vue';
+import L, { latLng, CRS } from 'leaflet'
+import 'leaflet/dist/leaflet.css';
+import Toastify from 'toastify-js';
+import { updateCafe, fetchCafe, fetchCafeWorkDays } from '../../api';
+import cash from 'cash-dom';
 
-const store = useStore();
-const route = useRoute();
-const $externalResults = ref({})
-// const resErrors = ref({})
+export default defineComponent({
+  components: {
+    DynamicForm,
+    Form,
+    Field,
+    ErrorMessage,
+    SimpleImageUpload,
+    CountrySelect,
+    CitySelect,
+    WeekDayTimeForm,
+    LatLongField,
+    CafeDeliveryFields,
+    TextInput
+  },
+  data() {
+    const schema = yup.object().shape({
+      name: yup.string().min(1, "Please enter a name more than 1 character").required("This field is requried"), // ok
+      description: yup.string().min(1, "Must be more than 1 characters").required("This field is requried"), // ok
+      location: yup.object({
+        lat: yup
+          .number()
+          .typeError('must be a decimal number')
+          .min(-90, 'Must be more than -90')
+          .max(90, "Must be less than 90")
+          .required("This field is requried")
+          .default(35.1234),
+        lon: yup
+          .number()
+          .typeError('must be a decimal number')
+          .min(-180, 'Must be more than -180')
+          .max(180, "Must be less than 180")
+          .required("This field is requried")
+          .default(-95.1234)
+      }), // ok
+      call_center: yup.string().max(50, "Must be less than 50 characters").required("This field is requried"), // ok
+      website: yup.string().url("Must be a url address").nullable(), // ok
+      status: yup.number().integer().default(1).required("This field is requried"),
+      postal_code: yup.string().max(12, "Must be less than 12 characters").nullable(), // ok
+      tax_rate: yup.number().positive().required("This field is requried"), // ok
+      version: yup.number().positive().integer().required("This field is requried"), // ok
+      order_limit: yup.number().positive().integer().required("This field is requried"), // ok
+      order_time_limit: yup.number().positive().integer().required("This field is requried"), // ok
+      address: yup.string().nullable(), // ok
+      second_address: yup.string().nullable(), // ok
+      // delivery: yup.object({
+      //   delivery_available: yup.boolean(), // ok
+      //   delivery_max_distance: yup.number().positive().integer().default(1),
+      //   delivery_min_amount: yup.number().positive().integer().default(50),
+      //   delivery_fee: yup.number().positive().integer().default(3),
+      //   delivery_percent: yup.number().positive().integer().default(10),
+      //   delivery_km_amount: yup.number().integer().default(0),
+      //   delivery_min_time: yup.number().positive().integer().default(30)
+      // }),
+      is_use_square: yup.boolean(), // ok
+      square_location_id: yup.string(), // ok
+      state: yup.string().nullable(), // ok
+      // country: yup.string(), // ok
+      // menu: yup.number().positive().integer()
+    });
 
-const formData = reactive({
-  name: '',
-  description: '',
-  week_time: [
-    {
-      day: 'monday',
-      opening_time: null,
-      closing_time: null,
-      is_open: false
-    },
-    {
-      day: 'tuesday',
-      opening_time: null,
-      closing_time: null,
-      is_open: false
-    },
-    {
-      day: 'wednesday',
-      opening_time: null,
-      closing_time: null,
-      is_open: false
-    },
-    {
-      day: 'thursday',
-      opening_time: null,
-      closing_time: null,
-      is_open: false
-    },
-    {
-      day: 'friday',
-      opening_time: null,
-      closing_time: null,
-      is_open: false
-    },
-    {
-      day: 'saturday',
-      opening_time: null,
-      closing_time: null,
-      is_open: false
-    },
-    {
-      day: 'sunday',
-      opening_time: null,
-      closing_time: null,
-      is_open: false
+    const statusOptions = [
+      { label: 'Inactive', value: 0 },
+      { label: 'Active', value: 1 },
+      { label: 'Unknown', value: 2 }
+    ];
+
+    const location = {
+      lat: 35.1234,
+      lon: -95.1234,
+    };
+
+    const weekTime = [
+      {
+        day: 'monday',
+        opening_time: null,
+        closing_time: null,
+        is_open: false
+      },
+      {
+        day: 'tuesday',
+        opening_time: null,
+        closing_time: null,
+        is_open: false
+      },
+      {
+        day: 'wednesday',
+        opening_time: null,
+        closing_time: null,
+        is_open: false
+      },
+      {
+        day: 'thursday',
+        opening_time: null,
+        closing_time: null,
+        is_open: false
+      },
+      {
+        day: 'friday',
+        opening_time: null,
+        closing_time: null,
+        is_open: false
+      },
+      {
+        day: 'saturday',
+        opening_time: null,
+        closing_time: null,
+        is_open: false
+      },
+      {
+        day: 'sunday',
+        opening_time: null,
+        closing_time: null,
+        is_open: false
+      }
+    ];
+
+    const delivery = {
+      delivery_available: false,
+      delivery_max_distance: 1,
+      delivery_min_amount: 50,
+      delivery_fee: 3,
+      delivery_percent: 10,
+      delivery_km_amount: 0,
+      delivery_min_time: 30
+    };
+
+    return {
+      schema,
+      isLoading: false,
+      logoPath: '',
+      statusOptions,
+      weekTime,
+      location,
+      isSquareUsed: false,
+      map: null,
+      crs: CRS.EPSG4326,
+      delivery,
+      selectedStatus: 1,
+      selectedCountry: 'United States',
+      selectedCity: '',
+      selectedState: '',
+      externalErrors: {},
+      name: '',
+      cafe_timezone: '',
+      call_center: '',
+      website: '',
+      postal_code: '',
+      address: '',
+      second_address: '',
+      tax_rate: '',
+      version: '',
+      order_limit: '',
+      order_time_limit: '',
+      square_location_id: '',
+      menu: ''
+    };
+  },
+  mounted() {
+    this.map = L.map("map").setView(this.latLng(this.location), 7);
+
+    L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(this.map);
+
+    fetchCafe(this.$route.params.id).then(res => {
+      // console.log('cafeById: ', res);
+      res.country && this.$store.dispatch('fetchCities', res.country)
+
+      this.address = res.address
+      this.cafe_timezone = res.cafe_timezone
+      this.call_center = res.call_center
+      this.selectedCity = res.city
+      this.selectedCountry = res.country
+      this.delivery.delivery_available = res.delivery_available
+      this.delivery.delivery_fee = res.delivery_fee
+      this.delivery.delivery_km_amount = res.delivery_km_amount
+      this.delivery.delivery_max_distance = res.delivery_max_distance
+      this.delivery.delivery_min_amount = res.delivery_min_amount
+      this.delivery.delivery_min_time = res.delivery_min_time
+      this.delivery.delivery_percent = res.delivery_percent
+      this.description = res.description
+      this.isSquareUsed = res.is_use_square
+      this.location.lat = res.location.lat
+      this.location.lon = res.location.lon
+      this.logoPath = res.logo
+      this.menu = res.menu
+      this.name = res.name
+      this.order_limit = res.order_limit
+      this.order_time_limit = res.order_time_limit
+      this.postal_code = res.postal_code
+      this.second_address = res.second_address
+      this.square_location_id = res.square_location_id
+      this.selectedState = res.state
+      this.selectedStatus = res.status
+      this.tax_rate = res.tax_rate
+      this.version = res.version
+      this.website = res.website
+
+      this.map.panTo([this.location.lat, this.location.lon])
+      L.marker([this.location.lat, this.location.lon], {
+        draggable: true
+      }).on('moveend', this.changeLatLng).addTo(this.map);
+
+
+    })
+
+    fetchCafeWorkDays(this.$route.params.id).then(res => {
+      this.weekTime = res.data
+    })
+  },
+  beforeUnmount() {
+    if (this.map) {
+      this.map.remove();
     }
-  ],
-  cafe_timezone: 'America/New_York',
-  location: {
-    lat: 37.0902,
-    lon: -95.7129
   },
-  call_center: '',
-  website: '',
-  status: 0,
-  country: '',
-  city: '',
-  state: '',
-  postal_code: '',
-  address: '',
-  second_address: '',
-  tax_rate: '',
-  delivery: {
-    delivery_available: false,
-    delivery_max_distance: '',
-    delivery_min_amount: '',
-    delivery_fee: '',
-    delivery_percent: '',
-    delivery_km_amount: '',
-    delivery_min_time: ''
-  },
-  version: '',
-  order_limit: '',
-  order_time_limit: '',
-  is_use_square: false,
-  square_location_id: '',
-  menu: ''
-});
+  methods: {
+    async submit(values) {
+      const formData = new FormData()
+      formData.append('logo', this.logoPath)
 
-fetchCafe(route.params.id).then(res => {
-  console.log('cafeById: ', res);
-  res.country && store.dispatch('fetchCities', res.country)
-  formData.name = res.name
-  formData.description = res.description
-  formData.cafe_timezone = res.cafe_timezone
-  formData.location.lat = res.location.coordinates[0]
-  formData.location.lon = res.location.coordinates[1]
-  formData.call_center = res.call_center
-  formData.website = res.website
-  formData.status = res.status
-  formData.country = res.country
-  formData.city = res.city
-  formData.state = res.state
-  formData.postal_code = res.postal_code
-  formData.address = res.address
-  formData.second_address = res.second_address
-  formData.tax_rate = res.tax_rate
-  formData.delivery = {
-    delivery_available: res.delivery_available,
-    delivery_max_distance: res.delivery_max_distance,
-    delivery_min_amount: res.delivery_min_amount,
-    delivery_fee: res.delivery_fee,
-    delivery_percent: res.delivery_percent,
-    delivery_km_amount: res.delivery_km_amount,
-    delivery_min_time: res.delivery_min_time
-  }
-  formData.version = res.version
-  formData.order_limit = res.order_limit
-  formData.order_time_limit = res.order_time_limit
-  formData.is_use_square = res.is_use_square
-  formData.square_location_id = res.square_location_id
-  formData.menu = res.menu
-})
+      const data = values
+      data.week_time = this.weekTime
+      data.country = this.selectedCountry
+      data.city = this.selectedCity
+      data.delivery = this.delivery
+      data.cafe_timezone = 'America/New_York'
 
-const statusOptions = reactive([
-  { label: 'Inactive', value: 0 },
-  { label: 'Active', value: 1 },
-  { label: 'Unknown', value: 2 }
-]);
+      console.log('data: ', data);
+      console.log('formData: ', Object.fromEntries(formData));
 
-// Vuelidate
-const alpha = helpers.regex(
-  'alpha',
-  /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
-);
-const rules = {
-  name: {
-    required,
-    minLength: minLength(1)
-  },
-  week_time: {
-    required,
-    $each: {
-      day: { required },
-      opening_time: {},
-      closing_time: {},
-      is_open: {}
-    }
-  },
-  description: { required, minLength: minLength(1) },
-  cafe_timezone: { required },
-  location: {
-    lat: { required, maxValue: 91, minValue: -91 },
-    lon: { required, maxValue: 181, minValue: -181 }
-  },
-  call_center: { required, maxLength: 50 },
-  website: {},
-  status: { required },
-  country: {},
-  city: {},
-  state: {},
-  postal_code: { maxLength: 12 },
-  address: {},
-  second_address: {},
-  tax_rate: { required },
-  delivery: {
-    delivery_available: {},
-    delivery_max_distance: {},
-    delivery_min_amount: {},
-    delivery_fee: {},
-    delivery_percent: {},
-    delivery_km_amount: {},
-    delivery_min_time: {}
-  },
-  version: { required },
-  order_limit: { required },
-  order_time_limit: { required },
-  is_use_square: {},
-  square_location_id: {},
-  menu: {}
-};
+      this.isLoading = true
+      this.externalErrors = {}
 
-const validate = useVuelidate(rules, toRefs(formData), { $externalResults });
+      try {
+        const res = await updateCafe({ data: { ...data, ...formData }, id: this.$route.params.id });
 
-async function save() {
-  validate.value.$touch();
-  console.log('cafe formData: ', validate);
-
-  if (validate.value.$invalid) {
-    Toastify({
-      node: cash('#failed-notification-content')
-        .clone()
-        .removeClass('hidden')[0],
-      duration: 3000,
-      newWindow: true,
-      close: true,
-      gravity: 'top',
-      position: 'right',
-      stopOnFocus: true
-    }).showToast();
-  } else {
-    try {
-      const res = await updateCafe({ id: route.params.id, data: formData });
-
+        if (res.status) {
+          Toastify({
+            node: cash('#success-notification-content')
+              .clone()
+              .removeClass('hidden')[0],
+            duration: 3000,
+          }).showToast();
+        }
+      } catch (error) {
+        if (error.response) {
+          console.log(error.response.data);
+          this.externalErrors = error.response.data;
+        }
+      } finally {
+        this.isLoading = false
+      }
+    },
+    invalidSubmit() {
       Toastify({
-        node: cash('#success-notification-content')
+        node: cash('#failed-notification-content')
           .clone()
           .removeClass('hidden')[0],
         duration: 3000,
-        newWindow: true,
-        close: true,
-        gravity: 'top',
-        position: 'right',
-        stopOnFocus: true
-      }).showToast();
+      }).showToast('asdjajsd sadlkasldkja');
+    },
+    toggleFunc1(e) {
+      this.isSquareUsed = e.target.checked ? true : false;
+    },
+    toggleFunc2(e) {
+      console.log('e in toggleFunc2: ', e.target.checked);
+      this.delivery.delivery_available = e.target.checked ? true : false;
+    },
+    changeLatLng(e) {
+      const targetLatLng = e.target.getLatLng()
+      this.location.lat = targetLatLng.lat;
+      this.location.lon = targetLatLng.lng;
+      this.map.panTo([targetLatLng.lat, targetLatLng.lng])
+    },
 
-    } catch (error) {
-      if (error.response) {
-        console.log(error.response.data);
-        $externalResults.value = error.response.data;
-      }
-
-    }
-  }
-}
+    latLng(obj) {
+      return [obj.lat, obj.lon];
+    },
+  },
+});
 </script>
+
+<style lang="scss" scoped>
+#map {
+  width: 100%;
+  height: 400px;
+}
+</style>

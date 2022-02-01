@@ -141,9 +141,14 @@ fetchCafeList().then(res => {
 })
 
 function gotoForm(id) {
+  store.commit('setLoadingStatus', true)
   if (id) {
     router.push(`/dashboard/cafe-edit-form/${id}`);
-  } else router.push(`/dashboard/cafe-add-form`);
+    store.commit('setLoadingStatus', false)
+  } else {
+    router.push(`/dashboard/cafe-add-form`)
+    store.commit('setLoadingStatus', false)
+  };
 }
 
 function openConfirmModal(id) {
@@ -154,7 +159,6 @@ function openConfirmModal(id) {
 
 function deleteObj() {
   store.commit('setLoadingStatus', true)
-  // isLoading.value = true
   cash('#delete-confirmation-modal').modal('hide')
   deleteCafe(rowId.value).then(res => {
     fetchCafeList().then(res => {
@@ -163,6 +167,5 @@ function deleteObj() {
     })
     // store.commit('setLoadingStatus', false)
   })
-  // isLoading.value = false
 }
 </script>

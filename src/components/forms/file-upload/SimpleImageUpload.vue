@@ -46,7 +46,13 @@ export default defineComponent({
   data: () => ({
     selectedFilePath: '/src/assets/images/plus-icon.jpg'
   }),
+  computed: {
+    getSelectedFilePath() {
+      return this.imagePath || this.selectedFilePath
+    }
+  },
   mounted() {
+    console.log('ok');
     if (this.imagePath) {
       this.selectedFilePath = this.imagePath
     }

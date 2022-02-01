@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="intro-y flex items-center mt-8">
-      <h2 class="text-lg font-medium mr-auto">Cafe Create Form</h2>
+      <h2 class="text-lg font-medium mr-auto">Cafe Add Form</h2>
     </div>
     <div class="grid grid-cols-12 gap-6 mt-5">
       <div class="intro-y col-span-12">
@@ -408,7 +408,7 @@
                   <span>Save</span>
                 </button>
               </div>
-              <pre>{{ values }}</pre>
+              <!-- <pre>{{ values }}</pre> -->
             </Form>
             <!-- END: Validation Form -->
           </div>
@@ -420,7 +420,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref } from 'vue';
+import { defineComponent, reactive, ref, toRefs } from 'vue';
 import DynamicForm from '../../components/forms/DynamicForm.vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
@@ -576,6 +576,7 @@ export default defineComponent({
       delivery,
       selectedStatus: 1,
       selectedCountry: 'United States',
+      selectedCity: '',
       externalErrors: {}
     };
   },
@@ -592,26 +593,38 @@ export default defineComponent({
     }).on('moveend', this.changeLatLng).addTo(this.map);
 
   },
-  onBeforeUnmount() {
+  beforeUnmount() {
     if (this.map) {
       this.map.remove();
     }
   },
   methods: {
     async submit(values) {
-      const data = { ...values }
-      data.logo = this.logoPath
-      data.week_time = [...this.weekTime]
+      const formData = new FormData()
+      formData.append('logo', this.logoPath)
+
+      const data = values
+      data.week_time = this.weekTime
       data.country = this.selectedCountry
       data.city = this.selectedCity
-      data.delivery = { ...this.delivery }
+      data.delivery = this.delivery
+      data.cafe_timezone = 'America/New_York'
+
+      console.log('data: ', data);
+      console.log('formData: ', Object.fromEntries(formData));
 
       this.isLoading = true
       this.externalErrors = {}
 
       try {
-        // const res = await store.dispatch('cafes/cafePost', toRefs(formData));
-        const res = await cafePost(JSON.stringify(data));
+        const config = {
+          headers: {
+            "content-type": "multipart/form-data"
+          }
+        };
+
+        const res = await cafePost({ ...data, ...formData });
+
         if (res.status) {
           Toastify({
             node: cash('#success-notification-content')
