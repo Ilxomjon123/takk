@@ -100,6 +100,7 @@
                         class="form-check-switch"
                         type="checkbox"
                         :checked="isSquareUsed"
+                        :value="false"
                         @input="toggleFunc1"
                       />
                       <label
@@ -388,6 +389,7 @@
                         name="location.lat"
                         v-model="location.lat"
                         class="form-control"
+                        hidden
                         type="number"
                       />
                       <ErrorMessage
@@ -402,6 +404,7 @@
                         name="location.lon"
                         v-model="location.lon"
                         class="form-control"
+                        hidden
                         type="number"
                       />
                       <ErrorMessage
@@ -511,7 +514,7 @@ export default defineComponent({
       //   delivery_km_amount: yup.number().integer().default(0),
       //   delivery_min_time: yup.number().positive().integer().default(30)
       // }),
-      is_use_square: yup.boolean(), // ok
+      is_use_square: yup.boolean().default(false), // ok
       square_location_id: yup.string(), // ok
       state: yup.string().nullable(), // ok
       // country: yup.string(), // ok
@@ -725,7 +728,7 @@ export default defineComponent({
       }).showToast('asdjajsd sadlkasldkja');
     },
     toggleFunc1(e) {
-      this.isSquareUsed = e.target.checked ? true : false;
+      this.isSquareUsed = e.target.checked;
     },
     toggleFunc2(e) {
       console.log('e in toggleFunc2: ', e.target.checked);

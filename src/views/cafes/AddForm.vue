@@ -367,6 +367,7 @@
                         name="location.lat"
                         v-model="location.lat"
                         class="form-control"
+                        disabled
                         type="number"
                       />
                       <ErrorMessage
@@ -381,6 +382,7 @@
                         name="location.lon"
                         v-model="location.lon"
                         class="form-control"
+                        disabled
                         type="number"
                       />
                       <ErrorMessage

@@ -56,7 +56,7 @@ figure {
   padding: 0;
   background: #fff;
   overflow: hidden;
-  border-radius: 1rem;
+  border-radius: 0.75rem;
 }
 
 .hover01 figure img {

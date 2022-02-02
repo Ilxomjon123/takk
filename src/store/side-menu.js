@@ -14,19 +14,19 @@ const state = () => {
       {
         icon: 'CoffeeIcon',
         pageName: 'side-menu-cafe',
-        title: 'My cafes',
-        subMenu: [
-          {
-            icon: '',
-            pageName: 'side-menu-cafe-data-list',
-            title: 'List'
-          },
-          {
-            icon: '',
-            pageName: 'side-menu-cafe-add-form',
-            title: 'Add new cafe'
-          }
-        ]
+        title: 'My cafes'
+        // subMenu: [
+        //   {
+        //     icon: '',
+        //     pageName: 'side-menu-cafe-data-list',
+        //     title: 'List'
+        //   },
+        //   {
+        //     icon: '',
+        //     pageName: 'side-menu-cafe-add-form',
+        //     title: 'Add new cafe'
+        //   }
+        // ]
       },
       {
         icon: 'FileTextIcon',

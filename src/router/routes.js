@@ -49,7 +49,7 @@ const routes = [
       { path: '', name: 'dashboard', component: DashboardMain },
       {
         path: 'cafe-data-list',
-        name: 'side-menu-cafe-data-list',
+        name: 'side-menu-cafe',
         component: CafeDataList
       },
       {
