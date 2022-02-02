@@ -603,27 +603,23 @@ export default defineComponent({
       const formData = new FormData()
       formData.append('logo', this.logoPath)
 
-      const data = values
-      data.week_time = this.weekTime
-      data.country = this.selectedCountry
-      data.city = this.selectedCity
-      data.delivery = this.delivery
-      data.cafe_timezone = 'America/New_York'
+      for (let item in values) {
+        formData.append(item, values[item])
+      }
 
-      console.log('data: ', data);
+      formData.append('week_time', this.weekTime)
+      formData.append('country', this.selectedCountry)
+      formData.append('city', this.selectedCity)
+      formData.append('delivery', this.delivery)
+      formData.append('cafe_timezone', 'America/New_York')
+
       console.log('formData: ', Object.fromEntries(formData));
 
       this.isLoading = true
       this.externalErrors = {}
 
       try {
-        const config = {
-          headers: {
-            "content-type": "multipart/form-data"
-          }
-        };
-
-        const res = await cafePost({ ...data, ...formData });
+        const res = await cafePost(formData);
 
         if (res.status) {
           Toastify({

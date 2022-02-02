@@ -44,41 +44,14 @@
       </div>
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
-        <table class="table table-report -mt-2">
-          <thead>
-            <tr>
-              <th class="whitespace-nowrap">Name</th>
-              <th class="whitespace-nowrap">Description</th>
-              <th class="whitespace-nowrap">Call center</th>
-              <th class="whitespace-nowrap">Website</th>
-              <th class="text-center whitespace-nowrap">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(cafe, index) in list" :key="index" class="intro-x">
-              <td>{{ cafe.name }}</td>
-              <td>{{ cafe.description }}</td>
-              <td>{{ cafe.call_center }}</td>
-              <td>{{ cafe.website }}</td>
-              <td class="table-report__action w-56">
-                <div class="flex justify-center items-center">
-                  <button
-                    class="flex items-center mr-3"
-                    @click="gotoForm(cafe.id)"
-                  >
-                    <CheckSquareIcon class="w-4 h-4 mr-1" />Edit
-                  </button>
-                  <button
-                    class="flex items-center text-theme-6"
-                    @click="openConfirmModal(cafe.id)"
-                  >
-                    <Trash2Icon class="w-4 h-4 mr-1" />Delete
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <CafeItemCard
+            v-for="cafe, index in list"
+            :cafe="cafe"
+            @click="$router.push(`/dashboard/cafe-edit-form/${cafe.id}`)"
+            class="cafe_item"
+          />
+        </div>
       </div>
       <!-- END: Data List -->
     </div>
@@ -126,6 +99,7 @@ import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import cash from 'cash-dom';
 import { deleteCafe, fetchCafeList } from '../../api';
+import CafeItemCard from './CafeItemCard.vue';
 
 const router = useRouter();
 const store = useStore();
@@ -169,3 +143,12 @@ function deleteObj() {
   })
 }
 </script>
+
+<style scoped lang="scss">
+.cafe_item:hover {
+  cursor: pointer;
+  img {
+    @apply bg-primary-1;
+  }
+}
+</style>

@@ -99,7 +99,7 @@
                         name="is_use_square"
                         class="form-check-switch"
                         type="checkbox"
-                        :value="isSquareUsed"
+                        :checked="isSquareUsed"
                         @input="toggleFunc1"
                       />
                       <label
@@ -615,7 +615,8 @@ export default defineComponent({
       menu: ''
     };
   },
-  mounted() {
+  async mounted() {
+    this.$store.commit('setLoadingStatus', true)
     this.map = L.map("map").setView(this.latLng(this.location), 7);
 
     L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
@@ -623,7 +624,7 @@ export default defineComponent({
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.map);
 
-    fetchCafe(this.$route.params.id).then(res => {
+    await fetchCafe(this.$route.params.id).then(res => {
       // console.log('cafeById: ', res);
       res.country && this.$store.dispatch('fetchCities', res.country)
 
@@ -643,7 +644,7 @@ export default defineComponent({
       this.isSquareUsed = res.is_use_square
       this.location.lat = res.location.lat
       this.location.lon = res.location.lon
-      this.logoPath = res.logo
+      this.logoPath = res.logo_small
       this.menu = res.menu
       this.name = res.name
       this.order_limit = res.order_limit
@@ -662,12 +663,13 @@ export default defineComponent({
         draggable: true
       }).on('moveend', this.changeLatLng).addTo(this.map);
 
-
+      this.$store.commit('setLoadingStatus', false)
     })
 
-    fetchCafeWorkDays(this.$route.params.id).then(res => {
+    await fetchCafeWorkDays(this.$route.params.id).then(res => {
       this.weekTime = res.data
     })
+
   },
   beforeUnmount() {
     if (this.map) {
@@ -679,21 +681,23 @@ export default defineComponent({
       const formData = new FormData()
       formData.append('logo', this.logoPath)
 
-      const data = values
-      data.week_time = this.weekTime
-      data.country = this.selectedCountry
-      data.city = this.selectedCity
-      data.delivery = this.delivery
-      data.cafe_timezone = 'America/New_York'
+      for (let item in values) {
+        formData.append(item, values[item])
+      }
 
-      console.log('data: ', data);
+      formData.append('week_time', this.weekTime)
+      formData.append('country', this.selectedCountry)
+      formData.append('city', this.selectedCity)
+      formData.append('delivery', this.delivery)
+      formData.append('cafe_timezone', 'America/New_York')
+
       console.log('formData: ', Object.fromEntries(formData));
 
       this.isLoading = true
       this.externalErrors = {}
 
       try {
-        const res = await updateCafe({ data: { ...data, ...formData }, id: this.$route.params.id });
+        const res = await updateCafe({ data: formData, id: this.$route.params.id });
 
         if (res.status) {
           Toastify({
