@@ -17,7 +17,7 @@
               <EmployeeForm
                 :isEdit="true"
                 dispatcher="putEmployee"
-                :form="employee"
+                :form="getEmployee"
               />
             </div>
           </div>
@@ -35,13 +35,7 @@ import EmployeeForm from '../../../components/forms/EmployeeForm.vue';
 export default defineComponent({
   components: { EmployeeForm },
   computed: {
-    ...mapGetters(['getLoadingStatus'])
+    ...mapGetters(['getLoadingStatus', 'getEmployee'])
   },
-  data: {
-    employee: {}
-  },
-  async created() {
-
-  }
 })
 </script>

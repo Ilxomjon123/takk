@@ -20,6 +20,7 @@ import Transaction from '../views/dashboard/transactions/Main.vue';
 import Profile from '../views/profile/Main.vue';
 import Employees from '../views/dashboard/employees/Main.vue';
 import AddNewEmployee from '../views/dashboard/employees/AddNew.vue';
+import EditEmployee from '../views/dashboard/employees/Edit.vue';
 
 const routes = [
   {
@@ -87,7 +88,8 @@ const routes = [
         component: CompanyLayout,
         children: [
           { path: '', name: 'employees', component: Employees },
-          { path: 'add-new', component: AddNewEmployee }
+          { path: 'add-new', component: AddNewEmployee },
+          { path: ':id', component: EditEmployee }
         ]
       }
     ]

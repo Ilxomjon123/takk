@@ -54,7 +54,8 @@
         v-for="(item, index) in items"
         :key="index"
         class="intro-y block col-span-12 sm:col-span-4 2xl:col-span-3"
-        :to="`/dashboard/employees/${item.id}`"
+        :to="`employees/${item.id}`"
+        @click="setEmployee(item)"
       >
         <EmployeeCard :employee="item" />
       </router-link>
@@ -91,6 +92,9 @@ export default defineComponent({
     },
     search() {
       this.$refs.paginator.paginate(1)
+    },
+    setEmployee(item) {
+      this.$store.commit('setEmployee', item);
     }
   }
 })

@@ -6,7 +6,7 @@
       <div
         class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5 items-center"
       >
-        <div class="h-60 w-60 image-fit cursor-pointer zoom-in mx-auto mb-3">
+        <div class="h-60 w-60 image-fit cursor-pointer zoom-in mx-auto">
           <img class="rounded-md" alt="Takk" :src="employee?.user?.avatar" />
           <input
             type="file"
@@ -24,7 +24,7 @@
           </Tippy>-->
         </div>
         <div class="text-theme-6" v-text="getError('avatar')" />
-        <div class="mx-auto cursor-pointer relative mt-5">
+        <div class="mx-auto cursor-pointer relative mt-5" v-if="!isEdit">
           <button
             type="button"
             @click="clickInput('avatar-image')"
@@ -55,6 +55,7 @@
       <div class="w-full px-3 mb-3">
         <label for="username" class="form-label">Username</label>
         <input
+          :disabled="isEdit"
           id="username"
           type="text"
           class="form-control"
@@ -198,6 +199,7 @@ export default defineComponent({
       }
       formData['user'] = userData;
       formData['company'] = this.getCompanyId;
+      console.log(formData);
       const data = jsonToFormData(formData);
       this.errors = {};
       const res = await this.$store.dispatch(this.dispatcher, data);

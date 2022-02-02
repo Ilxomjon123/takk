@@ -11,6 +11,7 @@
     <Notifications />
     <!-- END: Notifications -->
     <ProfileAvatar />
+    <ThemeModeButton class="ml-3" />
     <!-- BEGIN: Account Menu -->
     <!-- END: Account Menu -->
   </div>
@@ -23,8 +24,9 @@ import ProfileAvatar from './parts/ProfileAvatar.vue'
 import Breadcumb from './parts/Breadcumb.vue';
 import GlobalSearch from './parts/GlobalSearch.vue';
 import Notifications from './parts/Notifications.vue';
+import ThemeModeButton from '../dark-mode-switcher/Button.vue'
 
 export default defineComponent({
-  components: { ProfileAvatar, Breadcumb, GlobalSearch, Notifications }
+  components: { ProfileAvatar, Breadcumb, GlobalSearch, Notifications, ThemeModeButton }
 });
 </script>

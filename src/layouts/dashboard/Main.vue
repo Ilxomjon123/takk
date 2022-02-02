@@ -1,6 +1,6 @@
 <template>
   <div>
-    <DarkModeSwitcher />
+    <!-- <DarkModeSwitcher /> -->
     <MobileMenu />
     <div class="flex">
       <!-- BEGIN: Side Menu -->
@@ -72,8 +72,12 @@
                       :class="{ 'side-menu--active': subMenu.active }"
                       @click="linkTo(subMenu, router, $event)"
                     >
-                      <div class="side-menu__icon">
-                        <ActivityIcon />
+                      <div class="side-menu__icon ml-5">
+                        <component
+                          :is="subMenu.icon"
+                          v-if="subMenu.icon?.length > 0"
+                        />
+                        <ActivityIcon v-else />
                       </div>
                       <div class="side-menu__title">
                         {{ subMenu.title }}

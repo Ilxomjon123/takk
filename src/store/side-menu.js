@@ -29,14 +29,26 @@ const state = () => {
         ]
       },
       {
-        icon: 'HomeIcon',
-        pageName: 'test',
-        title: 'Products'
-      },
-      {
-        icon: 'HomeIcon',
-        pageName: 'test',
-        title: 'Modifires'
+        icon: 'FileTextIcon',
+        pageName: '',
+        title: 'Menu',
+        subMenu: [
+          {
+            icon: 'ShoppingCartIcon',
+            pageName: '',
+            title: 'Products'
+          },
+          {
+            icon: 'TagIcon',
+            pageName: '',
+            title: 'Categories'
+          },
+          {
+            icon: 'DatabaseIcon',
+            pageName: '',
+            title: 'Modifires'
+          }
+        ]
       },
       {
         icon: 'UsersIcon',
@@ -49,7 +61,7 @@ const state = () => {
         title: 'Transactions'
       },
       {
-        icon: 'HomeIcon',
+        icon: 'MessageCircleIcon',
         pageName: 'test',
         title: 'News'
       },

@@ -1,7 +1,7 @@
 <template>
   <div class="box rounded-md p-3 relative zoom-in">
     <div class="h-60 image-fit cursor-pointer mx-auto mb-3">
-      <img class="rounded-md" alt="Takk" :src="employee?.user.avatar" />
+      <img class="rounded-md" alt="Takk" :src="employee?.user?.avatar" />
     </div>
     <div
       class="block font-bold text-center mt-3 text-lg"

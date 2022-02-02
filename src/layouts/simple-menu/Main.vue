@@ -1,6 +1,6 @@
 <template>
   <div>
-    <DarkModeSwitcher />
+    <!-- <DarkModeSwitcher /> -->
     <MobileMenu />
     <div class="flex">
       <!-- BEGIN: Simple Menu -->
