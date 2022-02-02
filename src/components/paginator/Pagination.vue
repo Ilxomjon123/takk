@@ -18,7 +18,7 @@
           <ChevronLeftIcon class="w-4 h-4" @click="paginate(currentPage - 1)" />
         </a>
       </li>
-      <li v-for="(item, index) in totalPages" :key="index">
+      <li v-for="(item, index) in pagesList" :key="index">
         <a
           class="pagination__link"
           @click="paginate(item)"
@@ -88,6 +88,22 @@ export default defineComponent({
       if (this.currentPage != this.totalPages)
         return this.currentPage * this.perPage
       else return this.total;
+    },
+    pagesList() {
+      const length = this.totalPages;
+      const index = this.currentPage;
+      if (length > 3) {
+        switch (index) {
+          case length:
+            return [length - 2, length - 1, length];
+          case 1:
+            return Array.from({ length: 3 }, (_, i) => i + 1);
+          default:
+            return [index - 1, index, index + 1];
+        }
+      } else {
+        return Array.from({ length: length }, (_, i) => i + 1)
+      }
     }
   },
   methods: {

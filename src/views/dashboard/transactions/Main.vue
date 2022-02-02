@@ -37,16 +37,18 @@
         <div class="hidden md:block mx-auto text-gray-600"></div>
         <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
           <div class="w-56 relative text-gray-700 dark:text-gray-300">
-            <input
-              v-model="form.search"
-              type="text"
-              class="form-control w-56 box pr-10 placeholder-theme-13"
-              placeholder="Search..."
-            />
-            <SearchIcon
-              class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0"
-              @click="search"
-            />
+            <form @submit.prevent="search">
+              <input
+                v-model="form.search"
+                type="text"
+                class="form-control w-56 box pr-10 placeholder-theme-13"
+                placeholder="Search..."
+              />
+              <SearchIcon
+                class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0 cursor-pointer"
+                @click="search"
+              />
+            </form>
           </div>
         </div>
       </div>
@@ -61,9 +63,9 @@
               <th class="whitespace-nowrap">CLIENT TYPE</th>
               <th class="whitespace-nowrap">CAFE NAME</th>
               <th class="whitespace-nowrap">NET PROCEEDS</th>
-              <th class="whitespace-nowrap">ORDERS</th>
               <th class="whitespace-nowrap">STATUS</th>
               <th class="whitespace-nowrap">TRANSACTION DATE</th>
+              <th class="whitespace-nowrap">ORDERS</th>
             </tr>
           </thead>
           <tbody>
@@ -74,6 +76,8 @@
               <td v-text="item.brand" />
               <td v-text="item.cafe?.name" />
               <td v-text="''" />
+              <td v-text="item.status" />
+              <td v-text="item.updated_dt" />
               <td>
                 <a
                   class="btn btn-primary"
@@ -84,8 +88,6 @@
                   <EyeIcon class="w-5 h-5" />
                 </a>
               </td>
-              <td v-text="item.status" />
-              <td v-text="item.updated_dt" />
             </tr>
           </tbody>
         </table>

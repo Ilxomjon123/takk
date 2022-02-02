@@ -8,7 +8,7 @@
     <!-- <GlobalSearch /> -->
     <!-- END: Search -->
     <!-- BEGIN: Notifications -->
-    <Notifications />
+    <!-- <Notifications /> -->
     <!-- END: Notifications -->
     <ProfileAvatar />
     <ThemeModeButton class="ml-3" />
