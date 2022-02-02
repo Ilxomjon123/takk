@@ -39,9 +39,9 @@ const state = () => {
         title: 'Modifires'
       },
       {
-        icon: 'HomeIcon',
-        pageName: 'test',
-        title: 'Employee'
+        icon: 'UsersIcon',
+        pageName: 'employees',
+        title: 'Employees'
       },
       {
         icon: 'CreditCardIcon',

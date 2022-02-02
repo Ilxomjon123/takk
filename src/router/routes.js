@@ -18,6 +18,8 @@ import Company from '../views/dashboard/company/Main.vue';
 import Customer from '../views/dashboard/customer/Main.vue';
 import Transaction from '../views/dashboard/transactions/Main.vue';
 import Profile from '../views/profile/Main.vue';
+import Employees from '../views/dashboard/employees/Main.vue';
+import AddNewEmployee from '../views/dashboard/employees/AddNew.vue';
 
 const routes = [
   {
@@ -79,6 +81,14 @@ const routes = [
         path: 'profile',
         component: CompanyLayout,
         children: [{ path: '', name: 'profile', component: Profile }]
+      },
+      {
+        path: 'employees',
+        component: CompanyLayout,
+        children: [
+          { path: '', name: 'employees', component: Employees },
+          { path: 'add-new', component: AddNewEmployee }
+        ]
       }
     ]
   },
@@ -89,17 +99,18 @@ const routes = [
   },
   {
     path: '/entry',
+    component: Entry
+  },
+  {
+    path: '/entry',
     component: EntryLayout,
     meta: {
       requiresAuth: true
     },
     children: [
       {
-        path: '',
-        component: Entry
-      },
-      {
         path: 'company',
+        name: 'entry-company',
         component: CreateCompany
       },
       {

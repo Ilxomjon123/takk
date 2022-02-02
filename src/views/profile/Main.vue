@@ -22,7 +22,7 @@
                     class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5 items-center"
                   >
                     <div
-                      class="h-64 image-fit cursor-pointer zoom-in mx-auto mb-3"
+                      class="h-60 w-60 image-fit cursor-pointer zoom-in mx-auto mb-3"
                     >
                       <img class="rounded-md" alt="Takk" :src="user.avatar" />
                       <input
@@ -174,7 +174,7 @@ export default defineComponent({
   async created() {
     this.$store.commit('setLoadingStatus', true);
     await this.fetchProfile();
-    this.user = this.getUser;
+    this.user = { ...this.getUser };
     if (this.user.date_of_birthday == null) {
       this.user.date_of_birthday = '28-04-1998';
     }

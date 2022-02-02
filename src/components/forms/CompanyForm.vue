@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="submit">
     <div class="flex flex-wrap -mx-3 mb-3">
-      <div class="w-full md:w-1/2 px-3 md:mb-0">
+      <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
         <label for="company-name" class="form-label">
           Company Name
           <span class="text-theme-6">*</span>
@@ -30,8 +30,8 @@
         <div class="text-theme-6" v-text="getError('phone')" />
       </div>
     </div>
-    <div class="flex flex-wrap -mx-3 mb-3">
-      <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
+    <div class="flex flex-wrap mb-3 -mx-3">
+      <div class="w-full px-3 md:mb-0">
         <label for="company-email" class="form-label">Email</label>
         <input
           id="company-email"
@@ -43,7 +43,7 @@
         />
         <div class="text-theme-6" v-text="getError('email')" />
       </div>
-      <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
+      <!-- <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
         <label for="cashback" class="form-label">Cashback Percent</label>
         <div class="input-group">
           <div id="input-group-percent" class="input-group-text">%</div>
@@ -60,7 +60,7 @@
 
           <div class="text-theme-6 mt-2" v-text="getError('cashback_percent')" />
         </div>
-      </div>
+      </div>-->
       <!-- <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
         <label for="website" class="form-label">Website</label>
         <input
@@ -74,8 +74,8 @@
         <div class="text-theme-6" v-text="getError('website')" />
       </div>-->
     </div>
-    <div class="flex flex-wrap -mx-3 mb-3">
-      <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
+    <div class="flex flex-wrap mb-1 -mx-3">
+      <div class="w-full md:w-1/2 px-3 md:mb-0">
         <label class="form-label">Country</label>
         <CountrySelect
           :class="getError('country') != null ? 'border-theme-6' : 'border-gray-300'"
@@ -83,7 +83,7 @@
         />
         <div class="text-theme-6 mt-2" v-text="getError('country')" />
       </div>
-      <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
+      <div class="w-full md:w-1/2 px-3 md:mb-0">
         <label class="form-label">City</label>
         <CitySelect
           :class="getError('city') != null ? 'border-theme-6' : 'border-gray-300'"
@@ -93,7 +93,19 @@
       </div>
     </div>
     <div class="flex flex-wrap -mx-3 mb-3">
-      <div class="w-full px-3 mb-3 md:mb-0">
+      <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
+        <label for="postal-code" class="form-label">Postal Code</label>
+        <input
+          id="postal-code"
+          type="number"
+          class="form-control"
+          :class="getError('postal_code') != null ? 'border-theme-6' : 'border-gray-300'"
+          placeholder="Postal Code"
+          v-model="form.postal_code"
+        />
+        <div class="text-theme-6" v-text="getError('postal_code')" />
+      </div>
+      <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
         <label for="address" class="form-label">Address</label>
         <input
           id="address"
@@ -169,7 +181,7 @@
         class="btn btn-primary py-3 px-4 block mx-auto mt-8 px-10 align-top"
         :disabled="isLoading"
       >
-        {{ isLoading ? '' : 'Submit' }}
+        {{ isLoading ? '' : 'Next' }}
         <LoadingIcon
           v-if="isLoading"
           icon="three-dots"
@@ -190,7 +202,9 @@ import { mapActions } from 'vuex';
 export default defineComponent({
   data() {
     return {
-      form: {},
+      form: {
+        country: "United States"
+      },
       isLoading: false,
       errors: {}
     }

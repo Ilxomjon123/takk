@@ -5,7 +5,7 @@
     <Breadcumb />
     <!-- END: Breadcrumb -->
     <!-- BEGIN: Search -->
-    <GlobalSearch />
+    <!-- <GlobalSearch /> -->
     <!-- END: Search -->
     <!-- BEGIN: Notifications -->
     <Notifications />

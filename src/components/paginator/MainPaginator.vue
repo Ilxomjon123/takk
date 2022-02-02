@@ -43,15 +43,17 @@ export default defineComponent({
       await this.fetchData();
     },
     async changePerPage(val) {
-      this.paginator.limit = val
+      this.paginator.limit = val;
+      this.paginator.page = 1;
       await this.fetchData();
     },
     async fetchData() {
-      this.$store.commit('setLoadingStatus', true)
-      const res = await this.$store.dispatch(this.dispatcher, { ...this.form, ...this.paginator })
+      this.$store.commit('setLoadingStatus', true);
+      this.$emit('paginate', []);
+      const res = await this.$store.dispatch(this.dispatcher, { ...this.form, ...this.paginator });
       this.paginator.total = res.total_objects;
-      this.$emit('paginate', res.result);
-      this.$store.commit('setLoadingStatus', false)
+      this.$emit('paginate', res.results);
+      this.$store.commit('setLoadingStatus', false);
 
     }
   }

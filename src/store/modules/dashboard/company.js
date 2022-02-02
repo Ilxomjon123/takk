@@ -9,7 +9,8 @@ const state = () => {
 };
 
 const getters = {
-  getCompany: state => state.company[0],
+  getCompany: (state, getters) =>
+    state.company.find(el => el.id == getters.getCompanyId),
   getCustomers: state => state.customers,
   getTransactions: state => state.transactions
 };
@@ -32,7 +33,7 @@ const actions = {
       .get('/api/companies/', {
         headers: rootGetters.getHttpHeader,
         params: {
-          id: rootGetters.getUser.company_id
+          id: rootGetters.getCompanyId
         }
       })
       .then(res => {
@@ -69,7 +70,8 @@ const actions = {
   async fetchCustomers({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get('/api/customers/', {
+      // .get(`/api/companies/${rootGetters.getCompanyId}/customers/`, {
+      .get(`/api/customers/`, {
         headers: rootGetters.getHttpHeader,
         params: payload
       })
@@ -79,14 +81,15 @@ const actions = {
       })
       .catch(err => {
         response = res.data;
-        commit('setCustomers', err.response.data);
+        // commit('setCustomers', err.response.data);
       });
     return response;
   },
   async fetchTransactions({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/api/companies/${rootGetters.getUser.company_id}/transactions/`, {
+      // .get(`/api/companies/${rootGetters.getCompanyId}/transactions/`, {
+      .get(`/api/transactions/`, {
         headers: rootGetters.getHttpHeader,
         params: payload
       })
@@ -95,8 +98,8 @@ const actions = {
         commit('setTransactions', res.data);
       })
       .catch(err => {
-        response = res.data;
-        commit('setTransactions', err.response.data);
+        response = err.data;
+        // commit('setTransactions', err.response.data);
       });
     return response;
   }

@@ -23,7 +23,7 @@ export default defineComponent({
   props: {
     selectedCountry: {
       type: String,
-      default: null
+      default: 'United States'
     }
   },
   async mounted() {

@@ -18,10 +18,14 @@
         <div class="text-theme-6" v-text="getError('name')" />
       </div>
       <div class="w-full md:w-1/2 px-3 md:mb-0">
-        <label for="call_center" class="form-label">Phone</label>
+        <label for="call_center" class="form-label">
+          Phone
+          <span class="text-theme-6">*</span>
+        </label>
         <input
           id="call_center"
           type="text"
+          required
           class="form-control"
           :class="getError('call_center') != null ? 'border-theme-6' : ''"
           placeholder="Phone"
@@ -329,7 +333,8 @@ export default defineComponent({
         location: {
           lat: 0,
           lon: 0
-        }
+        },
+        country: "United States"
       },
       isLoading: false,
       errors: {}

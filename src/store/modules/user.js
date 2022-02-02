@@ -9,12 +9,17 @@ const state = () => {
     STEP_COMPANY: 1,
     STEP_CAFE: 2,
     STEP_MENU: 3,
-    STEP_DASHBOARD: 4
+    STEP_DASHBOARD: 4,
+    employee_types: [
+      { name: 'Manager', value: 1 },
+      { name: 'Casher', value: 2 }
+    ]
   };
 };
 
 const getters = {
   getUser: state => state.user,
+  getCompanyId: state => state.user.company_id,
   getToken: state => state.token,
   getHttpHeader(state, getters) {
     return {
@@ -23,7 +28,8 @@ const getters = {
   },
   getStep(state, getters) {
     return getters.getUser.state_steps;
-  }
+  },
+  getEmployeeTypes: state => state.employee_types
 };
 const mutations = {
   setUser(state, payload) {
