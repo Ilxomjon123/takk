@@ -9,8 +9,13 @@ const state = () => {
 };
 
 const getters = {
-  getCompany: (state, getters) =>
-    state.company.find(el => el.id == getters.getCompanyId),
+  getCompany: (state, getters) => {
+    let result = state.company.find(el => el.id == getters.getCompanyId);
+    if (result == null) {
+      result = state.company[0];
+    }
+    return result;
+  },
   getCustomers: state => state.customers,
   getTransactions: state => state.transactions
 };

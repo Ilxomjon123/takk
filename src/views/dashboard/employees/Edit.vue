@@ -29,13 +29,23 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import EmployeeForm from '../../../components/forms/EmployeeForm.vue';
 
 export default defineComponent({
   components: { EmployeeForm },
+  async created() {
+    this.$store.commit('setLoadingStatus', true);
+
+    await this.fetchEmployee(this.$route.params.id);
+    this.$store.commit('setLoadingStatus', false);
+
+  },
   computed: {
     ...mapGetters(['getLoadingStatus', 'getEmployee'])
   },
+  methods: {
+    ...mapActions(['fetchEmployee'])
+  }
 })
 </script>

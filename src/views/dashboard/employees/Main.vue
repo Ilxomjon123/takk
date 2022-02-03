@@ -53,7 +53,7 @@
       <router-link
         v-for="(item, index) in items"
         :key="index"
-        class="intro-y block col-span-12 sm:col-span-4 2xl:col-span-3"
+        class="intro-y block col-span-12 sm:col-span-4 xl:col-span-3 2xl:col-span-2"
         :to="`employees/${item.id}`"
         @click="setEmployee(item)"
       >

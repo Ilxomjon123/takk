@@ -25,7 +25,7 @@ const actions = {
   async fetchEmployees({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/api/employees/list/${rootGetters.getCompanyId}/`, {
+      .get(`/api/employees/`, {
         headers: rootGetters.getHttpHeader,
         params: payload
       })
@@ -39,13 +39,30 @@ const actions = {
       });
     return response;
   },
+  async fetchEmployee({ commit, rootGetters }, payload) {
+    let response;
+    await axios
+      .get(`/api/employees/${payload}/`, {
+        headers: rootGetters.getHttpHeader,
+        params: payload
+      })
+      .then(res => {
+        response = res.data;
+        commit('setEmployee', res.data);
+      })
+      .catch(err => {
+        response = res.data;
+        // commit('setEmployees', err.response.data);
+      });
+    return response;
+  },
   async postEmployee({ rootGetters }, payload) {
     let response;
     await axios
       .post(`/api/employees/`, payload, {
         headers: {
-          ...rootGetters.getHttpHeader,
-          'Content-Type': 'multipart/form-data'
+          ...rootGetters.getHttpHeader
+          // 'Content-Type': 'multipart/form-data'
         }
       })
       .then(async res => {
@@ -65,10 +82,33 @@ const actions = {
   async putEmployee({ rootGetters }, payload) {
     let response;
     await axios
-      .put(`/api/employees/${payload.get('id')}/`, payload, {
+      .put(`/api/employees/${payload.id}/`, payload, {
         headers: {
-          ...rootGetters.getHttpHeader,
-          'Content-Type': 'multipart/form-data'
+          ...rootGetters.getHttpHeader
+          // 'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(async res => {
+        response = {
+          status: true,
+          data: res.data
+        };
+      })
+      .catch(err => {
+        response = {
+          status: false,
+          data: err.response.data
+        };
+      });
+    return response;
+  },
+  async deleteEmployee({ rootGetters }, payload) {
+    let response;
+    await axios
+      .delete(`/api/employees/${payload}/`, {
+        headers: {
+          ...rootGetters.getHttpHeader
+          // 'Content-Type': 'multipart/form-data'
         }
       })
       .then(async res => {

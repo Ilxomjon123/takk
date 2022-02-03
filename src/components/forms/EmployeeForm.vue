@@ -24,7 +24,7 @@
           </Tippy>-->
         </div>
         <div class="text-theme-6" v-text="getError('avatar')" />
-        <div class="mx-auto cursor-pointer relative mt-5" v-if="!isEdit">
+        <div class="mx-auto cursor-pointer relative mt-5" v-if="false">
           <button
             type="button"
             @click="clickInput('avatar-image')"
@@ -83,7 +83,7 @@
         <div class="text-theme-6" v-text="getError('employee_position')" />
       </div>
       <div class="w-full px-3 mb-3">
-        <label for="employee.username" class="form-label">Cafes</label>
+        <label class="form-label">Cafes</label>
         <TomSelect
           v-model="employee.cafes"
           :options="{
@@ -102,19 +102,22 @@
       </div>
     </div>
     <div>
-      <button
-        type="submit"
-        class="btn btn-primary py-3 px-4 block mx-auto mt-8 px-10 align-top"
-        :disabled="isLoading"
-      >
-        {{ isLoading ? '' : 'Save' }}
-        <LoadingIcon
-          v-if="isLoading"
-          icon="three-dots"
-          color="white"
-          class="w-8 h-8 my-2"
-        />
-      </button>
+      <div class="mx-auto">
+        <button
+          type="submit"
+          class="btn btn-primary mt-8 px-10 py-3 px-4 mr-3"
+          :disabled="isLoading"
+        >
+          {{ isLoading ? '' : 'Save' }}
+          <LoadingIcon
+            v-if="isLoading"
+            icon="three-dots"
+            color="white"
+            class="w-8 h-8 my-2"
+          />
+        </button>
+        <DeleteConfirmModal @delete="deleteEmployee" :loading="deleteLoading" />
+      </div>
     </div>
   </form>
   <SuccessNotification ref="successNotification" :message="successMessage" />
@@ -128,6 +131,7 @@ import SuccessNotification from '../../components/notifications/SuccessNotificat
 import ErrorNotification from '../../components/notifications/ErrorNotification.vue';
 import { fetchCafeList } from '../../api';
 import { jsonToFormData } from '../../utils/functions'
+import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
 export default defineComponent({
   data() {
     return {
@@ -136,7 +140,8 @@ export default defineComponent({
       isLoading: false,
       errors: {},
       successMessage: "Successfully saved!",
-      cafeList: []
+      cafeList: [],
+      deleteLoading: false
     };
   },
   computed: {
@@ -164,6 +169,7 @@ export default defineComponent({
   },
   async created() {
     this.employee = this.form;
+    this.employee.cafes = this.employee.cafes.map(el => el.id);
     this.cafeList = await fetchCafeList();
   },
   methods: {
@@ -199,10 +205,9 @@ export default defineComponent({
       }
       formData['user'] = userData;
       formData['company'] = this.getCompanyId;
-      console.log(formData);
-      const data = jsonToFormData(formData);
+      // const data = jsonToFormData(formData);
       this.errors = {};
-      const res = await this.$store.dispatch(this.dispatcher, data);
+      const res = await this.$store.dispatch(this.dispatcher, formData);
       // await this.fetchProfile();
       // this.user = this.getUser;
       if (res.status) {
@@ -220,10 +225,31 @@ export default defineComponent({
       }
       this.isLoading = false;
     },
+    async deleteEmployee() {
+      this.deleteLoading = true;
+      this.errors = {};
+      const res = await this.$store.dispatch('deleteEmployee', this.employee?.id);
+      // await this.fetchProfile();
+      // this.user = this.getUser;
+      if (res.status) {
+        this.errors = {};
+        if (res.status) {
+          this.$refs.successNotification.show();
+          this.$router.push({ name: 'employees' });
+        }
+        else {
+          this.$refs.errorNotification.show();
+        }
+      }
+      else {
+        this.errors = res.data;
+      }
+      this.deleteLoading = false;
+    },
     getError(key) {
       return this.errors[key]?.[0];
     }
   },
-  components: { SuccessNotification, ErrorNotification }
+  components: { SuccessNotification, ErrorNotification, DeleteConfirmModal }
 })
 </script>
