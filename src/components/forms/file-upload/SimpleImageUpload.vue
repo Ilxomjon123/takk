@@ -9,7 +9,6 @@
           alt="Logo"
           :src="selectedFilePath"
           ref="image"
-          @click="$refs.inputFile.click()"
           @error="replaceByDefault"
         />
         <!-- <Tippy

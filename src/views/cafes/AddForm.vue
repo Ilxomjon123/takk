@@ -18,24 +18,212 @@
             >
               <div class="flex flex-col md:flex-row gap-5">
                 <div class="md:basis-1/2 lg:basis-1/3">
-                  <SimpleImageUpload
+                  <!-- <SimpleImageUpload
                     :image-path="logoPath"
                     @update-image-path="logoPath = $event"
-                  />
+                  />-->
+                  <div class="input-form">
+                    <!-- <label for="cafe_status" class="form-label">Status</label>
+                    <Field
+                      as="select"
+                      name="status"
+                      id="cafe_status"
+                      v-model="selectedStatus"
+                      class="form-select"
+                    >
+                      <option
+                        v-for="(item, index) in statusOptions"
+                        :key="item.label + index"
+                        :value="item.value"
+                      >{{ item.label }}</option>
+                    </Field>-->
+                    <div class="form-check w-auto">
+                      <Field name="status" v-slot="field">
+                        <input
+                          id="status"
+                          class="form-check-switch"
+                          type="checkbox"
+                          v-model="selectedStatus"
+                          v-bind="field"
+                        />
+                      </Field>
+                      <label class="form-check-label" for="status">Status</label>
+                    </div>
+                    <ErrorMessage name="status" class="text-theme-6 mt-2" />
+                  </div>
+                  <template v-if="selectedStatus">
+                    <div
+                      class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
+                    >
+                      <h2 class="font-medium text-base mr-auto">Cafe hours</h2>
+                    </div>
+                    <WeekDayTimeForm
+                      v-for="day, index in weekTime"
+                      :key="day.day"
+                      :day="day"
+                      @update:opening_time="weekTime[index]['opening_time'] = $event"
+                      @update:closing_time="weekTime[index]['closing_time'] = $event"
+                      @update:is_open="weekTime[index]['is_open'] = $event"
+                    />
+                  </template>
+                  <div
+                    class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
+                  >
+                    <h2 class="font-medium text-base mr-auto">Cafe location info</h2>
+                  </div>
+                  <div class="flex gap-5">
+                    <div class="input-form basis-1/2">
+                      <!-- <label for="latitude" class="form-label">Latitude</label> -->
+                      <Field
+                        id="latitude"
+                        name="location.lat"
+                        v-model="location.lat"
+                        class="form-control"
+                        hidden
+                        type="number"
+                      />
+                      <ErrorMessage
+                        name="location.lat"
+                        class="text-theme-6 mt-2"
+                      />
+                    </div>
+                    <div class="input-form basis-1/2">
+                      <!-- <label for="longitude" class="form-label">Longitude</label> -->
+                      <Field
+                        id="longitude"
+                        name="location.lon"
+                        v-model="location.lon"
+                        class="form-control"
+                        hidden
+                        type="number"
+                      />
+                      <ErrorMessage
+                        name="location.lon"
+                        class="text-theme-6 mt-2"
+                      />
+                    </div>
+                  </div>
+                  <div class="map_container">
+                    <div id="map"></div>
+                  </div>
+                </div>
+                <div class="md:basis-1/2 lg:basis-2/3">
                   <div
                     class="flex flex-col sm:flex-row items-center mb-5 border-b border-gray-200 dark:border-dark-5"
                   >
-                    <h2 class="font-medium text-base mr-auto">Cafe weeek time</h2>
+                    <h2 class="font-medium text-base mr-auto">Cafe info</h2>
                   </div>
-                  <WeekDayTimeForm
-                    v-for="day, index in weekTime"
-                    :key="day.day"
-                    :day="day"
-                    @update:opening_time="weekTime[index]['opening_time'] = $event"
-                    @update:closing_time="weekTime[index]['closing_time'] = $event"
-                    @update:is_open="weekTime[index]['is_open'] = $event"
-                  />
                   <div class="flex gap-5 pt-3">
+                    <div class="input-form md:basis-1/2">
+                      <label class="form-label" for="name">Cafe name</label>
+                      <Field id="name" name="name" class="form-control" />
+                      <ErrorMessage name="name" class="text-theme-6 mt-2" />
+                    </div>
+                    <div class="input-form md:basis-1/2">
+                      <label class="form-label" for="call_center">Phone number</label>
+                      <Field
+                        id="call_center"
+                        name="call_center"
+                        class="form-control"
+                      />
+                      <ErrorMessage
+                        name="call_center"
+                        class="text-theme-6 mt-2"
+                      />
+                    </div>
+                  </div>
+                  <div class="flex gap-5 pt-3">
+                    <div class="input-form md:basis-1/2">
+                      <label class="form-label" for="website">Website</label>
+                      <Field id="website" name="website" class="form-control" />
+                      <ErrorMessage name="website" class="text-theme-6 mt-2" />
+                    </div>
+                  </div>
+                  <div
+                    class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
+                  >
+                    <h2 class="font-medium text-base mr-auto">Cafe addresses</h2>
+                  </div>
+                  <div class="flex gap-5">
+                    <div class="input-form flex-1 md:basis-1/2">
+                      <label for="country" class="form-label">Country</label>
+                      <CountrySelect v-bind="field" v-model="selectedCountry" />
+                    </div>
+                    <div class="input-form md:basis-1/2">
+                      <label class="form-label" for="state">State</label>
+                      <Field
+                        id="state"
+                        name="state"
+                        class="form-control"
+                        placeholder="Type state"
+                      />
+                      <ErrorMessage name="state" class="text-theme-6 mt-2" />
+                    </div>
+                  </div>
+                  <div class="flex gap-5 pt-3">
+                    <div class="input-form flex-1 md:basis-1/2">
+                      <label for="city" class="form-label">City</label>
+                      <CitySelect v-model="selectedCity" />
+                    </div>
+                    <div class="input-form md:basis-1/2">
+                      <label class="form-label" for="postal_code">Postal code</label>
+                      <Field
+                        id="postal_code"
+                        name="postal_code"
+                        class="form-control"
+                        placeholder="Type postal code"
+                      />
+                      <ErrorMessage
+                        name="postal_code"
+                        class="text-theme-6 mt-2"
+                      />
+                    </div>
+                  </div>
+                  <div class="flex gap-5 pt-3">
+                    <div class="input-form md:basis-1/2">
+                      <label class="form-label" for="address">Address</label>
+                      <Field
+                        id="address"
+                        name="address"
+                        class="form-control"
+                        placeholder="Type address"
+                      />
+                      <ErrorMessage name="address" class="text-theme-6 mt-2" />
+                    </div>
+                    <div class="input-form md:basis-1/2">
+                      <label
+                        class="form-label"
+                        for="second_address"
+                      >Second address</label>
+                      <Field
+                        id="second_address"
+                        name="second_address"
+                        class="form-control"
+                        placeholder="Type second address"
+                      />
+                      <ErrorMessage
+                        name="second_address"
+                        class="text-theme-6 mt-2"
+                      />
+                    </div>
+                  </div>
+                  <div class="input-form mt-3">
+                    <label for="description" class="form-label">Description</label>
+                    <Field
+                      as="textarea"
+                      id="description"
+                      name="description"
+                      class="form-control"
+                      placeholder="Type your cafe description"
+                    ></Field>
+                    <ErrorMessage name="description" class="text-theme-6 mt-2" />
+                  </div>
+                  <div
+                    class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
+                  >
+                    <h2 class="font-medium text-base mr-auto">Operations</h2>
+                  </div>
+                  <div class="flex gap-5">
                     <div class="input-form basis-1/2">
                       <label for="tax_rate" class="form-label">Tax rate</label>
                       <Field
@@ -231,170 +419,6 @@
                     </div>
                   </template>
                 </div>
-                <div class="md:basis-1/2 lg:basis-2/3">
-                  <div
-                    class="flex flex-col sm:flex-row items-center mb-5 border-b border-gray-200 dark:border-dark-5"
-                  >
-                    <h2 class="font-medium text-base mr-auto">Cafe info</h2>
-                  </div>
-                  <div class="flex gap-5 pt-3">
-                    <div class="input-form md:basis-1/2">
-                      <label class="form-label" for="name">Cafe name</label>
-                      <Field id="name" name="name" class="form-control" />
-                      <ErrorMessage name="name" class="text-theme-6 mt-2" />
-                    </div>
-                    <div class="input-form md:basis-1/2">
-                      <label class="form-label" for="call_center">Phone number</label>
-                      <Field
-                        id="call_center"
-                        name="call_center"
-                        class="form-control"
-                      />
-                      <ErrorMessage
-                        name="call_center"
-                        class="text-theme-6 mt-2"
-                      />
-                    </div>
-                  </div>
-                  <div class="flex gap-5 pt-3">
-                    <div class="input-form md:basis-1/2">
-                      <label class="form-label" for="website">Website</label>
-                      <Field id="website" name="website" class="form-control" />
-                      <ErrorMessage name="website" class="text-theme-6 mt-2" />
-                    </div>
-                    <div class="input-form md:basis-1/2">
-                      <label for="cafe_status" class="form-label">Status</label>
-                      <Field
-                        as="select"
-                        name="status"
-                        id="cafe_status"
-                        v-model="selectedStatus"
-                        class="form-select"
-                      >
-                        <option
-                          v-for="(item, index) in statusOptions"
-                          :key="item.label + index"
-                          :value="item.value"
-                        >{{ item.label }}</option>
-                      </Field>
-                      <ErrorMessage name="status" class="text-theme-6 mt-2" />
-                    </div>
-                  </div>
-                  <div class="flex gap-5 pt-3">
-                    <div class="input-form flex-1 md:basis-1/2">
-                      <label for="country" class="form-label">Country</label>
-                      <CountrySelect v-bind="field" v-model="selectedCountry" />
-                    </div>
-                    <div class="input-form flex-1 md:basis-1/2">
-                      <label for="city" class="form-label">City</label>
-                      <CitySelect v-model="selectedCity" />
-                    </div>
-                  </div>
-                  <div class="flex gap-5 pt-3">
-                    <div class="input-form md:basis-1/2">
-                      <label class="form-label" for="state">State</label>
-                      <Field
-                        id="state"
-                        name="state"
-                        class="form-control"
-                        placeholder="Type state"
-                      />
-                      <ErrorMessage name="state" class="text-theme-6 mt-2" />
-                    </div>
-                    <div class="input-form md:basis-1/2">
-                      <label class="form-label" for="postal_code">Postal code</label>
-                      <Field
-                        id="postal_code"
-                        name="postal_code"
-                        class="form-control"
-                        placeholder="Type postal code"
-                      />
-                      <ErrorMessage
-                        name="postal_code"
-                        class="text-theme-6 mt-2"
-                      />
-                    </div>
-                  </div>
-                  <div class="flex gap-5 pt-3">
-                    <div class="input-form md:basis-1/2">
-                      <label class="form-label" for="address">Address</label>
-                      <Field
-                        id="address"
-                        name="address"
-                        class="form-control"
-                        placeholder="Type address"
-                      />
-                      <ErrorMessage name="address" class="text-theme-6 mt-2" />
-                    </div>
-                    <div class="input-form md:basis-1/2">
-                      <label
-                        class="form-label"
-                        for="second_address"
-                      >Second address</label>
-                      <Field
-                        id="second_address"
-                        name="second_address"
-                        class="form-control"
-                        placeholder="Type second address"
-                      />
-                      <ErrorMessage
-                        name="second_address"
-                        class="text-theme-6 mt-2"
-                      />
-                    </div>
-                  </div>
-                  <div class="input-form mt-3">
-                    <label for="description" class="form-label">Description</label>
-                    <Field
-                      as="textarea"
-                      id="description"
-                      name="description"
-                      class="form-control"
-                      placeholder="Type your cafe description"
-                    ></Field>
-                    <ErrorMessage name="description" class="text-theme-6 mt-2" />
-                  </div>
-                  <div
-                    class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
-                  >
-                    <h2 class="font-medium text-base mr-auto">Cafe location info</h2>
-                  </div>
-                  <div class="flex gap-5 pt-3">
-                    <div class="input-form basis-1/2">
-                      <label for="latitude" class="form-label">Latitude</label>
-                      <Field
-                        id="latitude"
-                        name="location.lat"
-                        v-model="location.lat"
-                        class="form-control"
-                        disabled
-                        type="number"
-                      />
-                      <ErrorMessage
-                        name="location.lat"
-                        class="text-theme-6 mt-2"
-                      />
-                    </div>
-                    <div class="input-form basis-1/2">
-                      <label for="longitude" class="form-label">Longitude</label>
-                      <Field
-                        id="longitude"
-                        name="location.lon"
-                        v-model="location.lon"
-                        class="form-control"
-                        disabled
-                        type="number"
-                      />
-                      <ErrorMessage
-                        name="location.lon"
-                        class="text-theme-6 mt-2"
-                      />
-                    </div>
-                  </div>
-                  <div class="mt-5 map_container">
-                    <div id="map"></div>
-                  </div>
-                </div>
               </div>
               <div class="flex">
                 <button
@@ -475,7 +499,7 @@ export default defineComponent({
       }), // ok
       call_center: yup.string().max(50, "Must be less than 50 characters").required("This field is requried"), // ok
       website: yup.string().url("Must be a url address").nullable(), // ok
-      status: yup.number().integer().default(1).required("This field is requried"),
+      status: yup.boolean(),
       postal_code: yup.string().max(12, "Must be less than 12 characters"), // ok
       tax_rate: yup.number().positive().required("This field is requried"), // ok
       version: yup.number().positive().integer().required("This field is requried"), // ok
@@ -576,7 +600,7 @@ export default defineComponent({
       map: null,
       crs: CRS.EPSG4326,
       delivery,
-      selectedStatus: 1,
+      selectedStatus: false,
       selectedCountry: 'United States',
       selectedCity: '',
       externalErrors: {}
@@ -672,6 +696,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 #map {
   width: 100%;
-  height: 400px;
+  height: 300px;
 }
 </style>

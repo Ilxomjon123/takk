@@ -1,26 +1,17 @@
 <template>
   <div class="wrapper antialiased text-gray-900">
     <div class="hover01 column">
-      <figure>
+      <figure class="rounded-xl">
         <img
           :src="cafe.logo_small"
           alt=" random imgee"
-          class="w-full h-96 object-cover object-center shadow-lg"
+          class="w-full h-60 lg:h-72 object-cover object-center shadow-lg"
         />
       </figure>
     </div>
 
-    <div class="relative px-4 -mt-16">
-      <div class="bg-white p-6 rounded-lg shadow-lg">
-        <!-- <div class="flex items-baseline">
-          <span
-            class="bg-teal-200 text-teal-800 text-xs px-2 inline-block rounded-full uppercase font-semibold tracking-wide"
-          >New</span>
-          <div
-            class="ml-2 text-gray-600 uppercase text-xs font-semibold tracking-wider"
-          >2 baths &bull; 3 rooms</div>
-        </div>-->
-
+    <div class="relative text-white -mt-32">
+      <div class="bg-dark-1/50 p-5 rounded-xl rounded-t-none shadow-lg">
         <h4
           class="mt-1 text-xl font-semibold uppercase leading-tight truncate"
         >{{ cafe.name }}</h4>
@@ -45,7 +36,7 @@ defineProps({
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .wrapper {
   place-items: center;
 }
@@ -56,7 +47,6 @@ figure {
   padding: 0;
   background: #fff;
   overflow: hidden;
-  border-radius: 0.75rem;
 }
 
 .hover01 figure img {
@@ -69,4 +59,11 @@ figure {
   -webkit-transform: scale(1.2);
   transform: scale(1.2);
 }
+
+// .wrapper .info {
+// margin-top: -8.5rem;
+// @media (min-width: 1440px) {
+//   margin-top: -9.8rem;
+// }
+// }
 </style>
