@@ -33,7 +33,7 @@ export const fetchCafe = async cafeId => {
 export const fetchCafeWorkDays = async cafeId => {
   try {
     const res = await makeRequest({
-      url: `/api/cafes/${cafeId}/work-day/`,
+      url: `/api/cafes/${cafeId}/week-days/`,
       headers: { authorization: true }
     });
 
