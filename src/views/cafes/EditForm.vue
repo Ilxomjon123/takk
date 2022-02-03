@@ -115,7 +115,10 @@
                   </div>
                   <div class="flex gap-5 pt-3">
                     <div class="input-form md:basis-1/2">
-                      <label class="form-label" for="name">Cafe name</label>
+                      <label class="form-label" for="name">
+                        Cafe name
+                        <span class="text-primary-3">*</span>
+                      </label>
                       <Field
                         id="name"
                         name="name"
@@ -125,7 +128,10 @@
                       <ErrorMessage name="name" class="text-theme-6 mt-2" />
                     </div>
                     <div class="input-form md:basis-1/2">
-                      <label class="form-label" for="call_center">Phone number</label>
+                      <label class="form-label" for="call_center">
+                        Phone number
+                        <span class="text-primary-3">*</span>
+                      </label>
                       <Field
                         id="call_center"
                         name="call_center"
@@ -241,7 +247,10 @@
                   </div>
                   <div class="flex gap-5">
                     <div class="input-form basis-1/2">
-                      <label for="tax_rate" class="form-label">Tax rate</label>
+                      <label for="tax_rate" class="form-label">
+                        Tax rate
+                        <span class="text-primary-3">*</span>
+                      </label>
                       <Field
                         id="tax_rate"
                         name="tax_rate"
@@ -252,7 +261,10 @@
                       <ErrorMessage name="tax_rate" class="text-theme-6 mt-2" />
                     </div>
                     <div class="input-form basis-1/2">
-                      <label for="order_limit" class="form-label">Order limit</label>
+                      <label for="order_limit" class="form-label">
+                        Order limit
+                        <span class="text-primary-3">*</span>
+                      </label>
                       <Field
                         id="order_limit"
                         name="order_limit"
@@ -268,10 +280,10 @@
                   </div>
                   <div class="flex gap-5 pt-3">
                     <div class="input-form basis-1/2">
-                      <label
-                        for="order_time_limit"
-                        class="form-label"
-                      >Order time limit</label>
+                      <label for="order_time_limit" class="form-label">
+                        Order time limit
+                        <span class="text-primary-3">*</span>
+                      </label>
                       <Field
                         id="order_time_limit"
                         name="order_time_limit"
@@ -439,11 +451,22 @@
                       </div>
                     </div>
                   </template>
+                  <br />
+                  <MultipleImageUpload />
                 </div>
               </div>
-              <div class="flex">
+              <div class="flex pt-5">
                 <button
-                  class="btn btn-primary mt-5 lg:ml-auto"
+                  type="button"
+                  class="btn btn-danger lg:ml-auto mr-5"
+                  :disabled="isLoading"
+                  @click="openConfirmModal"
+                >
+                  <span>Delete</span>
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
                   :disabled="isLoading"
                 >
                   <LoadingIcon
@@ -463,6 +486,41 @@
         <!-- END: Form Validation -->
       </div>
     </div>
+    <!-- BEGIN: Delete Confirmation Modal -->
+    <div
+      id="delete-confirmation-modal"
+      class="modal"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body p-0">
+            <div class="p-5 text-center">
+              <XCircleIcon class="w-16 h-16 text-theme-6 mx-auto mt-3" />
+              <div class="text-3xl mt-5">Are you sure?</div>
+              <div class="text-gray-600 mt-2">
+                Do you really want to delete these records?
+                <br />This process cannot be undone.
+              </div>
+            </div>
+            <div class="px-5 pb-8 text-center">
+              <button
+                type="button"
+                data-dismiss="modal"
+                class="btn btn-outline-secondary w-24 mr-1"
+              >Cancel</button>
+              <button
+                type="button"
+                class="btn btn-danger w-24"
+                @click="deleteObj"
+              >Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END: Delete Confirmation Modal -->
   </div>
 </template>
 
@@ -478,11 +536,12 @@ import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
 import LatLongField from '@/components/forms/cafes/LatLongField.vue';
 import CafeDeliveryFields from '@/components/forms/cafes/CafeDeliveryFields.vue';
 import TextInput from '../../components/forms/TextInput.vue';
-import L, { latLng, CRS } from 'leaflet'
+import L, { CRS } from 'leaflet'
 import 'leaflet/dist/leaflet.css';
 import Toastify from 'toastify-js';
 import { updateCafe, fetchCafe, fetchCafeWorkDays } from '../../api';
 import cash from 'cash-dom';
+import MultipleImageUpload from '../../components/forms/file-upload/MultipleImageUpload.vue';
 
 export default defineComponent({
   components: {
@@ -496,12 +555,13 @@ export default defineComponent({
     WeekDayTimeForm,
     LatLongField,
     CafeDeliveryFields,
-    TextInput
+    TextInput,
+    MultipleImageUpload
   },
   data() {
     const schema = yup.object().shape({
       name: yup.string().min(1, "Please enter a name more than 1 character").required("This field is requried"), // ok
-      description: yup.string().min(1, "Must be more than 1 characters").required("This field is requried"), // ok
+      description: yup.string(), // ok
       location: yup.object({
         lat: yup
           .number()
@@ -523,7 +583,7 @@ export default defineComponent({
       status: yup.boolean(),
       postal_code: yup.string().max(12, "Must be less than 12 characters").nullable(), // ok
       tax_rate: yup.number().positive().required("This field is requried"), // ok
-      version: yup.number().positive().integer().required("This field is requried"), // ok
+      version: yup.number().positive().integer(), // ok
       order_limit: yup.number().positive().integer().required("This field is requried"), // ok
       order_time_limit: yup.number().positive().integer().required("This field is requried"), // ok
       address: yup.string().nullable(), // ok
@@ -679,7 +739,7 @@ export default defineComponent({
       this.second_address = res.second_address
       this.square_location_id = res.square_location_id
       this.selectedState = res.state
-      this.selectedStatus = res.status
+      this.selectedStatus = res.status === 1 ? true : false
       this.tax_rate = res.tax_rate
       this.version = res.version
       this.website = res.website
@@ -693,7 +753,7 @@ export default defineComponent({
     })
 
     await fetchCafeWorkDays(this.$route.params.id).then(res => {
-      this.weekTime = res.data
+      this.weekTime = res
     })
 
   },
@@ -763,10 +823,27 @@ export default defineComponent({
       this.location.lon = targetLatLng.lng;
       this.map.panTo([targetLatLng.lat, targetLatLng.lng])
     },
-
     latLng(obj) {
       return [obj.lat, obj.lon];
     },
+    openConfirmModal() {
+      cash('#delete-confirmation-modal').modal('show')
+      // console.log('deleted: ', id);
+      // rowId.value = id
+    },
+
+    deleteObj() {
+      store.commit('setLoadingStatus', true)
+      cash('#delete-confirmation-modal').modal('hide')
+      deleteCafe(this.$route.params.id).then(res => {
+        fetchCafeList().th
+        #map {
+          width: 100 %;
+          height: 400px;
+        }
+        // store.commit('setLoadingStatus', false)
+      })
+    }
   },
 });
 </script>

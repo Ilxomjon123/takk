@@ -3,7 +3,7 @@
     <div class="hover01 column">
       <figure class="rounded-xl">
         <img
-          :src="cafe.logo_small"
+          :src="cafe.logo_large"
           alt=" random imgee"
           class="w-full h-60 lg:h-72 object-cover object-center shadow-lg"
         />

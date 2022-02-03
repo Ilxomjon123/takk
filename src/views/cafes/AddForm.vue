@@ -115,12 +115,18 @@
                   </div>
                   <div class="flex gap-5 pt-3">
                     <div class="input-form md:basis-1/2">
-                      <label class="form-label" for="name">Cafe name</label>
+                      <label class="form-label" for="name">
+                        Cafe name
+                        <span class="text-primary-3">*</span>
+                      </label>
                       <Field id="name" name="name" class="form-control" />
                       <ErrorMessage name="name" class="text-theme-6 mt-2" />
                     </div>
                     <div class="input-form md:basis-1/2">
-                      <label class="form-label" for="call_center">Phone number</label>
+                      <label class="form-label" for="call_center">
+                        Phone number
+                        <span class="text-primary-3">*</span>
+                      </label>
                       <Field
                         id="call_center"
                         name="call_center"
@@ -225,7 +231,10 @@
                   </div>
                   <div class="flex gap-5">
                     <div class="input-form basis-1/2">
-                      <label for="tax_rate" class="form-label">Tax rate</label>
+                      <label for="tax_rate" class="form-label">
+                        Tax rate
+                        <span class="text-primary-3">*</span>
+                      </label>
                       <Field
                         id="tax_rate"
                         name="tax_rate"
@@ -235,7 +244,10 @@
                       <ErrorMessage name="tax_rate" class="text-theme-6 mt-2" />
                     </div>
                     <div class="input-form basis-1/2">
-                      <label for="order_limit" class="form-label">Order limit</label>
+                      <label for="order_limit" class="form-label">
+                        Order limit
+                        <span class="text-primary-3">*</span>
+                      </label>
                       <Field
                         id="order_limit"
                         name="order_limit"
@@ -250,10 +262,10 @@
                   </div>
                   <div class="flex gap-5 pt-3">
                     <div class="input-form basis-1/2">
-                      <label
-                        for="order_time_limit"
-                        class="form-label"
-                      >Order time limit</label>
+                      <label for="order_time_limit" class="form-label">
+                        Order time limit
+                        <span class="text-primary-3">*</span>
+                      </label>
                       <Field
                         id="order_time_limit"
                         name="order_time_limit"
@@ -418,6 +430,8 @@
                       </div>
                     </div>
                   </template>
+                  <br />
+                  <MultipleImageUpload />
                 </div>
               </div>
               <div class="flex">
@@ -462,6 +476,7 @@ import 'leaflet/dist/leaflet.css';
 import Toastify from 'toastify-js';
 import { cafePost } from '../../api';
 import cash from 'cash-dom';
+import MultipleImageUpload from '../../components/forms/file-upload/MultipleImageUpload.vue';
 
 export default defineComponent({
   components: {
@@ -475,12 +490,13 @@ export default defineComponent({
     WeekDayTimeForm,
     LatLongField,
     CafeDeliveryFields,
-    TextInput
+    TextInput,
+    MultipleImageUpload
   },
   data() {
     const schema = yup.object().shape({
       name: yup.string().min(1, "Please enter a name more than 1 character").required("This field is requried"), // ok
-      description: yup.string().min(1, "Must be more than 1 characters").required("This field is requried"), // ok
+      description: yup.string(), // ok
       location: yup.object({
         lat: yup
           .number()
@@ -502,7 +518,7 @@ export default defineComponent({
       status: yup.boolean(),
       postal_code: yup.string().max(12, "Must be less than 12 characters"), // ok
       tax_rate: yup.number().positive().required("This field is requried"), // ok
-      version: yup.number().positive().integer().required("This field is requried"), // ok
+      version: yup.number().positive().integer(), // ok
       order_limit: yup.number().positive().integer().required("This field is requried"), // ok
       order_time_limit: yup.number().positive().integer().required("This field is requried"), // ok
       address: yup.string(), // ok
