@@ -54,7 +54,7 @@ const actions = {
       });
     return response;
   },
-  async postMenu({ commit, rootGetters, rootState, dispatch }, payload) {
+  async postStepMenu({ commit, rootGetters, rootState, dispatch }, payload) {
     let response;
     await axios
       .post('/api/menus/', payload, {

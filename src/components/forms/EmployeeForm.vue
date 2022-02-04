@@ -119,8 +119,8 @@
           />
         </button>
         <DeleteConfirmModal
-          @delete="deleteEmployee"
-          :loading="deleteLoading"
+          @onConfirmedDelete="deleteEmployee"
+          :isLoading="deleteLoading"
           v-if="isEdit"
         />
       </div>

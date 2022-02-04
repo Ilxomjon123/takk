@@ -2,6 +2,7 @@
   <!-- BEGIN: Top Bar -->
   <div class="top-bar">
     <!-- BEGIN: Breadcrumb -->
+    <RouteBackButton />
     <Breadcumb />
     <!-- END: Breadcrumb -->
     <!-- BEGIN: Search -->
@@ -25,8 +26,9 @@ import Breadcumb from './parts/Breadcumb.vue';
 import GlobalSearch from './parts/GlobalSearch.vue';
 import Notifications from './parts/Notifications.vue';
 import ThemeModeButton from '../dark-mode-switcher/Button.vue'
+import RouteBackButton from './parts/RouteBackButton.vue';
 
 export default defineComponent({
-  components: { ProfileAvatar, Breadcumb, GlobalSearch, Notifications, ThemeModeButton }
+  components: { ProfileAvatar, Breadcumb, GlobalSearch, Notifications, ThemeModeButton, RouteBackButton }
 });
 </script>

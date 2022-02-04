@@ -35,9 +35,15 @@ export default defineComponent({
     }
 
     onMounted(() => {
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        store.dispatch('main/setDarkMode', true)
+      }
       setDarkModeClass()
     })
-
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+      event.matches ? store.dispatch('main/setDarkMode', true) : store.dispatch('main/setDarkMode', false);
+      setDarkModeClass()
+    });
     return {
       switchMode,
       darkMode

@@ -8,6 +8,7 @@ import common from './modules/common';
 import steps from './modules/steps';
 import companyDashboard from './modules/dashboard/company';
 import employee from './modules/dashboard/employee';
+import menu from './modules/dashboard/menu';
 import cafes from './modules/cafes';
 
 const store = createStore({
@@ -21,7 +22,8 @@ const store = createStore({
     steps,
     companyDashboard,
     cafes,
-    employee
+    employee,
+    menu
   }
 });
 

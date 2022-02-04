@@ -1,5 +1,7 @@
 <template>
+  <TrashIcon v-if="isIcon" class="hover:text-theme-6" @click="showModal" />
   <a
+    v-else
     href="javascript:;"
     data-toggle="modal"
     data-target="#delete-modal-preview"
@@ -37,7 +39,7 @@
               type="button"
               class="btn btn-danger w-24"
               data-dismiss="modal"
-              @click="$emit('delete')"
+              @click="$emit('onConfirmedDelete')"
             >
               {{ isLoading ? '' : 'Delete' }}
               <LoadingIcon
@@ -56,12 +58,22 @@
 
 <script>
 import { defineComponent } from 'vue'
-
+import cash from 'cash-dom'
 export default defineComponent({
+  emits: ['onConfirmedDelete'],
   props: {
-    loading: {
+    isLoading: {
       type: Boolean,
       default: false
+    },
+    isIcon: {
+      type: Boolean,
+      default: false
+    }
+  },
+  methods: {
+    showModal() {
+      cash('#delete-modal-preview').modal('show')
     }
   }
 })

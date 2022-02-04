@@ -1,8 +1,8 @@
 <template>
   <!-- BEGIN: Dark Mode Switcher-->
-  <a @click="switchMode">
-    <SunIcon v-if="!darkMode" class="text-theme-12" />
-    <MoonIcon v-else />
+  <a @click="switchMode" class="intro-x cursor-pointer">
+    <SunIcon v-if="!darkMode" class="text-theme-12 hover:text-theme-1" />
+    <MoonIcon v-else class="hover:text-theme-1" />
   </a>
 
   <!-- END: Dark Mode Switcher-->

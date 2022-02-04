@@ -3,7 +3,7 @@
     :total="paginator.total"
     :currentPage="paginator.page"
     :perPage="paginator.limit"
-    @paginate="setItems($event)"
+    @paginate="paginate($event)"
     @changePerPage="changePerPage($event)"
   />
 </template>

@@ -1,5 +1,9 @@
 <template>
   <div>
+    <!-- Menu List start -->
+    <MenuList />
+    <!-- Menu List end -->
+
     <h2 class="intro-y text-lg font-medium mt-10">Categories List</h2>
 
     <div class="grid grid-cols-12 gap-6 mt-5">
@@ -40,7 +44,6 @@
         </div>-->
       </div>
     </div>
-
     <!-- BEGIN: Data List -->
     <div class="intro-y col-span-12 overflow-auto">
       <table class="table table-report -mt-2 text-center">
@@ -80,9 +83,10 @@
 import { defineComponent } from 'vue'
 import MainPaginator from '../../../components/paginator/MainPaginator.vue'
 import EmployeeCard from '../../../components/cards/EmployeeCard.vue'
+import MenuList from '../../../components/lists/MenuList.vue'
 
 export default defineComponent({
-  components: { MainPaginator, EmployeeCard },
+  components: { MainPaginator, EmployeeCard, MenuList },
   data() {
     return {
       items: [],

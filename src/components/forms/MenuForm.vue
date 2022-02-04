@@ -58,12 +58,12 @@ export default defineComponent({
     }
   },
   methods: {
-    ...mapActions(['postMenu']),
+    ...mapActions(['postStepMenu']),
     async submit() {
       this.isLoading = true;
       this.errors = {};
       this.form.company = this.getUser.company_id;
-      const res = await this.postMenu(this.form);
+      const res = await this.postStepMenu(this.form);
       console.log(res);
       if (res.status) {
         this.$router.push('/dashboard')
