@@ -55,55 +55,19 @@
       </div>
       <!-- END: Data List -->
     </div>
-    <!-- BEGIN: Delete Confirmation Modal -->
-    <div
-      id="delete-confirmation-modal"
-      class="modal"
-      tabindex="-1"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-body p-0">
-            <div class="p-5 text-center">
-              <XCircleIcon class="w-16 h-16 text-theme-6 mx-auto mt-3" />
-              <div class="text-3xl mt-5">Are you sure?</div>
-              <div class="text-gray-600 mt-2">
-                Do you really want to delete these records?
-                <br />This process cannot be undone.
-              </div>
-            </div>
-            <div class="px-5 pb-8 text-center">
-              <button
-                type="button"
-                data-dismiss="modal"
-                class="btn btn-outline-secondary w-24 mr-1"
-              >Cancel</button>
-              <button
-                type="button"
-                class="btn btn-danger w-24"
-                @click="deleteObj"
-              >Delete</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- END: Delete Confirmation Modal -->
   </div>
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref } from 'vue';
+import { ref } from 'vue';
 import { useStore } from 'vuex';
-import { useRoute, useRouter } from 'vue-router';
-import cash from 'cash-dom';
-import { deleteCafe, fetchCafeList } from '../../api';
+import { useRouter } from 'vue-router';
+import { fetchCafeList } from '@/api';
 import CafeItemCard from './CafeItemCard.vue';
 
 const router = useRouter();
 const store = useStore();
-const rowId = ref(null)
+// const rowId = ref(null)
 // const isLoading = ref(true)
 const list = ref([])
 
@@ -123,24 +87,6 @@ function gotoForm(id) {
     router.push(`/dashboard/cafe-add-form`)
     store.commit('setLoadingStatus', false)
   };
-}
-
-function openConfirmModal(id) {
-  cash('#delete-confirmation-modal').modal('show')
-  console.log('deleted: ', id);
-  rowId.value = id
-}
-
-function deleteObj() {
-  store.commit('setLoadingStatus', true)
-  cash('#delete-confirmation-modal').modal('hide')
-  deleteCafe(rowId.value).then(res => {
-    fetchCafeList().then(res => {
-      list.value = res
-      store.commit('setLoadingStatus', false)
-    })
-    // store.commit('setLoadingStatus', false)
-  })
 }
 </script>
 

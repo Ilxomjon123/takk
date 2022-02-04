@@ -115,16 +115,28 @@
                   </div>
                   <div class="flex gap-5 pt-3">
                     <div class="input-form md:basis-1/2">
-                      <label class="form-label" for="name">Cafe name</label>
-                      <Field id="name" name="name" class="form-control" />
+                      <label class="form-label" for="name">
+                        Cafe name
+                        <span class="text-primary-3">*</span>
+                      </label>
+                      <Field
+                        id="name"
+                        name="name"
+                        class="form-control"
+                        v-model="name"
+                      />
                       <ErrorMessage name="name" class="text-theme-6 mt-2" />
                     </div>
                     <div class="input-form md:basis-1/2">
-                      <label class="form-label" for="call_center">Phone number</label>
+                      <label class="form-label" for="call_center">
+                        Phone number
+                        <span class="text-primary-3">*</span>
+                      </label>
                       <Field
                         id="call_center"
                         name="call_center"
                         class="form-control"
+                        v-model="call_center"
                       />
                       <ErrorMessage
                         name="call_center"
@@ -135,7 +147,12 @@
                   <div class="flex gap-5 pt-3">
                     <div class="input-form md:basis-1/2">
                       <label class="form-label" for="website">Website</label>
-                      <Field id="website" name="website" class="form-control" />
+                      <Field
+                        id="website"
+                        name="website"
+                        class="form-control"
+                        v-model="website"
+                      />
                       <ErrorMessage name="website" class="text-theme-6 mt-2" />
                     </div>
                   </div>
@@ -154,6 +171,7 @@
                       <Field
                         id="state"
                         name="state"
+                        v-model="selectedState"
                         class="form-control"
                         placeholder="Type state"
                       />
@@ -163,7 +181,10 @@
                   <div class="flex gap-5 pt-3">
                     <div class="input-form flex-1 md:basis-1/2">
                       <label for="city" class="form-label">City</label>
-                      <CitySelect v-model="selectedCity" />
+                      <CitySelect
+                        v-model="selectedCity"
+                        @change="searchLocationByAddress"
+                      />
                     </div>
                     <div class="input-form md:basis-1/2">
                       <label class="form-label" for="postal_code">Postal code</label>
@@ -172,6 +193,7 @@
                         name="postal_code"
                         class="form-control"
                         placeholder="Type postal code"
+                        v-model="postal_code"
                       />
                       <ErrorMessage
                         name="postal_code"
@@ -185,8 +207,10 @@
                       <Field
                         id="address"
                         name="address"
+                        v-model="address"
                         class="form-control"
                         placeholder="Type address"
+                        @change="searchLocationByAddress"
                       />
                       <ErrorMessage name="address" class="text-theme-6 mt-2" />
                     </div>
@@ -200,6 +224,7 @@
                         name="second_address"
                         class="form-control"
                         placeholder="Type second address"
+                        v-model="second_address"
                       />
                       <ErrorMessage
                         name="second_address"
@@ -215,6 +240,7 @@
                       name="description"
                       class="form-control"
                       placeholder="Type your cafe description"
+                      v-model="description"
                     ></Field>
                     <ErrorMessage name="description" class="text-theme-6 mt-2" />
                   </div>
@@ -225,20 +251,28 @@
                   </div>
                   <div class="flex gap-5">
                     <div class="input-form basis-1/2">
-                      <label for="tax_rate" class="form-label">Tax rate</label>
+                      <label for="tax_rate" class="form-label">
+                        Tax rate
+                        <span class="text-primary-3">*</span>
+                      </label>
                       <Field
                         id="tax_rate"
                         name="tax_rate"
+                        v-model="tax_rate"
                         class="form-control"
                         type="number"
                       />
                       <ErrorMessage name="tax_rate" class="text-theme-6 mt-2" />
                     </div>
                     <div class="input-form basis-1/2">
-                      <label for="order_limit" class="form-label">Order limit</label>
+                      <label for="order_limit" class="form-label">
+                        Order limit
+                        <span class="text-primary-3">*</span>
+                      </label>
                       <Field
                         id="order_limit"
                         name="order_limit"
+                        v-model="order_limit"
                         class="form-control"
                         type="number"
                       />
@@ -250,13 +284,14 @@
                   </div>
                   <div class="flex gap-5 pt-3">
                     <div class="input-form basis-1/2">
-                      <label
-                        for="order_time_limit"
-                        class="form-label"
-                      >Order time limit</label>
+                      <label for="order_time_limit" class="form-label">
+                        Order time limit
+                        <span class="text-primary-3">*</span>
+                      </label>
                       <Field
                         id="order_time_limit"
                         name="order_time_limit"
+                        v-model="order_time_limit"
                         class="form-control"
                         type="number"
                       />
@@ -270,6 +305,7 @@
                       <Field
                         id="version"
                         name="version"
+                        v-model="version"
                         class="form-control"
                         type="number"
                       />
@@ -283,7 +319,7 @@
                         name="is_use_square"
                         class="form-check-switch"
                         type="checkbox"
-                        :value="true"
+                        :value="isSquareUsed"
                         @input="toggleFunc1"
                       />
                       <label
@@ -299,6 +335,7 @@
                       <Field
                         id="square_location_id"
                         name="square_location_id"
+                        v-model="square_location_id"
                         class="form-control"
                       />
                     </div>
@@ -418,11 +455,22 @@
                       </div>
                     </div>
                   </template>
+                  <br />
+                  <MultipleImageUpload />
                 </div>
               </div>
-              <div class="flex">
+              <div class="flex pt-5">
                 <button
-                  class="btn btn-primary mt-5 lg:ml-auto"
+                  type="button"
+                  class="btn btn-danger lg:ml-auto mr-5"
+                  :disabled="isLoading"
+                  @click="openConfirmModal"
+                >
+                  <span>Delete</span>
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
                   :disabled="isLoading"
                 >
                   <LoadingIcon
@@ -446,41 +494,34 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref, toRefs } from 'vue';
-import DynamicForm from '../../components/forms/DynamicForm.vue';
+import { defineComponent } from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
-import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 import CountrySelect from '@/components/selects/CountrySelect.vue';
 import CitySelect from '@/components/selects/CitySelect.vue';
 import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
-import LatLongField from '@/components/forms/cafes/LatLongField.vue';
-import CafeDeliveryFields from '@/components/forms/cafes/CafeDeliveryFields.vue';
-import TextInput from '../../components/forms/TextInput.vue';
-import L, { latLng, CRS } from 'leaflet'
+import L, { CRS } from 'leaflet'
 import 'leaflet/dist/leaflet.css';
 import Toastify from 'toastify-js';
-import { cafePost } from '../../api';
+import { cafePost } from '@/api';
 import cash from 'cash-dom';
+import MultipleImageUpload from '@/components/forms/file-upload/MultipleImageUpload.vue';
+import axios from 'axios';
 
 export default defineComponent({
   components: {
-    DynamicForm,
     Form,
     Field,
     ErrorMessage,
-    SimpleImageUpload,
     CountrySelect,
     CitySelect,
     WeekDayTimeForm,
-    LatLongField,
-    CafeDeliveryFields,
-    TextInput
+    MultipleImageUpload
   },
   data() {
     const schema = yup.object().shape({
       name: yup.string().min(1, "Please enter a name more than 1 character").required("This field is requried"), // ok
-      description: yup.string().min(1, "Must be more than 1 characters").required("This field is requried"), // ok
+      description: yup.string(), // ok
       location: yup.object({
         lat: yup
           .number()
@@ -502,7 +543,7 @@ export default defineComponent({
       status: yup.boolean(),
       postal_code: yup.string().max(12, "Must be less than 12 characters"), // ok
       tax_rate: yup.number().positive().required("This field is requried"), // ok
-      version: yup.number().positive().integer().required("This field is requried"), // ok
+      version: yup.number().positive().integer(), // ok
       order_limit: yup.number().positive().integer().required("This field is requried"), // ok
       order_time_limit: yup.number().positive().integer().required("This field is requried"), // ok
       address: yup.string(), // ok
@@ -598,15 +639,31 @@ export default defineComponent({
       location,
       isSquareUsed: false,
       map: null,
+      marker: null,
       crs: CRS.EPSG4326,
       delivery,
       selectedStatus: false,
       selectedCountry: 'United States',
       selectedCity: '',
-      externalErrors: {}
+      selectedState: '',
+      externalErrors: {},
+      name: '',
+      cafe_timezone: '',
+      call_center: '',
+      website: '',
+      postal_code: '',
+      address: '',
+      second_address: '',
+      tax_rate: '',
+      version: '',
+      order_limit: '',
+      order_time_limit: '',
+      square_location_id: '',
+      menu: ''
     };
   },
-  mounted() {
+  async mounted() {
+    this.$store.commit('setLoadingStatus', true)
     this.map = L.map("map").setView(this.latLng(this.location), 7);
 
     L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
@@ -614,10 +671,10 @@ export default defineComponent({
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.map);
 
-    L.marker([this.location.lat, this.location.lon], {
+    this.marker = L.marker([this.location.lat, this.location.lon], {
       draggable: true
     }).on('moveend', this.changeLatLng).addTo(this.map);
-
+    this.$store.commit('setLoadingStatus', false)
   },
   beforeUnmount() {
     if (this.map) {
@@ -673,7 +730,7 @@ export default defineComponent({
       }).showToast('asdjajsd sadlkasldkja');
     },
     toggleFunc1(e) {
-      this.isSquareUsed = e.target.checked ? true : false;
+      this.isSquareUsed = e.target.checked;
     },
     toggleFunc2(e) {
       console.log('e in toggleFunc2: ', e.target.checked);
@@ -685,10 +742,20 @@ export default defineComponent({
       this.location.lon = targetLatLng.lng;
       this.map.panTo([targetLatLng.lat, targetLatLng.lng])
     },
-
     latLng(obj) {
       return [obj.lat, obj.lon];
     },
+    searchLocationByAddress() {
+      const addr = `${this.selectedCountry}, ${this.selectedState}, ${this.selectedCity}, ${this.address}`
+      let url = `https://nominatim.openstreetmap.org/search?format=json&limit=3&q=${addr}`;
+      axios.get(url).then(res => {
+        console.log(res);
+        this.location.lat = res.data[0].lat;
+        this.location.lon = res.data[0].lon;
+        this.marker.setLatLng([this.location.lat, this.location.lon])
+        this.map.panTo([this.location.lat, this.location.lon])
+      });
+    }
   },
 });
 </script>
