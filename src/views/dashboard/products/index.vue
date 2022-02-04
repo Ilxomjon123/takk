@@ -215,6 +215,7 @@ const foodMenus = reactive([]);
 const products = reactive([]);
 const selectedProduct = reactive({});
 const store = useStore()
+const activeMenuID = ref(false);
 
 store.commit('setLoadingStatus', true)
 fetchFoodMenuList().then(res => {
