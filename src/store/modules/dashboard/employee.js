@@ -56,10 +56,33 @@ const actions = {
       });
     return response;
   },
-  async postEmployee({ rootGetters }, payload) {
+  async postEmployeeNew({ rootGetters }, payload) {
     let response;
     await axios
-      .post(`/api/employees/`, payload, {
+      .post(`/api/employees/new/`, payload, {
+        headers: {
+          ...rootGetters.getHttpHeader
+          // 'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(async res => {
+        response = {
+          status: true,
+          data: res.data
+        };
+      })
+      .catch(err => {
+        response = {
+          status: false,
+          data: err.response.data
+        };
+      });
+    return response;
+  },
+  async postEmployeeExist({ rootGetters }, payload) {
+    let response;
+    await axios
+      .post(`/api/employees/exists/`, payload, {
         headers: {
           ...rootGetters.getHttpHeader
           // 'Content-Type': 'multipart/form-data'

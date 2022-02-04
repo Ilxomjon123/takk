@@ -3,7 +3,7 @@
     :total="paginator.total"
     :currentPage="paginator.page"
     :perPage="paginator.limit"
-    @paginate="paginate($event)"
+    @paginate="setItems($event)"
     @changePerPage="changePerPage($event)"
   />
 </template>
@@ -49,10 +49,10 @@ export default defineComponent({
     },
     async fetchData() {
       this.$store.commit('setLoadingStatus', true);
-      this.$emit('paginate', []);
+      this.$emit('setItems', []);
       const res = await this.$store.dispatch(this.dispatcher, { ...this.form, ...this.paginator });
       this.paginator.total = res.total_objects;
-      this.$emit('paginate', res.results);
+      this.$emit('setItems', res.results);
       this.$store.commit('setLoadingStatus', false);
 
     }

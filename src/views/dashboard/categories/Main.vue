@@ -1,26 +1,18 @@
 <template>
   <div>
-    <h2 class="intro-y text-lg font-medium mt-10">Employees List</h2>
+    <h2 class="intro-y text-lg font-medium mt-10">Categories List</h2>
 
     <div class="grid grid-cols-12 gap-6 mt-5">
       <div
         class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"
       >
         <router-link
-          to="/dashboard/employees/add-new"
+          to="/dashboard/categories/add"
           class="btn btn-primary mr-3"
         >
           <span class="w-5 h-5 flex items-center justify-center">
             <PlusIcon class="w-4 h-4" />
-          </span>Add New User
-        </router-link>
-        <router-link
-          to="/dashboard/employees/add-exist"
-          class="btn btn-success"
-        >
-          <span class="w-5 h-5 flex items-center justify-center">
-            <PlusIcon class="w-4 h-4" />
-          </span>Add Existing User
+          </span>Add Category
         </router-link>
         <!-- <div class="dropdown">
           <button
@@ -50,28 +42,36 @@
     </div>
 
     <!-- BEGIN: Data List -->
-    <div
-      class="intro-y grid grid-cols-12 gap-5 mt-5 pt-5 border-t border-theme-5"
-    >
-      <router-link
-        v-for="(item, index) in items"
-        :key="index"
-        class="intro-y block col-span-12 sm:col-span-4 xl:col-span-3 2xl:col-span-2"
-        :to="`employees/${item.id}`"
-        @click="setEmployee(item)"
-      >
-        <EmployeeCard :employee="item" />
-      </router-link>
+    <div class="intro-y col-span-12 overflow-auto">
+      <table class="table table-report -mt-2 text-center">
+        <thead>
+          <tr>
+            <th class="whitespace-nowrap"></th>
+            <th class="whitespace-nowrap">Rank</th>
+            <th class="whitespace-nowrap">ID</th>
+            <th class="whitespace-nowrap">LOGO</th>
+            <th class="whitespace-nowrap">NAME</th>
+            <th class="whitespace-nowrap">PARENT</th>
+            <th class="whitespace-nowrap">ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, index) in items" :key="index">
+            <td v-text="(index + 1)" />
+            <td v-text="item.id" />
+          </tr>
+        </tbody>
+      </table>
     </div>
     <!-- END: Data List -->
     <!-- BEGIN: Pagination -->
-    <MainPaginator
+    <!-- <MainPaginator
       class="mt-5"
       dispatcher="fetchEmployees"
       ref="paginator"
       @paginate="setItems($event)"
       :form="form"
-    />
+    />-->
     <!-- END: Pagination -->
   </div>
 </template>
@@ -90,15 +90,12 @@ export default defineComponent({
     }
   },
   methods: {
-    setItems(val) {
+    paginate(val) {
       this.items = val
     },
     search() {
       this.$refs.paginator.paginate(1)
     },
-    setEmployee(item) {
-      this.$store.commit('setEmployee', item);
-    }
   }
 })
 </script>

@@ -90,7 +90,7 @@
       <MainPaginator
         dispatcher="fetchCustomers"
         ref="paginator"
-        @paginate="paginate($event)"
+        @paginate="setItems($event)"
         :form="form"
       />
       <!-- END: Pagination -->
@@ -111,7 +111,7 @@ export default defineComponent({
     }
   },
   methods: {
-    paginate(val) {
+    setItems(val) {
       this.items = val
     },
     search() {

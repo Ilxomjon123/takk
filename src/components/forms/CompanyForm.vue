@@ -74,8 +74,14 @@
         <div class="text-theme-6" v-text="getError('website')" />
       </div>-->
     </div>
-    <div class="flex flex-wrap mb-1 -mx-3">
-      <div class="w-full md:w-1/2 px-3 md:mb-0">
+    <div class="flex flex-wrap -mx-3 mb-1">
+      <div
+        class="w-full px-3 md:mb-0"
+        :class="{
+          'md:w-1/2': !isUnitedStates,
+          'md:w-1/3': isUnitedStates
+        }"
+      >
         <label class="form-label">Country</label>
         <CountrySelect
           :class="getError('country') != null ? 'border-theme-6' : 'border-gray-300'"
@@ -83,7 +89,25 @@
         />
         <div class="text-theme-6 mt-2" v-text="getError('country')" />
       </div>
-      <div class="w-full md:w-1/2 px-3 md:mb-0">
+      <div class="w-full px-3 mb-3 md:w-1/3 md:mb-0" v-if="isUnitedStates">
+        <label for="state" class="form-label">State</label>
+        <input
+          id="state"
+          type="text"
+          class="form-control"
+          :class="getError('state') != null ? 'border-theme-6' : 'border-gray-300'"
+          placeholder="State"
+          v-model="form.state"
+        />
+        <div class="text-theme-6" v-text="getError('state')" />
+      </div>
+      <div
+        class="w-full px-3 md:mb-0"
+        :class="{
+          'md:w-1/2': !isUnitedStates,
+          'md:w-1/3': isUnitedStates
+        }"
+      >
         <label class="form-label">City</label>
         <CitySelect
           :class="getError('city') != null ? 'border-theme-6' : 'border-gray-300'"
@@ -207,6 +231,11 @@ export default defineComponent({
       },
       isLoading: false,
       errors: {}
+    }
+  },
+  computed: {
+    isUnitedStates() {
+      return this.form.country == 'United States';
     }
   },
   methods: {

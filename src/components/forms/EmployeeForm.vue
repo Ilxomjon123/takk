@@ -24,12 +24,13 @@
           </Tippy>-->
         </div>
         <div class="text-theme-6" v-text="getError('avatar')" />
-        <div class="mx-auto cursor-pointer relative mt-5" v-if="false">
+        <div class="mx-auto cursor-pointer relative mt-5" v-if="!isEdit">
           <button
             type="button"
             @click="clickInput('avatar-image')"
             class="btn btn-primary w-full"
           >Change Photo</button>
+          <div class="text-theme-6" v-text="getError('avatar')" />
         </div>
       </div>
     </div>
@@ -100,6 +101,7 @@
         </TomSelect>
         <div class="text-theme-6" v-text="getError('cafes')" />
       </div>
+      <div class="text-theme-6" v-text="errors?.detail" />
     </div>
     <div>
       <div class="mx-auto">
@@ -116,7 +118,11 @@
             class="w-8 h-8 my-2"
           />
         </button>
-        <DeleteConfirmModal @delete="deleteEmployee" :loading="deleteLoading" />
+        <DeleteConfirmModal
+          @delete="deleteEmployee"
+          :loading="deleteLoading"
+          v-if="isEdit"
+        />
       </div>
     </div>
   </form>
@@ -164,7 +170,7 @@ export default defineComponent({
     },
     dispatcher: {
       type: String,
-      default: 'postEmployee'
+      default: 'postEmployeeNew'
     }
   },
   async created() {
@@ -208,19 +214,13 @@ export default defineComponent({
       // const data = jsonToFormData(formData);
       this.errors = {};
       const res = await this.$store.dispatch(this.dispatcher, formData);
-      // await this.fetchProfile();
-      // this.user = this.getUser;
       if (res.status) {
         this.errors = {};
-        if (res.status) {
-          this.$refs.successNotification.show();
-          // window.location.reload();
-        }
-        else {
-          this.$refs.errorNotification.show();
-        }
+        this.$refs.successNotification.show();
+        this.$router.push('employees')
       }
       else {
+        this.$refs.errorNotification.show();
         this.errors = res.data;
       }
       this.isLoading = false;
@@ -229,8 +229,6 @@ export default defineComponent({
       this.deleteLoading = true;
       this.errors = {};
       const res = await this.$store.dispatch('deleteEmployee', this.employee?.id);
-      // await this.fetchProfile();
-      // this.user = this.getUser;
       if (res.status) {
         this.errors = {};
         if (res.status) {

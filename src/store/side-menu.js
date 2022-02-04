@@ -40,7 +40,7 @@ const state = () => {
           },
           {
             icon: 'TagIcon',
-            pageName: '',
+            pageName: 'categories',
             title: 'Categories'
           },
           {

@@ -7,6 +7,7 @@ import AppLayout from '../layouts/app-layout/index.vue';
 import CreateCompany from '../views/steps/CreateCompany.vue';
 import CreateCafe from '../views/steps/CreateCafe.vue';
 import CreateMenu from '../views/steps/CreateMenu.vue';
+import StepFinish from '../views/steps/Finish.vue';
 import DashboardLayout from '../layouts/dashboard/Main.vue';
 import CompanyLayout from '../layouts/dashboard/company/Main.vue';
 import EntryLayout from '../layouts/entry/Main.vue';
@@ -20,7 +21,9 @@ import Transaction from '../views/dashboard/transactions/Main.vue';
 import Profile from '../views/profile/Main.vue';
 import Employees from '../views/dashboard/employees/Main.vue';
 import AddNewEmployee from '../views/dashboard/employees/AddNew.vue';
+import AddExistEmployee from '../views/dashboard/employees/AddExist.vue';
 import EditEmployee from '../views/dashboard/employees/Edit.vue';
+import Categories from '../views/dashboard/categories/Main.vue';
 
 const routes = [
   {
@@ -89,8 +92,14 @@ const routes = [
         children: [
           { path: '', name: 'employees', component: Employees },
           { path: 'add-new', component: AddNewEmployee },
+          { path: 'add-exist', component: AddExistEmployee },
           { path: ':id', component: EditEmployee }
         ]
+      },
+      {
+        path: 'categories',
+        component: CompanyLayout,
+        children: [{ path: '', name: 'categories', component: Categories }]
       }
     ]
   },
@@ -117,7 +126,13 @@ const routes = [
       },
       {
         path: 'cafe',
+        name: 'entry-cafe',
         component: CreateCafe
+      },
+      {
+        path: 'finish',
+        name: 'entry-finish',
+        component: StepFinish
       },
       {
         path: 'menu',

@@ -96,7 +96,7 @@
       <!-- BEGIN: Pagination -->
       <MainPaginator
         dispatcher="fetchTransactions"
-        @paginate="paginate($event)"
+        @paginate="setItems($event)"
         ref="paginator"
         :form="form"
       />
@@ -139,15 +139,15 @@ export default defineComponent({
     }
   },
   methods: {
-    paginate(val) {
+    setItems(val) {
       this.items = val
+    },
+    search() {
+      this.$refs.paginator.paginate(1)
     },
     setOrder(val) {
       this.order = val;
     },
-    search() {
-      this.$refs.paginator.paginate(1)
-    }
   }
 })
 </script>

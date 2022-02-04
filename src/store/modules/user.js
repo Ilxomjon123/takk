@@ -8,7 +8,8 @@ const state = () => {
     STEP_ENTRY: null,
     STEP_COMPANY: 1,
     STEP_CAFE: 2,
-    STEP_MENU: 3,
+    // STEP_MENU: 3,
+    STEP_FINISH: 3,
     STEP_DASHBOARD: 4,
     employee_types: [
       { name: 'Manager', value: 1 },
@@ -76,7 +77,7 @@ const actions = {
     }
   },
   async putStep({ commit, rootGetters }, payload) {
-    console.log(payload);
+    // console.log(payload);
     try {
       let res = await axios.put(
         '/api/steps/',

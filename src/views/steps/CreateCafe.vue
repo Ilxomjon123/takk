@@ -15,10 +15,10 @@ export default defineComponent({
   , methods: {
     ...mapActions(['putStep']),
     async skip() {
-      const res = await this.putStep(this.$store.state.user.STEP_DASHBOARD);
+      const res = await this.putStep(this.$store.state.user.STEP_FINISH);
       // const res = await this.putStep(this.$store.state.user.STEP_MENU);
       if (res.status) {
-        this.$router.push('/dashboard')
+        this.$router.push('/entry/finish')
         // this.$router.push('/entry/menu')
       } else {
         this.$refs.errorNotification.show()
