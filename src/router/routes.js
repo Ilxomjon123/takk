@@ -11,9 +11,9 @@ import DashboardLayout from '../layouts/dashboard/Main.vue';
 import CompanyLayout from '../layouts/dashboard/company/Main.vue';
 import EntryLayout from '../layouts/entry/Main.vue';
 import DashboardMain from '../views/dashboard/Main.vue';
-import CafeDataList from '../views/cafes/index.vue';
-import CafeAdd from '../views/cafes/AddForm.vue';
-import CafeEdit from '../views/cafes/EditForm.vue';
+import CafeDataList from '../views/dashboard/cafes/index.vue';
+import CafeAdd from '../views/dashboard/cafes/AddForm.vue';
+import CafeEdit from '../views/dashboard/cafes/EditForm.vue';
 import Company from '../views/dashboard/company/Main.vue';
 import Customer from '../views/dashboard/customer/Main.vue';
 import Transaction from '../views/dashboard/transactions/Main.vue';
@@ -21,6 +21,7 @@ import Profile from '../views/profile/Main.vue';
 import Employees from '../views/dashboard/employees/Main.vue';
 import AddNewEmployee from '../views/dashboard/employees/AddNew.vue';
 import EditEmployee from '../views/dashboard/employees/Edit.vue';
+import Products from '../views/dashboard/products/index.vue';
 
 const routes = [
   {
@@ -63,6 +64,7 @@ const routes = [
         component: CafeEdit
       },
       { path: 'test', name: 'test', component: DashboardMain },
+      { path: 'products', name: 'products', component: Products },
       {
         path: 'company',
         component: CompanyLayout,

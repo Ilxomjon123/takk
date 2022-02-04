@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col md:flex-row flex-wrap w-full">
     <div
-      class="md:basis-1/2 lg:basis-1/4 xl:basis-1/6 border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5"
+      class="md:basis-1/2 lg:basis-1/4 2xl:basis-1/6 border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5"
     >
       <button
         type="button"
@@ -21,7 +21,7 @@
     </div>
     <div
       v-for="item, index in images"
-      class="md:basis-1/2 lg:basis-1/4 xl:basis-1/6 border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5"
+      class="md:basis-1/2 lg:basis-1/4 2xl:basis-1/6 border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5"
     >
       <div class="h-40 relative image-fit cursor-pointer zoom-in mx-auto">
         <img

@@ -35,7 +35,7 @@ const state = () => {
         subMenu: [
           {
             icon: 'ShoppingCartIcon',
-            pageName: '',
+            pageName: 'products',
             title: 'Products'
           },
           {

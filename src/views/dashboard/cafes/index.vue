@@ -59,11 +59,10 @@
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref } from 'vue';
+import { ref } from 'vue';
 import { useStore } from 'vuex';
-import { useRoute, useRouter } from 'vue-router';
-import cash from 'cash-dom';
-import { deleteCafe, fetchCafeList } from '../../api';
+import { useRouter } from 'vue-router';
+import { fetchCafeList } from '@/api';
 import CafeItemCard from './CafeItemCard.vue';
 
 const router = useRouter();

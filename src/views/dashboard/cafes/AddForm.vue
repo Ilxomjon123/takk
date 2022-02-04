@@ -171,9 +171,9 @@
                       <Field
                         id="state"
                         name="state"
+                        v-model="selectedState"
                         class="form-control"
                         placeholder="Type state"
-                        v-model="state"
                       />
                       <ErrorMessage name="state" class="text-theme-6 mt-2" />
                     </div>
@@ -181,7 +181,10 @@
                   <div class="flex gap-5 pt-3">
                     <div class="input-form flex-1 md:basis-1/2">
                       <label for="city" class="form-label">City</label>
-                      <CitySelect v-model="selectedCity" />
+                      <CitySelect
+                        v-model="selectedCity"
+                        @change="searchLocationByAddress"
+                      />
                     </div>
                     <div class="input-form md:basis-1/2">
                       <label class="form-label" for="postal_code">Postal code</label>
@@ -204,9 +207,10 @@
                       <Field
                         id="address"
                         name="address"
+                        v-model="address"
                         class="form-control"
                         placeholder="Type address"
-                        v-model="address"
+                        @change="searchLocationByAddress"
                       />
                       <ErrorMessage name="address" class="text-theme-6 mt-2" />
                     </div>
@@ -486,76 +490,32 @@
         <!-- END: Form Validation -->
       </div>
     </div>
-    <!-- BEGIN: Delete Confirmation Modal -->
-    <div
-      id="delete-confirmation-modal"
-      class="modal"
-      tabindex="-1"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-body p-0">
-            <div class="p-5 text-center">
-              <XCircleIcon class="w-16 h-16 text-theme-6 mx-auto mt-3" />
-              <div class="text-3xl mt-5">Are you sure?</div>
-              <div class="text-gray-600 mt-2">
-                Do you really want to delete these records?
-                <br />This process cannot be undone.
-              </div>
-            </div>
-            <div class="px-5 pb-8 text-center">
-              <button
-                type="button"
-                data-dismiss="modal"
-                class="btn btn-outline-secondary w-24 mr-1"
-              >Cancel</button>
-              <button
-                type="button"
-                class="btn btn-danger w-24"
-                @click="deleteObj"
-              >Delete</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- END: Delete Confirmation Modal -->
   </div>
 </template>
 
 <script>
-import { defineComponent, reactive, ref, toRefs } from 'vue';
-import DynamicForm from '../../components/forms/DynamicForm.vue';
+import { defineComponent } from 'vue';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
-import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 import CountrySelect from '@/components/selects/CountrySelect.vue';
 import CitySelect from '@/components/selects/CitySelect.vue';
 import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
-import LatLongField from '@/components/forms/cafes/LatLongField.vue';
-import CafeDeliveryFields from '@/components/forms/cafes/CafeDeliveryFields.vue';
-import TextInput from '../../components/forms/TextInput.vue';
 import L, { CRS } from 'leaflet'
 import 'leaflet/dist/leaflet.css';
 import Toastify from 'toastify-js';
-import { updateCafe, fetchCafe, fetchCafeWorkDays } from '../../api';
+import { cafePost } from '@/api';
 import cash from 'cash-dom';
-import MultipleImageUpload from '../../components/forms/file-upload/MultipleImageUpload.vue';
+import MultipleImageUpload from '@/components/forms/file-upload/MultipleImageUpload.vue';
+import axios from 'axios';
 
 export default defineComponent({
   components: {
-    DynamicForm,
     Form,
     Field,
     ErrorMessage,
-    SimpleImageUpload,
     CountrySelect,
     CitySelect,
     WeekDayTimeForm,
-    LatLongField,
-    CafeDeliveryFields,
-    TextInput,
     MultipleImageUpload
   },
   data() {
@@ -581,13 +541,13 @@ export default defineComponent({
       call_center: yup.string().max(50, "Must be less than 50 characters").required("This field is requried"), // ok
       website: yup.string().url("Must be a url address").nullable(), // ok
       status: yup.boolean(),
-      postal_code: yup.string().max(12, "Must be less than 12 characters").nullable(), // ok
+      postal_code: yup.string().max(12, "Must be less than 12 characters"), // ok
       tax_rate: yup.number().positive().required("This field is requried"), // ok
       version: yup.number().positive().integer(), // ok
       order_limit: yup.number().positive().integer().required("This field is requried"), // ok
       order_time_limit: yup.number().positive().integer().required("This field is requried"), // ok
-      address: yup.string().nullable(), // ok
-      second_address: yup.string().nullable(), // ok
+      address: yup.string(), // ok
+      second_address: yup.string(), // ok
       // delivery: yup.object({
       //   delivery_available: yup.boolean(), // ok
       //   delivery_max_distance: yup.number().positive().integer().default(1),
@@ -597,9 +557,9 @@ export default defineComponent({
       //   delivery_km_amount: yup.number().integer().default(0),
       //   delivery_min_time: yup.number().positive().integer().default(30)
       // }),
-      is_use_square: yup.boolean().default(false), // ok
+      is_use_square: yup.boolean(), // ok
       square_location_id: yup.string(), // ok
-      state: yup.string().nullable(), // ok
+      state: yup.string(), // ok
       // country: yup.string(), // ok
       // menu: yup.number().positive().integer()
     });
@@ -679,6 +639,7 @@ export default defineComponent({
       location,
       isSquareUsed: false,
       map: null,
+      marker: null,
       crs: CRS.EPSG4326,
       delivery,
       selectedStatus: false,
@@ -710,52 +671,10 @@ export default defineComponent({
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.map);
 
-    await fetchCafe(this.$route.params.id).then(res => {
-      // console.log('cafeById: ', res);
-      res.country && this.$store.dispatch('fetchCities', res.country)
-
-      this.address = res.address
-      this.cafe_timezone = res.cafe_timezone
-      this.call_center = res.call_center
-      this.selectedCity = res.city
-      this.selectedCountry = res.country
-      this.delivery.delivery_available = res.delivery_available
-      this.delivery.delivery_fee = res.delivery_fee
-      this.delivery.delivery_km_amount = res.delivery_km_amount
-      this.delivery.delivery_max_distance = res.delivery_max_distance
-      this.delivery.delivery_min_amount = res.delivery_min_amount
-      this.delivery.delivery_min_time = res.delivery_min_time
-      this.delivery.delivery_percent = res.delivery_percent
-      this.description = res.description
-      this.isSquareUsed = res.is_use_square
-      this.location.lat = res.location.lat
-      this.location.lon = res.location.lon
-      this.logoPath = res.logo_small
-      this.menu = res.menu
-      this.name = res.name
-      this.order_limit = res.order_limit
-      this.order_time_limit = res.order_time_limit
-      this.postal_code = res.postal_code
-      this.second_address = res.second_address
-      this.square_location_id = res.square_location_id
-      this.selectedState = res.state
-      this.selectedStatus = res.status === 1 ? true : false
-      this.tax_rate = res.tax_rate
-      this.version = res.version
-      this.website = res.website
-
-      this.map.panTo([this.location.lat, this.location.lon])
-      L.marker([this.location.lat, this.location.lon], {
-        draggable: true
-      }).on('moveend', this.changeLatLng).addTo(this.map);
-
-      this.$store.commit('setLoadingStatus', false)
-    })
-
-    await fetchCafeWorkDays(this.$route.params.id).then(res => {
-      this.weekTime = res
-    })
-
+    this.marker = L.marker([this.location.lat, this.location.lon], {
+      draggable: true
+    }).on('moveend', this.changeLatLng).addTo(this.map);
+    this.$store.commit('setLoadingStatus', false)
   },
   beforeUnmount() {
     if (this.map) {
@@ -783,7 +702,7 @@ export default defineComponent({
       this.externalErrors = {}
 
       try {
-        const res = await updateCafe({ data: formData, id: this.$route.params.id });
+        const res = await cafePost(formData);
 
         if (res.status) {
           Toastify({
@@ -826,23 +745,16 @@ export default defineComponent({
     latLng(obj) {
       return [obj.lat, obj.lon];
     },
-    openConfirmModal() {
-      cash('#delete-confirmation-modal').modal('show')
-      // console.log('deleted: ', id);
-      // rowId.value = id
-    },
-
-    deleteObj() {
-      store.commit('setLoadingStatus', true)
-      cash('#delete-confirmation-modal').modal('hide')
-      deleteCafe(this.$route.params.id).then(res => {
-        fetchCafeList().th
-        #map {
-          width: 100 %;
-          height: 400px;
-        }
-        // store.commit('setLoadingStatus', false)
-      })
+    searchLocationByAddress() {
+      const addr = `${this.selectedCountry}, ${this.selectedState}, ${this.selectedCity}, ${this.address}`
+      let url = `https://nominatim.openstreetmap.org/search?format=json&limit=3&q=${addr}`;
+      axios.get(url).then(res => {
+        console.log(res);
+        this.location.lat = res.data[0].lat;
+        this.location.lon = res.data[0].lon;
+        this.marker.setLatLng([this.location.lat, this.location.lon])
+        this.map.panTo([this.location.lat, this.location.lon])
+      });
     }
   },
 });
@@ -851,6 +763,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 #map {
   width: 100%;
-  height: 400px;
+  height: 300px;
 }
 </style>
