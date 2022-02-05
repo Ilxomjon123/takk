@@ -107,14 +107,18 @@ export default defineComponent({
     }
   },
   methods: {
-    paginate(val) {
+    async paginate(val) {
+      this.$store.commit('setLoadingStatus', true)
       if (1 <= val && val <= this.totalPages)
         this.$emit('paginate', val);
       // this.currentPage = val;
+      this.$store.commit('setLoadingStatus', false)
     },
     async changePerPage(e) {
+      this.$store.commit('setLoadingStatus', true)
       this.perPage = e.target.value;
-      await this.$emit('changePerPage', this.perPage);
+      this.$emit('changePerPage', this.perPage);
+      this.$store.commit('setLoadingStatus', false)
     }
   }
 })

@@ -1,9 +1,9 @@
 import makeRequest from '../makeRequest';
 
-export const fetchProductsList = async menuId => {
+export const fetchProductsList = async payload => {
   try {
     const res = await makeRequest({
-      url: `/api/menus/${menuId}/products/`,
+      url: `/api/menus/${payload.menuId}/products/?page=${payload.page}&limit=${payload.limit}`,
       headers: { authorization: true }
     });
     return res.data;
@@ -47,10 +47,10 @@ export const createProduct = async payload => {
   }
 };
 
-export const deleteFoodMenu = async payload => {
+export const deleteProduct = async productID => {
   try {
     const res = await makeRequest({
-      url: `/api/menus/${payload}/`,
+      url: `/api/products/${productID}/`,
       method: 'delete',
       headers: { authorization: true }
     });

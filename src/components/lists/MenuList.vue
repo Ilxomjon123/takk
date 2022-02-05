@@ -31,7 +31,7 @@
         <div class="flex">
           <div
             class="mr-auto text-gray-600"
-          >Categories: {{ item.product_category_count }}</div>
+          >{{ subItemTitle + ": " + item[subItemValue] }}</div>
         </div>
       </div>
     </div>
@@ -65,7 +65,17 @@ import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue'
 import SuccessNotification from '../notifications/SuccessNotification.vue'
 import ErrorNotification from '../notifications/ErrorNotification.vue'
 export default defineComponent({
-  components: { MainPaginator, MenuModalForm, DeleteConfirmModal, SuccessNotification, ErrorNotification },
+  props: {
+    subItemTitle: String,
+    subItemValue: String
+  },
+  components: {
+    MainPaginator,
+    MenuModalForm,
+    DeleteConfirmModal,
+    SuccessNotification,
+    ErrorNotification
+  },
   data() {
     return {
       paginationForm: {},
@@ -95,6 +105,7 @@ export default defineComponent({
     selectMenu(val) {
       if (val != this.getSelectedMenuId) {
         this.$store.commit('setSelectedMenuId', val);
+        this.$emit('update-id', val);
       }
     },
     addMenu() {
@@ -117,5 +128,5 @@ export default defineComponent({
       }
     }
   }
-})
+});
 </script>

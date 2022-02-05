@@ -1,7 +1,11 @@
 <template>
   <div>
     <!-- Menu List start -->
-    <MenuList />
+    <MenuList
+      @update-id="fetchData"
+      sub-item-title="Categories"
+      sub-item-value="product_category_count"
+    />
     <!-- Menu List end -->
 
     <h2 class="intro-y text-lg font-medium mt-10">Categories List</h2>
@@ -100,6 +104,9 @@ export default defineComponent({
     search() {
       this.$refs.paginator.paginate(1)
     },
+    fetchData() {
+      //
+    }
   }
 })
 </script>
