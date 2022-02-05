@@ -1,85 +1,76 @@
 <template>
   <div>
-    <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
-      <h2 class="text-lg font-medium mr-auto">Menus</h2>
-      <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-        <a
-          href="javascript:;"
-          data-toggle="modal"
-          data-target="#new-order-modal"
-          class="btn btn-primary shadow-md mr-2"
-        >New menu</a>
-        <!-- <div class="pos-dropdown dropdown ml-auto sm:ml-0">
+    <!-- Menu List start -->
+    <MenuList />
+    <!-- Menu List end -->
+    <div class="pos intro-y grid grid-cols-12 gap-5 mt-5">
+      <h2 class="intro-y text-lg font-medium mt-10">Products List</h2>
+
+      <div class="grid grid-cols-12 gap-6 mt-5">
+        <div
+          class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"
+        >
+          <RouterLink to="/dashboard/products/add" class="btn btn-primary mr-3">
+            <span class="w-5 h-5 flex items-center justify-center">
+              <PlusIcon class="w-4 h-4" />
+            </span>
+            Add Category
+          </RouterLink>
+          <!-- <div class="dropdown">
           <button
             class="dropdown-toggle btn px-2 box text-gray-700 dark:text-gray-300"
             aria-expanded="false"
           >
             <span class="w-5 h-5 flex items-center justify-center">
-              <ChevronDownIcon class="w-4 h-4" />
+              <PlusIcon class="w-4 h-4" />
             </span>
           </button>
-          <div class="pos-dropdown__dropdown-menu dropdown-menu">
+          <div class="dropdown-menu w-40">
             <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
               <a
-                href
                 class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
               >
-                <ActivityIcon class="w-4 h-4 mr-2" />
-                <span class="truncate">INV-0206020 - {{ $f()[3].users[0].name }}</span>
+                <PlusIcon class="w-4 h-4 mr-2" />New User
               </a>
               <a
-                href
                 class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
               >
-                <ActivityIcon class="w-4 h-4 mr-2" />
-                <span class="truncate">INV-0206022 - {{ $f()[4].users[0].name }}</span>
-              </a>
-              <a
-                href
-                class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
-              >
-                <ActivityIcon class="w-4 h-4 mr-2" />
-                <span class="truncate">INV-0206021 - {{ $f()[5].users[0].name }}</span>
+                <PlusIcon class="w-4 h-4 mr-2" />Exiscting User
               </a>
             </div>
           </div>
-        </div>-->
+          </div>-->
+        </div>
       </div>
-    </div>
-    <div class="pos intro-y grid grid-cols-12 gap-5 mt-5">
       <!-- BEGIN: Item List -->
       <div class="intro-y col-span-12 lg:col-span-8">
-        <div class="lg:flex intro-y">
-          <div class="relative text-gray-700 dark:text-gray-300">
-            <input
-              type="text"
-              class="form-control py-3 px-4 w-full lg:w-64 box pr-10 placeholder-theme-13"
-              placeholder="Search item..."
-            />
-            <SearchIcon
-              class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0"
-            />
-          </div>
-          <select
-            class="form-select py-3 px-4 box w-full lg:w-auto mt-3 lg:mt-0 ml-auto"
-          >
-            <option>Sort By</option>
-            <option>A to Z</option>
-            <option>Z to A</option>
-            <option>Lowest Price</option>
-            <option>Highest Price</option>
-          </select>
+        <div class="intro-y col-span-12 overflow-auto">
+          <table class="table table-report -mt-2 text-center">
+            <thead>
+              <tr>
+                <th class="whitespace-nowrap"></th>
+                <th class="whitespace-nowrap">Rank</th>
+                <th class="whitespace-nowrap">ID</th>
+                <th class="whitespace-nowrap">LOGO</th>
+                <th class="whitespace-nowrap">NAME</th>
+                <th class="whitespace-nowrap">PARENT</th>
+                <th class="whitespace-nowrap">ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <Suspense>
+                <template #default>
+                  <tr v-for="(item, index) in products.results" :key="index">
+                    <td v-text="(index + 1)" />
+                    <td v-text="item.id" />
+                  </tr>
+                </template>
+                <template #fallback></template>
+              </Suspense>
+            </tbody>
+          </table>
         </div>
-        <div class="grid grid-cols-12 gap-5 mt-5">
-          <div
-            v-for="item, itemIndex in foodMenus"
-            class="col-span-12 sm:col-span-4 2xl:col-span-3 box p-5 cursor-pointer zoom-in"
-          >
-            <div class="font-medium text-base">{{ item.name }}</div>
-            <div class="text-gray-600">{{ item.product_count }} products</div>
-          </div>
-        </div>
-        <div class="grid grid-cols-12 gap-5 mt-5 pt-5 border-t border-theme-5">
+        <!-- <div class="grid grid-cols-12 gap-5 mt-5 pt-5 border-t border-theme-5">
           <a
             v-for="(product, productIndex) in products"
             :key="productIndex"
@@ -102,7 +93,7 @@
               >{{ product.name }}</div>
             </div>
           </a>
-        </div>
+        </div>-->
       </div>
       <!-- END: Item List -->
     </div>
@@ -207,21 +198,27 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useStore } from 'vuex';
-import { fetchFoodMenuList } from '@/api/rest/foodMenus';
+import MenuList from '@/components/lists/MenuList.vue'
+import { fetchProductsList } from '@/api';
 
-const foodMenus = reactive([]);
-const products = reactive([]);
+// const products = reactive({});
 const selectedProduct = reactive({});
 const store = useStore()
-const activeMenuID = ref(false);
+const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
+// fetchProductsList(activeMenuID.value).then(res => Object.assign(products, res));
+// computed(() => fetchProductsList(activeMenuID.value).then(res => Object.assign(products, res)))
+const response = computed(() => fetchProductsList(activeMenuID.value).then(res => res))
+const products = computed(() => response.value)
 
-store.commit('setLoadingStatus', true)
-fetchFoodMenuList().then(res => {
-  Object.assign(foodMenus, res.results)
-  store.commit('setLoadingStatus', false)
-})
+// const response = computed({
+//   get: () => fetchProductsList(activeMenuID.value),
+//   set: val => {
+//     Object.assign(products, val)
+//   }
+// })
+
 </script>
 
 <style scoped lang="scss">

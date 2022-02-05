@@ -9,7 +9,7 @@
           class="btn btn-primary shadow-md mr-2"
           @click="gotoForm(null)"
         >Add New Cafe</button>
-        <div class="dropdown">
+        <!-- <div class="dropdown">
           <button
             class="dropdown-toggle btn px-2 box text-gray-700 dark:text-gray-300"
             aria-expanded="false"
@@ -40,7 +40,7 @@
               </a>
             </div>
           </div>
-        </div>
+        </div>-->
       </div>
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
