@@ -4,7 +4,7 @@
     v-else
     href="javascript:;"
     data-toggle="modal"
-    :data-target="'#' + modalId"
+    data-target="#delete-modal-preview"
     class="btn btn-danger py-3 px-4 mt-8 px-10"
     :disabled="isLoading"
   >
@@ -16,7 +16,7 @@
       class="w-8 h-8 my-2"
     />
   </a>
-  <div :id="modalId" class="modal" tabindex="-1" aria-hidden="true">
+  <div id="delete-modal-preview" class="modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-body p-0">
@@ -39,14 +39,14 @@
               type="button"
               class="btn btn-danger w-24"
               data-dismiss="modal"
-              @click="$emit('onConfirmedDelete')"
+              @click="$emit('onConfirmedDelete2')"
             >
               {{ isLoading ? '' : 'Delete' }}
               <LoadingIcon
                 v-if="isLoading"
                 icon="three-dots"
                 color="white"
-                class="my-2"
+                class="w-8 h-8 my-2"
               />
             </button>
           </div>
@@ -60,7 +60,7 @@
 import { defineComponent } from 'vue'
 import cash from 'cash-dom'
 export default defineComponent({
-  emits: ['onConfirmedDelete'],
+  emits: ['onConfirmedDelete2'],
   props: {
     isLoading: {
       type: Boolean,
@@ -69,15 +69,11 @@ export default defineComponent({
     isIcon: {
       type: Boolean,
       default: false
-    },
-    modalId: {
-      type: String,
-      default: 'delete-modal'
     }
   },
   methods: {
     showModal() {
-      cash('#' + this.modalId).modal('show')
+      cash('#delete-modal-preview').modal('show')
     }
   }
 })

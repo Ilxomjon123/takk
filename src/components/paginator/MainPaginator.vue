@@ -49,7 +49,7 @@ export default defineComponent({
     },
     async fetchData() {
       this.$store.commit('setLoadingStatus', true);
-      this.$emit('setItems', []);
+      // this.$emit('setItems', []);
       const res = await this.$store.dispatch(this.dispatcher, { ...this.form, ...this.paginator });
       this.paginator.total = res?.total_objects;
       this.$emit('setItems', res?.results);

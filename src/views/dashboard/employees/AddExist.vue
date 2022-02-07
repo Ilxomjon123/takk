@@ -14,7 +14,7 @@
           </div>
           <div class="p-5">
             <div class="grid grid-cols-12 gap-6">
-              <EmployeeForm dispatcher="postEmployeeExist" />
+              <EmployeeForm dispatcher="postEmployeeExist" :isAddExist="true" />
             </div>
           </div>
         </div>

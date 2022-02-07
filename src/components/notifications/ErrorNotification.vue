@@ -42,6 +42,18 @@ export default defineComponent({
         position: 'right',
         stopOnFocus: true
       }).showToast()
+    },
+  },
+  computed: {
+    status() {
+      return this.$store.state.common.errorNotificationStatus;
+    }
+  },
+  watch: {
+    status(to, from) {
+      if (to) {
+        this.show();
+      }
     }
   }
 })

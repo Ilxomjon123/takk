@@ -105,7 +105,7 @@ const actions = {
   async putEmployee({ rootGetters }, payload) {
     let response;
     await axios
-      .put(`/api/employees/${payload.id}/`, payload, {
+      .put(`/api/employees/${payload.id}/`, payload.form, {
         headers: {
           ...rootGetters.getHttpHeader
           // 'Content-Type': 'multipart/form-data'

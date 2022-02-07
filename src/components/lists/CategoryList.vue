@@ -46,10 +46,15 @@
           <td>{{ item.end }}</td>
           <td class="table-report__action w-10">
             <div class="flex justify-end items-end">
-              <Edit2Icon @click="editMenu(item)" class="hover:text-theme-12" />
+              <router-link
+                :to="`/dashboard/categories/${getSelectedMenuId}/${item.id}`"
+              >
+                <Edit2Icon @click="edit(item)" class="hover:text-theme-12" />
+              </router-link>
               <DeleteConfirmModal
-                @onConfirmedDelete="deleteMenu(item.id)"
+                @onConfirmedDelete="deleteItem(item.id)"
                 :isIcon="true"
+                modalId="category-delete-modal"
               />
             </div>
           </td>
@@ -60,7 +65,7 @@
   <!-- END: Data List -->
   <!-- BEGIN: Pagination -->
   <MainPaginator
-    v-if="getSelectedMenuId"
+    v-if="getSelectedMenuId != 'null' && getSelectedMenuId"
     class="mt-5"
     dispatcher="fetchCategories"
     ref="paginator"
@@ -95,6 +100,17 @@ export default defineComponent({
     },
     setItems(val) {
       this.items = val
+    },
+    async deleteItem(val) {
+      this.$store.commit('setLoadingStatus', true);
+      const res = await this.$store.dispatch('deleteCategory', val);
+      if (res.status) {
+        this.$store.commit('setSuccessNotification', true);
+        this.$refs.paginator.search();
+      } else {
+        this.$store.commit('setErrorNotification', true);
+      }
+      this.$store.commit('setLoadingStatus', false);
     }
   },
   computed: {
