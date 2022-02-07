@@ -112,12 +112,36 @@
             <div class="font-medium">{{ order.id }}</div>
           </div>
           <div class="flex mt-4">
+            <div class="mr-auto">Total Price</div>
+            <div class="font-medium">{{ order.total_price }}</div>
+          </div>
+          <div class="flex mt-4">
+            <div class="mr-auto">Status</div>
+            <div class="font-medium">{{ order.status }}</div>
+          </div>
+          <div class="flex mt-4">
             <div class="mr-auto">Sub Total Price</div>
             <div class="font-medium">{{ order.sub_total_price }}</div>
           </div>
           <div class="flex mt-4">
             <div class="mr-auto">Delivery Price</div>
             <div class="font-medium">{{ order.delivery_price }}</div>
+          </div>
+          <div class="flex mt-4">
+            <div class="mr-auto">Cashback</div>
+            <div class="font-medium">{{ order.cashback }}</div>
+          </div>
+          <div class="flex mt-4">
+            <div class="mr-auto">Total Tax</div>
+            <div class="font-medium">{{ order.tax_total }}</div>
+          </div>
+          <div class="flex mt-4">
+            <div class="mr-auto">Tip</div>
+            <div class="font-medium">{{ order.tip }}</div>
+          </div>
+          <div class="flex mt-4">
+            <div class="mr-auto">Updated Time</div>
+            <div class="font-medium">{{ order.updated }}</div>
           </div>
         </div>
       </div>

@@ -2,17 +2,22 @@ import axios from 'axios';
 
 const state = () => {
   return {
-    categories: []
+    categories: [],
+    category: {}
   };
 };
 
 const getters = {
-  getCategories: state => state.categories
+  getCategories: state => state.categories,
+  getCategory: state => state.category
 };
 
 const mutations = {
   setCategories(state, payload) {
     state.categories = payload;
+  },
+  setCategory(state, payload) {
+    state.category = payload;
   }
 };
 
@@ -28,6 +33,23 @@ const actions = {
       .then(res => {
         response = res.data;
         commit('setCategories', res?.data?.results);
+      })
+      .catch(err => {
+        response = err.data;
+        // commit('setTransactions', err.response.data);
+      });
+    return response;
+  },
+  async fetchCategory({ commit, rootGetters }, payload) {
+    let response;
+    await axios
+      .get(`/api/categories/${payload}/`, {
+        // .get(`/api/transactions/`, {
+        headers: rootGetters.getHttpHeader
+      })
+      .then(res => {
+        response = res.data;
+        commit('setCategory', res?.data);
       })
       .catch(err => {
         response = err.data;
@@ -61,13 +83,9 @@ const actions = {
   async putCategory({ rootGetters }, payload) {
     let response;
     await axios
-      .put(
-        `/api/categories/${payload.id}/`,
-        { ...payload, company: rootGetters.getCompanyId },
-        {
-          headers: rootGetters.getHttpHeader
-        }
-      )
+      .put(`/api/categories/${payload.id}/`, payload.form, {
+        headers: rootGetters.getHttpHeader
+      })
       .then(async res => {
         response = {
           status: true,

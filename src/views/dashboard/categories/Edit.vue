@@ -10,14 +10,14 @@
           <div
             class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5"
           >
-            <h2 class="font-medium text-base mr-auto">Edit Employee</h2>
+            <h2 class="font-medium text-base mr-auto">Add New Category</h2>
           </div>
           <div class="p-5">
             <div class="grid grid-cols-12 gap-6">
-              <EmployeeForm
+              <CategoryFrom
+                :form="getCategory"
+                dispatcher="putCategory"
                 :isEdit="true"
-                dispatcher="putEmployee"
-                :form="getEmployee"
               />
             </div>
           </div>
@@ -29,23 +29,25 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { mapActions, mapGetters } from 'vuex';
-import EmployeeForm from '../../../components/forms/EmployeeForm.vue';
+import { mapGetters } from 'vuex';
+import CategoryFrom from '../../../components/forms/CategoryFrom.vue';
 
 export default defineComponent({
-  components: { EmployeeForm },
-  async created() {
-    this.$store.commit('setLoadingStatus', true);
 
-    await this.fetchEmployee(this.$route.params.id);
-    this.$store.commit('setLoadingStatus', false);
-
-  },
+  components: { CategoryFrom },
   computed: {
-    ...mapGetters(['getLoadingStatus', 'getEmployee'])
+    ...mapGetters(['getLoadingStatus', 'getCategory'])
   },
-  methods: {
-    ...mapActions(['fetchEmployee'])
+  data() {
+    return {
+      id: null,
+    }
+  },
+  async created() {
+    this.id = this.$route.params.id;
+    this.$store.commit('setLoadingStatus', true);
+    await this.$store.dispatch('fetchCategory', this.id);
+    this.$store.commit('setLoadingStatus', false);
   }
 })
 </script>

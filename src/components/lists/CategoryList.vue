@@ -46,10 +46,15 @@
           <td>{{ item.end }}</td>
           <td class="table-report__action w-10">
             <div class="flex justify-end items-end">
-              <Edit2Icon @click="edit(item)" class="hover:text-theme-12" />
-              <DeleteConfirmModal2
-                @onConfirmedDelete2="deleteItem(item.id)"
+              <router-link
+                :to="`/dashboard/categories/${getSelectedMenuId}/${item.id}`"
+              >
+                <Edit2Icon @click="edit(item)" class="hover:text-theme-12" />
+              </router-link>
+              <DeleteConfirmModal
+                @onConfirmedDelete="deleteItem(item.id)"
                 :isIcon="true"
+                modalId="category-delete-modal"
               />
             </div>
           </td>
@@ -74,7 +79,7 @@
 import { defineComponent } from 'vue'
 import { mapGetters } from 'vuex';
 import MainPaginator from '../paginator/MainPaginator.vue'
-import DeleteConfirmModal2 from '../modals/DeleteConfirmModal2.vue';
+import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
 
 export default defineComponent({
   data() {
@@ -97,19 +102,21 @@ export default defineComponent({
       this.items = val
     },
     async deleteItem(val) {
-      console.log('AFF');
+      this.$store.commit('setLoadingStatus', true);
       const res = await this.$store.dispatch('deleteCategory', val);
       if (res.status) {
         this.$store.commit('setSuccessNotification', true);
+        this.$refs.paginator.search();
       } else {
         this.$store.commit('setErrorNotification', true);
       }
+      this.$store.commit('setLoadingStatus', false);
     }
   },
   computed: {
     ...mapGetters(['getSelectedMenuId'])
   },
 
-  components: { MainPaginator, DeleteConfirmModal2 }
+  components: { MainPaginator, DeleteConfirmModal }
 })
 </script>

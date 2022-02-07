@@ -24,7 +24,7 @@
           </Tippy>-->
         </div>
         <div class="text-theme-6" v-text="getError('image')" />
-        <div class="mx-auto cursor-pointer relative mt-5" v-if="!isEdit">
+        <div class="mx-auto cursor-pointer relative mt-5">
           <button
             type="button"
             @click="clickInput('avatar-image')"
@@ -56,7 +56,6 @@
       <div class="w-full px-3 mb-3">
         <label for="name" class="form-label">Name</label>
         <input
-          :disabled="isEdit"
           id="name"
           type="text"
           class="form-control"
@@ -195,10 +194,18 @@ export default defineComponent({
 
     async submit() {
       this.isLoading = true;
+      let formData;
       const data = { ...this.category, ...this.images, menu: this.menuId };
       if (typeof data.image == 'string')
         delete data.image;
-      const formData = jsonToFormData(data);
+      if (this.isEdit) {
+        formData = {
+          id: data.id,
+          form: jsonToFormData(data),
+        }
+      } else {
+        formData = jsonToFormData(data);
+      }
       this.errors = {};
 
       const res = await this.$store.dispatch(this.dispatcher, formData);

@@ -4,7 +4,7 @@
     v-else
     href="javascript:;"
     data-toggle="modal"
-    data-target="#delete-modal-preview"
+    :data-target="'#' + modalId"
     class="btn btn-danger py-3 px-4 mt-8 px-10"
     :disabled="isLoading"
   >
@@ -16,7 +16,7 @@
       class="w-8 h-8 my-2"
     />
   </a>
-  <div id="delete-modal-preview" class="modal" tabindex="-1" aria-hidden="true">
+  <div :id="modalId" class="modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-body p-0">
@@ -46,7 +46,7 @@
                 v-if="isLoading"
                 icon="three-dots"
                 color="white"
-                class="w-8 h-8 my-2"
+                class="my-2"
               />
             </button>
           </div>
@@ -69,11 +69,15 @@ export default defineComponent({
     isIcon: {
       type: Boolean,
       default: false
+    },
+    modalId: {
+      type: String,
+      default: 'delete-modal'
     }
   },
   methods: {
     showModal() {
-      cash('#delete-modal-preview').modal('show')
+      cash('#' + this.modalId).modal('show')
     }
   }
 })
