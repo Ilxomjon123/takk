@@ -76,7 +76,7 @@
               <td v-text="item.brand" />
               <td v-text="item.cafe?.name" />
               <td v-text="''" />
-              <td v-text="item.status" />
+              <td v-text="statuses[item.status]" />
               <td v-text="item.updated_dt" />
               <td>
                 <a
@@ -159,7 +159,8 @@ export default defineComponent({
     return {
       items: [],
       order: {},
-      form: {}
+      form: {},
+      statuses: ['PAID', 'REFUND']
     }
   },
   methods: {
