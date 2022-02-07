@@ -82,7 +82,7 @@
                 <div class="flex justify-center items-center">
                   <button
                     class="flex items-center mr-3"
-                    @click="clickedProductId = product.id"
+                    @click="$router.push('/dashboard/products/' + product.id)"
                   >
                     <CheckSquareIcon class="w-4 h-4 mr-1" />Edit
                   </button>
