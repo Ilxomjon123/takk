@@ -25,7 +25,7 @@
           type="button"
           class="btn btn-primary w-full"
           @click="$refs.inputFile.click()"
-        >Change logo</button>
+        >{{ title }}</button>
         <input
           type="file"
           ref="inputFile"
@@ -41,7 +41,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  props: ['imagePath'],
+  props: ['imagePath', 'title'],
   data: () => ({
     selectedFilePath: '/src/assets/images/plus-icon.jpg'
   }),

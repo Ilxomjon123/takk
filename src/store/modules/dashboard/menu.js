@@ -9,7 +9,8 @@ const state = () => {
 
 const getters = {
   getMenus: state => state.menus,
-  getSelectedMenuId: state => state.selectedMenuId
+  getSelectedMenuId: state =>
+    state.selectedMenuId || localStorage.getItem('selected-productmenu-id')
 };
 
 const mutations = {
@@ -17,6 +18,7 @@ const mutations = {
     state.menus = payload;
   },
   setSelectedMenuId(state, payload) {
+    localStorage.setItem('selected-productmenu-id', payload);
     state.selectedMenuId = payload;
   }
 };
