@@ -2,110 +2,27 @@
   <div>
     <!-- Menu List start -->
     <MenuList
-      @update-id="fetchData"
+      @update-id="fetchData($event)"
       sub-item-title="Categories"
       sub-item-value="product_category_count"
     />
     <!-- Menu List end -->
 
-    <h2 class="intro-y text-lg font-medium mt-10">Categories List</h2>
-
-    <div class="grid grid-cols-12 gap-6 mt-5">
-      <div
-        class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"
-      >
-        <router-link
-          to="/dashboard/categories/add"
-          class="btn btn-primary mr-3"
-        >
-          <span class="w-5 h-5 flex items-center justify-center">
-            <PlusIcon class="w-4 h-4" />
-          </span>Add Category
-        </router-link>
-        <!-- <div class="dropdown">
-          <button
-            class="dropdown-toggle btn px-2 box text-gray-700 dark:text-gray-300"
-            aria-expanded="false"
-          >
-            <span class="w-5 h-5 flex items-center justify-center">
-              <PlusIcon class="w-4 h-4" />
-            </span>
-          </button>
-          <div class="dropdown-menu w-40">
-            <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-              <a
-                class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
-              >
-                <PlusIcon class="w-4 h-4 mr-2" />New User
-              </a>
-              <a
-                class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
-              >
-                <PlusIcon class="w-4 h-4 mr-2" />Exiscting User
-              </a>
-            </div>
-          </div>
-        </div>-->
-      </div>
-    </div>
-    <!-- BEGIN: Data List -->
-    <div class="intro-y col-span-12 overflow-auto">
-      <table class="table table-report -mt-2 text-center">
-        <thead>
-          <tr>
-            <th class="whitespace-nowrap"></th>
-            <th class="whitespace-nowrap">Rank</th>
-            <th class="whitespace-nowrap">ID</th>
-            <th class="whitespace-nowrap">LOGO</th>
-            <th class="whitespace-nowrap">NAME</th>
-            <th class="whitespace-nowrap">PARENT</th>
-            <th class="whitespace-nowrap">ACTIONS</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in items" :key="index">
-            <td v-text="(index + 1)" />
-            <td v-text="item.id" />
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <!-- END: Data List -->
-    <!-- BEGIN: Pagination -->
-    <!-- <MainPaginator
-      class="mt-5"
-      dispatcher="fetchEmployees"
-      ref="paginator"
-      @paginate="setItems($event)"
-      :form="form"
-    />-->
-    <!-- END: Pagination -->
+    <CategoryList ref="categoryList" />
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
-import MainPaginator from '../../../components/paginator/MainPaginator.vue'
-import EmployeeCard from '../../../components/cards/EmployeeCard.vue'
 import MenuList from '../../../components/lists/MenuList.vue'
+import CategoryList from '../../../components/lists/CategoryList.vue'
 
 export default defineComponent({
-  components: { MainPaginator, EmployeeCard, MenuList },
-  data() {
-    return {
-      items: [],
-      form: {}
-    }
-  },
+  components: { MenuList, CategoryList },
+
   methods: {
-    paginate(val) {
-      this.items = val
-    },
-    search() {
-      this.$refs.paginator.paginate(1)
-    },
-    fetchData() {
-      //
+    fetchData(val) {
+      this.$refs.categoryList.search();
     }
   }
 })

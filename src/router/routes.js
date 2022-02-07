@@ -24,6 +24,7 @@ import AddNewEmployee from '../views/dashboard/employees/AddNew.vue';
 import AddExistEmployee from '../views/dashboard/employees/AddExist.vue';
 import EditEmployee from '../views/dashboard/employees/Edit.vue';
 import Categories from '../views/dashboard/categories/Main.vue';
+import AddCategory from '../views/dashboard/categories/Add.vue';
 import Products from '../views/dashboard/products/index.vue';
 import ProductAddForm from '../views/dashboard/products/AddForm.vue';
 
@@ -103,7 +104,10 @@ const routes = [
       {
         path: 'categories',
         component: CompanyLayout,
-        children: [{ path: '', name: 'categories', component: Categories }]
+        children: [
+          { path: '', name: 'categories', component: Categories },
+          { path: ':menuId/add', component: AddCategory }
+        ]
       }
     ]
   },
