@@ -18,7 +18,7 @@ export const updateProduct = async payload => {
       url: `/api/products/${payload.id}/`,
       method: 'put',
       data: payload.data,
-      headers: { authorization: true }
+      headers: { authorization: true, 'Content-Type': 'multipart/form-data' }
     });
 
     return res.data;
@@ -37,7 +37,7 @@ export const createProduct = async payload => {
       url: `/api/products/`,
       method: 'post',
       data,
-      headers: { authorization: true }
+      headers: { authorization: true, 'Content-Type': 'multipart/form-data' }
     });
 
     return res.data;
