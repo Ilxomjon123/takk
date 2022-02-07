@@ -37,7 +37,7 @@ export const createProduct = async payload => {
     const res = await makeRequest({
       url: `/api/products/`,
       method: 'post',
-      data,
+      data: payload,
       headers: { authorization: true, 'Content-Type': 'multipart/form-data' }
     });
 

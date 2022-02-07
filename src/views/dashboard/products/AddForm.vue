@@ -65,7 +65,7 @@
                         />
                         <span
                           class="text-theme-6 mt-2"
-                        >{{ externalErrors.name }}</span>
+                        >{{ externalErrors.sizes && externalErrors.sizes[0] }}</span>
                       </div>
                     </div>
                     <div class="flex gap-5 py-5">
@@ -86,7 +86,7 @@
                         />
                         <span
                           class="text-theme-6 mt-2"
-                        >{{ externalErrors.name }}</span>
+                        >{{ externalErrors.sizes && externalErrors.sizes[0] }}</span>
                       </div>
                       <div class="input-form basis-1/2">
                         <label
@@ -99,9 +99,9 @@
                           class="form-control"
                           type="text"
                         />
-                        <span
+                        <!-- <span
                           class="text-theme-6 mt-2"
-                        >{{ externalErrors.square_id }}</span>
+                        >{{ externalErrors.square_id }}</span>-->
                       </div>
                     </div>
                   </template>
@@ -120,6 +120,9 @@
                     :image-path="productImage"
                     @update-image-path="productImage = $event"
                   />
+                  <span
+                    class="text-theme-6 mt-2"
+                  >{{ externalErrors.image && externalErrors.image[0] }}</span>
                 </div>
                 <div class="md:basis-1/2 lg:basis-2/3">
                   <div
@@ -138,7 +141,9 @@
                         class="form-control"
                         v-model="productName"
                       />
-                      <span class="text-theme-6 mt-2">{{ externalErrors.name }}</span>
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.name && externalErrors.name[0] }}</span>
                     </div>
                     <div class="input-form md:basis-1/2">
                       <label class="form-label" for="product_quickest_time">
@@ -153,7 +158,7 @@
                       <span
                         name="call_center"
                         class="text-theme-6 mt-2"
-                      >{{ externalErrors.quickest_time }}</span>
+                      >{{ externalErrors.quickest_time && externalErrors.quickest_time[0] }}</span>
                     </div>
                   </div>
                   <div class="flex gap-5 pt-3">
@@ -170,7 +175,7 @@
                       />
                       <span
                         class="text-theme-6 mt-2"
-                      >{{ externalErrors.start_time }}</span>
+                      >{{ externalErrors.start && externalErrors.start[0] }}</span>
                     </div>
                     <div class="input-form lg:basis-1/2">
                       <label for="product_end_time" class="form-label">
@@ -185,7 +190,7 @@
                       />
                       <span
                         class="text-theme-6 mt-2"
-                      >{{ externalErrors.end_time }}</span>
+                      >{{ externalErrors.end && externalErrors.end[0] }}</span>
                     </div>
                   </div>
                   <div class="flex gap-5 pt-3">
@@ -200,9 +205,9 @@
                         class="form-control"
                         type="text"
                       />
-                      <span
+                      <!-- <span
                         class="text-theme-6 mt-2"
-                      >{{ externalErrors.square_id }}</span>
+                      >{{ externalErrors.square_id[0] }}</span>-->
                     </div>
                     <div class="input-form lg:basis-1/2">
                       <label class="form-label" for="product_position">Position</label>
@@ -210,11 +215,12 @@
                         id="product_position"
                         v-model="productPosition"
                         class="form-control"
-                        type="text"
+                        type="number"
+                        min="0"
                       />
                       <span
                         class="text-theme-6 mt-2"
-                      >{{ externalErrors.position }}</span>
+                      >{{ externalErrors.position && externalErrors.position[0] }}</span>
                     </div>
                   </div>
                   <div class="flex gap-5 pt-3">
@@ -227,11 +233,13 @@
                         id="product_tax_percent"
                         v-model="productTaxPercent"
                         class="form-control"
-                        type="text"
+                        type="number"
+                        min="0"
+                        step="0.01"
                       />
                       <span
                         class="text-theme-6 mt-2"
-                      >{{ externalErrors.tax_percent }}</span>
+                      >{{ externalErrors.tax_percent && externalErrors.tax_percent[0] }}</span>
                     </div>
                     <div class="input-form lg:basis-1/2">
                       <label class="form-label" for="product_categories">
@@ -250,6 +258,9 @@
                           :value="item.id"
                         >{{ item.name }}</option>
                       </TomSelect>
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.category && externalErrors.category[0] }}</span>
                     </div>
                   </div>
                   <div class="flex gap-5 pt-3">
@@ -271,6 +282,9 @@
                           :value="item.id"
                         >{{ item.name }}</option>
                       </TomSelect>
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.modifiers && externalErrors.modifiers[0] }}</span>
                     </div>
                   </div>
                   <div class="input-form mt-3">
@@ -330,56 +344,11 @@ import { createProduct, fetchSelectedMenuCategories, fetchSelectedMenuModifiers 
 
 const store = useStore()
 
-const schema = yup.object().shape({
-  name: yup.string().min(1, "Please enter a name more than 1 character").required("This field is requried"), // ok
-  description: yup.string(), // ok
-  location: yup.object({
-    lat: yup
-      .number()
-      .typeError('must be a decimal number')
-      .min(-90, 'Must be more than -90')
-      .max(90, "Must be less than 90")
-      .required("This field is requried")
-      .default(35.1234),
-    lon: yup
-      .number()
-      .typeError('must be a decimal number')
-      .min(-180, 'Must be more than -180')
-      .max(180, "Must be less than 180")
-      .required("This field is requried")
-      .default(-95.1234)
-  }), // ok
-  call_center: yup.string().max(50, "Must be less than 50 characters").required("This field is requried"), // ok
-  website: yup.string().url("Must be a url address").nullable(), // ok
-  status: yup.boolean(),
-  postal_code: yup.string().max(12, "Must be less than 12 characters"), // ok
-  tax_rate: yup.number().positive().required("This field is requried"), // ok
-  version: yup.number().positive().integer(), // ok
-  order_limit: yup.number().positive().integer().required("This field is requried"), // ok
-  order_time_limit: yup.number().positive().integer().required("This field is requried"), // ok
-  address: yup.string(), // ok
-  second_address: yup.string(), // ok
-  // delivery: yup.object({
-  //   delivery_available: yup.boolean(), // ok
-  //   delivery_max_distance: yup.number().positive().integer().default(1),
-  //   delivery_min_amount: yup.number().positive().integer().default(50),
-  //   delivery_fee: yup.number().positive().integer().default(3),
-  //   delivery_percent: yup.number().positive().integer().default(10),
-  //   delivery_km_amount: yup.number().integer().default(0),
-  //   delivery_min_time: yup.number().positive().integer().default(30)
-  // }),
-  is_use_square: yup.boolean(), // ok
-  square_location_id: yup.string(), // ok
-  state: yup.string(), // ok
-  // country: yup.string(), // ok
-  // menu: yup.number().positive().integer()
-});
-
 const externalErrors = reactive({});
 const isLoading = ref(false);
 
 // product size data
-let product_sizes = [
+const product_sizes = ref([
   {
     name: '',
     square_id: '',
@@ -387,7 +356,7 @@ let product_sizes = [
     available: false,
     default: false,
   }
-];
+]);
 
 // product data
 const productStartTime = ref(null);
@@ -424,35 +393,19 @@ async function onSubmit() {
     const requestObj = {}
     const formData = new FormData()
     formData.append('image', productImage.value)
-    // for (let i = 0; i < product_sizes.value.length; i++) {
-    //   formData.append('sizes[]', product_sizes.value[i])
-    // }
-    // formData.append('sizes', JSON.stringify(toRefs(product_sizes.value)))
-    // formData.append('start', productStartTime.value)
-    // formData.append('end', productEndTime.value)
-    // formData.append('quickest_time', productQuickestTime.value)
-    // formData.append('square_id', productSquareId.value)
-    // formData.append('name', productName.value)
-    // formData.append('description', productDescription.value)
-    // formData.append('position', productPosition.value)
-    // formData.append('tax_percent', productTaxPercent.value)
-    // formData.append('category', productCategoryId.value)
-    // formData.append('modifiers', productModifierIds.value)
-    // console.log('formData: ', Object.fromEntries(formData));
-    // const res = await createProduct(JSON.stringify(formData.values));
-    requestObj.sizes = [...product_sizes]
-    requestObj.start = productStartTime.value
-    requestObj.end = productEndTime.value
-    requestObj.quickest_time = productQuickestTime.value
-    requestObj.square_id = productSquareId.value
-    requestObj.name = productName.value
-    requestObj.description = productDescription.value
-    requestObj.position = productPosition.value
-    requestObj.tax_percent = productTaxPercent.value
-    requestObj.category = productCategoryId.value
-    requestObj.modifiers = productModifierIds.value
-    console.log('requestObj: ', requestObj);
-    const res = await createProduct(requestObj);
+    formData.append('sizes', JSON.stringify([...product_sizes.value]))
+    formData.append('start', productStartTime.value)
+    formData.append('end', productEndTime.value)
+    formData.append('quickest_time', productQuickestTime.value)
+    formData.append('square_id', productSquareId.value)
+    formData.append('name', productName.value)
+    formData.append('description', productDescription.value)
+    formData.append('position', productPosition.value)
+    formData.append('tax_percent', productTaxPercent.value)
+    formData.append('category', productCategoryId.value)
+    formData.append('modifiers', productModifierIds.value)
+
+    const res = await createProduct(formData);
 
     if (res.status) {
       Toastify({
@@ -473,7 +426,7 @@ async function onSubmit() {
 }
 
 function addNewProductSize() {
-  product_sizes.push(product_sizes[0])
+  product_sizes.value.push({ ...product_sizes.value[0] })
 }
 
 </script>
