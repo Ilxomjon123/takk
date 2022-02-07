@@ -8,7 +8,7 @@
     />
     <!-- Menu List end -->
     <div class="pos intro-y grid grid-cols-12 gap-5 mt-5">
-      <h2 class="intro-y text-lg font-medium mt-10">Products List</h2>
+      <h2 class="intro-y col-span-12 text-lg font-medium mt-10">Products List</h2>
       <div
         class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"
       >
