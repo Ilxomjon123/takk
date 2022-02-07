@@ -174,14 +174,13 @@ export default defineComponent({
   },
   mounted() {
     const step = this.getStep;
-    console.log(step);
     let path;
     switch (step) {
       case this.$store.state.user.STEP_COMPANY: path = '/entry/company'; break;
       case this.$store.state.user.STEP_CAFE: path = '/entry/cafe'; break;
       case this.$store.state.user.STEP_FINISH: path = '/entry/finish'; break;
       case this.$store.state.user.STEP_DASHBOARD: path = '/dashboard'; break;
-      default: path = '/entry';
+      default: path = '/entry'; break;
     }
     this.$router.push(path);
   },
@@ -191,7 +190,8 @@ export default defineComponent({
     async toCompany() {
       const res = await this.putStep(this.$store.state.user.STEP_COMPANY)
       if (res.status) {
-        this.$router.push('/entry/company')
+        this.$router.go('/entry/company');
+        // window.location.reload();
       } else {
         this.$refs.errorNotification.show()
       }

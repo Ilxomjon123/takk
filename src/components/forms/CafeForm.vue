@@ -341,16 +341,20 @@ export default defineComponent({
     }
   },
   methods: {
-    ...mapActions(['postCafe']),
+    ...mapActions(['postCafe', 'putStep']),
     async submit() {
       this.isLoading = true;
       this.errors = {};
       const res = await this.postCafe(this.form);
-      console.log(res);
-      if (res.status) {
-        this.$router.push('/dashboard')
-        // this.$router.push('/entry/menu')
 
+      if (res.status) {
+        this.errors = {};
+        const resp = await this.putStep(this.$store.state.user.STEP_FINISH)
+        if (resp.status) {
+          this.$router.push('/entry/finish')
+        } else {
+          this.$refs.errorNotification.show()
+        }
       } else {
         this.errors = res.data;
       }

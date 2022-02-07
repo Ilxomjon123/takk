@@ -23,7 +23,7 @@ export default defineComponent({
     async skip() {
       const res = await this.putStep(this.$store.state.user.STEP_DASHBOARD);
       if (res.status) {
-        this.$router.push('/dashboard')
+        this.$router.go('/dashboard')
       } else {
         this.$refs.errorNotification.show()
       }
