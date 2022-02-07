@@ -7,7 +7,7 @@
         <img
           class="rounded-md"
           alt="Logo"
-          :src="selectedFilePath"
+          :src="imagePath"
           ref="image"
           @error="replaceByDefault"
         />
@@ -51,7 +51,6 @@ export default defineComponent({
     }
   },
   mounted() {
-    console.log('ok');
     if (this.imagePath) {
       this.selectedFilePath = this.imagePath
     }

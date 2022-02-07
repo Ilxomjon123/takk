@@ -27,6 +27,7 @@ import Categories from '../views/dashboard/categories/Main.vue';
 import AddCategory from '../views/dashboard/categories/Add.vue';
 import Products from '../views/dashboard/products/index.vue';
 import ProductAddForm from '../views/dashboard/products/AddForm.vue';
+import ProductEditForm from '../views/dashboard/products/EditForm.vue';
 
 const routes = [
   {
@@ -71,6 +72,11 @@ const routes = [
       { path: 'test', name: 'test', component: DashboardMain },
       { path: 'products', name: 'products', component: Products },
       { path: 'products/add', name: 'products-add', component: ProductAddForm },
+      {
+        path: 'products/:id',
+        name: 'products-edit',
+        component: ProductEditForm
+      },
       {
         path: 'company',
         component: CompanyLayout,

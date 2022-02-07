@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="intro-y flex items-center mt-8">
-      <h2 class="text-lg font-medium mr-auto">Product Add Form</h2>
+      <h2 class="text-lg font-medium mr-auto">Product Edit Form</h2>
     </div>
     <div class="grid grid-cols-12 gap-6 mt-5">
       <div class="intro-y col-span-12">
@@ -346,10 +346,13 @@ import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.
 import { useStore } from 'vuex';
 import { computed, onBeforeUnmount, onMounted, reactive, ref, toRaw, toRefs } from 'vue';
 import { createProduct, fetchSelectedMenuCategories, fetchSelectedMenuModifiers } from '@/api';
+import { useRoute } from 'vue-router';
+import { fetchProduct } from '../../../api';
 
 const store = useStore()
 const externalErrors = reactive({});
 const isLoading = ref(false);
+const route = useRoute()
 
 // product size data
 const product_sizes = ref([
@@ -384,6 +387,20 @@ onMounted(() => {
   store.commit('setLoadingStatus', true)
   fetchSelectedMenuCategories(activeMenuID.value).then((res) => Object.assign(productCategories, res.results))
   fetchSelectedMenuModifiers(activeMenuID.value).then((res) => Object.assign(productModifiers, res.results))
+  fetchProduct(route.params.id).then(res => {
+    product_sizes.value = res.sizes
+    productStartTime.value = res.start
+    productEndTime.value = res.end
+    productQuickestTime.value = res.quickest_time
+    productSquareId.value = res.square_id
+    productName.value = res.name
+    productDescription.value = res.description
+    productPosition.value = res.position
+    productTaxPercent.value = res.tax_percent
+    productCategoryId.value = res.category.toString()
+    productModifierIds.value = res.modifiers
+    productImage.value = res.image
+  })
   store.commit('setLoadingStatus', false)
 });
 
