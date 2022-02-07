@@ -51,8 +51,8 @@ export default defineComponent({
       this.$store.commit('setLoadingStatus', true);
       this.$emit('setItems', []);
       const res = await this.$store.dispatch(this.dispatcher, { ...this.form, ...this.paginator });
-      this.paginator.total = res.total_objects;
-      this.$emit('setItems', res.results);
+      this.paginator.total = res?.total_objects;
+      this.$emit('setItems', res?.results);
       this.$store.commit('setLoadingStatus', false);
 
     }

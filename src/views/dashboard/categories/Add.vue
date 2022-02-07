@@ -10,11 +10,11 @@
           <div
             class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5"
           >
-            <h2 class="font-medium text-base mr-auto">Add New Employee</h2>
+            <h2 class="font-medium text-base mr-auto">Add New Category</h2>
           </div>
           <div class="p-5">
             <div class="grid grid-cols-12 gap-6">
-              <EmployeeForm />
+              <CategoryFrom />
             </div>
           </div>
         </div>
@@ -26,11 +26,11 @@
 <script>
 import { defineComponent } from 'vue'
 import { mapGetters } from 'vuex';
-import EmployeeForm from '../../../components/forms/EmployeeForm.vue';
+import CategoryFrom from '../../../components/forms/CategoryFrom.vue';
 
 export default defineComponent({
 
-  components: { EmployeeForm },
+  components: { CategoryFrom },
   computed: {
     ...mapGetters(['getLoadingStatus'])
   }

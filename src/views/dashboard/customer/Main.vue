@@ -90,7 +90,7 @@
       <MainPaginator
         dispatcher="fetchCustomers"
         ref="paginator"
-        @paginate="setItems($event)"
+        @setItems="setItems($event)"
         :form="form"
       />
       <!-- END: Pagination -->

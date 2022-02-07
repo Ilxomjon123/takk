@@ -3,7 +3,7 @@
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
       <h2 class="text-lg font-medium mr-auto">Menus List</h2>
       <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-        <a class="btn btn-primary mr-3" href="javascript:;" @click="addMenu">
+        <a class="btn btn-primary" href="javascript:;" @click="addMenu">
           <span class="w-5 h-5 flex items-center justify-center">
             <PlusIcon class="w-4 h-4" />
           </span>Add Menu
@@ -19,13 +19,15 @@
         :class="item.id == getSelectedMenuId ? 'bg-theme-1 dark:bg-theme-1 text-white' : ''"
         @click="selectMenu(item.id)"
       >
-        <div class="flex">
+        <div class="flex col-span-12 w-full">
           <div class="mr-auto font-medium text-base">{{ item.name }}</div>
-          <Edit2Icon @click="editMenu(item)" class="hover:text-theme-12" />
-          <DeleteConfirmModal
-            @onConfirmedDelete="deleteMenu(item.id)"
-            :isIcon="true"
-          />
+          <div class="flex">
+            <Edit2Icon @click="editMenu(item)" class="hover:text-theme-12" />
+            <DeleteConfirmModal
+              @onConfirmedDelete="deleteMenu(item.id)"
+              :isIcon="true"
+            />
+          </div>
           <!-- <TrashIcon @click="editMenu(item)" class="hover:text-theme-6" /> -->
         </div>
         <div class="flex">
@@ -88,6 +90,7 @@ export default defineComponent({
       loadingDelete: {}
     }
   },
+  emits: ['update-id'],
   computed: {
     ...mapGetters(['getSelectedMenuId'])
   },

@@ -42,7 +42,7 @@
       class="mt-5"
       dispatcher="fetchEmployees"
       ref="paginator"
-      @paginate="setItems($event)"
+      @setItems="setItems($event)"
       :form="form"
     />
     <!-- END: Pagination -->

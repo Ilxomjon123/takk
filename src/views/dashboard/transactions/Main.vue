@@ -96,7 +96,7 @@
       <!-- BEGIN: Pagination -->
       <MainPaginator
         dispatcher="fetchTransactions"
-        @paginate="setItems($event)"
+        @setItems="setItems($event)"
         ref="paginator"
         :form="form"
       />
