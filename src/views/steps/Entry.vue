@@ -86,15 +86,15 @@
         <router-link to="/">
           <img
             class="w-11/12"
-            src="@/assets/images/App Store badge US.png"
+            src="@/assets/images/App_Store_badge_US.png"
             alt="App Store badge"
           />
         </router-link>
         <router-link to="/" class="md:ml-16">
           <img
             class="w-11/12"
-            src="@/assets/images/Google Play Badge.png"
-            alt="Google Play Badge"
+            src="@/assets/images/Google_Play_Badge.png"
+            alt="Google_Play_Badge"
           />
         </router-link>
       </div>
@@ -102,15 +102,15 @@
         <router-link to="/">
           <img
             class="w-11/12"
-            src="@/assets/images/App Store badge US.png"
+            src="@/assets/images/App_Store_badge_US.png"
             alt="App Store badge"
           />
         </router-link>
         <router-link to="/">
           <img
             class="w-11/12 ml-auto"
-            src="@/assets/images/Google Play Badge.png"
-            alt="Google Play Badge"
+            src="@/assets/images/Google_Play_Badge.png"
+            alt="Google_Play_Badge"
           />
         </router-link>
       </div>
@@ -127,7 +127,7 @@
           <div class="modal-body p-0">
             <div class="p-5 text-center">
               <div class="flex justify-center h-10 my-3 h-10 mt-3">
-                <img src="@/assets/images/TAKK Logo.png" class="mr-3" />
+                <img src="@/assets/images/TAKK_Logo.png" class="mr-3" />
                 <img src="@/assets/images/squareup.png" />
               </div>
               <div class="text-3xl mt-5">Do you want to integrate with SquareUp</div>

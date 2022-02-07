@@ -20,7 +20,7 @@
         <div class="grid mt-16 lg:mt-0">
           <img
             class="m-auto"
-            src="@/assets/images/Hero coffee img.png"
+            src="@/assets/images/Hero_coffee_img.png"
             alt="Hero image"
           />
           <button
@@ -278,14 +278,14 @@ $mobile: 425px;
 }
 
 .colored-underline1 {
-  background-image: url("@/assets/images/Hero coffee shop undrline.png");
+  background-image: url("@/assets/images/Hero_coffee_shop_undrline.png");
   background-position: bottom;
   background-repeat: no-repeat;
   background-size: contain;
 }
 
 .colored-underline2 {
-  background-image: url("@/assets/images/Rectangle Our Fees Sentence underline.png");
+  background-image: url("@/assets/images/Rectangle_Our_Fees_Sentence_underline.png");
   background-position: bottom;
   background-repeat: no-repeat;
   background-size: contain;

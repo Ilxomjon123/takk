@@ -16,7 +16,7 @@
             <img
               alt="Takk"
               class="-intro-x w-1/2 -mt-4"
-              src="@/assets/images/Hero coffee img.png"
+              src="@/assets/images/Hero_coffee_img.png"
             />
             <div
               class="-intro-x text-white font-medium text-4xl leading-tight mt-10"
