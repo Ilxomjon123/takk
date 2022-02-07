@@ -2,32 +2,32 @@ import axios from 'axios';
 
 const state = () => {
   return {
-    categories: []
+    modifiers: []
   };
 };
 
 const getters = {
-  getCategories: state => state.categories
+  getModifiers: state => state.modifiers
 };
 
 const mutations = {
-  setCategories(state, payload) {
-    state.categories = payload;
+  setModifiers(state, payload) {
+    state.modifiers = payload;
   }
 };
 
 const actions = {
-  async fetchCategories({ commit, rootGetters }, payload) {
+  async fetchModifiers({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/api/menus/${rootGetters.getSelectedMenuId}/categories/`, {
+      .get(`/api/menus/${rootGetters.getSelectedMenuId}/modifiers/`, {
         // .get(`/api/transactions/`, {
         headers: rootGetters.getHttpHeader,
         params: payload
       })
       .then(res => {
         response = res.data;
-        commit('setCategories', res?.data?.results);
+        commit('setMenus', res.data);
       })
       .catch(err => {
         response = err.data;
@@ -35,15 +35,19 @@ const actions = {
       });
     return response;
   },
-  async postCategory({ rootGetters }, payload) {
+  async postModifier({ rootGetters }, payload) {
     let response;
     await axios
-      .post(`/api/categories/`, payload, {
-        headers: {
-          ...rootGetters.getHttpHeader,
-          'Conten-type': 'multipart/form-data'
+      .post(
+        `/api/modifiers/`,
+        { ...payload, company: rootGetters.getCompanyId },
+        {
+          headers: {
+            ...rootGetters.getHttpHeader,
+            'Conten-type': 'multipart/form-data'
+          }
         }
-      })
+      )
       .then(async res => {
         response = {
           status: true,
@@ -58,11 +62,11 @@ const actions = {
       });
     return response;
   },
-  async putCategory({ rootGetters }, payload) {
+  async putModifier({ rootGetters }, payload) {
     let response;
     await axios
       .put(
-        `/api/categories/${payload.id}/`,
+        `/api/modifiers/${payload.id}/`,
         { ...payload, company: rootGetters.getCompanyId },
         {
           headers: rootGetters.getHttpHeader
@@ -82,10 +86,10 @@ const actions = {
       });
     return response;
   },
-  async deleteCategory({ rootGetters }, payload) {
+  async deleteModifier({ rootGetters }, payload) {
     let response;
     await axios
-      .delete(`/api/categories/${payload}/`, {
+      .delete(`/api/modifiers/${payload}/`, {
         headers: rootGetters.getHttpHeader
       })
       .then(async res => {

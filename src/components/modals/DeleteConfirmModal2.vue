@@ -1,0 +1,80 @@
+<template>
+  <TrashIcon v-if="isIcon" class="hover:text-theme-6" @click="showModal" />
+  <a
+    v-else
+    href="javascript:;"
+    data-toggle="modal"
+    data-target="#delete-modal-preview"
+    class="btn btn-danger py-3 px-4 mt-8 px-10"
+    :disabled="isLoading"
+  >
+    {{ isLoading ? '' : 'Delete' }}
+    <LoadingIcon
+      v-if="isLoading"
+      icon="three-dots"
+      color="white"
+      class="w-8 h-8 my-2"
+    />
+  </a>
+  <div id="delete-modal-preview" class="modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="p-5 text-center">
+            <XCircleIcon class="w-16 h-16 text-theme-6 mx-auto mt-3" />
+            <div class="text-3xl mt-5">Are you sure?</div>
+            <div class="text-gray-600 mt-2">
+              Do you really want to delete these records?
+              <br />This
+              process cannot be undone.
+            </div>
+          </div>
+          <div class="px-5 pb-8 text-center">
+            <button
+              type="button"
+              data-dismiss="modal"
+              class="btn btn-outline-secondary w-24 dark:border-dark-5 dark:text-gray-300 mr-1"
+            >Cancel</button>
+            <button
+              type="button"
+              class="btn btn-danger w-24"
+              data-dismiss="modal"
+              @click="$emit('onConfirmedDelete2')"
+            >
+              {{ isLoading ? '' : 'Delete' }}
+              <LoadingIcon
+                v-if="isLoading"
+                icon="three-dots"
+                color="white"
+                class="w-8 h-8 my-2"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { defineComponent } from 'vue'
+import cash from 'cash-dom'
+export default defineComponent({
+  emits: ['onConfirmedDelete2'],
+  props: {
+    isLoading: {
+      type: Boolean,
+      default: false
+    },
+    isIcon: {
+      type: Boolean,
+      default: false
+    }
+  },
+  methods: {
+    showModal() {
+      cash('#delete-modal-preview').modal('show')
+    }
+  }
+})
+</script>
