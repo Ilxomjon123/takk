@@ -18,25 +18,7 @@
             >
               <div class="flex flex-col md:flex-row gap-5">
                 <div class="md:basis-1/2 lg:basis-1/3">
-                  <!-- <SimpleImageUpload
-                    :image-path="logoPath"
-                    @update-image-path="logoPath = $event"
-                  />-->
                   <div class="input-form">
-                    <!-- <label for="cafe_status" class="form-label">Status</label>
-                    <Field
-                      as="select"
-                      name="status"
-                      id="cafe_status"
-                      v-model="selectedStatus"
-                      class="form-select"
-                    >
-                      <option
-                        v-for="(item, index) in statusOptions"
-                        :key="item.label + index"
-                        :value="item.value"
-                      >{{ item.label }}</option>
-                    </Field>-->
                     <div class="form-check w-auto">
                       <Field name="status" v-slot="field">
                         <input
@@ -50,6 +32,9 @@
                       <label class="form-check-label" for="status">Status</label>
                     </div>
                     <ErrorMessage name="status" class="text-theme-6 mt-2" />
+                    <span
+                      class="text-theme-6 mt-2"
+                    >{{ externalErrors.status && externalErrors.status[0] }}</span>
                   </div>
                   <template v-if="selectedStatus">
                     <div
@@ -65,6 +50,9 @@
                       @update:closing_time="weekTime[index]['closing_time'] = $event"
                       @update:is_open="weekTime[index]['is_open'] = $event"
                     />
+                    <span
+                      class="text-theme-6 mt-2"
+                    >{{ externalErrors.week_time && externalErrors.week_time[0] }}</span>
                   </template>
                   <div
                     class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
@@ -82,10 +70,10 @@
                         hidden
                         type="number"
                       />
-                      <ErrorMessage
+                      <!-- <ErrorMessage
                         name="location.lat"
                         class="text-theme-6 mt-2"
-                      />
+                      />-->
                     </div>
                     <div class="input-form basis-1/2">
                       <!-- <label for="longitude" class="form-label">Longitude</label> -->
@@ -97,10 +85,10 @@
                         hidden
                         type="number"
                       />
-                      <ErrorMessage
+                      <!-- <ErrorMessage
                         name="location.lon"
                         class="text-theme-6 mt-2"
-                      />
+                      />-->
                     </div>
                   </div>
                   <div class="map_container">
@@ -126,6 +114,9 @@
                         v-model="name"
                       />
                       <ErrorMessage name="name" class="text-theme-6 mt-2" />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.name && externalErrors.name[0] }}</span>
                     </div>
                     <div class="input-form md:basis-1/2">
                       <label class="form-label" for="call_center">
@@ -142,6 +133,9 @@
                         name="call_center"
                         class="text-theme-6 mt-2"
                       />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.call_center && externalErrors.call_center[0] }}</span>
                     </div>
                   </div>
                   <div class="flex gap-5 pt-3">
@@ -154,6 +148,9 @@
                         v-model="website"
                       />
                       <ErrorMessage name="website" class="text-theme-6 mt-2" />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.website && externalErrors.website[0] }}</span>
                     </div>
                   </div>
                   <div
@@ -165,6 +162,9 @@
                     <div class="input-form md:basis-1/2">
                       <label for="country" class="form-label">Country</label>
                       <CountrySelect v-bind="field" v-model="selectedCountry" />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.country && externalErrors.country[0] }}</span>
                     </div>
                     <div
                       class="input-form md:basis-1/2"
@@ -179,6 +179,9 @@
                         placeholder="Type state"
                       />
                       <ErrorMessage name="state" class="text-theme-6 mt-2" />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.state && externalErrors.state[0] }}</span>
                     </div>
                   </div>
                   <div class="flex gap-5 pt-3">
@@ -188,6 +191,9 @@
                         v-model="selectedCity"
                         @change="searchLocationByAddress"
                       />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.city && externalErrors.city[0] }}</span>
                     </div>
                     <div class="input-form md:basis-1/2">
                       <label class="form-label" for="postal_code">Postal code</label>
@@ -202,6 +208,9 @@
                         name="postal_code"
                         class="text-theme-6 mt-2"
                       />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.postal_code && externalErrors.postal_code[0] }}</span>
                     </div>
                   </div>
                   <div class="flex gap-5 pt-3">
@@ -216,6 +225,9 @@
                         @change="searchLocationByAddress"
                       />
                       <ErrorMessage name="address" class="text-theme-6 mt-2" />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.address && externalErrors.address[0] }}</span>
                     </div>
                     <div class="input-form md:basis-1/2">
                       <label
@@ -233,6 +245,9 @@
                         name="second_address"
                         class="text-theme-6 mt-2"
                       />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.second_address && externalErrors.second_address[0] }}</span>
                     </div>
                   </div>
                   <div class="input-form mt-3">
@@ -246,6 +261,9 @@
                       v-model="description"
                     ></Field>
                     <ErrorMessage name="description" class="text-theme-6 mt-2" />
+                    <span
+                      class="text-theme-6 mt-2"
+                    >{{ externalErrors.description && externalErrors.description[0] }}</span>
                   </div>
                   <div
                     class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
@@ -266,6 +284,9 @@
                         type="number"
                       />
                       <ErrorMessage name="tax_rate" class="text-theme-6 mt-2" />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.tax_rate && externalErrors.tax_rate[0] }}</span>
                     </div>
                     <div class="input-form basis-1/2">
                       <label for="order_limit" class="form-label">
@@ -283,6 +304,9 @@
                         name="order_limit"
                         class="text-theme-6 mt-2"
                       />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.order_limit && externalErrors.order_limit[0] }}</span>
                     </div>
                   </div>
                   <div class="flex gap-5 pt-3">
@@ -302,6 +326,9 @@
                         name="order_time_limit"
                         class="text-theme-6 mt-2"
                       />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.order_time_limit && externalErrors.order_time_limit[0] }}</span>
                     </div>
                     <div class="input-form basis-1/2">
                       <label for="version" class="form-label">Version</label>
@@ -313,6 +340,9 @@
                         type="number"
                       />
                       <ErrorMessage name="version" class="text-theme-6 mt-2" />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.version && externalErrors.version[0] }}</span>
                     </div>
                   </div>
                   <div class="flex gap-5 pt-3">
@@ -341,6 +371,9 @@
                         v-model="square_location_id"
                         class="form-control"
                       />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.square_location_id && externalErrors.square_location_id[0] }}</span>
                     </div>
                   </div>
                   <div
@@ -378,6 +411,9 @@
                           class="form-control"
                           placeholder="Type.."
                         />
+                        <span
+                          class="text-theme-6 mt-2"
+                        >{{ externalErrors.delivery_max_distance && externalErrors.delivery_max_distance[0] }}</span>
                       </div>
                       <div class="input-form basis-1/2">
                         <label
@@ -393,6 +429,9 @@
                           class="form-control"
                           placeholder="Type.."
                         />
+                        <span
+                          class="text-theme-6 mt-2"
+                        >{{ externalErrors.delivery_min_amount && externalErrors.delivery_min_amount[0] }}</span>
                       </div>
                     </div>
                     <div class="flex gap-5">
@@ -410,6 +449,9 @@
                           class="form-control"
                           placeholder="Type.."
                         />
+                        <span
+                          class="text-theme-6 mt-2"
+                        >{{ externalErrors.delivery_fee && externalErrors.delivery_fee[0] }}</span>
                       </div>
                       <div class="input-form mt-3 basis-1/2">
                         <label
@@ -425,6 +467,9 @@
                           class="form-control"
                           placeholder="Type.."
                         />
+                        <span
+                          class="text-theme-6 mt-2"
+                        >{{ externalErrors.delivery_percent && externalErrors.delivery_percent[0] }}</span>
                       </div>
                     </div>
                     <div class="flex gap-5">
@@ -441,6 +486,9 @@
                           class="form-control"
                           placeholder="Type.."
                         />
+                        <span
+                          class="text-theme-6 mt-2"
+                        >{{ externalErrors.delivery_km_amount && externalErrors.delivery_km_amount[0] }}</span>
                       </div>
                       <div class="input-form mt-3 basis-1/2">
                         <label
@@ -455,6 +503,9 @@
                           class="form-control"
                           placeholder="Type.."
                         />
+                        <span
+                          class="text-theme-6 mt-2"
+                        >{{ externalErrors.delivery_min_time && externalErrors.delivery_min_time[0] }}</span>
                       </div>
                     </div>
                   </template>

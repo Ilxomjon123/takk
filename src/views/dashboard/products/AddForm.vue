@@ -22,9 +22,9 @@
                     <h2 class="font-medium text-base mr-auto">Product image</h2>
                   </div>
                   <SimpleImageUpload
-                    :title="productImage ? 'Change photo' : 'Add photo'"
-                    :image-path="productImage"
-                    @update-image-path="productImage = $event"
+                    :title="productImagePath || productImageFile ? 'Change photo' : 'Add photo'"
+                    :image-path="productImagePath"
+                    @update-image-file="productImageFile = $event"
                   />
                   <span
                     class="text-theme-6 mt-2"
@@ -343,6 +343,7 @@ import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.
 import { useStore } from 'vuex';
 import { computed, onBeforeUnmount, onMounted, reactive, ref, toRaw, toRefs } from 'vue';
 import { createProduct, fetchSelectedMenuCategories, fetchSelectedMenuModifiers } from '@/api';
+import _ from 'lodash';
 
 const store = useStore()
 const externalErrors = reactive({});
@@ -370,7 +371,8 @@ const productPosition = ref(null);
 const productTaxPercent = ref(null);
 const productCategoryId = ref(null);
 const productModifierIds = ref([]);
-const productImage = ref(null);
+const productImagePath = ref('');
+const productImageFile = ref(null);
 
 const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
 
@@ -389,21 +391,34 @@ onBeforeUnmount(() => {
 });
 
 async function onSubmit() {
+  isLoading.value = true
   Object.assign(externalErrors, {})
   try {
     const formData = new FormData()
-    formData.append('image', productImage.value)
-    formData.append('sizes', JSON.stringify(product_sizes.value))
+    if (!_.isEmpty(productImageFile.value)) formData.append('image', productImageFile.value);
+    // formData.append('sizes', JSON.stringify(product_sizes.value))
     formData.append('start', productStartTime.value)
     formData.append('end', productEndTime.value)
     formData.append('quickest_time', productQuickestTime.value)
     formData.append('square_id', productSquareId.value)
     formData.append('name', productName.value)
     formData.append('description', productDescription.value)
-    formData.append('position', productPosition.value)
-    formData.append('tax_percent', productTaxPercent.value)
+    if (!_.isEmpty(productPosition.value)) formData.append('position', productPosition.value)
+    if (!_.isEmpty(productTaxPercent.value)) formData.append('tax_percent', productTaxPercent.value)
     formData.append('category', productCategoryId.value)
-    formData.append('modifiers', JSON.stringify(productModifierIds.value.map(item => Number(item))))
+    // formData.append('modifiers', JSON.stringify(productModifierIds.value.map(item => Number(item))))
+    for (let i = 0; i < product_sizes.value.length; i++) {
+      formData.append('sizes[' + i + ']name', product_sizes.value[i].name)
+      formData.append('sizes[' + i + ']price', product_sizes.value[i].price)
+      formData.append('sizes[' + i + ']available', product_sizes.value[i].available)
+      formData.append('sizes[' + i + ']default', product_sizes.value[i].default)
+      formData.append('sizes[' + i + ']square_id', product_sizes.value[i].square_id)
+    }
+
+    for (let i = 0; i < productModifierIds.value.length; i++) {
+      formData.append('modifiers', productModifierIds.value[i])
+    }
+
     const res = await createProduct(formData);
 
     if (res.status) {

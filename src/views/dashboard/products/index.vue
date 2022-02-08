@@ -91,6 +91,7 @@
                     href="javascript:;"
                     data-toggle="modal"
                     data-target="#delete-confirmation-modal"
+                    @click="clickedProductId = product.id"
                   >
                     <Trash2Icon class="w-4 h-4 mr-1" />Delete
                   </a>
@@ -112,55 +113,7 @@
       <!-- END: Pagination -->
     </div>
   </div>
-  <!-- BEGIN: Add Product Modal -->
-  <div id="add-item-modal" class="modal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="font-medium text-base mr-auto">{{ selectedProduct.name }}</h2>
-        </div>
-        <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
-          <div class="col-span-12">
-            <label for="pos-form-4" class="form-label">Quantity</label>
-            <div class="flex mt-2 flex-1">
-              <button
-                type="button"
-                class="btn w-12 border-gray-300 bg-gray-200 dark:bg-dark-1 text-gray-600 dark:text-gray-300 mr-1"
-              >-</button>
-              <input
-                id="pos-form-4"
-                type="text"
-                class="form-control w-24 text-center"
-                placeholder="Product quantity"
-                value="2"
-              />
-              <button
-                type="button"
-                class="btn w-12 border-gray-300 bg-gray-200 dark:bg-dark-1 text-gray-600 dark:text-gray-300 ml-1"
-              >+</button>
-            </div>
-          </div>
-          <div class="col-span-12">
-            <label for="pos-form-5" class="form-label">Notes</label>
-            <textarea
-              id="pos-form-5"
-              class="form-control w-full mt-2"
-              placeholder="Product notes"
-            ></textarea>
-          </div>
-        </div>
-        <div class="modal-footer text-right">
-          <button
-            type="button"
-            data-dismiss="modal"
-            class="btn btn-outline-secondary w-24 mr-1"
-          >Cancel</button>
-          <button type="button" class="btn btn-primary w-24">Add Product</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- END: Add Product Modal -->
+
   <!-- BEGIN: Delete Confirmation Modal -->
   <div
     id="delete-confirmation-modal"
@@ -204,6 +157,8 @@ import { useStore } from 'vuex';
 import MenuList from '@/components/lists/MenuList.vue'
 import { fetchProductsList, deleteProduct } from '@/api';
 import Pagination from '@/components/paginator/Pagination.vue';
+import Toastify from 'toastify-js';
+import cash from 'cash-dom';
 
 const products = reactive({});
 const selectedProduct = reactive({});
@@ -226,32 +181,48 @@ onMounted(() => {
 async function fetchProducts() {
   store.commit('setLoadingStatus', true)
   // console.log('menuId: ' + menuId);
-  const res = await fetchProductsList({
-    menuId: activeMenuID.value,
-    page: paginator.page,
-    limit: paginator.limit
-  })
-  Object.assign(products, res)
-  paginator.total = res.total_objects
-  store.commit('setLoadingStatus', false)
+  try {
+    const res = await fetchProductsList({
+      menuId: activeMenuID.value,
+      page: paginator.page,
+      limit: paginator.limit
+    })
+
+    Object.assign(products, res)
+    paginator.total = res.total_objects
+  } catch (error) {
+    Toastify({
+      node: cash('#failed-notification-content')
+        .clone()
+        .removeClass('hidden')[0],
+      duration: 3000,
+    }).showToast();
+  } finally {
+    store.commit('setLoadingStatus', false)
+  }
 }
 
 async function deleteObj() {
   store.commit('setLoadingStatus', true)
   cash('#delete-confirmation-modal').modal('hide')
-  await deleteProduct()
+  await deleteProduct(clickedProductId.value)
+  await fetchProducts()
   store.commit('setLoadingStatus', false)
 }
 
 async function paginate(val) {
+  store.commit('setLoadingStatus', true)
   paginator.page = val
   await fetchProducts();
+  store.commit('setLoadingStatus', false)
 }
 
 async function changePerPage(val) {
+  store.commit('setLoadingStatus', true)
   paginator.limit = val;
   paginator.page = 1;
   await fetchProducts();
+  store.commit('setLoadingStatus', false)
 }
 </script>
 
