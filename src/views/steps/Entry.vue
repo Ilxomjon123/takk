@@ -19,16 +19,16 @@
                 class="block w-12 h-12 text-theme-1 dark:text-theme-10 mx-auto"
               />
               <div class="text-xl font-medium text-center mt-10">Standard Plan</div>
-              <div class="text-gray-700 dark:text-gray-600 text-center mt-5">
+              <!-- <div class="text-gray-700 dark:text-gray-600 text-center mt-5">
                 1 Domain
                 <span class="mx-1">•</span> 10 Users
                 <span class="mx-1">•</span> 20 Copies
-              </div>
+              </div>-->
               <div
-                class="text-gray-600 dark:text-gray-400 px-10 text-center mx-auto mt-2"
+                class="text-gray-600 dark:text-gray-400 px-10 text-center text-base mx-auto mt-5"
               >
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry.
+                No risk, 1 year free use of the Takk platform (order accepting system and mobile app). After trial period, 1% of sales.
+                Plus credit card fees (2.9%+30c) passed on to payment processing companies.
               </div>
               <div class="flex justify-center">
                 <div class="relative text-5xl font-semibold mt-8 mx-auto">
@@ -54,17 +54,14 @@
               <div
                 class="text-xl font-medium text-center mt-10"
               >Proprietary Plan</div>
-              <div class="text-gray-700 dark:text-gray-600 text-center mt-5">
+              <!-- <div class="text-gray-700 dark:text-gray-600 text-center mt-5">
                 1 Domain
                 <span class="mx-1">•</span> 10 Users
                 <span class="mx-1">•</span> 20 Copies
-              </div>
+              </div>-->
               <div
-                class="text-gray-600 dark:text-gray-400 px-10 text-center mx-auto mt-2"
-              >
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry.
-              </div>
+                class="text-gray-600 dark:text-gray-400 px-10 text-center text-base mx-auto mt-5"
+              >Same as Standard plan, plus you will have your custom mobile application with your own logo for $49 per month.</div>
               <div class="flex justify-center">
                 <div class="relative text-5xl font-semibold mt-8 mx-auto">
                   <span
@@ -131,6 +128,9 @@
                 <img src="@/assets/images/squareup.png" />
               </div>
               <div class="text-3xl mt-5">Do you want to integrate with SquareUp</div>
+              <div
+                class="text-base mt-3"
+              >Do you already use Square? We can import all your menu and products from Square if you like.</div>
               <div class="text-gray-600 mt-2">
                 <!-- <div class="sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0">
                 <input

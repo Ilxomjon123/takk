@@ -46,7 +46,7 @@
           <div
             :class="isFinish ? 'lg:w-32 font-medium text-base lg:mt-3 ml-3 lg:mx-auto' :
             'lg:w-32 text-base lg:mt-3 ml-3 lg:mx-auto text-gray-700 dark:text-gray-600'"
-          >Finihing Register</div>
+          >Finished registration</div>
         </div>
         <div
           class="wizard__line hidden lg:block w-3/5 bg-gray-200 dark:bg-dark-1 absolute mt-5"
