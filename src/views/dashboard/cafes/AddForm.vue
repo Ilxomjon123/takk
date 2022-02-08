@@ -162,11 +162,14 @@
                     <h2 class="font-medium text-base mr-auto">Cafe addresses</h2>
                   </div>
                   <div class="flex gap-5">
-                    <div class="input-form flex-1 md:basis-1/2">
+                    <div class="input-form md:basis-1/2">
                       <label for="country" class="form-label">Country</label>
                       <CountrySelect v-bind="field" v-model="selectedCountry" />
                     </div>
-                    <div class="input-form md:basis-1/2">
+                    <div
+                      class="input-form md:basis-1/2"
+                      v-if="selectedCountry === 'United States'"
+                    >
                       <label class="form-label" for="state">State</label>
                       <Field
                         id="state"

@@ -19,6 +19,19 @@
                   <div
                     class="flex flex-col sm:flex-row items-center mb-5 border-b border-gray-200 dark:border-dark-5"
                   >
+                    <h2 class="font-medium text-base mr-auto">Product image</h2>
+                  </div>
+                  <SimpleImageUpload
+                    :title="productImage ? 'Change photo' : 'Add photo'"
+                    :image-path="productImage"
+                    @update-image-path="productImage = $event"
+                  />
+                  <span
+                    class="text-theme-6 mt-2"
+                  >{{ externalErrors.image && externalErrors.image[0] }}</span>
+                  <div
+                    class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
+                  >
                     <h2 class="font-medium text-base mr-auto">Product size info</h2>
                   </div>
                   <template v-for="(item, index) in product_sizes">
@@ -122,14 +135,6 @@
                       <TrashIcon />Remove size
                     </button>
                   </div>
-                  <SimpleImageUpload
-                    :title="productImage ? 'Change photo' : 'Add photo'"
-                    :image-path="productImage"
-                    @update-image-path="productImage = $event"
-                  />
-                  <span
-                    class="text-theme-6 mt-2"
-                  >{{ externalErrors.image && externalErrors.image[0] }}</span>
                 </div>
                 <div class="md:basis-1/2 lg:basis-2/3">
                   <div
