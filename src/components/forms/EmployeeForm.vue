@@ -33,6 +33,7 @@
     <div class="flex flex-wrap -mx-3 mb-3">
       <div class="w-full px-3 mb-3">
         <label for="phone" class="form-label">Phone</label>
+        <span class="text-theme-6">*</span>
         <input
           :disabled="isEdit"
           id="phone"
@@ -86,12 +87,13 @@
       </div>
       <div class="w-full px-3 mb-3">
         <label for="employee.username" class="form-label">Position</label>
+        <span class="text-theme-6">*</span>
         <TomSelect
+          class="w-full"
           v-model="employee.employee_position"
           :options="{
             placeholder: 'Select Position'
           }"
-          class="w-full"
         >
           <option
             v-for="(item, index) in getEmployeeTypes"

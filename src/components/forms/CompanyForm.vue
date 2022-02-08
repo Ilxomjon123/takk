@@ -248,11 +248,10 @@ export default defineComponent({
         this.errors = {};
         const resp = await this.putStep(this.$store.state.user.STEP_CAFE)
         if (resp.status) {
-          this.$router.push('/entry/company')
+          this.$router.push('/entry/cafe')
         } else {
           this.$refs.errorNotification.show()
         }
-        this.$router.push('/entry/cafe')
       } else {
         this.errors = res.data;
       }

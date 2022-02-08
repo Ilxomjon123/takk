@@ -5,7 +5,7 @@
         <a href="/">
           <img
             class="w-1/2 md:w-auto"
-            src="@/assets/images/Takk Logo.png"
+            src="@/assets/images/Takk_Logo.png"
             alt="takk logo"
           />
         </a>
@@ -92,7 +92,7 @@
         ref="burger"
         @click="openMobileMenu"
       >
-        <img src="@/assets/images/Icon feather-menu.svg" alt="Menu Icon" />
+        <img src="@/assets/images/Icon_feather-menu.svg" alt="Menu Icon" />
       </button>
     </div>
   </header>

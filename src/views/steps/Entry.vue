@@ -86,15 +86,15 @@
         <router-link to="/">
           <img
             class="w-11/12"
-            src="@/assets/images/App Store badge US.png"
+            src="@/assets/images/App_Store_badge_US.png"
             alt="App Store badge"
           />
         </router-link>
         <router-link to="/" class="md:ml-16">
           <img
             class="w-11/12"
-            src="@/assets/images/Google Play Badge.png"
-            alt="Google Play Badge"
+            src="@/assets/images/Google_Play_Badge.png"
+            alt="Google_Play_Badge"
           />
         </router-link>
       </div>
@@ -102,15 +102,15 @@
         <router-link to="/">
           <img
             class="w-11/12"
-            src="@/assets/images/App Store badge US.png"
+            src="@/assets/images/App_Store_badge_US.png"
             alt="App Store badge"
           />
         </router-link>
         <router-link to="/">
           <img
             class="w-11/12 ml-auto"
-            src="@/assets/images/Google Play Badge.png"
-            alt="Google Play Badge"
+            src="@/assets/images/Google_Play_Badge.png"
+            alt="Google_Play_Badge"
           />
         </router-link>
       </div>
@@ -127,7 +127,7 @@
           <div class="modal-body p-0">
             <div class="p-5 text-center">
               <div class="flex justify-center h-10 my-3 h-10 mt-3">
-                <img src="@/assets/images/TAKK Logo.png" class="mr-3" />
+                <img src="@/assets/images/TAKK_Logo.png" class="mr-3" />
                 <img src="@/assets/images/squareup.png" />
               </div>
               <div class="text-3xl mt-5">Do you want to integrate with SquareUp</div>
@@ -174,14 +174,13 @@ export default defineComponent({
   },
   mounted() {
     const step = this.getStep;
-    console.log(step);
     let path;
     switch (step) {
       case this.$store.state.user.STEP_COMPANY: path = '/entry/company'; break;
       case this.$store.state.user.STEP_CAFE: path = '/entry/cafe'; break;
       case this.$store.state.user.STEP_FINISH: path = '/entry/finish'; break;
       case this.$store.state.user.STEP_DASHBOARD: path = '/dashboard'; break;
-      default: path = '/entry';
+      default: path = '/entry'; break;
     }
     this.$router.push(path);
   },
@@ -191,7 +190,8 @@ export default defineComponent({
     async toCompany() {
       const res = await this.putStep(this.$store.state.user.STEP_COMPANY)
       if (res.status) {
-        this.$router.push('/entry/company')
+        this.$router.go('/entry/company');
+        // window.location.reload();
       } else {
         this.$refs.errorNotification.show()
       }
