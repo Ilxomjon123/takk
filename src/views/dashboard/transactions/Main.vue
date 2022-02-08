@@ -83,7 +83,7 @@
                   class="btn btn-primary"
                   data-toggle="modal"
                   data-target="#order-detail-modal"
-                  @click="setOrder(item.order)"
+                  @click="setOrder(item)"
                 >
                   <EyeIcon class="w-5 h-5" />
                 </a>
@@ -110,6 +110,10 @@
           <div class="flex">
             <div class="mr-auto">ID</div>
             <div class="font-medium">{{ order.id }}</div>
+          </div>
+          <div class="flex mt-4">
+            <div class="mr-auto">Order Detail</div>
+            <div class="font-medium ml-auto" v-html="order.order_detail" />
           </div>
           <div class="flex mt-4">
             <div class="mr-auto">Total Price</div>
@@ -171,7 +175,8 @@ export default defineComponent({
       this.$refs.paginator.paginate(1)
     },
     setOrder(val) {
-      this.order = val;
+      this.order = val.order;
+      this.order['order_detail'] = val.order_detail;
     },
   }
 })

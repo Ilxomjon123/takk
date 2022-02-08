@@ -22,7 +22,7 @@
           <!-- <th class="whitespace-nowrap">ID</th> -->
           <th class="whitespace-nowrap">LOGO</th>
           <th class="whitespace-nowrap">NAME</th>
-          <th class="whitespace-nowrap">PARENT</th>
+          <th class="whitespace-nowrap">PARENT CATEGORY</th>
           <th class="whitespace-nowrap">START</th>
           <th class="whitespace-nowrap">END</th>
           <th class="whitespace-nowrap text-right">ACTIONS</th>
@@ -49,7 +49,7 @@
               <router-link
                 :to="`/dashboard/categories/${getSelectedMenuId}/${item.id}`"
               >
-                <Edit2Icon @click="edit(item)" class="hover:text-theme-12" />
+                <Edit2Icon class="hover:text-theme-12" />
               </router-link>
               <DeleteConfirmModal
                 @onConfirmedDelete="deleteItem(item.id)"
