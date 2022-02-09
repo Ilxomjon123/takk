@@ -79,6 +79,22 @@ export const cafePost = async payload => {
   }
 };
 
+export const addCafeGallery = async payload => {
+  try {
+    const res = await makeRequest({
+      url: `/api/cafes/gallery/`,
+      method: 'post',
+      data: payload,
+      headers: { authorization: true }
+    });
+
+    return res.data;
+  } catch (err) {
+    console.log('error while saving cafe data: ', err);
+    throw err;
+  }
+};
+
 export const deleteCafe = async payload => {
   try {
     const res = await makeRequest({

@@ -34,7 +34,7 @@
           tag="div"
           content="Remove this logo?"
           class="w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-6 right-0 top-0 -mr-2 -mt-2"
-          @click="removeImage(item, index)"
+          @click="removeImage(index)"
         >
           <xIcon class="w-4 h-4" />
         </Tippy>
@@ -49,7 +49,7 @@ import _ from "lodash";
 
 export default defineComponent({
   props: {
-    externalImages: {
+    imagePathList: {
       type: Array,
       default: () => ([])
     }
@@ -58,29 +58,25 @@ export default defineComponent({
     selectedFilePath: '/src/assets/images/plus-icon.jpg',
     images: []
   }),
-  computed: {
-    getSelectedFilePath() {
-      return this.imagePath || this.selectedFilePath
-    }
-  },
   mounted() {
     console.log('ok');
-    if (this.imagePath) {
-      this.selectedFilePath = this.imagePath
+    if (this.imagePathList) {
+      this.images = this.imagePathList
     }
   },
   methods: {
     addImage(e) {
       if (this.images.length < 5) {
         e.target.files.forEach(file => {
-          if (this.images.length < 5) {
-            this.images.push(URL.createObjectURL(file))
-          } else return;
+          this.images.push(URL.createObjectURL(file))
         })
+        this.$emit("update:image-files", e.target.files);
       } else alert('You can add max 5 images')
     },
-    removeImage(img, index) {
+    removeImage(index) {
       this.images = _.remove(this.images, (el, idx) => idx !== index)
+      console.log('this.$refs.files: ', this.$refs.files);
+      this.$emit("update:image-files", this.$refs.files);
     },
     replaceByDefault(e) {
       if (this.selectedFilePath)

@@ -510,7 +510,10 @@
                     </div>
                   </template>
                   <br />
-                  <MultipleImageUpload />
+                  <MultipleImageUpload
+                    :image-path-list="imagePathList"
+                    @update:image-files="imageFiles = $event"
+                  />
                 </div>
               </div>
               <div class="flex pt-5">
@@ -722,7 +725,8 @@ export default defineComponent({
     return {
       schema,
       isLoading: false,
-      logoPath: '',
+      imagePathList: [],
+      imageFiles: [],
       statusOptions,
       weekTime,
       location,
@@ -814,8 +818,10 @@ export default defineComponent({
   },
   methods: {
     async submit(values) {
+      this.isLoading = true
+      this.externalErrors = {}
+
       const formData = new FormData()
-      formData.append('logo', this.logoPath)
 
       for (let item in values) {
         formData.append(item, values[item])
@@ -827,22 +833,22 @@ export default defineComponent({
       formData.append('delivery', this.delivery)
       formData.append('cafe_timezone', 'America/New_York')
 
-      console.log('formData: ', Object.fromEntries(formData));
-
-      this.isLoading = true
-      this.externalErrors = {}
+      const imagesFormData = new FormData()
+      imagesFormData.append('images', this.imageFiles)
 
       try {
-        const res = await updateCafe({ data: formData, id: this.$route.params.id });
+        const res1 = await updateCafe({ data: formData, id: this.$route.params.id });
+        const res2 = await addCafeGallery({
+          cafe: res1.id,
+          images: imagesFormData
+        })
 
-        if (res.status) {
-          Toastify({
-            node: cash('#success-notification-content')
-              .clone()
-              .removeClass('hidden')[0],
-            duration: 3000,
-          }).showToast();
-        }
+        Toastify({
+          node: cash('#success-notification-content')
+            .clone()
+            .removeClass('hidden')[0],
+          duration: 3000,
+        }).showToast();
       } catch (error) {
         if (error.response) {
           console.log(error.response.data);
