@@ -221,7 +221,7 @@
                         class="text-theme-6 mt-2"
                       >{{ externalErrors.square_id && externalErrors.square_id[0] }}</span>
                     </div>
-                    <div class="input-form lg:basis-1/2">
+                    <!-- <div class="input-form lg:basis-1/2">
                       <label class="form-label" for="product_position">Position</label>
                       <input
                         id="product_position"
@@ -232,7 +232,7 @@
                       <span
                         class="text-theme-6 mt-2"
                       >{{ externalErrors.position && externalErrors.position[0] }}</span>
-                    </div>
+                    </div>-->
                   </div>
                   <div class="flex gap-5 pt-3">
                     <div class="input-form lg:basis-1/2">
@@ -367,7 +367,7 @@ const productQuickestTime = ref(null);
 const productSquareId = ref('');
 const productName = ref('');
 const productDescription = ref('');
-const productPosition = ref(null);
+// const productPosition = ref(null);
 const productTaxPercent = ref(null);
 const productCategoryId = ref(null);
 const productModifierIds = ref([]);
@@ -395,18 +395,21 @@ async function onSubmit() {
   Object.assign(externalErrors, {})
   try {
     const formData = new FormData()
-    if (!_.isEmpty(productImageFile.value)) formData.append('image', productImageFile.value);
-    // formData.append('sizes', JSON.stringify(product_sizes.value))
+
+    if (!_.isEmpty(productImageFile.value))
+      formData.append('image', productImageFile.value);
+
     formData.append('start', productStartTime.value)
     formData.append('end', productEndTime.value)
     formData.append('quickest_time', productQuickestTime.value)
     formData.append('square_id', productSquareId.value)
     formData.append('name', productName.value)
     formData.append('description', productDescription.value)
-    if (!_.isEmpty(productPosition.value)) formData.append('position', productPosition.value)
-    if (!_.isEmpty(productTaxPercent.value)) formData.append('tax_percent', productTaxPercent.value)
     formData.append('category', productCategoryId.value)
-    // formData.append('modifiers', JSON.stringify(productModifierIds.value.map(item => Number(item))))
+
+    if (!_.isEmpty(productTaxPercent.value))
+      formData.append('tax_percent', productTaxPercent.value)
+
     for (let i = 0; i < product_sizes.value.length; i++) {
       formData.append('sizes[' + i + ']name', product_sizes.value[i].name)
       formData.append('sizes[' + i + ']price', product_sizes.value[i].price)
@@ -421,14 +424,12 @@ async function onSubmit() {
 
     const res = await createProduct(formData);
 
-    if (res.status) {
-      Toastify({
-        node: cash('#success-notification-content')
-          .clone()
-          .removeClass('hidden')[0],
-        duration: 3000,
-      }).showToast();
-    }
+    Toastify({
+      node: cash('#success-notification-content')
+        .clone()
+        .removeClass('hidden')[0],
+      duration: 3000,
+    }).showToast();
   } catch (error) {
     if (error.response) {
       console.log(error.response.data);

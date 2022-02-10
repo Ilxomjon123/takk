@@ -123,3 +123,18 @@ export const deleteCafe = async payload => {
     throw err;
   }
 };
+
+export const deleteCafeImage = async imageID => {
+  try {
+    const res = await makeRequest({
+      url: `/api/cafes/gallery/${imageID}/`,
+      method: 'delete',
+      headers: { authorization: true }
+    });
+
+    return res.data;
+  } catch (err) {
+    console.log('error while deleting cafe data: ', err);
+    throw err;
+  }
+};

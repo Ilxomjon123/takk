@@ -1,17 +1,16 @@
 <template>
-  <div class="wrapper antialiased text-gray-900">
-    <div class="hover01 column">
+  <div class="wrapper antialiased">
+    <div class="hover01 column relative shadow-lg">
       <figure class="rounded-xl">
         <img
           :src="cafe.logo_large"
-          alt=" random imgee"
-          class="w-full h-60 lg:h-72 object-cover object-center shadow-lg"
+          alt="cafe image"
+          class="w-full h-60 lg:h-72 object-cover object-center"
         />
       </figure>
-    </div>
-
-    <div class="relative text-white -mt-32">
-      <div class="bg-dark-1/50 p-5 rounded-xl rounded-t-none shadow-lg">
+      <div
+        class="bg-dark-1/50 rounded-xl rounded-t-none absolute bottom-0 w-full p-3"
+      >
         <h4
           class="mt-1 text-xl font-semibold uppercase leading-tight truncate"
         >{{ cafe.name }}</h4>
@@ -21,19 +20,48 @@
           $1800
           <span class="text-gray-600 text-sm">/wk</span>
         </div>-->
-        <div class="mt-4">
-          <span class="text-teal-600 text-md font-semibold">4/5 ratings</span>
-          <span class="text-sm text-gray-600">(based on 234 ratings)</span>
+        <div class="flex justify-center mt-4 space-x-3">
+          <!-- <span class="text-teal-600 text-md font-semibold">4/5 ratings</span>
+          <span class="text-sm text-gray-600">(based on 234 ratings)</span>-->
+          <button type="button">
+            <SmileIcon size="1.5x" />
+            <br />
+            {{ happyCount }}
+          </button>
+          <button type="button">
+            <FrownIcon size="1.5x" />
+            <br />
+            {{ unhappyCount }}
+          </button>
+          <button type="button">
+            <MessageSquareIcon size="1.5x" />
+            <br />
+            {{ messageCount }}
+          </button>
+          <button type="button">
+            <CoffeeIcon size="1.5x" />
+            <br />
+            {{ offerCount }}
+          </button>
         </div>
       </div>
+      <!-- <div class="relative text-white bottom-0">
+      </div>-->
     </div>
   </div>
 </template>
 
 <script setup>
-defineProps({
+import { ref } from 'vue';
+
+const props = defineProps({
   cafe: Object
-})
+});
+
+const happyCount = ref(1);
+const unhappyCount = ref(2);
+const messageCount = ref(3);
+const offerCount = ref(4);
 </script>
 
 <style scoped lang="scss">

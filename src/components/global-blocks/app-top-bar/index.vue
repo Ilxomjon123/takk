@@ -10,11 +10,11 @@
           />
         </a>
       </div>
-      <div class="hidden w-full md:flex lg:w-auto justify-between">
+      <div class="hidden w-full lg:flex lg:w-auto justify-between">
         <ul
           v-if="$route.path === '/'"
           ref="menu"
-          class="flex flex-wrap p-1 md:p-2 text-xl text-theme-32 font-medium content-center"
+          class="flex flex-wrap p-1 md:p-2 text-base xl:text-lg text-theme-32 font-medium content-center"
         >
           <li class="mx-1 px-1 py-2">
             <a
@@ -56,7 +56,7 @@
           </span>.
         </h1>
       </div>
-      <div class="hidden md:flex w-full lg:w-auto">
+      <div class="hidden lg:flex w-full lg:w-auto">
         <ul
           class="flex flex-wrap p-1 md:p-2 text-sm md:text-base font-medium content-center"
         >
@@ -64,14 +64,14 @@
             <router-link
               v-if="$route.path == '/'"
               to="/for-customers"
-              class="px-6 py-2 border-2 border-theme-31 bg-theme-31 text-white rounded-full font-bold hover:bg-theme-2 hover:text-black shadow-lg"
+              class="xl:px-6 px-3 py-2 border-2 border-theme-31 bg-theme-31 text-white rounded-full font-bold hover:bg-theme-2 hover:text-black shadow-lg"
             >
               <span>For Customers</span>
             </router-link>
             <router-link
               v-if="$route.path == '/for-customers'"
               to="/"
-              class="px-6 py-2 border-2 border-theme-31 bg-theme-31 text-white rounded-full font-bold hover:bg-theme-2 hover:text-black shadow-lg"
+              class="xl:px-6 px-3 py-2 border-2 border-theme-31 bg-theme-31 text-white rounded-full font-bold hover:bg-theme-2 hover:text-black shadow-lg"
             >
               <span>For Coffee Shops</span>
             </router-link>
@@ -79,7 +79,7 @@
           <li class="mx-1 px-1 py-2">
             <router-link
               to="/"
-              class="px-6 py-2 border-2 border-theme-31 rounded-full font-bold text-gray-600 hover:bg-theme-31 hover:text-white shadow-lg"
+              class="xl:px-6 px-3 py-2 border-2 border-theme-31 rounded-full font-bold text-gray-600 hover:bg-theme-31 hover:text-white shadow-lg"
             >
               <span>Contact us</span>
             </router-link>
@@ -88,7 +88,7 @@
       </div>
       <button
         v-if="$route.path === '/'"
-        class="ml-auto md:hidden"
+        class="ml-auto lg:hidden"
         ref="burger"
         @click="openMobileMenu"
       >
