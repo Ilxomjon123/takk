@@ -39,18 +39,32 @@
     class="col-span-12 lg:col-span-8 2xl:col-span-9"
   >
     <div class="flex flex-wrap -mx-3 mb-3">
-      <div class="w-full px-3 mb-3">
+      <div class="w-full md:w-1/2 px-3 mb-3">
         <div class="form-check">
           <input
             v-model="category.available"
-            id="checkbox-switch-7"
+            id="category-available"
             class="form-check-switch"
             type="checkbox"
           />
           <label
             class="form-check-label text-base"
-            for="checkbox-switch-7"
+            for="category-available"
           >Available</label>
+        </div>
+      </div>
+      <div class="w-full md:w-1/2 px-3 mb-3">
+        <div class="form-check">
+          <input
+            v-model="category.is_kitchen"
+            id="kitchen-order"
+            class="form-check-switch"
+            type="checkbox"
+          />
+          <label
+            class="form-check-label text-base"
+            for="kitchen-order"
+          >Kitchen Order</label>
         </div>
       </div>
       <div class="w-full px-3 mb-3">
@@ -98,7 +112,7 @@
           }"
           class="w-full"
         >
-          <option :value="null">- - - - - - -</option>
+          <option value="0">- - - - - - -</option>
           <option
             v-for="(item, index) in getCategories"
             :key="index"
@@ -194,6 +208,9 @@ export default defineComponent({
 
     async submit() {
       this.isLoading = true;
+      if (this.category?.parent == 0) {
+        this.category.parent = null;
+      }
       let formData;
       const data = { ...this.category, ...this.images, menu: this.menuId };
       if (typeof data.image == 'string')

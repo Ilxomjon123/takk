@@ -18,7 +18,7 @@
       <thead>
         <tr>
           <!-- <th class="whitespace-nowrap"></th> -->
-          <th class="whitespace-nowrap">Rank</th>
+          <!-- <th class="whitespace-nowrap">Rank</th> -->
           <!-- <th class="whitespace-nowrap">ID</th> -->
           <th class="whitespace-nowrap">LOGO</th>
           <th class="whitespace-nowrap">NAME</th>
@@ -30,8 +30,8 @@
       </thead>
       <tbody>
         <template v-for="(item, index) in items" :key="index">
-          <tr class="intro-x">
-            <td class="w-0">{{ item.position }}</td>
+          <tr class="-intro-y zoom-in" @click="toggleChildren(item.id)">
+            <!-- <td class="w-0">{{ item.position }}</td> -->
             <td class="w-10">
               <div class="w-10 h-10 image-fit zoom-in">
                 <img alt="Takk" class="rounded-full" :src="item.image" />
@@ -58,13 +58,23 @@
                   :isIcon="true"
                   modalId="category-delete-modal"
                 />
+                <ChevronDownIcon
+                  v-if="isVisible(item.id)"
+                  class="hover:text-theme-9"
+                />
+                <ChevronRightIcon v-else class="hover:text-theme-9" />
               </div>
             </td>
           </tr>
-          <tr class="intro-x ml-5" v-for="(el, i) in item.children" :key="i">
-            <td class="w-0">{{ el.position }}</td>
+          <tr
+            class="-intro-y zoom-in outro-x"
+            v-for="(el, i) in item.children"
+            :key="i"
+            v-show="isVisible(item.id)"
+          >
+            <!-- <td class="w-0">{{ el.position }}</td> -->
             <td class="w-10">
-              <div class="w-10 h-10 image-fit zoom-in">
+              <div class="w-10 h-10 image-fit zoom-in ml-10">
                 <img alt="Takk" class="rounded-full" :src="el.image" />
               </div>
             </td>
@@ -74,11 +84,11 @@
                 class="text-gray-600 text-xs whitespace-nowrap mt-0.5"
               >{{ el.category?.name }}</div>
             </td>
-            <td>{{ el.parent }}</td>
+            <td>{{ item.name }}</td>
             <td>{{ el.start }}</td>
             <td>{{ el.end }}</td>
             <td class="table-report__action w-10">
-              <div class="flex justify-end items-end">
+              <div class="flex">
                 <router-link
                   :to="`/dashboard/categories/${getSelectedMenuId}/${el.id}`"
                 >
@@ -119,7 +129,8 @@ export default defineComponent({
   data() {
     return {
       items: [],
-      form: {}
+      form: {},
+      showChildren: []
     };
   },
   methods: {
@@ -134,6 +145,9 @@ export default defineComponent({
     },
     setItems(val) {
       this.items = val
+      // this.showChildren = val.map(item => {
+      //   if (item.children.length > 0) return item.id
+      // });
     },
     async deleteItem(val) {
       this.$store.commit('setLoadingStatus', true);
@@ -145,6 +159,16 @@ export default defineComponent({
         this.$store.commit('setErrorNotification', true);
       }
       this.$store.commit('setLoadingStatus', false);
+    },
+    toggleChildren(val) {
+      if (this.isVisible(val)) {
+        delete this.showChildren[this.showChildren.indexOf(val)];
+      } else {
+        this.showChildren.push(val);
+      }
+    },
+    isVisible(val) {
+      return this.showChildren.includes(val)
     }
   },
   computed: {
