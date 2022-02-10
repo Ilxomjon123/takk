@@ -506,7 +506,6 @@
                   </template>
                   <br />
                   <MultipleImageUpload
-                    :image-path-list="imagePaths"
                     @update:image-files="imageFiles = $event"
                     :obj-id="$route.params.id"
                   />
@@ -591,9 +590,9 @@ import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
 import L, { CRS } from 'leaflet'
 import 'leaflet/dist/leaflet.css';
 import Toastify from 'toastify-js';
-import { updateCafe, fetchCafe, fetchCafeWorkDays, addCafeGallery, fetchCafeGallery } from '@/api';
+import { updateCafe, fetchCafe, fetchCafeWorkDays, addCafeGallery } from '@/api';
 import cash from 'cash-dom';
-import MultipleImageUpload from '@/components/forms/file-upload/MultipleImageUpload.vue';
+import MultipleImageUpload from './MultipleImageUpload.vue';
 import axios from 'axios';
 
 export default defineComponent({

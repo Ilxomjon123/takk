@@ -506,7 +506,6 @@
                   </template>
                   <br />
                   <MultipleImageUpload
-                    :image-path-list="imagePathList"
                     @update:image-files="imageFiles = $event"
                   />
                 </div>
@@ -557,7 +556,7 @@ import 'leaflet/dist/leaflet.css';
 import Toastify from 'toastify-js';
 import { cafePost, addCafeGallery } from '@/api';
 import cash from 'cash-dom';
-import MultipleImageUpload from '@/components/forms/file-upload/MultipleImageUpload.vue';
+import MultipleImageUpload from './MultipleImageUpload.vue';
 import axios from 'axios';
 
 export default defineComponent({
@@ -770,6 +769,8 @@ export default defineComponent({
             .removeClass('hidden')[0],
           duration: 3000,
         }).showToast();
+
+        this.$router.push('/dashboard/cafe-edit-form/' + res1.id)
       } catch (error) {
         if (error.response) {
           console.log(error.response.data);

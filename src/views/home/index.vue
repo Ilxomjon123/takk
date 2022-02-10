@@ -4,7 +4,7 @@
       <div class="container grid grid-cols-1 md:grid-cols-2 px-5 py-10">
         <div class="grid">
           <div class="md:ml-16 my-auto">
-            <h1 class="text-5xl lg:text-6xl font-bold mb-5 lg:mb-10">
+            <h1 class="text-4xl lg:text-6xl font-bold mb-5 lg:mb-10">
               The all you need app for your
               <span
                 class="colored-underline1 whitespace-nowrap"
@@ -161,7 +161,7 @@
       <div class="container grid md:bg-theme-33 px-5 lg:px-10 py-16 lg:py-32">
         <div class="grid md:my-16 justify-center">
           <h2
-            class="text-5xl lg:text-6xl font-bold md:font-extrabold mb-10 md:text-center"
+            class="text-4xl lg:text-6xl font-bold md:font-extrabold mb-10 md:text-center"
           >
             <span
               class="colored-underline2"
@@ -171,7 +171,7 @@
         <div class="grid lg:grid-cols-12 lg:mb-16 justify-center">
           <div class="box lg:col-start-3 lg:col-span-8 p-4 lg:p-16 xl:px-36">
             <h1
-              class="text-4xl md:text-5xl lg:text-7xl text-center font-medium mb-10"
+              class="text-3xl md:text-5xl lg:text-7xl text-center font-medium mb-10"
             >Only Pay for Results</h1>
             <p
               class="text-center text-2xl md:text-3xl lg:text-4xl xl:text-5xl mb-5 font-normal"
@@ -199,14 +199,17 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter()
 
-onMounted(() => {
-  const res = login({ username: 'shefteli', password: 'qaun' })
-  console.log('response from login request: ', res);
+// onMounted(() => {
+//   const res = login({ username: 'shefteli', password: 'qaun' })
+//   console.log('response from login request: ', res);
 
-})
+// })
 
 onMounted(() => {
-  showProgrammaticallyShowModal();
+  if (localStorage.getItem('interested-in')) {
+    if (localStorage.getItem('interested-in') === 'customer')
+      router.push('/for-customers')
+  } else showProgrammaticallyShowModal();
 })
 
 // Show modal

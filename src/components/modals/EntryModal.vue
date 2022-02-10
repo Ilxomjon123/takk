@@ -54,6 +54,8 @@ import { useRouter } from 'vue-router';
 const router = useRouter()
 
 function goto(path) {
+  if (path === '/') localStorage.setItem('interested-in', 'coffeeshops')
+  if (path === '/for-customers') localStorage.setItem('interested-in', 'customer')
   cash("#entry-modal").modal("hide");
   router.push(path)
 }
