@@ -17,8 +17,8 @@
     <table class="table table-report -mt-2">
       <thead>
         <tr>
-          <!-- <th class="whitespace-nowrap"></th>
-          <th class="whitespace-nowrap">Rank</th>-->
+          <!-- <th class="whitespace-nowrap"></th> -->
+          <th class="whitespace-nowrap">Rank</th>
           <!-- <th class="whitespace-nowrap">ID</th> -->
           <th class="whitespace-nowrap">LOGO</th>
           <th class="whitespace-nowrap">NAME</th>
@@ -29,36 +29,70 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in items" :key="index" class="intro-x">
-          <td class="w-10">
-            <div class="w-10 h-10 image-fit zoom-in">
-              <img alt="Takk" class="rounded-full" :src="item.image" />
-            </div>
-          </td>
-          <td>
-            <a href class="font-medium whitespace-nowrap">{{ item.name }}</a>
-            <div
-              class="text-gray-600 text-xs whitespace-nowrap mt-0.5"
-            >{{ item.category?.name }}</div>
-          </td>
-          <td>{{ item.parent }}</td>
-          <td>{{ item.start }}</td>
-          <td>{{ item.end }}</td>
-          <td class="table-report__action w-10">
-            <div class="flex justify-end items-end">
-              <router-link
-                :to="`/dashboard/categories/${getSelectedMenuId}/${item.id}`"
-              >
-                <Edit2Icon class="hover:text-theme-12" />
-              </router-link>
-              <DeleteConfirmModal
-                @onConfirmedDelete="deleteItem(item.id)"
-                :isIcon="true"
-                modalId="category-delete-modal"
-              />
-            </div>
-          </td>
-        </tr>
+        <template v-for="(item, index) in items" :key="index">
+          <tr class="intro-x">
+            <td class="w-0">{{ item.position }}</td>
+            <td class="w-10">
+              <div class="w-10 h-10 image-fit zoom-in">
+                <img alt="Takk" class="rounded-full" :src="item.image" />
+              </div>
+            </td>
+            <td>
+              <a href class="font-medium whitespace-nowrap">{{ item.name }}</a>
+              <div
+                class="text-gray-600 text-xs whitespace-nowrap mt-0.5"
+              >{{ item.category?.name }}</div>
+            </td>
+            <td>{{ item.parent }}</td>
+            <td>{{ item.start }}</td>
+            <td>{{ item.end }}</td>
+            <td class="table-report__action w-10">
+              <div class="flex justify-end items-end">
+                <router-link
+                  :to="`/dashboard/categories/${getSelectedMenuId}/${item.id}`"
+                >
+                  <Edit2Icon class="hover:text-theme-12" />
+                </router-link>
+                <DeleteConfirmModal
+                  @onConfirmedDelete="deleteItem(item.id)"
+                  :isIcon="true"
+                  modalId="category-delete-modal"
+                />
+              </div>
+            </td>
+          </tr>
+          <tr class="intro-x ml-5" v-for="(el, i) in item.children" :key="i">
+            <td class="w-0">{{ el.position }}</td>
+            <td class="w-10">
+              <div class="w-10 h-10 image-fit zoom-in">
+                <img alt="Takk" class="rounded-full" :src="el.image" />
+              </div>
+            </td>
+            <td>
+              <a href class="font-medium whitespace-nowrap">{{ el.name }}</a>
+              <div
+                class="text-gray-600 text-xs whitespace-nowrap mt-0.5"
+              >{{ el.category?.name }}</div>
+            </td>
+            <td>{{ el.parent }}</td>
+            <td>{{ el.start }}</td>
+            <td>{{ el.end }}</td>
+            <td class="table-report__action w-10">
+              <div class="flex justify-end items-end">
+                <router-link
+                  :to="`/dashboard/categories/${getSelectedMenuId}/${el.id}`"
+                >
+                  <Edit2Icon class="hover:text-theme-12" />
+                </router-link>
+                <DeleteConfirmModal
+                  @onConfirmedDelete="deleteItem(el.id)"
+                  :isIcon="true"
+                  modalId="category-delete-modal"
+                />
+              </div>
+            </td>
+          </tr>
+        </template>
       </tbody>
     </table>
   </div>
