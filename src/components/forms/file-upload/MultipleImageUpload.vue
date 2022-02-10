@@ -6,7 +6,7 @@
       <button
         type="button"
         class="btn w-full h-40 border-2 shadow-sm border-gray-200 dark:border-dark-5 rounded-md"
-        @click="$refs.inputFile.click()"
+        @click="inputFile.click()"
       >
         <PlusIcon />
         <!-- <p>Add image</p> -->
@@ -20,16 +20,11 @@
       />
     </div>
     <div
-      v-for="item, index in images"
+      v-for="item, index in imageSources"
       class="md:basis-1/2 lg:basis-1/4 2xl:basis-1/6 border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5"
     >
       <div class="h-40 relative image-fit cursor-pointer zoom-in mx-auto">
-        <img
-          class="rounded-md"
-          alt="Logo"
-          :src="item"
-          @error="replaceByDefault"
-        />
+        <img class="rounded-md" alt="Logo" :src="item" />
         <Tippy
           tag="div"
           content="Remove this logo?"
@@ -43,50 +38,69 @@
   </div>
 </template>
 
-<script>
-import { defineComponent } from "vue";
+<script setup>
 import _ from "lodash";
+import { computed, nextTick, onMounted, ref } from "vue";
+import Toastify from 'toastify-js';
+import { fetchCafeGallery } from "../../../api";
 
-export default defineComponent({
-  props: {
-    imagePathList: {
-      type: Array,
-      default: () => ([])
-    }
+const props = defineProps({
+  imagePathList: {
+    type: Array,
+    default: () => ([])
   },
-  data: () => ({
-    selectedFilePath: '/src/assets/images/plus-icon.jpg',
-    images: []
-  }),
-  mounted() {
-    console.log('ok');
-    if (this.imagePathList) {
-      this.images = this.imagePathList
-    }
-  },
-  methods: {
-    addImage(e) {
-      if (this.images.length < 5) {
-        e.target.files.forEach(file => {
-          this.images.push(URL.createObjectURL(file))
-        })
-        this.$emit("update:image-files", e.target.files);
-      } else alert('You can add max 5 images')
-    },
-    removeImage(index) {
-      this.images = _.remove(this.images, (el, idx) => idx !== index)
-      console.log('this.$refs.files: ', this.$refs.files);
-      this.$emit("update:image-files", this.$refs.files);
-    },
-    replaceByDefault(e) {
-      if (this.selectedFilePath)
-        e.target.src = this.selectedFilePath
-      else {
-        e.target.style.display = 'none'
-        alert('Error while image uploading..')
-      }
-    }
-  }
-
+  objId: null,
 });
+
+const emit = defineEmits(['update:image-files']);
+
+const inputFile = ref(null);
+const imageFiles = ref([]);
+const imageSources = ref([]);
+
+onMounted(async () => {
+  // await nextTick()
+  // console.log('Now DOM is updated')
+  // imageSources.value = props.imagePathList
+  fetchCafeGallery(props.objId).then(res => {
+    imageSources.value = res.results.map(item => item.image)
+  })
+});
+
+function addImage(e) {
+  if ((imageSources.value.length + e.target.files.length) <= 5) {
+    e.target.files.forEach(file => {
+      imageSources.value.push(URL.createObjectURL(file))
+      imageFiles.value.push(file);
+    })
+    emit("update:image-files", imageFiles.value);
+  } else {
+    Toastify({
+      text: 'You can add max 5 images',
+      className: "toastify_warning",
+      duration: 3000
+    }).showToast();
+  }
+  // alert('You can add max 5 images');
+}
+
+function removeImage(index) {
+  imageSources.value = _.remove(imageSources.value, (el, idx) => idx !== index)
+  imageFiles.value = _.remove(imageFiles.value, (el, idx) => idx !== index)
+  console.log('files: ', imageFiles.value);
+  emit("update:image-files", imageFiles.value);
+}
+
 </script>
+
+<style>
+.toastify_warning {
+  background: rgba(0, 0, 0, 0)
+    linear-gradient(to right, rgb(255, 95, 109), rgb(255, 195, 113)) repeat
+    scroll 0% 0% !important;
+  /* transform: translate(0); */
+  padding: 12px 20px !important;
+  color: #fff !important;
+  /* background: linear-gradient(to right, #00b09b, #96c93d); */
+}
+</style>

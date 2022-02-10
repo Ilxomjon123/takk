@@ -20,18 +20,14 @@
                 <div class="md:basis-1/2 lg:basis-1/3">
                   <div class="input-form">
                     <div class="form-check w-auto">
-                      <Field name="status" v-slot="field">
-                        <input
-                          id="status"
-                          class="form-check-switch"
-                          type="checkbox"
-                          v-model="selectedStatus"
-                          v-bind="field"
-                        />
-                      </Field>
+                      <input
+                        id="status"
+                        class="form-check-switch"
+                        type="checkbox"
+                        v-model="selectedStatus"
+                      />
                       <label class="form-check-label" for="status">Status</label>
                     </div>
-                    <ErrorMessage name="status" class="text-theme-6 mt-2" />
                     <span
                       class="text-theme-6 mt-2"
                     >{{ externalErrors.status && externalErrors.status[0] }}</span>
@@ -347,9 +343,8 @@
                   </div>
                   <div class="flex gap-5 pt-3">
                     <div class="form-check w-auto">
-                      <Field
+                      <input
                         id="is_square_used"
-                        name="is_use_square"
                         class="form-check-switch"
                         type="checkbox"
                         :value="isSquareUsed"
@@ -511,8 +506,9 @@
                   </template>
                   <br />
                   <MultipleImageUpload
-                    :image-path-list="imagePathList"
+                    :image-path-list="imagePaths"
                     @update:image-files="imageFiles = $event"
+                    :obj-id="$route.params.id"
                   />
                 </div>
               </div>
@@ -595,7 +591,7 @@ import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
 import L, { CRS } from 'leaflet'
 import 'leaflet/dist/leaflet.css';
 import Toastify from 'toastify-js';
-import { updateCafe, fetchCafe, fetchCafeWorkDays } from '@/api';
+import { updateCafe, fetchCafe, fetchCafeWorkDays, addCafeGallery, fetchCafeGallery } from '@/api';
 import cash from 'cash-dom';
 import MultipleImageUpload from '@/components/forms/file-upload/MultipleImageUpload.vue';
 import axios from 'axios';
@@ -632,7 +628,7 @@ export default defineComponent({
       }), // ok
       call_center: yup.string().max(50, "Must be less than 50 characters").required("This field is requried"), // ok
       website: yup.string().url("Must be a url address").nullable(), // ok
-      status: yup.boolean(),
+      // status: yup.boolean(),
       postal_code: yup.string().max(12, "Must be less than 12 characters"), // ok
       tax_rate: yup.number().positive().required("This field is requried"), // ok
       version: yup.number().positive().integer(), // ok
@@ -649,7 +645,7 @@ export default defineComponent({
       //   delivery_km_amount: yup.number().integer().default(0),
       //   delivery_min_time: yup.number().positive().integer().default(30)
       // }),
-      is_use_square: yup.boolean(), // ok
+      // is_use_square: yup.boolean(), // ok
       square_location_id: yup.string(), // ok
       state: yup.string(), // ok
       // country: yup.string(), // ok
@@ -725,7 +721,7 @@ export default defineComponent({
     return {
       schema,
       isLoading: false,
-      imagePathList: [],
+      imagePaths: [],
       imageFiles: [],
       statusOptions,
       weekTime,
@@ -793,7 +789,7 @@ export default defineComponent({
       this.second_address = res.second_address
       this.square_location_id = res.square_location_id
       this.selectedState = res.state
-      this.selectedStatus = res.status === 1 ? true : false
+      this.selectedStatus = Boolean(res.status)
       this.tax_rate = res.tax_rate
       this.version = res.version
       this.website = res.website
@@ -809,7 +805,6 @@ export default defineComponent({
     await fetchCafeWorkDays(this.$route.params.id).then(res => {
       this.weekTime = res
     })
-
   },
   beforeUnmount() {
     if (this.map) {
@@ -823,6 +818,8 @@ export default defineComponent({
 
       const formData = new FormData()
 
+      console.log('values: ', values);
+
       for (let item in values) {
         formData.append(item, values[item])
       }
@@ -832,16 +829,19 @@ export default defineComponent({
       formData.append('city', this.selectedCity)
       formData.append('delivery', this.delivery)
       formData.append('cafe_timezone', 'America/New_York')
-
-      const imagesFormData = new FormData()
-      imagesFormData.append('images', this.imageFiles)
+      formData.append('is_use_square', this.isSquareUsed)
+      formData.append('status', Number(this.selectedStatus))
 
       try {
-        const res1 = await updateCafe({ data: formData, id: this.$route.params.id });
-        const res2 = await addCafeGallery({
-          cafe: res1.id,
-          images: imagesFormData
-        })
+        const res1 = await updateCafe({ data: formData, id: this.$route.params.id })
+        if (this.imageFiles.length > 0) {
+          const imagesFormData = new FormData()
+          for (let image of this.imageFiles) {
+            imagesFormData.append('images', image)
+          }
+          imagesFormData.append('cafe', res1.id);
+          await addCafeGallery(imagesFormData);
+        }
 
         Toastify({
           node: cash('#success-notification-content')
