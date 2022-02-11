@@ -592,7 +592,7 @@ import 'leaflet/dist/leaflet.css';
 import Toastify from 'toastify-js';
 import { updateCafe, fetchCafe, fetchCafeWorkDays, addCafeGallery } from '@/api';
 import cash from 'cash-dom';
-// import MultipleImageUpload from './MultipleImageUpload.vue';
+import MultipleImageUpload from './MultipleImageUpload.vue';
 import axios from 'axios';
 
 export default defineComponent({
@@ -603,7 +603,7 @@ export default defineComponent({
     CountrySelect,
     CitySelect,
     WeekDayTimeForm,
-    // MultipleImageUpload
+    MultipleImageUpload
   },
   data() {
     const schema = yup.object().shape({
