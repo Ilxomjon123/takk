@@ -183,7 +183,11 @@
               class="text-center text-2xl md:text-3xl lg:text-4xl xl:text-5xl mb-5 font-normal"
             >The regular card processing fees (the latest is 2.9%+30cent) still apply on each transaction and are passed on to payment processors.</p>
             <br />
-            <button type="button" class="btn-primary w-full">Sign Up</button>
+            <button
+              type="button"
+              class="btn-primary w-full"
+              @click="gotoLoginPage"
+            >Sign Up</button>
           </div>
         </div>
       </div>

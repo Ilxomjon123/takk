@@ -42,7 +42,7 @@
           </li>
           <li class="mx-1 px-1 py-2">
             <a href="/login" class="text-theme-31 font-bold">
-              <span>Sign In</span>
+              <span>{{ isLoggedIn ? 'Dashboard' : 'Sign In' }}</span>
             </a>
           </li>
         </ul>
@@ -101,6 +101,11 @@
 <script setup>
 import cash from 'cash-dom';
 import { ref } from 'vue'
+
+const isLoggedIn = ref(false);
+
+if (localStorage.getItem('token') && localStorage.getItem('required_details'))
+  isLoggedIn.value = true
 
 function openMobileMenu() {
   cash("#mobile-over-menu").modal("show");
