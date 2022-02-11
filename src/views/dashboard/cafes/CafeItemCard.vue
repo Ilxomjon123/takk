@@ -58,9 +58,9 @@ const props = defineProps({
   cafe: Object
 });
 
-const happyCount = ref(1);
-const unhappyCount = ref(2);
-const messageCount = ref(3);
+const happyCount = ref(3);
+const unhappyCount = ref(1);
+const messageCount = ref(2);
 const offerCount = ref(4);
 </script>
 
