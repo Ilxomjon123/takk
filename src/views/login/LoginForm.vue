@@ -66,7 +66,7 @@
           v-if="isLoading"
           icon="three-dots"
           color="white"
-          class="w-8 h-8 ml-2"
+          class="ml-2"
         />
       </button>
     </div>

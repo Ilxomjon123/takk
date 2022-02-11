@@ -126,7 +126,10 @@ const routes = [
   },
   {
     path: '/entry',
-    component: Entry
+    component: Entry,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/entry',
