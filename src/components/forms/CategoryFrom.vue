@@ -114,7 +114,7 @@
         >
           <option value="0">- - - - - - -</option>
           <option
-            v-for="(item, index) in getCategories"
+            v-for="(item, index) in categoryList"
             :key="index"
             :value="item.id"
           >{{ item.name }}</option>
@@ -159,12 +159,14 @@ export default defineComponent({
       isLoading: false,
       errors: {},
       successMessage: "Successfully saved!",
-      cafeList: [],
       menuId: null
     };
   },
   computed: {
-    ...mapGetters(['getCategories'])
+    ...mapGetters(['getCategories']),
+    categoryList() {
+      return this.getCategories.filter(item => item.id != this.category?.id)
+    }
   },
   props: {
     form: {

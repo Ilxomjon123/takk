@@ -47,9 +47,9 @@
                   <div
                     v-if="menu.subMenu"
                     class="side-menu__sub-icon"
-                    :class="{ 'transform rotate-180': menu.activeDropdown }"
+                    :class="{ 'transform rotate-90': menu.activeDropdown }"
                   >
-                    <ChevronDownIcon />
+                    <ChevronRightIcon />
                   </div>
                 </div>
               </SideMenuTooltip>

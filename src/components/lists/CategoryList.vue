@@ -58,19 +58,21 @@
                   :isIcon="true"
                   modalId="category-delete-modal"
                 />
-                <ChevronDownIcon
-                  v-if="isVisible(item.id)"
+                <ChevronRightIcon
                   class="hover:text-theme-9"
+                  :class="{
+                    'transform rotate-90 duration-300': isVisibleChildren(item.id),
+                    'transform duration-150': !isVisibleChildren(item.id),
+                  }"
                 />
-                <ChevronRightIcon v-else class="hover:text-theme-9" />
               </div>
             </td>
           </tr>
           <tr
-            class="-intro-y zoom-in outro-x"
+            class="-intro-y"
             v-for="(el, i) in item.children"
             :key="i"
-            v-show="isVisible(item.id)"
+            v-show="isVisibleChildren(item.id)"
           >
             <!-- <td class="w-0">{{ el.position }}</td> -->
             <td class="w-10">
@@ -161,13 +163,13 @@ export default defineComponent({
       this.$store.commit('setLoadingStatus', false);
     },
     toggleChildren(val) {
-      if (this.isVisible(val)) {
+      if (this.isVisibleChildren(val)) {
         delete this.showChildren[this.showChildren.indexOf(val)];
       } else {
         this.showChildren.push(val);
       }
     },
-    isVisible(val) {
+    isVisibleChildren(val) {
       return this.showChildren.includes(val)
     }
   },
