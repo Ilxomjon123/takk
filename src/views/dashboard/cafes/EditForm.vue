@@ -26,7 +26,10 @@
                         type="checkbox"
                         v-model="selectedStatus"
                       />
-                      <label class="form-check-label" for="status">Status</label>
+                      <label
+                        class="font-medium text-base ml-2 cursor-pointer"
+                        for="status"
+                      >Status</label>
                     </div>
                     <span
                       class="text-theme-6 mt-2"
@@ -134,8 +137,8 @@
                       >{{ externalErrors.call_center && externalErrors.call_center[0] }}</span>
                     </div>
                   </div>
-                  <div class="flex gap-5 pt-3">
-                    <div class="input-form md:basis-1/2">
+                  <div class="flex pt-3">
+                    <div class="input-form md:basis-1/2 pr-2.5">
                       <label class="form-label" for="website">Website</label>
                       <Field
                         id="website"
@@ -154,8 +157,8 @@
                   >
                     <h2 class="font-medium text-base mr-auto">Cafe addresses</h2>
                   </div>
-                  <div class="flex gap-5">
-                    <div class="input-form md:basis-1/2">
+                  <div class="flex">
+                    <div class="input-form md:basis-1/2 pr-2.5">
                       <label for="country" class="form-label">Country</label>
                       <CountrySelect v-bind="field" v-model="selectedCountry" />
                       <span
@@ -163,7 +166,7 @@
                       >{{ externalErrors.country && externalErrors.country[0] }}</span>
                     </div>
                     <div
-                      class="input-form md:basis-1/2"
+                      class="input-form md:basis-1/2 pl-2.5"
                       v-if="selectedCountry === 'United States'"
                     >
                       <label class="form-label" for="state">State</label>
@@ -342,7 +345,7 @@
                     </div>
                   </div>
                   <div class="flex gap-5 pt-3">
-                    <div class="form-check w-auto">
+                    <div class="form-check w-auto py-2">
                       <input
                         id="is_square_used"
                         class="form-check-switch"
@@ -356,15 +359,16 @@
                       >Is square used</label>
                     </div>
                     <div class="input-form" v-if="isSquareUsed === true">
-                      <label
+                      <!-- <label
                         for="square_location_id"
                         class="form-label"
-                      >Square location id</label>
+                      >Square location id</label>-->
                       <Field
                         id="square_location_id"
                         name="square_location_id"
                         v-model="square_location_id"
                         class="form-control"
+                        placeholder="Square location id"
                       />
                       <span
                         class="text-theme-6 mt-2"
@@ -504,7 +508,11 @@
                       </div>
                     </div>
                   </template>
-                  <br />
+                  <div
+                    class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
+                  >
+                    <h2 class="font-medium text-base mr-auto">Cafe gallery</h2>
+                  </div>
                   <MultipleImageUpload
                     @update:image-files="imageFiles = $event"
                     :obj-id="$route.params.id"
@@ -731,7 +739,7 @@ export default defineComponent({
       crs: CRS.EPSG4326,
       delivery,
       selectedStatus: false,
-      selectedCountry: 'United States',
+      selectedCountry: '',
       selectedCity: '',
       selectedState: '',
       externalErrors: {},
@@ -760,14 +768,16 @@ export default defineComponent({
     }).addTo(this.map);
 
     await fetchCafe(this.$route.params.id).then(res => {
-      // console.log('cafeById: ', res);
-      if (res.country) this.$store.dispatch('fetchCities', res.country)
+      if (res.country) {
+        console.log('res country: ', res.country);
+        this.selectedCountry = res.country
+        this.$store.commit('setSelectedCountry', res.country);
+      }
 
       this.address = res.address
       this.cafe_timezone = res.cafe_timezone
       this.call_center = res.call_center
       this.selectedCity = res.city
-      if (res.country) this.selectedCountry = res.country
       this.delivery.delivery_available = res.delivery_available
       this.delivery.delivery_fee = res.delivery_fee
       this.delivery.delivery_km_amount = res.delivery_km_amount
@@ -885,11 +895,13 @@ export default defineComponent({
       const addr = `${this.selectedCountry}, ${this.selectedState}, ${this.selectedCity}, ${this.address}`
       let url = `https://nominatim.openstreetmap.org/search?format=json&limit=3&q=${addr}`;
       axios.get(url).then(res => {
-        console.log(res);
-        this.location.lat = res.data[0].lat;
-        this.location.lon = res.data[0].lon;
-        this.marker && this.marker.setLatLng([this.location.lat, this.location.lon])
-        this.map.panTo([this.location.lat, this.location.lon])
+        // console.log(res);
+        if (res.data.length > 0) {
+          this.location.lat = res.data[0].lat;
+          this.location.lon = res.data[0].lon;
+          this.marker && this.marker.setLatLng([this.location.lat, this.location.lon])
+          this.map.panTo([this.location.lat, this.location.lon])
+        }
       });
     },
     openConfirmModal() {

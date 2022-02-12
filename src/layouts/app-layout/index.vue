@@ -10,6 +10,7 @@
   <!-- Modals -->
   <EntryModal />
   <MobileOverlayMenu />
+  <ContactUsModal />
 </template>
 
 <script setup>
@@ -19,6 +20,7 @@ import cash from 'cash-dom';
 import EntryModal from '@/components/modals/EntryModal.vue';
 import MobileOverlayMenu from '@/components/overlay-menus/mobile-menu/index.vue';
 import { onMounted, onUnmounted } from 'vue';
+import ContactUsModal from '@/components/modals/ContactUsModal.vue';
 
 onMounted(() => {
   cash('html').addClass('bg-theme-2')

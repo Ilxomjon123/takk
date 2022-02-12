@@ -72,6 +72,21 @@ const actions = {
       .catch(err => {
         commit('setCities', err.response.data);
       });
+  },
+  async fetchCitiesByCountry({ commit, rootGetters }, payload) {
+    axios
+      .get('/api/countries/', {
+        headers: rootGetters.getHttpHeader,
+        params: {
+          country: payload
+        }
+      })
+      .then(res => {
+        commit('setCities', res.data);
+      })
+      .catch(err => {
+        commit('setCities', err.response.data);
+      });
   }
 };
 
