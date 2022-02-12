@@ -20,7 +20,7 @@
       />
     </div>
     <div
-      v-for="item, index in imageSources"
+      v-for="item, itemIndex in imageSources"
       class="md:basis-1/2 lg:basis-1/4 2xl:basis-1/6 border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5"
     >
       <div class="h-40 relative image-fit cursor-pointer zoom-in mx-auto">
@@ -29,7 +29,7 @@
           tag="div"
           content="Remove this logo?"
           class="w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-6 right-0 top-0 -mr-2 -mt-2"
-          @click="removeImage(item.id)"
+          @click="removeImage(item.id, itemIndex)"
         >
           <xIcon class="w-4 h-4" />
         </Tippy>
@@ -60,17 +60,17 @@ const imageSources = ref([]);
 
 onMounted(async () => {
   fetchCafeGallery(props.objId).then(res => {
-    imageSources.value = res.results
+    imageSources.value = res.results || []
     // imageSources.value = res.results.map(item => item.image)
   })
 });
 
 function addImage(e) {
   if ((imageSources.value.length + e.target.files.length) <= 5) {
-    e.target.files.forEach(file => {
+    e.target.files.forEach((file, fileIndex) => {
       imageSources.value.push({
         image: URL.createObjectURL(file),
-        id: `img-${new Date().getTime()}`
+        id: `img-${fileIndex}-${new Date().getTime()}`
       })
       imageFiles.value.push(file);
     })
@@ -85,9 +85,9 @@ function addImage(e) {
   // alert('You can add max 5 images');
 }
 
-function removeImage(imgID) {
+function removeImage(imgID, imgIndex) {
   imageSources.value = _.remove(imageSources.value, (el, idx) => el.id !== imgID)
-  imageFiles.value = _.remove(imageFiles.value, (el, idx) => el.id !== imgID)
+  imageFiles.value = _.remove(imageFiles.value, (el, idx) => imgIndex !== idx)
   // console.log('files: ', imageFiles.value);
   emit("update:image-files", imageFiles.value);
 

@@ -203,12 +203,6 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter()
 
-// onMounted(() => {
-//   const res = login({ username: 'shefteli', password: 'qaun' })
-//   console.log('response from login request: ', res);
-
-// })
-
 onMounted(() => {
   if (localStorage.getItem('interested-in')) {
     if (localStorage.getItem('interested-in') === 'customer')
