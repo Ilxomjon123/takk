@@ -204,10 +204,8 @@ import { useRouter } from 'vue-router';
 const router = useRouter()
 
 onMounted(() => {
-  if (localStorage.getItem('interested-in')) {
-    if (localStorage.getItem('interested-in') === 'customer')
-      router.push('/for-customers')
-  } else showProgrammaticallyShowModal();
+  if (!localStorage.getItem('interested-in'))
+    showProgrammaticallyShowModal();
 })
 
 // Show modal

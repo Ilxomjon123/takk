@@ -29,6 +29,31 @@
               </router-link>
             </li>
           </ul>
+          <ul class="text-3xl font-medium">
+            <li class="mb-10">
+              <router-link
+                v-if="route.path == '/'"
+                to="/for-customers"
+                class="rounded_btn_1"
+                @click="goto"
+              >
+                <span>For Customers</span>
+              </router-link>
+              <router-link
+                v-if="route.path == '/for-customers'"
+                to="/"
+                class="rounded_btn_1"
+                @click="goto"
+              >
+                <span>For Coffee Shops</span>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/" class="rounded_btn_1">
+                <span>Contact us</span>
+              </router-link>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -41,6 +66,7 @@ import { useStore } from '@/store'
 import { onMounted, ref } from 'vue'
 import cash from 'cash-dom'
 
+const route = useRoute()
 const store = useStore()
 const formattedMenu = ref([
   {

@@ -64,23 +64,20 @@
             <router-link
               v-if="$route.path == '/'"
               to="/for-customers"
-              class="xl:px-6 px-3 py-2 border-2 border-theme-31 bg-theme-31 text-white rounded-full font-bold hover:bg-theme-2 hover:text-black shadow-lg"
+              class="rounded_btn_1"
             >
               <span>For Customers</span>
             </router-link>
             <router-link
               v-if="$route.path == '/for-customers'"
               to="/"
-              class="xl:px-6 px-3 py-2 border-2 border-theme-31 bg-theme-31 text-white rounded-full font-bold hover:bg-theme-2 hover:text-black shadow-lg"
+              class="rounded_btn_1"
             >
               <span>For Coffee Shops</span>
             </router-link>
           </li>
           <li class="mx-1 px-1 py-2">
-            <router-link
-              to="/"
-              class="xl:px-6 px-3 py-2 border-2 border-theme-31 rounded-full font-bold text-gray-600 hover:bg-theme-31 hover:text-white shadow-lg"
-            >
+            <router-link to="/" class="rounded_btn_1">
               <span>Contact us</span>
             </router-link>
           </li>
@@ -112,3 +109,8 @@ function openMobileMenu() {
 }
 </script>
 
+<style lang="scss">
+.rounded_btn_1 {
+  @apply xl:px-6 px-3 py-2 border-2 border-theme-31 rounded-full font-bold text-gray-600 hover:bg-theme-31 hover:text-white shadow-lg;
+}
+</style>
