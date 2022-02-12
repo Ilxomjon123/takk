@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="intro-y flex items-center mt-8">
-      <h2 class="text-lg font-medium mr-auto">Product Add Form</h2>
+      <h2 class="text-lg font-medium mr-auto">Product Edit Form</h2>
     </div>
     <div class="grid grid-cols-12 gap-6 mt-5">
       <div class="intro-y col-span-12">
@@ -22,7 +22,7 @@
                     <h2 class="font-medium text-base mr-auto">Product image</h2>
                   </div>
                   <SimpleImageUpload
-                    :title="productImagePath || productImageFile ? 'Change photo' : 'Add photo'"
+                    :title="productImagePath ? 'Change photo' : 'Add photo'"
                     :image-path="productImagePath"
                     @update-image-file="productImageFile = $event"
                   />
@@ -312,8 +312,16 @@
               </div>
               <div class="flex pt-5">
                 <button
+                  type="button"
+                  class="btn btn-danger lg:ml-auto mr-5"
+                  :disabled="isLoading"
+                  @click="openConfirmModal"
+                >
+                  <span>Delete</span>
+                </button>
+                <button
                   type="submit"
-                  class="btn btn-primary lg:ml-auto"
+                  class="btn btn-primary"
                   :disabled="isLoading"
                 >
                   <LoadingIcon
@@ -322,7 +330,7 @@
                     class="w-4 h-4 mr-3"
                     color="#fff"
                   />
-                  <span>Save</span>
+                  <span>Update</span>
                 </button>
               </div>
               <!-- <pre>{{ values }}</pre> -->
@@ -343,10 +351,15 @@ import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.
 import { useStore } from 'vuex';
 import { computed, onBeforeUnmount, onMounted, reactive, ref, toRaw, toRefs } from 'vue';
 import { createProduct, fetchSelectedMenuCategories, fetchSelectedMenuModifiers } from '@/api';
+import { useRoute } from 'vue-router';
+import { fetchProduct } from '../../../api';
 import _ from 'lodash';
+
 const store = useStore()
 const externalErrors = reactive({});
 const isLoading = ref(false);
+const route = useRoute()
+
 // product size data
 const product_sizes = ref([
   {
@@ -357,6 +370,7 @@ const product_sizes = ref([
     default: false,
   }
 ]);
+
 // product data
 const productStartTime = ref(null);
 const productEndTime = ref(null);
@@ -368,27 +382,49 @@ const productDescription = ref('');
 const productTaxPercent = ref(null);
 const productCategoryId = ref(null);
 const productModifierIds = ref([]);
-const productImagePath = ref('');
+const productImagePath = ref(null);
 const productImageFile = ref(null);
+
 const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
+
 const productCategories = reactive([]);
 const productModifiers = reactive([]);
+
 onMounted(() => {
   store.commit('setLoadingStatus', true)
   fetchSelectedMenuCategories(activeMenuID.value).then((res) => Object.assign(productCategories, res.results))
   fetchSelectedMenuModifiers(activeMenuID.value).then((res) => Object.assign(productModifiers, res.results))
+  fetchProduct(route.params.id).then(res => {
+    product_sizes.value = res.sizes
+    productStartTime.value = res.start
+    productEndTime.value = res.end
+    productQuickestTime.value = res.quickest_time
+    productSquareId.value = res.square_id
+    productName.value = res.name
+    productDescription.value = res.description
+    // productPosition.value = res.position
+    productTaxPercent.value = res.tax_percent
+    productCategoryId.value = res.category.toString()
+    productModifierIds.value = res.modifiers
+    productImagePath.value = res.image
+  })
   store.commit('setLoadingStatus', false)
 });
+
 onBeforeUnmount(() => {
   //
 });
+
 async function onSubmit() {
+  console.log('ok from submit func');
   isLoading.value = true
   Object.assign(externalErrors, {})
   try {
     const formData = new FormData()
+
     if (!_.isEmpty(productImageFile.value))
       formData.append('image', productImageFile.value);
+
     formData.append('start', productStartTime.value)
     formData.append('end', productEndTime.value)
     formData.append('quickest_time', productQuickestTime.value)
@@ -396,8 +432,10 @@ async function onSubmit() {
     formData.append('name', productName.value)
     formData.append('description', productDescription.value)
     formData.append('category', productCategoryId.value)
+
     if (!_.isEmpty(productTaxPercent.value))
       formData.append('tax_percent', productTaxPercent.value)
+
     for (let i = 0; i < product_sizes.value.length; i++) {
       formData.append('sizes[' + i + ']name', product_sizes.value[i].name)
       formData.append('sizes[' + i + ']price', product_sizes.value[i].price)
@@ -405,10 +443,13 @@ async function onSubmit() {
       formData.append('sizes[' + i + ']default', product_sizes.value[i].default)
       formData.append('sizes[' + i + ']square_id', product_sizes.value[i].square_id)
     }
+
     for (let i = 0; i < productModifierIds.value.length; i++) {
       formData.append('modifiers', productModifierIds.value[i])
     }
+
     const res = await createProduct(formData);
+
     Toastify({
       node: cash('#success-notification-content')
         .clone()
@@ -424,9 +465,11 @@ async function onSubmit() {
     isLoading.value = false
   }
 }
+
 function addNewProductSize() {
   product_sizes.value.push({ ...product_sizes.value[0] })
 }
+
 function removeProductSize() {
   product_sizes.value.pop()
 }

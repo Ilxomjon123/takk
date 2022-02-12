@@ -34,14 +34,14 @@ const state = () => {
         title: 'Menu',
         subMenu: [
           {
-            icon: 'ShoppingCartIcon',
-            pageName: 'products',
-            title: 'Products'
-          },
-          {
             icon: 'TagIcon',
             pageName: 'categories',
             title: 'Categories'
+          },
+          {
+            icon: 'ShoppingCartIcon',
+            pageName: 'products',
+            title: 'Products'
           },
           {
             icon: 'DatabaseIcon',

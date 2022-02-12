@@ -7,7 +7,7 @@
         <img
           class="rounded-md"
           alt="Logo"
-          :src="selectedFilePath"
+          :src="imagePath"
           ref="image"
           @error="replaceByDefault"
         />
@@ -45,13 +45,7 @@ export default defineComponent({
   data: () => ({
     selectedFilePath: '/src/assets/images/plus-icon.jpg'
   }),
-  computed: {
-    getSelectedFilePath() {
-      return this.imagePath || this.selectedFilePath
-    }
-  },
   mounted() {
-    console.log('ok');
     if (this.imagePath) {
       this.selectedFilePath = this.imagePath
     }
@@ -59,11 +53,12 @@ export default defineComponent({
   methods: {
     changeImage(e) {
       this.selectedFilePath = URL.createObjectURL(e.target.files[0])
-      this.$emit("updateImagePath", e.target.files[0]);
+      this.$refs.image.src = URL.createObjectURL(e.target.files[0])
+      this.$emit("updateImageFile", e.target.files[0]);
     },
     removeImage() {
       this.$refs.image.src = '/src/assets/images/plus-icon.jpg'
-      this.$emit('updateImagePath', '')
+      this.$emit('updateImageFile', '')
     },
     replaceByDefault(e) {
       if (this.selectedFilePath)

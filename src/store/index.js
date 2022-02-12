@@ -10,6 +10,7 @@ import companyDashboard from './modules/dashboard/company';
 import employee from './modules/dashboard/employee';
 import menu from './modules/dashboard/menu';
 import category from './modules/dashboard/category';
+import modifier from './modules/dashboard/modifier';
 import cafes from './modules/cafes';
 
 const store = createStore({
@@ -25,7 +26,8 @@ const store = createStore({
     cafes,
     employee,
     menu,
-    category
+    category,
+    modifier
   }
 });
 

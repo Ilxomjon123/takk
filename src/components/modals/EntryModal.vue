@@ -18,7 +18,7 @@
               <button class @click="goto('/')">
                 <img
                   class="mx-auto md:w-auto"
-                  src="@/assets/images/Icon metro-shop.svg"
+                  src="@/assets/images/Icon_metro-shop.svg"
                   alt="For Coffee Shops Icon"
                 />
                 <h1
@@ -32,7 +32,7 @@
               <button @click="goto('/for-customers')">
                 <img
                   class="mx-auto"
-                  src="@/assets/images/Group 2557.svg"
+                  src="@/assets/images/Group_2557.svg"
                   alt="For Costumers Icon"
                 />
                 <h1
@@ -54,6 +54,8 @@ import { useRouter } from 'vue-router';
 const router = useRouter()
 
 function goto(path) {
+  if (path === '/') localStorage.setItem('interested-in', 'coffeeshops')
+  if (path === '/for-customers') localStorage.setItem('interested-in', 'customer')
   cash("#entry-modal").modal("hide");
   router.push(path)
 }

@@ -12,6 +12,30 @@ export const fetchProductsList = async payload => {
   }
 };
 
+export const fetchProduct = async productID => {
+  try {
+    const res = await makeRequest({
+      url: `/api/products/${productID}/`,
+      headers: { authorization: true }
+    });
+    return res.data;
+  } catch (err) {
+    return console.log('error while fetching Products: ', err);
+  }
+};
+
+export const fetchProductSizes = async productSizeID => {
+  try {
+    const res = await makeRequest({
+      url: `/api/products/sizes/${productSizeID}/`,
+      headers: { authorization: true }
+    });
+    return res.data;
+  } catch (err) {
+    return console.log('error while fetching Products: ', err);
+  }
+};
+
 export const updateProduct = async payload => {
   try {
     const res = await makeRequest({
@@ -38,7 +62,7 @@ export const createProduct = async payload => {
       url: `/api/products/`,
       method: 'post',
       data: payload,
-      headers: { authorization: true, 'Content-Type': 'multipart/form-data' }
+      headers: { authorization: true }
     });
 
     return res.data;

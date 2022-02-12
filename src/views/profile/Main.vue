@@ -94,7 +94,7 @@
                     <div class="text-theme-6" v-text="getError('email')" />
                   </div>
                   <div class="w-full px-3 mb-3">
-                    <label for="birth-date" class="form-label">Birthdate</label>
+                    <label for="birth-date" class="form-label">Birthday</label>
                     <div class="relative mx-auto">
                       <div
                         class="absolute rounded-l w-10 h-full flex items-center justify-center bg-gray-100 border text-gray-600 dark:bg-dark-1 dark:border-dark-4"

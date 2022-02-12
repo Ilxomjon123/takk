@@ -25,8 +25,10 @@ import AddExistEmployee from '../views/dashboard/employees/AddExist.vue';
 import EditEmployee from '../views/dashboard/employees/Edit.vue';
 import Categories from '../views/dashboard/categories/Main.vue';
 import AddCategory from '../views/dashboard/categories/Add.vue';
+import EditCategory from '../views/dashboard/categories/Edit.vue';
 import Products from '../views/dashboard/products/index.vue';
 import ProductAddForm from '../views/dashboard/products/AddForm.vue';
+import ProductEditForm from '../views/dashboard/products/EditForm.vue';
 
 const routes = [
   {
@@ -72,6 +74,11 @@ const routes = [
       { path: 'products', name: 'products', component: Products },
       { path: 'products/add', name: 'products-add', component: ProductAddForm },
       {
+        path: 'products/:id',
+        name: 'products-edit',
+        component: ProductEditForm
+      },
+      {
         path: 'company',
         component: CompanyLayout,
         children: [{ path: '', name: 'company', component: Company }]
@@ -106,7 +113,8 @@ const routes = [
         component: CompanyLayout,
         children: [
           { path: '', name: 'categories', component: Categories },
-          { path: ':menuId/add', component: AddCategory }
+          { path: ':menuId/add', component: AddCategory },
+          { path: ':menuId/:id', component: EditCategory }
         ]
       }
     ]
@@ -118,7 +126,10 @@ const routes = [
   },
   {
     path: '/entry',
-    component: Entry
+    component: Entry,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/entry',

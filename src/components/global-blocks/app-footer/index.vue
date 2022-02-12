@@ -5,12 +5,12 @@
         <a href="/">
           <img
             class="hidden md:inline-block"
-            src="@/assets/images/Takk footer.png"
+            src="@/assets/images/Takk_footer.png"
             alt="takk logo"
           />
           <img
             class="md:hidden mt-2"
-            src="@/assets/images/Takk Logo mobile footer.svg"
+            src="@/assets/images/Takk_Logo_mobile_footer.svg"
             alt="takk logo"
           />
         </a>

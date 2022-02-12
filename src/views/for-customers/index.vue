@@ -11,15 +11,15 @@
               <router-link to="/">
                 <img
                   class="w-11/12"
-                  src="@/assets/images/App Store badge US.png"
+                  src="@/assets/images/App_Store_badge_US.png"
                   alt="App Store badge"
                 />
               </router-link>
               <router-link to="/" class="md:ml-16">
                 <img
                   class="w-11/12"
-                  src="@/assets/images/Google Play Badge.png"
-                  alt="Google Play Badge"
+                  src="@/assets/images/Google_Play_Badge.png"
+                  alt="Google_Play_Badge"
                 />
               </router-link>
             </div>
@@ -28,22 +28,22 @@
         <div class="grid">
           <img
             class="-mt-10 md:-mt-20"
-            src="@/assets/images/Phone mockups.png"
-            alt="Phone mockups"
+            src="@/assets/images/Phone_mockups.png"
+            alt="Phone_mockups"
           />
           <div class="flex md:hidden justify-between mt-5">
             <router-link to="/">
               <img
                 class="w-11/12"
-                src="@/assets/images/App Store badge US.png"
+                src="@/assets/images/App_Store_badge_US.png"
                 alt="App Store badge"
               />
             </router-link>
             <router-link to="/">
               <img
                 class="w-11/12 ml-auto"
-                src="@/assets/images/Google Play Badge.png"
-                alt="Google Play Badge"
+                src="@/assets/images/Google_Play_Badge.png"
+                alt="Google_Play_Badge"
               />
             </router-link>
           </div>
@@ -115,23 +115,23 @@
               <router-link to="/">
                 <img
                   class
-                  src="@/assets/images/App Store badge US.png"
+                  src="@/assets/images/App_Store_badge_US.png"
                   alt="App Store badge"
                 />
               </router-link>
               <router-link to="/" class="md:ml-20">
                 <img
                   class="ml-auto"
-                  src="@/assets/images/Google Play Badge.png"
-                  alt="Google Play Badge"
+                  src="@/assets/images/Google_Play_Badge.png"
+                  alt="Google_Play_Badge"
                 />
               </router-link>
             </div>
           </div>
         </div>
         <!-- <img
-          src="@/assets/images/Phone mockups - Available on rect.png"
-          alt="Phone mockups - Available on rect"
+          src="@/assets/images/Phone_mockups-Available_on_rect.png"
+          alt="Phone_mockups-Available_on_rect"
         />-->
       </div>
     </section>
@@ -176,7 +176,7 @@ $mobile: 425px;
 }
 
 #available-rectangle .container {
-  background-image: url("@/assets/images/Phone mockups - Available on rect.png"),
+  background-image: url("@/assets/images/Phone_mockups-Available_on_rect.png"),
     url("@/assets/images/mask_group_16.png");
   background-repeat: no-repeat, no-repeat;
   // background-size: cover, ;

@@ -4,7 +4,7 @@
       <div class="container grid grid-cols-1 md:grid-cols-2 px-5 py-10">
         <div class="grid">
           <div class="md:ml-16 my-auto">
-            <h1 class="text-5xl lg:text-6xl font-bold mb-5 lg:mb-10">
+            <h1 class="text-4xl lg:text-6xl font-bold mb-5 lg:mb-10">
               The all you need app for your
               <span
                 class="colored-underline1 whitespace-nowrap"
@@ -20,7 +20,7 @@
         <div class="grid mt-16 lg:mt-0">
           <img
             class="m-auto"
-            src="@/assets/images/Hero coffee img.png"
+            src="@/assets/images/Hero_coffee_img.png"
             alt="Hero image"
           />
           <button
@@ -161,7 +161,7 @@
       <div class="container grid md:bg-theme-33 px-5 lg:px-10 py-16 lg:py-32">
         <div class="grid md:my-16 justify-center">
           <h2
-            class="text-5xl lg:text-6xl font-bold md:font-extrabold mb-10 md:text-center"
+            class="text-4xl lg:text-6xl font-bold md:font-extrabold mb-10 md:text-center"
           >
             <span
               class="colored-underline2"
@@ -171,7 +171,7 @@
         <div class="grid lg:grid-cols-12 lg:mb-16 justify-center">
           <div class="box lg:col-start-3 lg:col-span-8 p-4 lg:p-16 xl:px-36">
             <h1
-              class="text-4xl md:text-5xl lg:text-7xl text-center font-medium mb-10"
+              class="text-3xl md:text-5xl lg:text-7xl text-center font-medium mb-10"
             >Only Pay for Results</h1>
             <p
               class="text-center text-2xl md:text-3xl lg:text-4xl xl:text-5xl mb-5 font-normal"
@@ -183,7 +183,11 @@
               class="text-center text-2xl md:text-3xl lg:text-4xl xl:text-5xl mb-5 font-normal"
             >The regular card processing fees (the latest is 2.9%+30cent) still apply on each transaction and are passed on to payment processors.</p>
             <br />
-            <button type="button" class="btn-primary w-full">Sign Up</button>
+            <button
+              type="button"
+              class="btn-primary w-full"
+              @click="gotoLoginPage"
+            >Sign Up</button>
           </div>
         </div>
       </div>
@@ -200,13 +204,10 @@ import { useRouter } from 'vue-router';
 const router = useRouter()
 
 onMounted(() => {
-  const res = login({ username: 'shefteli', password: 'qaun' })
-  console.log('response from login request: ', res);
-
-})
-
-onMounted(() => {
-  showProgrammaticallyShowModal();
+  if (localStorage.getItem('interested-in')) {
+    if (localStorage.getItem('interested-in') === 'customer')
+      router.push('/for-customers')
+  } else showProgrammaticallyShowModal();
 })
 
 // Show modal
@@ -278,14 +279,14 @@ $mobile: 425px;
 }
 
 .colored-underline1 {
-  background-image: url("@/assets/images/Hero coffee shop undrline.png");
+  background-image: url("@/assets/images/Hero_coffee_shop_undrline.png");
   background-position: bottom;
   background-repeat: no-repeat;
   background-size: contain;
 }
 
 .colored-underline2 {
-  background-image: url("@/assets/images/Rectangle Our Fees Sentence underline.png");
+  background-image: url("@/assets/images/Rectangle_Our_Fees_Sentence_underline.png");
   background-position: bottom;
   background-repeat: no-repeat;
   background-size: contain;

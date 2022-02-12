@@ -6,7 +6,9 @@ const state = () => {
     cities: [],
     selectedCountry: 'United States',
     selectedCity: '',
-    loadingStatus: false
+    loadingStatus: false,
+    successNotificationStatus: false,
+    errorNotificationStatus: false
   };
 };
 
@@ -15,7 +17,9 @@ const getters = {
   getSelectedCountry: state => state.selectedCountry,
   getCities: state => state.cities,
   getSelectedCity: state => state.selectedCity,
-  getLoadingStatus: state => state.loadingStatus
+  getLoadingStatus: state => state.loadingStatus,
+  getSuccessNotificationStatus: state => state.successNotificationStatus,
+  getErrorNotificationStatus: state => state.errorNotificationStatus
 };
 const mutations = {
   setCountries(state, payload) {
@@ -32,6 +36,12 @@ const mutations = {
   },
   setLoadingStatus(state, payload) {
     state.loadingStatus = payload;
+  },
+  setSuccesNotification(state, payload = true) {
+    state.successNotificationStatus = payload;
+  },
+  setErrorNotification(state, payload = true) {
+    state.errorNotificationStatus = payload;
   }
 };
 

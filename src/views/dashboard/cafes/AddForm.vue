@@ -18,38 +18,19 @@
             >
               <div class="flex flex-col md:flex-row gap-5">
                 <div class="md:basis-1/2 lg:basis-1/3">
-                  <!-- <SimpleImageUpload
-                    :image-path="logoPath"
-                    @update-image-path="logoPath = $event"
-                  />-->
                   <div class="input-form">
-                    <!-- <label for="cafe_status" class="form-label">Status</label>
-                    <Field
-                      as="select"
-                      name="status"
-                      id="cafe_status"
-                      v-model="selectedStatus"
-                      class="form-select"
-                    >
-                      <option
-                        v-for="(item, index) in statusOptions"
-                        :key="item.label + index"
-                        :value="item.value"
-                      >{{ item.label }}</option>
-                    </Field>-->
                     <div class="form-check w-auto">
-                      <Field name="status" v-slot="field">
-                        <input
-                          id="status"
-                          class="form-check-switch"
-                          type="checkbox"
-                          v-model="selectedStatus"
-                          v-bind="field"
-                        />
-                      </Field>
+                      <input
+                        id="status"
+                        class="form-check-switch"
+                        type="checkbox"
+                        v-model="selectedStatus"
+                      />
                       <label class="form-check-label" for="status">Status</label>
                     </div>
-                    <ErrorMessage name="status" class="text-theme-6 mt-2" />
+                    <span
+                      class="text-theme-6 mt-2"
+                    >{{ externalErrors.status && externalErrors.status[0] }}</span>
                   </div>
                   <template v-if="selectedStatus">
                     <div
@@ -65,6 +46,9 @@
                       @update:closing_time="weekTime[index]['closing_time'] = $event"
                       @update:is_open="weekTime[index]['is_open'] = $event"
                     />
+                    <span
+                      class="text-theme-6 mt-2"
+                    >{{ externalErrors.week_time && externalErrors.week_time[0] }}</span>
                   </template>
                   <div
                     class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
@@ -82,10 +66,10 @@
                         hidden
                         type="number"
                       />
-                      <ErrorMessage
+                      <!-- <ErrorMessage
                         name="location.lat"
                         class="text-theme-6 mt-2"
-                      />
+                      />-->
                     </div>
                     <div class="input-form basis-1/2">
                       <!-- <label for="longitude" class="form-label">Longitude</label> -->
@@ -97,10 +81,10 @@
                         hidden
                         type="number"
                       />
-                      <ErrorMessage
+                      <!-- <ErrorMessage
                         name="location.lon"
                         class="text-theme-6 mt-2"
-                      />
+                      />-->
                     </div>
                   </div>
                   <div class="map_container">
@@ -126,6 +110,9 @@
                         v-model="name"
                       />
                       <ErrorMessage name="name" class="text-theme-6 mt-2" />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.name && externalErrors.name[0] }}</span>
                     </div>
                     <div class="input-form md:basis-1/2">
                       <label class="form-label" for="call_center">
@@ -142,6 +129,9 @@
                         name="call_center"
                         class="text-theme-6 mt-2"
                       />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.call_center && externalErrors.call_center[0] }}</span>
                     </div>
                   </div>
                   <div class="flex gap-5 pt-3">
@@ -154,6 +144,9 @@
                         v-model="website"
                       />
                       <ErrorMessage name="website" class="text-theme-6 mt-2" />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.website && externalErrors.website[0] }}</span>
                     </div>
                   </div>
                   <div
@@ -162,11 +155,17 @@
                     <h2 class="font-medium text-base mr-auto">Cafe addresses</h2>
                   </div>
                   <div class="flex gap-5">
-                    <div class="input-form flex-1 md:basis-1/2">
+                    <div class="input-form md:basis-1/2">
                       <label for="country" class="form-label">Country</label>
                       <CountrySelect v-bind="field" v-model="selectedCountry" />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.country && externalErrors.country[0] }}</span>
                     </div>
-                    <div class="input-form md:basis-1/2">
+                    <div
+                      class="input-form md:basis-1/2"
+                      v-if="selectedCountry === 'United States'"
+                    >
                       <label class="form-label" for="state">State</label>
                       <Field
                         id="state"
@@ -176,6 +175,9 @@
                         placeholder="Type state"
                       />
                       <ErrorMessage name="state" class="text-theme-6 mt-2" />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.state && externalErrors.state[0] }}</span>
                     </div>
                   </div>
                   <div class="flex gap-5 pt-3">
@@ -185,6 +187,9 @@
                         v-model="selectedCity"
                         @change="searchLocationByAddress"
                       />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.city && externalErrors.city[0] }}</span>
                     </div>
                     <div class="input-form md:basis-1/2">
                       <label class="form-label" for="postal_code">Postal code</label>
@@ -199,6 +204,9 @@
                         name="postal_code"
                         class="text-theme-6 mt-2"
                       />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.postal_code && externalErrors.postal_code[0] }}</span>
                     </div>
                   </div>
                   <div class="flex gap-5 pt-3">
@@ -213,6 +221,9 @@
                         @change="searchLocationByAddress"
                       />
                       <ErrorMessage name="address" class="text-theme-6 mt-2" />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.address && externalErrors.address[0] }}</span>
                     </div>
                     <div class="input-form md:basis-1/2">
                       <label
@@ -230,6 +241,9 @@
                         name="second_address"
                         class="text-theme-6 mt-2"
                       />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.second_address && externalErrors.second_address[0] }}</span>
                     </div>
                   </div>
                   <div class="input-form mt-3">
@@ -243,6 +257,9 @@
                       v-model="description"
                     ></Field>
                     <ErrorMessage name="description" class="text-theme-6 mt-2" />
+                    <span
+                      class="text-theme-6 mt-2"
+                    >{{ externalErrors.description && externalErrors.description[0] }}</span>
                   </div>
                   <div
                     class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
@@ -263,6 +280,9 @@
                         type="number"
                       />
                       <ErrorMessage name="tax_rate" class="text-theme-6 mt-2" />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.tax_rate && externalErrors.tax_rate[0] }}</span>
                     </div>
                     <div class="input-form basis-1/2">
                       <label for="order_limit" class="form-label">
@@ -280,6 +300,9 @@
                         name="order_limit"
                         class="text-theme-6 mt-2"
                       />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.order_limit && externalErrors.order_limit[0] }}</span>
                     </div>
                   </div>
                   <div class="flex gap-5 pt-3">
@@ -299,6 +322,9 @@
                         name="order_time_limit"
                         class="text-theme-6 mt-2"
                       />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.order_time_limit && externalErrors.order_time_limit[0] }}</span>
                     </div>
                     <div class="input-form basis-1/2">
                       <label for="version" class="form-label">Version</label>
@@ -310,13 +336,15 @@
                         type="number"
                       />
                       <ErrorMessage name="version" class="text-theme-6 mt-2" />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.version && externalErrors.version[0] }}</span>
                     </div>
                   </div>
                   <div class="flex gap-5 pt-3">
                     <div class="form-check w-auto">
-                      <Field
+                      <input
                         id="is_square_used"
-                        name="is_use_square"
                         class="form-check-switch"
                         type="checkbox"
                         :value="isSquareUsed"
@@ -338,6 +366,9 @@
                         v-model="square_location_id"
                         class="form-control"
                       />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.square_location_id && externalErrors.square_location_id[0] }}</span>
                     </div>
                   </div>
                   <div
@@ -375,6 +406,9 @@
                           class="form-control"
                           placeholder="Type.."
                         />
+                        <span
+                          class="text-theme-6 mt-2"
+                        >{{ externalErrors.delivery_max_distance && externalErrors.delivery_max_distance[0] }}</span>
                       </div>
                       <div class="input-form basis-1/2">
                         <label
@@ -390,6 +424,9 @@
                           class="form-control"
                           placeholder="Type.."
                         />
+                        <span
+                          class="text-theme-6 mt-2"
+                        >{{ externalErrors.delivery_min_amount && externalErrors.delivery_min_amount[0] }}</span>
                       </div>
                     </div>
                     <div class="flex gap-5">
@@ -407,6 +444,9 @@
                           class="form-control"
                           placeholder="Type.."
                         />
+                        <span
+                          class="text-theme-6 mt-2"
+                        >{{ externalErrors.delivery_fee && externalErrors.delivery_fee[0] }}</span>
                       </div>
                       <div class="input-form mt-3 basis-1/2">
                         <label
@@ -422,6 +462,9 @@
                           class="form-control"
                           placeholder="Type.."
                         />
+                        <span
+                          class="text-theme-6 mt-2"
+                        >{{ externalErrors.delivery_percent && externalErrors.delivery_percent[0] }}</span>
                       </div>
                     </div>
                     <div class="flex gap-5">
@@ -438,6 +481,9 @@
                           class="form-control"
                           placeholder="Type.."
                         />
+                        <span
+                          class="text-theme-6 mt-2"
+                        >{{ externalErrors.delivery_km_amount && externalErrors.delivery_km_amount[0] }}</span>
                       </div>
                       <div class="input-form mt-3 basis-1/2">
                         <label
@@ -452,11 +498,16 @@
                           class="form-control"
                           placeholder="Type.."
                         />
+                        <span
+                          class="text-theme-6 mt-2"
+                        >{{ externalErrors.delivery_min_time && externalErrors.delivery_min_time[0] }}</span>
                       </div>
                     </div>
                   </template>
                   <br />
-                  <MultipleImageUpload />
+                  <MultipleImageUpload
+                    @update:image-files="imageFiles = $event"
+                  />
                 </div>
               </div>
               <div class="flex pt-5">
@@ -503,9 +554,9 @@ import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
 import L, { CRS } from 'leaflet'
 import 'leaflet/dist/leaflet.css';
 import Toastify from 'toastify-js';
-import { cafePost } from '@/api';
+import { cafePost, addCafeGallery } from '@/api';
 import cash from 'cash-dom';
-import MultipleImageUpload from '@/components/forms/file-upload/MultipleImageUpload.vue';
+import MultipleImageUpload from './MultipleImageUpload.vue';
 import axios from 'axios';
 
 export default defineComponent({
@@ -540,7 +591,7 @@ export default defineComponent({
       }), // ok
       call_center: yup.string().max(50, "Must be less than 50 characters").required("This field is requried"), // ok
       website: yup.string().url("Must be a url address").nullable(), // ok
-      status: yup.boolean(),
+      // status: yup.boolean(),
       postal_code: yup.string().max(12, "Must be less than 12 characters"), // ok
       tax_rate: yup.number().positive().required("This field is requried"), // ok
       version: yup.number().positive().integer(), // ok
@@ -557,7 +608,7 @@ export default defineComponent({
       //   delivery_km_amount: yup.number().integer().default(0),
       //   delivery_min_time: yup.number().positive().integer().default(30)
       // }),
-      is_use_square: yup.boolean(), // ok
+      // is_use_square: yup.boolean(), // ok
       square_location_id: yup.string(), // ok
       state: yup.string(), // ok
       // country: yup.string(), // ok
@@ -633,7 +684,8 @@ export default defineComponent({
     return {
       schema,
       isLoading: false,
-      logoPath: '',
+      imagePathList: [],
+      imageFiles: [],
       statusOptions,
       weekTime,
       location,
@@ -683,8 +735,10 @@ export default defineComponent({
   },
   methods: {
     async submit(values) {
+      this.isLoading = true
+      this.externalErrors = {}
+
       const formData = new FormData()
-      formData.append('logo', this.logoPath)
 
       for (let item in values) {
         formData.append(item, values[item])
@@ -695,23 +749,28 @@ export default defineComponent({
       formData.append('city', this.selectedCity)
       formData.append('delivery', this.delivery)
       formData.append('cafe_timezone', 'America/New_York')
-
-      console.log('formData: ', Object.fromEntries(formData));
-
-      this.isLoading = true
-      this.externalErrors = {}
+      formData.append('is_use_square', this.isSquareUsed)
+      formData.append('status', Number(this.selectedStatus))
 
       try {
-        const res = await cafePost(formData);
-
-        if (res.status) {
-          Toastify({
-            node: cash('#success-notification-content')
-              .clone()
-              .removeClass('hidden')[0],
-            duration: 3000,
-          }).showToast();
+        const res1 = await cafePost(formData)
+        if (this.imageFiles.length > 0) {
+          const imagesFormData = new FormData()
+          for (let image of this.imageFiles) {
+            imagesFormData.append('images', image)
+          }
+          imagesFormData.append('cafe', res1.id);
+          await addCafeGallery(imagesFormData);
         }
+
+        Toastify({
+          node: cash('#success-notification-content')
+            .clone()
+            .removeClass('hidden')[0],
+          duration: 3000,
+        }).showToast();
+
+        this.$router.push('/dashboard/cafe-edit-form/' + res1.id)
       } catch (error) {
         if (error.response) {
           console.log(error.response.data);
@@ -727,7 +786,7 @@ export default defineComponent({
           .clone()
           .removeClass('hidden')[0],
         duration: 3000,
-      }).showToast('asdjajsd sadlkasldkja');
+      }).showToast();
     },
     toggleFunc1(e) {
       this.isSquareUsed = e.target.checked;

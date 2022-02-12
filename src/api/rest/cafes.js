@@ -16,10 +16,10 @@ export const fetchCafeList = async () => {
   }
 };
 
-export const fetchCafe = async cafeId => {
+export const fetchCafe = async cafeID => {
   try {
     const res = await makeRequest({
-      url: `/api/cafes/${cafeId}/`,
+      url: `/api/cafes/${cafeID}/`,
       headers: { authorization: true }
     });
 
@@ -30,10 +30,24 @@ export const fetchCafe = async cafeId => {
   }
 };
 
-export const fetchCafeWorkDays = async cafeId => {
+export const fetchCafeGallery = async cafeID => {
   try {
     const res = await makeRequest({
-      url: `/api/cafes/${cafeId}/week-days/`,
+      url: `/api/cafes/${cafeID}/gallery/`,
+      headers: { authorization: true }
+    });
+
+    return res.data;
+  } catch (err) {
+    console.log('error while fetching cafes: ', err);
+    throw err;
+  }
+};
+
+export const fetchCafeWorkDays = async cafeID => {
+  try {
+    const res = await makeRequest({
+      url: `/api/cafes/${cafeID}/work-days/`,
       headers: { authorization: true }
     });
 
@@ -79,10 +93,41 @@ export const cafePost = async payload => {
   }
 };
 
+export const addCafeGallery = async payload => {
+  try {
+    const res = await makeRequest({
+      url: `/api/cafes/gallery/`,
+      method: 'post',
+      data: payload,
+      headers: { authorization: true }
+    });
+
+    return res.data;
+  } catch (err) {
+    console.log('error while saving cafe data: ', err);
+    throw err;
+  }
+};
+
 export const deleteCafe = async payload => {
   try {
     const res = await makeRequest({
       url: `/api/cafes/${payload}/`,
+      method: 'delete',
+      headers: { authorization: true }
+    });
+
+    return res.data;
+  } catch (err) {
+    console.log('error while deleting cafe data: ', err);
+    throw err;
+  }
+};
+
+export const deleteCafeImage = async imageID => {
+  try {
+    const res = await makeRequest({
+      url: `/api/cafes/gallery/${imageID}/`,
       method: 'delete',
       headers: { authorization: true }
     });

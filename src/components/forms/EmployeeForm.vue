@@ -23,15 +23,6 @@
                         <xIcon class="w-4 h-4" />
           </Tippy>-->
         </div>
-        <div class="text-theme-6" v-text="getError('avatar')" />
-        <div class="mx-auto cursor-pointer relative mt-5" v-if="!isEdit">
-          <button
-            type="button"
-            @click="clickInput('avatar-image')"
-            class="btn btn-primary w-full"
-          >Change Photo</button>
-          <div class="text-theme-6" v-text="getError('avatar')" />
-        </div>
       </div>
     </div>
   </div>
@@ -42,6 +33,7 @@
     <div class="flex flex-wrap -mx-3 mb-3">
       <div class="w-full px-3 mb-3">
         <label for="phone" class="form-label">Phone</label>
+        <span class="text-theme-6">*</span>
         <input
           :disabled="isEdit"
           id="phone"
@@ -52,8 +44,9 @@
           v-model="employee.user.phone"
         />
         <div class="text-theme-6" v-text="getError('phone')" />
+        <div class="text-theme-6" v-text="errors?.detail" />
       </div>
-      <div class="w-full px-3 mb-3">
+      <div class="w-full px-3 mb-3" v-if="!isAddExist">
         <label for="username" class="form-label">Username</label>
         <input
           :disabled="isEdit"
@@ -66,14 +59,41 @@
         />
         <div class="text-theme-6" v-text="getError('username')" />
       </div>
+      <div class="w-full px-3 mb-3" v-if="!isAddExist">
+        <label for="birth-date" class="form-label">Birthday</label>
+        <div class="relative mx-auto">
+          <div
+            class="absolute rounded-l w-10 h-full flex items-center justify-center bg-gray-100 border text-gray-600 dark:bg-dark-1 dark:border-dark-4"
+          >
+            <CalendarIcon class="w-4 h-4" />
+          </div>
+          <Litepicker
+            v-model="employee.user.date_of_birthday"
+            :options="{
+              autoApply: false,
+              showWeekNumbers: true,
+              format: 'YYYY-MM-DD',
+              dropdowns: {
+                minYear: 1990,
+                maxYear: null,
+                months: true,
+                years: true
+              }
+            }"
+            class="form-control pl-12"
+          />
+        </div>
+        <div class="text-theme-6" v-text="getError('date_of_birthday')" />
+      </div>
       <div class="w-full px-3 mb-3">
         <label for="employee.username" class="form-label">Position</label>
+        <span class="text-theme-6">*</span>
         <TomSelect
+          class="w-full"
           v-model="employee.employee_position"
           :options="{
             placeholder: 'Select Position'
           }"
-          class="w-full"
         >
           <option
             v-for="(item, index) in getEmployeeTypes"
@@ -101,7 +121,6 @@
         </TomSelect>
         <div class="text-theme-6" v-text="getError('cafes')" />
       </div>
-      <div class="text-theme-6" v-text="errors?.detail" />
     </div>
     <div>
       <div class="mx-auto">
@@ -115,7 +134,7 @@
             v-if="isLoading"
             icon="three-dots"
             color="white"
-            class="w-8 h-8 my-2"
+            class="my-2"
           />
         </button>
         <DeleteConfirmModal
@@ -158,7 +177,7 @@ export default defineComponent({
       type: Object,
       default: {
         user: {
-          avatar: '/src/assets/images/employee.png'
+          avatar: '/src/assets/images/default_employee.png'
         },
         cafes: [],
         employee_position: 2
@@ -171,6 +190,10 @@ export default defineComponent({
     dispatcher: {
       type: String,
       default: 'postEmployeeNew'
+    },
+    isAddExist: {
+      type: Boolean,
+      default: false,
     }
   },
   async created() {
@@ -180,18 +203,7 @@ export default defineComponent({
   },
   methods: {
     ...mapActions(['fetchCafeList']),
-    clickInput(name) {
-      document.getElementById(name).click();
-    },
-    changeImage(e, name) {
-      this.images[name] = e.target.files[0];
-      const fileUrl = URL.createObjectURL(e.target.files[0])
-      this.employee.user[name] = fileUrl;
-    },
-    removeAvatar() {
-      this.images['avatar'] == null;
-      this.form.user.avatar == null;
-    },
+
     async submit() {
       this.isLoading = true;
       const user = { ...this.employee.user, ...this.images, password: '123456' }
@@ -205,19 +217,30 @@ export default defineComponent({
         }
       }
 
-      const formData = {};
+      const formData = {
+        'phone': user.phone,
+        'username': user.username,
+        'date_of_birthday': user.date_of_birthday
+      };
       for (var key in this.employee) {
         formData[key] = this.employee[key];
       }
       formData['user'] = userData;
-      formData['company'] = this.getCompanyId;
-      // const data = jsonToFormData(formData);
+      let data;
+      if (this.isEdit) {
+        data = {
+          id: this.employee?.id,
+          form: formData
+        }
+      } else {
+        data = formData;
+      }
       this.errors = {};
-      const res = await this.$store.dispatch(this.dispatcher, formData);
+      const res = await this.$store.dispatch(this.dispatcher, data);
       if (res.status) {
         this.errors = {};
         this.$refs.successNotification.show();
-        this.$router.push('employees')
+        this.$router.push('/dashboard/employees')
       }
       else {
         this.$refs.errorNotification.show();

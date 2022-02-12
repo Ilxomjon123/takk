@@ -10,15 +10,11 @@
           <div
             class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5"
           >
-            <h2 class="font-medium text-base mr-auto">Edit Category</h2>
+            <h2 class="font-medium text-base mr-auto">Add New Category</h2>
           </div>
           <div class="p-5">
             <div class="grid grid-cols-12 gap-6">
-              <CategoryFrom
-                :form="getCategory"
-                dispatcher="putCategory"
-                :isEdit="true"
-              />
+              <CategoryFrom />
             </div>
           </div>
         </div>
@@ -36,18 +32,7 @@ export default defineComponent({
 
   components: { CategoryFrom },
   computed: {
-    ...mapGetters(['getLoadingStatus', 'getCategory'])
-  },
-  data() {
-    return {
-      id: null,
-    }
-  },
-  async created() {
-    this.id = this.$route.params.id;
-    this.$store.commit('setLoadingStatus', true);
-    await this.$store.dispatch('fetchCategory', this.id);
-    this.$store.commit('setLoadingStatus', false);
+    ...mapGetters(['getLoadingStatus'])
   }
 })
 </script>

@@ -47,9 +47,9 @@
                   <div
                     v-if="menu.subMenu"
                     class="side-menu__sub-icon"
-                    :class="{ 'transform rotate-180': menu.activeDropdown }"
+                    :class="{ 'transform rotate-90': menu.activeDropdown }"
                   >
-                    <ChevronDownIcon />
+                    <ChevronRightIcon />
                   </div>
                 </div>
               </SideMenuTooltip>
@@ -141,6 +141,8 @@
           <GlobalLoader />
         </div>
         <router-view />
+        <SuccessNotification />
+        <ErrorNotification />
       </div>
       <!-- END: Content -->
       <!-- BEGIN: Success Notification Content -->
@@ -185,6 +187,8 @@ import SideMenuTooltip from '@/components/side-menu-tooltip/Main.vue'
 import { linkTo, nestedMenu, enter, leave } from './index'
 import cash from 'cash-dom'
 import GlobalLoader from '../../components/GlobalLoader.vue'
+import SuccessNotification from '../../components/notifications/SuccessNotification.vue'
+import ErrorNotification from '../../components/notifications/ErrorNotification.vue'
 
 export default defineComponent({
   components: {
@@ -192,7 +196,9 @@ export default defineComponent({
     MobileMenu,
     DarkModeSwitcher,
     SideMenuTooltip,
-    GlobalLoader
+    GlobalLoader,
+    SuccessNotification,
+    ErrorNotification
   },
   setup() {
     const route = useRoute()
@@ -212,7 +218,7 @@ export default defineComponent({
 
     onMounted(() => {
       if (store.getters.getStep != store.state.user.STEP_DASHBOARD)
-        route.push('/entry')
+        router.push('/entry')
       cash('body')
         .removeClass('error-page')
         .removeClass('login')

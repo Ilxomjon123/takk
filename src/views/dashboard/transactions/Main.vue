@@ -76,14 +76,14 @@
               <td v-text="item.brand" />
               <td v-text="item.cafe?.name" />
               <td v-text="''" />
-              <td v-text="item.status" />
+              <td v-text="statuses[item.status]" />
               <td v-text="item.updated_dt" />
               <td>
                 <a
                   class="btn btn-primary"
                   data-toggle="modal"
                   data-target="#order-detail-modal"
-                  @click="setOrder(item.order)"
+                  @click="setOrder(item)"
                 >
                   <EyeIcon class="w-5 h-5" />
                 </a>
@@ -108,16 +108,44 @@
       <div class="modal-content">
         <div class="modal-body">
           <div class="flex">
-            <div class="mr-auto">ID</div>
+            <div class="mr-auto text-base">ID</div>
             <div class="font-medium">{{ order.id }}</div>
           </div>
+          <div class="mt-4">
+            <div class="text-base">Order Detail</div>
+            <div class="font-medium ml-auto" v-html="order.order_detail" />
+          </div>
           <div class="flex mt-4">
-            <div class="mr-auto">Sub Total Price</div>
+            <div class="mr-auto text-base">Total Price</div>
+            <div class="font-medium">{{ order.total_price }}</div>
+          </div>
+          <div class="flex mt-4">
+            <div class="mr-auto text-base">Status</div>
+            <div class="font-medium">{{ order.status }}</div>
+          </div>
+          <div class="flex mt-4">
+            <div class="mr-auto text-base">Sub Total Price</div>
             <div class="font-medium">{{ order.sub_total_price }}</div>
           </div>
           <div class="flex mt-4">
-            <div class="mr-auto">Delivery Price</div>
+            <div class="mr-auto text-base">Delivery Price</div>
             <div class="font-medium">{{ order.delivery_price }}</div>
+          </div>
+          <div class="flex mt-4">
+            <div class="mr-auto text-base">Cashback</div>
+            <div class="font-medium">{{ order.cashback }}</div>
+          </div>
+          <div class="flex mt-4">
+            <div class="mr-auto text-base">Total Tax</div>
+            <div class="font-medium">{{ order.tax_total }}</div>
+          </div>
+          <div class="flex mt-4">
+            <div class="mr-auto text-base">Tip</div>
+            <div class="font-medium">{{ order.tip }}</div>
+          </div>
+          <div class="flex mt-4">
+            <div class="mr-auto text-base">Updated Time</div>
+            <div class="font-medium">{{ order.updated }}</div>
           </div>
         </div>
       </div>
@@ -135,7 +163,8 @@ export default defineComponent({
     return {
       items: [],
       order: {},
-      form: {}
+      form: {},
+      statuses: ['PAID', 'REFUND']
     }
   },
   methods: {
@@ -146,7 +175,8 @@ export default defineComponent({
       this.$refs.paginator.paginate(1)
     },
     setOrder(val) {
-      this.order = val;
+      this.order = val.order;
+      this.order['order_detail'] = val.order_detail;
     },
   }
 })
