@@ -40,8 +40,8 @@ export default defineComponent({
         return this.$store.state.common.selectedCountry;
       },
       async set(value) {
-        this.$store.commit('setSelectedCountry', value);
-        await this.$store.dispatch('fetchCities');
+        await this.$store.commit('setSelectedCountry', value);
+        this.$store.dispatch('fetchCities');
       }
     }
   }

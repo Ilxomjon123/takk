@@ -63,7 +63,7 @@ const state = () => {
       {
         icon: 'MessageCircleIcon',
         pageName: 'test',
-        title: 'News'
+        title: 'Messages'
       },
       {
         icon: 'UserPlusIcon',

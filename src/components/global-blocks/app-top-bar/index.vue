@@ -58,28 +58,28 @@
       </div>
       <div class="hidden lg:flex w-full lg:w-auto">
         <ul
-          class="flex flex-wrap p-1 md:p-2 text-sm md:text-base font-medium content-center"
+          class="flex flex-wrap p-1 md:p-2 text-sm md:text-base font-medium items-center"
         >
           <li class="mx-1 px-1 py-2">
-            <router-link
+            <button
               v-if="$route.path == '/'"
-              to="/for-customers"
+              @click="goto('/for-customers')"
               class="rounded_btn_1"
             >
               <span>For Customers</span>
-            </router-link>
-            <router-link
+            </button>
+            <button
               v-if="$route.path == '/for-customers'"
-              to="/"
+              @click="goto('/')"
               class="rounded_btn_1"
             >
               <span>For Coffee Shops</span>
-            </router-link>
+            </button>
           </li>
           <li class="mx-1 px-1 py-2">
-            <router-link to="/" class="rounded_btn_1">
+            <button class="rounded_btn_1" @click="showContactUsModal">
               <span>Contact us</span>
-            </router-link>
+            </button>
           </li>
         </ul>
       </div>
@@ -98,7 +98,9 @@
 <script setup>
 import cash from 'cash-dom';
 import { ref } from 'vue'
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 const isLoggedIn = ref(false);
 
 if (localStorage.getItem('token') && localStorage.getItem('required_details'))
@@ -107,6 +109,15 @@ if (localStorage.getItem('token') && localStorage.getItem('required_details'))
 function openMobileMenu() {
   cash("#mobile-over-menu").modal("show");
 }
+
+const showContactUsModal = () => {
+  cash("#contact-us-modal").modal("show");
+};
+
+const goto = url => {
+  router.push(url)
+}
+
 </script>
 
 <style lang="scss">
