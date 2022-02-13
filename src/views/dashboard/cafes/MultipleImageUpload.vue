@@ -43,6 +43,7 @@ import _ from "lodash";
 import { onMounted, ref } from "vue";
 import Toastify from 'toastify-js';
 import { deleteCafeImage, fetchCafeGallery } from "@/api";
+import { useRoute } from "vue-router";
 
 const props = defineProps({
   // imagePathList: {
@@ -57,12 +58,13 @@ const emit = defineEmits(['update:image-files']);
 const inputFile = ref(null);
 const imageFiles = ref([]);
 const imageSources = ref([]);
+const route = useRoute();
 
 onMounted(async () => {
-  fetchCafeGallery(props.objId).then(res => {
-    imageSources.value = res.results || []
-    // imageSources.value = res.results.map(item => item.image)
-  })
+  if (route.params.id)
+    fetchCafeGallery(route.params.id).then(res => {
+      imageSources.value = res.results || []
+    })
 });
 
 function addImage(e) {

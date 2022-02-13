@@ -9,7 +9,6 @@
           :id="day.day + '_is_open'"
           class="form-check-switch"
           type="checkbox"
-          v-model="selectedWeekdays"
           :value="day.day"
           :checked="day.is_open"
           @input="$emit('update:is_open', $event.target.checked)"

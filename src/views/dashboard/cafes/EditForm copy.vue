@@ -1,0 +1,927 @@
+<template>
+  <div>
+    <div class="intro-y flex items-center mt-8">
+      <h2 class="text-lg font-medium mr-auto">Cafe Edit Form</h2>
+    </div>
+    <div class="grid grid-cols-12 gap-6 mt-5">
+      <div class="intro-y col-span-12">
+        <!-- BEGIN: Form Validation -->
+        <div class="intro-y box">
+          <div id="form-validation" class="p-5">
+            <!-- BEGIN: Validation Form -->
+            <Form
+              class="validate-form"
+              @submit="submit"
+              :validation-schema="schema"
+              @invalid-submit="invalidSubmit"
+              v-slot="{ values }"
+            >
+              <div class="flex flex-col md:flex-row gap-5">
+                <div class="md:basis-1/2 lg:basis-1/3">
+                  <div class="input-form">
+                    <div class="form-check w-auto">
+                      <input
+                        id="status"
+                        class="form-check-switch"
+                        type="checkbox"
+                        v-model="selectedStatus"
+                      />
+                      <label
+                        class="font-medium text-base ml-2 cursor-pointer"
+                        for="status"
+                      >Status</label>
+                    </div>
+                    <span
+                      class="text-theme-6 mt-2"
+                    >{{ externalErrors.status && externalErrors.status[0] }}</span>
+                  </div>
+                  <template v-if="selectedStatus">
+                    <div
+                      class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
+                    >
+                      <h2 class="font-medium text-base mr-auto">Cafe hours</h2>
+                    </div>
+                    <WeekDayTimeForm
+                      v-for="day, index in weekTime"
+                      :key="day.day"
+                      :day="day"
+                      @update:opening_time="weekTime[index]['opening_time'] = $event"
+                      @update:closing_time="weekTime[index]['closing_time'] = $event"
+                      @update:is_open="weekTime[index]['is_open'] = $event"
+                    />
+                    <span
+                      class="text-theme-6 mt-2"
+                    >{{ externalErrors.week_time && externalErrors.week_time[0] }}</span>
+                  </template>
+                  <div
+                    class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
+                  >
+                    <h2 class="font-medium text-base mr-auto">Cafe location info</h2>
+                  </div>
+                  <div class="flex gap-5">
+                    <div class="input-form basis-1/2">
+                      <!-- <label for="latitude" class="form-label">Latitude</label> -->
+                      <Field
+                        id="latitude"
+                        name="location.lat"
+                        v-model="location.lat"
+                        class="form-control"
+                        hidden
+                        type="number"
+                      />
+                      <!-- <ErrorMessage
+                        name="location.lat"
+                        class="text-theme-6 mt-2"
+                      />-->
+                    </div>
+                    <div class="input-form basis-1/2">
+                      <!-- <label for="longitude" class="form-label">Longitude</label> -->
+                      <Field
+                        id="longitude"
+                        name="location.lon"
+                        v-model="location.lon"
+                        class="form-control"
+                        hidden
+                        type="number"
+                      />
+                      <!-- <ErrorMessage
+                        name="location.lon"
+                        class="text-theme-6 mt-2"
+                      />-->
+                    </div>
+                  </div>
+                  <div class="map_container">
+                    <div id="map"></div>
+                  </div>
+                </div>
+                <div class="md:basis-1/2 lg:basis-2/3">
+                  <div
+                    class="flex flex-col sm:flex-row items-center mb-5 border-b border-gray-200 dark:border-dark-5"
+                  >
+                    <h2 class="font-medium text-base mr-auto">Cafe info</h2>
+                  </div>
+                  <div class="flex gap-5 pt-3">
+                    <div class="input-form md:basis-1/2">
+                      <label class="form-label" for="name">
+                        Cafe name
+                        <span class="text-primary-3">*</span>
+                      </label>
+                      <Field
+                        id="name"
+                        name="name"
+                        class="form-control"
+                        v-model="name"
+                      />
+                      <ErrorMessage name="name" class="text-theme-6 mt-2" />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.name && externalErrors.name[0] }}</span>
+                    </div>
+                    <div class="input-form md:basis-1/2">
+                      <label class="form-label" for="call_center">
+                        Phone number
+                        <span class="text-primary-3">*</span>
+                      </label>
+                      <Field
+                        id="call_center"
+                        name="call_center"
+                        class="form-control"
+                        v-model="call_center"
+                      />
+                      <ErrorMessage
+                        name="call_center"
+                        class="text-theme-6 mt-2"
+                      />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.call_center && externalErrors.call_center[0] }}</span>
+                    </div>
+                  </div>
+                  <div class="flex pt-3">
+                    <div class="input-form md:basis-1/2 pr-2.5">
+                      <label class="form-label" for="website">Website</label>
+                      <Field
+                        id="website"
+                        name="website"
+                        class="form-control"
+                        v-model="website"
+                      />
+                      <ErrorMessage name="website" class="text-theme-6 mt-2" />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.website && externalErrors.website[0] }}</span>
+                    </div>
+                  </div>
+                  <div
+                    class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
+                  >
+                    <h2 class="font-medium text-base mr-auto">Cafe addresses</h2>
+                  </div>
+                  <div class="flex">
+                    <div class="input-form md:basis-1/2 pr-2.5">
+                      <label for="country" class="form-label">Country</label>
+                      <CountrySelect v-bind="field" v-model="selectedCountry" />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.country && externalErrors.country[0] }}</span>
+                    </div>
+                    <div
+                      class="input-form md:basis-1/2 pl-2.5"
+                      v-if="selectedCountry === 'United States'"
+                    >
+                      <label class="form-label" for="state">State</label>
+                      <Field
+                        id="state"
+                        name="state"
+                        v-model="selectedState"
+                        class="form-control"
+                        placeholder="Type state"
+                      />
+                      <ErrorMessage name="state" class="text-theme-6 mt-2" />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.state && externalErrors.state[0] }}</span>
+                    </div>
+                  </div>
+                  <div class="flex gap-5 pt-3">
+                    <div class="input-form flex-1 md:basis-1/2">
+                      <label for="city" class="form-label">City</label>
+                      <CitySelect
+                        v-model="selectedCity"
+                        @change="searchLocationByAddress"
+                      />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.city && externalErrors.city[0] }}</span>
+                    </div>
+                    <div class="input-form md:basis-1/2">
+                      <label class="form-label" for="postal_code">Postal code</label>
+                      <Field
+                        id="postal_code"
+                        name="postal_code"
+                        class="form-control"
+                        placeholder="Type postal code"
+                        v-model="postal_code"
+                      />
+                      <ErrorMessage
+                        name="postal_code"
+                        class="text-theme-6 mt-2"
+                      />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.postal_code && externalErrors.postal_code[0] }}</span>
+                    </div>
+                  </div>
+                  <div class="flex gap-5 pt-3">
+                    <div class="input-form md:basis-1/2">
+                      <label class="form-label" for="address">Address</label>
+                      <Field
+                        id="address"
+                        name="address"
+                        v-model="address"
+                        class="form-control"
+                        placeholder="Type address"
+                        @change="searchLocationByAddress"
+                      />
+                      <ErrorMessage name="address" class="text-theme-6 mt-2" />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.address && externalErrors.address[0] }}</span>
+                    </div>
+                    <div class="input-form md:basis-1/2">
+                      <label
+                        class="form-label"
+                        for="second_address"
+                      >Second address</label>
+                      <Field
+                        id="second_address"
+                        name="second_address"
+                        class="form-control"
+                        placeholder="Type second address"
+                        v-model="second_address"
+                      />
+                      <ErrorMessage
+                        name="second_address"
+                        class="text-theme-6 mt-2"
+                      />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.second_address && externalErrors.second_address[0] }}</span>
+                    </div>
+                  </div>
+                  <div class="input-form mt-3">
+                    <label for="description" class="form-label">Description</label>
+                    <Field
+                      as="textarea"
+                      id="description"
+                      name="description"
+                      class="form-control"
+                      placeholder="Type your cafe description"
+                      v-model="description"
+                    ></Field>
+                    <ErrorMessage name="description" class="text-theme-6 mt-2" />
+                    <span
+                      class="text-theme-6 mt-2"
+                    >{{ externalErrors.description && externalErrors.description[0] }}</span>
+                  </div>
+                  <div
+                    class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
+                  >
+                    <h2 class="font-medium text-base mr-auto">Operations</h2>
+                  </div>
+                  <div class="flex gap-5">
+                    <div class="input-form basis-1/2">
+                      <label for="tax_rate" class="form-label">
+                        Tax rate
+                        <span class="text-primary-3">*</span>
+                      </label>
+                      <Field
+                        id="tax_rate"
+                        name="tax_rate"
+                        v-model="tax_rate"
+                        class="form-control"
+                        type="number"
+                      />
+                      <ErrorMessage name="tax_rate" class="text-theme-6 mt-2" />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.tax_rate && externalErrors.tax_rate[0] }}</span>
+                    </div>
+                    <div class="input-form basis-1/2">
+                      <label for="order_limit" class="form-label">
+                        Order limit
+                        <span class="text-primary-3">*</span>
+                      </label>
+                      <Field
+                        id="order_limit"
+                        name="order_limit"
+                        v-model="order_limit"
+                        class="form-control"
+                        type="number"
+                      />
+                      <ErrorMessage
+                        name="order_limit"
+                        class="text-theme-6 mt-2"
+                      />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.order_limit && externalErrors.order_limit[0] }}</span>
+                    </div>
+                  </div>
+                  <div class="flex gap-5 pt-3">
+                    <div class="input-form basis-1/2">
+                      <label for="order_time_limit" class="form-label">
+                        Order time limit
+                        <span class="text-primary-3">*</span>
+                      </label>
+                      <Field
+                        id="order_time_limit"
+                        name="order_time_limit"
+                        v-model="order_time_limit"
+                        class="form-control"
+                        type="number"
+                      />
+                      <ErrorMessage
+                        name="order_time_limit"
+                        class="text-theme-6 mt-2"
+                      />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.order_time_limit && externalErrors.order_time_limit[0] }}</span>
+                    </div>
+                    <div class="input-form basis-1/2">
+                      <label for="version" class="form-label">Version</label>
+                      <Field
+                        id="version"
+                        name="version"
+                        v-model="version"
+                        class="form-control"
+                        type="number"
+                      />
+                      <ErrorMessage name="version" class="text-theme-6 mt-2" />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.version && externalErrors.version[0] }}</span>
+                    </div>
+                  </div>
+                  <div class="flex gap-5 pt-3">
+                    <div class="form-check w-auto py-2">
+                      <input
+                        id="is_square_used"
+                        class="form-check-switch"
+                        type="checkbox"
+                        :value="isSquareUsed"
+                        @input="toggleFunc1"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="is_square_used"
+                      >Is square used</label>
+                    </div>
+                    <div class="input-form" v-if="isSquareUsed === true">
+                      <!-- <label
+                        for="square_location_id"
+                        class="form-label"
+                      >Square location id</label>-->
+                      <Field
+                        id="square_location_id"
+                        name="square_location_id"
+                        v-model="square_location_id"
+                        class="form-control"
+                        placeholder="Square location id"
+                      />
+                      <span
+                        class="text-theme-6 mt-2"
+                      >{{ externalErrors.square_location_id && externalErrors.square_location_id[0] }}</span>
+                    </div>
+                  </div>
+                  <div
+                    class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
+                  >
+                    <h2 class="font-medium text-base mr-auto">Cafe delivery info</h2>
+                  </div>
+                  <div class="flex gap-5">
+                    <div class="form-check w-auto">
+                      <input
+                        id="delivery_available"
+                        class="form-check-switch"
+                        type="checkbox"
+                        v-model="delivery.delivery_available"
+                        @input="toggleFunc2"
+                      />
+                      <label
+                        class="form-check-label"
+                        for="delivery_available"
+                      >Delivery available</label>
+                    </div>
+                  </div>
+                  <template v-if="delivery.delivery_available">
+                    <div class="flex gap-5 pt-3">
+                      <div class="input-form basis-1/2">
+                        <label
+                          for="delivery_max_distance"
+                          class="form-label w-full flex flex-col sm:flex-row"
+                        >Delivery max distance</label>
+                        <input
+                          id="delivery_max_distance"
+                          v-model="delivery.delivery_max_distance"
+                          type="number"
+                          name="delivery_max_distance"
+                          class="form-control"
+                          placeholder="Type.."
+                        />
+                        <span
+                          class="text-theme-6 mt-2"
+                        >{{ externalErrors.delivery_max_distance && externalErrors.delivery_max_distance[0] }}</span>
+                      </div>
+                      <div class="input-form basis-1/2">
+                        <label
+                          for="delivery_min_amount"
+                          class="form-label w-full flex flex-col sm:flex-row"
+                        >Delivery min amount</label>
+                        <input
+                          id="delivery_min_amount"
+                          v-model="delivery.delivery_min_amount"
+                          type="number"
+                          step="0.001"
+                          name="delivery_min_amount"
+                          class="form-control"
+                          placeholder="Type.."
+                        />
+                        <span
+                          class="text-theme-6 mt-2"
+                        >{{ externalErrors.delivery_min_amount && externalErrors.delivery_min_amount[0] }}</span>
+                      </div>
+                    </div>
+                    <div class="flex gap-5">
+                      <div class="input-form mt-3 basis-1/2">
+                        <label
+                          for="delivery_fee"
+                          class="form-label w-full flex flex-col sm:flex-row"
+                        >Fixed fee</label>
+                        <input
+                          id="delivery_fee"
+                          v-model="delivery.delivery_fee"
+                          type="number"
+                          step="0.001"
+                          name="delivery_fee"
+                          class="form-control"
+                          placeholder="Type.."
+                        />
+                        <span
+                          class="text-theme-6 mt-2"
+                        >{{ externalErrors.delivery_fee && externalErrors.delivery_fee[0] }}</span>
+                      </div>
+                      <div class="input-form mt-3 basis-1/2">
+                        <label
+                          for="delivery_percent"
+                          class="form-label w-full flex flex-col sm:flex-row"
+                        >% of order fee</label>
+                        <input
+                          id="delivery_percent"
+                          v-model="delivery.delivery_percent"
+                          type="number"
+                          step="0.001"
+                          name="delivery_percent"
+                          class="form-control"
+                          placeholder="Type.."
+                        />
+                        <span
+                          class="text-theme-6 mt-2"
+                        >{{ externalErrors.delivery_percent && externalErrors.delivery_percent[0] }}</span>
+                      </div>
+                    </div>
+                    <div class="flex gap-5">
+                      <div class="input-form mt-3 basis-1/2">
+                        <label
+                          for="delivery_km_amount"
+                          class="form-label w-full flex flex-col sm:flex-row"
+                        >Fee per kilometer</label>
+                        <input
+                          id="delivery_km_amount"
+                          v-model="delivery.delivery_km_amount"
+                          type="number"
+                          name="delivery_km_amount"
+                          class="form-control"
+                          placeholder="Type.."
+                        />
+                        <span
+                          class="text-theme-6 mt-2"
+                        >{{ externalErrors.delivery_km_amount && externalErrors.delivery_km_amount[0] }}</span>
+                      </div>
+                      <div class="input-form mt-3 basis-1/2">
+                        <label
+                          for="delivery_min_time"
+                          class="form-label w-full flex flex-col sm:flex-row"
+                        >Delivery min time</label>
+                        <input
+                          id="delivery_min_time"
+                          v-model="delivery.delivery_min_time"
+                          type="number"
+                          name="delivery_min_time"
+                          class="form-control"
+                          placeholder="Type.."
+                        />
+                        <span
+                          class="text-theme-6 mt-2"
+                        >{{ externalErrors.delivery_min_time && externalErrors.delivery_min_time[0] }}</span>
+                      </div>
+                    </div>
+                  </template>
+                  <div
+                    class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
+                  >
+                    <h2 class="font-medium text-base mr-auto">Cafe gallery</h2>
+                  </div>
+                  <MultipleImageUpload
+                    @update:image-files="imageFiles = $event"
+                    :obj-id="$route.params.id"
+                  />
+                </div>
+              </div>
+              <div class="flex pt-5">
+                <button
+                  type="button"
+                  class="btn btn-danger lg:ml-auto mr-5"
+                  :disabled="isLoading"
+                  @click="openConfirmModal"
+                >
+                  <span>Delete</span>
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  :disabled="isLoading"
+                >
+                  <LoadingIcon
+                    v-if="isLoading"
+                    icon="tail-spin"
+                    class="w-4 h-4 mr-3"
+                    color="#fff"
+                  />
+                  <span>Save</span>
+                </button>
+              </div>
+              <!-- <pre>{{ values }}</pre> -->
+            </Form>
+            <!-- END: Validation Form -->
+          </div>
+        </div>
+        <!-- END: Form Validation -->
+      </div>
+    </div>
+    <!-- BEGIN: Delete Confirmation Modal -->
+    <div
+      id="delete-confirmation-modal"
+      class="modal"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body p-0">
+            <div class="p-5 text-center">
+              <XCircleIcon class="w-16 h-16 text-theme-6 mx-auto mt-3" />
+              <div class="text-3xl mt-5">Are you sure?</div>
+              <div class="text-gray-600 mt-2">
+                Do you really want to delete these records?
+                <br />This process cannot be undone.
+              </div>
+            </div>
+            <div class="px-5 pb-8 text-center">
+              <button
+                type="button"
+                data-dismiss="modal"
+                class="btn btn-outline-secondary w-24 mr-1"
+              >Cancel</button>
+              <button
+                type="button"
+                class="btn btn-danger w-24"
+                @click="deleteObj"
+              >Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END: Delete Confirmation Modal -->
+  </div>
+</template>
+
+<script>
+import { defineComponent } from 'vue';
+import { Form, Field, ErrorMessage } from 'vee-validate';
+import * as yup from 'yup';
+import CountrySelect from '@/components/selects/CountrySelect.vue';
+import CitySelect from '@/components/selects/CitySelect.vue';
+import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
+import L, { CRS } from 'leaflet'
+import 'leaflet/dist/leaflet.css';
+import Toastify from 'toastify-js';
+import { updateCafe, fetchCafe, fetchCafeWorkDays, addCafeGallery } from '@/api';
+import cash from 'cash-dom';
+import MultipleImageUpload from './MultipleImageUpload.vue';
+import axios from 'axios';
+
+export default defineComponent({
+  components: {
+    Form,
+    Field,
+    ErrorMessage,
+    CountrySelect,
+    CitySelect,
+    WeekDayTimeForm,
+    MultipleImageUpload
+  },
+  data() {
+    const schema = yup.object().shape({
+      name: yup.string().min(1, "Please enter a name more than 1 character").required("This field is requried"), // ok
+      description: yup.string(), // ok
+      location: yup.object({
+        lat: yup
+          .number()
+          .typeError('must be a decimal number')
+          .min(-90, 'Must be more than -90')
+          .max(90, "Must be less than 90")
+          .required("This field is requried")
+          .default(35.1234),
+        lon: yup
+          .number()
+          .typeError('must be a decimal number')
+          .min(-180, 'Must be more than -180')
+          .max(180, "Must be less than 180")
+          .required("This field is requried")
+          .default(-95.1234)
+      }), // ok
+      call_center: yup.string().max(50, "Must be less than 50 characters").required("This field is requried"), // ok
+      website: yup.string().url("Must be a url address").nullable(), // ok
+      // status: yup.boolean(),
+      postal_code: yup.string().max(12, "Must be less than 12 characters"), // ok
+      tax_rate: yup.number().positive().required("This field is requried"), // ok
+      version: yup.number().positive().integer(), // ok
+      order_limit: yup.number().positive().integer().required("This field is requried"), // ok
+      order_time_limit: yup.number().positive().integer().required("This field is requried"), // ok
+      address: yup.string(), // ok
+      second_address: yup.string(), // ok
+      // delivery: yup.object({
+      //   delivery_available: yup.boolean(), // ok
+      //   delivery_max_distance: yup.number().positive().integer().default(1),
+      //   delivery_min_amount: yup.number().positive().integer().default(50),
+      //   delivery_fee: yup.number().positive().integer().default(3),
+      //   delivery_percent: yup.number().positive().integer().default(10),
+      //   delivery_km_amount: yup.number().integer().default(0),
+      //   delivery_min_time: yup.number().positive().integer().default(30)
+      // }),
+      // is_use_square: yup.boolean(), // ok
+      square_location_id: yup.string(), // ok
+      state: yup.string(), // ok
+      // country: yup.string(), // ok
+      // menu: yup.number().positive().integer()
+    });
+
+    const statusOptions = [
+      { label: 'Inactive', value: 0 },
+      { label: 'Active', value: 1 },
+      { label: 'Unknown', value: 2 }
+    ];
+
+    const location = {
+      lat: 35.1234,
+      lon: -95.1234,
+    };
+
+    const weekTime = [
+      {
+        day: 'monday',
+        opening_time: null,
+        closing_time: null,
+        is_open: false
+      },
+      {
+        day: 'tuesday',
+        opening_time: null,
+        closing_time: null,
+        is_open: false
+      },
+      {
+        day: 'wednesday',
+        opening_time: null,
+        closing_time: null,
+        is_open: false
+      },
+      {
+        day: 'thursday',
+        opening_time: null,
+        closing_time: null,
+        is_open: false
+      },
+      {
+        day: 'friday',
+        opening_time: null,
+        closing_time: null,
+        is_open: false
+      },
+      {
+        day: 'saturday',
+        opening_time: null,
+        closing_time: null,
+        is_open: false
+      },
+      {
+        day: 'sunday',
+        opening_time: null,
+        closing_time: null,
+        is_open: false
+      }
+    ];
+
+    const delivery = {
+      delivery_available: false,
+      delivery_max_distance: 1,
+      delivery_min_amount: 50,
+      delivery_fee: 3,
+      delivery_percent: 10,
+      delivery_km_amount: 0,
+      delivery_min_time: 30
+    };
+
+    return {
+      schema,
+      isLoading: false,
+      imagePaths: [],
+      imageFiles: [],
+      statusOptions,
+      weekTime,
+      location,
+      isSquareUsed: false,
+      map: null,
+      marker: null,
+      crs: CRS.EPSG4326,
+      delivery,
+      selectedStatus: false,
+      selectedCountry: '',
+      selectedCity: '',
+      selectedState: '',
+      externalErrors: {},
+      name: '',
+      cafe_timezone: '',
+      call_center: '',
+      website: '',
+      postal_code: '',
+      address: '',
+      second_address: '',
+      tax_rate: '',
+      version: '',
+      order_limit: '',
+      order_time_limit: '',
+      square_location_id: '',
+      menu: ''
+    };
+  },
+  async mounted() {
+    this.$store.commit('setLoadingStatus', true)
+    this.map = L.map("map").setView(this.latLng(this.location), 7);
+
+    L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+      attribution:
+        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(this.map);
+
+    await fetchCafe(this.$route.params.id).then(res => {
+      if (res.country) {
+        console.log('res country: ', res.country);
+        this.selectedCountry = res.country
+        this.$store.commit('setSelectedCountry', res.country);
+      }
+
+      this.address = res.address
+      this.cafe_timezone = res.cafe_timezone
+      this.call_center = res.call_center
+      this.selectedCity = res.city
+      this.delivery.delivery_available = res.delivery_available
+      this.delivery.delivery_fee = res.delivery_fee
+      this.delivery.delivery_km_amount = res.delivery_km_amount
+      this.delivery.delivery_max_distance = res.delivery_max_distance
+      this.delivery.delivery_min_amount = res.delivery_min_amount
+      this.delivery.delivery_min_time = res.delivery_min_time
+      this.delivery.delivery_percent = res.delivery_percent
+      this.description = res.description
+      this.isSquareUsed = res.is_use_square
+      this.location.lat = res.location.lat
+      this.location.lon = res.location.lon
+      this.logoPath = res.logo_small
+      this.menu = res.menu
+      this.name = res.name
+      this.order_limit = res.order_limit
+      this.order_time_limit = res.order_time_limit
+      this.postal_code = res.postal_code
+      this.second_address = res.second_address
+      this.square_location_id = res.square_location_id
+      this.selectedState = res.state
+      this.selectedStatus = Boolean(res.status)
+      this.tax_rate = res.tax_rate
+      this.version = res.version
+      this.website = res.website
+
+      this.map.panTo([this.location.lat, this.location.lon])
+      this.marker = L.marker([this.location.lat, this.location.lon], {
+        draggable: true
+      }).on('moveend', this.changeLatLng).addTo(this.map);
+
+      this.$store.commit('setLoadingStatus', false)
+    })
+
+    await fetchCafeWorkDays(this.$route.params.id).then(res => {
+      this.weekTime = res
+    })
+  },
+  beforeUnmount() {
+    if (this.map) {
+      this.map.remove();
+    }
+  },
+  methods: {
+    async submit(values) {
+      this.isLoading = true
+      this.externalErrors = {}
+
+      const formData = new FormData()
+
+      console.log('values: ', values);
+
+      for (let item in values) {
+        formData.append(item, values[item])
+      }
+
+      formData.append('week_time', this.weekTime)
+      formData.append('country', this.selectedCountry)
+      formData.append('city', this.selectedCity)
+      formData.append('delivery', this.delivery)
+      formData.append('cafe_timezone', 'America/New_York')
+      formData.append('is_use_square', this.isSquareUsed)
+      formData.append('status', Number(this.selectedStatus))
+
+      try {
+        const res1 = await updateCafe({ data: formData, id: this.$route.params.id })
+        if (this.imageFiles.length > 0) {
+          const imagesFormData = new FormData()
+          for (let image of this.imageFiles) {
+            imagesFormData.append('images', image)
+          }
+          imagesFormData.append('cafe', res1.id);
+          await addCafeGallery(imagesFormData);
+        }
+
+        Toastify({
+          node: cash('#success-notification-content')
+            .clone()
+            .removeClass('hidden')[0],
+          duration: 3000,
+        }).showToast();
+      } catch (error) {
+        if (error.response) {
+          console.log(error.response.data);
+          this.externalErrors = error.response.data;
+        }
+      } finally {
+        this.isLoading = false
+      }
+    },
+    invalidSubmit() {
+      Toastify({
+        node: cash('#failed-notification-content')
+          .clone()
+          .removeClass('hidden')[0],
+        duration: 3000,
+      }).showToast('asdjajsd sadlkasldkja');
+    },
+    toggleFunc1(e) {
+      this.isSquareUsed = e.target.checked;
+    },
+    toggleFunc2(e) {
+      console.log('e in toggleFunc2: ', e.target.checked);
+      this.delivery.delivery_available = e.target.checked ? true : false;
+    },
+    changeLatLng(e) {
+      const targetLatLng = e.target.getLatLng()
+      this.location.lat = targetLatLng.lat;
+      this.location.lon = targetLatLng.lng;
+      this.map.panTo([targetLatLng.lat, targetLatLng.lng])
+    },
+    latLng(obj) {
+      return [obj.lat, obj.lon];
+    },
+    searchLocationByAddress() {
+      const addr = `${this.selectedCountry}, ${this.selectedState}, ${this.selectedCity} city, ${this.address}`
+      let url = `https://nominatim.openstreetmap.org/search?format=json&limit=3&q=${addr}`;
+      axios.get(url).then(res => {
+        // console.log(res);
+        if (res.data.length > 0) {
+          this.location.lat = res.data[0].lat;
+          this.location.lon = res.data[0].lon;
+          this.marker && this.marker.setLatLng([this.location.lat, this.location.lon])
+          this.map.panTo([this.location.lat, this.location.lon])
+        }
+      });
+    },
+    openConfirmModal() {
+      cash('#delete-confirmation-modal').modal('show')
+      // console.log('deleted: ', id);
+      // rowId.value = id
+    },
+    async deleteObj() {
+      store.commit('setLoadingStatus', true)
+      cash('#delete-confirmation-modal').modal('hide')
+      await deleteCafe(this.$route.params.id)
+      this.$router.push('/dashboard/cafe-data-list')
+    }
+  },
+});
+</script>
+
+<style lang="scss" scoped>
+#map {
+  width: 100%;
+  height: 400px;
+}
+</style>
