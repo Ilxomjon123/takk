@@ -18,30 +18,6 @@
           </span>
           Add Product
         </RouterLink>
-        <!-- <div class="dropdown">
-        <button
-          class="dropdown-toggle btn px-2 box text-gray-700 dark:text-gray-300"
-          aria-expanded="false"
-        >
-          <span class="w-5 h-5 flex items-center justify-center">
-            <PlusIcon class="w-4 h-4" />
-          </span>
-        </button>
-        <div class="dropdown-menu w-40">
-          <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-            <a
-              class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
-            >
-              <PlusIcon class="w-4 h-4 mr-2" />New User
-            </a>
-            <a
-              class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
-            >
-              <PlusIcon class="w-4 h-4 mr-2" />Exiscting User
-            </a>
-          </div>
-        </div>
-        </div>-->
       </div>
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
@@ -159,6 +135,7 @@ import { fetchProductsList, deleteProduct } from '@/api';
 import Pagination from '@/components/paginator/Pagination.vue';
 import Toastify from 'toastify-js';
 import cash from 'cash-dom';
+import setLoading from '@/composable-functions/loading.js'
 
 const products = reactive({});
 const selectedProduct = reactive({});
@@ -169,7 +146,7 @@ const clickedProductId = ref(null);
 const paginator = reactive({
   page: ref(1),
   limit: ref(10),
-  total: ref(null),
+  total: ref(0),
 })
 
 onMounted(() => {
@@ -203,18 +180,20 @@ async function fetchProducts() {
 }
 
 async function deleteObj() {
-  store.commit('setLoadingStatus', true)
   cash('#delete-confirmation-modal').modal('hide')
+  store.commit('setLoadingStatus', true)
   await deleteProduct(clickedProductId.value)
   await fetchProducts()
   store.commit('setLoadingStatus', false)
 }
 
 async function paginate(val) {
-  store.commit('setLoadingStatus', true)
+  // store.commit('setLoadingStatus', true)
+  setLoading(true);
   paginator.page = val
   await fetchProducts();
-  store.commit('setLoadingStatus', false)
+  // store.commit('setLoadingStatus', false)
+  setLoading(false);
 }
 
 async function changePerPage(val) {

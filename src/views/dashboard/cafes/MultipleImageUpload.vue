@@ -63,7 +63,7 @@ const route = useRoute();
 onMounted(async () => {
   if (route.params.id)
     fetchCafeGallery(route.params.id).then(res => {
-      imageSources.value = res.results || []
+      imageSources.value = res || []
     })
 });
 

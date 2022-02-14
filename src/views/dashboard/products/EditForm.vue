@@ -310,15 +310,16 @@
                   </div>
                 </div>
               </div>
-              <div class="flex pt-5">
-                <button
+              <div class="flex pt-5 lg:justify-end">
+                <!-- <button
                   type="button"
-                  class="btn btn-danger lg:ml-auto mr-5"
+                  class="btn btn-danger mr-3"
                   :disabled="isLoading"
                   @click="openConfirmModal"
                 >
+                  <TrashIcon />
                   <span>Delete</span>
-                </button>
+                </button>-->
                 <button
                   type="submit"
                   class="btn btn-primary"
@@ -330,6 +331,7 @@
                     class="w-4 h-4 mr-3"
                     color="#fff"
                   />
+                  <!-- <RefreshCwIcon v-else class="mr-3" /> -->
                   <span>Update</span>
                 </button>
               </div>
@@ -422,8 +424,8 @@ async function onSubmit() {
   try {
     const formData = new FormData()
 
-    if (!_.isEmpty(productImageFile.value))
-      formData.append('image', productImageFile.value);
+    // if (!_.isEmpty(productImageFile.value))
+    formData.append('image', productImageFile.value);
 
     formData.append('start', productStartTime.value)
     formData.append('end', productEndTime.value)

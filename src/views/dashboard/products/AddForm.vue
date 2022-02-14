@@ -387,8 +387,8 @@ async function onSubmit() {
   Object.assign(externalErrors, {})
   try {
     const formData = new FormData()
-    if (!_.isEmpty(productImageFile.value))
-      formData.append('image', productImageFile.value);
+    // if (!_.isEmpty(productImageFile.value))
+    formData.append('image', productImageFile.value);
     formData.append('start', productStartTime.value)
     formData.append('end', productEndTime.value)
     formData.append('quickest_time', productQuickestTime.value)
