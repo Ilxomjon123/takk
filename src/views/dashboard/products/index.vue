@@ -135,7 +135,6 @@ import { fetchProductsList, deleteProduct } from '@/api';
 import Pagination from '@/components/paginator/Pagination.vue';
 import Toastify from 'toastify-js';
 import cash from 'cash-dom';
-import setLoading from '@/composable-functions/loading.js'
 
 const products = reactive({});
 const selectedProduct = reactive({});
@@ -151,13 +150,12 @@ const paginator = reactive({
 
 onMounted(() => {
   if (activeMenuID.value) {
-    fetchProducts()
+    fetchProducts();
   }
 })
 
 async function fetchProducts() {
   store.commit('setLoadingStatus', true)
-  // console.log('menuId: ' + menuId);
   try {
     const res = await fetchProductsList({
       menuId: activeMenuID.value,
@@ -165,8 +163,10 @@ async function fetchProducts() {
       limit: paginator.limit
     })
 
-    Object.assign(products, res)
-    paginator.total = res.total_objects
+    if (res) {
+      Object.assign(products, res)
+      paginator.total = res.total_objects
+    }
   } catch (error) {
     Toastify({
       node: cash('#failed-notification-content')
@@ -188,12 +188,10 @@ async function deleteObj() {
 }
 
 async function paginate(val) {
-  // store.commit('setLoadingStatus', true)
-  setLoading(true);
+  store.commit('setLoadingStatus', true)
   paginator.page = val
   await fetchProducts();
-  // store.commit('setLoadingStatus', false)
-  setLoading(false);
+  store.commit('setLoadingStatus', false)
 }
 
 async function changePerPage(val) {

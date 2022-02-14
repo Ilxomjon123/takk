@@ -10,10 +10,9 @@
 
 <script setup>
 import { computed } from 'vue';
-import { useStore } from 'vuex';
+import loading from '@/composable-functions/useLoading.js';
 
-const store = useStore();
-
-const isLoading = computed(() => store.getters.getLoadingStatus);
+const { isLoading } = loading()
+console.log('isLoading from ComposableLoader component: ', isLoading.value);
 
 </script>
