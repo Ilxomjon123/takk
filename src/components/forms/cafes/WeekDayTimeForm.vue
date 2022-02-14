@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="flex gap-5 pt-3" v-if="day.is_open">
-      <div class="input-form lg:basis-1/2">
+      <div class="input-form basis-1/2">
         <label
           :for="day.day + '_opening_time'"
           class="form-label w-full flex flex-col sm:flex-row"
@@ -33,7 +33,7 @@
           class="form-control timepicker"
         />
       </div>
-      <div class="input-form lg:basis-1/2">
+      <div class="input-form basis-1/2">
         <label
           :for="day.day + '_closing_time'"
           class="form-label w-full flex flex-col sm:flex-row"

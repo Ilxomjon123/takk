@@ -21,10 +21,10 @@
                 :external-errors="externalErrors"
                 @update:form-fields="formFields = $event"
               />
-              <div class="flex pt-5">
+              <div class="flex mt-5 gap-5 justify-between md:justify-end">
                 <button
                   type="button"
-                  class="btn btn-danger lg:ml-auto mr-5"
+                  class="btn btn-danger"
                   :disabled="isLoading"
                   @click="openConfirmModal"
                 >

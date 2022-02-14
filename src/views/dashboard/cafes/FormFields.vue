@@ -32,6 +32,7 @@
           @update:opening_time="formFields.week_time[index]['opening_time'] = $event"
           @update:closing_time="formFields.week_time[index]['closing_time'] = $event"
           @update:is_open="formFields.week_time[index]['is_open'] = $event"
+          class="mb-5 lg:mb-10"
         />
         <span
           class="text-theme-6 mt-2"
@@ -71,7 +72,7 @@
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             layer-type="base"
             name="OpenStreetMap"
-          ></l-tile-layer>
+          />
 
           <l-marker :lat-lng="currentLatLng" draggable @moveend="changeLatLng" />
         </l-map>
@@ -79,12 +80,12 @@
     </div>
     <div class="md:basis-1/2 lg:basis-2/3">
       <div
-        class="flex flex-col sm:flex-row items-center mb-5 border-b border-gray-200 dark:border-dark-5"
+        class="flex flex-col sm:flex-row items-center mb-3 lg:mb-5 border-b border-gray-200 dark:border-dark-5"
       >
         <h2 class="font-medium text-base mr-auto">Cafe info</h2>
       </div>
-      <div class="flex gap-5 pt-3">
-        <div class="input-form md:basis-1/2">
+      <div class="flex flex-col lg:flex-row gap-5 pt-5">
+        <div class="input-form lg:basis-1/2">
           <label class="form-label" for="name">
             Cafe name
             <span class="text-primary-3">*</span>
@@ -100,7 +101,7 @@
             class="text-theme-6 mt-2"
           >{{ externalErrors.name && externalErrors.name[0] }}</span>
         </div>
-        <div class="input-form md:basis-1/2">
+        <div class="input-form lg:basis-1/2">
           <label class="form-label" for="call_center">
             Phone number
             <span class="text-primary-3">*</span>
@@ -117,8 +118,8 @@
           >{{ externalErrors.call_center && externalErrors.call_center[0] }}</span>
         </div>
       </div>
-      <div class="flex pt-3">
-        <div class="input-form md:basis-1/2 pr-2.5">
+      <div class="flex pt-5">
+        <div class="input-form lg:basis-1/2 lg:pr-2.5">
           <label class="form-label" for="website">Website</label>
           <Field
             id="website"
@@ -137,8 +138,8 @@
       >
         <h2 class="font-medium text-base mr-auto">Cafe addresses</h2>
       </div>
-      <div class="flex">
-        <div class="input-form md:basis-1/2 pr-2.5">
+      <div class="flex flex-col lg:flex-row gap-5">
+        <div class="input-form lg:basis-1/2 lg:pr-2.5">
           <label for="country" class="form-label">Country</label>
           <CountrySelect v-model="formFields.country" />
           <span
@@ -146,7 +147,7 @@
           >{{ externalErrors.country && externalErrors.country[0] }}</span>
         </div>
         <div
-          class="input-form md:basis-1/2 pl-2.5"
+          class="input-form lg:basis-1/2 lg:pl-2.5"
           v-if="formFields.country === 'United States'"
         >
           <label class="form-label" for="state">State</label>
@@ -163,8 +164,8 @@
           >{{ externalErrors.state && externalErrors.state[0] }}</span>
         </div>
       </div>
-      <div class="flex gap-5 pt-3">
-        <div class="input-form flex-1 md:basis-1/2">
+      <div class="flex flex-col lg:flex-row gap-5 pt-5">
+        <div class="input-form lg:basis-1/2">
           <label for="city" class="form-label">City</label>
           <CitySelect
             v-model="formFields.city"
@@ -174,7 +175,7 @@
             class="text-theme-6 mt-2"
           >{{ externalErrors.city && externalErrors.city[0] }}</span>
         </div>
-        <div class="input-form md:basis-1/2">
+        <div class="input-form lg:basis-1/2">
           <label class="form-label" for="postal_code">Postal code</label>
           <Field
             id="postal_code"
@@ -189,8 +190,8 @@
           >{{ externalErrors.postal_code && externalErrors.postal_code[0] }}</span>
         </div>
       </div>
-      <div class="flex gap-5 pt-3">
-        <div class="input-form md:basis-1/2">
+      <div class="flex flex-col lg:flex-row gap-5 pt-5">
+        <div class="input-form lg:basis-1/2">
           <label class="form-label" for="address">Address</label>
           <Field
             id="address"
@@ -205,7 +206,7 @@
             class="text-theme-6 mt-2"
           >{{ externalErrors.address && externalErrors.address[0] }}</span>
         </div>
-        <div class="input-form md:basis-1/2">
+        <div class="input-form lg:basis-1/2">
           <label class="form-label" for="second_address">Second address</label>
           <Field
             id="second_address"
@@ -220,7 +221,7 @@
           >{{ externalErrors.second_address && externalErrors.second_address[0] }}</span>
         </div>
       </div>
-      <div class="input-form mt-3">
+      <div class="input-form pt-5">
         <label for="description" class="form-label">Description</label>
         <Field
           as="textarea"
@@ -240,8 +241,8 @@
       >
         <h2 class="font-medium text-base mr-auto">Operations</h2>
       </div>
-      <div class="flex gap-5">
-        <div class="input-form basis-1/2">
+      <div class="flex flex-col lg:flex-row gap-5">
+        <div class="input-form lg:basis-1/2">
           <label for="tax_rate" class="form-label">
             Tax rate
             <span class="text-primary-3">*</span>
@@ -258,7 +259,7 @@
             class="text-theme-6 mt-2"
           >{{ externalErrors.tax_rate && externalErrors.tax_rate[0] }}</span>
         </div>
-        <div class="input-form basis-1/2">
+        <div class="input-form lg:basis-1/2">
           <label for="order_limit" class="form-label">
             Order limit
             <span class="text-primary-3">*</span>
@@ -276,8 +277,8 @@
           >{{ externalErrors.order_limit && externalErrors.order_limit[0] }}</span>
         </div>
       </div>
-      <div class="flex gap-5 pt-3">
-        <div class="input-form basis-1/2">
+      <div class="flex flex-col lg:flex-row gap-5 pt-5">
+        <div class="input-form lg:basis-1/2">
           <label for="order_time_limit" class="form-label">
             Order time limit
             <span class="text-primary-3">*</span>
@@ -294,7 +295,7 @@
             class="text-theme-6 mt-2"
           >{{ externalErrors.order_time_limit && externalErrors.order_time_limit[0] }}</span>
         </div>
-        <div class="input-form basis-1/2">
+        <div class="input-form lg:basis-1/2">
           <label for="version" class="form-label">Version</label>
           <Field
             id="version"
@@ -309,8 +310,8 @@
           >{{ externalErrors.version && externalErrors.version[0] }}</span>
         </div>
       </div>
-      <div class="flex gap-5 pt-3">
-        <div class="form-check w-auto py-2">
+      <div class="flex flex-col lg:flex-row gap-5 pt-5">
+        <div class="form-check lg:basis-1/2 lg:py-2">
           <input
             id="is_square_used"
             class="form-check-switch"
@@ -319,7 +320,10 @@
           />
           <label class="form-check-label" for="is_square_used">Is square used</label>
         </div>
-        <div class="input-form" v-if="formFields.is_use_square === true">
+        <div
+          class="input-form lg:basis-1/2"
+          v-if="formFields.is_use_square === true"
+        >
           <Field
             id="square_location_id"
             name="square_location_id"
@@ -337,7 +341,7 @@
       >
         <h2 class="font-medium text-base mr-auto">Cafe delivery info</h2>
       </div>
-      <div class="flex gap-5">
+      <div class="flex">
         <div class="form-check w-auto">
           <input
             id="delivery_available"
@@ -352,8 +356,8 @@
         </div>
       </div>
       <template v-if="formFields.delivery_available">
-        <div class="flex gap-5 pt-3">
-          <div class="input-form basis-1/2">
+        <div class="flex flex-col lg:flex-row gap-5 pt-5">
+          <div class="input-form lg:basis-1/2">
             <label
               for="delivery_max_distance"
               class="form-label w-full flex flex-col sm:flex-row"
@@ -370,7 +374,7 @@
               class="text-theme-6 mt-2"
             >{{ externalErrors.delivery_max_distance && externalErrors.delivery_max_distance[0] }}</span>
           </div>
-          <div class="input-form basis-1/2">
+          <div class="input-form lg:basis-1/2">
             <label
               for="delivery_min_amount"
               class="form-label w-full flex flex-col sm:flex-row"
@@ -389,8 +393,8 @@
             >{{ externalErrors.delivery_min_amount && externalErrors.delivery_min_amount[0] }}</span>
           </div>
         </div>
-        <div class="flex gap-5">
-          <div class="input-form mt-3 basis-1/2">
+        <div class="flex flex-col lg:flex-row gap-5 pt-5">
+          <div class="input-form lg:basis-1/2">
             <label
               for="delivery_fee"
               class="form-label w-full flex flex-col sm:flex-row"
@@ -408,7 +412,7 @@
               class="text-theme-6 mt-2"
             >{{ externalErrors.delivery_fee && externalErrors.delivery_fee[0] }}</span>
           </div>
-          <div class="input-form mt-3 basis-1/2">
+          <div class="input-form lg:basis-1/2">
             <label
               for="delivery_percent"
               class="form-label w-full flex flex-col sm:flex-row"
@@ -427,8 +431,8 @@
             >{{ externalErrors.delivery_percent && externalErrors.delivery_percent[0] }}</span>
           </div>
         </div>
-        <div class="flex gap-5">
-          <div class="input-form mt-3 basis-1/2">
+        <div class="flex flex-col lg:flex-row gap-5 pt-5">
+          <div class="input-form lg:basis-1/2">
             <label
               for="delivery_km_amount"
               class="form-label w-full flex flex-col sm:flex-row"
@@ -445,7 +449,7 @@
               class="text-theme-6 mt-2"
             >{{ externalErrors.delivery_km_amount && externalErrors.delivery_km_amount[0] }}</span>
           </div>
-          <div class="input-form mt-3 basis-1/2">
+          <div class="input-form lg:basis-1/2">
             <label
               for="delivery_min_time"
               class="form-label w-full flex flex-col sm:flex-row"
@@ -593,6 +597,7 @@ function searchLocationByAddress() {
 <style lang="scss" scoped>
 #map {
   width: 100%;
-  height: 300px !important;
+  height: 200px !important;
+  @apply md:h-80;
 }
 </style>
