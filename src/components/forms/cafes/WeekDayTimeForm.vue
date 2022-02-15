@@ -9,7 +9,6 @@
           :id="day.day + '_is_open'"
           class="form-check-switch"
           type="checkbox"
-          v-model="selectedWeekdays"
           :value="day.day"
           :checked="day.is_open"
           @input="$emit('update:is_open', $event.target.checked)"
@@ -21,7 +20,7 @@
       </div>
     </div>
     <div class="flex gap-5 pt-3" v-if="day.is_open">
-      <div class="input-form lg:basis-1/2">
+      <div class="input-form basis-1/2">
         <label
           :for="day.day + '_opening_time'"
           class="form-label w-full flex flex-col sm:flex-row"
@@ -34,7 +33,7 @@
           class="form-control timepicker"
         />
       </div>
-      <div class="input-form lg:basis-1/2">
+      <div class="input-form basis-1/2">
         <label
           :for="day.day + '_closing_time'"
           class="form-label w-full flex flex-col sm:flex-row"

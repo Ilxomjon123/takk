@@ -37,7 +37,7 @@ export default defineComponent({
     ...mapGetters(['getCountries']),
     country: {
       get() {
-        return this.$store.state.common.selectedCountry;
+        return this.$store.getters['selectedCountry'];
       },
       async set(value) {
         await this.$store.commit('setSelectedCountry', value);

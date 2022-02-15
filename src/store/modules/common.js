@@ -14,7 +14,10 @@ const state = () => {
 
 const getters = {
   getCountries: state => state.countries,
-  getSelectedCountry: state => state.selectedCountry,
+  getSelectedCountry: state => {
+    console.log('getting selected country..', state.selectedCountry);
+    return state.selectedCountry;
+  },
   getCities: state => state.cities,
   getSelectedCity: state => state.selectedCity,
   getLoadingStatus: state => state.loadingStatus,
@@ -29,6 +32,7 @@ const mutations = {
     state.cities = payload;
   },
   setSelectedCountry(state, payload) {
+    console.log('setting selected country..', payload);
     state.selectedCountry = payload;
   },
   setSelectedCity(state, payload) {

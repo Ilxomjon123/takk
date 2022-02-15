@@ -5,7 +5,7 @@
     >
       <button
         type="button"
-        class="btn w-full h-40 border-2 shadow-sm border-gray-200 dark:border-dark-5 rounded-md"
+        class="btn w-full h-24 lg:h-40 border-2 shadow-sm border-gray-200 dark:border-dark-5 rounded-md"
         @click="inputFile.click()"
       >
         <PlusIcon />
@@ -23,7 +23,9 @@
       v-for="item, itemIndex in imageSources"
       class="md:basis-1/2 lg:basis-1/4 2xl:basis-1/6 border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5"
     >
-      <div class="h-40 relative image-fit cursor-pointer zoom-in mx-auto">
+      <div
+        class="h-24 lg:h-40 relative image-fit cursor-pointer zoom-in mx-auto"
+      >
         <img class="rounded-md" alt="Logo" :src="item.image" />
         <Tippy
           tag="div"
@@ -43,6 +45,7 @@ import _ from "lodash";
 import { onMounted, ref } from "vue";
 import Toastify from 'toastify-js';
 import { deleteCafeImage, fetchCafeGallery } from "@/api";
+import { useRoute } from "vue-router";
 
 const props = defineProps({
   // imagePathList: {
@@ -57,12 +60,13 @@ const emit = defineEmits(['update:image-files']);
 const inputFile = ref(null);
 const imageFiles = ref([]);
 const imageSources = ref([]);
+const route = useRoute();
 
 onMounted(async () => {
-  fetchCafeGallery(props.objId).then(res => {
-    imageSources.value = res.results || []
-    // imageSources.value = res.results.map(item => item.image)
-  })
+  if (route.params.id)
+    fetchCafeGallery(route.params.id).then(res => {
+      imageSources.value = res || []
+    })
 });
 
 function addImage(e) {
