@@ -45,7 +45,7 @@ const state = () => {
           },
           {
             icon: 'DatabaseIcon',
-            pageName: '',
+            pageName: 'modifiers',
             title: 'Modifires'
           }
         ]

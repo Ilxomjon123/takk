@@ -26,6 +26,9 @@ import EditEmployee from '../views/dashboard/employees/Edit.vue';
 import Categories from '../views/dashboard/categories/Main.vue';
 import AddCategory from '../views/dashboard/categories/Add.vue';
 import EditCategory from '../views/dashboard/categories/Edit.vue';
+import Modifiers from '../views/dashboard/modifiers/Main.vue';
+import AddModifier from '../views/dashboard/modifiers/Add.vue';
+import EditModifier from '../views/dashboard/modifiers/Edit.vue';
 import Products from '../views/dashboard/products/index.vue';
 import ProductAddForm from '../views/dashboard/products/AddForm.vue';
 import ProductEditForm from '../views/dashboard/products/EditForm.vue';
@@ -116,6 +119,11 @@ const routes = [
           { path: ':menuId/add', component: AddCategory },
           { path: ':menuId/:id', component: EditCategory }
         ]
+      },
+      {
+        path: 'modifiers',
+        component: CompanyLayout,
+        children: [{ path: '', name: 'modifiers', component: Modifiers }]
       }
     ]
   },

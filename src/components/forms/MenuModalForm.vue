@@ -25,7 +25,7 @@
               class="btn btn-outline-secondary w-24 mr-1"
             >Cancel</button>
             <button type="submit" class="btn btn-primary w-24">
-              {{ isLoading ? '' : 'Add' }}
+              {{ isLoading ? '' : 'Save' }}
               <LoadingIcon
                 v-if="isLoading"
                 icon="three-dots"

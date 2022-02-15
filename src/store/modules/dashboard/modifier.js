@@ -2,22 +2,32 @@ import axios from 'axios';
 
 const state = () => {
   return {
-    modifiers: []
+    modifiers: [],
+    modifierTypes: [],
+    selectedModifierTypeId: null
   };
 };
 
 const getters = {
-  getModifiers: state => state.modifiers
+  getModifiers: state => state.modifiers,
+  getModifierTypes: state => state.modifierTypes,
+  getSelectedModifierTypeId: state => state.selectedModifierTypeId
 };
 
 const mutations = {
   setModifiers(state, payload) {
     state.modifiers = payload;
+  },
+  setModifierTypes(state, payload) {
+    state.modifierTypes = payload;
+  },
+  setSelectedModifierTypeId(state, payload) {
+    state.selectedModifierTypeId = payload;
   }
 };
 
 const actions = {
-  async fetchModifiers({ commit, rootGetters }, payload) {
+  async fetchModifierTypes({ commit, rootGetters }, payload) {
     let response;
     await axios
       .get(`/api/menus/${rootGetters.getSelectedMenuId}/modifiers/`, {
@@ -27,7 +37,7 @@ const actions = {
       })
       .then(res => {
         response = res.data;
-        commit('setMenus', res.data);
+        commit('setModifierTypes', res.data);
       })
       .catch(err => {
         response = err.data;
@@ -35,39 +45,12 @@ const actions = {
       });
     return response;
   },
-  async postModifier({ rootGetters }, payload) {
+  async postModifierType({ rootGetters }, payload) {
     let response;
     await axios
       .post(
         `/api/modifiers/`,
-        { ...payload, company: rootGetters.getCompanyId },
-        {
-          headers: {
-            ...rootGetters.getHttpHeader,
-            'Conten-type': 'multipart/form-data'
-          }
-        }
-      )
-      .then(async res => {
-        response = {
-          status: true,
-          data: res.data
-        };
-      })
-      .catch(err => {
-        response = {
-          status: false,
-          data: err.response.data
-        };
-      });
-    return response;
-  },
-  async putModifier({ rootGetters }, payload) {
-    let response;
-    await axios
-      .put(
-        `/api/modifiers/${payload.id}/`,
-        { ...payload, company: rootGetters.getCompanyId },
+        { ...payload, menu: rootGetters.getSelectedMenuId },
         {
           headers: rootGetters.getHttpHeader
         }
@@ -86,7 +69,31 @@ const actions = {
       });
     return response;
   },
-  async deleteModifier({ rootGetters }, payload) {
+  async putModifierType({ rootGetters }, payload) {
+    let response;
+    await axios
+      .put(
+        `/api/modifiers/${payload.id}/`,
+        { ...payload, menu: rootGetters.getSelectedMenuId },
+        {
+          headers: rootGetters.getHttpHeader
+        }
+      )
+      .then(async res => {
+        response = {
+          status: true,
+          data: res.data
+        };
+      })
+      .catch(err => {
+        response = {
+          status: false,
+          data: err.response.data
+        };
+      });
+    return response;
+  },
+  async deleteModifierType({ rootGetters }, payload) {
     let response;
     await axios
       .delete(`/api/modifiers/${payload}/`, {
