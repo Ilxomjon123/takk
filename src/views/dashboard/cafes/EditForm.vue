@@ -21,7 +21,9 @@
                 :external-errors="externalErrors"
                 @update:form-fields="formFields = $event"
               />
-              <div class="flex mt-5 gap-5 justify-between md:justify-end">
+              <div
+                class="flex pt-5 gap-5 justify-between md:justify-end border-t border-gray-200 dark:border-dark-5"
+              >
                 <button
                   type="button"
                   class="btn btn-danger"

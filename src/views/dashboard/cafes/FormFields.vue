@@ -476,6 +476,7 @@
       <MultipleImageUpload
         @update:image-files="formFields.upload_photos = $event"
         :obj-id="$route.params.id"
+        class="my-5"
       />
     </div>
   </div>

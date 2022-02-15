@@ -21,7 +21,9 @@
                 :external-errors="externalErrors"
                 @update:form-fields="formFields = $event"
               />
-              <div class="flex mt-5 justify-end">
+              <div
+                class="flex pt-5 justify-end border-t border-gray-200 dark:border-dark-5"
+              >
                 <!-- <button
                   type="button"
                   class="btn btn-danger"
@@ -189,6 +191,10 @@ async function submit(values) {
       }
       imagesFormData.append('cafe', res1.id);
       await addCafeGallery(imagesFormData);
+    }
+
+    if (res1.id) {
+      router.push('/dashboard/cafes-edit-form/' + res1.id)
     }
 
     Toastify({
