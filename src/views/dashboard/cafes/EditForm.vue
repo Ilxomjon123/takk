@@ -143,7 +143,7 @@ const schema = yup.object().shape({
   // }),
   // is_use_square: yup.boolean(), // ok
   square_location_id: yup.string(), // ok
-  state: yup.string(), // ok
+  // state: yup.string(), // ok
   // country: yup.string(), // ok
   // menu: yup.number().positive().integer()
 });
@@ -154,8 +154,64 @@ const router = useRouter();
 const isLoading = ref(false);
 const externalErrors = reactive({});
 const formFields = reactive({
-  location: {},
-  week_time: []
+  location: {
+    lat: 35.1234,
+    lon: -95.1234
+  },
+  delivery_available: false,
+  delivery_max_distance: 1,
+  delivery_min_amount: 50,
+  delivery_fee: 3,
+  delivery_percent: 10,
+  delivery_km_amount: 0,
+  delivery_min_time: 30,
+  week_time: [
+    {
+      day: 'monday',
+      opening_time: null,
+      closing_time: null,
+      is_open: false
+    },
+    {
+      day: 'tuesday',
+      opening_time: null,
+      closing_time: null,
+      is_open: false
+    },
+    {
+      day: 'wednesday',
+      opening_time: null,
+      closing_time: null,
+      is_open: false
+    },
+    {
+      day: 'thursday',
+      opening_time: null,
+      closing_time: null,
+      is_open: false
+    },
+    {
+      day: 'friday',
+      opening_time: null,
+      closing_time: null,
+      is_open: false
+    },
+    {
+      day: 'saturday',
+      opening_time: null,
+      closing_time: null,
+      is_open: false
+    },
+    {
+      day: 'sunday',
+      opening_time: null,
+      closing_time: null,
+      is_open: false
+    }
+  ],
+  cafe_timezone: 'America/New_York',
+  status: 0,
+  country: 'United States'
 });
 
 onMounted(async () => {
@@ -163,8 +219,9 @@ onMounted(async () => {
 
   await fetchCafe(route.params.id).then(res => {
     if (res.country) {
-      formFields.selectedCountry = res.country
+      formFields.country = res.country
       store.commit('setSelectedCountry', res.country);
+      store.dispatch('fetchCitiesByCountry', res.country)
     }
 
     formFields.address = res.address
