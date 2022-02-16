@@ -16,7 +16,9 @@ export default defineConfig({
       '^/api': {
         target: 'https://api.echtmal.com/api/v3/dashboard',
         changeOrigin: true,
-        rewrite: path => path.replace(/^\/api/, '')
+        rewrite: path => path.replace(/^\/api/, ''),
+        secure: false,
+        ws: true
       }
     }
   }
