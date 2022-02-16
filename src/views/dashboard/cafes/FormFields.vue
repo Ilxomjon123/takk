@@ -138,7 +138,7 @@
       >
         <h2 class="font-medium text-base mr-auto">Cafe addresses</h2>
       </div>
-      <div class="flex flex-col lg:flex-row gap-5">
+      <div class="flex flex-col lg:flex-row">
         <div class="input-form lg:basis-1/2 lg:pr-2.5">
           <label for="country" class="form-label">Country</label>
           <CountrySelect v-model="formFields.country" />
@@ -151,14 +151,15 @@
           v-if="formFields.country === 'United States'"
         >
           <label class="form-label" for="state">State</label>
-          <Field
+          <StateSelect v-model="formFields.state" />
+          <!-- <Field
             id="state"
             name="state"
             v-model="formFields.state"
             class="form-control"
             placeholder="Type state"
           />
-          <ErrorMessage name="state" class="text-theme-6 mt-2" />
+          <ErrorMessage name="state" class="text-theme-6 mt-2" />-->
           <span
             class="text-theme-6 mt-2"
           >{{ externalErrors.state && externalErrors.state[0] }}</span>
@@ -476,6 +477,7 @@
       <MultipleImageUpload
         @update:image-files="formFields.upload_photos = $event"
         :obj-id="$route.params.id"
+        class="my-5"
       />
     </div>
   </div>
@@ -490,6 +492,7 @@ import { LMap, LMarker, LTileLayer } from "@vue-leaflet/vue-leaflet";
 import axios from 'axios';
 import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
 import CountrySelect from '@/components/selects/CountrySelect.vue';
+import StateSelect from '../../../components/selects/StateSelect.vue';
 import CitySelect from '@/components/selects/CitySelect.vue';
 import MultipleImageUpload from './MultipleImageUpload.vue';
 
@@ -501,63 +504,8 @@ const route = useRoute();
 const router = useRouter();
 const props = defineProps({
   formFields: {
-    location: {
-      lat: 35.1234,
-      lon: -95.1234
-    },
-    delivery_available: false,
-    delivery_max_distance: 1,
-    delivery_min_amount: 50,
-    delivery_fee: 3,
-    delivery_percent: 10,
-    delivery_km_amount: 0,
-    delivery_min_time: 30,
-    week_time: [
-      {
-        day: 'monday',
-        opening_time: null,
-        closing_time: null,
-        is_open: false
-      },
-      {
-        day: 'tuesday',
-        opening_time: null,
-        closing_time: null,
-        is_open: false
-      },
-      {
-        day: 'wednesday',
-        opening_time: null,
-        closing_time: null,
-        is_open: false
-      },
-      {
-        day: 'thursday',
-        opening_time: null,
-        closing_time: null,
-        is_open: false
-      },
-      {
-        day: 'friday',
-        opening_time: null,
-        closing_time: null,
-        is_open: false
-      },
-      {
-        day: 'saturday',
-        opening_time: null,
-        closing_time: null,
-        is_open: false
-      },
-      {
-        day: 'sunday',
-        opening_time: null,
-        closing_time: null,
-        is_open: false
-      }
-    ],
-    cafe_timezone: 'America/New_York',
-    status: 0
+    type: Object,
+    default: () => { }
   },
   externalErrors: {
     type: Object,

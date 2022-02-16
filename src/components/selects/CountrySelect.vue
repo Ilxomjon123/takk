@@ -1,49 +1,35 @@
 <template>
   <TomSelect
-    v-model="country"
-    @input="$emit('update:modelValue', $event.target.value)"
+    v-model="selectedCountry"
     :options="{
       placeholder: 'Select country'
     }"
     class="w-full"
   >
-    <option v-for="(item, index) in getCountries" :key="index" :value="item">
-      {{
-        item
-      }}
-    </option>
+    <option
+      v-for="(item, index) in countriesList"
+      :key="index"
+      :value="item"
+    >{{ item }}</option>
   </TomSelect>
 </template>
 
-<script>
-import { defineComponent } from 'vue';
-import { mapActions, mapGetters } from 'vuex';
+<script setup>
+import { computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
 
-export default defineComponent({
-  props: {
-    selectedCountry: {
-      type: String,
-      default: 'United States'
-    }
-  },
-  async mounted() {
-    await this.fetchCountries();
-    await this.$store.dispatch('fetchCities');
-  },
-  methods: {
-    ...mapActions(['fetchCountries'])
-  },
-  computed: {
-    ...mapGetters(['getCountries']),
-    country: {
-      get() {
-        return this.$store.getters['selectedCountry'];
-      },
-      async set(value) {
-        await this.$store.commit('setSelectedCountry', value);
-        this.$store.dispatch('fetchCities');
-      }
-    }
+const store = useStore();
+
+onMounted(async () => {
+  await store.dispatch('fetchCountries');
+});
+
+const countriesList = computed(() => store.getters.getCountries);
+const selectedCountry = computed({
+  get: () => store.getters.getSelectedCountry,
+  set: (value) => {
+    store.commit('setSelectedCountry', value);
+    store.dispatch('fetchCities');
   }
 });
 </script>
