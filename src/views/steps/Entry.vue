@@ -124,7 +124,7 @@
           <div class="modal-body p-0">
             <div class="p-5 text-center">
               <div class="flex justify-center h-10 my-3 h-10 mt-3">
-                <img src="@/assets/images/TAKK_Logo.png" class="mr-3" />
+                <img src="@/assets/images/Takk_Logo.png" class="mr-3" />
                 <img src="@/assets/images/squareup.png" />
               </div>
               <div class="text-3xl mt-5">Do you want to integrate with SquareUp</div>
