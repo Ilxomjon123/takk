@@ -5,7 +5,7 @@
         <a href="/">
           <img
             class="hidden md:inline-block"
-            src="@/assets/images/Takk_footer.png"
+            src="@/assets/images/TAKK_footer.png"
             alt="takk logo"
           />
           <img
