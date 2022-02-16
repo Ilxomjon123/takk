@@ -57,6 +57,7 @@
 </template>
 
 <script>
+
 import { defineComponent } from 'vue'
 import cash from 'cash-dom'
 export default defineComponent({

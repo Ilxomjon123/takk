@@ -132,8 +132,8 @@
             v-model="company.cashback_percent"
             aria-describedby="input-group-percent"
           />
-          <div class="text-theme-6 mt-2" v-text="getError('cashback_percent')" />
         </div>
+        <div class="text-theme-6 mt-2" v-text="getError('cashback_percent')" />
       </div>
     </div>
     <div class="flex flex-wrap -mx-3 mb-3">

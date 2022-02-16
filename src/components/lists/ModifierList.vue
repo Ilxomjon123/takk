@@ -3,14 +3,11 @@
     <div class="intro-y flex flex-col sm:flex-row items-center mt-10">
       <h2 class="text-lg font-medium mr-auto">Modifiers List</h2>
       <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-        <router-link
-          :to="getSelectedModifierTypeId != null ? `/dashboard/modifiers/${getSelectedModifierTypeId}/add` : ''"
-          class="btn btn-primary"
-        >
+        <button class="btn btn-primary" @click="addModifier">
           <span class="w-5 h-5 flex items-center justify-center">
             <PlusIcon class="w-4 h-4" />
           </span>Add Modifier
-        </router-link>
+        </button>
       </div>
     </div>
     <!-- BEGIN: Data List -->
@@ -42,15 +39,12 @@
             </td>
             <td class="table-report__action w-10">
               <div class="flex justify-end items-end">
-                <router-link
-                  :to="`/dashboard/categories/${getSelectedModifierTypeId}/${item.id}`"
-                >
+                <a @click="editModifier(item)">
                   <Edit2Icon class="hover:text-theme-12" />
-                </router-link>
-                <DeleteConfirmModal
-                  @onConfirmedDelete="deleteItem(item.id)"
-                  :isIcon="true"
-                  modalId="modifier-delete-modal"
+                </a>
+                <TrashIcon
+                  class="hover:text-theme-6"
+                  @click="selectItem(item)"
                 />
               </div>
             </td>
@@ -68,53 +62,84 @@
     v-else
     class="text-base text-center mt-10 text-gray-600"
   >For showing Modifiers Please select Modifier Type</div>
+  <ModifierModalForm
+    :dispatcher="dispatcher"
+    :modalId="modalId"
+    :ref="modalId"
+    @submitted="refresh($event)"
+  />
+  <DeleteConfirmModal2
+    @onConfirmedDelete2="deleteItem"
+    :modalId="deleteModalId"
+    :ref="deleteModalId"
+  />
 </template>
 
 <script>
 import { defineComponent } from 'vue'
 import { mapGetters } from 'vuex';
-import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
+import ModifierModalForm from '../forms/ModifierModalForm.vue';
+import DeleteConfirmModal2 from '../modals/DeleteConfirmModal2.vue';
 
 export default defineComponent({
   data() {
     return {
-      items: [],
-      form: {},
-      showChildren: []
+      modalId: "modifier-modal-form",
+      deleteModalId: "modifier-delete-modal",
+      dispatcher: "postModifier",
+      addDispatcher: "postModifier",
+      editDispatcher: "putModifier",
+      selectedItem: {}
     };
   },
   methods: {
-    paginate(val) {
-      this.items = val;
+    refresh(val) {
+      let items;
+      switch (val?.type) {
+        case 'add':
+          items = this.getModifiers;
+          items.push(val)
+          break;
+        case 'edit':
+          items = this.getModifiers.filter(item => item.id != val.id);
+          items.push(val)
+          break;
+        case 'delete':
+          items = this.getModifiers.filter(item => item.id != val.id);
+          break;
+      }
+      this.$store.commit('setModifiers', items)
     },
-    search() {
-      this.$refs.paginator?.paginate(1);
+    addModifier() {
+      this.dispatcher = this.addDispatcher;
+      this.$refs[this.modalId].showModal({});
     },
-    fetchData() {
-      //
+    editModifier(val) {
+      console.log("edit:", val);
+      this.dispatcher = this.editDispatcher;
+      this.$refs[this.modalId].showModal({ ...val });
     },
-    setItems(val) {
-      this.items = val
-      // this.showChildren = val.map(item => {
-      //   if (item.children.length > 0) return item.id
-      // });
-    },
-    async deleteItem(val) {
+    async deleteItem() {
+      const val = this.selectedItem;
       this.$store.commit('setLoadingStatus', true);
-      const res = await this.$store.dispatch('deleteModifier', val);
+      const res = await this.$store.dispatch('deleteModifier', val.id);
       if (res.status) {
         this.$store.commit('setSuccessNotification', true);
-        this.$refs.paginator.search();
+        this.refresh({ type: 'delete', ...val });
       } else {
         this.$store.commit('setErrorNotification', true);
       }
       this.$store.commit('setLoadingStatus', false);
     },
+    selectItem(val) {
+      this.selectedItem = val;
+      this.$refs[this.deleteModalId].showModal();
+    }
   },
   computed: {
     ...mapGetters(['getSelectedModifierTypeId', 'getModifiers'])
   },
 
-  components: { DeleteConfirmModal }
+  components: { ModifierModalForm, DeleteConfirmModal2 }
 })
 </script>

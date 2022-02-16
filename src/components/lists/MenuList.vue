@@ -54,8 +54,6 @@
     :ref="modalId"
     @submitted="search"
   />
-  <SuccessNotification ref="successNotification" :message="successMessage" />
-  <ErrorNotification ref="errorNotification" />
 </template>
 
 <script>
@@ -64,8 +62,6 @@ import MainPaginator from '../paginator/MainPaginator.vue'
 import MenuModalForm from '../forms/MenuModalForm.vue'
 import { mapGetters } from 'vuex'
 import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue'
-import SuccessNotification from '../notifications/SuccessNotification.vue'
-import ErrorNotification from '../notifications/ErrorNotification.vue'
 export default defineComponent({
   props: {
     subItemTitle: String,
@@ -75,8 +71,6 @@ export default defineComponent({
     MainPaginator,
     MenuModalForm,
     DeleteConfirmModal,
-    SuccessNotification,
-    ErrorNotification
   },
   data() {
     return {
@@ -120,15 +114,20 @@ export default defineComponent({
       this.$refs[this.modalId].showModal(val);
     },
     async deleteMenu(val) {
+      this.$store.commit('setLoadingStatus', true);
+
       this.selectMenu(null);
       const res = await this.$store.dispatch('deleteMenu', val);
       if (res.status) {
         this.successMessage = 'Successfully Deleted!'
-        this.$refs.successNotification.show();
+        this.$store.commit('setSuccessNotification', true);
+
         this.search();
       } else {
-        this.$refs.errorNotification.show();
+        this.$store.commit('setSuccessNotification', true);
       }
+      this.$store.commit('setLoadingStatus', false);
+
     }
   }
 });

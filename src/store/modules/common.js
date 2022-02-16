@@ -41,7 +41,7 @@ const mutations = {
   setLoadingStatus(state, payload) {
     state.loadingStatus = payload;
   },
-  setSuccesNotification(state, payload = true) {
+  setSuccessNotification(state, payload = true) {
     state.successNotificationStatus = payload;
   },
   setErrorNotification(state, payload = true) {

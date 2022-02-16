@@ -1,22 +1,5 @@
 <template>
-  <TrashIcon v-if="isIcon" class="hover:text-theme-6" @click="showModal" />
-  <a
-    v-else
-    href="javascript:;"
-    data-toggle="modal"
-    data-target="#delete-modal-preview"
-    class="btn btn-danger py-3 px-4 mt-8 px-10"
-    :disabled="isLoading"
-  >
-    {{ isLoading ? '' : 'Delete' }}
-    <LoadingIcon
-      v-if="isLoading"
-      icon="three-dots"
-      color="white"
-      class="w-8 h-8 my-2"
-    />
-  </a>
-  <div id="delete-modal-preview" class="modal" tabindex="-1" aria-hidden="true">
+  <div :id="modalId" class="modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-body p-0">
@@ -66,14 +49,14 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
-    isIcon: {
-      type: Boolean,
-      default: false
+    modalId: {
+      type: String,
+      default: 'delete-modal'
     }
   },
   methods: {
     showModal() {
-      cash('#delete-modal-preview').modal('show')
+      cash('#' + this.modalId).modal('show')
     }
   }
 })

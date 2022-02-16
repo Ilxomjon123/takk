@@ -9,9 +9,9 @@
           <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
             <div class="col-span-12">
               <div class="w-full mb-3">
-                <label for="modifier-type-name">Title</label>
+                <label for="modifier-name">Name</label>
                 <input
-                  id="modifier-type-name"
+                  id="modifier-name"
                   required
                   v-model="modifier.name"
                   class="form-control w-full mt-2"
@@ -20,31 +20,33 @@
                 <div class="text-theme-6" v-text="getError('name')" />
               </div>
               <div class="w-full mb-3">
-                <div class="form-check">
+                <label for="modifier-price">Price</label>
+                <div class="input-group mt-2">
+                  <div id="input-group-price" class="input-group-text">$</div>
                   <input
-                    v-model="modifier.is_single"
-                    id="modifier-type-is-single"
-                    class="form-check-switch"
-                    type="checkbox"
+                    id="modifier-price"
+                    required
+                    v-model="modifier.price"
+                    type="number"
+                    class="form-control"
+                    :class="getError('price') != null ? 'border-theme-6' : ''"
+                    placeholder="2"
+                    aria-describedby="input-group-price"
                   />
-                  <label
-                    class="form-check-label text-base"
-                    for="modifier-type-is-single"
-                  >Modifier is single</label>
-                  <div class="text-theme-6" v-text="getError('is_single')" />
                 </div>
+                <div class="text-theme-6" v-text="getError('price')" />
               </div>
               <div class="w-full mb-3 md:w-1/2">
                 <div class="form-check">
                   <input
                     v-model="modifier.available"
-                    id="modifier-type-available"
+                    id="modifier-available"
                     class="form-check-switch"
                     type="checkbox"
                   />
                   <label
                     class="form-check-label text-base"
-                    for="modifier-type-available"
+                    for="modifier-available"
                   >Modifier available</label>
                   <div class="text-theme-6" v-text="getError('available')" />
                 </div>
@@ -52,16 +54,16 @@
               <div class="w-full mb-3 md:w-1/2">
                 <div class="form-check">
                   <input
-                    v-model="modifier.required"
-                    id="modifier-type-required"
+                    v-model="modifier.default"
+                    id="modifier-default"
                     class="form-check-switch"
                     type="checkbox"
                   />
                   <label
                     class="form-check-label text-base"
-                    for="modifier-type-required"
-                  >Modifier is required</label>
-                  <div class="text-theme-6" v-text="getError('required')" />
+                    for="modifier-default"
+                  >Modifier is default</label>
+                  <div class="text-theme-6" v-text="getError('default')" />
                 </div>
               </div>
             </div>
@@ -100,7 +102,7 @@ export default defineComponent({
     },
     modalId: {
       type: String,
-      default: 'modifier-type-type-form-modal'
+      default: 'modifier-form-modal'
     }
   },
   data() {
@@ -118,7 +120,10 @@ export default defineComponent({
       const res = await this.$store.dispatch(this.dispatcher, this.modifier);
       if (res.status) {
         this.hideModal();
-        this.$emit('submitted');
+        this.$emit('submitted', {
+          type: this.modifier.id ? 'edit' : 'add',
+          ...res.data
+        });
       } else {
         this.errors = res.data;
       }

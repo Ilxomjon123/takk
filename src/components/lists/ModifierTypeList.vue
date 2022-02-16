@@ -31,10 +31,7 @@
                 @click="editModifierType(item)"
                 class="hover:text-theme-12"
               />
-              <DeleteConfirmModal
-                @onConfirmedDelete="deleteModifierType(item.id)"
-                :isIcon="true"
-              />
+              <TrashIcon class="hover:text-theme-6" @click="selectItem(item)" />
             </div>
             <!-- <TrashIcon @click="editModifierType(item)" class="hover:text-theme-6" /> -->
           </div>
@@ -62,8 +59,11 @@
       :ref="modalId"
       @submitted="search"
     />
-    <SuccessNotification ref="successNotification" :message="successMessage" />
-    <ErrorNotification ref="errorNotification" />
+    <DeleteConfirmModal2
+      @onConfirmedDelete2="deleteItem"
+      :modalId="deleteModalId"
+      :ref="deleteModalId"
+    />
   </div>
   <div
     v-else
@@ -76,19 +76,15 @@ import { defineComponent } from 'vue'
 import MainPaginator from '../paginator/MainPaginator.vue'
 import MenuModalForm from '../forms/MenuModalForm.vue'
 import { mapGetters } from 'vuex'
-import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue'
-import SuccessNotification from '../notifications/SuccessNotification.vue'
-import ErrorNotification from '../notifications/ErrorNotification.vue'
 import ModifierTypeModalForm from '../forms/ModifierTypeModalForm.vue'
+import DeleteConfirmModal2 from '../modals/DeleteConfirmModal2.vue'
 export default defineComponent({
 
   components: {
     MainPaginator,
     MenuModalForm,
-    DeleteConfirmModal,
-    SuccessNotification,
-    ErrorNotification,
-    ModifierTypeModalForm
+    ModifierTypeModalForm,
+    DeleteConfirmModal2
   },
   data() {
     return {
@@ -96,10 +92,12 @@ export default defineComponent({
       items: [],
       dispatcher: 'postModifierType',
       modalId: 'modifier-form-modal',
+      deleteModalId: "modifier-type-delete-modal",
       addDispatcher: 'postModifierType',
       editDispatcher: 'putModifierType',
       successMessage: 'Successfully Deleted!',
-      loadingDelete: {}
+      loadingDelete: {},
+      selectedItem: {}
     }
   },
   emits: ['update-modifier-type-id'],
@@ -131,16 +129,24 @@ export default defineComponent({
       this.dispatcher = this.editDispatcher;
       this.$refs[this.modalId].showModal(val);
     },
-    async deleteModifierType(val) {
+    async deleteItem() {
+      const val = this.selectedItem?.id;
+      this.$store.commit('setLoadingStatus', true);
+
       this.selectModifierType(null);
       const res = await this.$store.dispatch('deleteModifierType', val);
       if (res.status) {
         this.successMessage = 'Successfully Deleted!'
-        this.$refs.successNotification.show();
+        this.$store.commit('setSuccessNotification', true);
         this.search();
       } else {
-        this.$refs.errorNotification.show();
+        this.$store.commit('setErrorNotification', true);
       }
+      this.$store.commit('setLoadingStatus', false);
+    },
+    selectItem(val) {
+      this.selectedItem = val;
+      this.$refs[this.deleteModalId].showModal();
     }
   }
 });

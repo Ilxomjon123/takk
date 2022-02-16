@@ -150,14 +150,11 @@ export default defineComponent({
     search() {
       this.$refs.paginator?.paginate(1);
     },
-    fetchData() {
-      //
-    },
     setItems(val) {
       this.items = val
-      // this.showChildren = val.map(item => {
-      //   if (item.children.length > 0) return item.id
-      // });
+      this.showChildren = val.map(item => {
+        if (item.children.length > 0) return item.id
+      });
     },
     async deleteItem(val) {
       this.$store.commit('setLoadingStatus', true);

@@ -53,6 +53,7 @@ export default defineComponent({
     status(to, from) {
       if (to) {
         this.show();
+        this.$store.state.common.errorNotificationStatus = false;
       }
     }
   }
