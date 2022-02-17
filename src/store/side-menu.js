@@ -29,6 +29,11 @@ const state = () => {
         // ]
       },
       {
+        icon: 'MessageSquareIcon',
+        pageName: 'side-menu-chat',
+        title: 'Chat'
+      },
+      {
         icon: 'FileTextIcon',
         pageName: '',
         title: 'Menu',
