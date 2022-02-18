@@ -92,48 +92,7 @@
                 </div>
               </div>
             </div>
-            <div
-              class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 pt-1 mt-4"
-            >
-              <div
-                v-for="(chat, chatKey) in chats"
-                :key="chatKey"
-                class="intro-x cursor-pointer box relative flex items-center p-5"
-                :class="{ 'mt-5': chatKey }"
-                @click="showChatBox"
-              >
-                <div class="w-12 h-12 flex-none image-fit mr-1">
-                  <img
-                    alt="Icewall Tailwind HTML Admin Template"
-                    class="rounded-full"
-                    :src="chat.interlocutor_image"
-                  />
-
-                  <div
-                    class="w-3 h-3 bg-theme-9 absolute right-0 bottom-0 rounded-full border-2 border-white"
-                  ></div>
-                </div>
-                <div class="ml-2 overflow-hidden">
-                  <div class="flex items-center">
-                    <a href="javascript:;" class="font-medium">
-                      {{
-                        chat.interlocutor_fullname
-                      }}
-                    </a>
-                    <div
-                      class="text-xs text-gray-500 ml-auto"
-                    >{{ chat.last_message_time }}</div>
-                  </div>
-                  <div
-                    class="w-full truncate text-gray-600 mt-0.5"
-                  >{{ chat.last_message }}</div>
-                </div>
-                <div
-                  v-if="chat.unread_message_count"
-                  class="w-5 h-5 flex items-center justify-center absolute top-0 right-0 text-xs text-white rounded-full bg-theme-1 font-medium -mt-1 -mr-1"
-                >{{ chat.unread_message_count }}</div>
-              </div>
-            </div>
+            <ChatList :chats="chats" @update:show-chat-box="showChatBox" />
           </div>
           <!-- <div
             id="profile"
@@ -216,7 +175,7 @@
                   <img
                     alt="Icewall Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="selectedChat.interlocutor_image"
+                    :src="selectedChat.user.avatar"
                   />
                 </div>
                 <div class="ml-3 mr-auto">
@@ -266,9 +225,10 @@
               </div>
             </div>
             <div class="overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
-              <template v-for="item, itemIndex in selectedChat.messages">
+              <!-- <template v-for="item, itemIndex in selectedChat.last_message"> -->
+              <template v-if="selectedChat.last_message">
                 <div
-                  v-if="!item.is_my_message"
+                  v-if="!selectedChat.last_message.is_my_message"
                   class="chat__box__text-box flex items-end float-left mb-4"
                 >
                   <div
@@ -277,19 +237,23 @@
                     <img
                       alt="Icewall Tailwind HTML Admin Template"
                       class="rounded-full"
-                      :src="selectedChat.interlocutor_fullname"
+                      :src="selectedChat.user.avatar"
                     />
                   </div>
                   <div
                     class="bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md"
                   >
                     <img
-                      v-if="item_type === 'image'"
-                      :src="item.image"
+                      v-if="selectedChat.last_message.item_type === 'image'"
+                      :src="selectedChat.last_message.image"
                       alt="image message"
                     />
-                    <p v-else>{{ item.text }}</p>
-                    <div class="mt-1 text-xs text-gray-600">2 mins ago</div>
+                    <p
+                      v-if="selectedChat.last_message.item_type === 'string'"
+                    >{{ selectedChat.last_message.text }}</p>
+                    <div
+                      class="mt-1 text-xs text-gray-600"
+                    >{{ formattedDate(selectedChat.last_message.created_dt) }}</div>
                   </div>
                   <div class="hidden sm:block dropdown ml-3 my-auto">
                     <a
@@ -336,13 +300,13 @@
                         class="dropdown-menu__content box dark:bg-dark-1 p-2"
                       >
                         <a
-                          href
+                          href="javascript:;"
                           class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
                         >
                           <CornerUpLeftIcon class="w-4 h-4 mr-2" />Reply
                         </a>
                         <a
-                          href
+                          href="javascript:;"
                           class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
                         >
                           <TrashIcon class="w-4 h-4 mr-2" />Delete
@@ -354,12 +318,16 @@
                     class="bg-theme-1 px-4 py-3 text-white rounded-l-md rounded-t-md"
                   >
                     <img
-                      v-if="item_type === 'image'"
-                      :src="item.image"
+                      v-if="selectedChat.last_message.item_type === 'image'"
+                      :src="selectedChat.last_message.image"
                       alt="image message"
                     />
-                    <p v-else>{{ item.text }}</p>
-                    <div class="mt-1 text-xs text-theme-21">1 mins ago</div>
+                    <p
+                      v-if="selectedChat.last_message.item_type === 'string'"
+                    >{{ selectedChat.last_message.text }}</p>
+                    <div
+                      class="mt-1 text-xs text-theme-21"
+                    >{{ formattedDate(selectedChat.last_message.created_dt) }}</div>
                   </div>
                   <div
                     class="w-10 h-10 hidden sm:block flex-none image-fit relative ml-5"
@@ -367,7 +335,7 @@
                     <img
                       alt="Icewall Tailwind HTML Admin Template"
                       class="rounded-full"
-                      :src="selectedChat.my_image"
+                      :src="me.avatar"
                     />
                   </div>
                 </div>
@@ -385,7 +353,7 @@
               <div
                 class="flex absolute sm:static left-0 bottom-0 ml-5 sm:ml-0 mb-5 sm:mb-0"
               >
-                <EmojesBlock />
+                <EmojisBlock />
                 <div
                   class="w-4 h-4 sm:w-5 sm:h-5 relative text-gray-600 mr-3 sm:mr-5"
                 >
@@ -433,22 +401,39 @@
 </template>
 
 <script setup>
-import { onMounted, reactive, ref } from 'vue'
-import EmojesBlock from './EmojesBlock.vue';
+import { computed, onMounted, reactive, ref } from 'vue'
+import EmojisBlock from './EmojisBlock.vue';
 import { fetchChats } from '@/api';
+import ChatList from './ChatList.vue';
+import moment from 'moment';
+import { useStore } from 'vuex';
 
+const store = useStore();
 const chats = reactive([]);
 const selectedChat = reactive({
   messages: []
 });
 const chatBox = ref(false);
-const showChatBox = () => {
-  chatBox.value = !chatBox.value
+const showChatBox = (id) => {
+  if (chatBox.value === true) {
+    if (selectedChat.id === id)
+      chatBox.value = !chatBox.value;
+    Object.assign(selectedChat, chats.find(chat => chat.id === id));
+  } else {
+    chatBox.value = !chatBox.value;
+    Object.assign(selectedChat, chats.find(chat => chat.id === id));
+  }
+};
+
+const formattedDate = (value) => {
+  return moment(value).fromNow();
 };
 
 onMounted(async () => {
   const res = await fetchChats();
   Object.assign(chats, res);
 });
+
+const me = computed(() => store.getters.getUser);
 
 </script>
