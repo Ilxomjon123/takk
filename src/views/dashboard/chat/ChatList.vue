@@ -1,11 +1,14 @@
 <template>
+  <!-- <SearchInput /> -->
+  <SearchInput :list="chatList" />
+  <!-- <SearchInput :list="chatList" @update:list="chatList = $event" /> -->
   <div class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 pt-1 mt-4">
     <div
-      v-for="(chat, chatKey) in chats"
+      v-for="(chat, chatKey) in chatList"
       :key="chatKey"
       class="intro-x cursor-pointer box relative flex items-center p-5"
-      :class="{ 'mt-5': chatKey }"
-      @click="showChatBox(chat.id)"
+      :class="{ 'bg-theme-1 dark:bg-theme-1 text-white': chat.id === getSelectedChat.id, 'mt-5': chatKey }"
+      @click="selectChat(chat)"
     >
       <div class="w-12 h-12 flex-none image-fit mr-1">
         <img
@@ -53,21 +56,55 @@
 
 <script setup>
 import moment from 'moment';
+import { onMounted, ref } from 'vue';
+import useChatState from '@/features/useChatState';
+import SearchInput from './SearchInput.vue';
+import { fetchChatMessages } from '@/api';
 
 const props = defineProps({
-  chats: {
-    type: Array,
-    default: () => []
-  }
+  chatList: Array
+});
+const {
+  setSelectedChat,
+  setSelectedChatMessages,
+  getSelectedChat,
+  setErrorMessage,
+  setChatBoxLoading
+} = useChatState();
+
+onMounted(() => {
+  document.addEventListener('keyup', keyListener);
 });
 
-const emit = defineEmits(['update:showChatBox']);
-
-const showChatBox = (id) => {
-  emit('update:showChatBox', id);
+const selectChat = async (chat) => {
+  if (getSelectedChat.value.id !== chat.id) {
+    try {
+      setChatBoxLoading(true);
+      const res = await fetchChatMessages(chat.id);
+      setSelectedChat(chat);
+      setSelectedChatMessages(res.results);
+    } catch (error) {
+      setSelectedChat({});
+      setErrorMessage('Something went wrong while fetching messages!');
+    } finally {
+      setChatBoxLoading(false);
+    }
+  }
 };
 
 const formattedDate = (value) => {
   return moment(value).fromNow();
 };
+
+function keyListener(event) {
+  if (event.defaultPrevented)
+    return;
+
+  const key = event.key || event.keyCode;
+
+  if (key === 'Escape' || key === 'Esc' || key === 27) {
+    setSelectedChat({})
+    setErrorMessage('');
+  }
+}
 </script>
