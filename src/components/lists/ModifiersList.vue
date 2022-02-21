@@ -8,7 +8,7 @@
             <PlusIcon class="w-4 h-4" />
           </span>Add Modifier Type
         </button>
-        <button class="btn btn-primary" @click="addModifier">
+        <button class="btn btn-primary" @click="addModifierItem">
           <span class="w-5 h-5 flex items-center justify-center">
             <PlusIcon class="w-4 h-4" />
           </span>Add Modifier
@@ -20,54 +20,42 @@
       <table class="table table-report -mt-2">
         <thead>
           <tr>
-            <!-- <th class="whitespace-nowrap"></th> -->
-            <!-- <th class="whitespace-nowrap">Rank</th> -->
-            <!-- <th class="whitespace-nowrap">ID</th> -->
-            <th class="whitespace-nowrap">LOGO</th>
             <th class="whitespace-nowrap">NAME</th>
-            <th class="whitespace-nowrap">PARENT CATEGORY</th>
-            <th class="whitespace-nowrap">START</th>
-            <th class="whitespace-nowrap">END</th>
+            <th class="whitespace-nowrap">REQUIRED</th>
+            <th class="whitespace-nowrap">AVAILABLE</th>
+            <th class="whitespace-nowrap">DEFAULT</th>
+            <th class="whitespace-nowrap">SINGLE / MULTI</th>
+            <th class="whitespace-nowrap">PRICE</th>
             <th class="whitespace-nowrap text-right">ACTIONS</th>
           </tr>
         </thead>
         <tbody>
           <template v-for="(item, index) in items" :key="index">
             <tr class="-intro-y zoom-in" @click="toggleChildren(item.id)">
-              <!-- <td class="w-0">{{ item.position }}</td> -->
-              <td class="w-10">
-                <div class="w-10 h-10 image-fit zoom-in">
-                  <img alt="Takk" class="rounded-full" :src="item.image" />
-                </div>
-              </td>
               <td>
                 <a href class="font-medium whitespace-nowrap">{{ item.name }}</a>
               </td>
-              <td>
-                <div
-                  class="text-gray-600 text-xs whitespace-nowrap mt-0.5"
-                >{{ item.category?.name }}</div>
-              </td>
-              <td>{{ item.parent }}</td>
-              <td>{{ item.start }}</td>
-              <td>{{ item.end }}</td>
+              <td>{{ getYesNo(item.required) }}</td>
+              <td>{{ getYesNo(item.available) }}</td>
+              <td />
+              <td>{{ item.is_single ? "SINGLE" : "MULTI" }}</td>
+              <td />
               <td class="table-report__action w-10">
                 <div class="flex justify-end items-end">
-                  <router-link
-                    :to="`/dashboard/categories/${getSelectedMenuId}/${item.id}`"
-                  >
-                    <Edit2Icon class="hover:text-theme-12" />
-                  </router-link>
+                  <Edit2Icon
+                    @click="editModifierType(item)"
+                    class="hover:text-theme-12"
+                  />
                   <DeleteConfirmModal
-                    @onConfirmedDelete="deleteItem(item.id)"
+                    @onConfirmedDelete="deleteType(item.id)"
                     :isIcon="true"
-                    modalId="category-delete-modal"
+                    :modalId="`modifier-type-delete-modal-${item.id}`"
                   />
                   <ChevronRightIcon
                     class="hover:text-theme-9"
                     :class="{
                       'transform rotate-90 duration-300': isVisibleChildren(item.id),
-                      'transform duration-150': !isVisibleChildren(item.id),
+                      'transform rotate-0 duration-300': !isVisibleChildren(item.id),
                     }"
                   />
                 </div>
@@ -75,36 +63,32 @@
             </tr>
             <tr
               class="-intro-y"
-              v-for="(el, i) in item.children"
+              v-for="(el, i) in item.items"
               :key="i"
               v-show="isVisibleChildren(item.id)"
             >
               <!-- <td class="w-0">{{ el.position }}</td> -->
-              <td class="w-10">
-                <div class="w-10 h-10 image-fit zoom-in ml-10">
-                  <img alt="Takk" class="rounded-full" :src="el.image" />
-                </div>
-              </td>
               <td>
-                <a href class="font-medium whitespace-nowrap">{{ el.name }}</a>
-                <div
-                  class="text-gray-600 text-xs whitespace-nowrap mt-0.5"
-                >{{ el.category?.name }}</div>
+                <a
+                  href
+                  class="font-medium whitespace-nowrap ml-10"
+                >{{ el.name }}</a>
               </td>
-              <td>{{ item.name }}</td>
-              <td>{{ el.start }}</td>
-              <td>{{ el.end }}</td>
+              <td>{{ getYesNo(item.required) }}</td>
+              <td>{{ getYesNo(item.available) }}</td>
+              <td>{{ getYesNo(el.default) }}</td>
+              <td>{{ item.is_single ? "SINGLE" : "MULTI" }}</td>
+              <td>{{ el.price }}</td>
               <td class="table-report__action w-10">
                 <div class="flex">
-                  <router-link
-                    :to="`/dashboard/categories/${getSelectedMenuId}/${el.id}`"
-                  >
-                    <Edit2Icon class="hover:text-theme-12" />
-                  </router-link>
+                  <Edit2Icon
+                    @click="editModifierItem(el)"
+                    class="hover:text-theme-12"
+                  />
                   <DeleteConfirmModal
                     @onConfirmedDelete="deleteItem(el.id)"
                     :isIcon="true"
-                    modalId="category-delete-modal"
+                    :modalId="`modifier-delete-modal-${item.id}-${el.id}`"
                   />
                 </div>
               </td>
@@ -118,10 +102,22 @@
     <MainPaginator
       v-if="getSelectedMenuId != 'null' && getSelectedMenuId"
       class="mt-5"
-      dispatcher="fetchCategories"
+      dispatcher="fetchModifierTypes"
       ref="paginator"
       @setItems="setItems($event)"
       :form="form"
+    />
+    <ModifierTypeModalForm
+      :dispatcher="typeDispatcher"
+      :modalId="typeModalId"
+      :ref="typeModalId"
+      @submitted="search"
+    />
+    <ModifierModalForm
+      :dispatcher="itemDispatcher"
+      :modalId="itemModalId"
+      :ref="itemModalId"
+      @submitted="search"
     />
     <!-- END: Pagination -->
   </div>
@@ -136,13 +132,23 @@ import { defineComponent } from 'vue'
 import { mapGetters } from 'vuex';
 import MainPaginator from '../paginator/MainPaginator.vue'
 import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
+import ModifierTypeModalForm from '../forms/ModifierTypeModalForm.vue';
+import ModifierModalForm from '../forms/ModifierModalForm.vue';
 
 export default defineComponent({
   data() {
     return {
       items: [],
       form: {},
-      showChildren: []
+      showChildren: [],
+      typeModalId: "type-modal-id",
+      typeAddDispatcher: 'postModifierType',
+      typeEditDispatcher: 'putModifierType',
+      typeDispatcher: "postModifierType",
+      itemModalId: "item-modal-id",
+      itemAddDispatcher: 'postModifier',
+      itemEditDispatcher: 'putModifier',
+      itemDispatcher: "postModifier"
     };
   },
   methods: {
@@ -155,15 +161,26 @@ export default defineComponent({
     setItems(val) {
       this.items = val
       this.showChildren = val.map(item => {
-        if (item.children.length > 0) return item.id
+        if (item.items.length > 0) return item.id
       });
     },
     async deleteItem(val) {
       this.$store.commit('setLoadingStatus', true);
-      const res = await this.$store.dispatch('deleteCategory', val);
+      const res = await this.$store.dispatch('deleteModifier', val);
       if (res.status) {
         this.$store.commit('setSuccessNotification', true);
-        this.$refs.paginator.search();
+        this.search();
+      } else {
+        this.$store.commit('setErrorNotification', true);
+      }
+      this.$store.commit('setLoadingStatus', false);
+    },
+    async deleteType(val) {
+      this.$store.commit('setLoadingStatus', true);
+      const res = await this.$store.dispatch('deleteModifierType', val);
+      if (res.status) {
+        this.$store.commit('setSuccessNotification', true);
+        this.search();
       } else {
         this.$store.commit('setErrorNotification', true);
       }
@@ -178,12 +195,31 @@ export default defineComponent({
     },
     isVisibleChildren(val) {
       return this.showChildren.includes(val)
+    },
+    getYesNo(val) {
+      return val ? "YES" : "NO";
+    },
+    addModifierType() {
+      this.typeDispatcher = this.typeAddDispatcher;
+      this.$refs[this.typeModalId].showModal({});
+    },
+    editModifierType(val) {
+      this.typeDispatcher = this.typeEditDispatcher;
+      this.$refs[this.typeModalId].showModal({ ...val });
+    },
+    addModifierItem() {
+      this.itemDispatcher = this.itemAddDispatcher;
+      this.$refs[this.itemModalId].showModal({});
+    },
+    editModifierItem(val) {
+      this.itemDispatcher = this.itemEditDispatcher;
+      this.$refs[this.itemModalId].showModal({ ...val });
     }
   },
   computed: {
     ...mapGetters(['getSelectedMenuId'])
   },
 
-  components: { MainPaginator, DeleteConfirmModal }
+  components: { MainPaginator, DeleteConfirmModal, ModifierTypeModalForm, ModifierModalForm }
 })
 </script>
