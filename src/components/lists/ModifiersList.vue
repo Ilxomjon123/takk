@@ -3,14 +3,16 @@
     <div class="intro-y flex flex-col sm:flex-row items-center mt-10">
       <h2 class="text-lg font-medium mr-auto">Categories List</h2>
       <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-        <router-link
-          :to="getSelectedMenuId != null ? `/dashboard/categories/${getSelectedMenuId}/add` : ''"
-          class="btn btn-primary"
-        >
+        <button class="btn btn-primary mr-3" @click="addModifierType">
           <span class="w-5 h-5 flex items-center justify-center">
             <PlusIcon class="w-4 h-4" />
-          </span>Add Category
-        </router-link>
+          </span>Add Modifier Type
+        </button>
+        <button class="btn btn-primary" @click="addModifier">
+          <span class="w-5 h-5 flex items-center justify-center">
+            <PlusIcon class="w-4 h-4" />
+          </span>Add Modifier
+        </button>
       </div>
     </div>
     <!-- BEGIN: Data List -->
@@ -102,7 +104,7 @@
                   <DeleteConfirmModal
                     @onConfirmedDelete="deleteItem(el.id)"
                     :isIcon="true"
-                    :modalId="`category-delete-modal-${item.id}-${el.id}`"
+                    modalId="category-delete-modal"
                   />
                 </div>
               </td>
