@@ -27,7 +27,7 @@
               <div
                 class="text-gray-600 dark:text-gray-400 px-10 text-center text-base mx-auto mt-5"
               >
-                No risk, 1 year free use of the Takk platform (order accepting system and mobile app). After trial period, 1% of sales.
+                No risk, 6 months free use of the Takk platform (order accepting system and mobile app). After trial period, 1% of sales.
                 Plus credit card fees (2.9%+30c) passed on to payment processing companies.
               </div>
               <div class="flex justify-center">

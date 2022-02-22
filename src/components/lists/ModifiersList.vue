@@ -11,7 +11,7 @@
         <button class="btn btn-primary" @click="addModifierItem">
           <span class="w-5 h-5 flex items-center justify-center">
             <PlusIcon class="w-4 h-4" />
-          </span>Add Modifier
+          </span>Add Modifier Item
         </button>
       </div>
     </div>
@@ -24,7 +24,7 @@
             <th class="whitespace-nowrap">REQUIRED</th>
             <th class="whitespace-nowrap">AVAILABLE</th>
             <th class="whitespace-nowrap">DEFAULT</th>
-            <th class="whitespace-nowrap">SINGLE / MULTI</th>
+            <th class="whitespace-nowrap">SINGLE / MULTI CHOICE</th>
             <th class="whitespace-nowrap">PRICE</th>
             <th class="whitespace-nowrap text-right">ACTIONS</th>
           </tr>
