@@ -32,7 +32,7 @@
             role="tab"
             aria-controls="company-chats"
             aria-selected="false"
-          >Company Chats</a>
+          >General Chats</a>
         </div>
       </div>
     </div>
@@ -43,7 +43,7 @@
         role="tabpanel"
         aria-labelledby="allchats-tab"
       >
-        <ChatList :chat-list="allChats" />
+        <ChatList />
         <!-- <ChatList :chats="chats" @update:selected-chat="showChatBox" /> -->
       </div>
       <div
@@ -52,7 +52,7 @@
         role="tabpanel"
         aria-labelledby="order-chats-tab"
       >
-        <ChatList :chat-list="orderChats" />
+        <ChatList chat-type="order" />
         <!-- <ChatList :chats="orderChats" @update:selected-chat="showChatBox" /> -->
       </div>
       <div
@@ -61,7 +61,7 @@
         role="tabpanel"
         aria-labelledby="company-chats-tab"
       >
-        <ChatList :chat-list="companyChats" />
+        <ChatList chat-type="company" />
         <!-- <ChatList :chats="companyChats" @update:selected-chat="showChatBox" /> -->
       </div>
     </div>
@@ -69,13 +69,5 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import useChatState from '@/features/useChatState';
 import ChatList from './ChatList.vue';
-
-const { getChatList } = useChatState();
-const allChats = getChatList.value;
-const orderChats = computed(() => getChatList.value.filter(chat => chat.chat_type === 'order'));
-const companyChats = computed(() => getChatList.value.filter(chat => chat.chat_type === 'company'));
-
 </script>

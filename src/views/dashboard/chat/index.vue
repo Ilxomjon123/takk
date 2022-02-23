@@ -3,7 +3,7 @@
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
       <h2 class="text-lg font-medium mr-auto">Chat</h2>
       <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-        <button class="btn btn-primary shadow-md mr-2">Start New Chat</button>
+        <button class="btn btn-primary shadow-md mr-2">New Chat</button>
         <div class="dropdown ml-auto sm:ml-0">
           <button
             class="dropdown-toggle btn px-2 box text-gray-700 dark:text-gray-300"
