@@ -135,14 +135,18 @@
         </div>
         <div class="input-form lg:basis-1/2">
           <label class="form-label" for="product_quickest_time">
-            Product quickest time
+            Preparation time
             <span class="text-theme-6">*</span>
           </label>
-          <input
-            id="product_quickest_time"
-            class="form-control"
-            v-model="formFields.quickest_time"
-          />
+          <div class="input-group">
+            <input
+              id="product_quickest_time"
+              class="form-control"
+              v-model="formFields.quickest_time"
+              aria-describedby="input-group-quickesttime"
+            />
+            <div id="input-group-quickesttime" class="input-group-text">mins</div>
+          </div>
           <span
             name="call_center"
             class="text-theme-6 mt-2"
@@ -282,15 +286,15 @@ const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
 
 const props = defineProps({
   formFields: {
-    sizes: [
-      {
-        name: '',
-        square_id: '',
-        price: 0,
-        available: false,
-        default: false,
-      }
-    ]
+    // sizes: [
+    //   {
+    //     name: '',
+    //     square_id: '',
+    //     price: 0,
+    //     available: false,
+    //     default: false,
+    //   }
+    // ]
   },
   externalErrors: {
     type: Object,
@@ -299,16 +303,6 @@ const props = defineProps({
   productImagePath: ''
 });
 const emit = defineEmits(['update:form-fields']);
-// const product_sizes = ref([
-// {
-//   name: '',
-//   square_id: '',
-//   price: 0,
-//   available: false,
-//   default: false,
-// }
-// ]);
-
 const productCategories = reactive([]);
 const productModifiers = reactive([]);
 

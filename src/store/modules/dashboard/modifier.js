@@ -118,7 +118,7 @@ const actions = {
     await axios
       .post(
         `/api/modifiers/items/`,
-        { ...payload, modifier: rootGetters.getSelectedModifierTypeId },
+        { ...payload /*  modifier: rootGetters.getSelectedModifierTypeId */ },
         {
           headers: rootGetters.getHttpHeader
         }
@@ -142,7 +142,7 @@ const actions = {
     await axios
       .put(
         `/api/modifiers/items/${payload.id}/`,
-        { ...payload, modifier: rootGetters.getSelectedModifierTypeId },
+        { ...payload /*  modifier: rootGetters.getSelectedModifierTypeId  */ },
         {
           headers: rootGetters.getHttpHeader
         }

@@ -70,7 +70,8 @@ const formFields = reactive({
       available: false,
       default: false,
     }
-  ]
+  ],
+  quickest_time: 5
 });
 
 async function onSubmit() {

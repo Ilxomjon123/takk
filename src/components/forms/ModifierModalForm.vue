@@ -20,6 +20,23 @@
                 <div class="text-theme-6" v-text="getError('name')" />
               </div>
               <div class="w-full mb-3">
+                <label for="modifier-name">Modifier Type</label>
+                <TomSelect
+                  v-model="modifier.modifier"
+                  :options="{
+                    placeholder: 'Select Modifier Type',
+                  }"
+                  class="w-full mt-2"
+                >
+                  <option
+                    v-for="(item, index) in getModifierTypes.results"
+                    :key="index"
+                    :value="item.id"
+                  >{{ item.name }}</option>
+                </TomSelect>
+                <div class="text-theme-6" v-text="getError('modifier')" />
+              </div>
+              <div class="w-full mb-3">
                 <label for="modifier-price">Price</label>
                 <div class="input-group mt-2">
                   <div id="input-group-price" class="input-group-text">$</div>
@@ -93,6 +110,7 @@
 <script>
 import { defineComponent } from 'vue'
 import cash from 'cash-dom'
+import { mapGetters } from 'vuex';
 
 export default defineComponent({
   props: {
@@ -132,6 +150,7 @@ export default defineComponent({
     },
     showModal(form) {
       this.modifier = form;
+      if (this.modifier.modifier == null) this.modifier.modifier = 0;
       cash('#' + this.modalId).modal('show');
     },
     hideModal() {
@@ -140,6 +159,9 @@ export default defineComponent({
     getError(key) {
       return this.errors[key]?.[0];
     }
+  },
+  computed: {
+    ...mapGetters(['getModifierTypes'])
   }
 })
 </script>

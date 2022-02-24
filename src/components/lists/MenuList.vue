@@ -26,6 +26,7 @@
             <DeleteConfirmModal
               @onConfirmedDelete="deleteMenu(item.id)"
               :isIcon="true"
+              :modalId="`menu-delete-modal-${item.id}`"
             />
           </div>
           <!-- <TrashIcon @click="editMenu(item)" class="hover:text-theme-6" /> -->

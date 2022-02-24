@@ -32,6 +32,7 @@ import EditModifier from '../views/dashboard/modifiers/Edit.vue';
 import Products from '../views/dashboard/products/index.vue';
 import ProductAddForm from '../views/dashboard/products/AddForm.vue';
 import ProductEditForm from '../views/dashboard/products/EditForm.vue';
+import Chat from '../views/dashboard/chat/index.vue';
 
 const routes = [
   {
@@ -72,6 +73,11 @@ const routes = [
         path: 'cafe-edit-form/:id',
         name: 'side-menu-cafe-edit-form',
         component: CafeEdit
+      },
+      {
+        path: 'chat',
+        name: 'side-menu-chat',
+        component: Chat
       },
       { path: 'test', name: 'test', component: DashboardMain },
       { path: 'products', name: 'products', component: Products },

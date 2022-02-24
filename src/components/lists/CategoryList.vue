@@ -38,14 +38,7 @@
                   <img alt="Takk" class="rounded-full" :src="item.image" />
                 </div>
               </td>
-              <td>
-                <a href class="font-medium whitespace-nowrap">{{ item.name }}</a>
-              </td>
-              <td>
-                <div
-                  class="text-gray-600 text-xs whitespace-nowrap mt-0.5"
-                >{{ item.category?.name }}</div>
-              </td>
+              <td>{{ item.name }}</td>
               <td>{{ item.parent }}</td>
               <td>{{ item.start }}</td>
               <td>{{ item.end }}</td>
@@ -59,13 +52,13 @@
                   <DeleteConfirmModal
                     @onConfirmedDelete="deleteItem(item.id)"
                     :isIcon="true"
-                    modalId="category-delete-modal"
+                    :modalId="'category-delete-modal-' + item.id"
                   />
                   <ChevronRightIcon
                     class="hover:text-theme-9"
                     :class="{
                       'transform rotate-90 duration-300': isVisibleChildren(item.id),
-                      'transform duration-150': !isVisibleChildren(item.id),
+                      'transform rotate-0 duration-300': !isVisibleChildren(item.id),
                     }"
                   />
                 </div>
@@ -102,7 +95,7 @@
                   <DeleteConfirmModal
                     @onConfirmedDelete="deleteItem(el.id)"
                     :isIcon="true"
-                    modalId="category-delete-modal"
+                    :modalId="`category-delete-modal-${item.id}-${el.id}`"
                   />
                 </div>
               </td>
@@ -151,17 +144,16 @@ export default defineComponent({
       this.$refs.paginator?.paginate(1);
     },
     setItems(val) {
+      console.log(val);
       this.items = val
-      this.showChildren = val.map(item => {
-        if (item.children.length > 0) return item.id
-      });
+      this.showChildren = val.map(item => { if (item?.children?.length > 0) return item.id });
     },
     async deleteItem(val) {
       this.$store.commit('setLoadingStatus', true);
       const res = await this.$store.dispatch('deleteCategory', val);
       if (res.status) {
         this.$store.commit('setSuccessNotification', true);
-        this.$refs.paginator.search();
+        this.search();
       } else {
         this.$store.commit('setErrorNotification', true);
       }
