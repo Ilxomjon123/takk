@@ -1,6 +1,7 @@
 import { computed, ref } from 'vue';
 
 const loading = ref(false);
+
 export default () => {
   function setLoading(value) {
     console.log('setting loading:');
