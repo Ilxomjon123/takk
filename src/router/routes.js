@@ -122,8 +122,16 @@ const routes = [
         component: CompanyLayout,
         children: [
           { path: '', name: 'categories', component: Categories },
-          { path: ':menuId/add', component: AddCategory },
-          { path: ':menuId/:id', component: EditCategory }
+          {
+            path: ':menuId/add',
+            name: 'categories-add',
+            component: AddCategory
+          },
+          {
+            path: ':menuId/:id',
+            name: 'categories-edit',
+            component: EditCategory
+          }
         ]
       },
       {
