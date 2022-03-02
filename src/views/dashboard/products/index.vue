@@ -12,7 +12,6 @@
       <div
         class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"
       >
-        <!-- <RouterLink to="/dashboard/products/add" class="btn btn-primary mr-3"> -->
         <button
           class="btn btn-primary mr-3"
           @click="gotoAddPage"
@@ -23,7 +22,16 @@
           </span>
           Add Product
         </button>
-        <!-- </RouterLink> -->
+        <button
+          class="btn btn-primary mr-3"
+          @click="saveReorderedList"
+          :disabled="!isReordered"
+        >
+          <span class="w-5 h-5 flex items-center justify-center">
+            <ShuffleIcon class="w-4 h-4" />
+          </span>
+          Save positions
+        </button>
       </div>
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
@@ -38,7 +46,10 @@
               <th class="text-center whitespace-nowrap">ACTIONS</th>
             </tr>
           </thead>
-          <DraggableList :list="products.results" @update:list="fetchProducts" />
+          <DraggableList
+            :list="products.results"
+            @update:list="isReordered = true"
+          />
         </table>
       </div>
       <!-- END: Data List -->
@@ -95,7 +106,7 @@
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useStore } from 'vuex';
 import MenuList from '@/components/lists/MenuList.vue'
-import { fetchProductsList, deleteProduct } from '@/api';
+import { fetchProductsList, deleteProduct, updateProductPositions } from '@/api';
 import Pagination from '@/components/paginator/Pagination.vue';
 import Toastify from 'toastify-js';
 import cash from 'cash-dom';
@@ -108,6 +119,7 @@ const products = reactive({});
 const selectedProduct = reactive({});
 const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
 const clickedProductId = ref(null);
+const isReordered = ref(false);
 
 const paginator = reactive({
   page: ref(1),
@@ -171,6 +183,25 @@ async function changePerPage(val) {
 
 function gotoAddPage() {
   router.push('/dashboard/products/add')
+}
+
+async function saveReorderedList() {
+  store.commit('setLoadingStatus', true)
+  try {
+    const res = await updateProductPositions({
+      obj_type: "product",
+      obj_list: products.results.map((item, itemIndex) => ({ id: item.id, position: itemIndex + 1 + (paginator.page - 1) * paginator.limit }))
+    });
+
+    if (res) {
+      isReordered.value = false
+      fetchProducts()
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    store.commit('setLoadingStatus', false)
+  }
 }
 </script>
 

@@ -1,12 +1,5 @@
 <template>
-  <draggable
-    tag="tbody"
-    :list="list"
-    group="list"
-    item-key="id"
-    @change="reorderList"
-    :animation="300"
-  >
+  <draggable tag="tbody" v-model="list" item-key="position" :move="reorderList">
     <template #item="{ element }">
       <tr class="intro-x">
         <td scope="row">
@@ -19,7 +12,7 @@
           </div>
         </td>
         <td>
-          <p class="font-medium whitespace-nowrap">{{ element.name }}</p>
+          <a href class="font-medium whitespace-nowrap">{{ element.name }}</a>
           <div
             class="text-gray-600 text-xs whitespace-nowrap mt-0.5"
           >{{ element.category?.name }}</div>
@@ -51,9 +44,10 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import draggable from "vuedraggable";
 import { useStore } from "vuex";
+import { fetchProductsList, updateProduct } from "@/api";
 import { useRouter } from "vue-router";
 
 const props = defineProps({
@@ -66,7 +60,47 @@ const router = useRouter()
 const drag = ref(false);
 
 async function reorderList(event) {
-  emit('update:list')
+  console.log('event in reorderList func: ', event);
+
+  const draggedId = event.draggedContext.element.id;
+  const relatedId = event.relatedContext.element.id;
+  const draggedPos = event.draggedContext.element.position;
+  const relatedPos = event.relatedContext.element.position;
+  const formData1 = new FormData()
+  const formData2 = new FormData()
+  formData1.append('position', relatedPos);
+  formData2.append('position', draggedPos);
+
+  store.commit('setLoadingStatus', true)
+  try {
+    const res1 = await updateProduct({
+      id: draggedId,
+      data: formData1,
+    });
+    const res2 = await updateProduct({
+      id: relatedId,
+      data: formData2,
+    });
+
+    if (res1 && res2) {
+      // Object.assign(list, res2.results);
+      emit('update:list')
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    store.commit('setLoadingStatus', false)
+  }
+
+  // Object.assign(list, list.map(item => {
+  //   if (item.id === draggedId) {
+  //     return { ...item, position: relatedPos }
+  //   }
+  //   if (item.id === relatedId) {
+  //     return { ...item, position: draggedPos }
+  //   }
+  //   return item
+  // }));
 }
 
 </script>

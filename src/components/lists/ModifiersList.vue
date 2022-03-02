@@ -62,7 +62,7 @@
               </td>
             </tr>
             <tr
-              class="-intro-y"
+              class="-intro-y inner-tr"
               v-for="(el, i) in item.items"
               :key="i"
               v-show="isVisibleChildren(item.id)"
@@ -221,5 +221,14 @@ export default defineComponent({
   },
 
   components: { MainPaginator, DeleteConfirmModal, ModifierTypeModalForm, ModifierModalForm }
-})
+});
 </script>
+
+<style lang="scss" scoped>
+.dark .inner-tr td {
+  background-color: #1e2533 !important;
+}
+.inner-tr td {
+  background-color: #dfdfdf !important;
+}
+</style>

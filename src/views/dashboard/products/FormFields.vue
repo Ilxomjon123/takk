@@ -153,6 +153,11 @@
           >{{ externalErrors.quickest_time && externalErrors.quickest_time[0] }}</span>
         </div>
       </div>
+      <div
+        class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
+      >
+        <h2 class="font-medium text-base mr-auto">Product Availability Time</h2>
+      </div>
       <div class="flex flex-col lg:flex-row gap-5 pt-3">
         <div class="input-form lg:basis-1/2">
           <label for="product_start_time" class="form-label">
@@ -238,7 +243,7 @@
         </div>
       </div>
       <div class="flex flex-col lg:flex-row gap-5 pt-3">
-        <div class="input-form lg:basis-1/2">
+        <div class="input-form w-full">
           <label class="form-label" for="product_modifiers">Product modifiers</label>
           <TomSelect
             id="product_modifiers"
