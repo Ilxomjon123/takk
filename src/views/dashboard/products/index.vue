@@ -12,15 +12,30 @@
       <div
         class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"
       >
-        <RouterLink to="/dashboard/products/add" class="btn btn-primary mr-3">
+        <button
+          class="btn btn-primary mr-3"
+          @click="gotoAddPage"
+          :disabled="!activeMenuID"
+        >
           <span class="w-5 h-5 flex items-center justify-center">
             <PlusIcon class="w-4 h-4" />
           </span>
           Add Product
-        </RouterLink>
+        </button>
+        <button
+          class="btn btn-primary mr-3"
+          @click="saveReorderedList"
+          :disabled="!isReordered"
+        >
+          <span class="w-5 h-5 flex items-center justify-center">
+            <ShuffleIcon class="w-4 h-4" />
+          </span>
+          Save positions
+        </button>
       </div>
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
+        <!-- <DraggableList :list="products.results" /> -->
         <table class="table table-report -mt-2">
           <thead>
             <tr>
@@ -31,50 +46,10 @@
               <th class="text-center whitespace-nowrap">ACTIONS</th>
             </tr>
           </thead>
-          <tbody>
-            <tr
-              v-for="(product, productKey) in products.results"
-              :key="productKey"
-              class="intro-x"
-            >
-              <td>
-                <div class="w-20 h-20 image-fit zoom-in">
-                  <img
-                    alt="Icewall Tailwind HTML Admin Template"
-                    class="rounded-full"
-                    :src="product.image"
-                  />
-                </div>
-              </td>
-              <td>
-                <a href class="font-medium whitespace-nowrap">{{ product.name }}</a>
-                <div
-                  class="text-gray-600 text-xs whitespace-nowrap mt-0.5"
-                >{{ product.category?.name }}</div>
-              </td>
-              <td class="text-center">{{ product.position }}</td>
-              <td class>{{ product.description }}</td>
-              <td class="table-report__action">
-                <div class="flex justify-center items-center">
-                  <button
-                    class="flex items-center mr-3"
-                    @click="$router.push('/dashboard/products/' + product.id)"
-                  >
-                    <CheckSquareIcon class="w-4 h-4 mr-1" />Edit
-                  </button>
-                  <a
-                    class="flex items-center text-theme-6"
-                    href="javascript:;"
-                    data-toggle="modal"
-                    data-target="#delete-confirmation-modal"
-                    @click="clickedProductId = product.id"
-                  >
-                    <Trash2Icon class="w-4 h-4 mr-1" />Delete
-                  </a>
-                </div>
-              </td>
-            </tr>
-          </tbody>
+          <DraggableList
+            :list="products.results"
+            @update:list="isReordered = true"
+          />
         </table>
       </div>
       <!-- END: Data List -->
@@ -131,16 +106,20 @@
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useStore } from 'vuex';
 import MenuList from '@/components/lists/MenuList.vue'
-import { fetchProductsList, deleteProduct } from '@/api';
+import { fetchProductsList, deleteProduct, updateProductPositions } from '@/api';
 import Pagination from '@/components/paginator/Pagination.vue';
 import Toastify from 'toastify-js';
 import cash from 'cash-dom';
+import { useRouter } from 'vue-router';
+import DraggableList from './DraggableList.vue';
 
+const store = useStore()
+const router = useRouter()
 const products = reactive({});
 const selectedProduct = reactive({});
-const store = useStore()
 const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
 const clickedProductId = ref(null);
+const isReordered = ref(false);
 
 const paginator = reactive({
   page: ref(1),
@@ -200,6 +179,29 @@ async function changePerPage(val) {
   paginator.page = 1;
   await fetchProducts();
   store.commit('setLoadingStatus', false)
+}
+
+function gotoAddPage() {
+  router.push('/dashboard/products/add')
+}
+
+async function saveReorderedList() {
+  store.commit('setLoadingStatus', true)
+  try {
+    const res = await updateProductPositions({
+      obj_type: "product",
+      obj_list: products.results.map((item, itemIndex) => ({ id: item.id, position: itemIndex + 1 + (paginator.page - 1) * paginator.limit }))
+    });
+
+    if (res) {
+      isReordered.value = false
+      fetchProducts()
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    store.commit('setLoadingStatus', false)
+  }
 }
 </script>
 

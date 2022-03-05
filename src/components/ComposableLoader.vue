@@ -10,9 +10,8 @@
 
 <script setup>
 import { computed } from 'vue';
-import loading from '@/features/useLoading.js';
+import useLoading from '@/features/useLoading.js';
 
-const { isLoading } = loading()
-console.log('isLoading from ComposableLoader component: ', isLoading.value);
+const { isLoading } = useLoading();
 
 </script>

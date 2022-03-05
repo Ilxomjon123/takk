@@ -1,12 +1,11 @@
 <template>
   <!-- <SearchInput /> -->
-  <SearchInput :list="chatList" />
-  <!-- <SearchInput :list="chatList" @update:list="chatList = $event" /> -->
+  <SearchInput v-model="searchValue" />
   <div class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 pt-1 mt-4">
     <div
-      v-for="(chat, chatKey) in chatList"
+      v-for="(chat, chatKey) in filteredChatList"
       :key="chatKey"
-      class="intro-x cursor-pointer box relative flex items-center p-5"
+      class="intro-x cursor-pointer box relative flex p-5"
       :class="{ 'bg-theme-1 dark:bg-theme-1 text-white': chat.id === getSelectedChat.id, 'mt-5': chatKey }"
       @click="selectChat(chat)"
     >
@@ -22,7 +21,7 @@
         ></div>
       </div>
       <div class="ml-2 overflow-hidden w-full">
-        <div class="flex items-center">
+        <div class="flex">
           <h6 href="javascript:;" class="font-medium">{{ chat.user?.username }}</h6>
           <div
             class="text-xs text-gray-500 ml-auto"
@@ -35,14 +34,10 @@
           >{{ chat.last_message.text }}</div>
           <div
             v-if="chat.last_message.item_type === 'image'"
-            class="w-full truncate text-gray-600 mt-0.5"
+            class="flex text-gray-600 mt-0.5 gap-2 items-center"
           >
-            <img
-              :src="chat.last_message.image"
-              alt="last image"
-              width="10"
-              height="5"
-            />
+            <img :src="chat.last_message.image" alt="last image" width="30" />
+            <span>Photo</span>
           </div>
         </template>
       </div>
@@ -56,21 +51,38 @@
 
 <script setup>
 import moment from 'moment';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import useChatState from '@/features/useChatState';
 import SearchInput from './SearchInput.vue';
 import { fetchChatMessages } from '@/api';
 
 const props = defineProps({
-  chatList: Array
+  chatType: {
+    type: String,
+    default: ''
+  }
 });
+
 const {
   setSelectedChat,
   setSelectedChatMessages,
+  chatList,
   getSelectedChat,
   setErrorMessage,
   setChatBoxLoading
 } = useChatState();
+
+const searchValue = ref('');
+
+const filteredChatList = computed(() => {
+  if (searchValue.value) {
+    return chatList.filter(chat => chat.user?.username.toLowerCase().includes(searchValue.value.toLowerCase()) || chat.user?.phone.includes(searchValue.value.toLowerCase()));
+  }
+  if (props.chatType) {
+    return chatList.filter(chat => chat.chat_type === props.chatType);
+  }
+  else return chatList;
+});
 
 onMounted(() => {
   document.addEventListener('keyup', keyListener);

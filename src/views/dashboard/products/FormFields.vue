@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col md:flex-row gap-5">
-    <div class="lg:basis-1/2 lg:basis-1/3">
+    <div class="lg:basis-1/3">
       <div
         class="flex flex-col sm:flex-row items-center mb-5 border-b border-gray-200 dark:border-dark-5"
       >
@@ -80,7 +80,7 @@
               class="text-theme-6 mt-2"
             >{{ externalErrors.sizes && externalErrors.sizes[0] }}</span>
           </div>
-          <div class="input-form basis-1/2">
+          <!-- <div class="input-form basis-1/2">
             <label
               class="form-label"
               :for="'product_size_square_id' + index"
@@ -91,7 +91,7 @@
               class="form-control"
               type="text"
             />
-          </div>
+          </div>-->
         </div>
       </template>
       <div class="flex pb-5 w-full justify-between">
@@ -135,19 +135,28 @@
         </div>
         <div class="input-form lg:basis-1/2">
           <label class="form-label" for="product_quickest_time">
-            Product quickest time
+            Preparation time
             <span class="text-theme-6">*</span>
           </label>
-          <input
-            id="product_quickest_time"
-            class="form-control"
-            v-model="formFields.quickest_time"
-          />
+          <div class="input-group">
+            <input
+              id="product_quickest_time"
+              class="form-control"
+              v-model="formFields.quickest_time"
+              aria-describedby="input-group-quickesttime"
+            />
+            <div id="input-group-quickesttime" class="input-group-text">mins</div>
+          </div>
           <span
             name="call_center"
             class="text-theme-6 mt-2"
           >{{ externalErrors.quickest_time && externalErrors.quickest_time[0] }}</span>
         </div>
+      </div>
+      <div
+        class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
+      >
+        <h2 class="font-medium text-base mr-auto">Product Availability Time</h2>
       </div>
       <div class="flex flex-col lg:flex-row gap-5 pt-3">
         <div class="input-form lg:basis-1/2">
@@ -181,7 +190,7 @@
           >{{ externalErrors.end && externalErrors.end[0] }}</span>
         </div>
       </div>
-      <div class="flex flex-col lg:flex-row gap-5 pt-3">
+      <!-- <div class="flex flex-col lg:flex-row gap-5 pt-3">
         <div class="input-form lg:basis-1/2">
           <label class="form-label" for="product_square_id">Product square id</label>
           <input
@@ -194,7 +203,7 @@
             class="text-theme-6 mt-2"
           >{{ externalErrors.square_id && externalErrors.square_id[0] }}</span>
         </div>
-      </div>
+      </div>-->
       <div class="flex flex-col lg:flex-row gap-5 pt-3">
         <div class="input-form lg:basis-1/2">
           <label
@@ -234,7 +243,7 @@
         </div>
       </div>
       <div class="flex flex-col lg:flex-row gap-5 pt-3">
-        <div class="input-form lg:basis-1/2">
+        <div class="input-form w-full">
           <label class="form-label" for="product_modifiers">Product modifiers</label>
           <TomSelect
             id="product_modifiers"
@@ -281,41 +290,20 @@ const store = useStore()
 const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
 
 const props = defineProps({
-  formFields: {
-    sizes: [
-      {
-        name: '',
-        square_id: '',
-        price: 0,
-        available: false,
-        default: false,
-      }
-    ]
-  },
-  externalErrors: {
-    type: Object,
-    default: () => { }
-  },
-  productImagePath: ''
+  formFields: Object,
+  externalErrors: Object,
+  productImagePath: String
 });
 const emit = defineEmits(['update:form-fields']);
-// const product_sizes = ref([
-// {
-//   name: '',
-//   square_id: '',
-//   price: 0,
-//   available: false,
-//   default: false,
-// }
-// ]);
-
 const productCategories = reactive([]);
 const productModifiers = reactive([]);
 
 onMounted(() => {
   store.commit('setLoadingStatus', true)
-  fetchSelectedMenuCategories(activeMenuID.value).then((res) => Object.assign(productCategories, res.results))
-  fetchSelectedMenuModifiers(activeMenuID.value).then((res) => Object.assign(productModifiers, res.results))
+  fetchSelectedMenuCategories(activeMenuID.value)
+    .then((res) => Object.assign(productCategories, res.results))
+  fetchSelectedMenuModifiers(activeMenuID.value)
+    .then((res) => Object.assign(productModifiers, res.results))
   store.commit('setLoadingStatus', false)
 });
 

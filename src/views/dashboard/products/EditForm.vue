@@ -74,7 +74,8 @@ const formFields = reactive({
       available: false,
       default: false,
     }
-  ]
+  ],
+  quickest_time: 5
 });
 
 const productImagePath = ref(null);
