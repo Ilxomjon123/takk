@@ -31,14 +31,21 @@
         </thead>
         <tbody>
           <template v-for="(item, index) in items" :key="index">
-            <tr class="-intro-y zoom-in" @click="toggleChildren(item.id)">
+            <tr class="-intro-y zoom-in">
               <!-- <td class="w-0">{{ item.position }}</td> -->
               <td class="w-10">
                 <div class="w-10 h-10 image-fit zoom-in">
                   <img alt="Takk" class="rounded-full" :src="item.image" />
                 </div>
               </td>
-              <td>{{ item.name }}</td>
+              <td
+                class="flex items-center gap-3 hover:text-theme-9"
+                @click="toggleChildren(item.id)"
+              >
+                <PlusIcon v-if="!isVisibleChildren(item.id)" />
+                <MinusIcon v-if="isVisibleChildren(item.id)" />
+                <p class="font-medium whitespace-nowrap">{{ item.name }}</p>
+              </td>
               <td>{{ item.parent }}</td>
               <td>{{ item.start }}</td>
               <td>{{ item.end }}</td>
@@ -54,13 +61,13 @@
                     :isIcon="true"
                     :modalId="'category-delete-modal-' + item.id"
                   />
-                  <ChevronRightIcon
+                  <!-- <ChevronRightIcon
                     class="hover:text-theme-9"
                     :class="{
                       'transform rotate-90 duration-300': isVisibleChildren(item.id),
                       'transform rotate-0 duration-300': !isVisibleChildren(item.id),
                     }"
-                  />
+                  />-->
                 </div>
               </td>
             </tr>

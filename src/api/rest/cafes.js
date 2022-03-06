@@ -6,7 +6,7 @@ export const fetchCafeList = async () => {
       ?.company_id;
 
     const res = await makeRequest({
-      url: `/api/companies/${companyId}/`,
+      url: `/api/cafes/`,
       headers: { authorization: true }
     });
 

@@ -32,6 +32,7 @@ const getters = {
   },
   getEmployeeTypes: state => state.employee_types
 };
+
 const mutations = {
   setUser(state, payload) {
     let details = JSON.parse(localStorage.getItem(REQUIRED_DETAILS));
@@ -61,6 +62,7 @@ const mutations = {
     localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(required_details));
   }
 };
+
 const actions = {
   async signin({ commit }, form) {
     try {
