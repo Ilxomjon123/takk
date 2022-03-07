@@ -65,11 +65,11 @@ const state = () => {
         pageName: 'transactions',
         title: 'Transactions'
       },
-      {
-        icon: 'MessageCircleIcon',
-        pageName: 'test',
-        title: 'Messages'
-      },
+      // {
+      //   icon: 'MessageCircleIcon',
+      //   pageName: 'test',
+      //   title: 'Messages'
+      // },
       {
         icon: 'UserPlusIcon',
         pageName: 'customer',

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="getSelectedMenuId != null">
+  <div v-if="getSelectedMenuId">
     <div class="intro-y flex flex-col sm:flex-row items-center mt-10">
       <h2 class="text-lg font-medium mr-auto">Categories List</h2>
       <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
@@ -31,9 +31,21 @@
         </thead>
         <tbody>
           <template v-for="(item, index) in items" :key="index">
-            <tr class="-intro-y zoom-in" @click="toggleChildren(item.id)">
-              <td>
-                <a href class="font-medium whitespace-nowrap">{{ item.name }}</a>
+            <tr class="-intro-y zoom-in">
+              <!-- <ChevronRightIcon
+                class="hover:text-theme-9"
+                :class="{
+                  'transform rotate-90 duration-300': isVisibleChildren(item.id),
+                  'transform rotate-0 duration-300': !isVisibleChildren(item.id),
+                }"
+              />-->
+              <td
+                class="flex items-center gap-3 hover:text-theme-9"
+                @click="toggleChildren(item.id)"
+              >
+                <PlusIcon v-if="!isVisibleChildren(item.id)" />
+                <MinusIcon v-if="isVisibleChildren(item.id)" />
+                <p class="font-medium whitespace-nowrap">{{ item.name }}</p>
               </td>
               <td>{{ getYesNo(item.required) }}</td>
               <td>{{ getYesNo(item.available) }}</td>
@@ -51,13 +63,6 @@
                     :isIcon="true"
                     :modalId="`modifier-type-delete-modal-${item.id}`"
                   />
-                  <ChevronRightIcon
-                    class="hover:text-theme-9"
-                    :class="{
-                      'transform rotate-90 duration-300': isVisibleChildren(item.id),
-                      'transform rotate-0 duration-300': !isVisibleChildren(item.id),
-                    }"
-                  />
                 </div>
               </td>
             </tr>
@@ -67,7 +72,6 @@
               :key="i"
               v-show="isVisibleChildren(item.id)"
             >
-              <!-- <td class="w-0">{{ el.position }}</td> -->
               <td>
                 <a
                   href
@@ -95,12 +99,13 @@
             </tr>
           </template>
         </tbody>
+        <!-- <ModifierDraggable :items="items" @action:delete-type="search" /> -->
       </table>
     </div>
     <!-- END: Data List -->
     <!-- BEGIN: Pagination -->
     <MainPaginator
-      v-if="getSelectedMenuId != 'null' && getSelectedMenuId"
+      v-if="getSelectedMenuId"
       class="mt-5"
       dispatcher="fetchModifierTypes"
       ref="paginator"
@@ -127,13 +132,16 @@
   >For showing Categories Please select Menu</div>
 </template>
 
-<script>
+<script >
 import { defineComponent } from 'vue'
 import { mapGetters } from 'vuex';
 import MainPaginator from '../paginator/MainPaginator.vue'
 import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
 import ModifierTypeModalForm from '../forms/ModifierTypeModalForm.vue';
 import ModifierModalForm from '../forms/ModifierModalForm.vue';
+import Draggable from "vuedraggable";
+import ModifierDraggable from './ModifierDraggable.vue';
+import DraggableTable from './DraggableTable.vue';
 
 export default defineComponent({
   data() {
@@ -220,7 +228,7 @@ export default defineComponent({
     ...mapGetters(['getSelectedMenuId'])
   },
 
-  components: { MainPaginator, DeleteConfirmModal, ModifierTypeModalForm, ModifierModalForm }
+  components: { MainPaginator, DeleteConfirmModal, ModifierTypeModalForm, ModifierModalForm, Draggable, ModifierDraggable, DraggableTable }
 });
 </script>
 

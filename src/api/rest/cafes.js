@@ -6,11 +6,11 @@ export const fetchCafeList = async () => {
       ?.company_id;
 
     const res = await makeRequest({
-      url: `/api/companies/${companyId}/`,
+      url: `/api/cafes/`,
       headers: { authorization: true }
     });
 
-    return res.data.cafes;
+    return res.data;
   } catch (err) {
     return console.log('error while fetching cafes: ', err);
   }

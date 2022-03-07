@@ -69,7 +69,7 @@
                           : router.resolve({ name: subMenu.pageName }).path
                       "
                       class="side-menu"
-                      :class="{ 'side-menu--active': subMenu.active }"
+                      :class="{ 'side-menu--active': subMenu.active || $route.name.startsWith(subMenu.pageName) }"
                       @click="linkTo(subMenu, router, $event)"
                     >
                       <div class="side-menu__icon ml-5">

@@ -85,7 +85,7 @@
 <script>
 import { defineComponent } from 'vue';
 import { mapActions, mapGetters, mapMutations } from 'vuex';
-import { setToken } from '@/api/config.js';
+import { setToken } from '@/api';
 
 export default defineComponent({
   data() {
@@ -126,7 +126,7 @@ export default defineComponent({
             user: res.data.user,
             token: res.data.token
           });
-          setToken(res.data.token);
+          setToken(res.data.token.access);
           // this.$router.push('/entry');
           window.location.replace('/entry');
         }
