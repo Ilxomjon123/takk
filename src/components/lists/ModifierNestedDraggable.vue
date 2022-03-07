@@ -19,7 +19,7 @@ const typeDispatcher = "postModifierType"
 const itemModalId = ref("item-modal-id")
 const itemAddDispatcher = 'postModifier'
 const itemEditDispatcher = 'putModifier'
-const itemDispatcher = "postModifier"
+let itemDispatcher = "postModifier"
 
 function getYesNo(val) {
   return val ? "YES" : "NO";

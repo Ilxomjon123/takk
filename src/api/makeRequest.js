@@ -12,7 +12,7 @@ export default async ({
   data = {}
 }) => {
   if (headers && headers.authorization) {
-    headers.authorization = 'Token ' + config.getToken();
+    headers.authorization = 'Basic ' + config.getToken();
   }
 
   try {

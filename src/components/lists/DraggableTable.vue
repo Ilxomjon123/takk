@@ -2,7 +2,6 @@
 import { onMounted, reactive, ref } from 'vue';
 import { useStore } from "vuex";
 import DeleteConfirmModal from "../modals/DeleteConfirmModal.vue";
-import VueDragula from 'vue-dragula';
 
 const store = useStore()
 const props = defineProps({

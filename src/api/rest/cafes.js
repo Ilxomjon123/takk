@@ -10,7 +10,7 @@ export const fetchCafeList = async () => {
       headers: { authorization: true }
     });
 
-    return res.data.cafes;
+    return res.data;
   } catch (err) {
     return console.log('error while fetching cafes: ', err);
   }
