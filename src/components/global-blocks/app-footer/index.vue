@@ -48,3 +48,11 @@
   </footer>
 </template>
 <script setup></script>
+
+<style scoped lang="scss">
+// .container {
+//   @media (min-width: 1500px) {
+//     max-width: 85%;
+//   }
+// }
+</style>

@@ -1,7 +1,7 @@
 <template>
   <header class="w-full">
-    <div class="container py-5 flex flex-wrap justify-between">
-      <div class="flex lg:mr-5 px-1 py-2">
+    <div class="container py-5 px-5 flex flex-wrap justify-between">
+      <div class="flex lg:mr-auto py-2">
         <a href="/">
           <img
             class="w-1/2 md:w-auto"
@@ -14,7 +14,7 @@
         <ul
           v-if="$route.path === '/'"
           ref="menu"
-          class="flex flex-wrap p-1 md:p-2 text-base xl:text-lg text-theme-32 font-medium content-center"
+          class="flex flex-wrap p-1 md:p-2 text-base xl:text-2xl text-theme-32 font-medium content-center"
         >
           <li class="mx-1 px-1 py-2">
             <a
@@ -46,7 +46,10 @@
             </a>
           </li>
         </ul>
-        <h1 v-else class="text-xl font-bold text-gray-600 my-auto p-4">
+        <h1
+          v-else
+          class="text-base xl:text-2xl font-bold text-gray-600 my-auto p-4"
+        >
           Takk app is available on
           <span class="text-theme-31">
             <router-link to="/">App Store</router-link>
@@ -58,9 +61,9 @@
       </div>
       <div class="hidden lg:flex w-full lg:w-auto">
         <ul
-          class="flex flex-wrap p-1 md:p-2 text-sm md:text-base font-medium items-center"
+          class="flex flex-wrap text-sm xl:text-2xl md:text-base font-medium items-center gap-5"
         >
-          <li class="mx-1 px-1 py-2">
+          <li class="py-2">
             <button
               v-if="$route.path == '/'"
               @click="goto('/for-customers')"
@@ -76,7 +79,7 @@
               <span>For Coffee Shops</span>
             </button>
           </li>
-          <li class="mx-1 px-1 py-2">
+          <li class="py-2">
             <button class="rounded_btn_1" @click="showContactUsModal">
               <span>Contact us</span>
             </button>
@@ -120,8 +123,17 @@ const goto = url => {
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .rounded_btn_1 {
   @apply xl:px-6 px-3 py-2 border-2 border-theme-31 rounded-full font-bold text-gray-600 hover:bg-theme-31 hover:text-white shadow-lg;
+}
+
+header .container {
+  @media (min-width: 1537px) {
+    max-width: 85%;
+  }
+  @media (max-width: 1536px) {
+    min-width: 100%;
+  }
 }
 </style>
