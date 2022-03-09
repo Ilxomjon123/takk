@@ -27,7 +27,7 @@
         </div>
       </div>
     </section>
-    <section id="preordering-rectangle" class="mt-6 lg:mt-10">
+    <section id="preordering-rectangle" class="mt-6 lg:mt-10 2xl:mt-12">
       <div
         class="rectangle container grid grid-cols-1 md:grid-cols-2 bg-theme-34 p-5 lg:p-10"
       >
@@ -51,7 +51,7 @@
         </div>
       </div>
     </section>
-    <section id="delivery-rectangle" class="mt-6 lg:mt-10">
+    <section id="delivery-rectangle" class="mt-6 lg:mt-10 2xl:mt-12">
       <div
         class="rectangle container grid grid-cols-1 md:grid-cols-2 bg-theme-33 p-5 lg:p-10"
       >
@@ -74,7 +74,7 @@
         </div>
       </div>
     </section>
-    <section id="loyalty-stamps-rectangle" class="mt-6 lg:mt-10">
+    <section id="loyalty-stamps-rectangle" class="mt-6 lg:mt-10 2xl:mt-12">
       <div
         class="rectangle container grid grid-cols-1 md:grid-cols-2 bg-theme-34 p-5 lg:p-10"
       >
@@ -100,7 +100,7 @@
         </div>
       </div>
     </section>
-    <section id="self-checkout-rectangle" class="mt-6 lg:mt-10">
+    <section id="self-checkout-rectangle" class="mt-6 lg:mt-10 2xl:mt-12">
       <div
         class="rectangle container grid grid-cols-1 md:grid-cols-2 bg-theme-33 p-5 lg:p-10"
       >
@@ -123,7 +123,7 @@
         </div>
       </div>
     </section>
-    <section id="analytics-rectangle" class="mt-6 lg:mt-10">
+    <section id="analytics-rectangle" class="mt-6 lg:mt-10 2xl:mt-12">
       <div
         class="rectangle container grid grid-cols-1 md:grid-cols-2 bg-theme-34 p-5 lg:p-10"
       >
@@ -149,11 +149,11 @@
         </div>
       </div>
     </section>
-    <section id="fees-rectangle" class="mt-6 lg:mt-10">
-      <div class="container grid md:bg-theme-33 px-5 lg:px-10 py-16 lg:py-32">
-        <div class="grid md:my-16 justify-center">
+    <section id="fees-rectangle" class="mt-6 lg:mt-10 2xl:mt-12">
+      <div class="container grid md:bg-theme-33 px-5 lg:px-10">
+        <div class="grid justify-center">
           <h2
-            class="text-4xl lg:text-6xl font-bold md:font-extrabold mb-10 md:text-center"
+            class="text-4xl lg:text-6xl font-bold md:font-extrabold my-7 2xl:my-14 md:text-center"
           >
             <span
               class="colored-underline2"
@@ -161,9 +161,11 @@
           </h2>
         </div>
         <div class="grid lg:grid-cols-12 lg:mb-16 justify-center">
-          <div class="box lg:col-start-3 lg:col-span-8 p-4 lg:p-16 xl:px-36">
+          <div
+            class="box lg:col-start-3 lg:col-span-8 2xl:px-32 2xl:py-10 px-16 py-5"
+          >
             <h1
-              class="text-3xl md:text-5xl lg:text-7xl text-center font-medium mb-10"
+              class="text-3xl md:text-5xl lg:text-6xl 2xl:text-7xl text-center font-medium mb-10"
             >Only Pay for Results</h1>
             <p>Regular use of Takk is free of charge for independent coffeeshops.</p>
             <p>We charge 3% of the sales, if payment is made through prepaid Takk Budget (guaranteed return customer).</p>
@@ -239,23 +241,22 @@ $mobile: 425px;
   @media screen and (max-width: $mobile) {
     border-radius: 20px;
   }
-}
-
-#fees-rectangle .box {
-  box-shadow: 0 10px 15px #00000026;
-  background-color: #fff;
-  border-radius: 40px;
-  @media screen and (max-width: $mobile) {
-    background-color: transparent;
-    box-shadow: none;
-    border-radius: 0;
-  }
-  & p {
-    color: #525252 !important;
-    @apply text-center text-2xl md:text-3xl lg:text-4xl mb-5 font-light;
-    @media screen and (min-width: 1536px) {
-      font-size: 2.5rem;
-      line-height: 1.2;
+  & .box {
+    box-shadow: 0 10px 15px #00000026;
+    background-color: #fff;
+    border-radius: 40px;
+    @media screen and (max-width: $mobile) {
+      background-color: transparent;
+      box-shadow: none;
+      border-radius: 0;
+    }
+    & p {
+      color: #525252 !important;
+      @apply text-center text-2xl md:text-3xl lg:text-4xl mb-5 font-light;
+      @media screen and (min-width: 1536px) {
+        font-size: 2.5rem;
+        line-height: 1.2;
+      }
     }
   }
 }

@@ -14,3 +14,16 @@ export const updateProductPositions = async payload => {
     throw err;
   }
 };
+
+export const fetchMenus = async () => {
+  try {
+    const res = await makeRequest({
+      url: '/api/menus/',
+      headers: { authorization: true }
+    });
+    return res.data;
+  } catch (error) {
+    console.log('error while updating Product: ', err);
+    throw err;
+  }
+};

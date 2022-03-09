@@ -83,7 +83,7 @@
                 :src="message.image"
                 alt="image message"
               />
-              <p v-if="message.item_type === 'string'">{{ message.text }}</p>
+              <p v-if="message.item_type === 'message'">{{ message.text }}</p>
               <div
                 class="mt-1 text-xs text-gray-600"
               >{{ formattedDate(message.created_dt) }}</div>
@@ -151,7 +151,7 @@
                 :src="message.image"
                 alt="image message"
               />
-              <p v-if="message.item_type === 'string'">{{ message.text }}</p>
+              <p v-if="message.item_type === 'message'">{{ message.text }}</p>
               <div
                 class="mt-1 text-xs text-theme-21"
               >{{ formattedDate(message.created_dt) }}</div>

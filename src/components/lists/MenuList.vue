@@ -40,13 +40,13 @@
     </div>
 
     <!-- BEGIN: Pagination -->
-    <MainPaginator
+    <!-- <MainPaginator
       class="mt-5"
       dispatcher="fetchMenus"
       ref="paginator"
       @setItems="setItems($event)"
       :form="paginationForm"
-    />
+    />-->
     <!-- END: Pagination -->
   </div>
   <MenuModalForm
@@ -63,6 +63,7 @@ import MainPaginator from '../paginator/MainPaginator.vue'
 import MenuModalForm from '../forms/MenuModalForm.vue'
 import { mapGetters } from 'vuex'
 import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue'
+import { fetchMenus } from '@/api'
 export default defineComponent({
   props: {
     subItemTitle: String,
@@ -84,6 +85,10 @@ export default defineComponent({
       successMessage: 'Successfully Deleted!',
       loadingDelete: {}
     }
+  },
+  async mounted() {
+    const res = await fetchMenus();
+    this.items = res;
   },
   emits: ['update-id'],
   computed: {

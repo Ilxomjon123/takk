@@ -127,7 +127,7 @@ const schema = yup.object().shape({
   // status: yup.boolean(),
   postal_code: yup.string().max(12, "Must be less than 12 characters"), // ok
   tax_rate: yup.number().positive().required("This field is requried"), // ok
-  version: yup.number().positive().integer(), // ok
+  // version: yup.number().positive().integer(), // ok
   order_limit: yup.number().positive().integer().required("This field is requried"), // ok
   order_time_limit: yup.number().positive().integer().required("This field is requried"), // ok
   address: yup.string(), // ok
@@ -249,7 +249,7 @@ onMounted(async () => {
     formFields.state = res.state
     formFields.status = res.status
     formFields.tax_rate = res.tax_rate
-    formFields.version = res.version
+    // formFields.version = res.version
     formFields.website = res.website
   })
 
