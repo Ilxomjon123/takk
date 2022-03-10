@@ -33,7 +33,7 @@ export const fetchCafe = async cafeID => {
 export const fetchCafeGallery = async cafeID => {
   try {
     const res = await makeRequest({
-      url: `/api/cafes/${cafeID}/gallery/`,
+      url: `/api/cafes/${cafeID}/photos/`,
       headers: { authorization: true }
     });
 

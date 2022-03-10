@@ -27,7 +27,7 @@ const actions = {
   async fetchMenus({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/api/companies/${rootGetters.getCompanyId}/menus/`, {
+      .get(`/api/menus/`, {
         // .get(`/api/transactions/`, {
         headers: rootGetters.getHttpHeader,
         params: payload

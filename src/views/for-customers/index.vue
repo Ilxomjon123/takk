@@ -80,24 +80,32 @@
     <section class="mt-6 lg:mt-10">
       <div class="container md:flex md:gap-10">
         <div class="box p-5 md:p-10 md:basis-1/2 grid">
-          <img
-            class="mb-10 w-10/12 m-auto"
-            src="@/assets/images/budget_img.svg"
-            alt="image"
-          />
-          <h1
-            class="text-3xl md:text-5xl"
-          >Set a budget for your spendings and auto refill your balance as needed.</h1>
+          <div class="row-span-3">
+            <img
+              class="object-contain"
+              src="@/assets/images/budget_img.svg"
+              alt="image"
+            />
+          </div>
+          <div class="row-span-1 xl:pt-10">
+            <h1
+              class="text-3xl md:text-5xl"
+            >Set a budget for your spendings and auto refill your balance as needed.</h1>
+          </div>
         </div>
         <div class="box p-5 md:p-10 md:basis-1/2 grid mt-6 md:mt-0">
-          <img
-            class="w-auto mt-auto mx-auto"
-            src="@/assets/images/delivery_img.svg"
-            alt="image"
-          />
-          <h1
-            class="text-3xl md:text-5xl"
-          >Local food deliveries at participating coffee shops.</h1>
+          <div class="flex align-middle row-span-3">
+            <img
+              class="object-contain"
+              src="@/assets/images/delivery_img.svg"
+              alt="image"
+            />
+          </div>
+          <div class="row-span-1 xl:pt-10">
+            <h1
+              class="text-3xl md:text-5xl"
+            >Local food deliveries at participating coffee shops.</h1>
+          </div>
         </div>
       </div>
     </section>
@@ -190,6 +198,12 @@ $mobile: 425px;
     border-radius: 20px;
     background-size: 210%;
     min-height: 31rem;
+  }
+}
+
+.container {
+  @media (min-width: 1280px) {
+    max-width: 85%;
   }
 }
 </style>

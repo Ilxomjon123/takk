@@ -38,13 +38,10 @@
                   <img alt="Takk" class="rounded-full" :src="item.image" />
                 </div>
               </td>
-              <td
-                class="flex items-center gap-3 hover:text-theme-9"
-                @click="toggleChildren(item.id)"
-              >
+              <td class="hover:text-theme-9" @click="toggleChildren(item.id)">
                 <PlusIcon v-if="!isVisibleChildren(item.id)" />
                 <MinusIcon v-if="isVisibleChildren(item.id)" />
-                <p class="font-medium whitespace-nowrap">{{ item.name }}</p>
+                <span class="ml-3 font-medium whitespace-nowrap">{{ item.name }}</span>
               </td>
               <td>{{ item.parent }}</td>
               <td>{{ item.start }}</td>
