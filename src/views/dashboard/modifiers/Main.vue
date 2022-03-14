@@ -12,18 +12,13 @@
   </div>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
-import MenuList from '../../../components/lists/MenuList.vue';
-import ModifiersList from '../../../components/lists/ModifiersList.vue';
+<script setup>
+import { ref } from 'vue';
+import MenuList from '@/components/lists/MenuList.vue';
+import ModifiersList from '@/components/lists/ModifiersList.vue';
+const modifiersList = ref();
 
-export default defineComponent({
-  components: { MenuList, ModifiersList },
-
-  methods: {
-    fetchData(val) {
-      this.$refs.modifiersList.search();
-    }
-  }
-})
+function fetchData() {
+  modifiersList.value.search();
+}
 </script>

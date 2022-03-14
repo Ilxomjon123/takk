@@ -28,7 +28,8 @@ const getters = {
     };
   },
   getStep(state, getters) {
-    return getters.getUser.state_steps;
+    return state.user?.state_steps;
+    // return getters.getUser.state_steps;
   },
   getEmployeeTypes: state => state.employee_types
 };

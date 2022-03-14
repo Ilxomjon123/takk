@@ -217,7 +217,7 @@ export default defineComponent({
     )
 
     onMounted(() => {
-      if (store.getters.getStep != store.state.user.STEP_DASHBOARD)
+      if (store.getters['getStep'] != store.state.user.STEP_DASHBOARD)
         router.push('/entry')
       cash('body')
         .removeClass('error-page')

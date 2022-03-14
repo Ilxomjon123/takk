@@ -8,7 +8,7 @@
         <div class="flex items-center">
           <div class="w-10 h-10 sm:w-12 sm:h-12 flex-none image-fit relative">
             <img
-              alt="Icewall Tailwind HTML Admin Template"
+              alt="image"
               class="rounded-full"
               :src="getSelectedChat.user?.avatar"
             />
@@ -70,7 +70,7 @@
               class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5"
             >
               <img
-                alt="Icewall Tailwind HTML Admin Template"
+                alt="image"
                 class="rounded-full"
                 :src="getSelectedChat.user?.avatar"
               />
@@ -159,11 +159,7 @@
             <div
               class="w-10 h-10 hidden sm:block flex-none image-fit relative ml-5"
             >
-              <img
-                alt="Icewall Tailwind HTML Admin Template"
-                class="rounded-full"
-                :src="myAvatar"
-              />
+              <img alt="image" class="rounded-full" :src="myAvatar" />
             </div>
           </div>
           <div class="clear-both"></div>

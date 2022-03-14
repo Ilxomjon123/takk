@@ -5,7 +5,7 @@ const findActiveMenu = (subMenu, route) => {
   let match = false;
   subMenu.forEach(item => {
     if (
-      (route.name.startsWith(item.pageName) || item.pageName === route.name) &&
+      (route.name?.startsWith(item.pageName) || item.pageName === route.name) &&
       !item.ignore
     ) {
       match = true;
