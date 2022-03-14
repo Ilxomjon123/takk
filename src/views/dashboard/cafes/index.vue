@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { fetchCafeList } from '@/api';
@@ -69,15 +69,15 @@ const router = useRouter();
 const store = useStore();
 // const rowId = ref(null)
 // const isLoading = ref(true)
-const list = ref([])
+const list = reactive([])
 
-store.commit('setLoadingStatus', true)
-fetchCafeList().then(res => {
-  list.value = res
+onMounted(async () => {
+  store.commit('setLoadingStatus', true)
+  const res = await fetchCafeList()
+  Object.assign(list, res.results)
   store.commit('setLoadingStatus', false)
-  // isLoading.value = false
-})
 
+});
 function gotoForm(id) {
   store.commit('setLoadingStatus', true)
   if (id) {

@@ -63,6 +63,7 @@ import MainPaginator from '../paginator/MainPaginator.vue'
 import MenuModalForm from '../forms/MenuModalForm.vue'
 import { mapGetters } from 'vuex'
 import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue'
+
 export default defineComponent({
   props: {
     subItemTitle: String,

@@ -2,7 +2,21 @@
   <div v-if="getSelectedMenuId != null">
     <div class="intro-y flex flex-col sm:flex-row items-center mt-10">
       <h2 class="text-lg font-medium mr-auto">Categories List</h2>
-      <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
+      <div class="w-full sm:w-auto flex mt-4 sm:mt-0 gap-3">
+        <button class="btn btn-success" @click="reorderModifierType">
+          <span class="w-5 h-5 flex items-center justify-center">
+            <ShuffleIcon class="w-4 h-4" />
+          </span>Reorder Categories
+        </button>
+        <button
+          class="btn btn-success"
+          @click="reorderModifierItem"
+          :disabled="showChildren.length === 0"
+        >
+          <span class="w-5 h-5 flex items-center justify-center">
+            <ShuffleIcon class="w-4 h-4" />
+          </span>Reorder Category Items
+        </button>
         <router-link
           :to="getSelectedMenuId != null ? `/dashboard/categories/${getSelectedMenuId}/add` : ''"
           class="btn btn-primary"
@@ -24,6 +38,7 @@
             <th class="whitespace-nowrap">LOGO</th>
             <th class="whitespace-nowrap">NAME</th>
             <th class="whitespace-nowrap">PARENT CATEGORY</th>
+            <th class="whitespace-nowrap">POSITION</th>
             <th class="whitespace-nowrap">START</th>
             <th class="whitespace-nowrap">END</th>
             <th class="whitespace-nowrap text-right">ACTIONS</th>
@@ -31,15 +46,20 @@
         </thead>
         <tbody>
           <template v-for="(item, index) in items" :key="index">
-            <tr class="-intro-y zoom-in" @click="toggleChildren(item.id)">
+            <tr class="-intro-y zoom-in">
               <!-- <td class="w-0">{{ item.position }}</td> -->
-              <td class="w-10">
+              <td class="w-1/12">
                 <div class="w-10 h-10 image-fit zoom-in">
                   <img alt="Takk" class="rounded-full" :src="item.image" />
                 </div>
               </td>
-              <td>{{ item.name }}</td>
+              <td class="hover:text-theme-9" @click="toggleChildren(item.id)">
+                <PlusIcon v-if="!isVisibleChildren(item.id)" />
+                <MinusIcon v-if="isVisibleChildren(item.id)" />
+                <span class="ml-3 font-medium whitespace-nowrap">{{ item.name }}</span>
+              </td>
               <td>{{ item.parent }}</td>
+              <td>{{ item.position }}</td>
               <td>{{ item.start }}</td>
               <td>{{ item.end }}</td>
               <td class="table-report__action w-10">
@@ -54,13 +74,13 @@
                     :isIcon="true"
                     :modalId="'category-delete-modal-' + item.id"
                   />
-                  <ChevronRightIcon
+                  <!-- <ChevronRightIcon
                     class="hover:text-theme-9"
                     :class="{
                       'transform rotate-90 duration-300': isVisibleChildren(item.id),
                       'transform rotate-0 duration-300': !isVisibleChildren(item.id),
                     }"
-                  />
+                  />-->
                 </div>
               </td>
             </tr>
@@ -83,6 +103,7 @@
                 >{{ el.category?.name }}</div>
               </td>
               <td>{{ item.name }}</td>
+              <td>{{ el.position }}</td>
               <td>{{ el.start }}</td>
               <td>{{ el.end }}</td>
               <td class="table-report__action w-10">
@@ -120,6 +141,13 @@
     v-else
     class="text-base text-center mt-10 text-gray-600"
   >For showing Categories Please select Menu</div>
+  <DraggableTypeModal
+    :list="items"
+    :paginator="{ ...$refs.paginator?.paginator }"
+  />
+  <DraggableItemModal
+    :list="items.find(item => showChildren.length > 0 && item.id == showChildren[0])?.children"
+  />
 </template>
 
 <script>
@@ -127,6 +155,9 @@ import { defineComponent } from 'vue'
 import { mapGetters } from 'vuex';
 import MainPaginator from '../paginator/MainPaginator.vue'
 import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
+import DraggableTypeModal from '../../views/dashboard/categories/DraggableTypeModal.vue';
+import DraggableItemModal from '../../views/dashboard/categories/DraggableItemModal.vue';
+import cash from 'cash-dom';
 
 export default defineComponent({
   data() {
@@ -144,9 +175,9 @@ export default defineComponent({
       this.$refs.paginator?.paginate(1);
     },
     setItems(val) {
-      console.log(val);
+      // console.log(val);
       this.items = val
-      this.showChildren = val.map(item => { if (item?.children?.length > 0) return item.id });
+      // this.showChildren = val.map(item => { if (item?.children?.length > 0) return item.id });
     },
     async deleteItem(val) {
       this.$store.commit('setLoadingStatus', true);
@@ -159,22 +190,36 @@ export default defineComponent({
       }
       this.$store.commit('setLoadingStatus', false);
     },
-    toggleChildren(val) {
-      if (this.isVisibleChildren(val)) {
-        delete this.showChildren[this.showChildren.indexOf(val)];
-      } else {
-        this.showChildren.push(val);
-      }
+    toggleChildren(valId) {
+      this.isVisibleChildren(valId) ?
+        this.showChildren = [] :
+        this.showChildren = [valId]
+      // if (this.isVisibleChildren(val)) {
+      //   delete this.showChildren[this.showChildren.indexOf(val)];
+      // } else {
+      //   this.showChildren.push(val);
+      // }
     },
     isVisibleChildren(val) {
       return this.showChildren.includes(val)
-    }
+    },
+    reorderModifierType() {
+      cash('#draggable-category-type-modal').modal('show')
+    },
+    reorderModifierItem() {
+      cash('#draggable-category-item-modal').modal('show')
+    },
   },
   computed: {
     ...mapGetters(['getSelectedMenuId'])
   },
 
-  components: { MainPaginator, DeleteConfirmModal }
+  components: {
+    MainPaginator,
+    DeleteConfirmModal,
+    DraggableTypeModal,
+    DraggableItemModal
+  }
 });
 </script>
 

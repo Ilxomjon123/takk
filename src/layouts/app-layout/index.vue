@@ -1,5 +1,5 @@
 <template>
-  <div class>
+  <div class="content">
     <AppTopBar />
     <main>
       <router-view />
@@ -24,6 +24,7 @@ import ContactUsModal from '@/components/modals/ContactUsModal.vue';
 
 onMounted(() => {
   cash('html').addClass('bg-theme-2')
+  cash('body').css('padding', 0);
 })
 
 onUnmounted(() => {
@@ -33,4 +34,9 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.content {
+  background-color: #fff;
+  border-radius: 0;
+  padding: 0;
+}
 </style>

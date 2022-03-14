@@ -1,4 +1,5 @@
 import axios from 'axios';
+import makeRequest from '@/api/makeRequest';
 
 const state = () => {
   return {
@@ -27,7 +28,7 @@ const actions = {
   async fetchMenus({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/api/companies/${rootGetters.getCompanyId}/menus/`, {
+      .get(`/api/menus/`, {
         // .get(`/api/transactions/`, {
         headers: rootGetters.getHttpHeader,
         params: payload
@@ -109,6 +110,20 @@ const actions = {
         };
       });
     return response;
+  },
+  async updateModifierTypePositions({ rootGetters }, payload) {
+    try {
+      const res = makeRequest({
+        url: '/api/menus/ordering-items/',
+        method: 'post',
+        data: payload,
+        headers: { authorization: true }
+      });
+      return (await res).data;
+    } catch (error) {
+      console.log('error while updating Product: ', err);
+      throw err;
+    }
   }
 };
 

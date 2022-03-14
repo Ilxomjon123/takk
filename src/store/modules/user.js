@@ -3,7 +3,7 @@ const REQUIRED_DETAILS = 'required_details';
 
 const state = () => {
   return {
-    token: JSON.parse(localStorage.getItem(REQUIRED_DETAILS))?.token,
+    token: JSON.parse(localStorage.getItem(REQUIRED_DETAILS))?.token?.access,
     user: JSON.parse(localStorage.getItem(REQUIRED_DETAILS))?.user,
     STEP_ENTRY: null,
     STEP_COMPANY: 1,
@@ -24,14 +24,16 @@ const getters = {
   getToken: state => state.token,
   getHttpHeader(state, getters) {
     return {
-      Authorization: `Token ${getters.getToken}`
+      Authorization: `Basic ${getters.getToken}`
     };
   },
   getStep(state, getters) {
-    return getters.getUser.state_steps;
+    return state.user?.state_steps;
+    // return getters.getUser.state_steps;
   },
   getEmployeeTypes: state => state.employee_types
 };
+
 const mutations = {
   setUser(state, payload) {
     let details = JSON.parse(localStorage.getItem(REQUIRED_DETAILS));
@@ -61,6 +63,7 @@ const mutations = {
     localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(required_details));
   }
 };
+
 const actions = {
   async signin({ commit }, form) {
     try {

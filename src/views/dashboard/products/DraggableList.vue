@@ -11,11 +11,7 @@
       <tr class="intro-x">
         <td scope="row">
           <div class="w-20 h-20 image-fit zoom-in">
-            <img
-              alt="Icewall Tailwind HTML Admin Template"
-              class="rounded-full"
-              :src="element.image"
-            />
+            <img alt="image" class="rounded-full" :src="element.image" />
           </div>
         </td>
         <td>

@@ -6,11 +6,11 @@ export const fetchCafeList = async () => {
       ?.company_id;
 
     const res = await makeRequest({
-      url: `/api/companies/${companyId}/`,
+      url: `/api/cafes/`,
       headers: { authorization: true }
     });
 
-    return res.data.cafes;
+    return res.data;
   } catch (err) {
     return console.log('error while fetching cafes: ', err);
   }
@@ -33,7 +33,7 @@ export const fetchCafe = async cafeID => {
 export const fetchCafeGallery = async cafeID => {
   try {
     const res = await makeRequest({
-      url: `/api/cafes/${cafeID}/gallery/`,
+      url: `/api/cafes/${cafeID}/photos/`,
       headers: { authorization: true }
     });
 
@@ -48,6 +48,21 @@ export const fetchCafeWorkDays = async cafeID => {
   try {
     const res = await makeRequest({
       url: `/api/cafes/${cafeID}/work-days/`,
+      headers: { authorization: true }
+    });
+
+    return res.data;
+  } catch (err) {
+    console.log('error while fetching cafes work days: ', err);
+    throw err;
+  }
+};
+
+export const updateCafeWorkDays = async cafeID => {
+  try {
+    const res = await makeRequest({
+      url: `/api/cafes/${cafeID}/work-days/`,
+      method: 'put',
       headers: { authorization: true }
     });
 

@@ -4,7 +4,10 @@ import Velocity from 'velocity-animate';
 const findActiveMenu = (subMenu, route) => {
   let match = false;
   subMenu.forEach(item => {
-    if (item.pageName === route.name && !item.ignore) {
+    if (
+      (route.name?.startsWith(item.pageName) || item.pageName === route.name) &&
+      !item.ignore
+    ) {
       match = true;
     } else if (!match && item.subMenu) {
       match = findActiveMenu(item.subMenu, route);
@@ -14,7 +17,6 @@ const findActiveMenu = (subMenu, route) => {
 };
 
 const nestedMenu = (menu, route) => {
-  // console.log('route name: ', route.name);
   menu.forEach((item, key) => {
     if (typeof item !== 'string') {
       let menuItem = menu[key];

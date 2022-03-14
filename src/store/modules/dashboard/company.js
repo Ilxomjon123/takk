@@ -76,7 +76,7 @@ const actions = {
     let response;
     await axios
       // .get(`/api/companies/${rootGetters.getCompanyId}/customers/`, {
-      .get(`/api/customers/`, {
+      .get(`/api/companies/customers/`, {
         headers: rootGetters.getHttpHeader,
         params: payload
       })
@@ -94,7 +94,7 @@ const actions = {
     let response;
     await axios
       // .get(`/api/companies/${rootGetters.getCompanyId}/transactions/`, {
-      .get(`/api/transactions/`, {
+      .get(`/api/companies/transactions/`, {
         headers: rootGetters.getHttpHeader,
         params: payload
       })

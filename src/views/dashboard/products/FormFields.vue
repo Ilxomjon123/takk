@@ -210,12 +210,21 @@
             class="form-label"
             for="product_tax_percent"
           >Product tax percent</label>
-          <input
+          <!-- <input
             id="product_tax_percent"
             v-model="formFields.tax_percent"
             class="form-control"
             type="number"
-          />
+          />-->
+          <select
+            id="product_tax_percent"
+            v-model="formFields.tax_percent"
+            class="form-control"
+          >
+            <option value="100">100 %</option>
+            <option value="50">50 %</option>
+            <option value="0">0 %</option>
+          </select>
           <span
             class="text-theme-6 mt-2"
           >{{ externalErrors.tax_percent && externalErrors.tax_percent[0] }}</span>

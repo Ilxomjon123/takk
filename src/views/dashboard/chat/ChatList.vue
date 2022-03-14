@@ -10,11 +10,7 @@
       @click="selectChat(chat)"
     >
       <div class="w-12 h-12 flex-none image-fit mr-1">
-        <img
-          alt="Icewall Tailwind HTML Admin Template"
-          class="rounded-full"
-          :src="chat.user?.avatar"
-        />
+        <img alt="image" class="rounded-full" :src="chat.user?.avatar" />
 
         <div
           class="w-3 h-3 bg-theme-9 absolute right-0 bottom-0 rounded-full border-2 border-white"

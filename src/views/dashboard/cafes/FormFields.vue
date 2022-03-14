@@ -7,7 +7,7 @@
             id="status"
             class="form-check-switch"
             type="checkbox"
-            :value="formFields.status === 1 ? true : false"
+            :checked="formFields.status === 1 ? true : false"
             @change="formFields.status = $event.target.checked === true ? 1 : 0"
           />
           <label
@@ -296,7 +296,7 @@
             class="text-theme-6 mt-2"
           >{{ externalErrors.order_time_limit && externalErrors.order_time_limit[0] }}</span>
         </div>
-        <div class="input-form lg:basis-1/2">
+        <!-- <div class="input-form lg:basis-1/2">
           <label for="version" class="form-label">Version</label>
           <Field
             id="version"
@@ -309,7 +309,7 @@
           <span
             class="text-theme-6 mt-2"
           >{{ externalErrors.version && externalErrors.version[0] }}</span>
-        </div>
+        </div>-->
       </div>
       <div class="flex flex-col lg:flex-row gap-5 pt-5">
         <div class="form-check lg:basis-1/2 lg:py-2">
@@ -476,7 +476,7 @@
       </div>
       <MultipleImageUpload
         @update:image-files="formFields.upload_photos = $event"
-        :obj-id="$route.params.id"
+        :obj-id="route.params.id"
         class="my-5"
       />
     </div>
@@ -499,9 +499,7 @@ import MultipleImageUpload from './MultipleImageUpload.vue';
 // leaflet styles
 import 'leaflet/dist/leaflet.css';
 
-const store = useStore();
 const route = useRoute();
-const router = useRouter();
 const props = defineProps({
   formFields: {
     type: Object,
@@ -518,10 +516,6 @@ const currentLatLng = computed(() => [
   props.formFields.location.lat || 35.1234,
   props.formFields.location.lon || -95.1234
 ]);
-
-// onMounted(async () => {
-//   store.commit('setLoadingStatus', true);
-// })
 
 function changeLatLng(e) {
   const targetLatLng = e.target.getLatLng();
