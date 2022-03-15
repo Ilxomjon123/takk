@@ -17,13 +17,13 @@
             <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
               <a
                 href
-                class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
               >
                 <UsersIcon class="w-4 h-4 mr-2" />Create Group
               </a>
               <a
                 href
-                class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
               >
                 <SettingsIcon class="w-4 h-4 mr-2" />Settings
               </a>
@@ -53,67 +53,23 @@
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref } from 'vue'
-// import EmojisBlock from './EmojisBlock.vue';
+import { onMounted } from 'vue'
 import { fetchChats } from '@/api';
 import useChatState from '@/features/useChatState';
-// import ChatList from './ChatList.vue';
-// import moment from 'moment';
-// import { useStore } from 'vuex';
-// import { isEmpty } from 'lodash';
 import ChatTab from './ChatTab.vue';
 import ChatBox from './ChatBox.vue';
-
-// const store = useStore();
-// const chats = reactive([]);
-// const orderChats = reactive([]);
-// const companyChats = reactive([]);
-// const selectedChat = ref({});
-// const isLoading = ref(false);
-// const errorMessage = ref('');
-
-// const showChatBox = async (id) => {
-//   if (selectedChat.value.id !== id) {
-//     try {
-//       isLoading.value = true
-//       const res = await fetchChatMessages(id);
-//       selectedChat.value = {
-//         ...chats.find(chat => chat.id === id),
-//         messages: res.results
-//       };
-//       // selectedChat.value.messages = res.results;
-//     } catch (error) {
-//       console.log('Error while fetching chat messages: ', error.response)
-//       errorMessage.value = 'Something went wrong while fetching messages!'
-//     } finally {
-//       isLoading.value = false
-//     }
-//   } // else Object.assign(selectedChat, reactive({}));
-// };
-
-// const formattedDate = (value) => {
-//   return moment(value).fromNow();
-// };
+import useWebSocket from '@/features/useWebSocket';
 
 const { setChatList, getChatBoxLoading } = useChatState();
+const { getConnection } = useWebSocket();
+
 onMounted(async () => {
   const res = await fetchChats();
   setChatList(res);
+
+  getConnection.value.onnew_message = (event) => {
+    console.log(event);
+  }
 });
-
-// const myAvatar = computed(() => store.getters.getUser.avatar);
-
-// function keyListener(event) {
-//   if (event.defaultPrevented)
-//     return;
-
-//   const key = event.key || event.keyCode;
-
-//   if (key === 'Escape' || key === 'Esc' || key === 27) {
-//     selectedChat.value = {}
-//     errorMessage.value = ''
-//   }
-// }
-
 
 </script>
