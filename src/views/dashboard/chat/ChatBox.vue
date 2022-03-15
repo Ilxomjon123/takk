@@ -44,13 +44,13 @@
               <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
                 <a
                   href="javascript:;"
-                  class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                  class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
                 >
                   <Share2Icon class="w-4 h-4 mr-2" />Share Contact
                 </a>
                 <a
                   href="javascript:;"
-                  class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                  class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
                 >
                   <SettingsIcon class="w-4 h-4 mr-2" />Settings
                 </a>
@@ -100,13 +100,13 @@
                 <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
                   <a
                     href="javascript:;"
-                    class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                    class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
                   >
                     <CornerUpLeftIcon class="w-4 h-4 mr-2" />Reply
                   </a>
                   <a
                     href="javascript:;"
-                    class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                    class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
                   >
                     <TrashIcon class="w-4 h-4 mr-2" />Delete
                   </a>
@@ -130,13 +130,13 @@
                 <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
                   <a
                     href="javascript:;"
-                    class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                    class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
                   >
                     <CornerUpLeftIcon class="w-4 h-4 mr-2" />Reply
                   </a>
                   <a
                     href="javascript:;"
-                    class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                    class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
                   >
                     <TrashIcon class="w-4 h-4 mr-2" />Delete
                   </a>
