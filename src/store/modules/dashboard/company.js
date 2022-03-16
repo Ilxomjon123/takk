@@ -2,7 +2,8 @@ import axios from 'axios';
 
 const state = () => {
   return {
-    company: [{}],
+    // company: [{}],
+    company: {},
     customers: [],
     transactions: []
   };
@@ -10,11 +11,12 @@ const state = () => {
 
 const getters = {
   getCompany: (state, getters) => {
-    let result = state.company.find(el => el.id == getters.getCompanyId);
-    if (result == null) {
-      result = state.company[0];
-    }
-    return result;
+    // let result = state.company.find(el => el.id == getters.getCompanyId);
+    // if (result == null) {
+    //   result = state.company[0];
+    // }
+    // return result;
+    return state.company;
   },
   getCustomers: state => state.customers,
   getTransactions: state => state.transactions
@@ -43,7 +45,7 @@ const actions = {
       })
       .then(res => {
         commit('setCompany', res.data);
-        commit('cafes/setCafeList', res.data[0].cafes, { root: true });
+        commit('cafes/setCafeList', res.data.cafes, { root: true });
       })
       .catch(err => {
         commit('setCompany', err.response.data);
