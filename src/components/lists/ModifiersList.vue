@@ -1,9 +1,23 @@
 <template>
   <div v-if="getSelectedMenuId">
     <div class="intro-y flex flex-col sm:flex-row items-center mt-10">
-      <h2 class="text-lg font-medium mr-auto">Categories List</h2>
-      <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-        <button class="btn btn-primary mr-3" @click="addModifierType">
+      <h2 class="text-lg font-medium mr-auto">Modifiers List</h2>
+      <div class="w-full sm:w-auto flex mt-4 sm:mt-0 gap-3">
+        <button class="btn btn-success" @click="reorderModifierType">
+          <span class="w-5 h-5 flex items-center justify-center">
+            <ShuffleIcon class="w-4 h-4" />
+          </span>Reorder Modifier Type
+        </button>
+        <button
+          class="btn btn-success"
+          @click="reorderModifierItem"
+          :disabled="showChildren.length === 0"
+        >
+          <span class="w-5 h-5 flex items-center justify-center">
+            <ShuffleIcon class="w-4 h-4" />
+          </span>Reorder Modifier Item
+        </button>
+        <button class="btn btn-primary" @click="addModifierType">
           <span class="w-5 h-5 flex items-center justify-center">
             <PlusIcon class="w-4 h-4" />
           </span>Add Modifier Type
@@ -32,13 +46,6 @@
         <tbody>
           <template v-for="(item, index) in items" :key="index">
             <tr class="-intro-y zoom-in">
-              <!-- <ChevronRightIcon
-                class="hover:text-theme-9"
-                :class="{
-                  'transform rotate-90 duration-300': isVisibleChildren(item.id),
-                  'transform rotate-0 duration-300': !isVisibleChildren(item.id),
-                }"
-              />-->
               <td
                 class="flex items-center gap-3 hover:text-theme-9"
                 @click="toggleChildren(item.id)"
@@ -99,7 +106,6 @@
             </tr>
           </template>
         </tbody>
-        <!-- <ModifierDraggable :items="items" @action:delete-type="search" /> -->
       </table>
     </div>
     <!-- END: Data List -->
@@ -130,6 +136,13 @@
     v-else
     class="text-base text-center mt-10 text-gray-600"
   >For showing Categories Please select Menu</div>
+  <DraggableTypeModal
+    :list="items"
+    :paginator="{ ...$refs.paginator?.paginator }"
+  />
+  <DraggableItemModal
+    :list="items.find(item => showChildren.length > 0 && item.id == showChildren[0])?.items"
+  />
 </template>
 
 <script >
@@ -139,9 +152,9 @@ import MainPaginator from '../paginator/MainPaginator.vue'
 import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
 import ModifierTypeModalForm from '../forms/ModifierTypeModalForm.vue';
 import ModifierModalForm from '../forms/ModifierModalForm.vue';
-import Draggable from "vuedraggable";
-import ModifierDraggable from './ModifierDraggable.vue';
-import DraggableTable from './DraggableTable.vue';
+import DraggableTypeModal from '../../views/dashboard/modifiers/DraggableTypeModal.vue';
+import DraggableItemModal from '../../views/dashboard/modifiers/DraggableItemModal.vue';
+import cash from 'cash-dom';
 
 export default defineComponent({
   data() {
@@ -168,9 +181,9 @@ export default defineComponent({
     },
     setItems(val) {
       this.items = val
-      this.showChildren = val.map(item => {
-        if (item.items.length > 0) return item.id
-      });
+      // this.showChildren = val.map(item => {
+      //   if (item.items.length > 0) return item.id
+      // });
     },
     async deleteItem(val) {
       this.$store.commit('setLoadingStatus', true);
@@ -194,12 +207,10 @@ export default defineComponent({
       }
       this.$store.commit('setLoadingStatus', false);
     },
-    toggleChildren(val) {
-      if (this.isVisibleChildren(val)) {
-        delete this.showChildren[this.showChildren.indexOf(val)];
-      } else {
-        this.showChildren.push(val);
-      }
+    toggleChildren(valId) {
+      this.isVisibleChildren(valId) ?
+        this.showChildren = [] :
+        this.showChildren = [valId]
     },
     isVisibleChildren(val) {
       return this.showChildren.includes(val)
@@ -222,13 +233,26 @@ export default defineComponent({
     editModifierItem(val) {
       this.itemDispatcher = this.itemEditDispatcher;
       this.$refs[this.itemModalId].showModal({ ...val });
-    }
+    },
+    reorderModifierType() {
+      cash('#draggable-modifier-type-modal').modal('show')
+    },
+    reorderModifierItem() {
+      cash('#draggable-modifier-item-modal').modal('show')
+    },
   },
   computed: {
     ...mapGetters(['getSelectedMenuId'])
   },
 
-  components: { MainPaginator, DeleteConfirmModal, ModifierTypeModalForm, ModifierModalForm, Draggable, ModifierDraggable, DraggableTable }
+  components: {
+    MainPaginator,
+    DeleteConfirmModal,
+    ModifierTypeModalForm,
+    ModifierModalForm,
+    DraggableTypeModal,
+    DraggableItemModal
+  }
 });
 </script>
 

@@ -91,14 +91,16 @@
       </div>
       <div class="w-full px-3 mb-3 md:w-1/3 md:mb-0" v-if="isUnitedStates">
         <label for="state" class="form-label">State</label>
-        <input
+        <!-- <input
           id="state"
           type="text"
           class="form-control"
           :class="getError('state') != null ? 'border-theme-6' : 'border-gray-300'"
           placeholder="State"
           v-model="form.state"
-        />
+        />-->
+        <StateSelect v-model="form.state" />
+
         <div class="text-theme-6" v-text="getError('state')" />
       </div>
       <div
@@ -222,6 +224,7 @@ import { defineComponent } from 'vue'
 import CountrySelect from '../../components/selects/CountrySelect.vue'
 import CitySelect from '../../components/selects/CitySelect.vue';
 import { mapActions } from 'vuex';
+import StateSelect from '../selects/StateSelect.vue';
 
 export default defineComponent({
   data() {
@@ -261,7 +264,7 @@ export default defineComponent({
       return this.errors[key]?.[0];
     }
   },
-  components: { CountrySelect, CitySelect }
+  components: { CountrySelect, CitySelect, StateSelect }
 })
 </script>
 

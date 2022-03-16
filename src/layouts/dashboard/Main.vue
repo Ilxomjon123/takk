@@ -175,7 +175,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { defineComponent, computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from '@/store'
@@ -189,51 +189,39 @@ import cash from 'cash-dom'
 import GlobalLoader from '../../components/GlobalLoader.vue'
 import SuccessNotification from '../../components/notifications/SuccessNotification.vue'
 import ErrorNotification from '../../components/notifications/ErrorNotification.vue'
+import axios from 'axios'
+import makeRequest from '../../api/makeRequest'
+import { getToken } from '../../api/config'
+import useWebSocket from "@/features/useWebSocket.js"
 
-export default defineComponent({
-  components: {
-    TopBar,
-    MobileMenu,
-    DarkModeSwitcher,
-    SideMenuTooltip,
-    GlobalLoader,
-    SuccessNotification,
-    ErrorNotification
-  },
-  setup() {
-    const route = useRoute()
-    const router = useRouter()
-    const store = useStore()
-    const formattedMenu = ref([])
-    const sideMenu = computed(() =>
-      nestedMenu(store.state.sideMenu.menu, route)
-    )
+const route = useRoute()
+const router = useRouter()
+const store = useStore()
+const formattedMenu = ref([])
+const sideMenu = computed(() =>
+  nestedMenu(store.state.sideMenu.menu, route)
+)
+const { setConnection } = useWebSocket();
 
-    watch(
-      computed(() => route.path),
-      () => {
-        formattedMenu.value = $h.toRaw(sideMenu.value)
-      }
-    )
-
-    onMounted(() => {
-      if (store.getters.getStep != store.state.user.STEP_DASHBOARD)
-        router.push('/entry')
-      cash('body')
-        .removeClass('error-page')
-        .removeClass('login')
-        .addClass('main')
-      formattedMenu.value = $h.toRaw(sideMenu.value)
-    })
-
-    return {
-      formattedMenu,
-      router,
-      linkTo,
-      enter,
-      leave
-    }
+watch(
+  computed(() => route.path),
+  () => {
+    formattedMenu.value = $h.toRaw(sideMenu.value)
   }
+)
+
+onMounted(() => {
+  if (store.getters['getStep'] != store.state.user.STEP_DASHBOARD)
+    router.push('/entry')
+  cash('body')
+    .removeClass('error-page')
+    .removeClass('login')
+    .addClass('main')
+  formattedMenu.value = $h.toRaw(sideMenu.value)
+
+  // connect to web socket
+  setConnection()
+
 });
 </script>
 

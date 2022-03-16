@@ -11,7 +11,7 @@ const actions = {
   async postCompany({ commit, rootGetters, rootState, dispatch }, payload) {
     let response;
     await axios
-      .post('/api/companies/', payload, {
+      .post('/api/companies/create/', payload, {
         headers: rootGetters.getHttpHeader
       })
       .then(async res => {

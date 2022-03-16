@@ -60,6 +60,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const externalErrors = reactive({});
 const isLoading = ref(false);
+const productImagePath = ref("");
 
 const formFields = reactive({
   sizes: [
@@ -71,7 +72,8 @@ const formFields = reactive({
       default: false,
     }
   ],
-  quickest_time: 5
+  quickest_time: 5,
+  // tax_percent: "Select one"
 });
 
 async function onSubmit() {

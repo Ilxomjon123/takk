@@ -3,7 +3,10 @@
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
       <h2 class="text-lg font-medium mr-auto">Chat</h2>
       <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-        <button class="btn btn-primary shadow-md mr-2">New Chat</button>
+        <button
+          class="btn btn-primary shadow-md mr-2"
+          @click="openChatTypeModal"
+        >New Chat</button>
         <div class="dropdown ml-auto sm:ml-0">
           <button
             class="dropdown-toggle btn px-2 box text-gray-700 dark:text-gray-300"
@@ -17,13 +20,13 @@
             <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
               <a
                 href
-                class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
               >
                 <UsersIcon class="w-4 h-4 mr-2" />Create Group
               </a>
               <a
                 href
-                class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
               >
                 <SettingsIcon class="w-4 h-4 mr-2" />Settings
               </a>
@@ -50,70 +53,109 @@
       <!-- END: Chat Content -->
     </div>
   </div>
+
+  <div id="chat-type-modal" class="modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- BEGIN: Modal Header -->
+        <div class="modal-header">
+          <h2 class="font-medium text-base mr-auto">Select chat type</h2>
+        </div>
+        <!-- END: Modal Header -->
+        <div class="modal-body p-10">
+          <div class="flex flex-col sm:flex-row mt-2">
+            <div class="form-check mr-2">
+              <input
+                id="radio-switch-4"
+                class="form-check-input"
+                type="radio"
+                name="horizontal_radio_button"
+                value="horizontal-radio-chris-evans"
+              />
+              <label class="form-check-label" for="radio-switch-4">Chris Evans</label>
+            </div>
+            <div class="form-check mr-2 mt-2 sm:mt-0">
+              <input
+                id="radio-switch-5"
+                class="form-check-input"
+                type="radio"
+                name="horizontal_radio_button"
+                value="horizontal-radio-liam-neeson"
+              />
+              <label class="form-check-label" for="radio-switch-5">Liam Neeson</label>
+            </div>
+          </div>
+        </div>
+        <!-- BEGIN: Modal Footer -->
+        <div class="modal-footer text-right">
+          <button
+            type="button"
+            data-dismiss="modal"
+            class="btn btn-outline-secondary mr-1"
+          >Cancel</button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click="handleCreate"
+            :disabled="!isReordered"
+          >Save positions</button>
+        </div>
+        <!-- END: Modal Footer -->
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref } from 'vue'
-// import EmojisBlock from './EmojisBlock.vue';
+import { onMounted } from 'vue'
 import { fetchChats } from '@/api';
 import useChatState from '@/features/useChatState';
-// import ChatList from './ChatList.vue';
-// import moment from 'moment';
-// import { useStore } from 'vuex';
-// import { isEmpty } from 'lodash';
 import ChatTab from './ChatTab.vue';
 import ChatBox from './ChatBox.vue';
-
-// const store = useStore();
-// const chats = reactive([]);
-// const orderChats = reactive([]);
-// const companyChats = reactive([]);
-// const selectedChat = ref({});
-// const isLoading = ref(false);
-// const errorMessage = ref('');
-
-// const showChatBox = async (id) => {
-//   if (selectedChat.value.id !== id) {
-//     try {
-//       isLoading.value = true
-//       const res = await fetchChatMessages(id);
-//       selectedChat.value = {
-//         ...chats.find(chat => chat.id === id),
-//         messages: res.results
-//       };
-//       // selectedChat.value.messages = res.results;
-//     } catch (error) {
-//       console.log('Error while fetching chat messages: ', error.response)
-//       errorMessage.value = 'Something went wrong while fetching messages!'
-//     } finally {
-//       isLoading.value = false
-//     }
-//   } // else Object.assign(selectedChat, reactive({}));
-// };
-
-// const formattedDate = (value) => {
-//   return moment(value).fromNow();
-// };
+import useWebSocket from '@/features/useWebSocket';
+import cash from 'cash-dom';
+import { createChatroom, createChatMessage } from '@/api';
 
 const { setChatList, getChatBoxLoading } = useChatState();
+const { getConnection } = useWebSocket();
+
 onMounted(async () => {
   const res = await fetchChats();
-  setChatList(res);
+  res.length > 0 && setChatList(res);
+
+  getConnection.value.onnew_message = (event) => {
+    console.log(event);
+  }
+
+  // handleCreate()
+  // sendMessage("Hello gang!")
+
 });
 
-// const myAvatar = computed(() => store.getters.getUser.avatar);
+async function sendMessage(message) {
+  console.log(message)
+  console.log('ws connection: ', getConnection.value);
+  const data = {
+    item_type: "message",
+    chat: 1,
+    text: message,
+    files: []
+  }
 
-// function keyListener(event) {
-//   if (event.defaultPrevented)
-//     return;
+  const res = await createChatMessage(data)
+  console.log('res: ', res);
+}
 
-//   const key = event.key || event.keyCode;
+function openChatTypeModal() {
+  cash('#chat-type-modal').modal('show')
+}
 
-//   if (key === 'Escape' || key === 'Esc' || key === 27) {
-//     selectedChat.value = {}
-//     errorMessage.value = ''
-//   }
-// }
+function handleCreate() {
+  const data = {
+    customer: 11
+  }
+  const res = createChatroom(data)
+}
 
 
 </script>

@@ -58,6 +58,21 @@ export const fetchCafeWorkDays = async cafeID => {
   }
 };
 
+export const updateCafeWorkDays = async cafeID => {
+  try {
+    const res = await makeRequest({
+      url: `/api/cafes/${cafeID}/work-days/`,
+      method: 'put',
+      headers: { authorization: true }
+    });
+
+    return res.data;
+  } catch (err) {
+    console.log('error while fetching cafes work days: ', err);
+    throw err;
+  }
+};
+
 export const updateCafe = async payload => {
   try {
     const res = await makeRequest({

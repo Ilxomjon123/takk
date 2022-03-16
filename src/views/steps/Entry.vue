@@ -123,7 +123,7 @@
         <div class="modal-content">
           <div class="modal-body p-0">
             <div class="p-5 text-center">
-              <div class="flex justify-center h-10 my-3 h-10 mt-3">
+              <div class="flex justify-center my-3 h-10 mt-3">
                 <img src="@/assets/images/Takk_Logo.png" class="mr-3" />
                 <img src="@/assets/images/squareup.png" />
               </div>
@@ -152,7 +152,11 @@
                 class="btn btn-outline-secondary w-24 dark:border-dark-5 dark:text-gray-300 mr-1"
                 @click="toCompany"
               >No</button>
-              <button type="button" class="btn btn-success w-24">Yes!</button>
+              <button
+                type="button"
+                class="btn btn-success w-24"
+                @click="gotoSquareUpSite"
+              >Yes!</button>
             </div>
           </div>
         </div>
@@ -162,41 +166,45 @@
   <ErrorNotification ref="errorNotification" />
 </template>
 
-<script>
-import { defineComponent } from 'vue'
-import CountrySelect from '../../components/selects/CountrySelect.vue'
+<script setup>
 import DarkModeSwitcher from '@/components/dark-mode-switcher/Main.vue'
-import { mapActions, mapGetters } from 'vuex'
+import { useStore } from 'vuex'
 import ErrorNotification from '../../components/notifications/ErrorNotification.vue'
-export default defineComponent({
-  computed: {
-    ...mapGetters(['getStep'])
-  },
-  mounted() {
-    const step = this.getStep;
-    let path;
-    switch (step) {
-      case this.$store.state.user.STEP_COMPANY: path = '/entry/company'; break;
-      case this.$store.state.user.STEP_CAFE: path = '/entry/cafe'; break;
-      case this.$store.state.user.STEP_FINISH: path = '/entry/finish'; break;
-      case this.$store.state.user.STEP_DASHBOARD: path = '/dashboard'; break;
-      default: path = '/entry'; break;
-    }
-    this.$router.push(path);
-  },
-  components: { CountrySelect, DarkModeSwitcher, ErrorNotification },
-  methods: {
-    ...mapActions(['putStep']),
-    async toCompany() {
-      const res = await this.putStep(this.$store.state.user.STEP_COMPANY)
-      if (res.status) {
-        this.$router.go('/entry/company');
-        // window.location.reload();
-      } else {
-        this.$refs.errorNotification.show()
-      }
+import { computed, onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-    }
+const store = useStore();
+const router = useRouter();
+const getStep = computed(() => store.getters['getStep'])
+const errorNotification = ref(null);
+
+onMounted(() => {
+  const step = getStep.value;
+  let path;
+  switch (step) {
+    case store.state.user.STEP_COMPANY: path = '/entry/company'; break;
+    case store.state.user.STEP_CAFE: path = '/entry/cafe'; break;
+    case store.state.user.STEP_FINISH: path = '/entry/finish'; break;
+    case store.state.user.STEP_DASHBOARD: path = '/dashboard'; break;
+    default: path = '/entry';
   }
-})
+  router.push(path);
+});
+
+async function toCompany() {
+  const res = await store.dispatch('putStep', store.state.user.STEP_COMPANY)
+  if (res.status) {
+    router.go('/entry/company');
+    // window.location.reload();
+  } else {
+    errorNotification.value.show()
+  }
+}
+
+function gotoSquareUpSite() {
+  const SQUARE_APP_ID = "sandbox-sq0idb-O7t0Iz9KjwN1g1l2IeSjAQ"
+  location.href = `https://connect.squareupsandbox.com/login?redirect=/oauth2/authorize?client_id=${SQUARE_APP_ID}&scope=CUSTOMERS_WRITE+CUSTOMERS_READ`
+  // location.href = `https://connect.squareupsandbox.com/oauth2/authorize?client_id=${SQUARE_APP_ID}&scope=CUSTOMERS_WRITE+CUSTOMERS_READ`
+}
+
 </script>
