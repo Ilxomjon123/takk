@@ -28,6 +28,7 @@ export default () => {
   };
 
   const getSelectedChat = computed(() => selectedChat.value);
+  // const getChatList = computed(() => chatList);
   const getErrorMessage = computed(() => errorMessage.value);
   const getChatBoxLoading = computed(() => chatBoxLoading.value);
 

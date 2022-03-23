@@ -1,6 +1,6 @@
 <template>
   <div class="pr-1">
-    <div class="box p-5 my-5">
+    <div class="box my-5">
       <div class="relative text-gray-700 dark:text-gray-300">
         <input
           type="text"

@@ -5,8 +5,8 @@
       <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
         <button
           class="btn btn-primary shadow-md mr-2"
-          @click="openChatTypeModal"
-        >New Chat</button>
+          @click="openMessageModal"
+        >New Message</button>
         <div class="dropdown ml-auto sm:ml-0">
           <button
             class="dropdown-toggle btn px-2 box text-gray-700 dark:text-gray-300"
@@ -54,60 +54,12 @@
     </div>
   </div>
 
-  <div id="chat-type-modal" class="modal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <!-- BEGIN: Modal Header -->
-        <div class="modal-header">
-          <h2 class="font-medium text-base mr-auto">Select chat type</h2>
-        </div>
-        <!-- END: Modal Header -->
-        <div class="modal-body p-10">
-          <div class="flex flex-col sm:flex-row mt-2">
-            <div class="form-check mr-2">
-              <input
-                id="radio-switch-4"
-                class="form-check-input"
-                type="radio"
-                name="horizontal_radio_button"
-                value="horizontal-radio-chris-evans"
-              />
-              <label class="form-check-label" for="radio-switch-4">Chris Evans</label>
-            </div>
-            <div class="form-check mr-2 mt-2 sm:mt-0">
-              <input
-                id="radio-switch-5"
-                class="form-check-input"
-                type="radio"
-                name="horizontal_radio_button"
-                value="horizontal-radio-liam-neeson"
-              />
-              <label class="form-check-label" for="radio-switch-5">Liam Neeson</label>
-            </div>
-          </div>
-        </div>
-        <!-- BEGIN: Modal Footer -->
-        <div class="modal-footer text-right">
-          <button
-            type="button"
-            data-dismiss="modal"
-            class="btn btn-outline-secondary mr-1"
-          >Cancel</button>
-          <button
-            type="button"
-            class="btn btn-primary"
-            @click="handleCreate"
-            :disabled="!isReordered"
-          >Save positions</button>
-        </div>
-        <!-- END: Modal Footer -->
-      </div>
-    </div>
-  </div>
+  <!-- create message modal -->
+  <NewMessageModal />
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { fetchChats } from '@/api';
 import useChatState from '@/features/useChatState';
 import ChatTab from './ChatTab.vue';
@@ -115,21 +67,20 @@ import ChatBox from './ChatBox.vue';
 import useWebSocket from '@/features/useWebSocket';
 import cash from 'cash-dom';
 import { createChatroom, createChatMessage } from '@/api';
+import { useStore } from 'vuex';
+import NewMessageModal from './NewMessageModal.vue';
 
+const store = useStore()
 const { setChatList, getChatBoxLoading } = useChatState();
 const { getConnection } = useWebSocket();
+const authUser = store.getters['getUser'];
 
 onMounted(async () => {
   const res = await fetchChats();
-  res.length > 0 && setChatList(res);
-
-  getConnection.value.onnew_message = (event) => {
-    console.log(event);
-  }
+  console.log('res: ', res);
+  res.results.length > 0 && setChatList(res.results);
 
   // handleCreate()
-  // sendMessage("Hello gang!")
-
 });
 
 async function sendMessage(message) {
@@ -146,16 +97,11 @@ async function sendMessage(message) {
   console.log('res: ', res);
 }
 
-function openChatTypeModal() {
-  cash('#chat-type-modal').modal('show')
+function openMessageModal() {
+  cash('#new-chatmessage-modal').modal('show')
 }
 
-function handleCreate() {
-  const data = {
-    customer: 11
-  }
-  const res = createChatroom(data)
-}
+
 
 
 </script>

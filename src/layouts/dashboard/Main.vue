@@ -176,7 +176,7 @@
 </template>
 
 <script setup>
-import { defineComponent, computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from '@/store'
 import { helper as $h } from '@/utils/helper'
@@ -186,12 +186,9 @@ import DarkModeSwitcher from '@/components/dark-mode-switcher/Main.vue'
 import SideMenuTooltip from '@/components/side-menu-tooltip/Main.vue'
 import { linkTo, nestedMenu, enter, leave } from './index'
 import cash from 'cash-dom'
-import GlobalLoader from '../../components/GlobalLoader.vue'
-import SuccessNotification from '../../components/notifications/SuccessNotification.vue'
-import ErrorNotification from '../../components/notifications/ErrorNotification.vue'
-import axios from 'axios'
-import makeRequest from '../../api/makeRequest'
-import { getToken } from '../../api/config'
+import GlobalLoader from '@/components/GlobalLoader.vue'
+import SuccessNotification from '@/components/notifications/SuccessNotification.vue'
+import ErrorNotification from '@/components/notifications/ErrorNotification.vue'
 import useWebSocket from "@/features/useWebSocket.js"
 
 const route = useRoute()
@@ -201,7 +198,8 @@ const formattedMenu = ref([])
 const sideMenu = computed(() =>
   nestedMenu(store.state.sideMenu.menu, route)
 )
-const { setConnection } = useWebSocket();
+const { setConnection, sendEvent, getConnection } = useWebSocket();
+const authUser = store.getters['getUser'];
 
 watch(
   computed(() => route.path),
@@ -210,17 +208,34 @@ watch(
   }
 )
 
-onMounted(() => {
+onMounted(async () => {
   if (store.getters['getStep'] != store.state.user.STEP_DASHBOARD)
     router.push('/entry')
+
   cash('body')
     .removeClass('error-page')
     .removeClass('login')
     .addClass('main')
+
   formattedMenu.value = $h.toRaw(sideMenu.value)
 
   // connect to web socket
-  setConnection()
+  await setConnection()
+
+  getConnection.value.onopen = function (event) {
+    console.log('Successfully connected to the websocket server...');
+    console.log(event);
+    sendEvent(JSON.stringify(
+      {
+        "event_type": "customer_update_status",
+        "data": {
+          "id": authUser.id,
+          "status": true
+        }
+      }
+    ));
+  };
+
 
 });
 </script>

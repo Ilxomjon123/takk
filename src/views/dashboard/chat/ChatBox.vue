@@ -10,16 +10,17 @@
             <img
               alt="image"
               class="rounded-full"
-              :src="getSelectedChat.user?.avatar"
+              :src="getSelectedChat.customer?.avatar"
             />
           </div>
           <div class="ml-3 mr-auto">
             <div
               class="font-medium text-base"
-            >{{ getSelectedChat.user?.username }}</div>
+            >{{ getSelectedChat.customer?.username }}</div>
             <div class="text-gray-600 text-xs sm:text-sm">
               Hey, I am using chat
-              <span class="mx-1">•</span> Online
+              <span class="mx-1">•</span>
+              {{ getSelectedChat.customer?.is_online ? 'Online' : 'Offline' }}
             </div>
           </div>
         </div>
@@ -59,9 +60,12 @@
           </div>
         </div>
       </div>
-      <div class="overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1">
+      <!-- messages area -->
+      <div
+        class="overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1"
+        ref="chatBoxBody"
+      >
         <template v-for="message, messageIndex in getSelectedChat.messages">
-          <!-- <template v-if="getSelectedChat.last_message"> -->
           <div
             v-if="!message.is_my_message"
             class="chat__box__text-box flex items-end float-left mb-4"
@@ -72,7 +76,7 @@
               <img
                 alt="image"
                 class="rounded-full"
-                :src="getSelectedChat.user?.avatar"
+                :src="getSelectedChat.customer?.avatar"
               />
             </div>
             <div
@@ -144,12 +148,15 @@
               </div>
             </div>
             <div
-              class="bg-theme-1 px-4 py-3 text-white rounded-l-md rounded-t-md"
+              class="px-4 py-3 text-white rounded-l-md rounded-t-md"
+              :class="{ 'bg-theme-1': message.item_type === 'message' }"
             >
               <img
                 v-if="message.item_type === 'image'"
-                :src="message.image"
+                :src="message.files[0]?.file"
                 alt="image message"
+                width="200"
+                data-action="zoom"
               />
               <p v-if="message.item_type === 'message'">{{ message.text }}</p>
               <div
@@ -165,35 +172,43 @@
           <div class="clear-both"></div>
         </template>
       </div>
-      <div
-        class="pt-4 pb-10 sm:py-4 flex items-center border-t border-gray-200 dark:border-dark-5"
-      >
-        <textarea
-          class="chat__box__input form-control dark:bg-dark-3 h-16 resize-none border-transparent px-5 py-3 shadow-none focus:ring-0"
-          rows="1"
-          placeholder="Type your message..."
-        ></textarea>
+      <!-- messages sending form area -->
+      <form @submit.prevent="sendMessage">
         <div
-          class="flex absolute sm:static left-0 bottom-0 ml-5 sm:ml-0 mb-5 sm:mb-0"
+          class="pt-4 pb-10 sm:py-4 flex items-center border-t border-gray-200 dark:border-dark-5"
         >
-          <EmojisBlock />
+          <textarea
+            class="chat__box__input form-control dark:bg-dark-3 h-16 resize-none border-transparent px-5 py-3 shadow-none focus:ring-0"
+            rows="1"
+            placeholder="Type your message..."
+            v-model="message"
+            @keyup.enter="sendMessage"
+          ></textarea>
           <div
-            class="w-4 h-4 sm:w-5 sm:h-5 relative text-gray-600 mr-3 sm:mr-5"
+            class="flex absolute sm:static left-0 bottom-0 ml-5 sm:ml-0 mb-5 sm:mb-0"
           >
-            <PaperclipIcon class="w-full h-full" />
-            <input
-              type="file"
-              class="w-full h-full top-0 left-0 absolute opacity-0"
-            />
+            <EmojisBlock />
+            <div
+              class="w-4 h-4 sm:w-5 sm:h-5 relative text-gray-600 mr-3 sm:mr-5"
+            >
+              <PaperclipIcon class="w-full h-full" />
+              <input
+                type="file"
+                class="w-full h-full top-0 left-0 absolute opacity-0"
+                @input="onFileChanged"
+                accept="image/*"
+              />
+            </div>
           </div>
+          <button
+            type="submit"
+            :disabled="msgSending"
+            class="w-8 h-8 sm:w-10 sm:h-10 block bg-theme-1 text-white rounded-full flex-none flex items-center justify-center mr-5"
+          >
+            <SendIcon class="w-4 h-4" />
+          </button>
         </div>
-        <a
-          href="javascript:;"
-          class="w-8 h-8 sm:w-10 sm:h-10 block bg-theme-1 text-white rounded-full flex-none flex items-center justify-center mr-5"
-        >
-          <SendIcon class="w-4 h-4" />
-        </a>
-      </div>
+      </form>
     </div>
     <!-- END: Chat Active -->
     <!-- BEGIN: Chat Default -->
@@ -212,25 +227,94 @@
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref } from 'vue'
+import { computed, nextTick, onMounted, reactive, ref, watch, watchEffect } from 'vue'
 import EmojisBlock from './EmojisBlock.vue';
 import moment from 'moment';
 import { useStore } from 'vuex';
 import { isEmpty } from 'lodash';
 import useChatState from '../../../features/useChatState';
-
-// const props = defineProps({
-//   selectedChat: Object,
-//   errorMessage: String
-// });
+import useWebSocket from '../../../features/useWebSocket';
 
 const { getSelectedChat, getErrorMessage } = useChatState();
-
+const { getConnection, sendEvent } = useWebSocket();
+const myMessages = ref([]);
+const msgSending = ref(false);
 const store = useStore();
 const formattedDate = (value) => {
   return moment(value).fromNow();
 };
 
 const myAvatar = computed(() => store.getters.getUser.avatar);
+const fileInput = ref(null);
+const chatBoxBody = ref(null);
+const messages = ref([]);
+const message = ref('');
+
+async function sendMessage() {
+  msgSending.value = true
+  // const values = Object.fromEntries(new FormData(event.target))
+  // console.log('values: ', values);
+
+  if (!isEmpty(message.value)) {
+    const myMessageObj = {
+      item_type: 'message',
+      chat: getSelectedChat.value.id,
+      text: message.value,
+      is_my_message: true
+    };
+
+    sendEvent({
+      event_type: 'new_message',
+      data: myMessageObj
+    })
+
+    message.value = '';
+    await getSelectedChat.value.messages.push(myMessageObj);
+  }
+
+  msgSending.value = false
+  scrollToBottom()
+}
+
+async function onFileChanged(event) {
+  const target = event.target;
+  if (target && target.files) {
+    fileInput.value = target.files[0]
+  }
+
+  const myFileObj = {
+    item_type: 'image',
+    chat: getSelectedChat.value.id,
+    // text: message.value,
+    files: [{
+      id: new Date().getTime(),
+      file: URL.createObjectURL(fileInput.value)
+    }],
+    is_my_message: true
+  };
+
+  await getSelectedChat.value.messages.push(myFileObj);
+  scrollToBottom()
+}
+
+function scrollToBottom() {
+  if (chatBoxBody.value) {
+    console.log('chatBoxBody.value.scrollTop: ', chatBoxBody.value.scrollTop);
+    console.log('chatBoxBody.value.scrollHeight: ', chatBoxBody.value.scrollHeight);
+    chatBoxBody.value.scrollTop = chatBoxBody.value.scrollHeight;
+  }
+}
+
 
 </script>
+
+<style lang="scss" scoped>
+img[data-action="zoom"] {
+  cursor: pointer;
+}
+
+img.zoom-img,
+.zoom-overlay {
+  cursor: default;
+}
+</style>
