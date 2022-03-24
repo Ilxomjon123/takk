@@ -61,7 +61,7 @@
         role="tabpanel"
         aria-labelledby="company-chats-tab"
       >
-        <ChatList chat-type="company" />
+        <ChatList chat-type="main" />
         <!-- <ChatList :chats="companyChats" @update:selected-chat="showChatBox" /> -->
       </div>
     </div>

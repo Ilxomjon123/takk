@@ -175,8 +175,8 @@
   </div>
 </template>
 
-<script>
-import { defineComponent, computed, onMounted, ref, watch } from 'vue'
+<script setup>
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useStore } from '@/store'
 import { helper as $h } from '@/utils/helper'
@@ -186,54 +186,57 @@ import DarkModeSwitcher from '@/components/dark-mode-switcher/Main.vue'
 import SideMenuTooltip from '@/components/side-menu-tooltip/Main.vue'
 import { linkTo, nestedMenu, enter, leave } from './index'
 import cash from 'cash-dom'
-import GlobalLoader from '../../components/GlobalLoader.vue'
-import SuccessNotification from '../../components/notifications/SuccessNotification.vue'
-import ErrorNotification from '../../components/notifications/ErrorNotification.vue'
+import GlobalLoader from '@/components/GlobalLoader.vue'
+import SuccessNotification from '@/components/notifications/SuccessNotification.vue'
+import ErrorNotification from '@/components/notifications/ErrorNotification.vue'
+import useWebSocket from "@/features/useWebSocket.js"
 
-export default defineComponent({
-  components: {
-    TopBar,
-    MobileMenu,
-    DarkModeSwitcher,
-    SideMenuTooltip,
-    GlobalLoader,
-    SuccessNotification,
-    ErrorNotification
-  },
-  setup() {
-    const route = useRoute()
-    const router = useRouter()
-    const store = useStore()
-    const formattedMenu = ref([])
-    const sideMenu = computed(() =>
-      nestedMenu(store.state.sideMenu.menu, route)
-    )
+const route = useRoute()
+const router = useRouter()
+const store = useStore()
+const formattedMenu = ref([])
+const sideMenu = computed(() =>
+  nestedMenu(store.state.sideMenu.menu, route)
+)
+const { setConnection, sendEvent, getConnection } = useWebSocket();
+const authUser = store.getters['getUser'];
 
-    watch(
-      computed(() => route.path),
-      () => {
-        formattedMenu.value = $h.toRaw(sideMenu.value)
-      }
-    )
-
-    onMounted(() => {
-      if (store.getters['getStep'] != store.state.user.STEP_DASHBOARD)
-        router.push('/entry')
-      cash('body')
-        .removeClass('error-page')
-        .removeClass('login')
-        .addClass('main')
-      formattedMenu.value = $h.toRaw(sideMenu.value)
-    })
-
-    return {
-      formattedMenu,
-      router,
-      linkTo,
-      enter,
-      leave
-    }
+watch(
+  computed(() => route.path),
+  () => {
+    formattedMenu.value = $h.toRaw(sideMenu.value)
   }
+)
+
+onMounted(async () => {
+  if (store.getters['getStep'] != store.state.user.STEP_DASHBOARD)
+    router.push('/entry')
+
+  cash('body')
+    .removeClass('error-page')
+    .removeClass('login')
+    .addClass('main')
+
+  formattedMenu.value = $h.toRaw(sideMenu.value)
+
+  // connect to web socket
+  await setConnection()
+
+  getConnection.value.onopen = function (event) {
+    console.log('Successfully connected to the websocket server...');
+    console.log(event);
+    sendEvent(JSON.stringify(
+      {
+        "event_type": "customer_update_status",
+        "data": {
+          "id": authUser.id,
+          "status": true
+        }
+      }
+    ));
+  };
+
+
 });
 </script>
 

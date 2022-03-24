@@ -5,20 +5,24 @@
     <div
       v-for="(chat, chatKey) in filteredChatList"
       :key="chatKey"
-      class="intro-x cursor-pointer box relative flex p-5"
-      :class="{ 'bg-theme-1 dark:bg-theme-1 text-white': chat.id === getSelectedChat.id, 'mt-5': chatKey }"
+      class="intro-x cursor-pointer relative flex p-3"
+      :class="{ 'bg-theme-1 dark:bg-theme-1 text-white': chat.id === getSelectedChat.id }"
       @click="selectChat(chat)"
     >
       <div class="w-12 h-12 flex-none image-fit mr-1">
-        <img alt="image" class="rounded-full" :src="chat.user?.avatar" />
+        <img alt="image" class="rounded-full" :src="chat.image" />
 
         <div
+          v-if="chat.customer?.is_online"
           class="w-3 h-3 bg-theme-9 absolute right-0 bottom-0 rounded-full border-2 border-white"
         ></div>
       </div>
       <div class="ml-2 overflow-hidden w-full">
         <div class="flex">
-          <h6 href="javascript:;" class="font-medium">{{ chat.user?.username }}</h6>
+          <h6
+            href="javascript:;"
+            class="font-medium"
+          >{{ chat.customer?.username }}</h6>
           <div
             class="text-xs text-gray-500 ml-auto"
           >{{ chat.last_message?.created_dt && formattedDate(chat.last_message.created_dt) }}</div>
@@ -72,7 +76,7 @@ const searchValue = ref('');
 
 const filteredChatList = computed(() => {
   if (searchValue.value) {
-    return chatList.filter(chat => chat.user?.username.toLowerCase().includes(searchValue.value.toLowerCase()) || chat.user?.phone.includes(searchValue.value.toLowerCase()));
+    return chatList.filter(chat => chat.customer?.username.toLowerCase().includes(searchValue.value.toLowerCase()) || chat.customer?.phone.includes(searchValue.value.toLowerCase()));
   }
   if (props.chatType) {
     return chatList.filter(chat => chat.chat_type === props.chatType);

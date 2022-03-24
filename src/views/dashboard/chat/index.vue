@@ -3,7 +3,10 @@
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
       <h2 class="text-lg font-medium mr-auto">Chat</h2>
       <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-        <button class="btn btn-primary shadow-md mr-2">New Chat</button>
+        <button
+          class="btn btn-primary shadow-md mr-2"
+          @click="openMessageModal"
+        >New Message</button>
         <div class="dropdown ml-auto sm:ml-0">
           <button
             class="dropdown-toggle btn px-2 box text-gray-700 dark:text-gray-300"
@@ -17,13 +20,13 @@
             <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
               <a
                 href
-                class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
               >
                 <UsersIcon class="w-4 h-4 mr-2" />Create Group
               </a>
               <a
                 href
-                class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
               >
                 <SettingsIcon class="w-4 h-4 mr-2" />Settings
               </a>
@@ -50,70 +53,55 @@
       <!-- END: Chat Content -->
     </div>
   </div>
+
+  <!-- create message modal -->
+  <NewMessageModal />
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref } from 'vue'
-// import EmojisBlock from './EmojisBlock.vue';
+import { onMounted, ref } from 'vue'
 import { fetchChats } from '@/api';
 import useChatState from '@/features/useChatState';
-// import ChatList from './ChatList.vue';
-// import moment from 'moment';
-// import { useStore } from 'vuex';
-// import { isEmpty } from 'lodash';
 import ChatTab from './ChatTab.vue';
 import ChatBox from './ChatBox.vue';
+import useWebSocket from '@/features/useWebSocket';
+import cash from 'cash-dom';
+import { createChatroom, createChatMessage } from '@/api';
+import { useStore } from 'vuex';
+import NewMessageModal from './NewMessageModal.vue';
 
-// const store = useStore();
-// const chats = reactive([]);
-// const orderChats = reactive([]);
-// const companyChats = reactive([]);
-// const selectedChat = ref({});
-// const isLoading = ref(false);
-// const errorMessage = ref('');
-
-// const showChatBox = async (id) => {
-//   if (selectedChat.value.id !== id) {
-//     try {
-//       isLoading.value = true
-//       const res = await fetchChatMessages(id);
-//       selectedChat.value = {
-//         ...chats.find(chat => chat.id === id),
-//         messages: res.results
-//       };
-//       // selectedChat.value.messages = res.results;
-//     } catch (error) {
-//       console.log('Error while fetching chat messages: ', error.response)
-//       errorMessage.value = 'Something went wrong while fetching messages!'
-//     } finally {
-//       isLoading.value = false
-//     }
-//   } // else Object.assign(selectedChat, reactive({}));
-// };
-
-// const formattedDate = (value) => {
-//   return moment(value).fromNow();
-// };
-
+const store = useStore()
 const { setChatList, getChatBoxLoading } = useChatState();
+const { getConnection } = useWebSocket();
+const authUser = store.getters['getUser'];
+
 onMounted(async () => {
   const res = await fetchChats();
-  setChatList(res);
+  console.log('res: ', res);
+  res.results.length > 0 && setChatList(res.results);
+
+  // handleCreate()
 });
 
-// const myAvatar = computed(() => store.getters.getUser.avatar);
+async function sendMessage(message) {
+  console.log(message)
+  console.log('ws connection: ', getConnection.value);
+  const data = {
+    item_type: "message",
+    chat: 1,
+    text: message,
+    files: []
+  }
 
-// function keyListener(event) {
-//   if (event.defaultPrevented)
-//     return;
+  const res = await createChatMessage(data)
+  console.log('res: ', res);
+}
 
-//   const key = event.key || event.keyCode;
+function openMessageModal() {
+  cash('#new-chatmessage-modal').modal('show')
+}
 
-//   if (key === 'Escape' || key === 'Esc' || key === 27) {
-//     selectedChat.value = {}
-//     errorMessage.value = ''
-//   }
-// }
+
 
 
 </script>

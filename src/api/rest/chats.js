@@ -1,9 +1,12 @@
 import makeRequest from '../makeRequest';
+import useWebSocket from '@/features/useWebSocket.js';
+
+const { sendEvent } = useWebSocket();
 
 export const fetchChats = async () => {
   try {
     const res = await makeRequest({
-      url: `/api/chats/`,
+      url: `/api/ws-chat/`,
       headers: { authorization: true }
     });
     return res.data;
@@ -15,9 +18,32 @@ export const fetchChats = async () => {
 export const fetchChatMessages = async chatID => {
   try {
     const res = await makeRequest({
-      url: `/api/chats/${chatID}/messages/`,
+      url: `/api/ws-chat/${chatID}/messages/`,
       headers: { authorization: true }
     });
+    return res.data;
+  } catch (err) {
+    return console.log('error while fetching chat messages: ', err);
+  }
+};
+
+export const createChatroom = async payload => {
+  try {
+    const res = await makeRequest({
+      url: `/api/ws-chat/`,
+      method: 'post',
+      data: payload, // {item_type -> тип сообщения [video, image, message, video], files -> список файлов, chat*}
+      headers: { authorization: true }
+    });
+
+    sendEvent(
+      JSON.stringify({
+        event_type: 'new_chat',
+        data: {
+          chat_id: res.data?.id
+        }
+      })
+    );
     return res.data;
   } catch (err) {
     return console.log('error while fetching chat messages: ', err);
@@ -27,10 +53,21 @@ export const fetchChatMessages = async chatID => {
 export const createChatMessage = async payload => {
   try {
     const res = await makeRequest({
-      url: `/api/chats/message/`,
-      data: payload, // {item_type*, text, chat*(chat_id)}
+      url: `/api/ws-chat/messages/`,
+      method: 'post',
+      data: payload, // {item_type -> тип сообщения [video, image, message, video], files -> список файлов, chat*}
       headers: { authorization: true }
     });
+
+    sendEvent(
+      JSON.stringify({
+        event_type: 'new_message',
+        data: {
+          chat_id: payload.chat,
+          message: payload.message
+        }
+      })
+    );
     return res.data;
   } catch (err) {
     return console.log('error while fetching chat messages: ', err);

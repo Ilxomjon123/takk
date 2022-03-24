@@ -8,8 +8,9 @@ import './libs';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import VueTelInput from 'vue-tel-input';
-// SASS Theme
+// import CKEditor from '@ckeditor/ckeditor5-vue';
 
+// SASS Theme
 import './assets/sass/app.scss';
 // import 'vue-tel-input/dist/vue-tel-input.css';
 
@@ -17,6 +18,7 @@ const app = createApp(App)
   .use(store)
   .use(router)
   .use(VueTelInput)
+  // .use(CKEditor)
   .use(VueAxios, axios);
 
 globalComponents(app);

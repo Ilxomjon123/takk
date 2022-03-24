@@ -1,7 +1,7 @@
 <template>
   <div class="text-center">
     <!-- BEGIN: Notification Content -->
-    <div id="error-notification-content" class="toastify-content hidden flex">
+    <div id="error-notification-content" class="toastify-content hidden">
       <XCircleIcon class="text-theme-6" />
       <div class="ml-4 mr-4">
         <div class="font-medium">Something went wrong!</div>
