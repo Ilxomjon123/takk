@@ -55,7 +55,7 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   data() {
     return {
-      perPage: 10
+      perPage: 20
     }
   },
   props: {

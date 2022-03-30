@@ -55,7 +55,8 @@ const routes = [
     path: '/dashboard',
     component: DashboardLayout,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      requiresStep: true
     },
     children: [
       { path: '', name: 'dashboard', component: DashboardMain },
