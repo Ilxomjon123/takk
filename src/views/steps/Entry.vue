@@ -25,25 +25,29 @@
                 <span class="mx-1">•</span> 20 Copies
               </div>-->
               <div
-                class="text-gray-600 dark:text-gray-400 px-10 text-center text-base mx-auto mt-5"
+                class="text-gray-600 dark:text-gray-400 px-10 text-center text-base mx-auto mt-5 min-h-[80px]"
               >
                 No risk, 6 months free use of the Takk platform (order accepting system and mobile app). After trial period, 1% of sales.
                 Plus credit card fees (2.9%+30c) passed on to payment processing companies.
               </div>
-              <div class="flex justify-center">
-                <div class="relative text-5xl font-semibold mt-8 mx-auto">
-                  <span
-                    class="absolute text-2xl top-0 left-0 text-gray-600 -ml-4"
-                  >$</span>
-                  0
+              <div class="mt-auto">
+                <div class="flex justify-center">
+                  <div class="relative text-5xl font-semibold mt-8 mx-auto">
+                    <span
+                      class="absolute text-2xl top-0 left-0 text-gray-600 -ml-4"
+                    >$</span>
+                    0
+                  </div>
+                </div>
+                <div class="mt-auto">
+                  <a
+                    href="javascript:;"
+                    data-toggle="modal"
+                    data-target="#delete-modal-preview"
+                    class="btn btn-rounded-primary py-3 px-4 block mx-auto mt-8"
+                  >PURCHASE NOW</a>
                 </div>
               </div>
-              <a
-                href="javascript:;"
-                data-toggle="modal"
-                data-target="#delete-modal-preview"
-                class="btn btn-rounded-primary py-3 px-4 block mx-auto mt-8"
-              >PURCHASE NOW</a>
             </div>
             <div
               class="intro-y border-b border-t lg:border-b-0 lg:border-t-0 flex-1 p-5 lg:border-l lg:border-r border-gray-200 dark:border-dark-5"
@@ -60,36 +64,40 @@
                 <span class="mx-1">•</span> 20 Copies
               </div>-->
               <div
-                class="text-gray-600 dark:text-gray-400 px-10 text-center text-base mx-auto mt-5"
+                class="text-gray-600 dark:text-gray-400 px-10 text-center text-base mx-auto mt-5 min-h-[80px]"
               >Same as Standard plan, plus you will have your custom mobile application with your own logo for $49 per month.</div>
-              <div class="flex justify-center">
-                <div class="relative text-5xl font-semibold mt-8 mx-auto">
-                  <span
-                    class="absolute text-2xl top-0 left-0 text-gray-600 -ml-4"
-                  >$</span>
-                  49
+              <div class="mt-auto">
+                <div class="flex justify-center">
+                  <div class="relative text-5xl font-semibold mt-8 mx-auto">
+                    <span
+                      class="absolute text-2xl top-0 left-0 text-gray-600 -ml-4"
+                    >$</span>
+                    49
+                  </div>
+                </div>
+                <div class="mt-auto">
+                  <a
+                    type="button"
+                    class="btn btn-rounded-primary py-3 px-4 block mx-auto mt-8"
+                  >PURCHASE NOW</a>
                 </div>
               </div>
-              <a
-                type="button"
-                class="btn btn-rounded-primary py-3 px-4 block mx-auto mt-8"
-              >PURCHASE NOW</a>
             </div>
           </div>
           <!-- END: Pricing Layout -->
         </div>
       </div>
-      <div class="hidden md:flex justify-center">
+      <div class="hidden md:flex justify-center mx-auto w-full">
         <router-link to="/">
           <img
-            class="w-11/12"
+            class="mr-12 w-[240px] h-[80px]"
             src="@/assets/images/App_Store_badge_US.png"
             alt="App Store badge"
           />
         </router-link>
-        <router-link to="/" class="md:ml-16">
+        <router-link to="/" class>
           <img
-            class="w-11/12"
+            class="ml-12 w-[240px] h-[80px]"
             src="@/assets/images/Google_Play_Badge.png"
             alt="Google_Play_Badge"
           />
