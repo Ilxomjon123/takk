@@ -1,16 +1,17 @@
 <script setup>
-import { mapActions, mapGetters, useStore } from 'vuex';
-import CountrySelect from '../../../components/selects/CountrySelect.vue';
-import CitySelect from '../../../components/selects/CitySelect.vue';
-import SuccessNotification from '../../../components/notifications/SuccessNotification.vue';
-import ErrorNotification from '../../../components/notifications/ErrorNotification.vue';
-import StateSelect from '../../../components/selects/StateSelect.vue';
+import { useStore } from 'vuex';
+import CountrySelect from '@/components/selects/CountrySelect.vue';
+import CitySelect from '@/components/selects/CitySelect.vue';
+import SuccessNotification from '@/components/notifications/SuccessNotification.vue';
+import ErrorNotification from '@/components/notifications/ErrorNotification.vue';
+import StateSelect from '@/components/selects/StateSelect.vue';
 import { computed, onMounted, ref } from 'vue';
+import SimpleImageUpload from '../../../components/forms/file-upload/SimpleImageUpload.vue';
 
 const store = useStore();
 const image = ref(null)
 const isLoading = ref(false)
-const errors = ref({})
+const errors = ref(null)
 const successMessage = ref("Successfully saved!")
 const successNotification = ref(null);
 const errorNotification = ref(null);
@@ -33,16 +34,16 @@ function clickInput(name) {
   document.getElementById(name).click();
 }
 
-function changeImage(e, name) {
-  image.value = e.target.files[0];
-  const fileUrl = URL.createObjectURL(e.target.files[0])
-  getCompany.value[name] = fileUrl;
-}
+// function changeImage(e, name) {
+//   image.value = e.target.files[0];
+//   const fileUrl = URL.createObjectURL(e.target.files[0])
+//   getCompany.value[name] = fileUrl;
+// }
 
-function removeLogo() {
-  image.value['logo'] == null;
-  getCompany.value.logo == null;
-}
+// function removeLogo() {
+//   image.value['logo'] == null;
+//   getCompany.value.logo == null;
+// }
 
 async function submit() {
   // store.commit('setLoadingStatus', true)
@@ -59,7 +60,7 @@ async function submit() {
   // form = { ...form, ...image.value }
 
   const formData = new FormData();
-  formData.append('logo', getCompany.value.logo)
+  image.value && formData.append('logo', image.value)
   formData.append('name', getCompany.value.name);
   formData.append('phone', getCompany.value.phone);
   formData.append('email', getCompany.value.email);
@@ -96,7 +97,7 @@ async function submit() {
 }
 
 function getError(key) {
-  return errors.value[key]?.[0];
+  return errors.value && errors.value[key]?.[0];
 }
 </script>
 
@@ -124,28 +125,30 @@ function getError(key) {
                 class="col-span-12 lg:col-span-4 2xl:col-span-3 flex lg:block flex-col-reverse"
               >
                 <div class="intro-y">
-                  <div
+                  <label class="form-label">Company Logo</label>
+                  <SimpleImageUpload
+                    :title="getCompany.logo ? 'Change photo' : 'Add photo'"
+                    :image-path="getCompany.logo"
+                    @update-image-file="image = $event"
+                  />
+                  <!-- <div
                     class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5 items-center"
                   >
-                    <label class="form-label">Company Logo</label>
                     <div
                       class="h-60 w-60 image-fit cursor-pointer zoom-in mx-auto mb-3"
                     >
-                      <img class="rounded-md" alt="Takk" :src="getCompany.logo" />
+                      <img
+                        class="rounded-md"
+                        alt="Takk"
+                        :src="getCompany.logo"
+                        data-action="zoom"
+                      />
                       <input
                         type="file"
                         hidden
                         id="logo-image"
                         @change="e => changeImage(e, 'logo')"
                       />
-                      <!-- <Tippy
-                        tag="div"
-                        content="Remove this profile photo?"
-                        class="w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-6 right-0 top-0 -mr-2 -mt-2"
-                        @click="removeLogo"
-                      >
-                        <xIcon class="w-4 h-4" />
-                      </Tippy>-->
                     </div>
                     <div class="mx-auto cursor-pointer relative mt-5">
                       <button
@@ -154,7 +157,7 @@ function getError(key) {
                         class="btn btn-primary w-full"
                       >Change Photo</button>
                     </div>
-                  </div>
+                  </div>-->
                 </div>
               </div>
               <form
@@ -374,11 +377,7 @@ function getError(key) {
                 <div>
                   <button
                     type="submit"
-<<<<<<< HEAD
-                    class="btn btn-primary px-4 block mx-auto mt-8 px-10 align-top"
-=======
                     class="btn btn-primary py-3 block mx-auto mt-8 px-10 align-top"
->>>>>>> b286d90c2e468fa63b1e6f4178b0739c9ec5d8b1
                     :disabled="isLoading"
                   >
                     {{ isLoading ? '' : 'Save' }}

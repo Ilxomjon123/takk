@@ -23,7 +23,8 @@ axios.interceptors.response.use(undefined, function(error) {
       localStorage.removeItem('token');
       localStorage.removeItem('required_details');
 
-      return router.push('/login');
+      // return router.push('/login');
+      window.location = '/login';
     }
   }
 });

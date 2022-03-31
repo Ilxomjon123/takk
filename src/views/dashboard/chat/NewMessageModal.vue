@@ -5,7 +5,7 @@ import { ref } from 'vue';
 import CustomerSelect from '@/components/selects/CustomerSelect.vue';
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import SimpleImageUpload from '../../../components/forms/file-upload/SimpleImageUpload.vue';
+import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 
 const selectedCustomers = ref([]);
 const editorData = ref('');
@@ -49,7 +49,7 @@ function uploader() {
           <CustomerSelect v-model="selectedCustomers" />
           <!-- message textarea -->
           <div id="classic-editor" class="mt-5">
-            <div class="preview">
+            <div class>
               <textarea v-model="textMessage" rows="5" class="form-control" />
               <SimpleImageUpload
                 title="Add photo"

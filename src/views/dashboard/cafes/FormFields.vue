@@ -13,7 +13,7 @@
           <label
             class="font-medium text-base ml-2 cursor-pointer"
             for="status"
-          >Status</label>
+          >Open/Closed</label>
         </div>
         <span
           class="text-theme-6 mt-2"
@@ -208,12 +208,12 @@
           >{{ externalErrors.address && externalErrors.address[0] }}</span>
         </div>
         <div class="input-form lg:basis-1/2">
-          <label class="form-label" for="second_address">Second address</label>
+          <label class="form-label" for="second_address">Additional address line</label>
           <Field
             id="second_address"
             name="second_address"
             class="form-control"
-            placeholder="Type second address"
+            placeholder="Type additional address line"
             v-model="formFields.second_address"
           />
           <ErrorMessage name="second_address" class="text-theme-6 mt-2" />
@@ -524,8 +524,8 @@ function changeLatLng(e) {
 }
 
 function searchLocationByAddress() {
-  const addr = `${props.formFields.country}, ${props.formFields.state}, ${props.formFields.city} city, ${props.formFields.address}`
-  let url = `https://nominatim.openstreetmap.org/search?format=json&limit=3&q=${addr}`;
+  const addr = `${ props.formFields.country }, ${ props.formFields.state }, ${ props.formFields.city } city, ${ props.formFields.address }`
+  let url = `https://nominatim.openstreetmap.org/search?format=json&limit=3&q=${ addr }`;
   axios.get(url).then(res => {
     if (res.data.length > 0) {
       props.formFields.location.lat = res.data[0].lat;

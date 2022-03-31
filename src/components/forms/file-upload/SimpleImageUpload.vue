@@ -1,15 +1,16 @@
 <template>
-  <div class="w-52 mx-auto mb-5">
+  <div class="mx-auto mb-5">
     <div
       class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5"
     >
-      <div class="h-40 relative image-fit cursor-pointer zoom-in mx-auto">
+      <div class="h-40 relative image-fit zoom-in mx-auto">
         <img
           class="rounded-md"
           alt="Add image"
           :src="imagePath"
           ref="image"
           @error="replaceByDefault"
+          data-action="zoom"
         />
         <!-- <Tippy
           tag="div"
@@ -20,18 +21,13 @@
           <xIcon class="w-4 h-4" />
         </Tippy>-->
       </div>
-      <div class="mx-auto cursor-pointer relative mt-5">
+      <div class="mx-auto relative mt-5">
         <button
           type="button"
-          class="btn btn-primary w-full"
+          class="btn btn-primary w-full cursor-pointer"
           @click="$refs.inputFile.click()"
         >{{ title }}</button>
-        <input
-          type="file"
-          ref="inputFile"
-          class="w-full h-full top-0 left-0 absolute opacity-0"
-          @change="changeImage"
-        />
+        <input type="file" ref="inputFile" class="hidden" @change="changeImage" />
       </div>
     </div>
   </div>

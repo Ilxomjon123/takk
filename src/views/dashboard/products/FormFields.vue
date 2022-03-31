@@ -44,6 +44,7 @@ function removeProductSize() {
         <h2 class="font-medium text-base mr-auto">Product image</h2>
       </div>
       <SimpleImageUpload
+        class="w-52"
         :title="productImagePath ? 'Change photo' : 'Add photo'"
         :image-path="productImagePath"
         @update-image-file="formFields.image = $event"
