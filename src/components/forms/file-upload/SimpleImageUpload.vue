@@ -6,7 +6,7 @@
       <div class="h-40 relative image-fit cursor-pointer zoom-in mx-auto">
         <img
           class="rounded-md"
-          alt="Logo"
+          alt="Add image"
           :src="imagePath"
           ref="image"
           @error="replaceByDefault"

@@ -87,7 +87,7 @@ const actions = {
         commit('setCustomers', res.data);
       })
       .catch(err => {
-        response = res.data;
+        console.log(err);
         // commit('setCustomers', err.response.data);
       });
     return response;

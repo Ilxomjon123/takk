@@ -14,6 +14,20 @@ import VueTelInput from 'vue-tel-input';
 import './assets/sass/app.scss';
 // import 'vue-tel-input/dist/vue-tel-input.css';
 
+axios.interceptors.response.use(undefined, function(error) {
+  console.log('ok');
+  if (error) {
+    const originalRequest = error.config;
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      localStorage.removeItem('token');
+      localStorage.removeItem('required_details');
+
+      return router.push('/login');
+    }
+  }
+});
+
 const app = createApp(App)
   .use(store)
   .use(router)

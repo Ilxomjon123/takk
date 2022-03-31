@@ -28,3 +28,16 @@ export const logout = async () => {
   });
   return setToken(null);
 };
+
+// export const checkAuth = function({ axios, redirect, $auth }) {
+//   axios.onError(error => {
+//     const code = parseInt(error.response && error.response.status);
+//     if (code === 401) {
+//       if ($auth && $auth.loggedIn) {
+//         $auth.logout();
+//       }
+//       redirect('/');
+//     }
+//     throw error;
+//   });
+// }

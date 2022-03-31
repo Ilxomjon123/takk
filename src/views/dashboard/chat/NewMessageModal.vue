@@ -5,12 +5,16 @@ import { ref } from 'vue';
 import CustomerSelect from '@/components/selects/CustomerSelect.vue';
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import SimpleImageUpload from '../../../components/forms/file-upload/SimpleImageUpload.vue';
 
 const selectedCustomers = ref([]);
 const editorData = ref('');
 const editorConfig = ref({
   // extraPlugins: [uploader]
 });
+
+const textMessage = ref(null);
+const imageMessage = ref(null);
 
 function handleCreate() {
   const data = {
@@ -33,7 +37,7 @@ function uploader() {
     tabindex="-1"
     aria-hidden="true"
   >
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <!-- BEGIN: Modal Header -->
         <div class="modal-header">
@@ -46,7 +50,12 @@ function uploader() {
           <!-- message textarea -->
           <div id="classic-editor" class="mt-5">
             <div class="preview">
-              <QuillEditor theme="snow" />
+              <textarea v-model="textMessage" rows="5" class="form-control" />
+              <SimpleImageUpload
+                title="Add photo"
+                @update-image-file="imageMessage = $event"
+              />
+              <!-- <QuillEditor theme="snow" /> -->
               <!-- <ckeditor
                 :editor="ClassicEditor"
                 v-model="editorData"
@@ -80,3 +89,9 @@ function uploader() {
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+textarea {
+  width: 100%;
+}
+</style>
