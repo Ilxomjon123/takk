@@ -2,7 +2,7 @@ import { computed, ref } from 'vue';
 import { getToken } from '../api/config';
 
 const token = getToken();
-const wsUrl = 'ws://api.echtmal.com:8080/connect';
+const wsUrl = 'ws://api.takk.cafe:8080/connect';
 const wsConnect = ref(null);
 const wsMessages = ref([]);
 

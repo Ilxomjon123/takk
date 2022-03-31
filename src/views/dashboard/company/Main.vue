@@ -163,7 +163,19 @@
                     <div class="text-theme-6 mt-2" v-text="getError('city')" />
                   </div>
                 </div>
-                <div class="flex flex-wrap -mx-3 mb-1">
+                <div class="flex flex-wrap -mx-3 mb-3">
+                  <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
+                    <label for="postal-code" class="form-label">Postal Code</label>
+                    <input
+                      id="postal-code"
+                      type="number"
+                      class="form-control"
+                      :class="getError('postal_code') != null ? 'border-theme-6' : 'border-gray-300'"
+                      placeholder="Postal Code"
+                      v-model="getCompany.postal_code"
+                    />
+                    <div class="text-theme-6" v-text="getError('postal_code')" />
+                  </div>
                   <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
                     <label for="address" class="form-label">Address</label>
                     <input
@@ -176,6 +188,8 @@
                     />
                     <div class="text-theme-6" v-text="getError('address')" />
                   </div>
+                </div>
+                <div class="flex flex-wrap -mx-3 md:mb-5">
                   <div class="w-full md:w-1/2 px-3 md:mb-0">
                     <label
                       for="second-address"
@@ -193,20 +207,6 @@
                       class="text-theme-6 mt-2"
                       v-text="getError('second_address')"
                     />
-                  </div>
-                </div>
-                <div class="flex flex-wrap -mx-3 md:mb-5">
-                  <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
-                    <label for="postal-code" class="form-label">Postal Code</label>
-                    <input
-                      id="postal-code"
-                      type="number"
-                      class="form-control"
-                      :class="getError('postal_code') != null ? 'border-theme-6' : 'border-gray-300'"
-                      placeholder="Postal Code"
-                      v-model="getCompany.postal_code"
-                    />
-                    <div class="text-theme-6" v-text="getError('postal_code')" />
                   </div>
                   <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
                     <label for="cashback" class="form-label">Cashback Percent</label>
@@ -272,7 +272,7 @@
                 <div>
                   <button
                     type="submit"
-                    class="btn btn-primary py-3 px-4 block mx-auto mt-8 px-10 align-top"
+                    class="btn btn-primary px-4 block mx-auto mt-8 px-10 align-top"
                     :disabled="isLoading"
                   >
                     {{ isLoading ? '' : 'Save' }}
