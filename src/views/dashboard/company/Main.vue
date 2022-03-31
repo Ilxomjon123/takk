@@ -1,3 +1,105 @@
+<script setup>
+import { mapActions, mapGetters, useStore } from 'vuex';
+import CountrySelect from '../../../components/selects/CountrySelect.vue';
+import CitySelect from '../../../components/selects/CitySelect.vue';
+import SuccessNotification from '../../../components/notifications/SuccessNotification.vue';
+import ErrorNotification from '../../../components/notifications/ErrorNotification.vue';
+import StateSelect from '../../../components/selects/StateSelect.vue';
+import { computed, onMounted, ref } from 'vue';
+
+const store = useStore();
+const image = ref(null)
+const isLoading = ref(false)
+const errors = ref({})
+const successMessage = ref("Successfully saved!")
+const successNotification = ref(null);
+const errorNotification = ref(null);
+const getCompany = computed(() => store.getters["getCompany"])
+const globalLoading = computed(() => store.state.common.loadingStatus)
+const isUnitedStates = computed(() => getCompany.value.country == 'United States')
+
+onMounted(async () => {
+  store.commit('setLoadingStatus', true);
+  await store.dispatch('fetchCompany');
+  if (getCompany.value.country == null) getCompany.value.country = 'United States'
+  if (getCompany.value.city == null) getCompany.value.city = ''
+  // if (getCompany.value.country != null) store.commit('setSelectedCountry', getCompany.value.country);
+  // if (getCompany.value.city != null) store.commit('setSelectedCity', getCompany.value.city);
+  store.dispatch('fetchCitiesByCountry', getCompany.value.country)
+  store.commit('setLoadingStatus', false);
+});
+
+function clickInput(name) {
+  document.getElementById(name).click();
+}
+
+function changeImage(e, name) {
+  image.value = e.target.files[0];
+  const fileUrl = URL.createObjectURL(e.target.files[0])
+  getCompany.value[name] = fileUrl;
+}
+
+function removeLogo() {
+  image.value['logo'] == null;
+  getCompany.value.logo == null;
+}
+
+async function submit() {
+  // store.commit('setLoadingStatus', true)
+  isLoading.value = true;
+  // let form = getCompany.value;
+  // delete form.logo;
+  // delete form.owner;
+  // delete form.cafes;
+  // delete form.loading_app_image;
+  // delete form.app_image_morning;
+  // delete form.app_image_evening;
+  // delete form.app_image_day;
+
+  // form = { ...form, ...image.value }
+
+  const formData = new FormData();
+  formData.append('logo', getCompany.value.logo)
+  formData.append('name', getCompany.value.name);
+  formData.append('phone', getCompany.value.phone);
+  formData.append('email', getCompany.value.email);
+  formData.append('website', getCompany.value.website);
+  formData.append('country', getCompany.value.country);
+  formData.append('state', getCompany.value.state);
+  formData.append('city', getCompany.value.city);
+  formData.append('address', getCompany.value.address);
+  formData.append('second_address', getCompany.value.second_address);
+  formData.append('postal_code', getCompany.value.postal_code);
+  formData.append('cashback_percent', getCompany.value.cashback_percent);
+  formData.append('pub_show_reviews', getCompany.value.pub_show_reviews);
+  formData.append('pub_show_like', getCompany.value.pub_show_like);
+  formData.append('about', getCompany.value.about);
+
+  errors.value = null;
+  const res = await store.dispatch('putCompany', { form: formData, id: getCompany.value.id });
+  await store.dispatch('fetchCompany');
+
+  if (res.status) {
+    errors.value = null;
+    if (res.status) {
+      successNotification.value.show();
+    }
+    else {
+      errorNotification.value.show();
+    }
+  }
+  else {
+    errors.value = res.data;
+  }
+  // store.commit('setLoadingStatus', false);
+  isLoading.value = false;
+}
+
+function getError(key) {
+  return errors.value[key]?.[0];
+}
+</script>
+
 <template>
   <div>
     <div class="grid grid-cols-12 gap-6">
@@ -138,14 +240,15 @@
                     v-if="isUnitedStates"
                   >
                     <label for="state" class="form-label">State</label>
-                    <input
+                    <StateSelect v-model="getCompany.state" />
+                    <!-- <input
                       id="state"
                       type="text"
                       class="form-control"
                       :class="getError('state') != null ? 'border-theme-6' : 'border-gray-300'"
                       placeholder="State"
                       v-model="getCompany.state"
-                    />
+                    />-->
                     <div class="text-theme-6" v-text="getError('state')" />
                   </div>
                   <div
@@ -200,7 +303,7 @@
                       type="text"
                       class="form-control"
                       :class="getError('second_address') != null ? 'border-theme-6' : 'border-gray-300'"
-                      placeholder="Second Address"
+                      placeholder="Additional address line"
                       v-model="getCompany.second_address"
                     />
                     <div
@@ -261,7 +364,6 @@
                   <label for="about" class="form-label">About</label>
                   <textarea
                     id="about"
-                    type="text"
                     class="form-control"
                     :class="getError('about') != null ? 'border-theme-6' : 'border-gray-300'"
                     placeholder="Describe your company"
@@ -272,7 +374,11 @@
                 <div>
                   <button
                     type="submit"
+<<<<<<< HEAD
                     class="btn btn-primary px-4 block mx-auto mt-8 px-10 align-top"
+=======
+                    class="btn btn-primary py-3 block mx-auto mt-8 px-10 align-top"
+>>>>>>> b286d90c2e468fa63b1e6f4178b0739c9ec5d8b1
                     :disabled="isLoading"
                   >
                     {{ isLoading ? '' : 'Save' }}
@@ -297,95 +403,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import { defineComponent } from 'vue'
-import { mapActions, mapGetters } from 'vuex';
-import CountrySelect from '../../../components/selects/CountrySelect.vue';
-import CitySelect from '../../../components/selects/CitySelect.vue';
-import SuccessNotification from '../../../components/notifications/SuccessNotification.vue';
-import ErrorNotification from '../../../components/notifications/ErrorNotification.vue';
-
-export default defineComponent({
-  data() {
-    return {
-      images: {},
-      isLoading: false,
-      errors: {},
-      successMessage: "Successfully saved!",
-    };
-  },
-  computed: {
-    ...mapGetters(["getCompany"]),
-    globalLoading() {
-      return this.$store.state.common.loadingStatus
-    },
-    isUnitedStates() {
-      return this.getCompany.country == 'United States';
-    }
-  },
-  async created() {
-    this.$store.commit('setLoadingStatus', true);
-    await this.fetchCompany();
-    if (this.getCompany.country == null) this.getCompany.country = 'United States'
-    if (this.getCompany.city == null) this.getCompany.city = ''
-    // if (this.getCompany.country != null) this.$store.commit('setSelectedCountry', this.getCompany.country);
-    // if (this.getCompany.city != null) this.$store.commit('setSelectedCity', this.getCompany.city);
-    this.$store.commit('setLoadingStatus', false);
-  },
-  methods: {
-    ...mapActions(["putCompany", "putStep", "fetchCompany"]),
-    clickInput(name) {
-      document.getElementById(name).click();
-    },
-    changeImage(e, name) {
-      this.images[name] = e.target.files[0];
-      const fileUrl = URL.createObjectURL(e.target.files[0])
-      this.getCompany[name] = fileUrl;
-    },
-    removeLogo() {
-      this.images['logo'] == null;
-      this.getCompany.logo == null;
-    },
-    async submit() {
-      // this.$store.commit('setLoadingStatus', true)
-      this.isLoading = true;
-      let form = this.getCompany;
-      delete form.logo;
-      delete form.owner;
-      delete form.cafes;
-      delete form.loading_app_image;
-      delete form.app_image_morning;
-      delete form.app_image_evening;
-      delete form.app_image_day;
-      form = { ...form, ...this.images }
-      const formData = new FormData();
-
-      for (var key in form) {
-        formData.append(key, form[key]);
-      }
-      this.errors = {};
-      const res = await this.putCompany({ form: formData, id: form.id });
-      await this.fetchCompany();
-      if (res.status) {
-        this.errors = {};
-        if (res.status) {
-          this.$refs.successNotification.show();
-        }
-        else {
-          this.$refs.errorNotification.show();
-        }
-      }
-      else {
-        this.errors = res.data;
-      }
-      // this.$store.commit('setLoadingStatus', false);
-      this.isLoading = false;
-    },
-    getError(key) {
-      return this.errors[key]?.[0];
-    }
-  },
-  components: { CountrySelect, CitySelect, SuccessNotification, ErrorNotification }
-})
-</script>
