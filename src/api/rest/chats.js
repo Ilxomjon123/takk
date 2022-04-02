@@ -50,10 +50,10 @@ export const createChatroom = async payload => {
   }
 };
 
-export const createChatMessage = async payload => {
+export const sendMessagesInChatroom = async payload => {
   try {
     const res = await makeRequest({
-      url: `/api/ws-chat/messages/`,
+      url: `/api/ws-chat/send-messages-chat/`,
       method: 'post',
       data: payload, // {item_type -> тип сообщения [video, image, message, video], files -> список файлов, chat*}
       headers: { authorization: true }

@@ -73,7 +73,7 @@ const state = () => {
       {
         icon: 'UserPlusIcon',
         pageName: 'customer',
-        title: 'Customer'
+        title: 'Customers'
       }
     ]
   };
