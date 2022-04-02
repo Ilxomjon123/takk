@@ -1,3 +1,28 @@
+<script setup>
+import cash from 'cash-dom';
+import { ref } from 'vue'
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
+const isLoggedIn = ref(false);
+
+if (localStorage.getItem('token') && localStorage.getItem('required_details'))
+  isLoggedIn.value = true
+
+function openMobileMenu() {
+  cash("#mobile-over-menu").modal("show");
+}
+
+const showContactUsModal = () => {
+  cash("#contact-us-modal").modal("show");
+};
+
+const goto = url => {
+  router.push(url)
+};
+
+</script>
+
 <template>
   <header class="w-full">
     <div class="container py-5 px-5 flex flex-wrap justify-between">
@@ -98,31 +123,6 @@
   </header>
 </template>
 
-<script setup>
-import cash from 'cash-dom';
-import { ref } from 'vue'
-import { useRouter } from 'vue-router';
-
-const router = useRouter()
-const isLoggedIn = ref(false);
-
-if (localStorage.getItem('token') && localStorage.getItem('required_details'))
-  isLoggedIn.value = true
-
-function openMobileMenu() {
-  cash("#mobile-over-menu").modal("show");
-}
-
-const showContactUsModal = () => {
-  cash("#contact-us-modal").modal("show");
-};
-
-const goto = url => {
-  router.push(url)
-}
-
-</script>
-
 <style lang="scss" scoped>
 .rounded_btn_1 {
   @apply xl:px-6 px-3 py-2 border-2 border-theme-31 rounded-full font-bold text-gray-600 hover:bg-theme-31 hover:text-white shadow-lg;
@@ -133,7 +133,11 @@ header .container {
     max-width: 85%;
   }
   @media (max-width: 1536px) {
-    min-width: 100%;
+    // min-width: 100%;
+    transform: scale(0.8);
+    max-width: 125%;
+    width: 125%;
+    transform-origin: center left;
   }
 }
 </style>

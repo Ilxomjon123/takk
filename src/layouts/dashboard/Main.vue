@@ -223,8 +223,8 @@ onMounted(async () => {
   await setConnection()
 
   getConnection.value.onopen = function (event) {
-    console.log('Successfully connected to the websocket server...');
-    console.log(event);
+    // console.log('Successfully connected to the websocket server...');
+    // console.log(event);
     sendEvent(JSON.stringify(
       {
         "event_type": "customer_update_status",
