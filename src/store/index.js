@@ -12,6 +12,7 @@ import menu from './modules/dashboard/menu';
 import category from './modules/dashboard/category';
 import modifier from './modules/dashboard/modifier';
 import cafes from './modules/cafes';
+import square from './modules/square';
 
 const store = createStore({
   modules: {
@@ -27,7 +28,8 @@ const store = createStore({
     employee,
     menu,
     category,
-    modifier
+    modifier,
+    square
   }
 });
 

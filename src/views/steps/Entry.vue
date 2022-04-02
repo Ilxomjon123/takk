@@ -140,18 +140,21 @@
                 class="text-base mt-3"
               >Do you already use Square? We can import all your menu and products from Square if you like.</div>
               <div class="text-gray-600 mt-2">
-                <!-- <div class="sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0">
-                <input
-                  id="show-example-1"
-                  data-target="#basic-button"
-                  class="show-code form-check-switch mr-0 ml-3"
-                  type="checkbox"
-                />
-                <label
-                  class="form-check-label ml-0 sm:ml-2"
-                  for="show-example-1"
-                >Do you want to get notifications on SquareApp?</label>
-                </div>-->
+                <div
+                  class="sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0"
+                >
+                  <input
+                    id="show-example-1"
+                    data-target="#basic-button"
+                    class="show-code form-check-switch mr-0 ml-3"
+                    type="checkbox"
+                    v-model="is_make_create_order"
+                  />
+                  <label
+                    class="form-check-label ml-0 sm:ml-2"
+                    for="show-example-1"
+                  >Do you want to get notifications on SquareApp?</label>
+                </div>
               </div>
             </div>
             <div class="px-5 pb-8 text-center">
@@ -179,14 +182,19 @@ import DarkModeSwitcher from '@/components/dark-mode-switcher/Main.vue'
 import { useStore } from 'vuex'
 import ErrorNotification from '../../components/notifications/ErrorNotification.vue'
 import { computed, onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 const store = useStore();
 const router = useRouter();
+const route = useRoute();
 const getStep = computed(() => store.getters['getStep'])
 const errorNotification = ref(null);
-
+let is_make_create_order = true;
 onMounted(() => {
+  const squareError = route.query?.squareError;
+  if (typeof squareError !== 'undefined') {
+    store.commit('setErrorNotification');
+  }
   const step = getStep.value;
   let path;
   switch (step) {
@@ -209,9 +217,14 @@ async function toCompany() {
   }
 }
 
-function gotoSquareUpSite() {
-  const SQUARE_APP_ID = "sandbox-sq0idb-O7t0Iz9KjwN1g1l2IeSjAQ"
-  location.href = `https://connect.squareupsandbox.com/login?redirect=/oauth2/authorize?client_id=${SQUARE_APP_ID}&scope=CUSTOMERS_WRITE+CUSTOMERS_READ`
+async function gotoSquareUpSite() {
+  const res = await store.dispatch('fetchSquareRedirectUrl', { is_make_create_order });
+  // console.log(res);
+  if (res.status) {
+    location.href = res?.data?.url;
+  }
+  // const SQUARE_APP_ID = "sandbox-sq0idb-O7t0Iz9KjwN1g1l2IeSjAQ"
+  // location.href = `https://connect.squareupsandbox.com/login?redirect=/oauth2/authorize?client_id=${SQUARE_APP_ID}&scope=CUSTOMERS_WRITE+CUSTOMERS_READ`
   // location.href = `https://connect.squareupsandbox.com/oauth2/authorize?client_id=${SQUARE_APP_ID}&scope=CUSTOMERS_WRITE+CUSTOMERS_READ`
 }
 

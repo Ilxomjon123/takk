@@ -1,5 +1,6 @@
 import Login from '../views/login/Main.vue';
 import Entry from '../views/steps/Entry.vue';
+import SquareUp from '../views/steps/SquareUp.vue';
 import ErrorPage from '../views/error/index.vue';
 import Home from '../views/home/index.vue';
 import ForCustomers from '../views/for-customers/index.vue';
@@ -35,6 +36,10 @@ import ProductEditForm from '../views/dashboard/products/EditForm.vue';
 import Chat from '../views/dashboard/chat/index.vue';
 
 const routes = [
+  {
+    path: '/square',
+    component: SquareUp
+  },
   {
     path: '/',
     component: AppLayout,

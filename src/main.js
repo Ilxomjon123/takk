@@ -15,7 +15,7 @@ import './assets/sass/app.scss';
 // import 'vue-tel-input/dist/vue-tel-input.css';
 
 axios.interceptors.response.use(undefined, function(error) {
-  console.log('ok');
+  // console.log('ok');
   if (error) {
     const originalRequest = error.config;
     if (error.response?.status === 401 && !originalRequest._retry) {

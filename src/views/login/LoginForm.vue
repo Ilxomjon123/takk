@@ -109,7 +109,7 @@ export default defineComponent({
       this.isLoading = true;
       const res = await this.$store.dispatch('signin', this.form);
       // this.signin(this.form);
-      console.log(res);
+      // console.log(res);
       if (res.status) {
         if (!res.data.token) {
           // Telefon Raqam kiritilgandan so'ng
