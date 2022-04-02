@@ -234,6 +234,7 @@ import { useStore } from 'vuex';
 import { isEmpty } from 'lodash';
 import useChatState from '../../../features/useChatState';
 import useWebSocket from '../../../features/useWebSocket';
+import { sendMessagesInChatroom } from '../../../api';
 
 const { getSelectedChat, getErrorMessage } = useChatState();
 const { getConnection, sendEvent } = useWebSocket();
@@ -256,20 +257,20 @@ async function sendMessage() {
   // console.log('values: ', values);
 
   if (!isEmpty(message.value)) {
-    const myMessageObj = {
-      item_type: 'message',
-      chat: getSelectedChat.value.id,
-      text: message.value,
-      is_my_message: true
-    };
+    const formData = new FormData();
+    formData.append('chat', getSelectedChat.value.id);
+    formData.append('text', message.value);
+    formData.append('files[]', fileInput.value);
 
-    sendEvent({
-      event_type: 'new_message',
-      data: myMessageObj
-    })
+    const res = await sendMessagesInChatroom(formData)
+
+    // sendEvent({
+    //   event_type: 'new_message',
+    //   data: formData
+    // })
 
     message.value = '';
-    await getSelectedChat.value.messages.push(myMessageObj);
+    await getSelectedChat.value.messages.push(formData);
   }
 
   msgSending.value = false

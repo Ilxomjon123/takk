@@ -51,10 +51,11 @@ const actions = {
         commit('setCompany', err.response.data);
       });
   },
+
   async putCompany({ rootGetters }, payload) {
     let response;
     await axios
-      .put(`/api/companies/${payload.id}/`, payload.form, {
+      .put(`/api/companies/`, payload.form, {
         headers: {
           ...rootGetters.getHttpHeader,
           'Content-Type': 'multipart/form-data'
@@ -69,11 +70,12 @@ const actions = {
       .catch(err => {
         response = {
           status: false,
-          data: err.response.data
+          data: err.response?.data
         };
       });
     return response;
   },
+
   async fetchCustomers({ commit, rootGetters }, payload) {
     let response;
     await axios
@@ -87,7 +89,7 @@ const actions = {
         commit('setCustomers', res.data);
       })
       .catch(err => {
-        response = res.data;
+        console.log(err);
         // commit('setCustomers', err.response.data);
       });
     return response;

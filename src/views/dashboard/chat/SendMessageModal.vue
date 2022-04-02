@@ -1,21 +1,38 @@
 <script setup>
 import { ref } from 'vue';
-// import Base64UploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/base64uploadadapter';
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { useStore } from 'vuex';
+import { isEmpty } from 'lodash';
 import CustomerSelect from '@/components/selects/CustomerSelect.vue';
-import { QuillEditor } from '@vueup/vue-quill';
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
+import { sendMessageToCustomers } from '@/api';
+import useWebSocket from '@/features/useWebSocket';
 
+const store = useStore()
 const selectedCustomers = ref([]);
 const editorData = ref('');
 const editorConfig = ref({
   // extraPlugins: [uploader]
 });
 
-function handleCreate() {
-  const data = {
-    customer: authUser.id
-  }
+const { getConnection } = useWebSocket()
+const textMessage = ref(null);
+const imageMessage = ref(null);
+
+async function handleSendMessage() {
+  store.commit('setLoadingStatus', true)
+  console.log('ws connection: ', getConnection.value);
+  const customer_id = selectedCustomers.value.filter(item => item !== 'all')
+  const isAll = selectedCustomers.value.some(item => item === 'all');
+
+  const formData = new FormData();
+  !isEmpty(customer_id) && formData.append('customer_id[]', customer_id)
+  formData.append('customer_all', isAll)
+  formData.append('text', textMessage.value)
+  formData.append('files[]', imageMessage.value)
+
+  const res = await sendMessageToCustomers(formData)
+  console.log('res: ', res);
+  store.commit('setLoadingStatus', false)
 }
 
 function uploader() {
@@ -33,7 +50,7 @@ function uploader() {
     tabindex="-1"
     aria-hidden="true"
   >
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <!-- BEGIN: Modal Header -->
         <div class="modal-header">
@@ -45,8 +62,13 @@ function uploader() {
           <CustomerSelect v-model="selectedCustomers" />
           <!-- message textarea -->
           <div id="classic-editor" class="mt-5">
-            <div class="preview">
-              <QuillEditor theme="snow" />
+            <div class>
+              <textarea v-model="textMessage" rows="5" class="form-control" />
+              <SimpleImageUpload
+                title="Add photo"
+                @update-image-file="imageMessage = $event"
+              />
+              <!-- <QuillEditor theme="snow" /> -->
               <!-- <ckeditor
                 :editor="ClassicEditor"
                 v-model="editorData"
@@ -72,7 +94,7 @@ function uploader() {
           <button
             type="button"
             class="btn btn-primary"
-            @click="handleCreate"
+            @click="handleSendMessage"
           >Create</button>
         </div>
         <!-- END: Modal Footer -->
@@ -80,3 +102,9 @@ function uploader() {
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+textarea {
+  width: 100%;
+}
+</style>

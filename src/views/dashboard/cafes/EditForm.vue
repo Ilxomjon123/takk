@@ -254,7 +254,13 @@ onMounted(async () => {
   })
 
   await fetchCafeWorkDays(route.params.id).then(res => {
-    formFields.week_time = res
+    res.forEach((resItem, resItemIndex) => {
+      formFields.week_time.forEach((weekDay, weekDayIndex) => {
+        if (weekDay.day === resItem.day) {
+          formFields.week_time[weekDayIndex] = resItem
+        }
+      })
+    })
   });
   store.commit('setLoadingStatus', false);
 })

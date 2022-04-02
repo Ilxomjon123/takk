@@ -26,7 +26,7 @@
       <div
         class="h-24 lg:h-40 relative image-fit cursor-pointer zoom-in mx-auto"
       >
-        <img class="rounded-md" alt="Logo" :src="item.image" />
+        <img class="rounded-md" alt="Logo" :src="item.image" data-action="zoom" />
         <Tippy
           tag="div"
           content="Remove this logo?"

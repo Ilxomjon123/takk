@@ -2,7 +2,7 @@ import { computed, ref } from 'vue';
 import { getToken } from '../api/config';
 
 const token = getToken();
-const wsUrl = 'ws://api.echtmal.com:8080/connect';
+const wsUrl = 'ws://echtmal.com:8001/connect';
 const wsConnect = ref(null);
 const wsMessages = ref([]);
 
@@ -49,7 +49,7 @@ export default () => {
   };
 
   const sendEvent = async payload => {
-    console.log('in event func');
+    console.log('in sendEvent func..');
 
     if (wsConnect.value.readyState !== wsConnect.value.OPEN) {
       try {

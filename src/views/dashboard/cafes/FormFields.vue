@@ -1,3 +1,56 @@
+<script setup>
+import { computed, ref } from 'vue';
+import { Field, ErrorMessage } from 'vee-validate';
+import { useStore } from 'vuex';
+import { useRoute, useRouter } from 'vue-router';
+import { LMap, LMarker, LTileLayer } from "@vue-leaflet/vue-leaflet";
+import axios from 'axios';
+import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
+import CountrySelect from '@/components/selects/CountrySelect.vue';
+import StateSelect from '../../../components/selects/StateSelect.vue';
+import CitySelect from '@/components/selects/CitySelect.vue';
+import MultipleImageUpload from './MultipleImageUpload.vue';
+
+// leaflet styles
+import 'leaflet/dist/leaflet.css';
+
+const route = useRoute();
+const props = defineProps({
+  formFields: {
+    type: Object,
+    default: () => { }
+  },
+  externalErrors: {
+    type: Object,
+    default: () => { }
+  }
+});
+const emit = defineEmits(['update:form-fields']);
+const zoomLevel = ref(7);
+const currentLatLng = computed(() => [
+  props.formFields.location.lat || 35.1234,
+  props.formFields.location.lon || -95.1234
+]);
+
+function changeLatLng(e) {
+  const targetLatLng = e.target.getLatLng();
+  props.formFields.location.lat = targetLatLng.lat;
+  props.formFields.location.lon = targetLatLng.lng;
+}
+
+function searchLocationByAddress() {
+  const addr = `${ props.formFields.country }, ${ props.formFields.state }, ${ props.formFields.city } city, ${ props.formFields.address }`
+  let url = `https://nominatim.openstreetmap.org/search?format=json&limit=3&q=${ addr }`;
+  axios.get(url).then(res => {
+    if (res.data.length > 0) {
+      props.formFields.location.lat = res.data[0].lat;
+      props.formFields.location.lon = res.data[0].lon;
+    }
+  });
+}
+
+</script>
+
 <template>
   <div class="flex flex-col md:flex-row gap-5">
     <div class="md:basis-1/2 lg:basis-1/3">
@@ -13,7 +66,7 @@
           <label
             class="font-medium text-base ml-2 cursor-pointer"
             for="status"
-          >Status</label>
+          >Open/Closed</label>
         </div>
         <span
           class="text-theme-6 mt-2"
@@ -208,12 +261,12 @@
           >{{ externalErrors.address && externalErrors.address[0] }}</span>
         </div>
         <div class="input-form lg:basis-1/2">
-          <label class="form-label" for="second_address">Second address</label>
+          <label class="form-label" for="second_address">Additional address line</label>
           <Field
             id="second_address"
             name="second_address"
             class="form-control"
-            placeholder="Type second address"
+            placeholder="Type additional address line"
             v-model="formFields.second_address"
           />
           <ErrorMessage name="second_address" class="text-theme-6 mt-2" />
@@ -482,59 +535,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { computed, ref } from 'vue';
-import { Field, ErrorMessage } from 'vee-validate';
-import { useStore } from 'vuex';
-import { useRoute, useRouter } from 'vue-router';
-import { LMap, LMarker, LTileLayer } from "@vue-leaflet/vue-leaflet";
-import axios from 'axios';
-import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
-import CountrySelect from '@/components/selects/CountrySelect.vue';
-import StateSelect from '../../../components/selects/StateSelect.vue';
-import CitySelect from '@/components/selects/CitySelect.vue';
-import MultipleImageUpload from './MultipleImageUpload.vue';
-
-// leaflet styles
-import 'leaflet/dist/leaflet.css';
-
-const route = useRoute();
-const props = defineProps({
-  formFields: {
-    type: Object,
-    default: () => { }
-  },
-  externalErrors: {
-    type: Object,
-    default: () => { }
-  }
-});
-const emit = defineEmits(['update:form-fields']);
-const zoomLevel = ref(7);
-const currentLatLng = computed(() => [
-  props.formFields.location.lat || 35.1234,
-  props.formFields.location.lon || -95.1234
-]);
-
-function changeLatLng(e) {
-  const targetLatLng = e.target.getLatLng();
-  props.formFields.location.lat = targetLatLng.lat;
-  props.formFields.location.lon = targetLatLng.lng;
-}
-
-function searchLocationByAddress() {
-  const addr = `${props.formFields.country}, ${props.formFields.state}, ${props.formFields.city} city, ${props.formFields.address}`
-  let url = `https://nominatim.openstreetmap.org/search?format=json&limit=3&q=${addr}`;
-  axios.get(url).then(res => {
-    if (res.data.length > 0) {
-      props.formFields.location.lat = res.data[0].lat;
-      props.formFields.location.lon = res.data[0].lon;
-    }
-  });
-}
-
-</script>
 
 <style lang="scss" scoped>
 #map {

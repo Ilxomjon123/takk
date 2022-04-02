@@ -1,3 +1,40 @@
+<script setup>
+import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
+import { useStore } from 'vuex';
+import { computed, onMounted, reactive, ref } from 'vue';
+import { fetchSelectedMenuCategories, fetchSelectedMenuModifiers } from '@/api';
+import _ from 'lodash';
+
+const store = useStore()
+const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
+
+const props = defineProps({
+  formFields: Object,
+  externalErrors: Object,
+  productImagePath: String
+});
+const emit = defineEmits(['update:form-fields']);
+const productCategories = reactive([]);
+const productModifiers = reactive([]);
+
+onMounted(() => {
+  store.commit('setLoadingStatus', true)
+  fetchSelectedMenuCategories(activeMenuID.value)
+    .then((res) => Object.assign(productCategories, res.results))
+  fetchSelectedMenuModifiers(activeMenuID.value)
+    .then((res) => Object.assign(productModifiers, res.results))
+  store.commit('setLoadingStatus', false)
+});
+
+function addNewProductSize() {
+  props.formFields.sizes.push({ ...props.formFields.sizes[0] })
+}
+
+function removeProductSize() {
+  props.formFields.sizes.pop()
+}
+</script>
+
 <template>
   <div class="flex flex-col md:flex-row gap-5">
     <div class="lg:basis-1/3">
@@ -7,6 +44,7 @@
         <h2 class="font-medium text-base mr-auto">Product image</h2>
       </div>
       <SimpleImageUpload
+        class="w-52"
         :title="productImagePath ? 'Change photo' : 'Add photo'"
         :image-path="productImagePath"
         @update-image-file="formFields.image = $event"
@@ -287,40 +325,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
-import { useStore } from 'vuex';
-import { computed, onMounted, reactive, ref } from 'vue';
-import { fetchSelectedMenuCategories, fetchSelectedMenuModifiers } from '@/api';
-import _ from 'lodash';
-
-const store = useStore()
-const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
-
-const props = defineProps({
-  formFields: Object,
-  externalErrors: Object,
-  productImagePath: String
-});
-const emit = defineEmits(['update:form-fields']);
-const productCategories = reactive([]);
-const productModifiers = reactive([]);
-
-onMounted(() => {
-  store.commit('setLoadingStatus', true)
-  fetchSelectedMenuCategories(activeMenuID.value)
-    .then((res) => Object.assign(productCategories, res.results))
-  fetchSelectedMenuModifiers(activeMenuID.value)
-    .then((res) => Object.assign(productModifiers, res.results))
-  store.commit('setLoadingStatus', false)
-});
-
-function addNewProductSize() {
-  props.formFields.sizes.push({ ...props.formFields.sizes[0] })
-}
-
-function removeProductSize() {
-  props.formFields.sizes.pop()
-}
-</script>
