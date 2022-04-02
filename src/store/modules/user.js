@@ -3,6 +3,8 @@ const REQUIRED_DETAILS = 'required_details';
 
 const state = () => {
   return {
+    refreshToken: JSON.parse(localStorage.getItem(REQUIRED_DETAILS))?.token
+      ?.refresh,
     token: JSON.parse(localStorage.getItem(REQUIRED_DETAILS))?.token?.access,
     user: JSON.parse(localStorage.getItem(REQUIRED_DETAILS))?.user,
     STEP_ENTRY: null,
@@ -22,6 +24,7 @@ const getters = {
   getUser: state => state.user,
   getCompanyId: state => state.user.company_id,
   getToken: state => state.token,
+  getRefreshToken: state => state.refreshToken,
   getHttpHeader(state, getters) {
     return {
       Authorization: `Basic ${getters.getToken}`
@@ -41,13 +44,11 @@ const mutations = {
     localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(details));
     state.user = payload;
   },
-  // setToken(state, payload) {
-  //   state.token = payload;
-  //   let details = JSON.parse(localStorage.getItem(REQUIRED_DETAILS));
-  //   details.token = payload;
-  //   localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(details));
-  //   // localStorage.setItem('token', payload);
-  // },
+  setToken(state, payload) {
+    let details = JSON.parse(localStorage.getItem(REQUIRED_DETAILS));
+    details.token.access = payload;
+    localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(details));
+  },
   setRequiredDetails(state, payload) {
     state.token = payload;
     localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(payload));
@@ -140,6 +141,27 @@ const actions = {
         response = {
           status: false,
           data: err.response.data
+        };
+      });
+    return response;
+  },
+  async refreshToken({ commit, rootGetters }) {
+    let response;
+    await axios
+      .post(`/api/token/refresh/`, {
+        refresh: rootGetters.getRefreshToken
+      })
+      .then(async res => {
+        response = {
+          status: true
+          // data: res.data
+        };
+        commit('setToken', res.data.access);
+      })
+      .catch(err => {
+        response = {
+          status: false
+          // data: err.response.data
         };
       });
     return response;
