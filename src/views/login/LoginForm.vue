@@ -96,7 +96,7 @@ export default defineComponent({
       isRegister: false,
       errorText: '',
       isLoading: false,
-      headText: 'Enter phone number'
+      headText: 'Enter phone number',
     };
   },
   methods: {
@@ -107,6 +107,7 @@ export default defineComponent({
       const oldButtonText = this.submitText;
       this.submitText = '';
       this.isLoading = true;
+      this.form.referral_code = this.$route.query?.referral_code;
       const res = await this.$store.dispatch('signin', this.form);
       // this.signin(this.form);
       // console.log(res);
@@ -134,7 +135,10 @@ export default defineComponent({
       // API dan xato qaytsa
       else {
         this.submitText = oldButtonText;
-        this.errorText = res.data.data.detail;
+        // this.errorText = "Invalid Input";
+        if (typeof res.data.detail !== 'undefined') {
+          this.errorText = res.data.detail;
+        } else { this.errorText = res.data.data.detail; }
       }
       this.isLoading = false;
     }

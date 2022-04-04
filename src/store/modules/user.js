@@ -67,18 +67,36 @@ const mutations = {
 
 const actions = {
   async signin({ commit }, form) {
-    try {
-      let res = await axios.post('/api/users/register/', form);
-      return {
-        status: true,
-        data: res.data
-      };
-    } catch (err) {
-      return {
-        status: false,
-        data: err.response
-      };
-    }
+    // try {
+    //   let res = await axios.post('/api/users/register/', form);
+    //   console.log(res);
+    //   return {
+    //     status: true,
+    //     data: res.data
+    //   };
+    // } catch (err) {
+    //   console.log(err);
+    //   return {
+    //     status: false,
+    //     data: err.response
+    //   };
+    // }
+    let response;
+    await axios
+      .post('/api/users/register/', form)
+      .then(res => {
+        response = {
+          status: true,
+          data: res.data
+        };
+      })
+      .catch(err => {
+        response = {
+          status: false,
+          data: err.response
+        };
+      });
+    return response;
   },
   async putStep({ commit, rootGetters }, payload) {
     // console.log(payload);
