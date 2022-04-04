@@ -111,7 +111,7 @@ export const cafePost = async payload => {
 export const addCafeGallery = async payload => {
   try {
     const res = await makeRequest({
-      url: `/api/cafes/gallery/`,
+      url: `/api/cafes/photos/`,
       method: 'post',
       data: payload,
       headers: { authorization: true }

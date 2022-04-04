@@ -1,25 +1,38 @@
 <script setup>
 import { ref } from 'vue';
-// import Base64UploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/base64uploadadapter';
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { useStore } from 'vuex';
+import { isEmpty } from 'lodash';
 import CustomerSelect from '@/components/selects/CustomerSelect.vue';
-import { QuillEditor } from '@vueup/vue-quill';
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
+import { sendMessageToCustomers } from '@/api';
+import useWebSocket from '@/features/useWebSocket';
 
+const store = useStore()
 const selectedCustomers = ref([]);
 const editorData = ref('');
 const editorConfig = ref({
   // extraPlugins: [uploader]
 });
 
+const { getConnection } = useWebSocket()
 const textMessage = ref(null);
 const imageMessage = ref(null);
 
-function handleCreate() {
-  const data = {
-    customer: authUser.id
-  }
+async function handleSendMessage() {
+  store.commit('setLoadingStatus', true)
+  console.log('ws connection: ', getConnection.value);
+  const customer_id = selectedCustomers.value.filter(item => item !== 'all')
+  const isAll = selectedCustomers.value.some(item => item === 'all');
+
+  const formData = new FormData();
+  !isEmpty(customer_id) && formData.append('customer_id[]', customer_id)
+  formData.append('customer_all', isAll)
+  formData.append('text', textMessage.value)
+  formData.append('files[]', imageMessage.value)
+
+  const res = await sendMessageToCustomers(formData)
+  console.log('res: ', res);
+  store.commit('setLoadingStatus', false)
 }
 
 function uploader() {
@@ -81,7 +94,7 @@ function uploader() {
           <button
             type="button"
             class="btn btn-primary"
-            @click="handleCreate"
+            @click="handleSendMessage"
           >Create</button>
         </div>
         <!-- END: Modal Footer -->

@@ -6,7 +6,7 @@ import SuccessNotification from '@/components/notifications/SuccessNotification.
 import ErrorNotification from '@/components/notifications/ErrorNotification.vue';
 import StateSelect from '@/components/selects/StateSelect.vue';
 import { computed, onMounted, ref } from 'vue';
-import SimpleImageUpload from '../../../components/forms/file-upload/SimpleImageUpload.vue';
+import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 
 const store = useStore();
 const image = ref(null)

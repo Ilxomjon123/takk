@@ -14,7 +14,9 @@ export default defineConfig({
     proxy: {
       // with options
       '^/api': {
+        // target: 'http://18.117.105.144:8080/api/v1/dashboard/client',
         target: 'https://api.takk.cafe/api/v1/dashboard/client',
+        port: 8080,
         changeOrigin: true,
         rewrite: path => path.replace(/^\/api/, ''),
         secure: false,

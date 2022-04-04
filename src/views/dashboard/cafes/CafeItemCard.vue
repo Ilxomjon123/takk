@@ -3,7 +3,7 @@
     <div class="hover01 column relative shadow-lg">
       <figure class="rounded-xl">
         <img
-          :src="cafe.logo_medium"
+          :src="cafe.photos[0]?.image_medium"
           alt="cafe image"
           class="w-full h-60 lg:h-72 object-cover object-center"
         />

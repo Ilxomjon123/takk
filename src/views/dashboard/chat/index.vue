@@ -55,7 +55,7 @@
   </div>
 
   <!-- create message modal -->
-  <NewMessageModal />
+  <SendMessageModal />
 </template>
 
 <script setup>
@@ -64,16 +64,12 @@ import { fetchChats } from '@/api';
 import useChatState from '@/features/useChatState';
 import ChatTab from './ChatTab.vue';
 import ChatBox from './ChatBox.vue';
-import useWebSocket from '@/features/useWebSocket';
 import cash from 'cash-dom';
-import { createChatroom, createChatMessage } from '@/api';
 import { useStore } from 'vuex';
-import NewMessageModal from './NewMessageModal.vue';
+import SendMessageModal from './SendMessageModal.vue';
 
 const store = useStore()
 const { setChatList, getChatBoxLoading } = useChatState();
-const { getConnection } = useWebSocket();
-const authUser = store.getters['getUser'];
 
 onMounted(async () => {
   const res = await fetchChats();
@@ -82,20 +78,6 @@ onMounted(async () => {
 
   // handleCreate()
 });
-
-async function sendMessage(message) {
-  console.log(message)
-  console.log('ws connection: ', getConnection.value);
-  const data = {
-    item_type: "message",
-    chat: 1,
-    text: message,
-    files: []
-  }
-
-  const res = await createChatMessage(data)
-  console.log('res: ', res);
-}
 
 function openMessageModal() {
   cash('#new-chatmessage-modal').modal('show')
