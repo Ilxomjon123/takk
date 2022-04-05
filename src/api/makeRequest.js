@@ -9,7 +9,7 @@ export default async ({
   data = {}
 }) => {
   if (headers && headers.authorization) {
-    headers.authorization = 'Basic ' + config.getToken();
+    headers.authorization = 'JWT ' + config.getToken();
   }
 
   try {
