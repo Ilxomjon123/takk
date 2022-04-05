@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { setToken } from '../../api';
 const REQUIRED_DETAILS = 'required_details';
 
 const state = () => {
@@ -27,7 +28,7 @@ const getters = {
   getRefreshToken: state => state.refreshToken,
   getHttpHeader(state, getters) {
     return {
-      Authorization: `Basic ${getters.getToken}`
+      Authorization: `JWT ${getters.getToken}`
     };
   },
   getStep(state, getters) {
@@ -175,6 +176,7 @@ const actions = {
           // data: res.data
         };
         commit('setToken', res.data.access);
+        setToken(res.data.access);
       })
       .catch(err => {
         response = {
