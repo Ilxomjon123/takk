@@ -27,7 +27,7 @@ const getters = {
   getRefreshToken: state => state.refreshToken,
   getHttpHeader(state, getters) {
     return {
-      Authorization: `Basic ${getters.getToken}`
+      Authorization: `JWT ${getters.getToken}`
     };
   },
   getStep(state, getters) {
