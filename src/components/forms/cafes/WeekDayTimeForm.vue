@@ -1,9 +1,6 @@
 <template>
   <div>
     <div class="flex mt-3 gap-5">
-      <div class="input-form">
-        <input :value="day.day" type="text" class="form-control" disabled />
-      </div>
       <div class="form-check w-auto">
         <input
           :id="day.day + '_is_open'"
@@ -16,35 +13,38 @@
         <label
           class="form-check-label whitespace-nowrap"
           :for="day.day + '_is_open'"
-        >Is open</label>
+        >Open</label>
       </div>
-    </div>
-    <div class="flex gap-5 pt-3" v-if="day.is_open">
-      <div class="input-form basis-1/2">
-        <label
-          :for="day.day + '_opening_time'"
-          class="form-label w-full flex flex-col sm:flex-row"
-        >Opening time</label>
-        <input
-          :id="day.day + '_opening_time'"
-          :value="day.opening_time"
-          @input="$emit('update:opening_time', $event.target.value)"
-          type="time"
-          class="form-control timepicker"
-        />
+      <div class="input-form">
+        <input :value="day.day" type="text" class="form-control" disabled />
       </div>
-      <div class="input-form basis-1/2">
-        <label
-          :for="day.day + '_closing_time'"
-          class="form-label w-full flex flex-col sm:flex-row"
-        >Closing time</label>
-        <input
-          :id="day.day + '_closing_time'"
-          :value="day.closing_time"
-          @input="$emit('update:closing_time', $event.target.value)"
-          type="time"
-          class="form-control timepicker"
-        />
+      <div class="flex gap-5" v-if="day.is_open">
+        <div class="input-form">
+          <!-- <label
+            :for="day.day + '_opening_time'"
+            class="form-label w-full flex flex-col sm:flex-row"
+          >Opening time</label>-->
+          <input
+            :id="day.day + '_opening_time'"
+            :value="day.opening_time"
+            @input="$emit('update:opening_time', $event.target.value)"
+            type="time"
+            class="form-control timepicker"
+          />
+        </div>
+        <div class="input-form">
+          <!-- <label
+            :for="day.day + '_closing_time'"
+            class="form-label w-full flex flex-col sm:flex-row"
+          >Closing time</label>-->
+          <input
+            :id="day.day + '_closing_time'"
+            :value="day.closing_time"
+            @input="$emit('update:closing_time', $event.target.value)"
+            type="time"
+            class="form-control timepicker"
+          />
+        </div>
       </div>
     </div>
   </div>

@@ -314,6 +314,27 @@ function searchLocationByAddress() {
           >{{ externalErrors.tax_rate && externalErrors.tax_rate[0] }}</span>
         </div>
         <div class="input-form lg:basis-1/2">
+          <label for="order_time_limit" class="form-label">
+            Order Interval Time (interval between each order times)
+            <span
+              class="text-primary-3"
+            >*</span>
+          </label>
+          <Field
+            id="order_time_limit"
+            name="order_time_limit"
+            v-model="formFields.order_time_limit"
+            class="form-control"
+            type="number"
+          />
+          <ErrorMessage name="order_time_limit" class="text-theme-6 mt-2" />
+          <span
+            class="text-theme-6 mt-2"
+          >{{ externalErrors.order_time_limit && externalErrors.order_time_limit[0] }}</span>
+        </div>
+      </div>
+      <div class="flex flex-col lg:flex-row gap-5 pt-5">
+        <div class="input-form lg:basis-1/2">
           <label for="order_limit" class="form-label">
             Order limit
             <span class="text-primary-3">*</span>
@@ -330,25 +351,6 @@ function searchLocationByAddress() {
             class="text-theme-6 mt-2"
           >{{ externalErrors.order_limit && externalErrors.order_limit[0] }}</span>
         </div>
-      </div>
-      <div class="flex flex-col lg:flex-row gap-5 pt-5">
-        <div class="input-form lg:basis-1/2">
-          <label for="order_time_limit" class="form-label">
-            Order time limit
-            <span class="text-primary-3">*</span>
-          </label>
-          <Field
-            id="order_time_limit"
-            name="order_time_limit"
-            v-model="formFields.order_time_limit"
-            class="form-control"
-            type="number"
-          />
-          <ErrorMessage name="order_time_limit" class="text-theme-6 mt-2" />
-          <span
-            class="text-theme-6 mt-2"
-          >{{ externalErrors.order_time_limit && externalErrors.order_time_limit[0] }}</span>
-        </div>
         <!-- <div class="input-form lg:basis-1/2">
           <label for="version" class="form-label">Version</label>
           <Field
@@ -364,7 +366,7 @@ function searchLocationByAddress() {
           >{{ externalErrors.version && externalErrors.version[0] }}</span>
         </div>-->
       </div>
-      <div class="flex flex-col lg:flex-row gap-5 pt-5">
+      <!-- <div class="flex flex-col lg:flex-row gap-5 pt-5">
         <div class="form-check lg:basis-1/2 lg:py-2">
           <input
             id="is_square_used"
@@ -389,7 +391,7 @@ function searchLocationByAddress() {
             class="text-theme-6 mt-2"
           >{{ externalErrors.square_location_id && externalErrors.square_location_id[0] }}</span>
         </div>
-      </div>
+      </div>-->
       <div
         class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
       >
@@ -416,35 +418,41 @@ function searchLocationByAddress() {
               for="delivery_max_distance"
               class="form-label w-full flex flex-col sm:flex-row"
             >Delivery max distance</label>
-            <input
-              id="delivery_max_distance"
-              v-model="formFields.delivery_max_distance"
-              type="number"
-              name="delivery_max_distance"
-              class="form-control"
-              placeholder="Type.."
-            />
-            <span
-              class="text-theme-6 mt-2"
-            >{{ externalErrors.delivery_max_distance && externalErrors.delivery_max_distance[0] }}</span>
+            <div class="input-group">
+              <div id="input-group-km" class="input-group-text">km</div>
+              <input
+                id="delivery_max_distance"
+                v-model="formFields.delivery_max_distance"
+                type="number"
+                name="delivery_max_distance"
+                class="form-control"
+                aria-describedby="input-group-km"
+              />
+              <span
+                class="text-theme-6 mt-2"
+              >{{ externalErrors.delivery_max_distance && externalErrors.delivery_max_distance[0] }}</span>
+            </div>
           </div>
           <div class="input-form lg:basis-1/2">
             <label
               for="delivery_min_amount"
               class="form-label w-full flex flex-col sm:flex-row"
             >Delivery min amount</label>
-            <input
-              id="delivery_min_amount"
-              v-model="formFields.delivery_min_amount"
-              type="number"
-              step="0.001"
-              name="delivery_min_amount"
-              class="form-control"
-              placeholder="Type.."
-            />
-            <span
-              class="text-theme-6 mt-2"
-            >{{ externalErrors.delivery_min_amount && externalErrors.delivery_min_amount[0] }}</span>
+            <div class="input-group">
+              <div id="input-group-dollarsign" class="input-group-text">$</div>
+              <input
+                id="delivery_min_amount"
+                v-model="formFields.delivery_min_amount"
+                type="number"
+                step="0.001"
+                name="delivery_min_amount"
+                class="form-control"
+                aria-describedby="input-group-dollarsign"
+              />
+              <span
+                class="text-theme-6 mt-2"
+              >{{ externalErrors.delivery_min_amount && externalErrors.delivery_min_amount[0] }}</span>
+            </div>
           </div>
         </div>
         <div class="flex flex-col lg:flex-row gap-5 pt-5">
@@ -453,18 +461,21 @@ function searchLocationByAddress() {
               for="delivery_fee"
               class="form-label w-full flex flex-col sm:flex-row"
             >Fixed fee</label>
-            <input
-              id="delivery_fee"
-              v-model="formFields.delivery_fee"
-              type="number"
-              step="0.001"
-              name="delivery_fee"
-              class="form-control"
-              placeholder="Type.."
-            />
-            <span
-              class="text-theme-6 mt-2"
-            >{{ externalErrors.delivery_fee && externalErrors.delivery_fee[0] }}</span>
+            <div class="input-group">
+              <div id="input-group-dollarsign" class="input-group-text">$</div>
+              <input
+                id="delivery_fee"
+                v-model="formFields.delivery_fee"
+                type="number"
+                step="0.001"
+                name="delivery_fee"
+                class="form-control"
+                aria-describedby="input-group-dollarsign"
+              />
+              <span
+                class="text-theme-6 mt-2"
+              >{{ externalErrors.delivery_fee && externalErrors.delivery_fee[0] }}</span>
+            </div>
           </div>
           <div class="input-form lg:basis-1/2">
             <label
@@ -507,7 +518,7 @@ function searchLocationByAddress() {
             <label
               for="delivery_min_time"
               class="form-label w-full flex flex-col sm:flex-row"
-            >Delivery min time</label>
+            >Delivery time (in minutes)</label>
             <input
               id="delivery_min_time"
               v-model="formFields.delivery_min_time"

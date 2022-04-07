@@ -173,7 +173,7 @@ function removeProductSize() {
         </div>
         <div class="input-form lg:basis-1/2">
           <label class="form-label" for="product_quickest_time">
-            Preparation time
+            Preparation time (in minutes)
             <span class="text-theme-6">*</span>
           </label>
           <div class="input-group">
@@ -183,7 +183,7 @@ function removeProductSize() {
               v-model="formFields.quickest_time"
               aria-describedby="input-group-quickesttime"
             />
-            <div id="input-group-quickesttime" class="input-group-text">mins</div>
+            <!-- <div id="input-group-quickesttime" class="input-group-text">mins</div> -->
           </div>
           <span
             name="call_center"
@@ -244,24 +244,15 @@ function removeProductSize() {
       </div>-->
       <div class="flex flex-col lg:flex-row gap-5 pt-3">
         <div class="input-form lg:basis-1/2">
-          <label
-            class="form-label"
-            for="product_tax_percent"
-          >Product tax percent</label>
-          <!-- <input
-            id="product_tax_percent"
-            v-model="formFields.tax_percent"
-            class="form-control"
-            type="number"
-          />-->
+          <label class="form-label" for="product_tax_percent">Tax applicability</label>
           <select
             id="product_tax_percent"
             v-model="formFields.tax_percent"
-            class="form-control"
+            class="form-select"
           >
-            <option value="100">100 %</option>
-            <option value="50">50 %</option>
-            <option value="0">0 %</option>
+            <option value="100">Full tax rate</option>
+            <option value="50">Half the tax rate</option>
+            <option value="0">No tax</option>
           </select>
           <span
             class="text-theme-6 mt-2"

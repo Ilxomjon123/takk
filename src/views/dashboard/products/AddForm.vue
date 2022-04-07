@@ -73,7 +73,7 @@ const formFields = reactive({
     }
   ],
   quickest_time: 5,
-  // tax_percent: "Select one"
+  tax_percent: "100"
 });
 
 async function onSubmit() {
