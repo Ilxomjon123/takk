@@ -12,7 +12,7 @@ import VueTelInput from 'vue-tel-input';
 
 // SASS Theme
 import './assets/sass/app.scss';
-// import 'vue-tel-input/dist/vue-tel-input.css';
+import 'vue-tel-input/dist/vue-tel-input.css';
 
 axios.interceptors.response.use(undefined, async function(error) {
   if (error) {
