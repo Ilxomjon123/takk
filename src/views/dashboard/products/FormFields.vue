@@ -263,18 +263,16 @@ function removeProductSize() {
             Product category
             <span class="text-theme-6">*</span>
           </label>
-          <TomSelect
+          <select
+            class="form-select"
             id="product_categories"
             v-model="formFields.category"
-            :options="{
-              placeholder: 'Select product category'
-            }"
           >
             <option
               v-for="item in productCategories"
               :value="item.id"
             >{{ item.name }}</option>
-          </TomSelect>
+          </select>
           <span
             class="text-theme-6 mt-2"
           >{{ externalErrors.category && externalErrors.category[0] }}</span>

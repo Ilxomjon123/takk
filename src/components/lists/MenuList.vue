@@ -1,13 +1,107 @@
+<script setup>
+import { computed, defineComponent, onMounted, ref } from 'vue'
+import MainPaginator from '../paginator/MainPaginator.vue'
+import MenuAddEditFormModal from '../modals/MenuAddEditFormModal.vue'
+import { useStore } from 'vuex'
+import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue'
+import cash from 'cash-dom'
+
+const props = defineProps({
+  subItemTitle: String,
+  subItemValue: String
+});
+const emit = defineEmits(['update-id']);
+
+const store = useStore()
+const paginator = ref(null)
+const paginationForm = ref(null)
+const items = ref([])
+const dispatcher = ref('postMenu')
+const addModalId = ref(null)
+const editModalId = ref(null)
+const modalId = ref('menu-form-modal')
+const addDispatcher = ref('postMenu')
+const editDispatcher = ref('putMenu')
+const successMessage = ref('Successfully Deleted!')
+const loadingDelete = ref(null)
+const selectedMenuDetails = ref({})
+
+const getSelectedMenuId = computed(() => store.getters['getSelectedMenuId'])
+
+onMounted(() => {
+  fetchData()
+})
+
+function paginate(val) {
+  items.value = val
+}
+
+function search() {
+  selectMenu(null);
+  // paginator.value.paginate(1)
+}
+
+function setItems(val) {
+  items.value = val;
+}
+
+function selectMenu(val) {
+  store.commit('setSelectedMenuId', val);
+  emit('update-id', val);
+
+}
+
+function addMenu() {
+  selectedMenuDetails.value = {}
+  dispatcher.value = addDispatcher.value;
+  cash('#menu-add-edit-modal').modal('show');
+}
+
+function editMenu(val) {
+  dispatcher.value = editDispatcher.value;
+  selectedMenuDetails.value = val
+  cash('#menu-add-edit-modal').modal('show');
+}
+
+async function deleteMenu(val) {
+  store.commit('setLoadingStatus', true);
+
+  const res = await store.dispatch('deleteMenu', val);
+
+  if (res.status === true) {
+    successMessage.value = 'Successfully Deleted!'
+    store.commit('setSuccessNotification', true);
+    // search();
+    updateList()
+  } else store.commit('setSuccessNotification', true);
+
+  store.commit('setLoadingStatus', false);
+}
+
+async function fetchData() {
+  console.log(dispatcher.value);
+  store.commit('setLoadingStatus', true);
+  const res = await store.dispatch('fetchMenus');
+  items.value = res.results;
+  store.commit('setLoadingStatus', false);
+}
+
+function updateList() {
+  fetchData()
+}
+
+</script>
+
 <template>
   <div>
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
-      <h2 class="text-lg font-medium mr-auto">Menus List</h2>
-      <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-        <a class="btn btn-primary" href="javascript:;" @click="addMenu">
+      <h2 class="text-lg font-medium">Menus List</h2>
+      <div class="w-full sm:w-auto flex mt-4 sm:mt-0 ml-3">
+        <button class="btn btn-primary" @click="addMenu">
           <span class="w-5 h-5 flex items-center justify-center">
             <PlusIcon class="w-4 h-4" />
-          </span>Add Menu
-        </a>
+          </span> Add Menu
+        </button>
       </div>
     </div>
 
@@ -26,7 +120,7 @@
             <DeleteConfirmModal
               @onConfirmedDelete="deleteMenu(item.id)"
               :isIcon="true"
-              :modalId="`menu-delete-modal-${item.id}`"
+              :modalId="`menu-delete-modal-${ item.id }`"
             />
           </div>
           <!-- <TrashIcon @click="editMenu(item)" class="hover:text-theme-6" /> -->
@@ -40,97 +134,15 @@
     </div>
 
     <!-- BEGIN: Pagination -->
-    <MainPaginator
+    <!-- <MainPaginator
       class="mt-5"
       dispatcher="fetchMenus"
       ref="paginator"
       @setItems="setItems($event)"
       :form="paginationForm"
-    />
+    />-->
     <!-- END: Pagination -->
   </div>
-  <MenuModalForm
-    :dispatcher="dispatcher"
-    :modalId="modalId"
-    :ref="modalId"
-    @submitted="search"
-  />
+
+  <MenuAddEditFormModal :item="selectedMenuDetails" @submitted="updateList" />
 </template>
-
-<script>
-import { defineComponent } from 'vue'
-import MainPaginator from '../paginator/MainPaginator.vue'
-import MenuModalForm from '../forms/MenuModalForm.vue'
-import { mapGetters } from 'vuex'
-import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue'
-
-export default defineComponent({
-  props: {
-    subItemTitle: String,
-    subItemValue: String
-  },
-  components: {
-    MainPaginator,
-    MenuModalForm,
-    DeleteConfirmModal,
-  },
-  data() {
-    return {
-      paginationForm: {},
-      items: [],
-      dispatcher: 'postMenu',
-      modalId: 'menu-form-modal',
-      addDispatcher: 'postMenu',
-      editDispatcher: 'putMenu',
-      successMessage: 'Successfully Deleted!',
-      loadingDelete: {}
-    }
-  },
-  emits: ['update-id'],
-  computed: {
-    ...mapGetters(['getSelectedMenuId'])
-  },
-  methods: {
-    paginate(val) {
-      this.items = val
-    },
-    search() {
-      this.selectMenu(null);
-      this.$refs.paginator.paginate(1)
-    },
-    setItems(val) {
-      this.items = val;
-    },
-    selectMenu(val) {
-      if (val != this.getSelectedMenuId) {
-        this.$store.commit('setSelectedMenuId', val);
-        this.$emit('update-id', val);
-      }
-    },
-    addMenu() {
-      this.dispatcher = this.addDispatcher;
-      this.$refs[this.modalId].showModal({});
-    },
-    editMenu(val) {
-      this.dispatcher = this.editDispatcher;
-      this.$refs[this.modalId].showModal(val);
-    },
-    async deleteMenu(val) {
-      this.$store.commit('setLoadingStatus', true);
-
-      this.selectMenu(null);
-      const res = await this.$store.dispatch('deleteMenu', val);
-      if (res.status) {
-        this.successMessage = 'Successfully Deleted!'
-        this.$store.commit('setSuccessNotification', true);
-
-        this.search();
-      } else {
-        this.$store.commit('setSuccessNotification', true);
-      }
-      this.$store.commit('setLoadingStatus', false);
-
-    }
-  }
-});
-</script>

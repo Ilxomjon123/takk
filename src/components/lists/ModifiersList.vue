@@ -68,7 +68,7 @@
                   <DeleteConfirmModal
                     @onConfirmedDelete="deleteType(item.id)"
                     :isIcon="true"
-                    :modalId="`modifier-type-delete-modal-${item.id}`"
+                    :modalId="`modifier-type-delete-modal-${ item.id }`"
                   />
                 </div>
               </td>
@@ -93,13 +93,13 @@
               <td class="table-report__action w-10">
                 <div class="flex">
                   <Edit2Icon
-                    @click="editModifierItem(el)"
+                    @click="editModifierItem(el, item.id)"
                     class="hover:text-theme-12"
                   />
                   <DeleteConfirmModal
                     @onConfirmedDelete="deleteItem(el.id)"
                     :isIcon="true"
-                    :modalId="`modifier-delete-modal-${item.id}-${el.id}`"
+                    :modalId="`modifier-delete-modal-${ item.id }-${ el.id }`"
                   />
                 </div>
               </td>
@@ -230,9 +230,9 @@ export default defineComponent({
       this.itemDispatcher = this.itemAddDispatcher;
       this.$refs[this.itemModalId].showModal({});
     },
-    editModifierItem(val) {
+    editModifierItem(val, typeId) {
       this.itemDispatcher = this.itemEditDispatcher;
-      this.$refs[this.itemModalId].showModal({ ...val });
+      this.$refs[this.itemModalId].showModal({ ...val }, typeId);
     },
     reorderModifierType() {
       cash('#draggable-modifier-type-modal').modal('show')
