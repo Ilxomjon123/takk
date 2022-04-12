@@ -59,11 +59,11 @@
                   </button>
                   <div class="dropdown-menu w-40">
                     <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                      <a @click="editModifierType(item)"
+                      <a @click="editModifierType(item)" data-dismiss="dropdown"
                         class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                         <Edit2Icon class="w-4 h-4 mr-2" />Edit
                       </a>
-                      <a
+                      <a data-dismiss="dropdown"
                         class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                         <DeleteConfirmModal @onConfirmedDelete="deleteType(item.id)" :isIcon="true"
                           :modalId="`modifier-type-delete-modal-${item.id}`" iconClass="w-4 h-4 mr-2" />
@@ -95,11 +95,11 @@
                   </button>
                   <div class="dropdown-menu w-40">
                     <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                      <a @click="editModifierItem(el, item.id)"
+                      <a @click="editModifierItem(el, item.id)" data-dismiss="dropdown"
                         class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                         <Edit2Icon class="w-4 h-4 mr-2" />Edit
                       </a>
-                      <a
+                      <a data-dismiss="dropdown"
                         class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                         <DeleteConfirmModal @onConfirmedDelete="deleteItem(el.id)" :isIcon="true"
                           :modalId="`modifier-delete-modal-${item.id}-${el.id}`" iconClass="w-4 h-4 mr-2" />
