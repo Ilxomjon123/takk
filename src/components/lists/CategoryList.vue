@@ -8,19 +8,13 @@
             <ShuffleIcon class="w-4 h-4" />
           </span>Reorder Categories
         </button>
-        <button
-          class="btn btn-success"
-          @click="reorderModifierItem"
-          :disabled="showChildren.length === 0"
-        >
+        <button class="btn btn-success" @click="reorderModifierItem" :disabled="showChildren.length === 0">
           <span class="w-5 h-5 flex items-center justify-center">
             <ShuffleIcon class="w-4 h-4" />
           </span>Reorder Category Items
         </button>
-        <router-link
-          :to="getSelectedMenuId != null ? `/dashboard/categories/${getSelectedMenuId}/add` : ''"
-          class="btn btn-primary"
-        >
+        <router-link :to="getSelectedMenuId != null ? `/dashboard/categories/${getSelectedMenuId}/add` : ''"
+          class="btn btn-primary">
           <span class="w-5 h-5 flex items-center justify-center">
             <PlusIcon class="w-4 h-4" />
           </span>Add Category
@@ -41,7 +35,7 @@
             <th class="whitespace-nowrap">POSITION</th>
             <th class="whitespace-nowrap">START</th>
             <th class="whitespace-nowrap">END</th>
-            <th class="whitespace-nowrap text-right">ACTIONS</th>
+            <th class="whitespace-nowrap text-right w-5">ACTIONS</th>
           </tr>
         </thead>
         <tbody>
@@ -62,34 +56,43 @@
               <td>{{ item.position }}</td>
               <td>{{ item.start }}</td>
               <td>{{ item.end }}</td>
-              <td class="table-report__action w-10">
-                <div class="flex justify-end items-end">
-                  <router-link
-                    :to="`/dashboard/categories/${getSelectedMenuId}/${item.id}`"
-                  >
+              <td class="table-report__action">
+                <div class="dropdown inline-block" data-placement="right-start">
+                  <button class="dropdown-toggle -mr-3" aria-expanded="false">
+                    <MoreVerticalIcon />
+                  </button>
+                  <div class="dropdown-menu w-40">
+                    <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
+                      <router-link :to="`/dashboard/categories/${getSelectedMenuId}/${item.id}`"
+                        class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                        <Edit2Icon class="w-4 h-4 mr-2" />Edit
+                      </router-link>
+                      <a
+                        class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                        <DeleteConfirmModal @onConfirmedDelete="deleteItem(item.id)" :isIcon="true"
+                          :modalId="'category-delete-modal-' + item.id" iconClass="w-4 h-4 mr-2" />
+                      </a>
+
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="flex justify-end items-end">
+                  <router-link :to="`/dashboard/categories/${getSelectedMenuId}/${item.id}`">
                     <Edit2Icon class="hover:text-theme-12" />
                   </router-link>
-                  <DeleteConfirmModal
-                    @onConfirmedDelete="deleteItem(item.id)"
-                    :isIcon="true"
-                    :modalId="'category-delete-modal-' + item.id"
-                  />
-                  <!-- <ChevronRightIcon
+                  <DeleteConfirmModal @onConfirmedDelete="deleteItem(item.id)" :isIcon="true"
+                    :modalId="'category-delete-modal-' + item.id" />
+                  <ChevronRightIcon
                     class="hover:text-theme-9"
                     :class="{
                       'transform rotate-90 duration-300': isVisibleChildren(item.id),
                       'transform rotate-0 duration-300': !isVisibleChildren(item.id),
                     }"
-                  />-->
-                </div>
+                  />
+                </div> -->
               </td>
             </tr>
-            <tr
-              class="-intro-y inner-tr"
-              v-for="(el, i) in item.children"
-              :key="i"
-              v-show="isVisibleChildren(item.id)"
-            >
+            <tr class="-intro-y inner-tr" v-for="(el, i) in item.children" :key="i" v-show="isVisibleChildren(item.id)">
               <!-- <td class="w-0">{{ el.position }}</td> -->
               <td class="w-10">
                 <div class="w-10 h-10 image-fit zoom-in ml-10">
@@ -98,27 +101,39 @@
               </td>
               <td>
                 <a href class="font-medium whitespace-nowrap">{{ el.name }}</a>
-                <div
-                  class="text-gray-600 text-xs whitespace-nowrap mt-0.5"
-                >{{ el.category?.name }}</div>
+                <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5">{{ el.category?.name }}</div>
               </td>
               <td>{{ item.name }}</td>
               <td>{{ el.position }}</td>
               <td>{{ el.start }}</td>
               <td>{{ el.end }}</td>
-              <td class="table-report__action w-10">
-                <div class="flex">
-                  <router-link
-                    :to="`/dashboard/categories/${getSelectedMenuId}/${el.id}`"
-                  >
+              <td class="table-report__action">
+                <div class="dropdown inline-block" data-placement="right-start">
+                  <button class="dropdown-toggle -mr-3" aria-expanded="false">
+                    <MoreVerticalIcon />
+                  </button>
+                  <div class="dropdown-menu w-40">
+                    <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
+                      <router-link :to="`/dashboard/categories/${getSelectedMenuId}/${el.id}`"
+                        class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                        <Edit2Icon class="w-4 h-4 mr-2" />Edit
+                      </router-link>
+                      <a
+                        class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                        <DeleteConfirmModal @onConfirmedDelete="deleteItem(el.id)" :isIcon="true"
+                          :modalId="`category-delete-modal-${item.id}-${el.id}`" iconClass="w-4 h-4 mr-2" />
+                      </a>
+
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="flex">
+                  <router-link :to="`/dashboard/categories/${getSelectedMenuId}/${el.id}`">
                     <Edit2Icon class="hover:text-theme-12" />
                   </router-link>
-                  <DeleteConfirmModal
-                    @onConfirmedDelete="deleteItem(el.id)"
-                    :isIcon="true"
-                    :modalId="`category-delete-modal-${item.id}-${el.id}`"
-                  />
-                </div>
+                  <DeleteConfirmModal @onConfirmedDelete="deleteItem(el.id)" :isIcon="true"
+                    :modalId="`category-delete-modal-${item.id}-${el.id}`" />
+                </div> -->
               </td>
             </tr>
           </template>
@@ -127,27 +142,13 @@
     </div>
     <!-- END: Data List -->
     <!-- BEGIN: Pagination -->
-    <MainPaginator
-      v-if="getSelectedMenuId != 'null' && getSelectedMenuId"
-      class="mt-5"
-      dispatcher="fetchCategories"
-      ref="paginator"
-      @setItems="setItems($event)"
-      :form="form"
-    />
+    <MainPaginator v-if="getSelectedMenuId != 'null' && getSelectedMenuId" class="mt-5" dispatcher="fetchCategories"
+      ref="paginator" @setItems="setItems($event)" :form="form" />
     <!-- END: Pagination -->
   </div>
-  <div
-    v-else
-    class="text-base text-center mt-10 text-gray-600"
-  >For showing Categories Please select Menu</div>
-  <DraggableTypeModal
-    :list="items"
-    :paginator="{ ...$refs.paginator?.paginator }"
-  />
-  <DraggableItemModal
-    :list="items.find(item => showChildren.length > 0 && item.id == showChildren[0])?.children"
-  />
+  <div v-else class="text-base text-center mt-10 text-gray-600">For showing Categories Please select Menu</div>
+  <DraggableTypeModal :list="items" :paginator="{ ...$refs.paginator?.paginator }" />
+  <DraggableItemModal :list="items.find(item => showChildren.length > 0 && item.id == showChildren[0])?.children" />
 </template>
 
 <script>
@@ -227,6 +228,7 @@ export default defineComponent({
 .dark .inner-tr td {
   background-color: #1e2533 !important;
 }
+
 .inner-tr td {
   background-color: #dfdfdf !important;
 }

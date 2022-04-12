@@ -106,29 +106,44 @@ function updateList() {
     </div>
 
     <div class="grid grid-cols-12 gap-5 mt-5">
-      <div
-        class="col-span-12 sm:col-span-4 xl:col-span-3 2xl:col-span-2 box p-5 cursor-pointer zoom-in"
-        v-for="(item, index) in items"
-        :key="index"
+      <div class="col-span-12 sm:col-span-4 xl:col-span-3 2xl:col-span-2 box p-5 cursor-pointer zoom-in"
+        v-for="(item, index) in items" :key="index"
         :class="item.id == getSelectedMenuId ? 'bg-theme-1 dark:bg-theme-1 text-white' : ''"
-        @click="selectMenu(item.id)"
-      >
+        @click="selectMenu(item.id)">
         <div class="flex col-span-12 w-full">
           <div class="mr-auto font-medium text-base">{{ item.name }}</div>
-          <div class="flex">
+          <!-- <MoreHorizontalIcon /> -->
+          <div class="dropdown inline-block" data-placement="right-start">
+            <button class="dropdown-toggle -mr-3" aria-expanded="false">
+              <MoreVerticalIcon />
+            </button>
+            <div class="dropdown-menu w-40">
+              <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
+                <a @click="editMenu(item)"
+                  class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                  <Edit2Icon class="w-4 h-4 mr-2" />Edit
+                </a>
+                <a
+                  class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                  <DeleteConfirmModal @onConfirmedDelete="deleteMenu(item.id)" :isIcon="true" iconClass="w-4 h-4 mr-2"
+                    :modalId="`menu-delete-modal-${item.id}`" />
+                </a>
+
+              </div>
+            </div>
+          </div>
+          <!-- <div class="flex">
             <Edit2Icon @click="editMenu(item)" class="hover:text-theme-12" />
             <DeleteConfirmModal
               @onConfirmedDelete="deleteMenu(item.id)"
               :isIcon="true"
               :modalId="`menu-delete-modal-${ item.id }`"
             />
-          </div>
+          </div> -->
           <!-- <TrashIcon @click="editMenu(item)" class="hover:text-theme-6" /> -->
         </div>
         <div class="flex">
-          <div
-            class="mr-auto text-gray-600"
-          >{{ subItemTitle + ": " + item[subItemValue] }}</div>
+          <div class="mr-auto text-gray-600">{{ subItemTitle + ": " + item[subItemValue] }}</div>
         </div>
       </div>
     </div>

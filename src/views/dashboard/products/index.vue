@@ -104,32 +104,18 @@ async function saveReorderedList() {
 <template>
   <div>
     <!-- Menu List start -->
-    <MenuList
-      @update-id="fetchProducts"
-      sub-item-title="Products"
-      sub-item-value="product_count"
-    />
+    <MenuList @update-id="fetchProducts" sub-item-title="Products" sub-item-value="product_count" />
     <!-- Menu List end -->
     <div class="pos intro-y grid grid-cols-12 gap-5 mt-5">
       <h2 class="intro-y col-span-12 text-lg font-medium mt-10">Products List</h2>
-      <div
-        class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"
-      >
-        <button
-          class="btn btn-primary mr-3"
-          @click="gotoAddPage"
-          :disabled="!activeMenuID"
-        >
+      <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
+        <button class="btn btn-primary mr-3" @click="gotoAddPage" :disabled="!activeMenuID">
           <span class="w-5 h-5 flex items-center justify-center">
             <PlusIcon class="w-4 h-4" />
           </span>
           Add Product
         </button>
-        <button
-          class="btn btn-primary mr-3"
-          @click="saveReorderedList"
-          :disabled="!isReordered"
-        >
+        <button class="btn btn-primary mr-3" @click="saveReorderedList" :disabled="!isReordered">
           <span class="w-5 h-5 flex items-center justify-center">
             <ShuffleIcon class="w-4 h-4" />
           </span>
@@ -146,35 +132,22 @@ async function saveReorderedList() {
               <th class="whitespace-nowrap">PRODUCT NAME</th>
               <th class="text-center whitespace-nowrap">POSITION</th>
               <th class="text-center whitespace-nowrap">DESCRIPTION</th>
-              <th class="text-center whitespace-nowrap">ACTIONS</th>
+              <th class="text-center whitespace-nowrap w-5">ACTIONS</th>
             </tr>
           </thead>
-          <DraggableList
-            :list="products.results"
-            @update:list="isReordered = true"
-          />
+          <DraggableList :list="products.results" @update:list="isReordered = true" />
         </table>
       </div>
       <!-- END: Data List -->
       <!-- BEGIN: Pagination -->
-      <Pagination
-        :total="paginator.total"
-        :currentPage="paginator.page"
-        :perPage="paginator.limit"
-        @paginate="paginate($event)"
-        @changePerPage="changePerPage($event)"
-      />
+      <Pagination :total="paginator.total" :currentPage="paginator.page" :perPage="paginator.limit"
+        @paginate="paginate($event)" @changePerPage="changePerPage($event)" />
       <!-- END: Pagination -->
     </div>
   </div>
 
   <!-- BEGIN: Delete Confirmation Modal -->
-  <div
-    id="delete-confirmation-modal"
-    class="modal"
-    tabindex="-1"
-    aria-hidden="true"
-  >
+  <div id="delete-confirmation-modal" class="modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-body p-0">
@@ -187,16 +160,8 @@ async function saveReorderedList() {
             </div>
           </div>
           <div class="px-5 pb-8 text-center">
-            <button
-              type="button"
-              data-dismiss="modal"
-              class="btn btn-outline-secondary w-24 mr-1"
-            >Cancel</button>
-            <button
-              type="button"
-              class="btn btn-danger w-24"
-              @click="deleteObj"
-            >Delete</button>
+            <button type="button" data-dismiss="modal" class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
+            <button type="button" class="btn btn-danger w-24" @click="deleteObj">Delete</button>
           </div>
         </div>
       </div>
@@ -207,6 +172,6 @@ async function saveReorderedList() {
 
 <style scoped lang="scss">
 .active-menu {
-  @apply bg-theme-1 dark:bg-theme-1;
+  // @apply bg-theme-1 dark: bg-theme-1;
 }
 </style>
