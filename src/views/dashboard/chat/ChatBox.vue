@@ -65,9 +65,9 @@
         class="overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1"
         ref="chatBoxBody"
       >
-        <template v-for="message, messageIndex in getSelectedChat.messages">
+        <template v-for="(message, messageIndex) in getSelectedChat.messages">
           <div
-            v-if="!message.is_my_message"
+            v-if="!message.author?.id === authUser.id"
             class="chat__box__text-box flex items-end float-left mb-4"
           >
             <div
@@ -83,11 +83,11 @@
               class="bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md"
             >
               <img
-                v-if="message.item_type === 'image'"
-                :src="message.image"
+                v-if="message.files?.length > 0"
+                :src="message.files[0]"
                 alt="image message"
               />
-              <p v-if="message.item_type === 'message'">{{ message.text }}</p>
+              <p v-if="!isEmpty(message.text)">{{ message.text }}</p>
               <div
                 class="mt-1 text-xs text-gray-600"
               >{{ formattedDate(message.created_dt) }}</div>
@@ -149,16 +149,16 @@
             </div>
             <div
               class="px-4 py-3 text-white rounded-l-md rounded-t-md"
-              :class="{ 'bg-theme-1': message.item_type === 'message' }"
+              :class="{ 'bg-theme-1': !isEmpty(message.text) }"
             >
               <img
-                v-if="message.item_type === 'image'"
+                v-if="!isEmpty(message.files)"
                 :src="message.files[0]?.file"
                 alt="image message"
                 width="200"
                 data-action="zoom"
               />
-              <p v-if="message.item_type === 'message'">{{ message.text }}</p>
+              <p v-if="!isEmpty(message.text)">{{ message.text }}</p>
               <div
                 class="mt-1 text-xs text-theme-21"
               >{{ formattedDate(message.created_dt) }}</div>
@@ -166,7 +166,7 @@
             <div
               class="w-10 h-10 hidden sm:block flex-none image-fit relative ml-5"
             >
-              <img alt="image" class="rounded-full" :src="myAvatar" />
+              <img alt="image" class="rounded-full" :src="authUser.avatar" />
             </div>
           </div>
           <div class="clear-both"></div>
@@ -227,34 +227,34 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onMounted, reactive, ref, watch, watchEffect } from 'vue'
-import EmojisBlock from './EmojisBlock.vue';
+import { computed, onMounted, ref, } from 'vue'
 import moment from 'moment';
 import { useStore } from 'vuex';
 import { isEmpty } from 'lodash';
-import useChatState from '../../../features/useChatState';
-import useWebSocket from '../../../features/useWebSocket';
-import { sendMessagesInChatroom } from '../../../api';
+import EmojisBlock from './EmojisBlock.vue';
+import useChatState from '@/features/useChatState';
+import useWebSocket from '@/features/useWebSocket';
+import { sendMessagesInChatroom } from '@/api';
 
 const { getSelectedChat, getErrorMessage } = useChatState();
-const { getConnection, sendEvent } = useWebSocket();
-const myMessages = ref([]);
+const { sendEvent } = useWebSocket();
 const msgSending = ref(false);
 const store = useStore();
 const formattedDate = (value) => {
   return moment(value).fromNow();
 };
 
-const myAvatar = computed(() => store.getters.getUser.avatar);
+const authUser = computed(() => store.getters.getUser);
 const fileInput = ref(null);
 const chatBoxBody = ref(null);
-const messages = ref([]);
 const message = ref('');
+
+onMounted(() => {
+  console.log('in chatbox\'s onmouted hook');
+})
 
 async function sendMessage() {
   msgSending.value = true
-  // const values = Object.fromEntries(new FormData(event.target))
-  // console.log('values: ', values);
 
   if (!isEmpty(message.value)) {
     const formData = new FormData();
@@ -305,7 +305,6 @@ function scrollToBottom() {
     chatBoxBody.value.scrollTop = chatBoxBody.value.scrollHeight;
   }
 }
-
 
 </script>
 

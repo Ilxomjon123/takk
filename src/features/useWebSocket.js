@@ -49,8 +49,6 @@ export default () => {
   };
 
   const sendEvent = async payload => {
-    console.log('in sendEvent func..');
-
     if (wsConnect.value.readyState !== wsConnect.value.OPEN) {
       try {
         await waitForOpenConnection(wsConnect.value);

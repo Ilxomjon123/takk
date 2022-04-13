@@ -58,13 +58,13 @@ export const sendMessagesInChatroom = async payload => {
       data: payload, // {item_type -> тип сообщения [video, image, message, video], files -> список файлов, chat*}
       headers: { authorization: true }
     });
-
+    console.log('res after new message: ', res);
     sendEvent(
       JSON.stringify({
         event_type: 'new_message',
         data: {
           chat_id: payload.chat,
-          message: payload.message
+          message_id: res.data.id
         }
       })
     );

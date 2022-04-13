@@ -13,7 +13,7 @@
             aria-controls="allchats"
             aria-selected="true"
           >All Chats</a>
-          <a
+          <!-- <a
             id="order-chats-tab"
             data-toggle="tab"
             data-target="#order-chats"
@@ -32,7 +32,7 @@
             role="tab"
             aria-controls="company-chats"
             aria-selected="false"
-          >General Chats</a>
+          >General Chats</a>-->
         </div>
       </div>
     </div>
