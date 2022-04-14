@@ -1,54 +1,3 @@
-<template>
-  <div>
-    <div class="intro-y flex items-center mt-8">
-      <h2 class="text-lg font-medium mr-auto">Product Edit Form</h2>
-    </div>
-    <div class="grid grid-cols-12 gap-6 mt-5">
-      <div class="intro-y col-span-12">
-        <!-- BEGIN: Form Validation -->
-        <div class="intro-y box">
-          <div id="form-validation" class="p-5">
-            <!-- BEGIN: Validation Form -->
-            <form
-              class="validate-form"
-              @submit.prevent="onSubmit"
-              enctype="multipart/form-data"
-            >
-              <FormFields
-                :form-fields="formFields"
-                :product-image-path="productImagePath"
-                :external-errors="externalErrors"
-                @update:form-fields="formFields = $event"
-              />
-              <div
-                class="flex pt-5 justify-end border-t border-gray-200 dark:border-dark-5"
-              >
-                <button
-                  type="submit"
-                  class="btn btn-primary"
-                  :disabled="isLoading"
-                >
-                  <LoadingIcon
-                    v-if="isLoading"
-                    icon="tail-spin"
-                    class="w-4 h-4 mr-3"
-                    color="#fff"
-                  />
-                  <!-- <RefreshCwIcon v-else class="mr-3" /> -->
-                  <span>Update</span>
-                </button>
-              </div>
-              <!-- <pre>{{ values }}</pre> -->
-            </form>
-            <!-- END: Validation Form -->
-          </div>
-        </div>
-        <!-- END: Form Validation -->
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import Toastify from 'toastify-js';
 import cash from 'cash-dom';
@@ -75,6 +24,7 @@ const formFields = reactive({
       default: false,
     }
   ],
+  modifiers: [],
   quickest_time: 5
 });
 
@@ -91,7 +41,7 @@ onMounted(() => {
     formFields.name = res.name
     formFields.description = res.description
     formFields.tax_percent = res.tax_percent
-    formFields.category = res.category.toString()
+    formFields.category = res.category.id.toString()
     formFields.modifiers = res.modifiers
     productImagePath.value = res.image
   })
@@ -145,3 +95,54 @@ async function onSubmit() {
   }
 }
 </script>
+
+<template>
+  <div>
+    <div class="intro-y flex items-center mt-8">
+      <h2 class="text-lg font-medium mr-auto">Product Edit Form</h2>
+    </div>
+    <div class="grid grid-cols-12 gap-6 mt-5">
+      <div class="intro-y col-span-12">
+        <!-- BEGIN: Form Validation -->
+        <div class="intro-y box">
+          <div id="form-validation" class="p-5">
+            <!-- BEGIN: Validation Form -->
+            <form
+              class="validate-form"
+              @submit.prevent="onSubmit"
+              enctype="multipart/form-data"
+            >
+              <FormFields
+                :form-fields="formFields"
+                :product-image-path="productImagePath"
+                :external-errors="externalErrors"
+                @update:form-fields="formFields = $event"
+              />
+              <div
+                class="flex pt-5 justify-end border-t border-gray-200 dark:border-dark-5"
+              >
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  :disabled="isLoading"
+                >
+                  <LoadingIcon
+                    v-if="isLoading"
+                    icon="tail-spin"
+                    class="w-4 h-4 mr-3"
+                    color="#fff"
+                  />
+                  <!-- <RefreshCwIcon v-else class="mr-3" /> -->
+                  <span>Update</span>
+                </button>
+              </div>
+              <!-- <pre>{{ values }}</pre> -->
+            </form>
+            <!-- END: Validation Form -->
+          </div>
+        </div>
+        <!-- END: Form Validation -->
+      </div>
+    </div>
+  </div>
+</template>

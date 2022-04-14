@@ -5,51 +5,31 @@ import { isEmpty } from 'lodash';
 import CustomerSelect from '@/components/selects/CustomerSelect.vue';
 import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 import { sendMessageToCustomers } from '@/api';
-import useWebSocket from '@/features/useWebSocket';
 
 const store = useStore()
 const selectedCustomers = ref([]);
-const editorData = ref('');
-const editorConfig = ref({
-  // extraPlugins: [uploader]
-});
 
-const { getConnection } = useWebSocket()
 const textMessage = ref(null);
 const imageMessage = ref(null);
 
 async function handleSendMessage() {
   store.commit('setLoadingStatus', true)
-  console.log('ws connection: ', getConnection.value);
-  const customer_id = selectedCustomers.value.filter(item => item !== 'all')
-  const isAll = selectedCustomers.value.some(item => item === 'all');
+  const customer_ids = selectedCustomers.value.filter(item => item !== 'all')
+  const isAll = selectedCustomers.value.includes('All');
 
   const formData = new FormData();
-  !isEmpty(customer_id) && formData.append('customer_id[]', customer_id)
+  !isEmpty(customer_ids) && formData.append('customer_id[]', customer_ids)
   formData.append('customer_all', isAll)
   formData.append('text', textMessage.value)
   formData.append('files[]', imageMessage.value)
 
   const res = await sendMessageToCustomers(formData)
-  console.log('res: ', res);
   store.commit('setLoadingStatus', false)
 }
-
-function uploader() {
-  ClassicEditor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-    return new UploadAdapter(loader);
-  };
-}
-
 </script>
 
 <template>
-  <div
-    id="new-chatmessage-modal"
-    class="modal"
-    tabindex="-1"
-    aria-hidden="true"
-  >
+  <div id="new-chatmessage-modal" class="modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <!-- BEGIN: Modal Header -->
@@ -64,10 +44,7 @@ function uploader() {
           <div id="classic-editor" class="mt-5">
             <div class>
               <textarea v-model="textMessage" rows="5" class="form-control" />
-              <SimpleImageUpload
-                title="Add photo"
-                @update-image-file="imageMessage = $event"
-              />
+              <SimpleImageUpload title="Add photo" @update-image-file="imageMessage = $event" />
               <!-- <QuillEditor theme="snow" /> -->
               <!-- <ckeditor
                 :editor="ClassicEditor"
@@ -86,16 +63,8 @@ function uploader() {
         </div>
         <!-- BEGIN: Modal Footer -->
         <div class="modal-footer text-right">
-          <button
-            type="button"
-            data-dismiss="modal"
-            class="btn btn-outline-secondary mr-1"
-          >Cancel</button>
-          <button
-            type="button"
-            class="btn btn-primary"
-            @click="handleSendMessage"
-          >Create</button>
+          <button type="button" data-dismiss="modal" class="btn btn-outline-secondary mr-1">Cancel</button>
+          <button type="button" class="btn btn-primary" @click="handleSendMessage">Create</button>
         </div>
         <!-- END: Modal Footer -->
       </div>

@@ -73,7 +73,6 @@ const { setChatList, getChatBoxLoading } = useChatState();
 
 onMounted(async () => {
   const res = await fetchChats();
-  console.log('res: ', res);
   res.results.length > 0 && setChatList(res.results);
 
   // handleCreate()
