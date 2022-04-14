@@ -171,7 +171,4 @@ async function saveReorderedList() {
 </template>
 
 <style scoped lang="scss">
-.active-menu {
-  // @apply bg-theme-1 dark: bg-theme-1;
-}
 </style>

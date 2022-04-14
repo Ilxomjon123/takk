@@ -1,5 +1,19 @@
+<script setup>
+import Draggable from "vuedraggable";
+
+const props = defineProps({
+  list: Array
+});
+
+const emit = defineEmits(['update:list']);
+
+async function reorderList(event) {
+  emit('update:list')
+}
+</script>
+
 <template>
-  <draggable tag="tbody" :list="list" group="list" item-key="id" @change="reorderList" :animation="300">
+  <Draggable tag="tbody" :list="list" group="list" item-key="id" @change="reorderList" :animation="300">
     <template #item="{ element }">
       <tr class="intro-x">
         <td scope="row">
@@ -20,15 +34,15 @@
             </button>
             <div class="dropdown-menu w-40">
               <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                <a @click="$router.push('/dashboard/products/' + element.id)"
-                  class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                <button @click="$router.push('/dashboard/products/' + element.id)"
+                  class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                   <Edit2Icon class="w-4 h-4 mr-2" />Edit
-                </a>
-                <a href="javascript:;" data-toggle="modal" data-target="#delete-confirmation-modal"
+                </button>
+                <button data-toggle="modal" data-target="#delete-confirmation-modal"
                   @click="clickedProductId = element.id"
-                  class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                  class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                   <Trash2Icon class="w-4 h-4 mr-2" />Delete
-                </a>
+                </button>
 
               </div>
             </div>
@@ -53,29 +67,8 @@
         </td>
       </tr>
     </template>
-  </draggable>
+  </Draggable>
 </template>
-
-<script setup>
-import { ref } from "vue";
-import draggable from "vuedraggable";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
-
-const props = defineProps({
-  list: Array
-});
-const emit = defineEmits(['update:list']);
-const store = useStore()
-const router = useRouter()
-
-const drag = ref(false);
-
-async function reorderList(event) {
-  emit('update:list')
-}
-
-</script>
 
 <style scoped>
 </style>
