@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from "vue";
 import Draggable from "vuedraggable";
 
 const props = defineProps({
@@ -6,9 +7,14 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:list']);
-
+const notAvaibleProducts = ref([]);
 async function reorderList(event) {
   emit('update:list')
+}
+
+function handleSwitcher(event, productId) {
+  console.log('event in handleSwitcher func: ', event);
+  notAvaibleProducts.value.push(productId)
 }
 </script>
 
@@ -16,6 +22,13 @@ async function reorderList(event) {
   <Draggable tag="tbody" :list="list" group="list" item-key="id" @change="reorderList" :animation="300">
     <template #item="{ element }">
       <tr class="intro-x">
+        <td>
+          <div class="form-check">
+            <input :id="'product_available' + element.id" class="form-check-switch" type="checkbox"
+              @change="(e) => handleSwitcher(e, element.id)" :checked="true" />
+            <!-- <label class="form-check-label" :for="'product_available' + element.id">Available</label> -->
+          </div>
+        </td>
         <td scope="row">
           <div class="w-20 h-20 image-fit zoom-in">
             <img alt="image" class="rounded-full" :src="element.image" />

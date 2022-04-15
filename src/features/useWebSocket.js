@@ -91,6 +91,7 @@ export default () => {
     setConnection,
     sendEvent,
     getConnection,
-    getWebsocketMessages
+    getWebsocketMessages,
+    handleOnMessageEvent
   };
 };
