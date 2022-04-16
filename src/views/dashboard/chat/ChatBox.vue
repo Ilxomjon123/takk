@@ -69,14 +69,15 @@ async function handleFileInput(e) {
 
   const formData = new FormData();
   formData.append('chat', getSelectedChat.value.id);
-  formData.append('customer_id[]', getSelectedChat.value.customer?.id);
-  formData.append('customer_all', false);
-  formData.append('files[]', file);
-  formData.append('author', authUser.value.id);
+  // formData.append('customer_id[]', getSelectedChat.value.customer?.id);
+  // formData.append('customer_all', false);
+  formData.append('text', '');
+  formData.append('files', file);
+  // formData.append('author', authUser.value.id);
 
   const res = await sendMessagesInChatroom(formData)
 
-  getSelectedChat.value.messages.push({ author: authUser.value, files: [URL.createObjectURL(file)] });
+  getSelectedChat.value.messages.push(res);
 }
 
 function scrollToBottom() {
@@ -137,13 +138,13 @@ function scrollToBottom() {
       <!-- messages area -->
       <div class="overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1" ref="chatBoxBody">
         <template v-for="(message, messageIndex) in getSelectedChat.messages">
-          <div v-if="!message.author?.id === authUser.id" class="chat__box__text-box flex items-end float-left mb-4">
+          <div v-if="message.author?.id !== authUser.id" class="chat__box__text-box flex items-end float-left mb-4">
             <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
               <img alt="image" class="rounded-full" :src="getSelectedChat.customer?.avatar" />
             </div>
             <div
               class="bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md">
-              <img v-if="message.files?.length > 0" :src="message.files[0]" alt="image message" />
+              <img v-if="message.files?.length > 0" :src="message.files[0].file" alt="image message" />
               <p v-if="!isEmpty(message.text)">{{ message.text }}</p>
               <div class="mt-1 text-xs text-gray-600">{{ formattedDate(message.created_dt) }}</div>
             </div>
@@ -185,7 +186,7 @@ function scrollToBottom() {
             </div>
             <div class="px-4 py-3 text-white rounded-l-md rounded-t-md"
               :class="{ 'bg-theme-1': !isEmpty(message.text) }">
-              <img v-if="!isEmpty(message.files)" :src="message.files[0]" alt="image message" width="200"
+              <img v-if="!isEmpty(message.files)" :src="message.files[0].file" alt="image message" width="200"
                 data-action="zoom" />
               <p v-if="!isEmpty(message.text)">{{ message.text }}</p>
               <div class="mt-1 text-xs text-theme-21">{{ formattedDate(message.created_dt) }}</div>

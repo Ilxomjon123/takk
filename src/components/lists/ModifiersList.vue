@@ -1,8 +1,39 @@
 <template>
   <div v-if="getSelectedMenuId">
     <div class="intro-y flex flex-col sm:flex-row items-center mt-10">
-      <h2 class="text-lg font-medium mr-auto">Modifiers List</h2>
-      <div class="w-full sm:w-auto flex mt-4 sm:mt-0 gap-3">
+      <h2 class="text-lg font-medium">Modifiers List</h2>
+      <div class="dropdown inline-block" data-placement="right-start">
+        <button class="dropdown-toggle" aria-expanded="false">
+          <MoreVerticalIcon />
+        </button>
+        <div class="dropdown-menu w-fit">
+          <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
+            <a href="javascript:;" @click="reorderModifierType" class="btn whitespace-nowrap mb-2"
+              data-dismiss="dropdown" :disabled="items.length < 2">
+              <span class="w-5 h-5 flex items-center justify-center">
+                <ShuffleIcon class="w-4 h-4" />
+              </span>Reorder Modifier Type
+            </a>
+            <a href="javascript:;" @click="reorderModifierItem" class="btn whitespace-nowrap mb-2"
+              data-dismiss="dropdown" :disabled="items.length < 2">
+              <span class="w-5 h-5 flex items-center justify-center">
+                <ShuffleIcon class="w-4 h-4" />
+              </span>Reorder Modifier Item
+            </a>
+            <a href="javascript:;" @click="addModifierType" class="btn whitespace-nowrap mb-2" data-dismiss="dropdown">
+              <span class="w-5 h-5 flex items-center justify-center">
+                <PlusIcon class="w-4 h-4" />
+              </span>Add Modifier Type
+            </a>
+            <a href="javascript:;" @click="addModifierItem" class="btn whitespace-nowrap mb-2" data-dismiss="dropdown">
+              <span class="w-5 h-5 flex items-center justify-center">
+                <PlusIcon class="w-4 h-4" />
+              </span>Add Modifier Item
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="w-full sm:w-auto flex mt-4 sm:mt-0 gap-3">
         <button class="btn btn-success" @click="reorderModifierType">
           <span class="w-5 h-5 flex items-center justify-center">
             <ShuffleIcon class="w-4 h-4" />
@@ -23,7 +54,7 @@
             <PlusIcon class="w-4 h-4" />
           </span>Add Modifier Item
         </button>
-      </div>
+      </div> -->
     </div>
     <!-- BEGIN: Data List -->
     <div class="intro-y col-span-12">
@@ -66,7 +97,7 @@
                       <a data-dismiss="dropdown"
                         class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                         <DeleteConfirmModal @onConfirmedDelete="deleteType(item.id)" :isIcon="true"
-                          :modalId="`modifier-type-delete-modal-${item.id}`" iconClass="w-4 h-4 mr-2" />
+                          :modalId="`modifier-type-delete-modal-${ item.id }`" iconClass="w-4 h-4 mr-2" />
                       </a>
 
                     </div>
@@ -102,7 +133,7 @@
                       <a data-dismiss="dropdown"
                         class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                         <DeleteConfirmModal @onConfirmedDelete="deleteItem(el.id)" :isIcon="true"
-                          :modalId="`modifier-delete-modal-${item.id}-${el.id}`" iconClass="w-4 h-4 mr-2" />
+                          :modalId="`modifier-delete-modal-${ item.id }-${ el.id }`" iconClass="w-4 h-4 mr-2" />
                       </a>
 
                     </div>

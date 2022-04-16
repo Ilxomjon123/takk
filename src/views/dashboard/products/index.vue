@@ -8,6 +8,7 @@ import Toastify from 'toastify-js';
 import cash from 'cash-dom';
 import { useRouter } from 'vue-router';
 import DraggableList from './DraggableList.vue';
+import SearchProduct from './SearchProduct.vue';
 
 const store = useStore()
 const router = useRouter()
@@ -16,6 +17,7 @@ const selectedProduct = reactive({});
 const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
 const clickedProductId = ref(null);
 const isReordered = ref(false);
+const searchingValue = ref('');
 
 const paginator = reactive({
   page: ref(1),
@@ -121,6 +123,7 @@ async function saveReorderedList() {
           </span>
           Save positions
         </button>
+        <SearchProduct v-model="searchingValue" />
       </div>
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
