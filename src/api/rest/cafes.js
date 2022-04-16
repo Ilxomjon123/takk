@@ -58,11 +58,12 @@ export const fetchCafeWorkDays = async cafeID => {
   }
 };
 
-export const updateCafeWorkDays = async cafeID => {
+export const updateCafeWorkDays = async payload => {
   try {
     const res = await makeRequest({
-      url: `/api/cafes/${cafeID}/work-days/`,
+      url: `/api/cafes/${payload.id}/work-days/`,
       method: 'put',
+      data: payload.data,
       headers: { authorization: true }
     });
 
@@ -142,7 +143,7 @@ export const deleteCafe = async payload => {
 export const deleteCafeImage = async imageID => {
   try {
     const res = await makeRequest({
-      url: `/api/cafes/gallery/${imageID}/`,
+      url: `/api/cafes/photos/${imageID}/`,
       method: 'delete',
       headers: { authorization: true }
     });

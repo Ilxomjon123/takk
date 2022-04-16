@@ -128,6 +128,7 @@ async function saveReorderedList() {
         <table class="table table-report -mt-2">
           <thead>
             <tr>
+              <th>HAS OR NOT</th>
               <th class="whitespace-nowrap">IMAGES</th>
               <th class="whitespace-nowrap">PRODUCT NAME</th>
               <th class="text-center whitespace-nowrap">POSITION</th>
@@ -171,7 +172,4 @@ async function saveReorderedList() {
 </template>
 
 <style scoped lang="scss">
-.active-menu {
-  // @apply bg-theme-1 dark: bg-theme-1;
-}
 </style>

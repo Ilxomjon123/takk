@@ -1,7 +1,34 @@
+<script setup>
+import { ref } from "vue";
+import Draggable from "vuedraggable";
+
+const props = defineProps({
+  list: Array
+});
+
+const emit = defineEmits(['update:list']);
+const notAvaibleProducts = ref([]);
+async function reorderList(event) {
+  emit('update:list')
+}
+
+function handleSwitcher(event, productId) {
+  console.log('event in handleSwitcher func: ', event);
+  notAvaibleProducts.value.push(productId)
+}
+</script>
+
 <template>
-  <draggable tag="tbody" :list="list" group="list" item-key="id" @change="reorderList" :animation="300">
+  <Draggable tag="tbody" :list="list" group="list" item-key="id" @change="reorderList" :animation="300">
     <template #item="{ element }">
       <tr class="intro-x">
+        <td>
+          <div class="form-check">
+            <input :id="'product_available' + element.id" class="form-check-switch" type="checkbox"
+              @change="(e) => handleSwitcher(e, element.id)" :checked="true" />
+            <!-- <label class="form-check-label" :for="'product_available' + element.id">Available</label> -->
+          </div>
+        </td>
         <td scope="row">
           <div class="w-20 h-20 image-fit zoom-in">
             <img alt="image" class="rounded-full" :src="element.image" />
@@ -20,15 +47,15 @@
             </button>
             <div class="dropdown-menu w-40">
               <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                <a @click="$router.push('/dashboard/products/' + element.id)"
-                  class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                <button @click="$router.push('/dashboard/products/' + element.id)"
+                  class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                   <Edit2Icon class="w-4 h-4 mr-2" />Edit
-                </a>
-                <a href="javascript:;" data-toggle="modal" data-target="#delete-confirmation-modal"
+                </button>
+                <button data-toggle="modal" data-target="#delete-confirmation-modal"
                   @click="clickedProductId = element.id"
-                  class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                  class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                   <Trash2Icon class="w-4 h-4 mr-2" />Delete
-                </a>
+                </button>
 
               </div>
             </div>
@@ -53,29 +80,8 @@
         </td>
       </tr>
     </template>
-  </draggable>
+  </Draggable>
 </template>
-
-<script setup>
-import { ref } from "vue";
-import draggable from "vuedraggable";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
-
-const props = defineProps({
-  list: Array
-});
-const emit = defineEmits(['update:list']);
-const store = useStore()
-const router = useRouter()
-
-const drag = ref(false);
-
-async function reorderList(event) {
-  emit('update:list')
-}
-
-</script>
 
 <style scoped>
 </style>

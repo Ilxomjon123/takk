@@ -1,25 +1,38 @@
 <template>
   <div v-if="getSelectedMenuId != null">
     <div class="intro-y flex flex-col sm:flex-row items-center mt-10">
-      <h2 class="text-lg font-medium mr-auto">Categories List</h2>
-      <div class="w-full sm:w-auto flex mt-4 sm:mt-0 gap-3">
-        <button class="btn btn-success" @click="reorderModifierType">
-          <span class="w-5 h-5 flex items-center justify-center">
-            <ShuffleIcon class="w-4 h-4" />
-          </span>Reorder Categories
+      <h2 class="text-lg font-medium">Categories List</h2>
+      <div class="dropdown inline-block" data-placement="right-start">
+        <button class="dropdown-toggle" aria-expanded="false">
+          <MoreVerticalIcon />
         </button>
-        <button class="btn btn-success" @click="reorderModifierItem" :disabled="showChildren.length === 0">
-          <span class="w-5 h-5 flex items-center justify-center">
-            <ShuffleIcon class="w-4 h-4" />
-          </span>Reorder Category Items
-        </button>
-        <router-link :to="getSelectedMenuId != null ? `/dashboard/categories/${getSelectedMenuId}/add` : ''"
-          class="btn btn-primary">
-          <span class="w-5 h-5 flex items-center justify-center">
-            <PlusIcon class="w-4 h-4" />
-          </span>Add Category
-        </router-link>
+        <div class="dropdown-menu w-fit">
+          <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
+            <button class="btn btn-success mb-2" @click="reorderModifierType" :disabled="items.length < 2"
+              data-dismiss="dropdown">
+              <span class="w-5 h-5 flex items-center justify-center">
+                <ShuffleIcon class="w-4 h-4" />
+              </span>
+              <span class="whitespace-nowrap">Reorder Categories</span>
+            </button>
+            <button class="btn btn-success mb-2" @click="reorderModifierItem" :disabled="showChildren.length < 2"
+              data-dismiss="dropdown">
+              <span class="w-5 h-5 flex items-center justify-center">
+                <ShuffleIcon class="w-4 h-4" />
+              </span>
+              <span class="whitespace-nowrap">Reorder Category Items</span>
+            </button>
+            <router-link :to="getSelectedMenuId != null ? `/dashboard/categories/${ getSelectedMenuId }/add` : ''"
+              class="btn btn-primary" data-dismiss="dropdown">
+              <span class="w-5 h-5 flex items-center justify-center">
+                <PlusIcon class="w-4 h-4" />
+              </span>
+              <span class="whitespace-nowrap">Add Category</span>
+            </router-link>
+          </div>
+        </div>
       </div>
+
     </div>
     <!-- BEGIN: Data List -->
     <div class="intro-y col-span-12">
@@ -63,7 +76,8 @@
                   </button>
                   <div class="dropdown-menu w-40">
                     <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                      <router-link :to="`/dashboard/categories/${getSelectedMenuId}/${item.id}`" data-dismiss="dropdown"
+                      <router-link :to="`/dashboard/categories/${ getSelectedMenuId }/${ item.id }`"
+                        data-dismiss="dropdown"
                         class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                         <Edit2Icon class="w-4 h-4 mr-2" />Edit
                       </router-link>
@@ -114,14 +128,15 @@
                   </button>
                   <div class="dropdown-menu w-40">
                     <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                      <router-link :to="`/dashboard/categories/${getSelectedMenuId}/${el.id}`" data-dismiss="dropdown"
+                      <router-link :to="`/dashboard/categories/${ getSelectedMenuId }/${ el.id }`"
+                        data-dismiss="dropdown"
                         class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                         <Edit2Icon class="w-4 h-4 mr-2" />Edit
                       </router-link>
                       <a data-dismiss="dropdown"
                         class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                         <DeleteConfirmModal @onConfirmedDelete="deleteItem(el.id)" :isIcon="true"
-                          :modalId="`category-delete-modal-${item.id}-${el.id}`" iconClass="w-4 h-4 mr-2" />
+                          :modalId="`category-delete-modal-${ item.id }-${ el.id }`" iconClass="w-4 h-4 mr-2" />
                       </a>
 
                     </div>

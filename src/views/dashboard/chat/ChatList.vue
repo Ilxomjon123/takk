@@ -30,21 +30,20 @@
         <template v-if="chat.last_message">
           <div
             class="w-full truncate text-gray-600 mt-0.5"
-            v-if="chat.last_message.item_type === 'string'"
           >{{ chat.last_message.text }}</div>
           <div
-            v-if="chat.last_message.item_type === 'image'"
+            v-if="chat.last_message?.files?.length > 0"
             class="flex text-gray-600 mt-0.5 gap-2 items-center"
           >
-            <img :src="chat.last_message.image" alt="last image" width="30" />
+            <img :src="chat.last_message?.files[0]" alt="last image" width="30" />
             <span>Photo</span>
           </div>
         </template>
       </div>
       <div
-        v-if="chat.unread_message_count"
+        v-if="chat.unread_messages_count"
         class="w-5 h-5 flex items-center justify-center absolute top-0 right-0 text-xs text-white rounded-full bg-theme-1 font-medium -mt-1 -mr-1"
-      >{{ chat.unread_message_count }}</div>
+      >{{ chat.unread_messages_count }}</div>
     </div>
   </div>
 </template>
