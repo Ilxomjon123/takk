@@ -48,12 +48,12 @@ function handleSwitcher(event, productId) {
             <div class="dropdown-menu w-40">
               <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
                 <button @click="$router.push('/dashboard/products/' + element.id)"
-                  class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                  class="flex w-full items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                   <Edit2Icon class="w-4 h-4 mr-2" />Edit
                 </button>
                 <button data-toggle="modal" data-target="#delete-confirmation-modal"
                   @click="clickedProductId = element.id"
-                  class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                  class="flex w-full items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                   <Trash2Icon class="w-4 h-4 mr-2" />Delete
                 </button>
 
