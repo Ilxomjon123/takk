@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
-      <h2 class="text-lg font-medium mr-auto">Employees List</h2>
+      <h2 class="text-lg font-medium">Employees List</h2>
       <div class="dropdown inline-block" data-placement="right-start">
         <button class="dropdown-toggle" aria-expanded="false">
-          <MoreHorizontalIcon />
+          <MoreVerticalIcon />
         </button>
         <div class="dropdown-menu w-48">
           <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
