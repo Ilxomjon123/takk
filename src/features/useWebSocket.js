@@ -5,6 +5,7 @@ const token = getToken();
 const wsUrl = 'ws://echtmal.com:8001/connect';
 const wsConnect = ref(null);
 const wsMessages = ref([]);
+const onlineCustomers = ref([]);
 
 export default () => {
   const setConnection = () => {
@@ -49,8 +50,6 @@ export default () => {
   };
 
   const sendEvent = async payload => {
-    console.log('in sendEvent func..');
-
     if (wsConnect.value.readyState !== wsConnect.value.OPEN) {
       try {
         await waitForOpenConnection(wsConnect.value);
@@ -64,6 +63,27 @@ export default () => {
     }
   };
 
+  const handleOnMessageEvent = () => {
+    if (wsConnect.value)
+      wsConnect.value.onmessage = event => {
+        console.log('event in onmessage event', event);
+        const { data } = event;
+        // const data = JSON.parse(event.data);
+        console.log('data in onmessage event', data);
+
+        // if (event.data instanceof Blob) {
+        if (data.event_type === 'customer_update_status') {
+          const customers = store.getters['getCustomers'];
+          const customer = customers.find(user => user.id === data.data.id);
+          if (customer) onlineCustomers.value.push = customer;
+        }
+
+        if (data.event_type === 'new_message') {
+          wsMessages.value.push(data.data);
+        }
+      };
+  };
+
   const getConnection = computed(() => wsConnect.value);
   const getWebsocketMessages = computed(() => wsMessages.value);
 
@@ -71,6 +91,7 @@ export default () => {
     setConnection,
     sendEvent,
     getConnection,
-    getWebsocketMessages
+    getWebsocketMessages,
+    handleOnMessageEvent
   };
 };

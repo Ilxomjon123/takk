@@ -21,7 +21,7 @@
               </div>
               <div class="w-full mb-3">
                 <label for="modifier-name">Modifier Type</label>
-                <TomSelect
+                <!-- <TomSelect
                   v-model="modifier.modifier"
                   :options="{
                     placeholder: 'Select Modifier Type',
@@ -33,7 +33,13 @@
                     :key="index"
                     :value="item.id"
                   >{{ item.name }}</option>
-                </TomSelect>
+                </TomSelect>-->
+                <SingleSelect
+                  class="mt-2"
+                  :items="getModifierTypes.results"
+                  v-model="modifierTypeId"
+                />
+
                 <div class="text-theme-6" v-text="getError('modifier')" />
               </div>
               <div class="w-full mb-3">
@@ -45,6 +51,7 @@
                     required
                     v-model="modifier.price"
                     type="number"
+                    step="0.01"
                     class="form-control"
                     :class="getError('price') != null ? 'border-theme-6' : ''"
                     placeholder="2"
@@ -111,6 +118,7 @@
 import { defineComponent } from 'vue'
 import cash from 'cash-dom'
 import { mapGetters } from 'vuex';
+import SingleSelect from '../selects/SingleSelect.vue';
 
 export default defineComponent({
   props: {
@@ -120,48 +128,62 @@ export default defineComponent({
     },
     modalId: {
       type: String,
-      default: 'modifier-form-modal'
+      default: "modifier-form-modal"
     }
   },
   data() {
     return {
       name: null,
       id: null,
+      modifierTypeId: null,
       isLoading: false,
-      modifier: {},
+      modifier: {
+        available: false,
+        default: false,
+        modifier: null,
+        price: 0,
+        name: ''
+      },
       errors: {}
-    }
+    };
   },
   methods: {
     async submit() {
       this.isLoading = true;
-      const res = await this.$store.dispatch(this.dispatcher, this.modifier);
+      console.log('this.modifier: ', this.modifier);
+      const res = await this.$store.dispatch(
+        this.dispatcher,
+        { ...this.modifier, modifier: this.modifierTypeId }
+      );
       if (res.status) {
         this.hideModal();
-        this.$emit('submitted', {
-          type: this.modifier.id ? 'edit' : 'add',
+        this.$emit("submitted", {
+          type: this.modifier.id ? "edit" : "add",
           ...res.data
         });
-      } else {
+      }
+      else {
         this.errors = res.data;
       }
-
       this.isLoading = false;
     },
-    showModal(form) {
+    showModal(form, modifierTypeId) {
       this.modifier = form;
-      if (this.modifier.modifier == null) this.modifier.modifier = 0;
-      cash('#' + this.modalId).modal('show');
+      this.modifierTypeId = modifierTypeId;
+      if (this.modifier.modifier == null)
+        this.modifier.modifier = 0;
+      cash("#" + this.modalId).modal("show");
     },
     hideModal() {
-      cash('#' + this.modalId).modal('hide');
+      cash("#" + this.modalId).modal("hide");
     },
     getError(key) {
       return this.errors[key]?.[0];
     }
   },
   computed: {
-    ...mapGetters(['getModifierTypes'])
-  }
+    ...mapGetters(["getModifierTypes"])
+  },
+  components: { SingleSelect }
 })
 </script>

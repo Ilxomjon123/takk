@@ -1,5 +1,9 @@
 <template>
-  <select v-select="{ props, emit, computedOptions }" class="tom-select">
+  <select
+    v-select="{ props, emit, computedOptions }"
+    autocomplete="off"
+    class="tom-select"
+  >
     <slot></slot>
   </select>
 </template>

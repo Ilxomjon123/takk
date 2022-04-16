@@ -1,6 +1,6 @@
 
   <template>
-  <DarkModeSwitcher />
+  <!-- <DarkModeSwitcher /> -->
   <div class="py-10">
     <div class="container">
       <div class="intro-y flex items-center">
@@ -13,73 +13,53 @@
           <!-- BEGIN: Pricing Layout -->
           <div class="intro-y box flex flex-col lg:flex-row w-full">
             <div
-              class="intro-y border-b border-t lg:border-b-0 lg:border-t-0 flex-1 p-5 lg:border-l lg:border-r border-gray-200 dark:border-dark-5"
-            >
-              <CreditCardIcon
-                class="block w-12 h-12 text-theme-1 dark:text-theme-10 mx-auto"
-              />
+              class="intro-y border-b border-t lg:border-b-0 lg:border-t-0 flex-1 p-5 lg:border-l lg:border-r border-gray-200 dark:border-dark-5">
+              <CreditCardIcon class="block w-12 h-12 text-theme-1 dark:text-theme-10 mx-auto" />
               <div class="text-xl font-medium text-center mt-10">Standard Plan</div>
               <!-- <div class="text-gray-700 dark:text-gray-600 text-center mt-5">
                 1 Domain
                 <span class="mx-1">•</span> 10 Users
                 <span class="mx-1">•</span> 20 Copies
               </div>-->
-              <div
-                class="text-gray-600 dark:text-gray-400 px-10 text-center text-base mx-auto mt-5 min-h-[80px]"
-              >
-                No risk, 6 months free use of the Takk platform (order accepting system and mobile app). After trial period, 1% of sales.
+              <div class="text-gray-600 dark:text-gray-400 px-10 text-center text-base mx-auto mt-5 min-h-[80px]">
+                No risk, 6 months free use of the Takk platform (order accepting system and mobile app). After trial
+                period, 1% of sales.
                 Plus credit card fees (2.9%+30c) passed on to payment processing companies.
               </div>
               <div class="mt-auto">
                 <div class="flex justify-center">
                   <div class="relative text-5xl font-semibold mt-8 mx-auto">
-                    <span
-                      class="absolute text-2xl top-0 left-0 text-gray-600 -ml-4"
-                    >$</span>
+                    <span class="absolute text-2xl top-0 left-0 text-gray-600 -ml-4">$</span>
                     0
                   </div>
                 </div>
                 <div class="mt-auto">
-                  <a
-                    href="javascript:;"
-                    data-toggle="modal"
-                    data-target="#delete-modal-preview"
-                    class="btn btn-rounded-primary py-3 px-4 block mx-auto mt-8"
-                  >PURCHASE NOW</a>
+                  <a href="javascript:;" data-toggle="modal" data-target="#delete-modal-preview"
+                    class="btn btn-rounded-primary py-3 px-4 block mx-auto mt-8">PURCHASE NOW</a>
                 </div>
               </div>
             </div>
             <div
-              class="intro-y border-b border-t lg:border-b-0 lg:border-t-0 flex-1 p-5 lg:border-l lg:border-r border-gray-200 dark:border-dark-5"
-            >
-              <BriefcaseIcon
-                class="block w-12 h-12 text-theme-1 dark:text-theme-10 mx-auto"
-              />
-              <div
-                class="text-xl font-medium text-center mt-10"
-              >Proprietary Plan</div>
+              class="intro-y border-b border-t lg:border-b-0 lg:border-t-0 flex-1 p-5 lg:border-l lg:border-r border-gray-200 dark:border-dark-5">
+              <BriefcaseIcon class="block w-12 h-12 text-theme-1 dark:text-theme-10 mx-auto" />
+              <div class="text-xl font-medium text-center mt-10">Proprietary Plan</div>
               <!-- <div class="text-gray-700 dark:text-gray-600 text-center mt-5">
                 1 Domain
                 <span class="mx-1">•</span> 10 Users
                 <span class="mx-1">•</span> 20 Copies
               </div>-->
-              <div
-                class="text-gray-600 dark:text-gray-400 px-10 text-center text-base mx-auto mt-5 min-h-[80px]"
-              >Same as Standard plan, plus you will have your custom mobile application with your own logo for $49 per month.</div>
+              <div class="text-gray-600 dark:text-gray-400 px-10 text-center text-base mx-auto mt-5 min-h-[80px]">Same
+                as Standard plan, plus you will have your custom mobile application with your own logo for $49 per
+                month.</div>
               <div class="mt-auto">
                 <div class="flex justify-center">
                   <div class="relative text-5xl font-semibold mt-8 mx-auto">
-                    <span
-                      class="absolute text-2xl top-0 left-0 text-gray-600 -ml-4"
-                    >$</span>
+                    <span class="absolute text-2xl top-0 left-0 text-gray-600 -ml-4">$</span>
                     49
                   </div>
                 </div>
                 <div class="mt-auto">
-                  <a
-                    type="button"
-                    class="btn btn-rounded-primary py-3 px-4 block mx-auto mt-8"
-                  >PURCHASE NOW</a>
+                  <a type="button" class="btn btn-rounded-primary py-3 px-4 block mx-auto mt-8">PURCHASE NOW</a>
                 </div>
               </div>
             </div>
@@ -89,44 +69,23 @@
       </div>
       <div class="hidden md:flex justify-center mx-auto w-full">
         <router-link to="/">
-          <img
-            class="mr-12 w-[240px] h-[80px]"
-            src="@/assets/images/App_Store_badge_US.png"
-            alt="App Store badge"
-          />
+          <img class="mr-12 w-[240px] h-[80px]" src="@/assets/images/App_Store_badge_US.png" alt="App Store badge" />
         </router-link>
         <router-link to="/" class>
-          <img
-            class="ml-12 w-[240px] h-[80px]"
-            src="@/assets/images/Google_Play_Badge.png"
-            alt="Google_Play_Badge"
-          />
+          <img class="ml-12 w-[240px] h-[80px]" src="@/assets/images/Google_Play_Badge.png" alt="Google_Play_Badge" />
         </router-link>
       </div>
       <div class="flex md:hidden justify-between">
         <router-link to="/">
-          <img
-            class="w-11/12"
-            src="@/assets/images/App_Store_badge_US.png"
-            alt="App Store badge"
-          />
+          <img class="w-11/12" src="@/assets/images/App_Store_badge_US.png" alt="App Store badge" />
         </router-link>
         <router-link to="/">
-          <img
-            class="w-11/12 ml-auto"
-            src="@/assets/images/Google_Play_Badge.png"
-            alt="Google_Play_Badge"
-          />
+          <img class="w-11/12 ml-auto" src="@/assets/images/Google_Play_Badge.png" alt="Google_Play_Badge" />
         </router-link>
       </div>
     </div>
 
-    <div
-      id="delete-modal-preview"
-      class="modal"
-      tabindex="-1"
-      aria-hidden="true"
-    >
+    <div id="delete-modal-preview" class="modal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-body p-0">
@@ -136,38 +95,22 @@
                 <img src="@/assets/images/squareup.png" />
               </div>
               <div class="text-3xl mt-5">Do you want to integrate with SquareUp</div>
-              <div
-                class="text-base mt-3"
-              >Do you already use Square? We can import all your menu and products from Square if you like.</div>
+              <div class="text-base mt-3">Do you already use Square? We can import all your menu and products from
+                Square if you like.</div>
               <div class="text-gray-600 mt-2">
-                <div
-                  class="sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0"
-                >
-                  <input
-                    id="show-example-1"
-                    data-target="#basic-button"
-                    class="show-code form-check-switch mr-0 ml-3"
-                    type="checkbox"
-                    v-model="is_make_create_order"
-                  />
-                  <label
-                    class="form-check-label ml-0 sm:ml-2"
-                    for="show-example-1"
-                  >Do you want to get notifications on SquareApp?</label>
+                <div class="sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0">
+                  <input id="show-example-1" data-target="#basic-button" class="show-code form-check-switch mr-0 ml-3"
+                    type="checkbox" v-model="is_make_create_order" />
+                  <label class="form-check-label ml-0 sm:ml-2" for="show-example-1">Do you want to get notifications on
+                    SquareApp?</label>
                 </div>
               </div>
             </div>
             <div class="px-5 pb-8 text-center">
-              <button
-                data-dismiss="modal"
+              <button data-dismiss="modal"
                 class="btn btn-outline-secondary w-24 dark:border-dark-5 dark:text-gray-300 mr-1"
-                @click="toCompany"
-              >No</button>
-              <button
-                type="button"
-                class="btn btn-success w-24"
-                @click="gotoSquareUpSite"
-              >Yes!</button>
+                @click="toCompany">No</button>
+              <button type="button" class="btn btn-success w-24" @click="gotoSquareUpSite">Yes!</button>
             </div>
           </div>
         </div>

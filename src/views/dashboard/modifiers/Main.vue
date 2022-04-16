@@ -3,8 +3,8 @@
     <!-- Menu List start -->
     <MenuList
       @update-id="fetchData($event)"
-      sub-item-title="Categories"
-      sub-item-value="product_category_count"
+      sub-item-title="Modifiers"
+      sub-item-value="product_modifier_count"
     />
     <!-- Menu List end -->
 

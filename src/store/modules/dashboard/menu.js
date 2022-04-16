@@ -1,5 +1,6 @@
 import axios from 'axios';
 import makeRequest from '@/api/makeRequest';
+import { isNull } from 'lodash';
 
 const state = () => {
   return {
@@ -19,19 +20,20 @@ const mutations = {
     state.menus = payload;
   },
   setSelectedMenuId(state, payload) {
-    localStorage.setItem('selected-productmenu-id', payload);
-    state.selectedMenuId = payload;
+    if (isNull(payload)) localStorage.removeItem('selected-productmenu-id');
+    else {
+      localStorage.setItem('selected-productmenu-id', payload);
+      state.selectedMenuId = payload;
+    }
   }
 };
 
 const actions = {
-  async fetchMenus({ commit, rootGetters }, payload) {
+  async fetchMenus({ commit, rootGetters }) {
     let response;
     await axios
       .get(`/api/menus/`, {
-        // .get(`/api/transactions/`, {
-        headers: rootGetters.getHttpHeader,
-        params: payload
+        headers: rootGetters.getHttpHeader
       })
       .then(res => {
         response = res.data;
@@ -43,6 +45,7 @@ const actions = {
       });
     return response;
   },
+
   async postMenu({ rootGetters }, payload) {
     let response;
     await axios
@@ -67,6 +70,7 @@ const actions = {
       });
     return response;
   },
+
   async putMenu({ rootGetters }, payload) {
     let response;
     await axios
@@ -91,26 +95,31 @@ const actions = {
       });
     return response;
   },
-  async deleteMenu({ rootGetters }, payload) {
+
+  async deleteMenu({ rootGetters, state, commit }, payload) {
     let response;
-    await axios
-      .delete(`/api/menus/${payload}/`, {
-        headers: rootGetters.getHttpHeader
-      })
-      .then(async res => {
-        response = {
-          status: true,
-          data: res.data
-        };
-      })
-      .catch(err => {
-        response = {
-          status: false,
-          data: err.response.data
-        };
-      });
+    if (!isNull(payload)) {
+      if (payload === state.selectedMenuId) commit('setSelectedMenuId', null);
+      await axios
+        .delete(`/api/menus/${payload}/`, {
+          headers: rootGetters.getHttpHeader
+        })
+        .then(async res => {
+          response = {
+            status: true,
+            data: res.data
+          };
+        })
+        .catch(err => {
+          response = {
+            status: false,
+            data: err.response.data
+          };
+        });
+    }
     return response;
   },
+
   async updateModifierTypePositions({ rootGetters }, payload) {
     try {
       const res = makeRequest({

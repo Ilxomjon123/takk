@@ -12,12 +12,12 @@ import VueTelInput from 'vue-tel-input';
 
 // SASS Theme
 import './assets/sass/app.scss';
-// import 'vue-tel-input/dist/vue-tel-input.css';
+import 'vue-tel-input/dist/vue-tel-input.css';
 
 axios.interceptors.response.use(undefined, async function(error) {
   if (error) {
     const originalRequest = error.config;
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (error.response?.status === 401 /* && !originalRequest._retry */) {
       const res = await store.dispatch('refreshToken');
       if (res.status) {
         originalRequest._retry = true;
@@ -27,6 +27,7 @@ axios.interceptors.response.use(undefined, async function(error) {
         window.location = '/login';
       }
     }
+    throw error;
   }
 });
 

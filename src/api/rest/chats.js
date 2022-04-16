@@ -55,19 +55,10 @@ export const sendMessagesInChatroom = async payload => {
     const res = await makeRequest({
       url: `/api/ws-chat/send-messages-chat/`,
       method: 'post',
-      data: payload, // {item_type -> тип сообщения [video, image, message, video], files -> список файлов, chat*}
+      data: payload,
       headers: { authorization: true }
     });
 
-    sendEvent(
-      JSON.stringify({
-        event_type: 'new_message',
-        data: {
-          chat_id: payload.chat,
-          message: payload.message
-        }
-      })
-    );
     return res.data;
   } catch (err) {
     return console.log('error while fetching chat messages: ', err);
@@ -83,15 +74,6 @@ export const sendMessageToCustomers = async payload => {
       headers: { authorization: true }
     });
 
-    sendEvent(
-      JSON.stringify({
-        event_type: 'new_message',
-        data: {
-          chat_id: payload.chat,
-          message: payload.message
-        }
-      })
-    );
     return res.data;
   } catch (err) {
     return console.log('error while fetching chat messages: ', err);
