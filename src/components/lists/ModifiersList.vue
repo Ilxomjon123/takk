@@ -73,13 +73,18 @@
         <tbody>
           <template v-for="(item, index) in items" :key="index">
             <tr class="-intro-y zoom-in">
-              <td class="flex items-center gap-3 hover:text-theme-9" @click="toggleChildren(item.id)">
-                <PlusIcon v-if="!isVisibleChildren(item.id)" />
-                <MinusIcon v-if="isVisibleChildren(item.id)" />
-                <p class="font-medium whitespace-nowrap">{{ item.name }}</p>
+              <td>
+                <div class="flex items-center gap-3 hover:text-theme-9" @click="toggleChildren(item.id)">
+                  <PlusIcon v-if="!isVisibleChildren(item.id)" />
+                  <MinusIcon v-if="isVisibleChildren(item.id)" />
+                  {{ item.name }}
+                </div>
               </td>
               <td>{{ getYesNo(item.required) }}</td>
-              <td>{{ getYesNo(item.available) }}</td>
+              <td>
+                <input class="form-check-switch" type="checkbox" @change="typeAvailableChange(item)"
+                  :checked="item.available" />
+              </td>
               <td />
               <td>{{ item.is_single ? "SINGLE" : "MULTI" }}</td>
               <td />
@@ -91,11 +96,11 @@
                   <div class="dropdown-menu w-40">
                     <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
                       <a @click="editModifierType(item)" data-dismiss="dropdown"
-                        class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                        class="flex cursor-pointer items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                         <Edit2Icon class="w-4 h-4 mr-2" />Edit
                       </a>
                       <a data-dismiss="dropdown"
-                        class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                        class="flex cursor-pointer items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                         <DeleteConfirmModal @onConfirmedDelete="deleteType(item.id)" :isIcon="true"
                           :modalId="`modifier-type-delete-modal-${ item.id }`" iconClass="w-4 h-4 mr-2" />
                       </a>
@@ -115,7 +120,11 @@
                 <a href class="font-medium whitespace-nowrap ml-10">{{ el.name }}</a>
               </td>
               <td>{{ getYesNo(item.required) }}</td>
-              <td>{{ getYesNo(item.available) }}</td>
+              <td>
+                <input class="form-check-switch" type="checkbox"
+                  @change="itemAvailableChange({ ...el, modifier: item.id })" :checked="el.available" />
+                <!-- {{ getYesNo(item.available) }} -->
+              </td>
               <td>{{ getYesNo(el.default) }}</td>
               <td>{{ item.is_single ? "SINGLE" : "MULTI" }}</td>
               <td>{{ el.price }}</td>
@@ -127,11 +136,11 @@
                   <div class="dropdown-menu w-40">
                     <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
                       <a @click="editModifierItem(el, item.id)" data-dismiss="dropdown"
-                        class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                        class="flex cursor-pointer items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                         <Edit2Icon class="w-4 h-4 mr-2" />Edit
                       </a>
                       <a data-dismiss="dropdown"
-                        class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                        class="flex cursor-pointer items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                         <DeleteConfirmModal @onConfirmedDelete="deleteItem(el.id)" :isIcon="true"
                           :modalId="`modifier-delete-modal-${ item.id }-${ el.id }`" iconClass="w-4 h-4 mr-2" />
                       </a>
@@ -230,6 +239,15 @@ export default defineComponent({
         this.$store.commit('setErrorNotification', true);
       }
       this.$store.commit('setLoadingStatus', false);
+    },
+    async typeAvailableChange(val) {
+      val.available = !val.available;
+      await this.$store.dispatch(this.typeEditDispatcher, val);
+    },
+    async itemAvailableChange(val) {
+      console.log(val);
+      val.available = !val.available;
+      await this.$store.dispatch(this.itemEditDispatcher, val);
     },
     toggleChildren(valId) {
       this.isVisibleChildren(valId) ?

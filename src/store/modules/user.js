@@ -127,6 +127,7 @@ const actions = {
     localStorage.removeItem(REQUIRED_DETAILS);
   },
   async fetchProfile({ commit, rootGetters }) {
+    console.log(rootGetters.getHttpHeader);
     await axios
       .get('/api/users/profile/', {
         headers: rootGetters.getHttpHeader
