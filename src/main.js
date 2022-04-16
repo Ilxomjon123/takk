@@ -16,11 +16,12 @@ import 'vue-tel-input/dist/vue-tel-input.css';
 
 axios.interceptors.response.use(undefined, async function(error) {
   if (error) {
-    // const originalRequest = error.config;
+    const originalRequest = error.config;
     if (error.response?.status === 401 /* && !originalRequest._retry */) {
       const res = await store.dispatch('refreshToken');
       if (res.status) {
-        // originalRequest._retry = true;
+        location.reload();
+        originalRequest._retry = true;
       } else {
         localStorage.removeItem('token');
         localStorage.removeItem('required_details');

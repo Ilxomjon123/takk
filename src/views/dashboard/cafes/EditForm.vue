@@ -9,40 +9,16 @@
         <div class="intro-y box">
           <div id="form-validation" class="p-5">
             <!-- BEGIN: Validation Form -->
-            <Form
-              class="validate-form"
-              @submit="submit"
-              :validation-schema="schema"
-              @invalid-submit="invalidSubmit"
-              v-slot="{ values }"
-            >
-              <FormFields
-                :form-fields="formFields"
-                :external-errors="externalErrors"
-                @update:form-fields="formFields = $event"
-              />
-              <div
-                class="flex pt-5 gap-5 justify-between md:justify-end border-t border-gray-200 dark:border-dark-5"
-              >
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  :disabled="isLoading"
-                  @click="openConfirmModal"
-                >
+            <Form class="validate-form" @submit="submit" :validation-schema="schema" @invalid-submit="invalidSubmit"
+              v-slot="{ values }">
+              <FormFields :form-fields="formFields" :external-errors="externalErrors"
+                @update:form-fields="formFields = $event" />
+              <div class="flex pt-5 gap-5 justify-between md:justify-end border-t border-gray-200 dark:border-dark-5">
+                <button type="button" class="btn btn-danger" :disabled="isLoading" @click="openConfirmModal">
                   <span>Delete</span>
                 </button>
-                <button
-                  type="submit"
-                  class="btn btn-primary"
-                  :disabled="isLoading"
-                >
-                  <LoadingIcon
-                    v-if="isLoading"
-                    icon="tail-spin"
-                    class="w-4 h-4 mr-3"
-                    color="#fff"
-                  />
+                <button type="submit" class="btn btn-primary" :disabled="isLoading">
+                  <LoadingIcon v-if="isLoading" icon="tail-spin" class="w-4 h-4 mr-3" color="#fff" />
                   <span>Save</span>
                 </button>
               </div>
@@ -55,12 +31,7 @@
       </div>
     </div>
     <!-- BEGIN: Delete Confirmation Modal -->
-    <div
-      id="delete-confirmation-modal"
-      class="modal"
-      tabindex="-1"
-      aria-hidden="true"
-    >
+    <div id="delete-confirmation-modal" class="modal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-body p-0">
@@ -73,16 +44,8 @@
               </div>
             </div>
             <div class="px-5 pb-8 text-center">
-              <button
-                type="button"
-                data-dismiss="modal"
-                class="btn btn-outline-secondary w-24 mr-1"
-              >Cancel</button>
-              <button
-                type="button"
-                class="btn btn-danger w-24"
-                @click="deleteObj"
-              >Delete</button>
+              <button type="button" data-dismiss="modal" class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
+              <button type="button" class="btn btn-danger w-24" @click="deleteObj">Delete</button>
             </div>
           </div>
         </div>
@@ -96,7 +59,7 @@
 import { Form } from 'vee-validate';
 import * as yup from 'yup';
 import Toastify from 'toastify-js';
-import { updateCafe, fetchCafe, fetchCafeWorkDays, addCafeGallery } from '@/api';
+import { updateCafe, fetchCafe, fetchCafeWorkDays, addCafeGallery, updateCafeWorkDays } from '@/api';
 import cash from 'cash-dom';
 import FormFields from './FormFields.vue';
 import { onMounted, reactive, ref } from 'vue';
@@ -273,6 +236,7 @@ async function submit(values) {
 
   try {
     const res1 = await updateCafe({ data: formFields, id: route.params.id })
+    const res2 = await updateCafeWorkDays({ data: formFields.week_time, id: route.params.id })
 
     if (formFields.upload_photos.length > 0) {
       const imagesFormData = new FormData()

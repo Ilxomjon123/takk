@@ -33,18 +33,18 @@ async function sendMessage() {
     textInput.value = '';
 
     const res = await sendMessagesInChatroom({
-      chat_id: getSelectedChat.value.id,
+      chat: getSelectedChat.value.id,
       customer_id: [getSelectedChat.value.customer.id],
       customer_all: false,
       text,
       files: []
     })
 
-    getSelectedChat.value.messages.push({ author: authUser.value, text });
+    await getSelectedChat.value.messages.push(res);
+    scrollToBottom()
   }
 
   isMsgSending.value = false
-  scrollToBottom()
 }
 
 async function handleFileInput(e) {
@@ -70,7 +70,7 @@ async function handleFileInput(e) {
   // reader.readAsArrayBuffer(file);
 
   const formData = new FormData();
-  formData.append('chat_id', getSelectedChat.value.id);
+  formData.append('chat', getSelectedChat.value.id);
   formData.append('customer_id[]', getSelectedChat.value.customer?.id);
   formData.append('customer_all', false);
   formData.append('files[]', file);
@@ -206,7 +206,7 @@ function scrollToBottom() {
             class="chat__box__input form-control dark:bg-dark-3 h-16 resize-none border-transparent px-5 py-3 shadow-none focus:ring-0"
             rows="1" placeholder="Type your message..." v-model="textInput" @keyup.enter="sendMessage"></textarea>
           <div class="flex absolute sm:static left-0 bottom-0 ml-5 sm:ml-0 mb-5 sm:mb-0">
-            <EmojisBlock />
+            <EmojisBlock @update:model-value="textInput += $event" />
             <div class="w-4 h-4 sm:w-5 sm:h-5 relative text-gray-600 mr-3 sm:mr-5">
               <PaperclipIcon class="w-full h-full" />
               <input type="file" class="w-full h-full top-0 left-0 absolute opacity-0" @input="handleFileInput"
@@ -229,7 +229,7 @@ function scrollToBottom() {
           <div class="text-gray-600 mt-1">
             {{
               !isEmpty(getErrorMessage) ? getErrorMessage :
-              'Please select a chat to start messaging.'
+                'Please select a chat to start messaging.'
             }}
           </div>
         </div>

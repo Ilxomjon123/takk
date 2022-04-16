@@ -95,9 +95,9 @@ function updateList() {
 <template>
   <div>
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
-      <h2 class="text-lg font-medium mr-auto">Menus List</h2>
+      <h2 class="text-lg font-medium">Menus List</h2>
       <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-        <button class="btn btn-primary" @click="addMenu">
+        <button class="ml-2 btn btn-primary" @click="addMenu">
           <span class="w-5 h-5 flex items-center justify-center">
             <PlusIcon class="w-4 h-4" />
           </span> Add Menu
@@ -120,11 +120,11 @@ function updateList() {
             <div class="dropdown-menu w-40">
               <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
                 <a @click="editMenu(item)" data-dismiss="dropdown"
-                  class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                  class="flex cursor-pointer items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                   <Edit2Icon class="w-4 h-4 mr-2" />Edit
                 </a>
                 <a data-dismiss="dropdown"
-                  class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                  class="flex cursor-pointer items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                   <DeleteConfirmModal @onConfirmedDelete="deleteMenu(item.id)" :isIcon="true" iconClass="w-4 h-4 mr-2"
                     :modalId="`menu-delete-modal-${item.id}`" />
                 </a>
