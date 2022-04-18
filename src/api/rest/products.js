@@ -3,7 +3,7 @@ import makeRequest from '../makeRequest';
 export const fetchProductsList = async payload => {
   try {
     const res = await makeRequest({
-      url: `/api/menus/${payload.menuId}/products/?page=${payload.page}&limit=${payload.limit}`,
+      url: `/api/menus/${payload.menuId}/products/?search=${payload.search}&page=${payload.page}&limit=${payload.limit}`,
       headers: { authorization: true }
     });
     return res.data;

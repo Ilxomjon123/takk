@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, } from 'vue'
+import { computed, nextTick, onMounted, onUpdated, ref, } from 'vue'
 import moment from 'moment';
 import { useStore } from 'vuex';
 import { isEmpty } from 'lodash';
@@ -19,9 +19,17 @@ const fileInput = ref(null);
 const chatBoxBody = ref(null);
 const textInput = ref('');
 
-onMounted(() => {
-  console.log('in chatbox\'s onmouted hook');
-})
+onMounted(async () => {
+  await nextTick(() => {
+    scrollToBottom()
+  })
+});
+
+onUpdated(async () => {
+  await nextTick(() => {
+    scrollToBottom()
+  })
+});
 
 async function sendMessage() {
   isMsgSending.value = true
@@ -39,7 +47,6 @@ async function sendMessage() {
     })
 
     await getSelectedChat.value.messages.push(res);
-    scrollToBottom()
   }
 
   isMsgSending.value = false
@@ -58,26 +65,14 @@ async function handleFileInput(e) {
     return
   }
 
-  // const reader = new FileReader();
-  // let rawData = new ArrayBuffer(8);
-
-  // reader.onload = function (event) {
-  //   rawData = event.target?.result
-  // }
-
-  // reader.readAsArrayBuffer(file);
-
   const formData = new FormData();
   formData.append('chat', getSelectedChat.value.id);
-  // formData.append('customer_id[]', getSelectedChat.value.customer?.id);
-  // formData.append('customer_all', false);
   formData.append('text', '');
   formData.append('files', file);
-  // formData.append('author', authUser.value.id);
 
   const res = await sendMessagesInChatroom(formData)
 
-  getSelectedChat.value.messages.push(res);
+  await getSelectedChat.value.messages.push(res);
 }
 
 function scrollToBottom() {
@@ -136,7 +131,7 @@ function scrollToBottom() {
         </div>
       </div>
       <!-- messages area -->
-      <div class="overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1" ref="chatBoxBody">
+      <div class="overflow-y-scroll px-5 pt-5 flex-1" ref="chatBoxBody">
         <template v-for="(message, messageIndex) in getSelectedChat.messages">
           <div v-if="message.author?.id !== authUser.id" class="chat__box__text-box flex items-end float-left mb-4">
             <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">

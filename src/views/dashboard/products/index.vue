@@ -31,13 +31,14 @@ onMounted(() => {
   }
 })
 
-async function fetchProducts() {
+async function fetchProducts(value = '') {
   store.commit('setLoadingStatus', true)
   try {
     const res = await fetchProductsList({
       menuId: activeMenuID.value,
       page: paginator.page,
-      limit: paginator.limit
+      limit: paginator.limit,
+      search: value
     })
 
     if (res) {
@@ -101,6 +102,10 @@ async function saveReorderedList() {
     store.commit('setLoadingStatus', false)
   }
 }
+
+function handleSearchEvent(value) {
+  fetchProducts(value)
+}
 </script>
 
 <template>
@@ -123,7 +128,7 @@ async function saveReorderedList() {
           </span>
           Save positions
         </button>
-        <SearchProduct v-model="searchingValue" />
+        <SearchProduct @searching="handleSearchEvent" />
       </div>
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
