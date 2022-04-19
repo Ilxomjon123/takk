@@ -13,6 +13,9 @@ import DashboardLayout from '../layouts/dashboard/Main.vue';
 import CompanyLayout from '../layouts/dashboard/company/Main.vue';
 import EntryLayout from '../layouts/entry/Main.vue';
 import DashboardMain from '../views/dashboard/Main.vue';
+import CafeDataList from '../views/dashboard/cafes/index.vue';
+import CafeAdd from '../views/dashboard/cafes/AddForm.vue';
+import CafeEdit from '../views/dashboard/cafes/EditForm.vue';
 import Company from '../views/dashboard/company/Main.vue';
 import Customer from '../views/dashboard/customer/Main.vue';
 import Transaction from '../views/dashboard/transactions/Main.vue';
@@ -21,19 +24,16 @@ import Employees from '../views/dashboard/employees/Main.vue';
 import AddNewEmployee from '../views/dashboard/employees/AddNew.vue';
 import AddExistEmployee from '../views/dashboard/employees/AddExist.vue';
 import EditEmployee from '../views/dashboard/employees/Edit.vue';
-// import CafeDataList from '../views/dashboard/cafes/index.vue';
-// import CafeAdd from '../views/dashboard/cafes/AddForm.vue';
-// import CafeEdit from '../views/dashboard/cafes/EditForm.vue';
-// import Categories from '../views/dashboard/categories/Main.vue';
-// import AddCategory from '../views/dashboard/categories/Add.vue';
-// import EditCategory from '../views/dashboard/categories/Edit.vue';
-// import Modifiers from '../views/dashboard/modifiers/Main.vue';
-// import AddModifier from '../views/dashboard/modifiers/Add.vue';
-// import EditModifier from '../views/dashboard/modifiers/Edit.vue';
-// import Products from '../views/dashboard/products/index.vue';
-// import ProductAddForm from '../views/dashboard/products/AddForm.vue';
-// import ProductEditForm from '../views/dashboard/products/EditForm.vue';
-// import Chat from '../views/dashboard/chat/index.vue';
+import Categories from '../views/dashboard/categories/Main.vue';
+import AddCategory from '../views/dashboard/categories/Add.vue';
+import EditCategory from '../views/dashboard/categories/Edit.vue';
+import Modifiers from '../views/dashboard/modifiers/Main.vue';
+import AddModifier from '../views/dashboard/modifiers/Add.vue';
+import EditModifier from '../views/dashboard/modifiers/Edit.vue';
+import Products from '../views/dashboard/products/index.vue';
+import ProductAddForm from '../views/dashboard/products/AddForm.vue';
+import ProductEditForm from '../views/dashboard/products/EditForm.vue';
+import Chat from '../views/dashboard/chat/index.vue';
 
 const routes = [
   {
@@ -68,38 +68,30 @@ const routes = [
       {
         path: 'cafe-data-list',
         name: 'side-menu-cafe',
-        component: lazyLoad('dashboard/cafes/index')
+        component: CafeDataList
       },
       {
         path: 'cafe-add-form',
         name: 'side-menu-cafe-add-form',
-        component: lazyLoad('dashboard/cafes/AddForm')
+        component: CafeAdd
       },
       {
         path: 'cafe-edit-form/:id',
         name: 'side-menu-cafe-edit-form',
-        component: lazyLoad('dashboard/cafes/EditForm')
+        component: CafeEdit
       },
       {
         path: 'chat',
         name: 'side-menu-chat',
-        component: lazyLoad('dashboard/chat/index')
+        component: Chat
       },
       { path: 'test', name: 'test', component: DashboardMain },
-      {
-        path: 'products',
-        name: 'products',
-        component: lazyLoad('dashboard/products/index')
-      },
-      {
-        path: 'products/add',
-        name: 'products-add',
-        component: lazyLoad('dashboard/products/AddForm')
-      },
+      { path: 'products', name: 'products', component: Products },
+      { path: 'products/add', name: 'products-add', component: ProductAddForm },
       {
         path: 'products/:id',
         name: 'products-edit',
-        component: lazyLoad('dashboard/products/EditForm')
+        component: ProductEditForm
       },
       {
         path: 'company',
@@ -135,33 +127,23 @@ const routes = [
         path: 'categories',
         component: CompanyLayout,
         children: [
-          {
-            path: '',
-            name: 'categories',
-            component: lazyLoad('dashboard/categories/Main')
-          },
+          { path: '', name: 'categories', component: Categories },
           {
             path: ':menuId/add',
             name: 'categories-add',
-            component: lazyLoad('dashboard/categories/Add')
+            component: AddCategory
           },
           {
             path: ':menuId/:id',
             name: 'categories-edit',
-            component: lazyLoad('dashboard/categories/Edit')
+            component: EditCategory
           }
         ]
       },
       {
         path: 'modifiers',
         component: CompanyLayout,
-        children: [
-          {
-            path: '',
-            name: 'modifiers',
-            component: lazyLoad('dashboard/modifiers/Main')
-          }
-        ]
+        children: [{ path: '', name: 'modifiers', component: Modifiers }]
       }
     ]
   },
@@ -210,9 +192,5 @@ const routes = [
     component: ErrorPage
   }
 ];
-
-function lazyLoad(view) {
-  return () => import(`../views/${view}.vue`);
-}
 
 export default routes;
