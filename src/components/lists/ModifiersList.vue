@@ -1,28 +1,37 @@
 <template>
   <div v-if="getSelectedMenuId">
     <div class="intro-y flex flex-col sm:flex-row items-center mt-10">
-      <h2 class="text-lg font-medium mr-auto">Modifiers List</h2>
-      <div class="w-full sm:w-auto flex mt-4 sm:mt-0 gap-3">
-        <button class="btn btn-success" @click="reorderModifierType">
-          <span class="w-5 h-5 flex items-center justify-center">
-            <ShuffleIcon class="w-4 h-4" />
-          </span>Reorder Modifier Type
+      <h2 class="text-lg font-medium">Modifiers List</h2>
+      <div class="dropdown inline-block" data-placement="right-start">
+        <button class="dropdown-toggle" aria-expanded="false">
+          <MoreVerticalIcon />
         </button>
-        <button class="btn btn-success" @click="reorderModifierItem" :disabled="showChildren.length === 0">
-          <span class="w-5 h-5 flex items-center justify-center">
-            <ShuffleIcon class="w-4 h-4" />
-          </span>Reorder Modifier Item
-        </button>
-        <button class="btn btn-primary" @click="addModifierType">
-          <span class="w-5 h-5 flex items-center justify-center">
-            <PlusIcon class="w-4 h-4" />
-          </span>Add Modifier Type
-        </button>
-        <button class="btn btn-primary" @click="addModifierItem">
-          <span class="w-5 h-5 flex items-center justify-center">
-            <PlusIcon class="w-4 h-4" />
-          </span>Add Modifier Item
-        </button>
+        <div class="dropdown-menu w-fit">
+          <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
+            <button @click="reorderModifierType" class="btn whitespace-nowrap mb-2" data-toggle="dropdown"
+              :disabled="items.length < 2">
+              <span class="w-5 h-5 flex items-center justify-center">
+                <ShuffleIcon class="w-4 h-4" />
+              </span>Reorder Modifier Type
+            </button>
+            <button @click="reorderModifierItem" class="btn whitespace-nowrap mb-2" data-toggle="dropdown"
+              :disabled="showChildren.length === 0">
+              <span class="w-5 h-5 flex items-center justify-center">
+                <ShuffleIcon class="w-4 h-4" />
+              </span>Reorder Modifier Item
+            </button>
+            <button @click="addModifierType" class="btn whitespace-nowrap mb-2" data-toggle="dropdown">
+              <span class="w-5 h-5 flex items-center justify-center">
+                <PlusIcon class="w-4 h-4" />
+              </span>Add Modifier Type
+            </button>
+            <button @click="addModifierItem" class="btn whitespace-nowrap mb-2" data-toggle="dropdown">
+              <span class="w-5 h-5 flex items-center justify-center">
+                <PlusIcon class="w-4 h-4" />
+              </span>Add Modifier Item
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <!-- BEGIN: Data List -->
@@ -65,28 +74,23 @@
                   <div class="dropdown-menu w-40">
                     <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
                       <a @click="editModifierType(item)" data-dismiss="dropdown"
-                        class="flex cursor-pointer items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                        class="flex cursor-pointer items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                         <Edit2Icon class="w-4 h-4 mr-2" />Edit
                       </a>
                       <a data-dismiss="dropdown"
-                        class="flex cursor-pointer items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                        class="flex cursor-pointer items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                         <DeleteConfirmModal @onConfirmedDelete="deleteType(item.id)" :isIcon="true"
-                          :modalId="`modifier-type-delete-modal-${item.id}`" iconClass="w-4 h-4 mr-2" />
+                          :modalId="`modifier-type-delete-modal-${ item.id }`" iconClass="w-4 h-4 mr-2" />
                       </a>
 
                     </div>
                   </div>
                 </div>
-                <!-- <div class="flex justify-end items-end">
-                  <Edit2Icon @click="editModifierType(item)" class="hover:text-theme-12" />
-                  <DeleteConfirmModal @onConfirmedDelete="deleteType(item.id)" :isIcon="true"
-                    :modalId="`modifier-type-delete-modal-${item.id}`" />
-                </div> -->
               </td>
             </tr>
             <tr class="-intro-y inner-tr" v-for="(el, i) in item.items" :key="i" v-show="isVisibleChildren(item.id)">
               <td>
-                <a href class="font-medium whitespace-nowrap ml-10">{{ el.name }}</a>
+                <span class="font-medium whitespace-nowrap ml-10">{{ el.name }}</span>
               </td>
               <td>{{ getYesNo(item.required) }}</td>
               <td>
@@ -105,29 +109,18 @@
                   <div class="dropdown-menu w-40">
                     <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
                       <a @click="editModifierItem(el, item.id)" data-dismiss="dropdown"
-                        class="flex cursor-pointer items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                        class="flex cursor-pointer items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                         <Edit2Icon class="w-4 h-4 mr-2" />Edit
                       </a>
                       <a data-dismiss="dropdown"
-                        class="flex cursor-pointer items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                        class="flex cursor-pointer items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                         <DeleteConfirmModal @onConfirmedDelete="deleteItem(el.id)" :isIcon="true"
-                          :modalId="`modifier-delete-modal-${item.id}-${el.id}`" iconClass="w-4 h-4 mr-2" />
+                          :modalId="`modifier-delete-modal-${ item.id }-${ el.id }`" iconClass="w-4 h-4 mr-2" />
                       </a>
 
                     </div>
                   </div>
                 </div>
-                <!-- <div class="flex">
-                  <Edit2Icon
-                    @click="editModifierItem(el, item.id)"
-                    class="hover:text-theme-12"
-                  />
-                  <DeleteConfirmModal
-                    @onConfirmedDelete="deleteItem(el.id)"
-                    :isIcon="true"
-                    :modalId="`modifier-delete-modal-${ item.id }-${ el.id }`"
-                  />
-                </div> -->
               </td>
             </tr>
           </template>
@@ -187,9 +180,11 @@ export default defineComponent({
       //   if (item.items.length > 0) return item.id
       // });
     },
+
     async deleteItem(val) {
       this.$store.commit('setLoadingStatus', true);
       const res = await this.$store.dispatch('deleteModifier', val);
+
       if (res.status) {
         this.$store.commit('setSuccessNotification', true);
         this.search();
@@ -198,6 +193,7 @@ export default defineComponent({
       }
       this.$store.commit('setLoadingStatus', false);
     },
+
     async deleteType(val) {
       this.$store.commit('setLoadingStatus', true);
       const res = await this.$store.dispatch('deleteModifierType', val);
@@ -265,6 +261,7 @@ export default defineComponent({
     DraggableItemModal
   }
 });
+
 </script>
 
 <style lang="scss" scoped>

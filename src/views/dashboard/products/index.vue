@@ -8,6 +8,7 @@ import Toastify from 'toastify-js';
 import cash from 'cash-dom';
 import { useRouter } from 'vue-router';
 import DraggableList from './DraggableList.vue';
+import SearchProduct from './SearchProduct.vue';
 
 const store = useStore()
 const router = useRouter()
@@ -16,6 +17,7 @@ const selectedProduct = reactive({});
 const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
 const clickedProductId = ref(null);
 const isReordered = ref(false);
+const searchingValue = ref('');
 
 const paginator = reactive({
   page: ref(1),
@@ -29,13 +31,14 @@ onMounted(() => {
   }
 })
 
-async function fetchProducts() {
+async function fetchProducts(value = '') {
   store.commit('setLoadingStatus', true)
   try {
     const res = await fetchProductsList({
       menuId: activeMenuID.value,
       page: paginator.page,
-      limit: paginator.limit
+      limit: paginator.limit,
+      search: value
     })
 
     if (res) {
@@ -99,6 +102,10 @@ async function saveReorderedList() {
     store.commit('setLoadingStatus', false)
   }
 }
+
+function handleSearchEvent(value) {
+  fetchProducts(value)
+}
 </script>
 
 <template>
@@ -121,6 +128,7 @@ async function saveReorderedList() {
           </span>
           Save positions
         </button>
+        <SearchProduct @searching="handleSearchEvent" />
       </div>
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
@@ -128,7 +136,7 @@ async function saveReorderedList() {
         <table class="table table-report -mt-2">
           <thead>
             <tr>
-              <th>HAS OR NOT</th>
+              <th>AVAILABLE</th>
               <th class="whitespace-nowrap">IMAGES</th>
               <th class="whitespace-nowrap">PRODUCT NAME</th>
               <th class="text-center whitespace-nowrap">POSITION</th>

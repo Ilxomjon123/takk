@@ -1,15 +1,13 @@
 <script setup>
-import { computed, onMounted, ref, } from 'vue'
+import { computed, nextTick, onMounted, onUpdated, ref, } from 'vue'
 import moment from 'moment';
 import { useStore } from 'vuex';
 import { isEmpty } from 'lodash';
 import EmojisBlock from './EmojisBlock.vue';
 import useChatState from '@/features/useChatState';
-import useWebSocket from '@/features/useWebSocket';
 import { sendMessagesInChatroom } from '@/api';
 
 const { getSelectedChat, getErrorMessage } = useChatState();
-const { sendEvent } = useWebSocket();
 const isMsgSending = ref(false);
 const store = useStore();
 const formattedDate = (value) => {
@@ -21,9 +19,17 @@ const fileInput = ref(null);
 const chatBoxBody = ref(null);
 const textInput = ref('');
 
-onMounted(() => {
-  console.log('in chatbox\'s onmouted hook');
-})
+onMounted(async () => {
+  await nextTick(() => {
+    scrollToBottom()
+  })
+});
+
+onUpdated(async () => {
+  await nextTick(() => {
+    scrollToBottom()
+  })
+});
 
 async function sendMessage() {
   isMsgSending.value = true
@@ -41,7 +47,6 @@ async function sendMessage() {
     })
 
     await getSelectedChat.value.messages.push(res);
-    scrollToBottom()
   }
 
   isMsgSending.value = false
@@ -60,25 +65,14 @@ async function handleFileInput(e) {
     return
   }
 
-  // const reader = new FileReader();
-  // let rawData = new ArrayBuffer(8);
-
-  // reader.onload = function (event) {
-  //   rawData = event.target?.result
-  // }
-
-  // reader.readAsArrayBuffer(file);
-
   const formData = new FormData();
   formData.append('chat', getSelectedChat.value.id);
-  formData.append('customer_id[]', getSelectedChat.value.customer?.id);
-  formData.append('customer_all', false);
-  formData.append('files[]', file);
-  formData.append('author', authUser.value.id);
+  formData.append('text', '');
+  formData.append('files', file);
 
   const res = await sendMessagesInChatroom(formData)
 
-  getSelectedChat.value.messages.push({ author: authUser.value, files: [URL.createObjectURL(file)] });
+  await getSelectedChat.value.messages.push(res);
 }
 
 function scrollToBottom() {
@@ -137,15 +131,15 @@ function scrollToBottom() {
         </div>
       </div>
       <!-- messages area -->
-      <div class="overflow-y-scroll scrollbar-hidden px-5 pt-5 flex-1" ref="chatBoxBody">
+      <div class="overflow-y-scroll px-5 pt-5 flex-1" ref="chatBoxBody">
         <template v-for="(message, messageIndex) in getSelectedChat.messages">
-          <div v-if="!message.author?.id === authUser.id" class="chat__box__text-box flex items-end float-left mb-4">
+          <div v-if="message.author?.id !== authUser.id" class="chat__box__text-box flex items-end float-left mb-4">
             <div class="w-10 h-10 hidden sm:block flex-none image-fit relative mr-5">
               <img alt="image" class="rounded-full" :src="getSelectedChat.customer?.avatar" />
             </div>
             <div
               class="bg-gray-200 dark:bg-dark-5 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-r-md rounded-t-md">
-              <img v-if="message.files?.length > 0" :src="message.files[0]" alt="image message" />
+              <img v-if="message.files?.length > 0" :src="message.files[0].file" alt="image message" />
               <p v-if="!isEmpty(message.text)">{{ message.text }}</p>
               <div class="mt-1 text-xs text-gray-600">{{ formattedDate(message.created_dt) }}</div>
             </div>
@@ -187,7 +181,7 @@ function scrollToBottom() {
             </div>
             <div class="px-4 py-3 text-white rounded-l-md rounded-t-md"
               :class="{ 'bg-theme-1': !isEmpty(message.text) }">
-              <img v-if="!isEmpty(message.files)" :src="message.files[0]" alt="image message" width="200"
+              <img v-if="!isEmpty(message.files)" :src="message.files[0].file" alt="image message" width="200"
                 data-action="zoom" />
               <p v-if="!isEmpty(message.text)">{{ message.text }}</p>
               <div class="mt-1 text-xs text-theme-21">{{ formattedDate(message.created_dt) }}</div>

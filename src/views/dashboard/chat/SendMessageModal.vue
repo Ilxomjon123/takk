@@ -45,18 +45,6 @@ async function handleSendMessage() {
             <div class>
               <textarea v-model="textMessage" rows="5" class="form-control" />
               <SimpleImageUpload title="Add photo" @update-image-file="imageMessage = $event" />
-              <!-- <QuillEditor theme="snow" /> -->
-              <!-- <ckeditor
-                :editor="ClassicEditor"
-                v-model="editorData"
-                :config="editorConfig"
-              />-->
-              <!-- <component
-                :is="CKEditor.component"
-                :editor="ClassicEditor"
-                v-model="editorData"
-                :config="editorConfig"
-              />-->
             </div>
           </div>
           <!-- action btns -->
