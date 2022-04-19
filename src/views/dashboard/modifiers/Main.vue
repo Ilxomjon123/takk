@@ -1,11 +1,7 @@
 <template>
   <div>
     <!-- Menu List start -->
-    <MenuList
-      @update-id="fetchData($event)"
-      sub-item-title="Modifiers"
-      sub-item-value="product_modifier_count"
-    />
+    <MenuList @update-id="fetchData($event)" sub-item-title="Modifiers" sub-item-value="modifiers_count" />
     <!-- Menu List end -->
 
     <ModifiersList ref="modifiersList" />
