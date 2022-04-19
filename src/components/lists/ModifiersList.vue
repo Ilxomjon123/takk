@@ -90,7 +90,7 @@
             </tr>
             <tr class="-intro-y inner-tr" v-for="(el, i) in item.items" :key="i" v-show="isVisibleChildren(item.id)">
               <td>
-                <a href class="font-medium whitespace-nowrap ml-10">{{ el.name }}</a>
+                <span class="font-medium whitespace-nowrap ml-10">{{ el.name }}</span>
               </td>
               <td>{{ getYesNo(item.required) }}</td>
               <td>

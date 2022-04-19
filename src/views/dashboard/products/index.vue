@@ -136,7 +136,7 @@ function handleSearchEvent(value) {
         <table class="table table-report -mt-2">
           <thead>
             <tr>
-              <th>HAS OR NOT</th>
+              <th>AVAILABLE</th>
               <th class="whitespace-nowrap">IMAGES</th>
               <th class="whitespace-nowrap">PRODUCT NAME</th>
               <th class="text-center whitespace-nowrap">POSITION</th>
