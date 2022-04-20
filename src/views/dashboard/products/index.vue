@@ -13,11 +13,9 @@ import SearchProduct from './SearchProduct.vue';
 const store = useStore()
 const router = useRouter()
 const products = reactive({});
-const selectedProduct = reactive({});
 const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
 const clickedProductId = ref(null);
 const isReordered = ref(false);
-const searchingValue = ref('');
 
 const paginator = reactive({
   page: ref(1),

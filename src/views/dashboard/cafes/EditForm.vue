@@ -236,7 +236,7 @@ async function submit(values) {
 
   try {
     const res1 = await updateCafe({ data: formFields, id: route.params.id })
-    const res2 = await updateCafeWorkDays({ data: formFields.week_time, id: route.params.id })
+    const res2 = await updateCafeWorkDays({ data: { week_time: formFields.week_time }, id: route.params.id })
 
     if (formFields.upload_photos.length > 0) {
       const imagesFormData = new FormData()
