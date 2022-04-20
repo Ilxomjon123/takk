@@ -13,27 +13,25 @@ import DashboardLayout from '../layouts/dashboard/Main.vue';
 import CompanyLayout from '../layouts/dashboard/company/Main.vue';
 import EntryLayout from '../layouts/entry/Main.vue';
 import DashboardMain from '../views/dashboard/Main.vue';
-import CafeDataList from '../views/dashboard/cafes/index.vue';
-import CafeAdd from '../views/dashboard/cafes/AddForm.vue';
-import CafeEdit from '../views/dashboard/cafes/EditForm.vue';
-import Company from '../views/dashboard/company/Main.vue';
-import Customer from '../views/dashboard/customer/Main.vue';
-import Transaction from '../views/dashboard/transactions/Main.vue';
-import Profile from '../views/profile/Main.vue';
-import Employees from '../views/dashboard/employees/Main.vue';
-import AddNewEmployee from '../views/dashboard/employees/AddNew.vue';
-import AddExistEmployee from '../views/dashboard/employees/AddExist.vue';
-import EditEmployee from '../views/dashboard/employees/Edit.vue';
-import Categories from '../views/dashboard/categories/Main.vue';
-import AddCategory from '../views/dashboard/categories/Add.vue';
-import EditCategory from '../views/dashboard/categories/Edit.vue';
-import Modifiers from '../views/dashboard/modifiers/Main.vue';
-import AddModifier from '../views/dashboard/modifiers/Add.vue';
-import EditModifier from '../views/dashboard/modifiers/Edit.vue';
-import Products from '../views/dashboard/products/index.vue';
-import ProductAddForm from '../views/dashboard/products/AddForm.vue';
-import ProductEditForm from '../views/dashboard/products/EditForm.vue';
-import Chat from '../views/dashboard/chat/index.vue';
+// import CafeDataList from '../views/dashboard/cafes/index.vue';
+// import CafeAdd from '../views/dashboard/cafes/AddForm.vue';
+// import CafeEdit from '../views/dashboard/cafes/EditForm.vue';
+// import Company from '../views/dashboard/company/Main.vue';
+// import Customer from '../views/dashboard/customer/Main.vue';
+// import Transaction from '../views/dashboard/transactions/Main.vue';
+// import Profile from '../views/profile/Main.vue';
+// import Employees from '../views/dashboard/employees/Main.vue';
+// import AddNewEmployee from '../views/dashboard/employees/AddNew.vue';
+// import AddExistEmployee from '../views/dashboard/employees/AddExist.vue';
+// import EditEmployee from '../views/dashboard/employees/Edit.vue';
+// import Categories from '../views/dashboard/categories/Main.vue';
+// import AddCategory from '../views/dashboard/categories/Add.vue';
+// import EditCategory from '../views/dashboard/categories/Edit.vue';
+// import Modifiers from '../views/dashboard/modifiers/Main.vue';
+// import Products from '../views/dashboard/products/index.vue';
+// import ProductAddForm from '../views/dashboard/products/AddForm.vue';
+// import ProductEditForm from '../views/dashboard/products/EditForm.vue';
+// import Chat from '../views/dashboard/chat/index.vue';
 
 const routes = [
   {
@@ -68,82 +66,137 @@ const routes = [
       {
         path: 'cafe-data-list',
         name: 'side-menu-cafe',
-        component: CafeDataList
+        component: () => import('../views/dashboard/cafes/index.vue')
       },
       {
         path: 'cafe-add-form',
         name: 'side-menu-cafe-add-form',
-        component: CafeAdd
+        component: () => import('../views/dashboard/cafes/AddForm.vue')
       },
       {
         path: 'cafe-edit-form/:id',
         name: 'side-menu-cafe-edit-form',
-        component: CafeEdit
+        component: () => import('../views/dashboard/cafes/EditForm.vue')
       },
       {
         path: 'chat',
         name: 'side-menu-chat',
-        component: Chat
+        component: () => import('../views/dashboard/chat/index.vue')
       },
       { path: 'test', name: 'test', component: DashboardMain },
-      { path: 'products', name: 'products', component: Products },
-      { path: 'products/add', name: 'products-add', component: ProductAddForm },
+      {
+        path: 'products',
+        name: 'products',
+        component: () => import('../views/dashboard/products/index.vue')
+      },
+      {
+        path: 'products/add',
+        name: 'products-add',
+        component: () => import('../views/dashboard/products/AddForm.vue')
+      },
       {
         path: 'products/:id',
         name: 'products-edit',
-        component: ProductEditForm
+        component: () => import('../views/dashboard/products/EditForm.vue')
       },
       {
         path: 'company',
         component: CompanyLayout,
-        children: [{ path: '', name: 'company', component: Company }]
+        children: [
+          {
+            path: '',
+            name: 'company',
+            component: () => import('../views/dashboard/company/Main.vue')
+          }
+        ]
       },
       {
         path: 'customer',
         component: CompanyLayout,
-        children: [{ path: '', name: 'customer', component: Customer }]
+        children: [
+          {
+            path: '',
+            name: 'customer',
+            component: () => import('../views/dashboard/customer/Main.vue')
+          }
+        ]
       },
       {
         path: 'transactions',
         component: CompanyLayout,
-        children: [{ path: '', name: 'transactions', component: Transaction }]
+        children: [
+          {
+            path: '',
+            name: 'transactions',
+            component: () => import('../views/dashboard/transactions/Main.vue')
+          }
+        ]
       },
       {
         path: 'profile',
         component: CompanyLayout,
-        children: [{ path: '', name: 'profile', component: Profile }]
+        children: [
+          {
+            path: '',
+            name: 'profile',
+            component: () => import('../views/profile/Main.vue')
+          }
+        ]
       },
       {
         path: 'employees',
         component: CompanyLayout,
         children: [
-          { path: '', name: 'employees', component: Employees },
-          { path: 'add-new', component: AddNewEmployee },
-          { path: 'add-exist', component: AddExistEmployee },
-          { path: ':id', component: EditEmployee }
+          {
+            path: '',
+            name: 'employees',
+            component: () => import('../views/dashboard/employees/Main.vue')
+          },
+          {
+            path: 'add-new',
+            component: () => import('../views/dashboard/employees/AddNew.vue')
+          },
+          {
+            path: 'add-exist',
+            component: () => import('../views/dashboard/employees/AddExist.vue')
+          },
+          {
+            path: ':id',
+            component: () => import('../views/dashboard/employees/Edit.vue')
+          }
         ]
       },
       {
         path: 'categories',
         component: CompanyLayout,
         children: [
-          { path: '', name: 'categories', component: Categories },
+          {
+            path: '',
+            name: 'categories',
+            component: () => import('../views/dashboard/categories/Main.vue')
+          },
           {
             path: ':menuId/add',
             name: 'categories-add',
-            component: AddCategory
+            component: () => import('../views/dashboard/categories/Add.vue')
           },
           {
             path: ':menuId/:id',
             name: 'categories-edit',
-            component: EditCategory
+            component: () => import('../views/dashboard/categories/Edit.vue')
           }
         ]
       },
       {
         path: 'modifiers',
         component: CompanyLayout,
-        children: [{ path: '', name: 'modifiers', component: Modifiers }]
+        children: [
+          {
+            path: '',
+            name: 'modifiers',
+            component: () => import('../views/dashboard/modifiers/Main.vue')
+          }
+        ]
       }
     ]
   },
