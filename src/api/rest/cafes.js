@@ -90,7 +90,7 @@ export const updateCafe = async payload => {
   }
 };
 
-export const cafePost = async payload => {
+export const storeCafe = async payload => {
   try {
     const companyId = JSON.parse(localStorage.getItem('required_details'))?.user
       ?.company_id;

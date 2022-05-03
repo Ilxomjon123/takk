@@ -52,6 +52,7 @@
     "vue-recaptcha": "^2.0.1",
     "vue-recaptcha-v3": "^2.0.1",
     "vue-router": "^4.0.12",
+    "vue-select": "beta",
     "vue-tel-input": "^6.0.0-beta.6",
     "vuedraggable": "^4.1.0",
     "vuex": "^4.0.2",
@@ -60,6 +61,7 @@
     "zoom-vanilla.js": "^2.0.6"
   },
   "devDependencies": {
+    "@types/vue-select": "^3.16.0",
     "@vitejs/plugin-vue": "^2.0.1",
     "autoprefixer": "^10.3.1",
     "lodash": "^4.17.21",

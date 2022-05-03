@@ -10,7 +10,7 @@ import _ from 'lodash';
 import FormFields from './FormFields.vue';
 
 const store = useStore()
-const externalErrors = reactive({});
+const externalErrors = ref({});
 const isLoading = ref(false);
 const route = useRoute()
 
@@ -50,7 +50,7 @@ onMounted(() => {
 
 async function onSubmit() {
   isLoading.value = true
-  Object.assign(externalErrors, {})
+  externalErrors.value = {};
   try {
     const formData = new FormData()
 
@@ -88,7 +88,7 @@ async function onSubmit() {
   } catch (error) {
     if (error.response) {
       console.log(error.response.data);
-      Object.assign(externalErrors, error.response.data);
+      externalErrors.value = error.response.data;
     }
   } finally {
     isLoading.value = false
@@ -107,31 +107,12 @@ async function onSubmit() {
         <div class="intro-y box">
           <div id="form-validation" class="p-5">
             <!-- BEGIN: Validation Form -->
-            <form
-              class="validate-form"
-              @submit.prevent="onSubmit"
-              enctype="multipart/form-data"
-            >
-              <FormFields
-                :form-fields="formFields"
-                :product-image-path="productImagePath"
-                :external-errors="externalErrors"
-                @update:form-fields="formFields = $event"
-              />
-              <div
-                class="flex pt-5 justify-end border-t border-gray-200 dark:border-dark-5"
-              >
-                <button
-                  type="submit"
-                  class="btn btn-primary"
-                  :disabled="isLoading"
-                >
-                  <LoadingIcon
-                    v-if="isLoading"
-                    icon="tail-spin"
-                    class="w-4 h-4 mr-3"
-                    color="#fff"
-                  />
+            <form class="validate-form" @submit.prevent="onSubmit" enctype="multipart/form-data">
+              <FormFields :form-fields="formFields" :product-image-path="productImagePath"
+                :external-errors="externalErrors" @update:form-fields="formFields = $event" />
+              <div class="flex pt-5 justify-end border-t border-gray-200 dark:border-dark-5">
+                <button type="submit" class="btn btn-primary" :disabled="isLoading">
+                  <LoadingIcon v-if="isLoading" icon="tail-spin" class="w-4 h-4 mr-3" color="#fff" />
                   <!-- <RefreshCwIcon v-else class="mr-3" /> -->
                   <span>Update</span>
                 </button>

@@ -4,7 +4,6 @@ const chatList = reactive([]);
 const selectedChat = ref({});
 const errorMessage = ref({});
 const chatBoxLoading = ref(false);
-// const selectedChatMessages = reactive([]);
 
 export default () => {
   const setChatList = array => {
@@ -28,7 +27,7 @@ export default () => {
   };
 
   const getSelectedChat = computed(() => selectedChat.value);
-  // const getChatList = computed(() => chatList);
+  const getSelectedChatMessages = computed(() => selectedChat.value.messages);
   const getErrorMessage = computed(() => errorMessage.value);
   const getChatBoxLoading = computed(() => chatBoxLoading.value);
 
@@ -40,6 +39,7 @@ export default () => {
     setChatBoxLoading,
     chatList,
     getSelectedChat,
+    getSelectedChatMessages,
     getErrorMessage,
     getChatBoxLoading
   };

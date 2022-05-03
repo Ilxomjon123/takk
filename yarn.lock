@@ -735,6 +735,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/vue-select@npm:^3.16.0":
+  version: 3.16.0
+  resolution: "@types/vue-select@npm:3.16.0"
+  dependencies:
+    vue: ^2.0.0
+  checksum: af165379931b740af68b36ab5222e7312b3502673378a748e6f8a9176e683e7cb57318090034146ede32ea901a4c8c0cf1746a945e412b015d43734c9f304268
+  languageName: node
+  linkType: hard
+
 "@vitejs/plugin-vue@npm:^2.0.1":
   version: 2.0.1
   resolution: "@vitejs/plugin-vue@npm:2.0.1"
@@ -3105,6 +3114,7 @@ __metadata:
     "@googlemaps/markerclustererplus": ^1.1.0
     "@left4code/tw-starter": ^1.1.0
     "@popperjs/core": ^2.7.0
+    "@types/vue-select": ^3.16.0
     "@vitejs/plugin-vue": ^2.0.1
     "@vue-leaflet/vue-leaflet": ^0.6.1
     "@vuelidate/core": ^2.0.0-alpha.12
@@ -3140,6 +3150,7 @@ __metadata:
     vue-recaptcha: ^2.0.1
     vue-recaptcha-v3: ^2.0.1
     vue-router: ^4.0.12
+    vue-select: beta
     vue-tel-input: ^6.0.0-beta.6
     vuedraggable: ^4.1.0
     vuex: ^4.0.2
@@ -3360,6 +3371,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"vue-select@npm:beta":
+  version: 4.0.0-beta.3
+  resolution: "vue-select@npm:4.0.0-beta.3"
+  peerDependencies:
+    vue: 3.x
+  checksum: 2d3ef00428537b79fa9e524cd6b6e1b7b14e88ec1c68e00be7ec056e2542650a6fe9364491d8ddeaab06e6a3227ebb524bde4ab2d56327bd6b95e2213e3e63c7
+  languageName: node
+  linkType: hard
+
 "vue-tel-input@npm:^6.0.0-beta.6":
   version: 6.0.0-beta.6
   resolution: "vue-tel-input@npm:6.0.0-beta.6"
@@ -3368,6 +3388,13 @@ __metadata:
     libphonenumber-js: ^1.9.6
     vue: ^3.1.1
   checksum: fac553f780f612cd79d8dd7e43413729256564ada6a56f53ea2aceb0357cddbb65e261695868e5e96700e0b85945a377d2d5e9fee55e5cd7e2c21c0ff1db570f
+  languageName: node
+  linkType: hard
+
+"vue@npm:^2.0.0":
+  version: 2.6.14
+  resolution: "vue@npm:2.6.14"
+  checksum: 23524a1bdca094d62cb3491a46317eed75184b5d61d28fa846ea5d2b241c1cc7084fc67ee259d47a50a6d0bbc33ecaceb7bb52bff81312fe7da07263f3419942
   languageName: node
   linkType: hard
 

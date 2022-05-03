@@ -52,7 +52,7 @@ const actions = {
     }
   },
 
-  async cafePost({ rootGetters, commit }, payload) {
+  async storeCafe({ rootGetters, commit }, payload) {
     const data = { ...payload, company: rootGetters.getUser.company_id };
 
     try {

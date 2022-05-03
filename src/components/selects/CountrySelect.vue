@@ -1,16 +1,10 @@
 <template>
-  <TomSelect
-    v-model="selectedCountry"
-    :options="{
-      placeholder: 'Select country'
-    }"
-    class="w-full"
-  >
-    <option
-      v-for="(item, index) in countriesList"
-      :key="index"
-      :value="item"
-    >{{ item }}</option>
+  <TomSelect v-model="selectedCountry" :options="{
+    placeholder: 'Select country'
+  }" class="w-full">
+    <option v-for="(item, index) in countriesList" :key="index" :value="item.country_name">
+      {{ item.country_name }}
+    </option>
   </TomSelect>
 </template>
 

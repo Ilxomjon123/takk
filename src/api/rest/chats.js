@@ -15,10 +15,11 @@ export const fetchChats = async () => {
   }
 };
 
-export const fetchChatMessages = async chatID => {
+export const fetchChatMessages = async (chatID, page = 1) => {
   try {
     const res = await makeRequest({
       url: `/api/ws-chat/${chatID}/messages/`,
+      params: { page },
       headers: { authorization: true }
     });
     return res.data;

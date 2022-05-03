@@ -7,18 +7,12 @@
       <div class="col-span-12 lg:col-span-12 2xl:col-span-12">
         <!-- BEGIN: Display Information -->
         <div class="intro-y box lg:mt-5" v-if="!getLoadingStatus">
-          <div
-            class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5"
-          >
+          <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
             <h2 class="font-medium text-base mr-auto">Edit Category</h2>
           </div>
           <div class="p-5">
             <div class="grid grid-cols-12 gap-6">
-              <CategoryFrom
-                :form="getCategory"
-                dispatcher="putCategory"
-                :isEdit="true"
-              />
+              <CategoryForm :form="getCategory" dispatcher="putCategory" :isEdit="true" />
             </div>
           </div>
         </div>
@@ -30,11 +24,11 @@
 <script>
 import { defineComponent } from 'vue'
 import { mapGetters } from 'vuex';
-import CategoryFrom from '../../../components/forms/CategoryFrom.vue';
+import CategoryForm from '../../../components/forms/CategoryForm.vue';
 
 export default defineComponent({
 
-  components: { CategoryFrom },
+  components: { CategoryForm },
   computed: {
     ...mapGetters(['getLoadingStatus', 'getCategory'])
   },
