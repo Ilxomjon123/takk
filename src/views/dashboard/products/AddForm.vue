@@ -28,9 +28,9 @@ const formFields = reactive({
 });
 
 async function onSubmit() {
-  isLoading.value = true
-  Object.assign(externalErrors, {})
-  console.log('after obj assign');
+  isLoading.value = true;
+  Object.assign(externalErrors, {});
+
   try {
     const formData = new FormData()
 
@@ -38,27 +38,22 @@ async function onSubmit() {
     formData.append('start', formFields.start)
     formData.append('end', formFields.end)
     formData.append('quickest_time', formFields.quickest_time)
-    // formData.append('square_id', formFields.square_id)
     formData.append('name', formFields.name)
     formData.append('description', formFields.description)
     formData.append('category', formFields.category)
     formData.append('tax_percent', formFields.tax_percent)
-    console.log('formData: ', formData);
 
     for (let i = 0; i < formFields.sizes.length; i++) {
       formData.append('sizes[' + i + ']name', formFields.sizes[i].name)
       formData.append('sizes[' + i + ']price', formFields.sizes[i].price)
       formData.append('sizes[' + i + ']available', formFields.sizes[i].available)
       formData.append('sizes[' + i + ']default', formFields.sizes[i].default)
-      // formData.append('sizes[' + i + ']square_id', formFields.sizes[i].square_id)
     }
-    console.log('formData: ', formData);
 
     for (let i = 0; i < formFields.modifiers.length; i++) {
       formData.append('modifiers', formFields.modifiers[i])
     }
 
-    console.log('formData: ', formData);
     const res = await createProduct(formData);
     if (res.id) {
       router.push('/dashboard/products/' + res.id)
@@ -92,31 +87,12 @@ async function onSubmit() {
         <div class="intro-y box">
           <div id="form-validation" class="p-5">
             <!-- BEGIN: Validation Form -->
-            <form
-              class="validate-form"
-              @submit.prevent="onSubmit"
-              enctype="multipart/form-data"
-            >
-              <FormFields
-                :form-fields="formFields"
-                :product-image-path="productImagePath"
-                :external-errors="externalErrors"
-                @update:form-fields="formFields = $event"
-              />
-              <div
-                class="flex pt-5 justify-end border-t border-gray-200 dark:border-dark-5"
-              >
-                <button
-                  type="submit"
-                  class="btn btn-primary"
-                  :disabled="isLoading"
-                >
-                  <LoadingIcon
-                    v-if="isLoading"
-                    icon="tail-spin"
-                    class="w-4 h-4 mr-3"
-                    color="#fff"
-                  />
+            <form class="validate-form" @submit.prevent="onSubmit" enctype="multipart/form-data">
+              <FormFields :form-fields="formFields" :product-image-path="productImagePath"
+                :external-errors="externalErrors" @update:form-fields="formFields = $event" />
+              <div class="flex pt-5 justify-end border-t border-gray-200 dark:border-dark-5">
+                <button type="submit" class="btn btn-primary" :disabled="isLoading">
+                  <LoadingIcon v-if="isLoading" icon="tail-spin" class="w-4 h-4 mr-3" color="#fff" />
                   <span>Save</span>
                 </button>
               </div>

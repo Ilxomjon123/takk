@@ -13,7 +13,7 @@ const state = () => {
       },
       {
         icon: 'CoffeeIcon',
-        pageName: 'side-menu-cafe',
+        pageName: 'cafes',
         title: 'My cafes'
         // subMenu: [
         //   {

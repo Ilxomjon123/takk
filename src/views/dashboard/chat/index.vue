@@ -1,24 +1,28 @@
 <script setup>
 import { onMounted, ref } from 'vue'
+import { isEmpty } from 'lodash';
+import cash from 'cash-dom';
 import { fetchChats } from '@/api';
 import useChatState from '@/features/useChatState';
 import ChatTab from './ChatTab.vue';
 import ChatBox from './ChatBox.vue';
-import cash from 'cash-dom';
-import { useStore } from 'vuex';
 import SendMessageModal from './SendMessageModal.vue';
-import useWebSocket from '@/features/useWebSocket.js'
+import store from '@/store';
 
-const store = useStore()
-const { setChatList, getChatBoxLoading } = useChatState();
-const { handleOnMessageEvent } = useWebSocket()
+const {
+  setChatList,
+  getChatBoxLoading,
+  getSelectedChat,
+  getErrorMessage
+} = useChatState();
 
 onMounted(async () => {
+  store.commit('setLoadingStatus', true);
+
   const res = await fetchChats();
   res.results.length > 0 && setChatList(res.results);
 
-  handleOnMessageEvent()
-
+  store.commit('setLoadingStatus', false);
 });
 
 function openMessageModal() {
@@ -59,11 +63,34 @@ function openMessageModal() {
       <!-- END: Chat Side Menu -->
       <!-- BEGIN: Chat Content -->
       <div class="intro-y col-span-12 lg:col-span-8 2xl:col-span-9">
-        <div v-if="getChatBoxLoading" class="absolute h-screen w-full z-50 flex flex-col justify-center items-center"
+        <div v-if="getChatBoxLoading" class="absolute min-h-full w-full z-50 flex flex-col justify-center items-center"
           style="background-color: rgba(100, 100, 100, 0.1);">
           <LoadingIcon icon="tail-spin" class="w-16 h-16" />
         </div>
-        <ChatBox />
+        <div v-if="getChatBoxLoading" class="absolute min-h-full w-full z-50 flex flex-col justify-center items-center"
+          style="background-color: rgba(100, 100, 100, 0.1);">
+          <LoadingIcon icon="tail-spin" class="w-16 h-16" />
+        </div>
+        <div class="chat__box box">
+          <!-- BEGIN: Chat Active -->
+          <ChatBox v-if="!isEmpty(getSelectedChat)" />
+          <!-- END: Chat Active -->
+          <!-- BEGIN: Chat Default -->
+          <div v-else class="h-full flex items-center">
+            <div class="mx-auto text-center">
+              <div class="mt-3">
+                <!-- <div class="font-medium">Hey, {{ $f()[0]["users"][0]["name"] }}!</div> -->
+                <div class="text-gray-600 mt-1">
+                  {{
+                      !isEmpty(getErrorMessage) ? getErrorMessage :
+                        'Please select a chat to start messaging.'
+                  }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END: Chat Default -->
+        </div>
       </div>
       <!-- END: Chat Content -->
     </div>

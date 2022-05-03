@@ -1,11 +1,13 @@
 import { computed, ref } from 'vue';
-import { getToken } from '../api/config';
+import { getToken } from '@/api/config';
+import useChatState from './useChatState';
+import { fetchChatMessages } from '@/api';
 
 const token = getToken();
 const wsUrl = 'ws://echtmal.com:8001/connect';
 const wsConnect = ref(null);
 const wsMessages = ref([]);
-const onlineCustomers = ref([]);
+const { getSelectedChat, setSelectedChatMessages } = useChatState();
 
 export default () => {
   const setConnection = () => {
@@ -14,9 +16,17 @@ export default () => {
       console.log('Successfully connected to the websocket server...');
       console.log(event);
     });
-    wsConnect.value.addEventListener('message', event =>
-      handleNewMessage(event)
-    );
+    wsConnect.value.addEventListener('message', async event => {
+      try {
+        const data = JSON.parse(event.data).data;
+        if (getSelectedChat.value.id === data.chat_id) {
+          const res = await fetchChatMessages(data.chat_id);
+          setSelectedChatMessages(res.results);
+        }
+      } catch (error) {
+        console.log('Error while fetching Chat Messages', error);
+      }
+    });
     wsConnect.value.addEventListener('close', event => {
       console.error('Websocket closed unexpectedly: ', event);
     });
@@ -63,35 +73,11 @@ export default () => {
     }
   };
 
-  const handleOnMessageEvent = () => {
-    if (wsConnect.value)
-      wsConnect.value.onmessage = event => {
-        console.log('event in onmessage event', event);
-        const { data } = event;
-        // const data = JSON.parse(event.data);
-        console.log('data in onmessage event', data);
-
-        // if (event.data instanceof Blob) {
-        if (data.event_type === 'customer_update_status') {
-          const customers = store.getters['getCustomers'];
-          const customer = customers.find(user => user.id === data.data.id);
-          if (customer) onlineCustomers.value.push = customer;
-        }
-
-        if (data.event_type === 'new_message') {
-          wsMessages.value.push(data.data);
-        }
-      };
-  };
-
   const getConnection = computed(() => wsConnect.value);
-  const getWebsocketMessages = computed(() => wsMessages.value);
 
   return {
     setConnection,
     sendEvent,
-    getConnection,
-    getWebsocketMessages,
-    handleOnMessageEvent
+    getConnection
   };
 };

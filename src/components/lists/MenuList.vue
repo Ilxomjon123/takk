@@ -79,7 +79,7 @@ async function deleteMenu(val) {
 }
 
 async function fetchData() {
-  console.log(dispatcher.value);
+  // console.log(dispatcher.value);
   store.commit('setLoadingStatus', true);
   const res = await store.dispatch('fetchMenus');
   items.value = res.results;
@@ -94,12 +94,12 @@ function updateList() {
 
 <template>
   <div>
-    <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
+    <div class="intro-y flex flex-col sm:flex-row items-center mt-5 gap-5">
       <h2 class="text-lg font-medium">Menus List</h2>
       <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-        <button class="ml-2 btn btn-primary" @click="addMenu">
-          <span class="w-5 h-5 flex items-center justify-center">
-            <PlusIcon class="w-4 h-4" />
+        <button class="btn btn-primary" @click="addMenu">
+          <span class="flex items-center justify-center">
+            <PlusIcon />
           </span> Add Menu
         </button>
       </div>
@@ -126,7 +126,7 @@ function updateList() {
                 <a data-dismiss="dropdown"
                   class="flex cursor-pointer items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                   <DeleteConfirmModal @onConfirmedDelete="deleteMenu(item.id)" :isIcon="true" iconClass="w-4 h-4 mr-2"
-                    :modalId="`menu-delete-modal-${item.id}`" />
+                    :modalId="`menu-delete-modal-${ item.id }`" />
                 </a>
 
               </div>

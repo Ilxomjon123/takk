@@ -1,18 +1,21 @@
+// pages
 import Login from '../views/login/Main.vue';
+import DashboardMain from '../views/dashboard/Main.vue';
 import Entry from '../views/steps/Entry.vue';
 import SquareUp from '../views/steps/SquareUp.vue';
 import ErrorPage from '../views/error/index.vue';
 import Home from '../views/home/index.vue';
 import ForCustomers from '../views/for-customers/index.vue';
-import AppLayout from '../layouts/app-layout/index.vue';
 import CreateCompany from '../views/steps/CreateCompany.vue';
 import CreateCafe from '../views/steps/CreateCafe.vue';
 import CreateMenu from '../views/steps/CreateMenu.vue';
 import StepFinish from '../views/steps/Finish.vue';
+
+// layouts
+import AppLayout from '../layouts/app-layout/index.vue';
 import DashboardLayout from '../layouts/dashboard/Main.vue';
 import CompanyLayout from '../layouts/dashboard/company/Main.vue';
 import EntryLayout from '../layouts/entry/Main.vue';
-import DashboardMain from '../views/dashboard/Main.vue';
 // import CafeDataList from '../views/dashboard/cafes/index.vue';
 // import CafeAdd from '../views/dashboard/cafes/AddForm.vue';
 // import CafeEdit from '../views/dashboard/cafes/EditForm.vue';
@@ -64,18 +67,18 @@ const routes = [
     children: [
       { path: '', name: 'dashboard', component: DashboardMain },
       {
-        path: 'cafe-data-list',
-        name: 'side-menu-cafe',
+        path: 'cafes',
+        name: 'cafes',
         component: () => import('../views/dashboard/cafes/index.vue')
       },
       {
-        path: 'cafe-add-form',
-        name: 'side-menu-cafe-add-form',
+        path: 'cafes/add',
+        name: 'cafes-add',
         component: () => import('../views/dashboard/cafes/AddForm.vue')
       },
       {
-        path: 'cafe-edit-form/:id',
-        name: 'side-menu-cafe-edit-form',
+        path: 'cafes/:id',
+        name: 'cafes-edit',
         component: () => import('../views/dashboard/cafes/EditForm.vue')
       },
       {
