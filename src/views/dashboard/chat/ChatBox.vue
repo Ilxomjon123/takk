@@ -230,7 +230,7 @@ function handleScroll(e) {
           </div>
         </div>
         <button type="submit" :disabled="isMsgSending"
-          class="w-8 h-8 sm:w-10 sm:h-10 block bg-theme-1 text-white rounded-full flex-none flex items-center justify-center mr-5">
+          class="w-8 h-8 sm:w-10 sm:h-10 bg-theme-1 text-white rounded-full flex-none flex items-center justify-center mr-5">
           <SendIcon class="w-4 h-4" />
         </button>
       </div>
