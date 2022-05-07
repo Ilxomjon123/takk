@@ -53,7 +53,7 @@
         <label class="form-label">Country</label>
         <CountrySelect
           :class="getError('country') != null ? 'border-theme-6' : 'border-gray-300'"
-          v-model="form.country"
+          v-model="form.country_code"
         />
         <div class="text-theme-6 mt-2" v-text="getError('country')" />
       </div>
