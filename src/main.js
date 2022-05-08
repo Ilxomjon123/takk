@@ -7,12 +7,9 @@ import utils from './utils';
 import './libs';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
-import VueTelInput from 'vue-tel-input';
-// import CKEditor from '@ckeditor/ckeditor5-vue';
 
 // SASS Theme
 import './assets/sass/app.scss';
-import 'vue-tel-input/dist/vue-tel-input.css';
 
 axios.interceptors.response.use(undefined, async function(error) {
   if (error) {
@@ -35,8 +32,6 @@ axios.interceptors.response.use(undefined, async function(error) {
 const app = createApp(App)
   .use(store)
   .use(router)
-  .use(VueTelInput)
-  // .use(CKEditor)
   .use(VueAxios, axios);
 
 globalComponents(app);

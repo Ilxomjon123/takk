@@ -14,12 +14,7 @@ function handleChange(event) {
 </script>
 
 <template>
-  <select
-    required
-    class="form-select"
-    @change="handleChange"
-    :value="modelValue"
-  >
+  <select required class="form-control" @change="handleChange" :value="modelValue">
     <option value disabled>Select ...</option>
     <option v-for="item in items" :value="item.id">{{ item.name }}</option>
   </select>

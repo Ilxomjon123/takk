@@ -6,8 +6,9 @@
   </div>
   <form @submit.prevent="submit">
     <div class="intro-x mt-8">
-      <vue-tel-input styleClasses="intro-x login__input border-gray-200 block py-1" :inputOptions="telInputOptions"
-        v-model="form.phone"></vue-tel-input>
+      <TelInput :inputOptions="telInputOptions" v-model="form.phone" />
+      <!-- <vue-tel-input styleClasses="intro-x login__input border-gray-200 block py-1" :inputOptions="telInputOptions"
+        v-model="form.phone" /> -->
       <!-- <input autofocus type="text" class="intro-x login__input form-control py-3 px-4 border-gray-300 block"
         placeholder="Phone" v-model="form.phone" :disabled="!isDisabled" required /> -->
       <input type="text" class="intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4"
@@ -33,44 +34,43 @@
     <br />
     <a class="text-theme-1 dark:text-theme-10" href>Terms and Conditions</a>
     &
-    <a class="text-theme-1 dark:text-theme-10" href>Privacy Policy</a>  </div>
+    <a class="text-theme-1 dark:text-theme-10" href>Privacy Policy</a>
+  </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
 import { mapActions, mapMutations } from 'vuex';
 import { setToken } from '@/api';
+import TelInput from '../../components/forms/TelInput.vue';
 
 export default defineComponent({
   data() {
     return {
       form: {},
       isDisabled: true,
-      submitText: 'Send Code',
+      submitText: "Send Code",
       isRegister: false,
-      errorText: '',
+      errorText: "",
       isLoading: false,
-      headText: 'Enter phone number',
+      headText: "Enter phone number",
       telInputOptions: {
         autofocus: true,
         required: true,
-        maxlength: 20,
-        showDialCode: true,
-        placeholder: 'Phone',
-        mode: 'international'
+        maxlength: 20
       }
     };
   },
   methods: {
-    ...mapMutations(['setRequiredDetails']),
-    ...mapActions(['signin']),
+    ...mapMutations(["setRequiredDetails"]),
+    ...mapActions(["signin"]),
     async submit() {
-      this.errorText = '';
+      this.errorText = "";
       const oldButtonText = this.submitText;
-      this.submitText = '';
+      this.submitText = "";
       this.isLoading = true;
       this.form.referral_code = this.$route.query?.referral_code;
-      const res = await this.$store.dispatch('signin', this.form);
+      const res = await this.$store.dispatch("signin", this.form);
       // this.signin(this.form);
       // console.log(res);
       if (res.status) {
@@ -78,11 +78,12 @@ export default defineComponent({
           // Telefon Raqam kiritilgandan so'ng
           this.isRegister = res.data.is_register;
           this.isDisabled = false;
-          this.submitText = this.isRegister ? 'Sign Up' : 'Sign In';
+          this.submitText = this.isRegister ? "Sign Up" : "Sign In";
           this.headText = this.isRegister
-            ? 'Fill the form below'
-            : 'Enter SMS code';
-        } else {
+            ? "Fill the form below"
+            : "Enter SMS code";
+        }
+        else {
           // Login muvaffaqiyatli bo'lsa
           this.submitText = oldButtonText;
           this.setRequiredDetails({
@@ -91,19 +92,23 @@ export default defineComponent({
           });
           setToken(res.data.token.access);
           // this.$router.push('/entry');
-          window.location.replace('/entry');
+          window.location.replace("/entry");
         }
       }
       // API dan xato qaytsa
       else {
         this.submitText = oldButtonText;
         // this.errorText = "Invalid Input";
-        if (typeof res.data.detail !== 'undefined') {
+        if (typeof res.data.detail !== "undefined") {
           this.errorText = res.data.detail;
-        } else { this.errorText = res.data.data.detail; }
+        }
+        else {
+          this.errorText = res.data.data.detail;
+        }
       }
       this.isLoading = false;
     }
-  }
+  },
+  components: { TelInput }
 });
 </script>

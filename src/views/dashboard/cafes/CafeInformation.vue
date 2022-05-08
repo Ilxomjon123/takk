@@ -2,11 +2,12 @@
 import { ref } from 'vue';
 import { LMap, LMarker, LTileLayer } from "@vue-leaflet/vue-leaflet";
 import axios from 'axios';
-import store from '@/store';
 import CountrySelect from '@/components/selects/CountrySelect.vue';
 import StateSelect from '@/components/selects/StateSelect.vue';
 import CitySelect from '@/components/selects/CitySelect.vue';
 import InputField from './InputField.vue';
+import useCountries from '@/features/useCountries';
+import TelInput from '@/components/forms/TelInput.vue';
 
 // leaflet styles
 import 'leaflet/dist/leaflet.css';
@@ -23,8 +24,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:formData']);
-store.dispatch('fetchCitiesByCountry', props.formData.country)
 
+const { selectedCountry } = useCountries();
 const openstreetMapUrl = ref('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
 const zoomLevel = ref(7);
 
@@ -66,8 +67,12 @@ function searchLocationByAddress() {
                 :error="externalErrors.website && externalErrors.website[0]" class="mt-3" />
             </div>
             <div class="col-span-12 2xl:col-span-6">
-              <InputField v-model="formData.call_center" title="Cafe phone number" id-value="cafe-form-call_center"
-                :error="externalErrors.call_center && externalErrors.call_center[0]" class="mt-3 2xl:mt-0" />
+              <!-- <InputField v-model="formData.call_center" title="Cafe phone number" id-value="cafe-form-call_center"
+                :error="externalErrors.call_center && externalErrors.call_center[0]" class="mt-3 2xl:mt-0" /> -->
+              <label for="phone" class="form-label">Cafe phone number</label>
+              <TelInput v-model="formData.call_center" />
+              <div class="text-theme-6" v-text="externalErrors.call_center && externalErrors.call_center[0]" />
+
             </div>
             <div class="col-span-12 2xl:col-span-6">
               <div class="mt-3">
@@ -84,8 +89,7 @@ function searchLocationByAddress() {
             <div class="col-span-12 2xl:col-span-6">
               <div class="mt-3">
                 <label class="form-label" for="cafe-form-state">State</label>
-                <StateSelect v-model="formData.state" id="cafe-form-state"
-                  :disabled="formData.country != 'United States'" />
+                <StateSelect v-model="formData.state" id="cafe-form-state" :disabled="selectedCountry.code !== 'US'" />
                 <span class="text-theme-6 mt-2">{{ externalErrors.state && externalErrors.state[0] }}</span>
               </div>
               <InputField v-model="formData.postal_code" title="Postal code" id-value="cafe-form-postal_code"
@@ -131,10 +135,28 @@ function searchLocationByAddress() {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 #map {
   width: 100%;
   height: 200px !important;
   // @apply md: h-80;
+}
+
+.ts-input {
+  z-index: inherit !important;
+}
+
+.dark {
+
+  .vti__input,
+  .vti__dropdown {
+    border-radius: .375rem;
+  }
+
+  .vti__dropdown:hover,
+  .vti__dropdown.disabled,
+  .vti__dropdown.open {
+    background-color: rgb(41, 49, 69) !important;
+  }
 }
 </style>
