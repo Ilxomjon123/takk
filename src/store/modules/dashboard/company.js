@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const state = () => {
   return {
-    // company: [{}],
     company: {},
     customers: [],
     transactions: []
@@ -10,14 +9,7 @@ const state = () => {
 };
 
 const getters = {
-  getCompany: (state, getters) => {
-    // let result = state.company.find(el => el.id == getters.getCompanyId);
-    // if (result == null) {
-    //   result = state.company[0];
-    // }
-    // return result;
-    return state.company;
-  },
+  getCompany: state => state.company,
   getCustomers: state => state.customers,
   getTransactions: state => state.transactions
 };
@@ -94,6 +86,7 @@ const actions = {
       });
     return response;
   },
+
   async fetchTransactions({ commit, rootGetters }, payload) {
     let response;
     await axios

@@ -2,9 +2,6 @@ import makeRequest from '../makeRequest';
 
 export const fetchCafeList = async () => {
   try {
-    const companyId = JSON.parse(localStorage.getItem('required_details'))?.user
-      ?.company_id;
-
     const res = await makeRequest({
       url: `/api/cafes/`,
       headers: { authorization: true }
