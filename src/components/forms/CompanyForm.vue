@@ -81,8 +81,8 @@
 
 <script>
 import { defineComponent } from 'vue'
-import CountrySelect from '../../components/selects/CountrySelect.vue'
-import CitySelect from '../../components/selects/CitySelect.vue';
+import CountrySelect from '@/components/selects/CountrySelect.vue'
+import CitySelect from '@/components/selects/CitySelect.vue';
 import { mapActions } from 'vuex';
 import StateSelect from '../selects/StateSelect.vue';
 import TelInput from './TelInput.vue';
