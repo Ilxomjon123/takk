@@ -133,6 +133,7 @@ const route = useRoute();
 const getStep = computed(() => store.getters['getStep'])
 const errorNotification = ref(null);
 let is_make_create_order = true;
+
 onMounted(() => {
   const squareError = route.query?.squareError;
   if (typeof squareError !== 'undefined') {
@@ -141,11 +142,11 @@ onMounted(() => {
   const step = getStep.value;
   let path;
   switch (step) {
-    case store.state.user.STEP_COMPANY: path = '/entry/company'; break;
+    // case store.state.user.STEP_COMPANY: path = '/entry/company'; break;
     case store.state.user.STEP_CAFE: path = '/entry/cafe'; break;
     case store.state.user.STEP_FINISH: path = '/entry/finish'; break;
     case store.state.user.STEP_DASHBOARD: path = '/dashboard'; break;
-    default: path = '/entry';
+    default: path = '/entry/company';
   }
   router.push(path);
 });
