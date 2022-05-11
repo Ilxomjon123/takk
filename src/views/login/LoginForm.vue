@@ -92,7 +92,7 @@ export default defineComponent({
           });
           setToken(res.data.token.access);
           // this.$router.push('/entry');
-          window.location.replace("/entry");
+          window.location.replace("/entry/company");
         }
       }
       // API dan xato qaytsa
