@@ -111,7 +111,6 @@ export default defineComponent({
       this.errors = {};
       const res = await this.postCompany(this.form);
       if (res.status) {
-        this.$store.commit('setCompany', res);
         this.goCafe();
       } else {
         if (res.data?.detail == "You already have a company") this.goCafe();

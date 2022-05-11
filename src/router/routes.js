@@ -136,6 +136,11 @@ const routes = [
         ]
       },
       {
+        path: 'tariffs',
+        name: 'tariffs',
+        component: () => import('../views/dashboard/company/Tariffs.vue')
+      },
+      {
         path: 'profile',
         component: CompanyLayout,
         children: [
@@ -208,13 +213,13 @@ const routes = [
     name: 'login',
     component: Login
   },
-  {
-    path: '/entry',
-    component: Entry,
-    meta: {
-      requiresAuth: true
-    }
-  },
+  // {
+  //   path: '/entry',
+  //   component: Entry,
+  //   meta: {
+  //     requiresAuth: true
+  //   }
+  // },
   {
     path: '/entry',
     component: EntryLayout,

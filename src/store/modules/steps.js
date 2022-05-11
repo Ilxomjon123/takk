@@ -16,7 +16,7 @@ const actions = {
       })
       .then(async res => {
         await dispatch('putStep', rootState.user.STEP_CAFE);
-        // await dispatch('setCompanyId', res.data.id);
+        await commit('setCompany', res.data);
 
         response = {
           status: true,
@@ -31,6 +31,7 @@ const actions = {
       });
     return response;
   },
+
   async postCafe({ commit, rootGetters, rootState, dispatch }, payload) {
     let response;
     await axios
@@ -54,6 +55,7 @@ const actions = {
       });
     return response;
   },
+
   async postStepMenu({ commit, rootGetters, rootState, dispatch }, payload) {
     let response;
     await axios

@@ -8,7 +8,7 @@ const state = () => {
       ?.refresh,
     token: JSON.parse(localStorage.getItem(REQUIRED_DETAILS))?.token?.access,
     user: JSON.parse(localStorage.getItem(REQUIRED_DETAILS))?.user,
-    STEP_ENTRY: null,
+    // STEP_ENTRY: null,
     STEP_COMPANY: 1,
     STEP_CAFE: 2,
     // STEP_MENU: 3,

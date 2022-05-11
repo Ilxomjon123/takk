@@ -54,7 +54,7 @@ export default defineComponent({
   mounted() {
     if (this.getToken) {
       console.log(typeof this.getToken);
-      this.$router.push('/entry')
+      this.$router.push('/dashboard')
     } else {
       cash('body')
         .removeClass('main')
