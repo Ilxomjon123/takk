@@ -2,7 +2,7 @@
   <div>
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
       <h2 class="text-lg font-medium">Employees List</h2>
-      <div class="dropdown inline-block" data-placement="right-start">
+      <!-- <div class="dropdown inline-block" data-placement="right-start">
         <button class="dropdown-toggle" aria-expanded="false">
           <MoreVerticalIcon />
         </button>
@@ -19,8 +19,8 @@
 
           </div>
         </div>
-      </div>
-      <!-- <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
+      </div> -->
+      <div class="w-full sm:w-auto flex mt-4 ml-2 sm:mt-0">
         <router-link to="/dashboard/employees/add-new" class="btn btn-primary mr-3">
           <span class="w-5 h-5 flex items-center justify-center">
             <PlusIcon class="w-4 h-4" />
@@ -31,7 +31,7 @@
             <PlusIcon class="w-4 h-4" />
           </span>Add Existing User
         </router-link>
-      </div> -->
+      </div>
     </div>
 
     <!-- BEGIN: Data List -->
