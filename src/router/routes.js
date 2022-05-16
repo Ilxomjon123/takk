@@ -213,13 +213,13 @@ const routes = [
     name: 'login',
     component: Login
   },
-  {
-    path: '/entry',
-    component: Entry,
-    meta: {
-      requiresAuth: true
-    }
-  },
+  // {
+  //   path: '/entry',
+  //   component: Entry,
+  //   meta: {
+  //     requiresAuth: true
+  //   }
+  // },
   {
     path: '/entry',
     component: EntryLayout,
