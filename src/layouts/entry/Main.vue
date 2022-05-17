@@ -6,6 +6,7 @@
   <div>
     <div class="flex items-center mt-8">
       <!-- <h2 class="intro-y text-lg font-medium mr-auto">Wizard Layout</h2> -->
+      <button class="btn btn-outline-danger text-white ml-auto" @click="log_out">Logout</button>
     </div>
     <!-- BEGIN: Wizard Layout -->
     <div class="intro-y box py-10 sm:py-20 mt-5">
@@ -40,7 +41,7 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import DarkModeSwitcher from '@/components/dark-mode-switcher/Main.vue'
 
 export default defineComponent({
@@ -61,13 +62,21 @@ export default defineComponent({
     // console.log(step);
     let path = '/';
     switch (step) {
-      case this.$store.state.user.STEP_COMPANY: path = '/entry/company'; break;
+      // case this.$store.state.user.STEP_COMPANY: path = '/entry/company'; break;
       case this.$store.state.user.STEP_CAFE: path = '/entry/cafe'; break;
       case this.$store.state.user.STEP_FINISH: path = '/entry/finish'; break;
       case this.$store.state.user.STEP_DASHBOARD: path = '/dashboard'; break;
-      default: path = '/entry';
+      default: path = '/entry/company';
     }
     this.$router.push(path);
+  },
+  methods:{
+    ...mapActions(['logout']),
+    log_out(){
+      confirm('Are you sure?');
+      this.logout();
+      window.location.replace('/');
+    }
   },
   components: {
     DarkModeSwitcher
