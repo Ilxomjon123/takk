@@ -6,7 +6,7 @@
   <div>
     <div class="flex items-center mt-8">
       <!-- <h2 class="intro-y text-lg font-medium mr-auto">Wizard Layout</h2> -->
-      <button class="btn btn-outline-danger text-white ml-auto" @click="logout">Logout</button>
+      <button class="btn btn-outline-danger text-white ml-auto" @click="log_out">Logout</button>
     </div>
     <!-- BEGIN: Wizard Layout -->
     <div class="intro-y box py-10 sm:py-20 mt-5">
@@ -72,7 +72,7 @@ export default defineComponent({
   },
   methods:{
     ...mapActions(['logout']),
-    logout(){
+    log_out(){
       confirm('Are you sure?');
       this.logout();
       window.location.replace('/');
