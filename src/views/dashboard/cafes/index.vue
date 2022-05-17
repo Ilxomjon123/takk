@@ -33,11 +33,15 @@ function gotoForm(id) {
 
 <template>
   <div>
-    <h2 class="intro-y text-lg font-medium mt-10">Data List Layout</h2>
-    <div class="grid grid-cols-12 gap-6 mt-5">
-      <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
+    <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
+      <h2 class="text-lg font-medium">Data List Layout</h2>
+      <div class="w-full sm:w-auto flex ml-2 sm:mt-0">
+        <div class="intro-y flex flex-wrap sm:flex-nowrap items-center">
         <button class="btn btn-primary shadow-md mr-2" @click="gotoForm(null)">Add New Cafe</button>
       </div>
+      </div>
+    </div>
+    <div class="grid grid-cols-12 gap-6 mt-5">
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
         <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">

@@ -81,7 +81,7 @@
                         <Edit2Icon class="w-4 h-4 mr-2" />Edit
                       </router-link>
                       <a data-dismiss="dropdown"
-                        class="flex items-center  p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                        class="flex items-center cursor-pointer p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                         <DeleteConfirmModal @onConfirmedDelete="deleteItem(item.id)" :isIcon="true"
                           :modalId="'category-delete-modal-' + item.id" iconClass="w-4 h-4 mr-2" />
                       </a>
@@ -119,7 +119,7 @@
                         <Edit2Icon class="w-4 h-4 mr-2" />Edit
                       </router-link>
                       <a data-dismiss="dropdown"
-                        class="flex items-center  p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                        class="flex items-center cursor-pointer p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
                         <DeleteConfirmModal @onConfirmedDelete="deleteItem(el.id)" :isIcon="true"
                           :modalId="`category-delete-modal-${ item.id }-${ el.id }`" iconClass="w-4 h-4 mr-2" />
                       </a>

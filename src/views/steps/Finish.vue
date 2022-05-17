@@ -13,6 +13,22 @@
       <button class="btn btn-success" @click="skip">Go to Dashboard</button>
     </div>
   </div>
+  <div class="hidden md:flex justify-center mx-auto w-full mt-3">
+        <a href="https://apps.apple.com/us/app/kaffe-landskap/id1469010325" target="blank">
+          <img class="mr-12 w-[240px] h-[80px]" src="@/assets/images/App_Store_badge_US.png" alt="App Store badge" />
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=com.takk.cafe" target="blank">
+          <img class="ml-12 w-[240px] h-[80px]" src="@/assets/images/Google_Play_Badge.png" alt="Google_Play_Badge" />
+        </a>
+      </div>
+      <div class="flex md:hidden justify-between mt-3">
+        <a href="https://apps.apple.com/us/app/kaffe-landskap/id1469010325" target="blank">
+          <img class="w-11/12" src="@/assets/images/App_Store_badge_US.png" alt="App Store badge" />
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=com.takk.cafe" target="blank">
+          <img class="w-11/12 ml-auto" src="@/assets/images/Google_Play_Badge.png" alt="Google_Play_Badge" />
+        </a>
+      </div>
 </template>
 
 

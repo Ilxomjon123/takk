@@ -469,36 +469,36 @@ function gotoLoginPage() {
             </div>
           </div>
           <div class="hidden md:flex justify-center mx-auto w-full">
-            <router-link to="/">
+            <a href="https://apps.apple.com/us/app/kaffe-landskap/id1469010325" target="blank">
               <img
                 class="mr-12 w-[240px] h-[80px]"
                 src="@/assets/images/App_Store_badge_US.png"
                 alt="App Store badge"
               />
-            </router-link>
-            <router-link to="/" class>
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.takk.cafe" target="blank">
               <img
                 class="ml-12 w-[240px] h-[80px]"
                 src="@/assets/images/Google_Play_Badge.png"
                 alt="Google_Play_Badge"
               />
-            </router-link>
+            </a>
           </div>
           <div class="flex md:hidden justify-between">
-            <router-link to="/">
+            <a href="https://apps.apple.com/us/app/kaffe-landskap/id1469010325" target="blank">
               <img
                 class="w-11/12"
                 src="@/assets/images/App_Store_badge_US.png"
                 alt="App Store badge"
               />
-            </router-link>
-            <router-link to="/">
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.takk.cafe" target="blank">
               <img
                 class="w-11/12 ml-auto"
                 src="@/assets/images/Google_Play_Badge.png"
                 alt="Google_Play_Badge"
               />
-            </router-link>
+            </a>
           </div>
           <div class="flex lg:justify-center lg:my-10">
             <button type="button" class="btn-primary" @click="gotoLoginPage">

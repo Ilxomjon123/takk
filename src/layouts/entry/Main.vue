@@ -61,11 +61,11 @@ export default defineComponent({
     // console.log(step);
     let path = '/';
     switch (step) {
-      // case this.$store.state.user.STEP_COMPANY: path = '/entry/company'; break;
+      case this.$store.state.user.STEP_COMPANY: path = '/entry/company'; break;
       case this.$store.state.user.STEP_CAFE: path = '/entry/cafe'; break;
       case this.$store.state.user.STEP_FINISH: path = '/entry/finish'; break;
       case this.$store.state.user.STEP_DASHBOARD: path = '/dashboard'; break;
-      default: path = '/entry/company';
+      default: path = '/entry';
     }
     this.$router.push(path);
   },
