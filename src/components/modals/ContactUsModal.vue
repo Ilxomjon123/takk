@@ -7,7 +7,7 @@
         </a>
         <div class="modal-body p-0">
           <div class="p-5 text-center">
-            <div class="text-2xl mt-5">Keep in touch</div>
+            <div class="text-2xl mt-5">Get in touch</div>
           </div>
           <form @submit.prevent="onSubmit">
             <div class="px-10 pb-8 text-center text-base">

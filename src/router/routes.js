@@ -110,6 +110,11 @@ const routes = [
             path: '',
             name: 'company',
             component: () => import('../views/dashboard/company/Main.vue')
+          },
+          {
+            path: 'app-images',
+            name: 'app-images',
+            component: () => import('../views/dashboard/company/AppImage.vue')
           }
         ]
       },

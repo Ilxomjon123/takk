@@ -17,14 +17,13 @@
         <div class="text-white mt-10 lg:mt-0">
           <!-- <div class="intro-x text-8xl font-medium">404</div> -->
           <div
-            class="intro-x text-xl lg:text-3xl font-medium mt-5"
+            class="intro-x text-xl lg:text-3xl font-medium mt-5 mb-2"
           >Integration successfully created!</div>
-          <!-- <div
-            class="intro-x text-lg mt-3"
-          >You may have mistyped the address or the page may have moved.</div>-->
+        <div class="text-lg intro-x font-medium">Please choose cafes which you want to share with Takk</div>
+         <SqauareCafeForm/>
           <router-link
             to="/dashboard"
-            class="intro-x btn py-3 px-4 text-white border-white dark:border-dark-5 dark:text-gray-300 mt-10"
+            class="intro-x btn py-3 px-4 text-white border-white dark:border-dark-5 dark:text-gray-300 mt-10 w-full"
           >Go to Dashboard</router-link>
         </div>
       </div>
@@ -38,6 +37,7 @@ import { defineComponent, onMounted } from 'vue'
 import cash from 'cash-dom'
 import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex';
+import SqauareCafeForm from '../../components/forms/cafes/SqauareCafeForm.vue';
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
@@ -51,7 +51,7 @@ onMounted(async () => {
   const code = route.query?.code;
   const state = route.query?.state;
   if (typeof code === 'undefined' || typeof state === 'undefined') {
-    location.href = '/entry';
+    // location.href = '/entry';
   } else {
     const res = await store.dispatch('postSquareAuth', { code, state });
     console.log(res);
