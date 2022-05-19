@@ -20,10 +20,10 @@
           <div
             class="intro-x text-lg mt-3"
           >You may have mistyped the address or the page may have moved.</div>
-          <router-link
-            to="/"
+          <button
+            @click="$router.go(-1)"
             class="intro-x btn py-3 px-4 text-white border-white dark:border-dark-5 dark:text-gray-300 mt-10"
-          >Back to Home</router-link>
+          >Back to Home</button>
         </div>
       </div>
       <!-- END: Error Page -->

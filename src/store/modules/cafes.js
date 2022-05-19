@@ -4,6 +4,7 @@ import axios from 'axios';
 const state = () => {
   return {
     cafeList: [],
+    squareCafeList: [],
     cafeById: {}
   };
 };
@@ -11,13 +12,19 @@ const state = () => {
 // getters
 const getters = {
   getCafeList: state => state.cafeList,
-  getCafeById: state => state.cafeById
+  getSquareCafeList: state => state.squareCafeList,
+  getCafeById: state => state.cafeById,
+  getSquareSelectedCafeList: state =>
+    state.cafeList.filter(item => item.is_use_square == true)
 };
 
 // mutations
 const mutations = {
   setCafeList(state, payload) {
     state.cafeList = payload;
+  },
+  setSquareCafeList(state, payload) {
+    state.squareCafeList = payload;
   },
   setCafeById(state, payload) {
     state.cafeById = payload;
@@ -34,6 +41,18 @@ const actions = {
       });
 
       commit('setCafeList', res.data[0].cafes);
+    } catch (err) {
+      return console.log('error while fetching cafes: ', err);
+    }
+  },
+
+  async fetchSquareCafeList({ rootGetters, commit }) {
+    try {
+      const res = await axios.get('/api/square/locations/parse/', {
+        headers: rootGetters.getHttpHeader
+      });
+
+      commit('setSquareCafeList', res.data);
     } catch (err) {
       return console.log('error while fetching cafes: ', err);
     }
@@ -67,6 +86,33 @@ const actions = {
     } catch (err) {
       return console.log('error while saving cafe data: ', err);
     }
+  },
+  async storeSquareCafe({ rootGetters, commit }, payload) {
+    let response;
+    await axios
+      .post(
+        `/api/square/locations/import/`,
+        {
+          locations: payload
+        },
+        {
+          headers: rootGetters.getHttpHeader
+        }
+      )
+      .then(res => {
+        response = {
+          status: true,
+          data: res.data
+        };
+      })
+      .catch(err => {
+        response = {
+          status: false,
+          data: err.response
+        };
+      });
+
+    return response;
   }
 };
 

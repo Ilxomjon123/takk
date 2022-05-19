@@ -4,7 +4,7 @@
     <div id="success-notification-content" class="toastify-content hidden flex">
       <CheckCircleIcon class="text-theme-9" />
       <div class="ml-4 mr-4">
-        <div class="font-medium">Successfully!</div>
+        <div class="font-medium">{{ message }}</div>
         <!-- <div class="text-gray-600 mt-1">{{ message }}</div> -->
       </div>
     </div>
@@ -21,7 +21,7 @@ export default defineComponent({
   props: {
     message: {
       type: String,
-      default: null
+      default: 'Successfully!'
     },
     duration: {
       type: Number,
