@@ -48,7 +48,6 @@ function setItems(val) {
 function selectMenu(val) {
   store.commit('setSelectedMenuId', val);
   emit('update-id', val);
-
 }
 
 function addMenu() {

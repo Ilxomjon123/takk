@@ -19,11 +19,11 @@
           <div
             class="intro-x text-xl lg:text-3xl font-medium mt-5 mb-2"
           >Integration successfully created!</div>
-        <div class="text-lg intro-x font-medium">Please choose cafes which you want to share with Takk</div>
-         <SqauareCafeForm/>
+        <div class="text-lg intro-x font-medium">Migrating data is started. It may take a few minutes</div>
+         <!-- <SqauareCafeForm/> -->
           <router-link
             to="/dashboard"
-            class="intro-x btn py-3 px-4 text-white border-white dark:border-dark-5 dark:text-gray-300 mt-10 w-full"
+            class="intro-x btn py-3 px-4 text-white border-white dark:border-dark-5 dark:text-gray-300 mt-10"
           >Go to Dashboard</router-link>
         </div>
       </div>
@@ -63,6 +63,8 @@ onMounted(async () => {
     }
   }
   // console.log(route?.query?.code);
+  // await store.dispatch('cafes/fetchSquareCafeList')
+  store.dispatch('cafes/storeSquareIDCafe')
 })
 //   }
 // });

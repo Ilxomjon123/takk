@@ -30,7 +30,7 @@ export default defineComponent({
       paginator: {
         page: 1,
         limit: 10,
-        total: 100,
+        total: 1000,
       },
     }
   },
@@ -38,19 +38,21 @@ export default defineComponent({
     await this.fetchData();
   },
   methods: {
-    async paginate(val) {
-      this.paginator.page = val
-      await this.fetchData();
+    async paginate(val, form = {}) {
+    this.paginator.page = val
+    await this.fetchData(form);
     },
     async changePerPage(val) {
       this.paginator.limit = val;
       this.paginator.page = 1;
       await this.fetchData();
     },
-    async fetchData() {
+    async fetchData(form = {}) {
+      if(form == {}){
+        form = this.from;
+      }
       this.$store.commit('setLoadingStatus', true);
-      // this.$emit('setItems', []);
-      const res = await this.$store.dispatch(this.dispatcher, { ...this.form, ...this.paginator });
+      const res = await this.$store.dispatch(this.dispatcher, { ...form, ...this.paginator });
       this.paginator.total = res?.total_objects;
       this.$emit('setItems', res?.results);
       this.$store.commit('setLoadingStatus', false);

@@ -15,6 +15,7 @@ import StepFinish from '../views/steps/Finish.vue';
 import AppLayout from '../layouts/app-layout/index.vue';
 import DashboardLayout from '../layouts/dashboard/Main.vue';
 import CompanyLayout from '../layouts/dashboard/company/Main.vue';
+import CustomLayout from '../layouts/dashboard/Custom.vue';
 import EntryLayout from '../layouts/entry/Main.vue';
 // import CafeDataList from '../views/dashboard/cafes/index.vue';
 // import CafeAdd from '../views/dashboard/cafes/AddForm.vue';
@@ -115,12 +116,17 @@ const routes = [
             path: 'app-images',
             name: 'app-images',
             component: () => import('../views/dashboard/company/AppImage.vue')
+          },
+          {
+            path: 'square',
+            name: 'square',
+            component: () => import('../views/dashboard/company/Square.vue')
           }
         ]
       },
       {
         path: 'customer',
-        component: CompanyLayout,
+        component: CustomLayout,
         children: [
           {
             path: '',
@@ -131,7 +137,7 @@ const routes = [
       },
       {
         path: 'transactions',
-        component: CompanyLayout,
+        component: CustomLayout,
         children: [
           {
             path: '',
@@ -147,7 +153,7 @@ const routes = [
       },
       {
         path: 'profile',
-        component: CompanyLayout,
+        component: CustomLayout,
         children: [
           {
             path: '',
@@ -158,7 +164,7 @@ const routes = [
       },
       {
         path: 'employees',
-        component: CompanyLayout,
+        component: CustomLayout,
         children: [
           {
             path: '',
@@ -181,7 +187,7 @@ const routes = [
       },
       {
         path: 'categories',
-        component: CompanyLayout,
+        component: CustomLayout,
         children: [
           {
             path: '',
@@ -202,7 +208,7 @@ const routes = [
       },
       {
         path: 'modifiers',
-        component: CompanyLayout,
+        component: CustomLayout,
         children: [
           {
             path: '',

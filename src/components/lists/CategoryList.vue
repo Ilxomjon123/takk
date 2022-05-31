@@ -8,26 +8,26 @@
         </button>
         <div class="dropdown-menu w-fit">
           <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-            <button class="btn mb-2" @click="reorderModifierType" :disabled="items.length < 2" data-toggle="dropdown">
+            <router-link :to="getSelectedMenuId != null ? `/dashboard/categories/${ getSelectedMenuId }/add` : ''"
+              class="btn w-full" data-toggle="dropdown">
+              <span class="w-5 h-5 flex items-center justify-center">
+                <PlusIcon class="w-4 h-4" />
+              </span>
+              <span class="whitespace-nowrap">Add Category</span>
+            </router-link>
+            <button class="btn mb-2 w-full" @click="reorderModifierType" :disabled="items.length < 2" data-toggle="dropdown">
               <span class="w-5 h-5 flex items-center justify-center">
                 <ShuffleIcon class="w-4 h-4" />
               </span>
               <span class="whitespace-nowrap">Reorder Categories</span>
             </button>
-            <button class="btn mb-2" @click="reorderModifierItem" :disabled="showChildren.length === 0"
+            <button class="btn mb-2 w-full" @click="reorderModifierItem" :disabled="showChildren.length === 0"
               data-toggle="dropdown">
               <span class="w-5 h-5 flex items-center justify-center">
                 <ShuffleIcon class="w-4 h-4" />
               </span>
               <span class="whitespace-nowrap">Reorder Category Items</span>
             </button>
-            <router-link :to="getSelectedMenuId != null ? `/dashboard/categories/${ getSelectedMenuId }/add` : ''"
-              class="btn" data-toggle="dropdown">
-              <span class="w-5 h-5 flex items-center justify-center">
-                <PlusIcon class="w-4 h-4" />
-              </span>
-              <span class="whitespace-nowrap">Add Category</span>
-            </router-link>
           </div>
         </div>
       </div>

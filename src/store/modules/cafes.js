@@ -13,6 +13,8 @@ const state = () => {
 const getters = {
   getCafeList: state => state.cafeList,
   getSquareCafeList: state => state.squareCafeList,
+  getSquareCafeIDList: state =>
+    state.squareCafeList.map(item => item.square_location_id),
   getCafeById: state => state.cafeById,
   getSquareSelectedCafeList: state =>
     state.cafeList.filter(item => item.is_use_square == true)
@@ -51,7 +53,6 @@ const actions = {
       const res = await axios.get('/api/square/locations/parse/', {
         headers: rootGetters.getHttpHeader
       });
-
       commit('setSquareCafeList', res.data);
     } catch (err) {
       return console.log('error while fetching cafes: ', err);
@@ -94,6 +95,34 @@ const actions = {
         `/api/square/locations/import/`,
         {
           locations: payload
+        },
+        {
+          headers: rootGetters.getHttpHeader
+        }
+      )
+      .then(res => {
+        response = {
+          status: true,
+          data: res.data
+        };
+      })
+      .catch(err => {
+        response = {
+          status: false,
+          data: err.response
+        };
+      });
+
+    return response;
+  },
+  async storeSquareIDCafe({ rootGetters, commit, dispatch, getters }) {
+    let response;
+    await dispatch('fetchSquareCafeList');
+    await axios
+      .post(
+        `/api/square/locations/import/`,
+        {
+          locations: getters.getSquareCafeIDList
         },
         {
           headers: rootGetters.getHttpHeader

@@ -1,5 +1,5 @@
 <template>
-<button class="btn btn-success" @click="tableToExcel('Test')">Export Excel
+<button class="btn btn-success" @click="tableToExcel('Transactions')">Export Excel
 <LoadingIcon icon="oval" color="white" class="w-4 h-4 ml-2" v-if="loading"/></button>
 </template>
 
@@ -41,7 +41,7 @@ export default {
             },
             params:this.form,
           }, {
-            responseType: "arraybuffer"
+            responseType: 'blob'
           }
         )
         .then(response => {
@@ -51,6 +51,7 @@ export default {
           link.setAttribute("download", `${name}.${type}`);
           document.body.appendChild(link);
           link.click();
+
           this.loading = false;
         })
         .catch(error => {
