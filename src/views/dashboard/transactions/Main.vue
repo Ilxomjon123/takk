@@ -5,11 +5,11 @@
       <div
         class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"
       >
-      <ExcelExportButton/>
+      <ExcelExportButton :form="form"/>
         <div class="hidden md:block mx-auto text-gray-600"></div>
         <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
           <div class="w-56 relative text-gray-700 dark:text-gray-300">
-            <form @submit.prevent="search">
+            <!-- <form @submit.prevent="search">
               <input
                 v-model="form.search"
                 type="text"
@@ -20,7 +20,8 @@
                 class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0 cursor-pointer"
                 @click="search"
               />
-            </form>
+            </form> -->
+            <TransactionSearch @submit="search($event)" />
           </div>
         </div>
       </div>
@@ -129,9 +130,10 @@
 import { defineComponent } from 'vue'
 import MainPaginator from '../../../components/paginator/MainPaginator.vue'
 import ExcelExportButton from '../../../components/buttons/ExcelExportButton.vue'
+import TransactionSearch from '../../../components/forms/TransactionSearch.vue'
 
 export default defineComponent({
-  components: { MainPaginator, ExcelExportButton },
+  components: { MainPaginator, ExcelExportButton, TransactionSearch },
   data() {
     return {
       items: [],
@@ -144,8 +146,10 @@ export default defineComponent({
     setItems(val) {
       this.items = val
     },
-    search() {
-      this.$refs.paginator.paginate(1)
+    async search(form) {
+      this.form = form;
+      // console.log(form);
+      await this.$refs.paginator.paginate(1, form);
     },
     setOrder(val) {
       this.order = val.order;

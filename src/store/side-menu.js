@@ -74,12 +74,12 @@ const state = () => {
         icon: 'UserPlusIcon',
         pageName: 'customer',
         title: 'Customers'
-      },
-      {
-        icon: 'DollarSignIcon',
-        pageName: 'tariffs',
-        title: 'Tariffs'
       }
+      // {
+      //   icon: 'DollarSignIcon',
+      //   pageName: 'tariffs',
+      //   title: 'Tariffs'
+      // }
     ]
   };
 };
