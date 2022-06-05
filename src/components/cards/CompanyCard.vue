@@ -10,7 +10,7 @@ const company = computed(()=> store.getters.getCompany)
 
 </script>
 <template>
-  <div class="col-span-12 lg:col-span-4 2xl:col-span-3 flex lg:block flex-col-reverse">
+  <div class="col-span-12 lg:col-span-3 2xl:col-span-3 flex lg:block flex-col-reverse">
     <div class="intro-y box mt-5 lg:mt-0">
       <div class="relative flex items-center p-5">
         <div class="ml-4 mr-auto">

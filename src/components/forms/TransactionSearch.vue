@@ -11,7 +11,7 @@ function getDate(val = 0, date = new Date()){
     + month
     + '-' + date.getFullYear();
 }
-const daterange = ref(getDate() + ' - ' + getDate());
+const daterange = ref(getDate(30) + ' - ' + getDate());
 const search = () => {
   const dates = daterange.value.split(' - ');
   emit('submit', {start:dates[0], end:dates[1]});

@@ -54,7 +54,7 @@ async function submit() {
 </script>
 
 <template>
-  <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
+  <div class="col-span-12 lg:col-span-9 2xl:col-span-9">
     <!-- BEGIN: Display Information -->
     <div class="intro-y box" v-if="!globalLoading">
       <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
