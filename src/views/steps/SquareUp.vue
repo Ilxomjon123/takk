@@ -19,7 +19,7 @@
           <div
             class="intro-x text-xl lg:text-3xl font-medium mt-5 mb-2"
           >Integration successfully created!</div>
-        <div class="text-lg intro-x font-medium">Migrating data is started. It may take a few minutes</div>
+        <div class="text-lg intro-x font-medium">Migrating data has started. It may take a few minutes</div>
          <!-- <SqauareCafeForm/> -->
           <router-link
             to="/dashboard"
@@ -63,7 +63,7 @@ onMounted(async () => {
     }
   }
   // console.log(route?.query?.code);
-  // await store.dispatch('cafes/fetchSquareCafeList')
+  await store.dispatch('cafes/fetchSquareCafeList')
   store.dispatch('cafes/storeSquareIDCafe')
 })
 //   }

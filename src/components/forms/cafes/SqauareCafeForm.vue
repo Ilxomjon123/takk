@@ -8,7 +8,7 @@
       <LoadingIcon v-if="loading" icon="oval" color="white" class="w-4 h-4 ml-2" />
     </button>
   </form>
-  <SuccessNotification message="Successfully shared"/>
+  <SuccessNotification message="Successfully"/>
 </template>
 
 <script>
