@@ -121,6 +121,11 @@ const routes = [
             path: 'square',
             name: 'square',
             component: () => import('../views/dashboard/company/Square.vue')
+          },
+          {
+            path: 'tariffs',
+            name: 'tariffs',
+            component: () => import('../views/dashboard/company/Tariffs.vue')
           }
         ]
       },
@@ -146,11 +151,11 @@ const routes = [
           }
         ]
       },
-      {
-        path: 'tariffs',
-        name: 'tariffs',
-        component: () => import('../views/dashboard/company/Tariffs.vue')
-      },
+      // {
+      //   path: 'tariffs',
+      //   name: 'tariffs',
+      //   component: () => import('../views/dashboard/company/Tariffs.vue')
+      // },
       {
         path: 'profile',
         component: CustomLayout,
