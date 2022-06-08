@@ -99,7 +99,7 @@ async function handleProductDuplicate(category) {
           <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5">{{ element.category?.name }}</div>
         </td>
         <td class="text-center">{{ element.position }}</td>
-        <td class>{{ element.description }}</td>
+        <td class v-html="element.description"></td>
         <td class="table-report__action">
           <div class="dropdown inline-block" data-placement="right-start">
             <button class="dropdown-toggle -mr-3" aria-expanded="false">

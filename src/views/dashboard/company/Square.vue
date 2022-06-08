@@ -1,8 +1,8 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
 import store from '@/store';
-import SqauareCafeForm from '../../../components/forms/cafes/SqauareCafeForm.vue';
-
+import SquareCafeForm from '../../../components/forms/cafes/SquareCafeForm.vue';
+import SquareIntegrate from '../../../components/cards/SquareIntegrate.vue';
 const isLoading = ref(false)
 const getCompany = computed(() => store.getters["getCompany"])
 const globalLoading = computed(() => store.state.common.loadingStatus)
@@ -24,9 +24,10 @@ onMounted(async () => {
       </div>
       <div class="p-5">
         <div v-if="getCompany?.has_square_account">
+          <SquareCafeForm />
         </div>
         <div v-else>
-          <SqauareCafeForm />
+          <SquareIntegrate />
         </div>
       </div>
     </div>

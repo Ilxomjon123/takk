@@ -33,16 +33,13 @@
 </template>
 
 <script setup>
-import { defineComponent, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import cash from 'cash-dom'
 import { useRouter, useRoute } from 'vue-router'
 import { useStore } from 'vuex';
-import SqauareCafeForm from '../../components/forms/cafes/SqauareCafeForm.vue';
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
-// export default defineComponent({
-// setup() {
 onMounted(async () => {
   cash('body')
     .removeClass('main')
@@ -62,8 +59,7 @@ onMounted(async () => {
       location.href = '/entry?squareError=error';
     }
   }
-  // console.log(route?.query?.code);
-  await store.dispatch('cafes/fetchSquareCafeList')
+  // await store.dispatch('cafes/fetchSquareCafeList')
   store.dispatch('cafes/storeSquareIDCafe')
 })
 //   }

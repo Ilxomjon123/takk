@@ -37,8 +37,8 @@ const mutations = {
 const actions = {
   async fetchCafeList({ rootGetters, commit }) {
     try {
-      const res = await axios.get('/api/companies/', {
-        params: { id: rootGetters.getUser.company_id },
+      const res = await axios.get('/api/cafes/', {
+        // params: { id: rootGetters.getUser.company_id },
         headers: rootGetters.getHttpHeader
       });
 
