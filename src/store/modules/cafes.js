@@ -17,7 +17,7 @@ const getters = {
     state.squareCafeList.map(item => item.square_location_id),
   getCafeById: state => state.cafeById,
   getSquareSelectedCafeList: state =>
-    state.cafeList.filter(item => item.is_use_square == true)
+    state.cafeList.filter(item => item.square_location_id?.length > 0)
 };
 
 // mutations
@@ -42,7 +42,7 @@ const actions = {
         headers: rootGetters.getHttpHeader
       });
 
-      commit('setCafeList', res.data[0].cafes);
+      commit('setCafeList', res.data.results);
     } catch (err) {
       return console.log('error while fetching cafes: ', err);
     }

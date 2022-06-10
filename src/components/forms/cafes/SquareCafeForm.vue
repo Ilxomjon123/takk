@@ -26,10 +26,11 @@ export default {
     ...mapGetters(["cafes/getSquareCafeList", "cafes/getSquareSelectedCafeList"])
   },
   methods: {
-    ...mapActions(["cafes/fetchSquareCafeList", "cafes/storeSquareCafe"]),
+    ...mapActions(["cafes/fetchSquareCafeList", "cafes/storeSquareCafe", "cafes/fetchCafeList"]),
     ...mapMutations(["setSuccessNotification"]),
     async submit() {
       this.loading = true;
+      this.error= {};
       const res = await this["cafes/storeSquareCafe"](this.locations);
       if (!res.status) {
         this.error = res.data;
@@ -40,9 +41,10 @@ export default {
     }
   },
   async mounted() {
+    await this["cafes/fetchCafeList"]();
     await this["cafes/fetchSquareCafeList"]();
     this.locations = this["cafes/getSquareSelectedCafeList"].map(item => item.square_location_id);
-    console.log('loctions',this["cafes/getSquareSelectedCafeList"]);
+    // console.log('loctions',this["cafes/getSquareSelectedCafeList"]);
     this.list = this["cafes/getSquareCafeList"];
   },
 }
