@@ -13,6 +13,23 @@ export const fetchCountries = async () => {
   }
 };
 
+export const fetchStates = async countryCode => {
+  try {
+    const res = await makeRequest({
+      url: `/api/country/`,
+      params: {
+        country: countryCode
+      },
+      headers: { authorization: true }
+    });
+
+    return res.data;
+  } catch (err) {
+    console.log('error while fetching states list: ', err);
+    throw err;
+  }
+};
+
 export const fetchCities = async (countryCode, stateCode) => {
   try {
     const res = await makeRequest({
