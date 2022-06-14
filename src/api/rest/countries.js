@@ -16,7 +16,7 @@ export const fetchCountries = async () => {
 export const fetchCities = async (countryCode, stateCode) => {
   try {
     const res = await makeRequest({
-      url: `/api/countries/`,
+      url: `/api/country/cities/`,
       params: {
         country: countryCode,
         state: stateCode

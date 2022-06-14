@@ -1,12 +1,13 @@
 import { createApp } from 'vue';
-import App from './App.vue';
-import router from './router';
-import store from './store';
-import globalComponents from './global-components';
-import utils from './utils';
-import './libs';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+
+import router from './router';
+import store from './store';
+import App from './App.vue';
+import utils from './utils';
+import './libs';
+import globalComponents from './global-components';
 
 // SASS Theme
 import './assets/sass/app.scss';

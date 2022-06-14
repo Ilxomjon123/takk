@@ -14,7 +14,7 @@ const {
 } = useCountries();
 
 const { country, state } = store.getters['getCompany'];
-searchCities(country, state)
+// searchCities(country, state)
 
 const selectedCity = computed({
   get: () => {
@@ -31,7 +31,7 @@ const selectedCity = computed({
   <TomSelect v-model="selectedCity" :options="{
     placeholder: 'Search..'
   }" class="w-full">
-    <option v-for="(item, index) in citiesList" :key="index" :value="item">{{ item.name }}</option>
+    <option v-for="(item, index) in citiesList" :key="index" :value="item">{{ item }}</option>
   </TomSelect>
 </template>
 

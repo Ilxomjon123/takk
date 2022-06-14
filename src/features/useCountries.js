@@ -27,7 +27,7 @@ export default () => {
 
   const setSelectedCountry = async payload => {
     if (payload) {
-      console.log('ok');
+      // console.log('ok');
       const country = countries.find(
         item => item.code === payload || item.name === payload
       );
