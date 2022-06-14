@@ -5,7 +5,7 @@
 
 <script>
 import { defineComponent } from 'vue'
-import CafeForm from '../../components/forms/CafeForm.vue'
+import CafeForm from '@/components/forms/CafeForm.vue'
 
 export default defineComponent({
   components: { CafeForm }

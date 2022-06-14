@@ -12,10 +12,10 @@ export default () => {
 
   const selectedCity = ref('');
 
-  const searchCities = async countryCode => {
+  const searchCities = async (countryCode, stateCode) => {
     try {
       cities.value = [];
-      const res = await fetchCities(countryCode);
+      const res = await fetchCities(countryCode, stateCode);
       cities.value = res;
     } catch (error) {
       console.log(
