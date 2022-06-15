@@ -56,7 +56,7 @@ onMounted(async () => {
       // location.href = '/entry';
       store.dispatch('putStep', 4);
     } else {
-      location.href = '/entry?squareError=error';
+      // location.href = '/entry?squareError=error';
     }
   }
   // await store.dispatch('cafes/fetchSquareCafeList')
