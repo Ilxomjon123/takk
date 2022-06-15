@@ -27,7 +27,7 @@ const selectedCity = computed({
 });
 
 onMounted(async () => {
-  await searchCities(selectedCountry.value.country_name, selectedState.value)
+  // await searchCities(selectedCountry.value.country_name, selectedState.value)
   await setSelectedCity(props.modelValue);
 });
 </script>
