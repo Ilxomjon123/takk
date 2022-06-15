@@ -87,7 +87,7 @@ function searchLocationByAddress() {
               <div class="mt-3">
                 <label class="form-label" for="cafe-form-state">State</label>
                 <StateSelect v-model="formData.state" id="cafe-form-state" :country="formData.country"
-                  :disabled="formData.country !== 'US'" />
+                  :disabled="formData.country !== 'US' || formData.country !== 'United States'" />
                 <span class="text-theme-6 mt-2">{{ externalErrors.state && externalErrors.state[0] }}</span>
               </div>
               <InputField v-model="formData.postal_code" title="Postal code" id-value="cafe-form-postal_code"

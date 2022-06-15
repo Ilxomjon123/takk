@@ -26,8 +26,9 @@ const selectedState = computed({
   }
 });
 
-onMounted(() => {
+onMounted(async () => {
   setSelectedState(props.modelValue);
+  await searchCities("United States", props.modelValue)
 });
 </script>
 
