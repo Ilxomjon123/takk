@@ -57,6 +57,8 @@ export default defineComponent({
       telInputOptions: {
         autofocus: true,
         required: true,
+        defaultCountry: '+1',
+        autoDefaultCountry:false,
         maxlength: 20
       }
     };
