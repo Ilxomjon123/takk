@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import useCountries from '@/features/useCountries';
 
 const props = defineProps({
@@ -10,6 +10,10 @@ const emit = defineEmits(['update:modelValue']);
 
 const {
   citiesList,
+  setSelectedCity,
+  searchCities,
+  selectedCountry,
+  selectedState,
 } = useCountries();
 
 const selectedCity = computed({
@@ -17,10 +21,15 @@ const selectedCity = computed({
     return props.modelValue;
   },
   set: (val) => {
+    setSelectedCity(val);
     emit('update:modelValue', val);
   }
 });
 
+onMounted(async () => {
+  await searchCities(selectedCountry.value.country_name, selectedState.value)
+  await setSelectedCity(props.modelValue);
+});
 </script>
 
 <template>

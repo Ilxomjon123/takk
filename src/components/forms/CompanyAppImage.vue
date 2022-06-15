@@ -40,7 +40,7 @@
       </div>
       <div class="w-full px-3 mb-3 md:w-1/3 md:mb-0" v-if="isUnitedStates">
         <label for="state" class="form-label">State</label>
-        <StateSelect v-model="form.state" />
+        <StateSelect v-model="form.state" :country="form.country" id="state" :disabled="form.country !== 'US'" />
 
         <div class="text-theme-6" v-text="getError('state')" />
       </div>

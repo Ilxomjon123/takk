@@ -31,9 +31,7 @@
       </div>
       <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
         <label for="state" class="form-label">State</label>
-        <!-- <input id="state" type="text" class="form-control" :class="getError('state') != null ? 'border-theme-6' : ''"
-          placeholder="State" v-model="form.state" /> -->
-        <StateSelect v-model="form.state" id="state" :disabled="form.country_code !== 'US'" />
+        <StateSelect v-model="form.state" :country="form.country" id="state" :disabled="form.country !== 'US'" />
         <div class="text-theme-6" v-text="getError('state')" />
       </div>
     </div>

@@ -14,11 +14,11 @@ const phone = ref(null);
 </script>
 
 <template>
-  <vue-tel-input v-model="phone" mode="international" :autoFormat="false" :inputOptions="{
+  <vue-tel-input v-model="phone" mode="international" :autoFormat="true" :inputOptions="{
     styleClasses: 'form-control border-gray-300',
     id: 'phone',
     showDialCode: true,
-    ...props.inputOptions
+    ...inputOptions
   }" />
 </template>
 

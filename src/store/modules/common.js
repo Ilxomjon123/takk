@@ -103,48 +103,48 @@ const mutations = {
 };
 
 const actions = {
-  async fetchCountries({ commit, rootGetters, dispatch }) {
-    /* const res = await  */ axios
-      .get('/api/countries/', {
-        headers: rootGetters.getHttpHeader
-      })
-      .then(res => {
-        commit('setCountries', res.data);
-      })
-      .catch(err => {
-        commit('setCountries', err.response.data);
-      });
-  },
-  async fetchCities({ commit, getters, rootGetters }) {
-    axios
-      .get('/api/countries/', {
-        headers: rootGetters.getHttpHeader,
-        params: {
-          country: getters.getSelectedCountry
-        }
-      })
-      .then(res => {
-        commit('setCities', res.data);
-      })
-      .catch(err => {
-        commit('setCities', err.response.data);
-      });
-  },
-  async fetchCitiesByCountry({ commit, rootGetters }, payload) {
-    axios
-      .get('/api/countries/', {
-        headers: rootGetters.getHttpHeader,
-        params: {
-          country: payload
-        }
-      })
-      .then(res => {
-        commit('setCities', res.data);
-      })
-      .catch(err => {
-        commit('setCities', err.response.data);
-      });
-  }
+  // async fetchCountries({ commit, rootGetters, dispatch }) {
+  //   /* const res = await  */ axios
+  //     .get('/api/countries/', {
+  //       headers: rootGetters.getHttpHeader
+  //     })
+  //     .then(res => {
+  //       commit('setCountries', res.data);
+  //     })
+  //     .catch(err => {
+  //       commit('setCountries', err.response.data);
+  //     });
+  // },
+  // async fetchCities({ commit, getters, rootGetters }) {
+  //   axios
+  //     .get('/api/countries/', {
+  //       headers: rootGetters.getHttpHeader,
+  //       params: {
+  //         country: getters.getSelectedCountry
+  //       }
+  //     })
+  //     .then(res => {
+  //       commit('setCities', res.data);
+  //     })
+  //     .catch(err => {
+  //       commit('setCities', err.response.data);
+  //     });
+  // },
+  // async fetchCitiesByCountry({ commit, rootGetters }, payload) {
+  //   axios
+  //     .get('/api/countries/', {
+  //       headers: rootGetters.getHttpHeader,
+  //       params: {
+  //         country: payload
+  //       }
+  //     })
+  //     .then(res => {
+  //       commit('setCities', res.data);
+  //     })
+  //     .catch(err => {
+  //       commit('setCities', err.response.data);
+  //     });
+  // }
 };
 
 export default {

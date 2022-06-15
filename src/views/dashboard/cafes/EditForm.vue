@@ -92,7 +92,7 @@ onMounted(async () => {
   store.commit('setLoadingStatus', true);
   const res1 = await fetchCafe(route.params.id);
   store.commit('setSelectedCountry', res1.country);
-  store.dispatch('fetchCitiesByCountry', res1.country)
+  // store.dispatch('fetchCitiesByCountry', res1.country)
   formFields.value = res1
   store.commit('setLoadingStatus', false);
 });

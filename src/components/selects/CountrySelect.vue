@@ -10,7 +10,8 @@ const emit = defineEmits(['update:modelValue']);
 
 const {
   countriesList,
-  setSelectedCountry
+  setSelectedCountry,
+  searchCountries
 } = useCountries();
 
 const selectedCountry = computed({
@@ -24,14 +25,15 @@ const selectedCountry = computed({
 });
 
 onMounted(async () => {
+  await searchCountries()
   await setSelectedCountry(props.modelValue);
 });
 </script>
 
 <template>
   <TomSelect v-model="selectedCountry" class="w-full">
-    <option v-for="({ code, name }, index) in countriesList" :key="index" :value="code">
-      {{ name }}
+    <option v-for="(country, index) in countriesList" :key="index" :value="country.country_code">
+      {{ country.country_name }}
     </option>
   </TomSelect>
 </template>
