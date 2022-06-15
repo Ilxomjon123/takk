@@ -18,6 +18,8 @@ const phone = ref(null);
     styleClasses: 'form-control border-gray-300',
     id: 'phone',
     showDialCode: true,
+    autoDefaultCountry: false,
+    defaultCountry: '+1',
     ...inputOptions
   }" />
 </template>
