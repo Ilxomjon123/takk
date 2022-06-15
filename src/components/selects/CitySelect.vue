@@ -1,30 +1,35 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import useCountries from '@/features/useCountries';
-import store from '../../store';
 
 const props = defineProps({
   modelValue: String
 });
 
 const emit = defineEmits(['update:modelValue']);
+
 const {
   citiesList,
-  searchCities
+  setSelectedCity,
+  searchCities,
+  selectedCountry,
+  selectedState,
 } = useCountries();
-
-const { country, state } = store.getters['getCompany'];
-// searchCities(country, state)
 
 const selectedCity = computed({
   get: () => {
     return props.modelValue;
   },
   set: (val) => {
+    setSelectedCity(val);
     emit('update:modelValue', val);
   }
 });
 
+onMounted(async () => {
+  await searchCities(selectedCountry.value.country_name, selectedState.value)
+  await setSelectedCity(props.modelValue);
+});
 </script>
 
 <template>

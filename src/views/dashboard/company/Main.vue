@@ -86,8 +86,8 @@ function getError(key) {
           <div class="col-span-12 lg:col-span-4 2xl:col-span-3 flex lg:block flex-col-reverse">
             <div class="intro-y">
               <label class="form-label">Company Logo</label>
-              <SimpleImageUpload :title="getCompany.logo ? 'Change photo' : 'Add photo'"
-                :image-path="getCompany.logo" @update-image-file="image = $event" />
+              <SimpleImageUpload :title="getCompany.logo ? 'Change photo' : 'Add photo'" :image-path="getCompany.logo"
+                @update-image-file="image = $event" />
             </div>
           </div>
           <form @submit.prevent="submit" class="col-span-12 lg:col-span-8 2xl:col-span-9">
@@ -98,8 +98,8 @@ function getError(key) {
                   <span class="text-theme-6">*</span>
                 </label>
                 <input id="company-name" type="text" class="form-control"
-                  :class="getError('name') != null ? 'border-theme-6' : 'border-gray-300'"
-                  placeholder="Company Name" v-model="getCompany.name" required />
+                  :class="getError('name') != null ? 'border-theme-6' : 'border-gray-300'" placeholder="Company Name"
+                  v-model="getCompany.name" required />
                 <div class="text-theme-6" v-text="getError('name')" />
               </div>
               <div class="w-full md:w-1/2 px-3 md:mb-0">
@@ -140,7 +140,8 @@ function getError(key) {
               </div>
               <div class="w-full px-3 mb-3 md:w-1/3 md:mb-0" v-if="isUnitedStates">
                 <label for="state" class="form-label">State</label>
-                <StateSelect v-model="getCompany.state" />
+                <StateSelect v-model="getCompany.state" :country="getCompany.country_code" id="state"
+                  :disabled="getCompany.country !== 'US'" />
                 <div class="text-theme-6" v-text="getError('state')" />
               </div>
               <div class="w-full px-3 md:mb-0" :class="{
@@ -194,17 +195,15 @@ function getError(key) {
             <div class="flex flex-wrap -mx-3 mb-3">
               <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
                 <div class="form-check w-full sm:w-auto mt-3 sm:mt-0">
-                  <input id="show-example-5" data-target="#select-options"
-                    class="show-code form-check-switch mr-3 ml-0" type="checkbox"
-                    v-model="getCompany.pub_show_reviews" />
+                  <input id="show-example-5" data-target="#select-options" class="show-code form-check-switch mr-3 ml-0"
+                    type="checkbox" v-model="getCompany.pub_show_reviews" />
                   <label for="show-example-5">Make customer reviews public</label>
                 </div>
               </div>
               <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
                 <div class="form-check w-full sm:w-auto mt-3 sm:mt-0">
-                  <input id="show-example-6" data-target="#select-options"
-                    class="show-code form-check-switch mr-3 ml-0" type="checkbox"
-                    v-model="getCompany.pub_show_like" />
+                  <input id="show-example-6" data-target="#select-options" class="show-code form-check-switch mr-3 ml-0"
+                    type="checkbox" v-model="getCompany.pub_show_like" />
                   <label for="show-example-6">Make customer likes/dislikes public</label>
                 </div>
               </div>
