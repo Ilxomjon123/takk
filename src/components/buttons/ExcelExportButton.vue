@@ -29,6 +29,13 @@ export default {
     ...mapGetters(['getHttpHeader']),
   },
   methods: {
+    blobToBase64(blob) {
+      return new Promise((resolve, _) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(blob);
+      });
+    },
     tableToExcel(name) {
       const type = "xlsx";
       this.loading = true;
@@ -45,6 +52,8 @@ export default {
           }
         )
         .then(response => {
+          // const blob = this.blobToBase64(response.data);
+          console.log(typeof response.data);
           const url = window.URL.createObjectURL(new Blob([response.data]));
           const link = document.createElement("a");
           link.href = url;

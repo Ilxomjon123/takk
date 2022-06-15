@@ -42,7 +42,7 @@
 import { defineComponent } from 'vue';
 import { mapActions, mapMutations } from 'vuex';
 import { setToken } from '@/api';
-import TelInput from '../../components/forms/TelInput.vue';
+import TelInput from '@/components/forms/TelInput.vue';
 
 export default defineComponent({
   data() {

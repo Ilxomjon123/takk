@@ -5,7 +5,7 @@
       <option v-for="(item,index) in list" :key="index" :value="item.square_location_id">{{item.business_name}}</option>
     </TomSelect>
     <p class="text-theme-6">{{error?.data}}</p>
-    <button type="submit" class="btn btn-success mt-2 w-full" :disabled="loading">Integrate
+    <button type="submit" class="btn btn-success mt-2" :disabled="loading">Integrate
       <LoadingIcon v-if="loading" icon="oval" color="white" class="w-4 h-4 ml-2" />
     </button>
   </form>

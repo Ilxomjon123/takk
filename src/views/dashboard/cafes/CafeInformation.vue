@@ -67,12 +67,9 @@ function searchLocationByAddress() {
                 :error="externalErrors.website && externalErrors.website[0]" class="mt-3" />
             </div>
             <div class="col-span-12 2xl:col-span-6">
-              <!-- <InputField v-model="formData.call_center" title="Cafe phone number" id-value="cafe-form-call_center"
-                :error="externalErrors.call_center && externalErrors.call_center[0]" class="mt-3 2xl:mt-0" /> -->
               <label for="phone" class="form-label">Cafe phone number</label>
               <TelInput v-model="formData.call_center" />
               <div class="text-theme-6" v-text="externalErrors.call_center && externalErrors.call_center[0]" />
-
             </div>
             <div class="col-span-12 2xl:col-span-6">
               <div class="mt-3">
@@ -89,7 +86,8 @@ function searchLocationByAddress() {
             <div class="col-span-12 2xl:col-span-6">
               <div class="mt-3">
                 <label class="form-label" for="cafe-form-state">State</label>
-                <StateSelect v-model="formData.state" id="cafe-form-state" :disabled="selectedCountry.code !== 'US'" />
+                <StateSelect v-model="formData.state" id="cafe-form-state" :country="formData.country"
+                  :disabled="formData.country !== 'US' || formData.country !== 'United States'" />
                 <span class="text-theme-6 mt-2">{{ externalErrors.state && externalErrors.state[0] }}</span>
               </div>
               <InputField v-model="formData.postal_code" title="Postal code" id-value="cafe-form-postal_code"
