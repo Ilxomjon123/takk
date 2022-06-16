@@ -3,17 +3,19 @@ import { computed, onMounted } from 'vue';
 import useCountries from '@/features/useCountries';
 
 const props = defineProps({
-  modelValue: String
+  modelValue: String,
+  country: String,
+  countryState: String,
 });
 
 const emit = defineEmits(['update:modelValue']);
 
 const {
   citiesList,
-  setSelectedCity,
   searchCities,
-  selectedCountry,
-  selectedState,
+  // setSelectedCity,
+  // selectedCountry,
+  // selectedState,
 } = useCountries();
 
 const selectedCity = computed({
@@ -21,14 +23,17 @@ const selectedCity = computed({
     return props.modelValue;
   },
   set: (val) => {
-    setSelectedCity(val);
+    // setSelectedCity(val);
     emit('update:modelValue', val);
   }
 });
 
 onMounted(async () => {
-  // await searchCities(selectedCountry.value.country_name, selectedState.value)
-  await setSelectedCity(props.modelValue);
+  // if (props.countryState) {
+  //   await searchCities("United States", props.countryState)
+  // } else await searchCities(props.country, props.countryState)
+  await searchCities(props.country, props.countryState)
+  // await setSelectedCity(props.modelValue);
 });
 </script>
 

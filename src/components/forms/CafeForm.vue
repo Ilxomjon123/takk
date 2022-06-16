@@ -31,14 +31,16 @@
       </div>
       <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
         <label for="state" class="form-label">State</label>
-        <StateSelect v-model="form.state" :country="form.country" id="state" :disabled="form.country !== 'US'" />
+        <StateSelect v-model="form.state" :country="form.country" id="state"
+          :disabled="!(form.country === 'US' || form.country === 'United States')" />
         <div class="text-theme-6" v-text="getError('state')" />
       </div>
     </div>
     <div class="flex flex-wrap -mx-3 mb-3">
       <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
         <label class="form-label">City</label>
-        <CitySelect :class="getError('city') != null ? 'border-theme-6' : ''" v-model="form.city" />
+        <CitySelect :class="getError('city') != null ? 'border-theme-6' : ''" v-model="form.city"
+          :country="form.country" :state="form.state" />
         <div class="text-theme-6 mt-2" v-text="getError('city')" />
       </div>
       <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">

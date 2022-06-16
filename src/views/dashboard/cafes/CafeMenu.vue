@@ -91,9 +91,3 @@ function selectItem(item) {
   </div>
   <!-- END: Cafe Menu -->
 </template>
-
-<!-- <style lang="scss" scoped>
-.active {
-  @apply text-theme-1 dark: text-theme-10 font-medium;
-}
-</style> -->

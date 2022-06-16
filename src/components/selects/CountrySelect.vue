@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted } from 'vue';
 import useCountries from '@/features/useCountries';
+import countries from '@/utils/countries.json';
 
 const props = defineProps({
   modelValue: String
@@ -9,31 +10,25 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 const {
-  countriesList,
-  setSelectedCountry,
-  searchCountries
+  searchCities
 } = useCountries();
 
 const selectedCountry = computed({
   get: () => {
     return props.modelValue;
   },
-  set: (val) => {
-    setSelectedCountry(val);
+  set: async (val) => {
     emit('update:modelValue', val);
+    await searchCities(val)
   }
 });
 
-onMounted(async () => {
-  await searchCountries()
-  await setSelectedCountry(props.modelValue);
-});
 </script>
 
 <template>
   <TomSelect v-model="selectedCountry" class="w-full">
-    <option v-for="(country, index) in countriesList" :key="index" :value="country.country_code">
-      {{ country.country_name }}
+    <option v-for="({ code, name }, index) in countries" :key="index" :value="name">
+      {{ name }}
     </option>
   </TomSelect>
 </template>
