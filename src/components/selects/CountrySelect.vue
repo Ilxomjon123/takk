@@ -1,7 +1,6 @@
 <script setup>
 import { computed, onMounted } from 'vue';
 import useCountries from '@/features/useCountries';
-import countries from '@/utils/countries.json';
 
 const props = defineProps({
   modelValue: String
@@ -10,7 +9,8 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 const {
-  searchCities
+  setSelectedCountry,
+  countries
 } = useCountries();
 
 const selectedCountry = computed({
@@ -19,8 +19,12 @@ const selectedCountry = computed({
   },
   set: async (val) => {
     emit('update:modelValue', val);
-    await searchCities(val)
+    await setSelectedCountry(val)
   }
+});
+
+onMounted(async () => {
+  await setSelectedCountry(props.modelValue)
 });
 
 </script>
