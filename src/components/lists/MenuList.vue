@@ -1,29 +1,22 @@
 <script setup>
-import { computed, defineComponent, onMounted, ref } from 'vue'
-import MainPaginator from '../paginator/MainPaginator.vue'
+import { computed, onMounted, ref } from 'vue'
 import MenuAddEditFormModal from '../modals/MenuAddEditFormModal.vue'
-import { useStore } from 'vuex'
 import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue'
 import cash from 'cash-dom'
+import store from '@/store';
 
 const props = defineProps({
   subItemTitle: String,
   subItemValue: String
 });
+
 const emit = defineEmits(['update-id']);
 
-const store = useStore()
-const paginator = ref(null)
-const paginationForm = ref(null)
 const items = ref([])
 const dispatcher = ref('postMenu')
-const addModalId = ref(null)
-const editModalId = ref(null)
-const modalId = ref('menu-form-modal')
 const addDispatcher = ref('postMenu')
 const editDispatcher = ref('putMenu')
 const successMessage = ref('Successfully Deleted!')
-const loadingDelete = ref(null)
 const selectedMenuDetails = ref({})
 
 const getSelectedMenuId = computed(() => store.getters['getSelectedMenuId'])
@@ -38,7 +31,6 @@ function paginate(val) {
 
 function search() {
   selectMenu(null);
-  // paginator.value.paginate(1)
 }
 
 function setItems(val) {

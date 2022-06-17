@@ -16,43 +16,15 @@ const selectedState = ref('');
 const selectedCity = ref('');
 
 export default () => {
-  const fetchStates = async countryCode => {
-    try {
-      states.value = [];
-      const res = allStates.filter(({ name, state_code }) => ({
-        name,
-        state_code
-      }));
-      states.value = res;
-    } catch (error) {
-      console.log(
-        'Error while fetching states of selected country: ',
-        error.message
-      );
-    }
-  };
-
-  const fetchCities = async () => {
-    try {
-      cities.value = [];
-      const res = selectedState.value.cities;
-      cities.value = res;
-    } catch (error) {
-      console.log(
-        'Error while fetching cities of selected country: ',
-        error.message
-      );
-    }
-  };
-
   const setSelectedCountry = async payload => {
-    const country = countries.value.find(
-      item => item.iso2 === payload || item.name === payload
+    const country = await countries.find(
+      country => country.iso2 === payload || country.name === payload
     );
+    console.log({ country });
 
     if (country) {
       selectedCountry.value = country;
-      await fetchStates(country.country_name);
+      await fetchStates(country.name);
     }
   };
 
@@ -62,25 +34,51 @@ export default () => {
     );
 
     if (state) {
-      const { state_code, name } = state;
-      selectedState.value = { state_code, name };
-      await fetchCities(name);
+      console.log({ state });
+      selectedState.value = state.name;
+      await fetchCities(selectedState.value);
     }
   };
 
-  // const setSelectedCity = async payload => {
-  //   selectedCity.value = payload;
-  // };
+  const setSelectedCity = async payload => {
+    selectedCity.value = payload;
+  };
+
+  const fetchStates = async countryName => {
+    try {
+      states.value = [];
+      const res = allStates.filter(state => state.country_name == countryName);
+      states.value = res;
+    } catch (error) {
+      console.log(
+        'Error while fetching states of selected country: ',
+        error.message
+      );
+    }
+  };
+
+  const fetchCities = async stateName => {
+    try {
+      cities.value = [];
+      const res = allCities.filter(city => city.state_name === stateName);
+      cities.value = res;
+    } catch (error) {
+      console.log(
+        'Error while fetching cities of selected country: ',
+        error.message
+      );
+    }
+  };
 
   return {
     countriesList: computed(() => countries),
-    statesList: computed(() => states),
+    statesList: computed(() => states.value),
     citiesList: computed(() => cities.value),
     selectedCountry: computed(() => selectedCountry.value),
     selectedState: computed(() => selectedState.value),
     setSelectedCountry,
     setSelectedState,
-    // setSelectedCity,
+    setSelectedCity,
     fetchStates,
     fetchCities
   };

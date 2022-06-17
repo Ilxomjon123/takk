@@ -35,12 +35,12 @@
       }">
         <label class="form-label">Country</label>
         <CountrySelect :class="getError('country') != null ? 'border-theme-6' : 'border-gray-300'"
-          v-model="form.country_code" />
+          v-model="form.country" />
         <div class="text-theme-6 mt-2" v-text="getError('country')" />
       </div>
       <div class="w-full px-3 mb-3 md:w-1/3 md:mb-0" v-if="isUnitedStates">
         <label for="state" class="form-label">State</label>
-        <StateSelect v-model="form.state" :country="form.country" id="state" :disabled="form.country !== 'US'" />
+        <StateSelect v-model="form.state" id="state" />
 
         <div class="text-theme-6" v-text="getError('state')" />
       </div>

@@ -77,16 +77,14 @@ function searchLocationByAddress() {
               </div>
               <div class="mt-3">
                 <label for="cafe-form-city" class="form-label">City</label>
-                <CitySelect id="cafe-form-city" v-model="formData.city" @change="searchLocationByAddress"
-                  :country="formData.country" :country-state="formData.state" />
+                <CitySelect id="cafe-form-city" v-model="formData.city" @change="searchLocationByAddress" />
                 <span class="text-theme-6 mt-2">{{ externalErrors.city && externalErrors.city[0] }}</span>
               </div>
             </div>
             <div class="col-span-12 2xl:col-span-6">
               <div class="mt-3">
                 <label class="form-label" for="cafe-form-state">State</label>
-                <StateSelect v-if="formData.country === 'United States'" v-model="formData.state" id="cafe-form-state"
-                  :country="formData.country" />
+                <StateSelect v-model="formData.state" id="cafe-form-state" />
                 <span class="text-theme-6 mt-2">{{ externalErrors.state && externalErrors.state[0] }}</span>
               </div>
               <InputField v-model="formData.postal_code" title="Postal code" id-value="cafe-form-postal_code"

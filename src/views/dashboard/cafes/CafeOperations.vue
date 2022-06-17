@@ -1,4 +1,6 @@
 <script setup>
+import store from '@/store';
+import { onMounted, ref } from 'vue';
 import InputField from './InputField.vue';
 
 const props = defineProps({
@@ -13,11 +15,16 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:formData']);
+const menuList = ref([])
 
 async function submit() {
   emit('update:formData', props.formData);
 }
 
+onMounted(async () => {
+  const res = await store.dispatch('fetchMenus')
+  menuList.value = res.results
+})
 </script>
 
 <template>
@@ -41,6 +48,14 @@ async function submit() {
                 title="Order Interval Time (interval between each order times)" id-value="cafe-form-order_time_limit"
                 :error="externalErrors.order_time_limit && externalErrors.order_time_limit[0]" :is-required="true"
                 typeValue="number" class="mt-3 2xl:mt-0" />
+              <div class="mt-3">
+                <label for="cafe-form-menu" class="form-label">Menu</label>
+                <TomSelect id="cafe-form-menu" v-model="formData.menu" :options="{
+                  placeholder: 'Search..'
+                }" class="w-full">
+                  <option v-for="({ name, id }) in menuList" :key="id" :value="id">{{ name }}</option>
+                </TomSelect>
+              </div>
             </div>
           </div>
           <button type="button" class="btn btn-primary mt-3" @click="submit">

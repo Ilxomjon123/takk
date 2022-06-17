@@ -73,7 +73,7 @@ function selectItem(item) {
       <div class="p-5 border-t border-gray-200 dark:border-dark-5">
         <button v-for="item in cafeMenuItems" @click="selectItem(item.component)" class="flex items-center mt-5"
           :class="{ 'text-theme-1 dark:text-theme-10 font-medium': selectedItem === item.component }"
-          :disabled="item.component !== 'CafeInformation' && formType !== 'edit'">
+          :disabled="item.component !== 'CafeInformation' && formType !== 'edit'" title="Fill cafe information">
           <component :is="item.icon" class="w-4 h-4 mr-2" />
           {{ item.title }}
         </button>
@@ -91,3 +91,9 @@ function selectItem(item) {
   </div>
   <!-- END: Cafe Menu -->
 </template>
+
+<style lang="scss" scoped>
+button:disabled {
+  cursor: not-allowed;
+}
+</style>
