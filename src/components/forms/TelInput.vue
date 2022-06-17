@@ -25,12 +25,12 @@ const phone = ref('');
 </script>
 
 <template>
-  <vue-tel-input v-model="phone" mode="international" :autoFormat="true" :inputOptions="{
+  <vue-tel-input v-model="phone" mode="international" :autoFormat="true"
+    :defaultCountry="'US'"
+    :inputOptions="{
     styleClasses: 'form-control border-gray-300',
     id: 'phone',
     showDialCode: true,
-    autoDefaultCountry: false,
-    defaultCountry: '+1',
     ...inputOptions
   }" />
 </template>
