@@ -6,7 +6,6 @@ import CountrySelect from '@/components/selects/CountrySelect.vue';
 import StateSelect from '@/components/selects/StateSelect.vue';
 import CitySelect from '@/components/selects/CitySelect.vue';
 import InputField from './InputField.vue';
-import useCountries from '@/features/useCountries';
 import TelInput from '@/components/forms/TelInput.vue';
 
 // leaflet styles
@@ -25,7 +24,6 @@ const props = defineProps({
 
 const emit = defineEmits(['update:formData']);
 
-const { selectedCountry } = useCountries();
 const openstreetMapUrl = ref('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
 const zoomLevel = ref(7);
 
@@ -86,8 +84,7 @@ function searchLocationByAddress() {
             <div class="col-span-12 2xl:col-span-6">
               <div class="mt-3">
                 <label class="form-label" for="cafe-form-state">State</label>
-                <StateSelect v-model="formData.state" id="cafe-form-state" :country="formData.country"
-                  :disabled="formData.country !== 'US' || formData.country !== 'United States'" />
+                <StateSelect v-model="formData.state" id="cafe-form-state" />
                 <span class="text-theme-6 mt-2">{{ externalErrors.state && externalErrors.state[0] }}</span>
               </div>
               <InputField v-model="formData.postal_code" title="Postal code" id-value="cafe-form-postal_code"

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { VueTelInput } from 'vue-tel-input';
 import 'vue-tel-input/dist/vue-tel-input.css';
 
@@ -9,17 +9,28 @@ const props = defineProps({
     default: () => { }
   }
 });
-const phone = ref(null);
+
+const emits = defineEmits(['update.modelValue'])
+
+const phone = ref('');
+// const formattedVal = computed({
+//   get: () => phone.value,
+//   set: (val) => {
+//     const correctVal = val.replace(/\s+/g, '')
+//     console.log({ correctVal });
+//     phone.value = correctVal
+//   }
+// })
 
 </script>
 
 <template>
-  <vue-tel-input v-model="phone" mode="international" :autoFormat="true" :inputOptions="{
+  <vue-tel-input v-model="phone" mode="international" :autoFormat="true"
+    :defaultCountry="'US'"
+    :inputOptions="{
     styleClasses: 'form-control border-gray-300',
     id: 'phone',
     showDialCode: true,
-    autoDefaultCountry: false,
-    defaultCountry: '+1',
     ...inputOptions
   }" />
 </template>

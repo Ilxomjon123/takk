@@ -58,7 +58,7 @@ export default defineComponent({
         autofocus: true,
         required: true,
         defaultCountry: '+1',
-        autoDefaultCountry:false,
+        autoDefaultCountry: false,
         maxlength: 20
       }
     };
@@ -72,6 +72,7 @@ export default defineComponent({
       this.submitText = "";
       this.isLoading = true;
       this.form.referral_code = this.$route.query?.referral_code;
+      this.form.phone = this.form.phone.replace(/\s+/g, '')
       const res = await this.$store.dispatch("signin", this.form);
       // this.signin(this.form);
       // console.log(res);

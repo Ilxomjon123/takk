@@ -24,23 +24,23 @@
       </div>
     </div>
     <div class="flex flex-wrap -mx-3 mb-3">
-      <div class="w-full px-3 mb-3 md:mb-0" :class="form.country_code == 'US' ? 'md:w-1/2' : ''">
+      <div class="w-full md:w-1/3 px-3 mb-3 md:mb-0" :class="form.country == 'US' ? 'md:w-1/2' : ''">
         <label class="form-label">Country</label>
-        <CountrySelect :class="getError('country_code') != null ? 'border-theme-6' : ''" v-model="form.country_code" />
-        <div class="text-theme-6 mt-2" v-text="getError('country_code')" />
+        <CountrySelect :class="getError('country') != null ? 'border-theme-6' : ''" v-model="form.country" />
+        <div class="text-theme-6 mt-2" v-text="getError('country')" />
       </div>
-      <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
+      <div class="w-full md:w-1/3 px-3 mb-3 md:mb-0">
         <label for="state" class="form-label">State</label>
-        <StateSelect v-model="form.state" :country="form.country" id="state" :disabled="form.country !== 'US'" />
+        <StateSelect v-model="form.state" id="state" />
         <div class="text-theme-6" v-text="getError('state')" />
       </div>
-    </div>
-    <div class="flex flex-wrap -mx-3 mb-3">
-      <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
+      <div class="w-full md:w-1/3 px-3 mb-3 md:mb-0">
         <label class="form-label">City</label>
         <CitySelect :class="getError('city') != null ? 'border-theme-6' : ''" v-model="form.city" />
         <div class="text-theme-6 mt-2" v-text="getError('city')" />
       </div>
+    </div>
+    <div class="flex flex-wrap -mx-3 mb-3">
       <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
         <label for="address" class="form-label">Address</label>
         <input id="address" type="text" class="form-control"
@@ -75,7 +75,7 @@ export default defineComponent({
           lat: 0,
           lon: 0
         },
-        country_code: this.$store.getters['getCompany'].country_code || "US",
+        country: this.$store.getters['getCompany'].country || "United States",
         call_center: this.$store.getters['getCompany'].phone,
         state: this.$store.getters['getCompany'].state,
         city: this.$store.getters['getCompany'].city,
@@ -90,6 +90,7 @@ export default defineComponent({
     async submit() {
       this.isLoading = true;
       this.errors = {};
+      this.form.call_center = this.form.call_center.replace(/\s+/g, '')
       const res = await this.postCafe(this.form);
 
       if (res.status) {

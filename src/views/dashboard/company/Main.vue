@@ -18,7 +18,7 @@ const successNotification = ref(null);
 const errorNotification = ref(null);
 const getCompany = computed(() => store.getters["getCompany"])
 const globalLoading = computed(() => store.state.common.loadingStatus)
-const isUnitedStates = computed(() => getCompany.value.country_code === 'US')
+const isUnitedStates = computed(() => getCompany.value.country === 'United States')
 
 onMounted(async () => {
   store.commit('setLoadingStatus', true);
@@ -33,10 +33,11 @@ async function submit() {
 
   image.value && formData.append('logo', image.value);
   formData.append('name', getCompany.value.name);
-  formData.append('phone', getCompany.value.phone);
+  formData.append('phone', getCompany.value.phone.replace(/\s+/g, ''));
   formData.append('email', getCompany.value.email);
   formData.append('website', getCompany.value.website);
-  formData.append('country_code', getCompany.value.country_code);
+  formData.append('country', getCompany.value.country);
+  formData.append('country_code', getCompany.value.country_code || 'US');
   formData.append('state', getCompany.value.state);
   formData.append('city', getCompany.value.city);
   formData.append('address', getCompany.value.address);
@@ -129,25 +130,18 @@ function getError(key) {
               </div>
             </div>
             <div class="flex flex-wrap -mx-3 mb-1">
-              <div class="w-full px-3 md:mb-0" :class="{
-                'md:w-1/2': !isUnitedStates,
-                'md:w-1/3': isUnitedStates
-              }">
+              <div class="w-full px-3 md:mb-0 md:w-1/3">
                 <label class="form-label">Country</label>
                 <CountrySelect :class="getError('country') != null ? 'border-theme-6' : 'border-gray-300'"
-                  v-model="getCompany.country_code" />
+                  v-model="getCompany.country" />
                 <div class="text-theme-6 mt-2" v-text="getError('country')" />
               </div>
-              <div class="w-full px-3 mb-3 md:w-1/3 md:mb-0" v-if="isUnitedStates">
+              <div class="w-full px-3 mb-3 md:w-1/3 md:mb-0">
                 <label for="state" class="form-label">State</label>
-                <StateSelect v-model="getCompany.state" :country="getCompany.country_code" id="state"
-                  :disabled="getCompany.country !== 'US'" />
+                <StateSelect v-model="getCompany.state" id="state" />
                 <div class="text-theme-6" v-text="getError('state')" />
               </div>
-              <div class="w-full px-3 md:mb-0" :class="{
-                'md:w-1/2': !isUnitedStates,
-                'md:w-1/3': isUnitedStates
-              }">
+              <div class="w-full px-3 md:mb-0 md:w-1/3">
                 <label class="form-label">City</label>
                 <CitySelect :class="getError('city') != null ? 'border-theme-6' : 'border-gray-300'"
                   v-model="getCompany.city" />

@@ -1,43 +1,47 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import useCountries from '@/features/useCountries';
+import { isEmpty } from 'lodash';
 
 const props = defineProps({
   modelValue: String,
-  country: String,
 });
 
 const emit = defineEmits(['update:modelValue']);
 
 const {
-  statesList,
   setSelectedState,
-  searchCities
+  statesList
 } = useCountries();
 
 const selectedState = computed({
   get: () => {
     return props.modelValue;
   },
-  set: (val) => {
-    setSelectedState(val);
-    searchCities(props.country, val)
+  set: async (val) => {
     emit('update:modelValue', val);
+    await setSelectedState(val);
   }
 });
 
+watch(() => props.modelValue, async (newVal, oldVal) => {
+  console.log({ newVal, oldVal });
+  await setSelectedState(newVal)
+})
+
 onMounted(async () => {
-  setSelectedState(props.modelValue);
-  await searchCities("United States", props.modelValue)
-});
+  console.log('props.modelValue: ', props.modelValue);
+  if (!isEmpty(props.modelValue))
+    await setSelectedState(props.modelValue)
+})
 </script>
 
 <template>
   <TomSelect v-model="selectedState" :options="{
     placeholder: 'Select state'
   }" class="w-full">
-    <option v-for="(item, index) in statesList" :key="index" :value="item">
-      {{ item }}
+    <option v-for="({ state_code, name }) in statesList" :key="state_code" :value="name">
+      {{ name }}
     </option>
   </TomSelect>
 </template>

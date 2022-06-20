@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted } from 'vue';
 import useCountries from '@/features/useCountries';
+import { isEmpty } from 'lodash';
 
 const props = defineProps({
   modelValue: String
@@ -9,31 +10,31 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 const {
-  countriesList,
   setSelectedCountry,
-  searchCountries
+  countriesList
 } = useCountries();
 
 const selectedCountry = computed({
   get: () => {
     return props.modelValue;
   },
-  set: (val) => {
-    setSelectedCountry(val);
+  set: async (val) => {
     emit('update:modelValue', val);
+    await setSelectedCountry(val)
   }
 });
 
 onMounted(async () => {
-  await searchCountries()
-  await setSelectedCountry(props.modelValue);
+  if (!isEmpty(props.modelValue))
+    await setSelectedCountry(props.modelValue)
 });
+
 </script>
 
 <template>
   <TomSelect v-model="selectedCountry" class="w-full">
-    <option v-for="(country, index) in countriesList" :key="index" :value="country.country_code">
-      {{ country.country_name }}
+    <option v-for="({ name }, index) in countriesList" :key="index" :value="name">
+      {{ name }}
     </option>
   </TomSelect>
 </template>

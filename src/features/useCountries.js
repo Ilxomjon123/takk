@@ -1,35 +1,53 @@
 import { computed, ref } from 'vue';
 import { fetchCities, fetchCountries, fetchStates } from '../api';
-// import countries from '@/utils/countries.json';
+import countries from '@/utils/countries.json';
+import allStates from '@/utils/states.json';
+import allCities from '@/utils/cities.json';
 
-const countries = ref([]);
+// const countries = ref([]);
 const states = ref([]);
 const cities = ref([]);
 
 const selectedCountry = ref({
-  country_code: 'US',
-  country_name: 'United States'
+  iso2: 'US',
+  name: 'United States'
 });
 const selectedState = ref('');
 const selectedCity = ref('');
 
 export default () => {
-  const searchCountries = async () => {
-    try {
-      const res = await fetchCountries();
-      countries.value = res;
-    } catch (error) {
-      console.log(
-        'Error while fetching countries of selected country: ',
-        error.message
-      );
+  const setSelectedCountry = async payload => {
+    const country = await countries.find(
+      country => country.iso2 === payload || country.name === payload
+    );
+    console.log({ country });
+
+    if (country) {
+      selectedCountry.value = country;
+      await fetchStates(country.name);
     }
   };
 
-  const searchStates = async countryCode => {
+  const setSelectedState = async payload => {
+    const state = states.value.find(
+      item => item.state_code === payload || item.name === payload
+    );
+
+    if (state) {
+      console.log({ state });
+      selectedState.value = state.name;
+      await fetchCities(selectedState.value);
+    }
+  };
+
+  const setSelectedCity = async payload => {
+    selectedCity.value = payload;
+  };
+
+  const fetchStates = async countryName => {
     try {
       states.value = [];
-      const res = await fetchStates(countryCode);
+      const res = allStates.filter(state => state.country_name == countryName);
       states.value = res;
     } catch (error) {
       console.log(
@@ -39,10 +57,10 @@ export default () => {
     }
   };
 
-  const searchCities = async (countryCode, stateCode) => {
+  const fetchCities = async stateName => {
     try {
       cities.value = [];
-      const res = await fetchCities(countryCode, stateCode);
+      const res = allCities.filter(city => city.state_name === stateName);
       cities.value = res;
     } catch (error) {
       console.log(
@@ -52,37 +70,8 @@ export default () => {
     }
   };
 
-  const setSelectedCountry = async payload => {
-    if (payload) {
-      const country = countries.value.find(
-        item => item.country_code === payload || item.country_name === payload
-      );
-
-      if (country) {
-        selectedCountry.value = country;
-        if (country.country_code === 'US') {
-          await searchStates(country.country_name);
-        } else {
-          console.log('in setSelectedCountry');
-          await searchCities(country.country_name);
-        }
-      }
-    }
-  };
-
-  const setSelectedState = async payload => {
-    selectedState.value = payload;
-    // console.log('in setSelectedState');
-    // console.log({ country_name: selectedCountry.value.country_name, payload });
-    // await searchCities(selectedCountry.value.country_name, payload);
-  };
-
-  const setSelectedCity = async payload => {
-    selectedCity.value = payload;
-  };
-
   return {
-    countriesList: computed(() => countries.value),
+    countriesList: computed(() => countries),
     statesList: computed(() => states.value),
     citiesList: computed(() => cities.value),
     selectedCountry: computed(() => selectedCountry.value),
@@ -90,8 +79,7 @@ export default () => {
     setSelectedCountry,
     setSelectedState,
     setSelectedCity,
-    searchCountries,
-    searchStates,
-    searchCities
+    fetchStates,
+    fetchCities
   };
 };
