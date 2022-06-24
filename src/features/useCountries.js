@@ -1,8 +1,7 @@
 import { computed, ref } from 'vue';
-import { fetchCities, fetchCountries, fetchStates } from '../api';
+import { fetchCitiesList, fetchCountries, fetchStates } from '../api';
 import countries from '@/assets/json/countries.json';
 import allStates from '@/assets/json/states.json';
-import allCities from '@/assets/json/cities.json';
 
 // const countries = ref([]);
 const states = ref([]);
@@ -60,7 +59,7 @@ export default () => {
   const fetchCities = async stateName => {
     try {
       cities.value = [];
-      const res = allCities.filter(city => city.state_name === stateName);
+      const res = await fetchCitiesList(selectedCountry.value.name, stateName);
       cities.value = res;
     } catch (error) {
       console.log(

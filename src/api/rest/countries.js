@@ -30,10 +30,10 @@ export const fetchStates = async countryCode => {
   }
 };
 
-export const fetchCities = async (countryCode, stateCode) => {
+export const fetchCitiesList = async (countryCode, stateCode) => {
   try {
     const res = await makeRequest({
-      url: `/api/country/cities/`,
+      url: `/api/location/cities`,
       params: {
         country: countryCode,
         state: stateCode
