@@ -1,6 +1,8 @@
 <script setup>
-import { ref } from 'vue';
-
+import { onMounted, ref } from 'vue';
+onMounted(()=> {
+  emit('submit', {start:getDate(30), end:getDate()});
+})
 const emit = defineEmits(['submit'])
 function getDate(val = 0, date = new Date()){
   // const date = new Date();

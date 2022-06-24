@@ -105,10 +105,6 @@ function getError(key) {
               </div>
               <div class="w-full md:w-1/2 px-3 md:mb-0">
                 <label for="phone" class="form-label">Phone</label>
-                <!-- <input id="phone" type="text" class="form-control"
-                  :class="getError('phone') != null ? 'border-theme-6' : 'border-gray-300'" placeholder="Phone"
-                  v-model="getCompany.phone" /> -->
-                <!-- <vue-tel-input v-model="getCompany.phone" /> -->
                 <TelInput v-model="getCompany.phone" />
                 <div class="text-theme-6" v-text="getError('phone')" />
               </div>

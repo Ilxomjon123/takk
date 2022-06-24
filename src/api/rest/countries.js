@@ -3,8 +3,11 @@ import makeRequest from '../makeRequest';
 export const fetchCountries = async () => {
   try {
     const res = await makeRequest({
-      url: `/api/countries/`,
-      headers: { authorization: true }
+      url: `/api/location/countries/`,
+      headers: { authorization: true },
+      params: {
+        limit: 250
+      }
     });
 
     return res.data;
@@ -16,7 +19,7 @@ export const fetchCountries = async () => {
 export const fetchStates = async countryCode => {
   try {
     const res = await makeRequest({
-      url: `/api/country/cities/`,
+      url: `/api/location/states/`,
       params: {
         country: countryCode
       },
@@ -33,7 +36,7 @@ export const fetchStates = async countryCode => {
 export const fetchCities = async (countryCode, stateCode) => {
   try {
     const res = await makeRequest({
-      url: `/api/country/cities/`,
+      url: `/api/location/cities`,
       params: {
         country: countryCode,
         state: stateCode
