@@ -50,7 +50,7 @@
         </thead>
         <tbody>
           <template v-for="(item, index) in items" :key="index">
-            <tr class="-intro-y zoom-in">
+            <tr class="zoom-in">
               <td>
                 <div class="flex items-center gap-3 hover:text-theme-9" @click="toggleChildren(item.id)">
                   <PlusIcon v-if="!isVisibleChildren(item.id)" />
@@ -88,7 +88,7 @@
                 </div>
               </td>
             </tr>
-            <tr class="-intro-y inner-tr" v-for="(el, i) in item.items" :key="i" v-show="isVisibleChildren(item.id)">
+            <tr class="inner-tr" v-for="(el, i) in item.items" :key="i" v-show="isVisibleChildren(item.id)">
               <td>
                 <span class="font-medium whitespace-nowrap ml-10">{{ el.name }}</span>
               </td>
