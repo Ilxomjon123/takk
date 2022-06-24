@@ -1,8 +1,8 @@
 import { computed, ref } from 'vue';
 import { fetchCities, fetchCountries, fetchStates } from '../api';
-import countries from '@/utils/countries.json';
-import allStates from '@/utils/states.json';
-import allCities from '@/utils/cities.json';
+import countries from '@/assets/json/countries.json';
+import allStates from '@/assets/json/states.json';
+import allCities from '@/assets/json/cities.json';
 
 // const countries = ref([]);
 const states = ref([]);
