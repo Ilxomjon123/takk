@@ -78,12 +78,13 @@ export default {
       Object.keys(this.getHttpHeader).forEach(item => {
         xhr.setRequestHeader(item, this.getHttpHeader[item]);
       })
+      const vm = this;
       xhr.onload = function (e) {
           var blob = e.currentTarget.response;
           var contentDispo = e.currentTarget.getResponseHeader('Content-Disposition');
           var fileName = contentDispo.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)[1];
           saveBlob(blob, 'Transaction.xlsx');
-          this.loading = false;
+          vm.loading = false;
       }
       xhr.send();
 
