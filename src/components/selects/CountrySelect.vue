@@ -4,14 +4,15 @@ import useCountries from '@/features/useCountries';
 import { isEmpty } from 'lodash';
 
 const props = defineProps({
-  modelValue: String
+  modelValue: ''
 });
 
 const emit = defineEmits(['update:modelValue']);
 
 const {
   setSelectedCountry,
-  countriesList
+  countriesList,
+  getCountries
 } = useCountries();
 
 const selectedCountry = computed({
@@ -25,16 +26,18 @@ const selectedCountry = computed({
 });
 
 onMounted(async () => {
-  if (!isEmpty(props.modelValue))
+  await getCountries()
+  if (!isEmpty(props.modelValue)) {
     await setSelectedCountry(props.modelValue)
+  }
 });
 
 </script>
 
 <template>
-  <TomSelect v-model="selectedCountry" class="w-full">
-    <option v-for="({ name }, index) in countriesList" :key="index" :value="name">
-      {{ name }}
+  <TomSelect v-model="selectedCountry" class="w-full" v-if="countriesList.length > 0">
+    <option v-for="(country, index) in countriesList" :key="index" :value="country">
+      {{ country.name }}
     </option>
   </TomSelect>
 </template>

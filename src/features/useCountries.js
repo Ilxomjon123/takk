@@ -1,41 +1,37 @@
 import { computed, ref } from 'vue';
-import { fetchCitiesList, fetchCountries, fetchStates } from '../api';
-import countries from '@/assets/json/countries.json';
-import allStates from '@/assets/json/states.json';
+import { fetchCities, fetchCountries, fetchStates } from '../api';
+// import countries from '@/assets/json/countries.json';
+// import allStates from '@/assets/json/states.json';
 
-// const countries = ref([]);
+const countries = ref([]);
 const states = ref([]);
 const cities = ref([]);
 
 const selectedCountry = ref({
-  iso2: 'US',
+  id: 1,
   name: 'United States'
 });
-const selectedState = ref('');
-const selectedCity = ref('');
+const selectedState = ref();
+const selectedCity = ref();
 
 export default () => {
   const setSelectedCountry = async payload => {
-    const country = await countries.find(
-      country => country.iso2 === payload || country.name === payload
-    );
+    const country = payload;
     console.log({ country });
 
     if (country) {
       selectedCountry.value = country;
-      await fetchStates(country.name);
+      await getStates(selectedCountry.value?.id);
     }
   };
 
   const setSelectedState = async payload => {
-    const state = states.value.find(
-      item => item.state_code === payload || item.name === payload
-    );
+    const state = payload;
 
     if (state) {
       console.log({ state });
-      selectedState.value = state.name;
-      await fetchCities(selectedState.value);
+      selectedState.value = state;
+      await getCities(selectedState.value?.id);
     }
   };
 
@@ -43,10 +39,20 @@ export default () => {
     selectedCity.value = payload;
   };
 
-  const fetchStates = async countryName => {
+  const getCountries = async () => {
+    try {
+      countries.value = [];
+      const res = await fetchCountries();
+      countries.value = res.results;
+    } catch (error) {
+      console.log('Error while fetching countries: ', error.message);
+    }
+  };
+
+  const getStates = async () => {
     try {
       states.value = [];
-      const res = allStates.filter(state => state.country_name == countryName);
+      const res = await fetchStates(selectedCountry.id);
       states.value = res;
     } catch (error) {
       console.log(
@@ -56,14 +62,14 @@ export default () => {
     }
   };
 
-  const fetchCities = async stateName => {
+  const getCities = async () => {
     try {
       cities.value = [];
-      const res = await fetchCitiesList(selectedCountry.value.name, stateName);
+      const res = await fetchCities(selectedCountry.id, selectedState.id);
       cities.value = res;
     } catch (error) {
       console.log(
-        'Error while fetching cities of selected country: ',
+        'Error while fetching cities of selected country and state: ',
         error.message
       );
     }
@@ -78,7 +84,8 @@ export default () => {
     setSelectedCountry,
     setSelectedState,
     setSelectedCity,
-    fetchStates,
-    fetchCities
+    getCountries,
+    getStates,
+    getCities
   };
 };
