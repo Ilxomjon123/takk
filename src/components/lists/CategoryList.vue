@@ -52,7 +52,7 @@
         </thead>
         <tbody>
           <template v-for="(item, index) in items" :key="index">
-            <tr class="-intro-y zoom-in">
+            <tr class="zoom-in">
               <!-- <td class="w-0">{{ item.position }}</td> -->
               <td class="w-1/12">
                 <div class="w-10 h-10 image-fit zoom-in">
@@ -91,7 +91,7 @@
                 </div>
               </td>
             </tr>
-            <tr class="-intro-y inner-tr" v-for="(el, i) in item.children" :key="i" v-show="isVisibleChildren(item.id)">
+            <tr class="inner-tr" v-for="(el, i) in item.children" :key="i" v-show="isVisibleChildren(item.id)">
               <!-- <td class="w-0">{{ el.position }}</td> -->
               <td class="w-10">
                 <div class="w-10 h-10 image-fit zoom-in ml-10">

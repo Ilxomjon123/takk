@@ -51,11 +51,11 @@ export default defineComponent({
       if(form == {}){
         form = this.from;
       }
-      this.$store.commit('setLoadingStatus', true);
+      // this.$store.commit('setLoadingStatus', true);
       const res = await this.$store.dispatch(this.dispatcher, { ...form, ...this.paginator });
       this.paginator.total = res?.total_objects;
       this.$emit('setItems', res?.results);
-      this.$store.commit('setLoadingStatus', false);
+      // this.$store.commit('setLoadingStatus', false);
 
     }
   }
