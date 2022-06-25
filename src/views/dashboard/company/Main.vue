@@ -9,6 +9,7 @@ import StateSelect from '@/components/selects/StateSelect.vue';
 import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 import TelInput from '../../../components/forms/TelInput.vue';
 import CompanyCard from '../../../components/cards/CompanyCard.vue';
+import useCountries from '../../../features/useCountries';
 
 const image = ref(null)
 const isLoading = ref(false)
@@ -16,11 +17,20 @@ const errors = ref(null)
 const successMessage = ref("Successfully saved!")
 const successNotification = ref(null);
 const errorNotification = ref(null);
-const getCompany = computed(() => store.getters["getCompany"])
+const getCompany = ref({})
 const globalLoading = computed(() => store.state.common.loadingStatus)
-const isUnitedStates = computed(() => getCompany.value.country === 'United States')
+
+
+const {
+  setSelectedState,
+} = useCountries();
 
 onMounted(async () => {
+  getCompany.value = await store.getters["getCompany"]
+  if (getCompany.value?.state) {
+    console.log('state: ', getCompany.value.state);
+    await setSelectedState(getCompany.value.state)
+  }
   store.commit('setLoadingStatus', true);
   await store.dispatch('fetchCompany');
   store.commit('setLoadingStatus', false);

@@ -22,7 +22,7 @@ const formFields = ref({
     lat: 35.1234,
     lon: -95.1234
   },
-  country: 'United States',
+  country: '',
   name: '',
   call_center: '',
   website: '',
@@ -91,7 +91,7 @@ const externalErrors = ref({});
 onMounted(async () => {
   store.commit('setLoadingStatus', true);
   const res1 = await fetchCafe(route.params.id);
-  store.commit('setSelectedCountry', res1.country);
+  // store.commit('setSelectedCountry', res1.country);
   // store.dispatch('fetchCitiesByCountry', res1.country)
   formFields.value = res1
   store.commit('setLoadingStatus', false);

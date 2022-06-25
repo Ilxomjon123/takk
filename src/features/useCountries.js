@@ -7,32 +7,19 @@ const countries = ref([]);
 const states = ref([]);
 const cities = ref([]);
 
-const selectedCountry = ref({
-  id: 1,
-  name: 'United States'
-});
+const selectedCountry = ref();
 const selectedState = ref();
 const selectedCity = ref();
 
 export default () => {
   const setSelectedCountry = async payload => {
-    const country = payload;
-    console.log({ country });
-
-    if (country) {
-      selectedCountry.value = country;
-      await getStates(selectedCountry.value?.id);
-    }
+    selectedCountry.value = payload;
+    await getStates(selectedCountry.value);
   };
 
   const setSelectedState = async payload => {
-    const state = payload;
-
-    if (state) {
-      console.log({ state });
-      selectedState.value = state;
-      await getCities(selectedState.value?.id);
-    }
+    selectedState.value = payload;
+    await getCities();
   };
 
   const setSelectedCity = async payload => {
@@ -43,7 +30,7 @@ export default () => {
     try {
       countries.value = [];
       const res = await fetchCountries();
-      countries.value = res.results;
+      countries.value = res;
     } catch (error) {
       console.log('Error while fetching countries: ', error.message);
     }
@@ -52,7 +39,7 @@ export default () => {
   const getStates = async () => {
     try {
       states.value = [];
-      const res = await fetchStates(selectedCountry.id);
+      const res = await fetchStates(selectedCountry.value);
       states.value = res;
     } catch (error) {
       console.log(
@@ -65,7 +52,7 @@ export default () => {
   const getCities = async () => {
     try {
       cities.value = [];
-      const res = await fetchCities(selectedCountry.id, selectedState.id);
+      const res = await fetchCities(selectedCountry.value, selectedState.value);
       cities.value = res;
     } catch (error) {
       console.log(
@@ -76,7 +63,7 @@ export default () => {
   };
 
   return {
-    countriesList: computed(() => countries),
+    countriesList: computed(() => countries.value),
     statesList: computed(() => states.value),
     citiesList: computed(() => cities.value),
     selectedCountry: computed(() => selectedCountry.value),

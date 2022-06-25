@@ -1,6 +1,7 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import useCountries from '@/features/useCountries';
+import { isEmpty } from 'lodash';
 
 const props = defineProps({
   modelValue: String,
@@ -11,8 +12,7 @@ const emit = defineEmits(['update:modelValue']);
 const {
   citiesList,
   setSelectedCity,
-  // selectedCountry,
-  // selectedState,
+  getCities
 } = useCountries();
 
 const selectedCity = computed({
@@ -25,13 +25,17 @@ const selectedCity = computed({
   }
 });
 
+watch(() => props.modelValue, async (newVal, oldVal) => {
+  await setSelectedCity(newVal)
+})
+
 </script>
 
 <template>
   <TomSelect v-model="selectedCity" :options="{
     placeholder: 'Search..'
   }" class="w-full">
-    <option v-for="({ name }, index) in citiesList" :key="index" :value="name">{{ name }}</option>
+    <option v-for="({ id, name }, index) in citiesList" :key="index" :value="id">{{ name }}</option>
   </TomSelect>
 </template>
 

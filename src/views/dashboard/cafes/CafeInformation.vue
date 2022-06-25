@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { LMap, LMarker, LTileLayer } from "@vue-leaflet/vue-leaflet";
 import axios from 'axios';
 import CountrySelect from '@/components/selects/CountrySelect.vue';

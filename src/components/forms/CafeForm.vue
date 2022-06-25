@@ -75,15 +75,30 @@ export default defineComponent({
           lat: 0,
           lon: 0
         },
-        country: this.$store.getters['getCompany'].country || "United States",
-        call_center: this.$store.getters['getCompany'].phone,
-        state: this.$store.getters['getCompany'].state,
-        city: this.$store.getters['getCompany'].city,
-        address: this.$store.getters['getCompany'].address
+        country: '',
+        call_center: '',
+        state: '',
+        city: '',
+        address: ''
       },
       isLoading: false,
       errors: {}
     }
+  },
+  async mounted() {
+    await this.$store.dispatch('fetchCompany')
+    const {
+      country,
+      phone,
+      state,
+      city,
+      address
+    } = this.$store.getters['getCompany']
+    this.form.country = country
+    this.form.call_center = phone
+    this.form.state = state
+    this.form.city = city
+    this.form.address = address
   },
   methods: {
     ...mapActions(['postCafe', 'putStep']),

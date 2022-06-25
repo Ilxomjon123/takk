@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import useCountries from '@/features/useCountries';
 import { isEmpty } from 'lodash';
 
@@ -25,18 +25,18 @@ const selectedCountry = computed({
   }
 });
 
-onMounted(async () => {
-  await getCountries()
-  if (!isEmpty(props.modelValue)) {
-    await setSelectedCountry(props.modelValue)
-  }
-});
+getCountries()
+
+watch(() => props.modelValue, async (newVal, oldVal) => {
+  await setSelectedCountry(newVal)
+})
+
 
 </script>
 
 <template>
-  <TomSelect v-model="selectedCountry" class="w-full" v-if="countriesList.length > 0">
-    <option v-for="(country, index) in countriesList" :key="index" :value="country">
+  <TomSelect v-model="selectedCountry" class="w-full">
+    <option v-for="(country, index) in countriesList" :key="index" :value="country.id">
       {{ country.name }}
     </option>
   </TomSelect>

@@ -25,22 +25,20 @@ const selectedState = computed({
 });
 
 watch(() => props.modelValue, async (newVal, oldVal) => {
-  console.log({ newVal, oldVal });
   await setSelectedState(newVal)
 })
 
-onMounted(async () => {
-  console.log('props.modelValue: ', props.modelValue);
-  if (!isEmpty(props.modelValue))
-    await setSelectedState(props.modelValue)
-})
+// onMounted(async () => {
+//   if (!isEmpty(props.modelValue))
+//     await setSelectedState(props.modelValue)
+// })
 </script>
 
 <template>
   <TomSelect v-model="selectedState" :options="{
     placeholder: 'Select state'
   }" class="w-full">
-    <option v-for="({ state_code, name }) in statesList" :key="state_code" :value="name">
+    <option v-for="({ id, name, state_code }) in statesList" :key="state_code" :value="id">
       {{ name }}
     </option>
   </TomSelect>
