@@ -4,7 +4,10 @@ import useCountries from '@/features/useCountries';
 import { isEmpty } from 'lodash';
 
 const props = defineProps({
-  modelValue: ''
+  modelValue: {
+    type: String,
+    default: ''
+  }
 });
 
 const emit = defineEmits(['update:modelValue']);

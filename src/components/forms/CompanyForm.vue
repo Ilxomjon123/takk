@@ -13,6 +13,7 @@ const { email, phone } = store.getters['getUser']
 const form = ref({
   email,
   phone: phone.startsWith('+') ? phone : '+' + phone,
+  country: '236'
 })
 const isLoading = ref(false)
 const errors = ref({})

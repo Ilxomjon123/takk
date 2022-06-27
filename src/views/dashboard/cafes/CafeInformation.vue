@@ -10,6 +10,7 @@ import TelInput from '@/components/forms/TelInput.vue';
 
 // leaflet styles
 import 'leaflet/dist/leaflet.css';
+import useCountries from '../../../features/useCountries';
 
 const props = defineProps({
   formData: {
@@ -27,6 +28,12 @@ const emit = defineEmits(['update:formData']);
 const openstreetMapUrl = ref('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
 const zoomLevel = ref(7);
 
+const {
+  countriesList,
+  statesList,
+  citiesList,
+} = useCountries();
+
 function changeLatLng(e) {
   const targetLatLng = e.target.getLatLng();
   props.formData.location.lat = targetLatLng.lat;
@@ -38,7 +45,11 @@ async function submit() {
 }
 
 function searchLocationByAddress() {
-  const addr = `${ props.formData.country }, ${ props.formData.state }, ${ props.formData.city }, ${ props.formData.postal_code }, ${ props.formData.address }`
+  const countryName = countriesList.value?.find(country => country.id == props.formData.country)?.name
+  const stateName = statesList.value?.find(state => state.id == props.formData.state)?.name
+  const cityName = citiesList.value?.find(city => city.id == props.formData.city)?.name
+
+  const addr = `${ countryName }, ${ stateName }, ${ cityName }, ${ props.formData.postal_code }, ${ props.formData.address }`
   let url = `https://nominatim.openstreetmap.org/search?format=json&limit=3&q=${ addr }`;
   axios.get(url).then(res => {
     if (res.data.length > 0) {
