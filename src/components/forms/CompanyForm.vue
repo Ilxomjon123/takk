@@ -28,7 +28,7 @@ async function submit() {
   errors.value = {};
   form.value.phone = form.value.phone.replace(/\s+/g, '')
   const country = countriesList.value.find(item => item.id == selectedCountry.value)
-  form.value.country_code = country.get('iso_2')
+  form.value.country_code = country['iso_2']
 
   const res = await store.dispatch('postCompany', form.value);
 
