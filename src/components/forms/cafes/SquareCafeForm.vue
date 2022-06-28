@@ -40,12 +40,12 @@ export default {
       this.loading = false;
     }
   },
-  async mounted() {
-    await this["cafes/fetchCafeList"]();
-    await this["cafes/fetchSquareCafeList"]();
-    this.locations = this["cafes/getSquareSelectedCafeList"].map(item => item.square_location_id);
-    // console.log('loctions',this["cafes/getSquareSelectedCafeList"]);
-    this.list = this["cafes/getSquareCafeList"];
-  },
+  // async mounted() {
+  //   await this["cafes/fetchCafeList"]();
+  //   await this["cafes/fetchSquareCafeList"]();
+  //   this.locations = this["cafes/getSquareSelectedCafeList"].map(item => item.square_location_id);
+  //   // console.log('loctions',this["cafes/getSquareSelectedCafeList"]);
+  //   this.list = this["cafes/getSquareCafeList"];
+  // },
 }
 </script>

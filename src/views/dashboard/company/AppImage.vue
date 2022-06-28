@@ -16,11 +16,11 @@ const errorNotification = ref(null);
 const getCompany = computed(() => store.getters["getCompany"])
 const globalLoading = computed(() => store.state.common.loadingStatus)
 
-onMounted(async () => {
-  store.commit('setLoadingStatus', true);
-  await store.dispatch('fetchCompany');
-  store.commit('setLoadingStatus', false);
-});
+// onMounted(async () => {
+//   store.commit('setLoadingStatus', true);
+//   await store.dispatch('fetchCompany');
+//   store.commit('setLoadingStatus', false);
+// });
 
 async function submit() {
   isLoading.value = true;

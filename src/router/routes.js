@@ -113,6 +113,11 @@ const routes = [
             component: () => import('../views/dashboard/company/Main.vue')
           },
           {
+            path: 'banking',
+            name: 'banking',
+            component: () => import('../views/dashboard/company/Banking.vue')
+          },
+          {
             path: 'app-images',
             name: 'app-images',
             component: () => import('../views/dashboard/company/AppImage.vue')

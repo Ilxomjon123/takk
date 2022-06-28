@@ -59,8 +59,8 @@ onMounted(async () => {
       // location.href = '/entry?squareError=error';
     }
   }
-  // await store.dispatch('cafes/fetchSquareCafeList')
-  store.dispatch('cafes/storeSquareIDCafe')
+  await store.dispatch('cafes/fetchSquareCafeList')
+  // store.dispatch('cafes/storeSquareIDCafe')
 })
 //   }
 // });
