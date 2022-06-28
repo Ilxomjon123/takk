@@ -52,6 +52,21 @@ const actions = {
         };
       });
     return response;
+  },
+  async syncSquare({ rootGetters, commit }) {
+    try {
+      const res = await axios.get('/api/square/locations/parse/', {
+        headers: rootGetters.getHttpHeader
+      });
+      commit(
+        'setSuccessNotificationMessage',
+        'Synchronize successfully started. It may take a few minutes'
+      );
+      commit('setNotificationsDefault');
+    } catch (err) {
+      commit('setErrorNotification');
+      // console.log('error while fetching cafes: ', err);
+    }
   }
 };
 

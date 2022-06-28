@@ -1,5 +1,6 @@
 import axios from 'axios';
-
+const DEFAULT_SUCCESS_MESSAGE = 'Successfully!';
+const DEFAULT_ERROR_MESSAGE = 'Something went wrong!';
 const state = () => {
   return {
     countries: [],
@@ -9,6 +10,8 @@ const state = () => {
     loadingStatus: false,
     successNotificationStatus: false,
     errorNotificationStatus: false,
+    successNotificationMessage: DEFAULT_SUCCESS_MESSAGE,
+    errorNotificationMessage: DEFAULT_ERROR_MESSAGE,
     statesList: []
   };
 };
@@ -23,9 +26,17 @@ const getters = {
   getSelectedCity: state => state.selectedCity,
   getLoadingStatus: state => state.loadingStatus,
   getSuccessNotificationStatus: state => state.successNotificationStatus,
-  getErrorNotificationStatus: state => state.errorNotificationStatus
+  getErrorNotificationStatus: state => state.errorNotificationStatus,
+  getSuccessNotificationMessage: state => state.successNotificationMessage,
+  getErrorNotificationMessage: state => state.errorNotificationMessage
 };
 const mutations = {
+  setNotificationsDefault(state) {
+    state.successNotificationMessage = DEFAULT_SUCCESS_MESSAGE;
+    state.errorNotificationMessage = DEFAULT_ERROR_MESSAGE;
+    state.successNotificationStatus = false;
+    state.errorNotificationStatus = false;
+  },
   setCountries(state, payload) {
     state.countries = payload;
   },
@@ -46,6 +57,14 @@ const mutations = {
   },
   setErrorNotification(state, payload = true) {
     state.errorNotificationStatus = payload;
+  },
+  setSuccessNotificationMessage(state, payload) {
+    state.successNotificationMessage = payload;
+    state.successNotificationStatus = true;
+  },
+  setErrorNotificationMessage(state, payload) {
+    state.errorNotificationMessage = payload;
+    state.errorNotificationStatus = true;
   }
 };
 
