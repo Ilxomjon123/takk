@@ -25,18 +25,22 @@ const {
   setSelectedCountry,
 } = useCountries();
 
+
 onMounted(async () => {
-  getCompany.value = await store.getters["getCompany"]
+  store.commit('setLoadingStatus', true);
+  await store.dispatch('fetchCompany');
+  getCompany.value = store.getters["getCompany"]
+
   if (getCompany.value?.country) {
     console.log('country: ', getCompany.value.country);
     await setSelectedCountry(getCompany.value.country)
   }
+
   if (getCompany.value?.state) {
     console.log('state: ', getCompany.value.state);
     await setSelectedState(getCompany.value.state)
   }
-  store.commit('setLoadingStatus', true);
-  await store.dispatch('fetchCompany');
+
   store.commit('setLoadingStatus', false);
 });
 
