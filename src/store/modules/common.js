@@ -58,11 +58,11 @@ const mutations = {
   setErrorNotification(state, payload = true) {
     state.errorNotificationStatus = payload;
   },
-  setSuccessNotificationMessage(state, payload) {
+  setSuccessNotificationMessage(state, payload = DEFAULT_SUCCESS_MESSAGE) {
     state.successNotificationMessage = payload;
     state.successNotificationStatus = true;
   },
-  setErrorNotificationMessage(state, payload) {
+  setErrorNotificationMessage(state, payload = DEFAULT_ERROR_MESSAGE) {
     state.errorNotificationMessage = payload;
     state.errorNotificationStatus = true;
   }
