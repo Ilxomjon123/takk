@@ -17,7 +17,7 @@ const errors = ref(null)
 const successMessage = ref("Successfully saved!")
 const successNotification = ref(null);
 const errorNotification = ref(null);
-const getCompany = ref({})
+const getCompany = computed(() => store.getters["getCompany"])
 const globalLoading = computed(() => store.state.common.loadingStatus)
 
 const {
@@ -25,19 +25,23 @@ const {
   setSelectedCountry,
 } = useCountries();
 
+
 onMounted(async () => {
-  getCompany.value = await store.getters["getCompany"]
+  // store.commit('setLoadingStatus', true);
+  // await store.dispatch('fetchCompany');
+  // getCompany.value = store.getters["getCompany"]
+  // console.log(getCompany.value);
   if (getCompany.value?.country) {
-    console.log('country: ', getCompany.value.country);
-    await setSelectedCountry(getCompany.value.country)
+    // console.log('country: ', getCompany.value.country);
+    setSelectedCountry(getCompany.value.country)
   }
+
   if (getCompany.value?.state) {
-    console.log('state: ', getCompany.value.state);
-    await setSelectedState(getCompany.value.state)
+    // console.log('state: ', getCompany.value.state);
+    setSelectedState(getCompany.value.state)
   }
-  store.commit('setLoadingStatus', true);
-  await store.dispatch('fetchCompany');
-  store.commit('setLoadingStatus', false);
+
+  // store.commit('setLoadingStatus', false);
 });
 
 async function submit() {

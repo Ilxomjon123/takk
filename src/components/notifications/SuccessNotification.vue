@@ -4,7 +4,7 @@
     <div id="success-notification-content" class="toastify-content hidden flex">
       <CheckCircleIcon class="text-theme-9" />
       <div class="ml-4 mr-4">
-        <div class="font-medium">{{ message }}</div>
+        <div class="font-medium">{{ getSuccessNotificationMessage }}</div>
         <!-- <div class="text-gray-600 mt-1">{{ message }}</div> -->
       </div>
     </div>
@@ -16,13 +16,10 @@
 import { defineComponent } from 'vue'
 import Toastify from 'toastify-js'
 import cash from 'cash-dom'
+import { mapGetters } from 'vuex';
 
 export default defineComponent({
   props: {
-    message: {
-      type: String,
-      default: 'Successfully!'
-    },
     duration: {
       type: Number,
       default: 3000
@@ -45,6 +42,7 @@ export default defineComponent({
     }
   },
   computed: {
+    ...mapGetters(['getSuccessNotificationMessage']),
     status() {
       return this.$store.state.common.successNotificationStatus;
     }
