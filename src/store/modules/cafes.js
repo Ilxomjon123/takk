@@ -93,12 +93,8 @@ const actions = {
     await axios
       .post(
         `/api/square/locations/import/`,
-        {
-          locations: payload
-        },
-        {
-          headers: rootGetters.getHttpHeader
-        }
+        { locations: payload },
+        { headers: rootGetters.getHttpHeader }
       )
       .then(res => {
         response = {
@@ -114,6 +110,13 @@ const actions = {
       });
 
     return response;
+  },
+  squareCafeNotification({ rootGetters }, payload) {
+    axios.post(
+      `/api/cafes/square/notifications/`,
+      { cafe: payload },
+      { headers: rootGetters.getHttpHeader }
+    );
   },
   async storeSquareIDCafe({ rootGetters, commit, dispatch, getters }) {
     let response;

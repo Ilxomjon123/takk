@@ -13,13 +13,13 @@ const company = computed(()=> store.getters.getCompany)
   <div class="col-span-12 lg:col-span-3 2xl:col-span-3 flex lg:block flex-col-reverse">
     <div class="intro-y box mt-5 lg:mt-0">
       <div class="relative flex items-center p-5">
-        <div class="ml-4 mr-auto">
+        <div class="mr-auto">
           <div class="font-medium text-base">
             {{ company?.name }}
           </div>
         </div>
-        <div class="ml-4 ml-auto">
-          <div class="font-medium text-base ml-auto" :class="company?.status ? 'text-theme-9' : 'text-theme-6'">
+        <div>
+          <div class="font-medium text-base" :class="company?.status ? 'text-theme-9' : 'text-theme-6'">
             {{ company?.status ? 'Active' : 'Not Active' }}
           </div>
         </div>
