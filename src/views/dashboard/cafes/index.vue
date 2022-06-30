@@ -13,7 +13,7 @@ const list = reactive([])
 onMounted(async () => {
   store.commit('setLoadingStatus', true)
   const res = await fetchCafeList()
-  Object.assign(list, res.results)
+  // Object.assign(list, res.results)
   store.commit('setLoadingStatus', false)
 
 });
@@ -34,18 +34,21 @@ function gotoForm(id) {
 <template>
   <div>
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
-      <h2 class="text-lg font-medium">Data List Layout</h2>
+      <h2 class="text-lg font-medium">Cafe List</h2>
       <div class="w-full sm:w-auto flex ml-2 sm:mt-0">
         <div class="intro-y flex flex-wrap sm:flex-nowrap items-center">
-        <button class="btn btn-primary shadow-md mr-2" @click="gotoForm(null)">Add New Cafe</button>
-      </div>
+          <button class="btn btn-primary shadow-md mr-2" @click="gotoForm(null)">Add New Cafe</button>
+        </div>
       </div>
     </div>
     <div class="grid grid-cols-12 gap-6 mt-5">
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+        <div v-if="list.length" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
           <CafeItemCard v-for="cafe, index in list" :cafe="cafe" @click="gotoForm(cafe.id)" class="cafe_item" />
+        </div>
+        <div v-else class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+          <p class="text-lg">No data</p>
         </div>
       </div>
       <!-- END: Data List -->

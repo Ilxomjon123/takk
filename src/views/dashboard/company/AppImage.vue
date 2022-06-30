@@ -16,11 +16,11 @@ const errorNotification = ref(null);
 const getCompany = computed(() => store.getters["getCompany"])
 const globalLoading = computed(() => store.state.common.loadingStatus)
 
-onMounted(async () => {
-  store.commit('setLoadingStatus', true);
-  await store.dispatch('fetchCompany');
-  store.commit('setLoadingStatus', false);
-});
+// onMounted(async () => {
+//   store.commit('setLoadingStatus', true);
+//   await store.dispatch('fetchCompany');
+//   store.commit('setLoadingStatus', false);
+// });
 
 async function submit() {
   isLoading.value = true;
@@ -86,10 +86,8 @@ async function submit() {
                 :image-path="getCompany.app_image_evening" @update-image-file="evening = $event" />
             </div>
           </div>
-          <button class="btn btn-primary py-3 block mx-auto px-10 align-top"
-            @click="submit"
-            :disabled="isLoading">
-            {{isLoading ? '' : 'Save' }}
+          <button class="btn btn-primary py-3 block mx-auto px-10 align-top" @click="submit" :disabled="isLoading">
+            {{ isLoading ? '' : 'Save' }}
             <LoadingIcon v-if="isLoading" icon="three-dots" color="white" class="w-8 h-8 my-2" />
           </button>
           <SuccessNotification ref="successNotification" :message="successMessage" />
