@@ -4,7 +4,7 @@ import useChatState from './useChatState';
 import { fetchChatMessages } from '@/api';
 
 const token = getToken();
-const wsUrl = 'ws://echtmal.com:8001/connect';
+const wsUrl = 'ws://api.takk.cafe:8001/connect';
 const wsConnect = ref(null);
 const wsMessages = ref([]);
 const { getSelectedChat, setSelectedChatMessages } = useChatState();

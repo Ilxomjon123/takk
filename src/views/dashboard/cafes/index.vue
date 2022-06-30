@@ -13,7 +13,7 @@ const list = reactive([])
 onMounted(async () => {
   store.commit('setLoadingStatus', true)
   const res = await fetchCafeList()
-  // Object.assign(list, res.results)
+  Object.assign(list, res.results)
   store.commit('setLoadingStatus', false)
 
 });
@@ -47,9 +47,7 @@ function gotoForm(id) {
         <div v-if="list.length" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
           <CafeItemCard v-for="cafe, index in list" :cafe="cafe" @click="gotoForm(cafe.id)" class="cafe_item" />
         </div>
-        <div v-else class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-          <p class="text-lg">No data</p>
-        </div>
+        <div v-else class="hidden md:block mx-auto text-gray-600 text-center col-span-12">No Data</div>
       </div>
       <!-- END: Data List -->
     </div>
