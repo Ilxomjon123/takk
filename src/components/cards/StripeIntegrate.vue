@@ -3,13 +3,16 @@ import { ref } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
-const loading = ref(false);
-async function gotoSquareUpSite(){
+const loading = ref(false)
+async function gotoStripeSite(){
   loading.value = true;
-  const res = await store.dispatch('fetchSquareRedirectUrl', { is_make_create_order:true });
+  const res = await store.dispatch('fectStripeConnect');
   loading.value = false;
   if (res.status) {
-    location.href = res?.data?.url;
+    console.log(res);
+    // location.href = res?.data?.url;
+  } else {
+    store.commit('setErrorNotification');
   }
 }
 </script>
@@ -19,11 +22,11 @@ async function gotoSquareUpSite(){
       <div class="p-5 text-center">
         <div class="flex justify-center my-3 h-10 mt-3">
           <img src="@/assets/images/Takk_Logo.png" class="mr-3" />
-          <img src="@/assets/images/squareup.png" />
+          <img src="@/assets/images/stripe_logo.png" class="h-16 -mt-3" />
         </div>
-        <div class="text-3xl mt-5">Do you want to integrate with SquareUp</div>
+        <div class="text-2xl mt-5">Do you want to integrate with Stripe</div>
         <div class="text-base mt-3">
-          Do you already use Square? We can import all your menu and products from Square if you like.
+          <!-- Do you already use Square? We can import all your menu and products from Square if you like. -->
         </div>
         <!-- <div class="text-gray-600 mt-2">
                 <div class="sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0">
@@ -37,8 +40,8 @@ async function gotoSquareUpSite(){
       <div class="px-5 pb-8 text-center">
         <!-- <button
           class="btn btn-outline-secondary w-24 dark:border-dark-5 dark:text-gray-300 mr-1">No</button> -->
-        <button type="button" class="btn btn-success w-24" @click="gotoSquareUpSite">Integrate
-          <LoadingIcon icon="oval" class="ml-2 w-4 h-4" v-if="loading" />
+        <button type="button" class="btn btn-success" @click="gotoStripeSite">Integrate
+        <LoadingIcon icon="oval" class="ml-2 w-4 h-4" v-if="loading" />
         </button>
       </div>
     </div>

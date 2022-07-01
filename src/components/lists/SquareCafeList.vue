@@ -1,5 +1,12 @@
 <template>
-  <div class="text-center mb-2 -mt-3 text-xs text-gray-500">To send Notification to Square switch on switcher</div>
+  <div class="flex align-middle">
+    <button class="btn btn-primary btn-sm text-sm" @click="synchSquare">
+      <LoadingIcon icon="oval" v-if="loading"/>
+      <RotateCwIcon v-else/>
+    </button>
+    <div class="form-check-label text-base mt-2">Refresh Square Data</div>
+  </div>
+  <div class="my-3 font-medim text-base">To send Notification to Square switch on switcher</div>
   <div class="form-check" v-for="(item, index) in cafes" :key="index">
     <input
       :id="'toggle' + index"
@@ -37,10 +44,17 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["cafes/fetchCafeList","cafes/squareCafeNotification"]),
+    ...mapActions(["cafes/fetchCafeList","cafes/squareCafeNotification", "syncSquare"]),
     change(item){
       this["cafes/squareCafeNotification"](item.id);
       item.square_notifications = !item.square_notifications;
+    },
+    synchSquare(){
+      this.loading = true;
+      const vm = this;
+      this.syncSquare().then(() => {
+        vm.loading = false;
+      });
     }
   },
   created(){

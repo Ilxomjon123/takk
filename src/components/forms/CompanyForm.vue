@@ -30,6 +30,7 @@ async function submit() {
   form.value.phone = form.value.phone.replace(/\s+/g, '')
   const country = countriesList.value.find(item => item.id == selectedCountry.value)
   form.value.country_code = country['iso_2']
+  form.value.cashback_persent = 10;
 
   const res = await store.dispatch('postCompany', form.value);
 

@@ -18,6 +18,7 @@ const successMessage = ref("Successfully saved!")
 const successNotification = ref(null);
 const errorNotification = ref(null);
 const getCompany = computed(() => store.getters["getCompany"])
+if(getCompany.value.cashback_percent == null) getCompany.value.cashback_percent = 10;
 const globalLoading = computed(() => store.state.common.loadingStatus)
 
 const {
