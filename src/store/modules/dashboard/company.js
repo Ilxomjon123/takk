@@ -104,6 +104,22 @@ const actions = {
         // commit('setTransactions', err.response.data);
       });
     return response;
+  },
+  async fectStripeConnect({ commit, rootGetters }) {
+    let response;
+    await axios
+      // .get(`/api/companies/${rootGetters.getCompanyId}/transactions/`, {
+      .get(`/api/stripe/connect/`, {
+        headers: rootGetters.getHttpHeader
+      })
+      .then(res => {
+        response = { status: tre, ...res.data };
+      })
+      .catch(err => {
+        response = { status: false, ...err.data };
+        // commit('setTransactions', err.response.data);
+      });
+    return response;
   }
 };
 

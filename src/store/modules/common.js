@@ -1,5 +1,5 @@
 import axios from 'axios';
-const DEFAULT_SUCCESS_MESSAGE = 'Successfully!';
+const DEFAULT_SUCCESS_MESSAGE = 'Success';
 const DEFAULT_ERROR_MESSAGE = 'Something went wrong!';
 const state = () => {
   return {

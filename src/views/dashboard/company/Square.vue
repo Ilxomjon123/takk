@@ -7,15 +7,15 @@ import SquareCafeList from '../../../components/lists/SquareCafeList.vue';
 const isLoading = ref(false)
 const getCompany = computed(() => store.getters["getCompany"])
 const globalLoading = computed(() => store.state.common.loadingStatus)
-const loading = ref(false);
-function synchSquare() {
-  // store.commit('setLoadingStatus', true);
-  loading.value = true;
-  store.dispatch('syncSquare').then(() => {
-    loading.value = false;
-    // store.commit('setLoadingStatus', false);
-  });
-}
+// const loading = ref(false);
+// function synchSquare(){
+//   // store.commit('setLoadingStatus', true);
+//   loading.value = true;
+//   store.dispatch('syncSquare').then(()=>{
+//     loading.value = false;
+//     // store.commit('setLoadingStatus', false);
+//   });
+// }
 // onMounted(async () => {
 //   store.commit('setLoadingStatus', true);
 //   await store.dispatch('fetchCompany');
@@ -30,16 +30,20 @@ function synchSquare() {
     <div class="intro-y box">
       <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
         <h2 class="font-medium text-base mr-auto">Square Cafes List</h2>
+<<<<<<< HEAD
+        <!-- <div class="ml-4 ml-auto"  v-if="getCompany?.has_square_account">
+          <button class="font-medium text-base text-theme-10 hover:text-theme-1 underline" @click="synchSquare" v-if="!loading">
+=======
         <div class="ml-4 ml-auto" v-if="getCompany?.has_square_account">
           <button class="font-medium text-base text-theme-10 hover:text-theme-1 underline" @click="synchSquare"
             v-if="!loading">
+>>>>>>> 22468c1c8fd2c6ba36769f8fa8765c12f6253b13
             Sync with Square
           </button>
           <button class="font-medium text-base" v-else>
-            <!-- Loading... -->
             <LoadingIcon icon="oval" class="w-8 h-8 my-2" />
           </button>
-        </div>
+        </div> -->
       </div>
       <div class="p-5">
         <div v-if="getCompany?.has_square_account">
