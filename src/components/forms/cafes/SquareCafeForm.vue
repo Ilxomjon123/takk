@@ -2,9 +2,9 @@
   <form @submit.prevent="submit">
     <label class="form-label">Select Cafe</label>
     <TomSelect v-model="locations" multiple>
-      <option v-for="(item,index) in list" :key="index" :value="item.square_location_id">{{item.business_name}}</option>
+      <option v-for="(item, index) in list" :key="index" :value="item.square_location_id">{{ item.business_name }}</option>
     </TomSelect>
-    <p class="text-theme-6">{{error?.data}}</p>
+    <p class="text-theme-6">{{ error?.data }}</p>
     <button type="submit" class="btn btn-success mt-2" :disabled="loading">Integrate
       <LoadingIcon v-if="loading" icon="oval" color="white" class="w-4 h-4 ml-2" />
     </button>
@@ -30,7 +30,7 @@ export default {
     ...mapMutations(["setSuccessNotification"]),
     async submit() {
       this.loading = true;
-      this.error= {};
+      this.error = {};
       const res = await this["cafes/storeSquareCafe"](this.locations);
       if (!res.status) {
         this.error = res.data;

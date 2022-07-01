@@ -50,7 +50,8 @@
       <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
         <label for="postal_code" class="form-label">Postal Code</label>
         <input id="postal_code" type="text" class="form-control"
-          :class="getError('postal_code') != null ? 'border-theme-6' : ''" placeholder="Postal Code" v-model="form.postal_code" />
+          :class="getError('postal_code') != null ? 'border-theme-6' : ''" placeholder="Postal Code"
+          v-model="form.postal_code" />
         <div class="text-theme-6" v-text="getError('postal_code')" />
       </div>
     </div>
