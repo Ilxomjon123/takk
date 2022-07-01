@@ -30,14 +30,8 @@ const globalLoading = computed(() => store.state.common.loadingStatus)
     <div class="intro-y box">
       <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
         <h2 class="font-medium text-base mr-auto">Square Cafes List</h2>
-<<<<<<< HEAD
         <!-- <div class="ml-4 ml-auto"  v-if="getCompany?.has_square_account">
           <button class="font-medium text-base text-theme-10 hover:text-theme-1 underline" @click="synchSquare" v-if="!loading">
-=======
-        <div class="ml-4 ml-auto" v-if="getCompany?.has_square_account">
-          <button class="font-medium text-base text-theme-10 hover:text-theme-1 underline" @click="synchSquare"
-            v-if="!loading">
->>>>>>> 22468c1c8fd2c6ba36769f8fa8765c12f6253b13
             Sync with Square
           </button>
           <button class="font-medium text-base" v-else>
