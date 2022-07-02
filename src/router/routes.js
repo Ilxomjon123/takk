@@ -43,6 +43,10 @@ const routes = [
     component: SquareUp
   },
   {
+    path: '/stripe',
+    component: import('../views/steps/Stripe.vue')
+  },
+  {
     path: '/',
     component: AppLayout,
     children: [
