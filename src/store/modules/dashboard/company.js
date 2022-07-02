@@ -113,7 +113,7 @@ const actions = {
         headers: rootGetters.getHttpHeader
       })
       .then(res => {
-        response = { status: tre, ...res.data };
+        response = { status: true, ...res.data };
       })
       .catch(err => {
         response = { status: false, ...err.data };
