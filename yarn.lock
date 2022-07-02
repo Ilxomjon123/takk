@@ -12,11 +12,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
-"@babel/parser@npm:^7.16.4, @babel/parser@npm:^7.18.4":
-=======
 "@babel/parser@npm:^7.16.4":
->>>>>>> 22468c1c8fd2c6ba36769f8fa8765c12f6253b13
   version: 7.18.6
   resolution: "@babel/parser@npm:7.18.6"
   bin:
@@ -764,20 +760,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
-"@vue/compiler-sfc@npm:2.7.0":
-  version: 2.7.0
-  resolution: "@vue/compiler-sfc@npm:2.7.0"
-  dependencies:
-    "@babel/parser": ^7.18.4
-    postcss: ^8.4.14
-    source-map: ^0.6.1
-  checksum: f0a844671fb2d33e9019c9ff5229b04976f5173530f6626f52e3fa559ff4f332fee7e238cc0104be45674895d585a125f498cc216443de4541f4f3ff764d8335
-  languageName: node
-  linkType: hard
-
-=======
->>>>>>> 22468c1c8fd2c6ba36769f8fa8765c12f6253b13
 "@vue/compiler-sfc@npm:3.2.37":
   version: 3.2.37
   resolution: "@vue/compiler-sfc@npm:3.2.37"
@@ -807,15 +789,9 @@ __metadata:
   linkType: hard
 
 "@vue/devtools-api@npm:^6.0.0, @vue/devtools-api@npm:^6.0.0-beta.11, @vue/devtools-api@npm:^6.0.0-beta.15":
-<<<<<<< HEAD
-  version: 6.2.0
-  resolution: "@vue/devtools-api@npm:6.2.0"
-  checksum: 20cc7a3393af1992e02dfdd21c494b33fc1ed00b7b6b57bea92ae360b43f938a416759e8c3c1a269ba44fe8ae4436b9520419a7a3f1a6d65fb3cf4d56c2e8763
-=======
   version: 6.1.4
   resolution: "@vue/devtools-api@npm:6.1.4"
   checksum: 027bb138b03ec7147dd15e5d0ef28d5b72c822530396cc8a86bc6fdb049dc6850314b9e897e497064e3ed47fad229a18141f56b8b8ca3d41092a576dc5b6538d
->>>>>>> 22468c1c8fd2c6ba36769f8fa8765c12f6253b13
   languageName: node
   linkType: hard
 
@@ -1330,16 +1306,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-<<<<<<< HEAD
-"csstype@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "csstype@npm:3.1.0"
-  checksum: 644e986cefab86525f0b674a06889cfdbb1f117e5b7d1ce0fc55b0423ecc58807a1ea42ecc75c4f18999d14fc42d1d255f84662a45003a52bb5840e977eb2ffd
-  languageName: node
-  linkType: hard
-
-=======
->>>>>>> 22468c1c8fd2c6ba36769f8fa8765c12f6253b13
 "dayjs@npm:^1.10.4":
   version: 1.11.3
   resolution: "dayjs@npm:1.11.3"
@@ -1436,15 +1402,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.172":
-<<<<<<< HEAD
-  version: 1.4.176
-  resolution: "electron-to-chromium@npm:1.4.176"
-  checksum: fed8ed2a4d3b37ef8c67cf13ab6da6a387f6c8089ccdc54bb2ae2af48c032e67d3526150578c4314c3a98b08e1aa9fe069c5d04044562946182a106287e24752
-=======
   version: 1.4.174
   resolution: "electron-to-chromium@npm:1.4.174"
   checksum: e74813a0dcfa92b8e76672249018d8ec39fae4adc5321ca2970dfd6dc3cfda138a2dcca09ad3e043f2959d6f9afae85eddb63a6cb401d588a95255417bc57bc4
->>>>>>> 22468c1c8fd2c6ba36769f8fa8765c12f6253b13
   languageName: node
   linkType: hard
 
@@ -3306,18 +3266,9 @@ vue-select@beta:
   linkType: hard
 
 "vue@npm:^2.0.0":
-<<<<<<< HEAD
-  version: 2.7.0
-  resolution: "vue@npm:2.7.0"
-  dependencies:
-    "@vue/compiler-sfc": 2.7.0
-    csstype: ^3.1.0
-  checksum: 4adaa4a8ec2b12ee2251baa8b5084b9883d36f78bf54c06c46e3da230d134f38b8c60e50599d4a5f9f4bb5b7d6a0412022d8ca4ae4c8a78aeb3ef78962643b18
-=======
   version: 2.6.14
   resolution: "vue@npm:2.6.14"
   checksum: 23524a1bdca094d62cb3491a46317eed75184b5d61d28fa846ea5d2b241c1cc7084fc67ee259d47a50a6d0bbc33ecaceb7bb52bff81312fe7da07263f3419942
->>>>>>> 22468c1c8fd2c6ba36769f8fa8765c12f6253b13
   languageName: node
   linkType: hard
 

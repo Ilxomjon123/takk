@@ -9,8 +9,8 @@ async function gotoStripeSite(){
   const res = await store.dispatch('fectStripeConnect');
   loading.value = false;
   if (res.status) {
-    console.log(res);
-    // location.href = res?.data?.url;
+    // console.log(res);
+    location.href = res?.url;
   } else {
     store.commit('setErrorNotification');
   }
