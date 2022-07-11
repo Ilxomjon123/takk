@@ -90,7 +90,7 @@ function updateList() {
       <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
         <button class="btn btn-primary" @click="addMenu">
           <span class="flex items-center justify-center">
-            <PlusIcon />
+            <PlusIcon class="h-4 w-4 mr-3"/>
           </span> Add Menu
         </button>
       </div>

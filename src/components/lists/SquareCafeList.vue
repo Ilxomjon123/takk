@@ -1,12 +1,12 @@
 <template>
   <div class="flex align-middle">
-    <button class="btn btn-primary btn-sm text-sm" @click="synchSquare">
+    <button class="btn btn-primary btn-sm text-sm" @click="synchSquare" :disabled="loading">
       <LoadingIcon icon="oval" v-if="loading"/>
       <RotateCwIcon v-else/>
     </button>
     <div class="form-check-label text-base mt-2">Refresh Square Data</div>
   </div>
-  <div class="my-3 font-medim text-base">To send Notification to Square switch on switcher</div>
+  <div class="my-3 font-medim text-base">Send order notifications to Square system:</div>
   <div class="form-check" v-for="(item, index) in cafes" :key="index">
     <input
       :id="'toggle' + index"

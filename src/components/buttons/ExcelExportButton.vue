@@ -1,5 +1,5 @@
 <template>
-<button class="btn btn-success" @click="tableToExcel('Transactions')">Export Excel
+<button class="btn btn-primary" @click="tableToExcel('Transactions')">Export Excel
 <LoadingIcon icon="oval" color="white" class="w-4 h-4 ml-2" v-if="loading"/></button>
 </template>
 

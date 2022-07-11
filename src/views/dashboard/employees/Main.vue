@@ -22,14 +22,12 @@
       </div> -->
       <div class="w-full sm:w-auto flex mt-4 ml-2 sm:mt-0">
         <router-link to="/dashboard/employees/add-new" class="btn btn-primary mr-3">
-          <span class="w-5 h-5 flex items-center justify-center">
-            <PlusIcon class="w-4 h-4" />
-          </span>Add New User
+          <PlusIcon class="w-4 h-4 mr-3" />
+          Add New User
         </router-link>
         <router-link to="/dashboard/employees/add-exist" class="btn btn-success">
-          <span class="w-5 h-5 flex items-center justify-center">
-            <PlusIcon class="w-4 h-4" />
-          </span>Add Existing User
+          <PlusIcon class="w-4 h-4 mr-3" />
+          Add Existing User
         </router-link>
       </div>
     </div>

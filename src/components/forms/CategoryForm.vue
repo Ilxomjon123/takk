@@ -79,8 +79,15 @@
         />
         <div class="text-theme-6" v-text="getError('name')" />
       </div>
-
-      <label for="start-time" class="w-full px-3 mb-2">Available Time</label>
+      <label for="start-time" class="w-full px-3 mb-2">Available Time
+         <Tippy
+          tag="a"
+          href="javascript:;"
+          content="If left blank product is always available."
+          >
+          <InfoIcon class="block text-xs" />
+        </Tippy>
+      </label>
       <div class="w-full px-3 mb-3 md:w-1/2">
         <input
           id="start-time"

@@ -6,7 +6,7 @@ const store = useStore();
 const loading = ref(false)
 async function gotoStripeSite(){
   loading.value = true;
-  const res = await store.dispatch('fectStripeConnect');
+  const res = await store.dispatch('fetchStripeConnect');
   loading.value = false;
   if (res.status) {
     // console.log(res);

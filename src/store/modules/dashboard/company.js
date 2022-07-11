@@ -105,7 +105,7 @@ const actions = {
       });
     return response;
   },
-  async fectStripeConnect({ commit, rootGetters }) {
+  async fetchStripeConnect({ commit, rootGetters }) {
     let response;
     await axios
       // .get(`/api/companies/${rootGetters.getCompanyId}/transactions/`, {

@@ -2,6 +2,14 @@
   <div v-if="getSelectedMenuId">
     <div class="intro-y flex flex-col sm:flex-row items-center mt-10">
       <h2 class="text-lg font-medium">Modifiers List</h2>
+      <button @click="addModifierType" class="btn btn-primary ml-3" data-toggle="dropdown">
+          <PlusIcon class="w-4 h-4 mr-3" />
+          Add Modifier Type
+      </button>
+      <button @click="addModifierItem" class="btn btn-success ml-3" data-toggle="dropdown">
+          <PlusIcon class="w-4 h-4 mr-3" />
+          Add Modifier Item
+      </button>
       <div class="dropdown inline-block" data-placement="right-start">
         <button class="dropdown-toggle" aria-expanded="false">
           <MoreVerticalIcon />
@@ -20,7 +28,7 @@
                 <ShuffleIcon class="w-4 h-4" />
               </span>Reorder Modifier Item
             </button>
-            <button @click="addModifierType" class="btn whitespace-nowrap mb-2" data-toggle="dropdown">
+            <!-- <button @click="addModifierType" class="btn whitespace-nowrap mb-2" data-toggle="dropdown">
               <span class="w-5 h-5 flex items-center justify-center">
                 <PlusIcon class="w-4 h-4" />
               </span>Add Modifier Type
@@ -29,7 +37,7 @@
               <span class="w-5 h-5 flex items-center justify-center">
                 <PlusIcon class="w-4 h-4" />
               </span>Add Modifier Item
-            </button>
+            </button> -->
           </div>
         </div>
       </div>
