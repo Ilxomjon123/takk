@@ -120,6 +120,34 @@ const actions = {
         // commit('setTransactions', err.response.data);
       });
     return response;
+  },
+  async fetchStatisticsSalesYear({ commit, rootGetters }) {
+    let response;
+    await axios
+      .get(`/api/statistics/sales/year/`, {
+        headers: rootGetters.getHttpHeader
+      })
+      .then(res => {
+        response = { status: true, ...res.data };
+      })
+      .catch(err => {
+        response = { status: false, ...err.data };
+      });
+    return response;
+  },
+  async fetchStatisticsSalesWeek({ commit, rootGetters }) {
+    let response;
+    await axios
+      .get(`/api/statistics/sales/week/`, {
+        headers: rootGetters.getHttpHeader
+      })
+      .then(res => {
+        response = { status: true, ...res.data };
+      })
+      .catch(err => {
+        response = { status: false, ...err.data };
+      });
+    return response;
   }
 };
 

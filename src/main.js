@@ -8,6 +8,7 @@ import App from './App.vue';
 import utils from './utils';
 import './libs';
 import globalComponents from './global-components';
+import VueApexCharts from 'vue3-apexcharts';
 
 // SASS Theme
 import './assets/sass/app.scss';
@@ -33,7 +34,8 @@ axios.interceptors.response.use(undefined, async function(error) {
 const app = createApp(App)
   .use(store)
   .use(router)
-  .use(VueAxios, axios);
+  .use(VueAxios, axios)
+  .use(VueApexCharts);
 
 globalComponents(app);
 utils(app);
