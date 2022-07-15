@@ -121,11 +121,12 @@ const actions = {
       });
     return response;
   },
-  async fetchStatisticsSalesYear({ commit, rootGetters }) {
+  async fetchStatisticsSalesYear({ commit, rootGetters }, payload) {
     let response;
     await axios
       .get(`/api/statistics/sales/year/`, {
-        headers: rootGetters.getHttpHeader
+        headers: rootGetters.getHttpHeader,
+        params: payload
       })
       .then(res => {
         response = { status: true, ...res.data };
