@@ -1,6 +1,8 @@
 <script setup>
 import YearStatisticChart from '../../components/charts/YearStatisticChart.vue'
 import WeekStatisticChart from '../../components/charts/WeekStatisticChart.vue'
+import StatisticsCustomers from '../../components/lists/StatisticsCustomers.vue';
+import StatisticsProducts from '../../components/lists/StatisticsProducts.vue';
 
 </script>
 
@@ -61,7 +63,8 @@ import WeekStatisticChart from '../../components/charts/WeekStatisticChart.vue'
           </div>
           <div id="vertical-bar-chart" class="p-5">
             <div class="preview">
-            </div>
+              <StatisticsProducts />
+              </div>
           </div>
         </div>
       </div>
@@ -78,8 +81,8 @@ import WeekStatisticChart from '../../components/charts/WeekStatisticChart.vue'
           </div>
           <div id="horizontal-bar-chart" class="p-5">
             <div class="preview">
+              <StatisticsCustomers />
             </div>
-
           </div>
         </div>
       </div>

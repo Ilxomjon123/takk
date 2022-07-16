@@ -26,7 +26,7 @@ store.dispatch('cafes/fetchCafeList');
 <template>
   <TomSelect v-model="selectedCafe" :options="{
     placeholder: 'Select Cafe',
-  }" class="w-full">
+  }">
   <option value="0">All Cafes</option>
     <option v-for="(item, index) in cafeList" :key="index" :value="item.id">{{ item.name }}</option>
   </TomSelect>

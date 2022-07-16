@@ -4,6 +4,8 @@ const state = () => {
   return {
     company: {},
     customers: [],
+    statisticCustomers: [],
+    statisticProducts: [],
     transactions: []
   };
 };
@@ -11,7 +13,9 @@ const state = () => {
 const getters = {
   getCompany: state => state.company,
   getCustomers: state => state.customers,
-  getTransactions: state => state.transactions
+  getTransactions: state => state.transactions,
+  getStatisticCustomers: state => state.statisticCustomers,
+  getStatisticProducts: state => state.statisticProducts
 };
 
 const mutations = {
@@ -20,6 +24,12 @@ const mutations = {
   },
   setCustomers(state, payload) {
     state.customers = payload;
+  },
+  setStatisticCustomers(state, payload) {
+    state.statisticCustomers = payload;
+  },
+  setStatisticProducts(state, payload) {
+    state.statisticProducts = payload;
   },
   setTransactions(state, payload) {
     state.transactions = payload;
@@ -136,13 +146,46 @@ const actions = {
       });
     return response;
   },
-  async fetchStatisticsSalesWeek({ commit, rootGetters }) {
+  async fetchStatisticsSalesWeek({ commit, rootGetters }, payload) {
     let response;
     await axios
       .get(`/api/statistics/sales/week/`, {
-        headers: rootGetters.getHttpHeader
+        headers: rootGetters.getHttpHeader,
+        params: payload
       })
       .then(res => {
+        response = { status: true, ...res.data };
+      })
+      .catch(err => {
+        response = { status: false, ...err.data };
+      });
+    return response;
+  },
+  async fetchStatisticsCustomer({ commit, rootGetters }, payload) {
+    let response;
+    await axios
+      .get(`/api/statistics/customers/`, {
+        headers: rootGetters.getHttpHeader,
+        params: payload
+      })
+      .then(res => {
+        commit('setStatisticCustomers', res.data.results);
+        response = { status: true, ...res.data };
+      })
+      .catch(err => {
+        response = { status: false, ...err.data };
+      });
+    return response;
+  },
+  async fetchStatisticsProducts({ commit, rootGetters }, payload) {
+    let response;
+    await axios
+      .get(`/api/statistics/products/`, {
+        headers: rootGetters.getHttpHeader,
+        params: payload
+      })
+      .then(res => {
+        commit('setStatisticProducts', res.data.results);
         response = { status: true, ...res.data };
       })
       .catch(err => {

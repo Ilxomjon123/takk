@@ -1,7 +1,7 @@
 <template>
   <CafeSelect v-model="cafe"/>
   <div class="mt-2">
-    <apexchart v-if="isReady"
+    <apexchart
       id="year-sales-chart"
       width="100%"
       type="bar"
@@ -23,7 +23,6 @@ export default {
   data() {
     return {
       cafe: '0',
-      isReady: false,
       series: [{
           data: []
         },
@@ -74,7 +73,6 @@ export default {
           },
         ];
       }
-      this.isReady = true;
     }
   },
   components: {

@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 onMounted(()=> {
-  emit('submit', {start:getDate(30), end:getDate()});
+  emit('submit', {start:getDate(30).split("-").reverse().join("-"), end:getDate().split("-").reverse().join("-")});
 })
 const emit = defineEmits(['submit'])
 function getDate(val = 0, date = new Date()){
@@ -16,7 +16,7 @@ function getDate(val = 0, date = new Date()){
 const daterange = ref(getDate(30) + ' - ' + getDate());
 const search = () => {
   const dates = daterange.value.split(' - ');
-  emit('submit', {start:dates[0], end:dates[1]});
+  emit('submit', {start:dates[0].split("-").reverse().join("-"), end:dates[1].split("-").reverse().join("-")});
 }
 const setRange = (val) => {
   if(val < 7){
