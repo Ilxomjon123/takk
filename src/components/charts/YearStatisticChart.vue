@@ -1,6 +1,14 @@
 <template>
-  <CafeSelect v-model="cafe"/>
-  <div class="mt-2">
+  <div class="flex">
+    <CafeSelect v-model="cafe" class="md:w-80"/>
+    <button class="ml-auto btn btn-primary mr-2">
+      <UserIcon/>
+    </button>
+    <button class="btn btn-primary">
+      <DollarSignIcon />
+    </button>
+  </div>
+  <div class="mt-2 bg-white">
     <apexchart
       id="year-sales-chart"
       width="100%"
@@ -13,7 +21,7 @@
 
 <script>
 import {
-  mapActions
+  mapActions, mapGetters
 } from 'vuex';
 import CafeSelect from '../selects/CafeSelect.vue';
 export default {

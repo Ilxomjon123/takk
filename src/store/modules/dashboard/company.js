@@ -166,7 +166,7 @@ const actions = {
     await axios
       .get(`/api/statistics/customers/`, {
         headers: rootGetters.getHttpHeader,
-        params: payload
+        params: { ...payload, limit: 10 }
       })
       .then(res => {
         commit('setStatisticCustomers', res.data.results);
@@ -182,7 +182,7 @@ const actions = {
     await axios
       .get(`/api/statistics/products/`, {
         headers: rootGetters.getHttpHeader,
-        params: payload
+        params: { ...payload, limit: 10 }
       })
       .then(res => {
         commit('setStatisticProducts', res.data.results);

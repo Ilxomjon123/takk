@@ -41,7 +41,7 @@ function fetchData() {
   <CafeSelect class="md:w-80" @update:modelValue="changeCafe"/>
   <DateRangePicker class="mt-2 ml-auto" @submit="changeDateRange" />
 </div>
-<div class="mt-3">
+<div class="mt-3 overflow-auto lg:overflow-visible">
   <table class="table table-report">
     <thead>
       <th class="whitespace-nowrap">User</th>

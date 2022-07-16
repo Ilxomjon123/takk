@@ -38,7 +38,7 @@
 
     </div>
     <!-- BEGIN: Data List -->
-    <div class="intro-y col-span-12">
+    <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
       <table class="table table-report -mt-2">
         <thead>
           <tr>
