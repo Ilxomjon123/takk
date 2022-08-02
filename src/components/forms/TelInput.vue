@@ -2,7 +2,6 @@
 import { computed, ref } from 'vue';
 import { VueTelInput } from 'vue-tel-input';
 import 'vue-tel-input/dist/vue-tel-input.css';
-
 const props = defineProps({
   inputOptions: {
     type: Object,
@@ -27,10 +26,10 @@ const phone = ref('');
 <template>
   <vue-tel-input v-model="phone" mode="international" :autoFormat="true"
     :defaultCountry="'US'"
+    :showDialCode="true"
     :inputOptions="{
     styleClasses: 'form-control border-gray-300',
     id: 'phone',
-    showDialCode: true,
     ...inputOptions
   }" />
 </template>

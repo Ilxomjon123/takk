@@ -24,7 +24,7 @@ async function gotoStripeSite(){
           <img src="@/assets/images/Takk_Logo.png" class="mr-3" />
           <img src="@/assets/images/stripe_logo.png" class="h-16 -mt-3" />
         </div>
-        <div class="text-2xl mt-5">Do you want to integrate with Stripe</div>
+        <div class="text-2xl mt-5">Please complete your bank account information through Stripe so that you can start accepting payments.</div>
         <div class="text-base mt-3">
           <!-- Do you already use Square? We can import all your menu and products from Square if you like. -->
         </div>

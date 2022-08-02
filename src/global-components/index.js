@@ -16,7 +16,6 @@ import Dropzone from './dropzone/Main.vue';
 import FullCalendar from './calendar/Main.vue';
 import FullCalendarDraggable from './calendar/Draggable.vue';
 import * as featherIcons from '@zhuowenli/vue-feather-icons';
-
 export default app => {
   app.component('Chart', Chart);
   app.component('GoogleMapLoader', GoogleMapLoader);
@@ -35,6 +34,7 @@ export default app => {
   // app.component('InlineEditor', InlineEditor)
   app.component('FullCalendar', FullCalendar);
   app.component('FullCalendarDraggable', FullCalendarDraggable);
+  // app.component('vue-phone-number-input', VuePhoneNumberInput);
 
   for (const [key, icon] of Object.entries(featherIcons)) {
     icon.props.size.default = '24';

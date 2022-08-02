@@ -46,11 +46,11 @@
               <td v-text="item.id" />
               <td v-text="item.customer?.username" />
               <td v-text="item.last4" />
-              <td v-text="item.brand" />
+              <td v-text="item.os_type" />
               <td v-text="item.cafe?.name" />
-              <td v-text="''" />
-              <td v-text="statuses[item.status]" />
-              <td v-text="item.updated_dt" />
+              <td v-text="item.net_proceeds" />
+              <td v-text="item.state" />
+              <td v-text="new Date(item.updated_dt)" />
               <td>
                 <a
                   class="btn btn-primary"
@@ -118,7 +118,7 @@
           </div>
           <div class="flex mt-4">
             <div class="mr-auto text-base">Updated Time</div>
-            <div class="font-medium">{{ order.updated }}</div>
+            <div class="font-medium">{{ new Date(order.updated_dt) }}</div>
           </div>
         </div>
       </div>

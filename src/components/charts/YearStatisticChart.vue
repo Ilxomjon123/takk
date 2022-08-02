@@ -15,14 +15,12 @@
       type="bar"
       :options="chartOptions"
       :series="series"
-    ></apexchart>
+    />
   </div>
 </template>
 
 <script>
-import {
-  mapActions, mapGetters
-} from 'vuex';
+import { mapActions } from 'vuex';
 import CafeSelect from '../selects/CafeSelect.vue';
 export default {
   async created() {
@@ -51,7 +49,7 @@ export default {
           intersect: false
         },
         xaxis: {
-          categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+          // categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
         },
       },
     };
@@ -72,14 +70,22 @@ export default {
       }
       if (res.status) {
         this.series = [{
-            data: res.last_year.map(item => item.count),
+            // data: res.last_year.map(item => item.count),
+            data: res.last.reverse(),
             name: "Last Year"
           },
           {
-            data: res.this_year.map(item => item.count),
+            // data: res.this_year.map(item => item.count),
+            data: res.current.reverse(),
             name: "This Year"
           },
         ];
+        this.chartOptions = {
+          ...this.chartOptions,
+          xaxis:{
+            categories: res.months.reverse()
+          }
+        }
       }
     }
   },

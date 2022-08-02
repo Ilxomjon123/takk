@@ -18,8 +18,9 @@ const selectedCafe = computed({
   }
 });
 const cafeList = computed(() => store.getters['cafes/getCafeList']);
-
-store.dispatch('cafes/fetchCafeList');
+if(cafeList.value.length == 0) {
+  store.dispatch('cafes/fetchCafeList');
+}
 
 </script>
 

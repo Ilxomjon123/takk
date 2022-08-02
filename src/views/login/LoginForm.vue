@@ -58,6 +58,7 @@ export default defineComponent({
         autofocus: true,
         required: true,
         defaultCountry: '+1',
+        showDialCode: true,
         autoDefaultCountry: false,
         maxlength: 20
       }
@@ -95,7 +96,11 @@ export default defineComponent({
           });
           setToken(res.data.token.access);
           // this.$router.push('/entry');
-          window.location.replace("/entry/company");
+          if(res.data.user?.is_superuser){
+            window.location.replace("/admn");
+          } else {
+            window.location.replace("/entry/company");
+          }
         }
       }
       // API dan xato qaytsa

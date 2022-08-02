@@ -10,20 +10,18 @@
   </div>
   <div class="mt-2 bg-white">
     <apexchart
-      id="year-sales-chart"
+      id="week-sales-chart"
       width="100%"
       type="bar"
       :options="chartOptions"
       :series="series"
-    ></apexchart>
+    />
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
-import ApexCharts from 'apexcharts';
 import CafeSelect from '../selects/CafeSelect.vue';
-import DateRangePicker from '../forms/DateRangePicker.vue';
 export default {
   async created() {
     this.fetchData();
@@ -41,20 +39,27 @@ export default {
       }
       if (res.status) {
         this.series = [{
-            data: res.last_week.map(item => item.count),
+            // data: res.last_week.map(item => item.count),
+            data: res.last.reverse(),
             name: "Last Week"
           },
           {
-            data: res.this_week.map(item => item.count),
+            // data: res.this_week.map(item => item.count),
+            data: res.current.reverse(),
             name: "This Week"
           },
         ];
+        this.chartOptions = {
+          ...this.chartOptions,
+          xaxis:{
+            categories: res.days.reverse()
+          }
+        }
       }
     }
   },
   data() {
     return {
-      dateRange: {},
       cafe: '0',
       series: [{
           data: []
@@ -70,7 +75,6 @@ export default {
         },
         chart: {
           type: "bar",
-          width: 500
         },
         tooltip: {
           shared: true,

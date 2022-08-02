@@ -1,6 +1,7 @@
 // pages
 import Login from '../views/login/Main.vue';
 import DashboardMain from '../views/dashboard/Main.vue';
+import AdminMain from '../views/admin/Main.vue';
 import Entry from '../views/steps/Entry.vue';
 import SquareUp from '../views/steps/SquareUp.vue';
 import ErrorPage from '../views/error/index.vue';
@@ -14,6 +15,7 @@ import StepFinish from '../views/steps/Finish.vue';
 // layouts
 import AppLayout from '../layouts/app-layout/index.vue';
 import DashboardLayout from '../layouts/dashboard/Main.vue';
+import AdminLayout from '../layouts/admin/Main.vue';
 import CompanyLayout from '../layouts/dashboard/company/Main.vue';
 import CustomLayout from '../layouts/dashboard/Custom.vue';
 import EntryLayout from '../layouts/entry/Main.vue';
@@ -59,6 +61,177 @@ const routes = [
         path: '/for-customers',
         name: 'for-customers',
         component: ForCustomers
+      }
+    ]
+  },
+  {
+    path: '/admin',
+    component: AdminLayout,
+    meta: {
+      requiresAuth: true,
+      requiresSuperUser: true
+    },
+    children: [
+      { path: '', name: 'admin', component: AdminMain },
+      {
+        path: 'cafes',
+        name: 'admin-cafes',
+        component: () => import('../views/admin/cafes/index.vue')
+      },
+      {
+        path: 'cafes/add',
+        name: 'admin-cafes-add',
+        component: () => import('../views/admin/cafes/AddForm.vue')
+      },
+      {
+        path: 'cafes/:id',
+        name: 'admin-cafes-edit',
+        component: () => import('../views/admin/cafes/EditForm.vue')
+      },
+      {
+        path: 'chat',
+        name: 'admin-side-menu-chat',
+        component: () => import('../views/admin/chat/index.vue')
+      },
+      { path: 'test', name: 'admin-test', component: DashboardMain },
+      {
+        path: 'products',
+        name: 'admin-products',
+        component: () => import('../views/admin/products/index.vue')
+      },
+      {
+        path: 'products/add',
+        name: 'admin-products-add',
+        component: () => import('../views/admin/products/AddForm.vue')
+      },
+      {
+        path: 'products/:id',
+        name: 'admin-products-edit',
+        component: () => import('../views/admin/products/EditForm.vue')
+      },
+      {
+        path: 'company',
+        component: CompanyLayout,
+        children: [
+          {
+            path: '',
+            name: 'admin-company',
+            component: () => import('../views/admin/company/Main.vue')
+          },
+          {
+            path: 'banking',
+            name: 'admin-banking',
+            component: () => import('../views/admin/company/Banking.vue')
+          },
+          {
+            path: 'app-images',
+            name: 'admin-app-images',
+            component: () => import('../views/admin/company/AppImage.vue')
+          },
+          {
+            path: 'square',
+            name: 'admin-square',
+            component: () => import('../views/admin/company/Square.vue')
+          },
+          {
+            path: 'tariffs',
+            name: 'admin-tariffs',
+            component: () => import('../views/admin/company/Tariffs.vue')
+          }
+        ]
+      },
+      {
+        path: 'customer',
+        component: CustomLayout,
+        children: [
+          {
+            path: '',
+            name: 'admin-customer',
+            component: () => import('../views/admin/customer/Main.vue')
+          }
+        ]
+      },
+      {
+        path: 'transactions',
+        component: CustomLayout,
+        children: [
+          {
+            path: '',
+            name: 'admin-transactions',
+            component: () => import('../views/admin/transactions/Main.vue')
+          }
+        ]
+      },
+      // {
+      //   path: 'tariffs',
+      //   name: 'admin-tariffs',
+      //   component: () => import('../views/admin/company/Tariffs.vue')
+      // },
+      {
+        path: 'profile',
+        component: CustomLayout,
+        children: [
+          {
+            path: '',
+            name: 'admin-profile',
+            component: () => import('../views/profile/Main.vue')
+          }
+        ]
+      },
+      {
+        path: 'employees',
+        component: CustomLayout,
+        children: [
+          {
+            path: '',
+            name: 'admin-employees',
+            component: () => import('../views/admin/employees/Main.vue')
+          },
+          {
+            path: 'add-new',
+            component: () => import('../views/admin/employees/AddNew.vue')
+          },
+          {
+            path: 'add-exist',
+            component: () => import('../views/admin/employees/AddExist.vue')
+          },
+          {
+            path: ':id',
+            component: () => import('../views/admin/employees/Edit.vue')
+          }
+        ]
+      },
+      {
+        path: 'categories',
+        component: CustomLayout,
+        children: [
+          {
+            path: '',
+            name: 'admin-categories',
+            component: () => import('../views/admin/categories/Main.vue')
+          },
+          {
+            path: ':menuId/add',
+            name: 'admin-categories-add',
+            component: () => import('../views/admin/categories/Add.vue')
+          },
+          {
+            path: ':menuId/:id',
+            name: 'admin-categories-edit',
+            component: () => import('../views/admin/categories/Edit.vue')
+          }
+        ]
+      },
+      {
+        path: 'modifiers',
+        component: CustomLayout,
+        children: [
+          {
+            path: '',
+            name: 'admin-modifiers',
+            component: () => import('../views/admin/modifiers/Main.vue')
+          }
+        ]
       }
     ]
   },
@@ -249,7 +422,8 @@ const routes = [
     path: '/entry',
     component: EntryLayout,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      isEntry: true
     },
     children: [
       {
