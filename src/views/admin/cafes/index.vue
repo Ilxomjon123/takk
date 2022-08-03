@@ -1,9 +1,9 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { fetchCafeList } from '@/api';
-import CafeItemCard from './CafeItemCard.vue';
+import { fetchCafeList } from '@/admin';
 import store from '../../../store';
+import CafeAdminItemCard from './CafeAdminItemCard.vue';
 
 const router = useRouter();
 // const rowId = ref(null)
@@ -22,9 +22,9 @@ function gotoForm(id) {
   store.commit('setLoadingStatus', true);
 
   if (id) {
-    router.push(`/dashboard/cafes/${ id }`);
+    router.push(`/admin/cafes/${ id }`);
   } else {
-    router.push(`/dashboard/cafes/add`);
+    router.push(`/admin/cafes/add`);
   };
 
   store.commit('setLoadingStatus', false);
@@ -47,7 +47,7 @@ function gotoForm(id) {
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
         <div v-if="list.length" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-          <CafeItemCard v-for="(cafe, index) in list" :key="index" :cafe="cafe" @click="gotoForm(cafe.id)" class="cafe_item" />
+          <CafeAdminItemCard v-for="(cafe, index) in list" :key="index" :cafe="cafe" @click="gotoForm(cafe.id)" class="cafe_item" />
         </div>
         <div v-else class="hidden md:block mx-auto text-gray-600 text-center col-span-12">No Data</div>
       </div>

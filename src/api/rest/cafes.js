@@ -3,7 +3,7 @@ import makeRequest from '../makeRequest';
 export const fetchCafeList = async () => {
   try {
     const res = await makeRequest({
-      url: `/api/cafes/`,
+      url: `/admn/cafes/`,
       headers: { authorization: true }
     });
 

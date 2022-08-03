@@ -28,7 +28,7 @@ if(cafeList.value.length == 0) {
   <TomSelect v-model="selected" :options="{
     placeholder: 'Select Company',
   }">
-  <option value="0">All Companies</option>
+  <option :value="0">All Companies</option>
     <option v-for="(item, index) in cafeList" :key="index" :value="item.id">{{ item.name }}</option>
   </TomSelect>
 </template>

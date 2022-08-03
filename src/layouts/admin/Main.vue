@@ -66,7 +66,7 @@ onMounted(async () => {
       <!-- BEGIN: Side Menu -->
       <nav class="side-nav">
         <!-- BEGIN: Logo -->
-        <router-link to="/admn" tag="a" class="intro-x flex items-center pl-5 pt-4">
+        <router-link to="/admin" tag="a" class="intro-x flex items-center pl-5 pt-4">
           <img alt="Takk" class="w-24" src="@/assets/images/new-logo.png" />
         </router-link>
         <!-- END: Logo -->

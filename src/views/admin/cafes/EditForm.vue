@@ -12,7 +12,7 @@ import CafeOperations from './CafeOperations.vue';
 import CafeDelivery from './CafeDelivery.vue';
 import CafeGallery from './CafeGallery.vue';
 import CafeWorkingDays from './CafeWorkingDays.vue';
-import { fetchCafe, updateCafe, deleteCafe, deleteCafeImage } from '@/api';
+import { fetchCafe, updateCafe, deleteCafe, deleteCafeImage } from '@/admin';
 import router from '@/router';
 
 const route = useRoute();

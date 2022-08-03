@@ -19,7 +19,13 @@ const getters = {
   getAdminCustomers: state => state.customers,
   getAdminTransactions: state => state.transactions,
   getAdminStatisticCustomers: state => state.statisticCustomers,
-  getAdminStatisticProducts: state => state.statisticProducts
+  getAdminStatisticProducts: state => state.statisticProducts,
+  getAdminParameter: state => {
+    let result = {};
+    if (state.selectedCompanyID != 0) {
+      result = { company: state.selectedCompanyID };
+    }
+  }
 };
 
 const mutations = {

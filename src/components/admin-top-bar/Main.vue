@@ -36,6 +36,7 @@ const selectedCompnay = store.getters.getAdminSelectedCompanyID;
 
 function changeCompany(val){
   store.commit('setSelectedCompanyID', val);
+  location.reload()
 }
 
 </script>
