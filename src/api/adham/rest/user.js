@@ -3,7 +3,7 @@ import makeRequest from '../makeRequest';
 export const user = async () => {
   try {
     return await makeRequest({
-      url: '/api/products',
+      url: '/adham/products',
       headers: { authorization: true }
     });
   } catch (err) {

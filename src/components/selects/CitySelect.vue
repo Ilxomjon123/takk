@@ -4,7 +4,10 @@ import useCountries from '@/features/useCountries';
 import { isEmpty } from 'lodash';
 
 const props = defineProps({
-  modelValue: String,
+  modelValue: {
+    type: Number,
+    default: null
+  }
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -12,12 +15,11 @@ const emit = defineEmits(['update:modelValue']);
 const {
   citiesList,
   setSelectedCity,
-  getCities
 } = useCountries();
 
 const selectedCity = computed({
   get: () => {
-    return props.modelValue;
+    return Number(props.modelValue);
   },
   set: (val) => {
     emit('update:modelValue', val);
@@ -25,9 +27,9 @@ const selectedCity = computed({
   }
 });
 
-watch(() => props.modelValue, async (newVal, oldVal) => {
-  await setSelectedCity(newVal)
-})
+// watch(() => props.modelValue, async (newVal, oldVal) => {
+//   await setSelectedCity(newVal)
+// })
 
 </script>
 

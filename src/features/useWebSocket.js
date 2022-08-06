@@ -19,7 +19,7 @@ export default () => {
     wsConnect.value.addEventListener('message', async event => {
       try {
         const data = JSON.parse(event.data).data;
-        if (getSelectedChat.value.id === data.chat_id) {
+        if (data.chat_id && getSelectedChat.value.id === data.chat_id) {
           const res = await fetchChatMessages(data.chat_id);
           setSelectedChatMessages(res.results);
         }

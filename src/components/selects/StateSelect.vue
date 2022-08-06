@@ -4,7 +4,10 @@ import useCountries from '@/features/useCountries';
 import { isEmpty } from 'lodash';
 
 const props = defineProps({
-  modelValue: String,
+  modelValue: {
+    type: Number,
+    default: null
+  }
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -16,17 +19,20 @@ const {
 
 const selectedState = computed({
   get: () => {
-    return props.modelValue;
+    return Number(props.modelValue);
   },
   set: async (val) => {
     emit('update:modelValue', val);
-    await setSelectedState(val);
+    await setSelectedState(Number(val));
   }
 });
 
-watch(() => props.modelValue, async (newVal, oldVal) => {
-  await setSelectedState(newVal)
-})
+watch(
+  () => props.modelValue,
+  async (newVal, oldVal) => {
+    if (Number(newVal)) await setSelectedState(Number(newVal))
+  },
+  { deep: true, immediate: true })
 
 // onMounted(async () => {
 //   if (!isEmpty(props.modelValue))

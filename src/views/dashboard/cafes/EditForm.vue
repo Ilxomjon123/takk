@@ -167,14 +167,12 @@ async function removeCafe() {
       <CafeMenu @update:selected-item="changeComponent($event)" form-type="edit" :form-data="formFields"
         :external-errors="externalErrors" @remove:form-data="openConfirmModal" />
       <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
-        <KeepAlive>
-          <component :is="currentItem === 'CafeOperations' ? CafeOperations
-    : currentItem === 'CafeDelivery' ? CafeDelivery
-      : currentItem === 'CafeGallery' ? CafeGallery
-        : currentItem === 'CafeWorkingDays' ? CafeWorkingDays
-          : CafeInformation" :form-data="formFields" :external-errors="externalErrors"
-            @update:form-data="submit($event)" />
-        </KeepAlive>
+        <component :is="currentItem === 'CafeOperations' ? CafeOperations
+  : currentItem === 'CafeDelivery' ? CafeDelivery
+    : currentItem === 'CafeGallery' ? CafeGallery
+      : currentItem === 'CafeWorkingDays' ? CafeWorkingDays
+        : CafeInformation" :form-data="formFields" :external-errors="externalErrors"
+          @update:form-data="submit($event)" />
       </div>
     </div>
   </div>

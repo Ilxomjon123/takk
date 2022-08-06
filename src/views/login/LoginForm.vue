@@ -37,7 +37,6 @@
     <a class="text-theme-1 dark:text-theme-10" href>Privacy Policy</a>
   </div>
 </template>
-
 <script>
 import { defineComponent } from 'vue';
 import { mapActions, mapMutations } from 'vuex';
@@ -96,8 +95,8 @@ export default defineComponent({
           });
           setToken(res.data.token.access);
           // this.$router.push('/entry');
-          if(res.data.user?.is_superuser){
-            window.location.replace("/admn");
+          if (res.data.user?.is_superuser) {
+            window.location.replace("/admin");
           } else {
             window.location.replace("/entry/company");
           }

@@ -1,8 +1,8 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { fetchCafeList } from '@/admin';
-import store from '../../../store';
+import { fetchCafeList } from '@/api/adham';
+import store from '@/store';
 import CafeAdminItemCard from './CafeAdminItemCard.vue';
 
 const router = useRouter();
@@ -38,8 +38,9 @@ function gotoForm(id) {
       <div class="w-full sm:w-auto flex ml-2 sm:mt-0">
         <div class="intro-y flex flex-wrap sm:flex-nowrap items-center">
           <button class="btn btn-primary shadow-md" @click="gotoForm(null)">
-          <PlusIcon class="h-4 w-4 mr-3"/>
-          Add New Cafe</button>
+            <PlusIcon class="h-4 w-4 mr-3" />
+            Add New Cafe
+          </button>
         </div>
       </div>
     </div>
@@ -47,7 +48,8 @@ function gotoForm(id) {
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
         <div v-if="list.length" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-          <CafeAdminItemCard v-for="(cafe, index) in list" :key="index" :cafe="cafe" @click="gotoForm(cafe.id)" class="cafe_item" />
+          <CafeAdminItemCard v-for="(cafe, index) in list" :key="index" :cafe="cafe" @click="gotoForm(cafe.id)"
+            class="cafe_item" />
         </div>
         <div v-else class="hidden md:block mx-auto text-gray-600 text-center col-span-12">No Data</div>
       </div>

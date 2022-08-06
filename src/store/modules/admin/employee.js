@@ -25,7 +25,7 @@ const actions = {
   async fetchEmployees({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/api/employees/`, {
+      .get(`/adham/employees/`, {
         headers: rootGetters.getHttpHeader,
         params: payload
       })
@@ -42,7 +42,7 @@ const actions = {
   async fetchEmployee({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/api/employees/${payload}/`, {
+      .get(`/adham/employees/${payload}/`, {
         headers: rootGetters.getHttpHeader,
         params: payload
       })
@@ -59,7 +59,7 @@ const actions = {
   async postEmployeeNew({ rootGetters }, payload) {
     let response;
     await axios
-      .post(`/api/employees/new/`, payload, {
+      .post(`/adham/employees/new/`, payload, {
         headers: {
           ...rootGetters.getHttpHeader
           // 'Content-Type': 'multipart/form-data'
@@ -82,7 +82,7 @@ const actions = {
   async postEmployeeExist({ rootGetters }, payload) {
     let response;
     await axios
-      .post(`/api/employees/exists/`, payload, {
+      .post(`/adham/employees/exists/`, payload, {
         headers: {
           ...rootGetters.getHttpHeader
           // 'Content-Type': 'multipart/form-data'
@@ -105,7 +105,7 @@ const actions = {
   async putEmployee({ rootGetters }, payload) {
     let response;
     await axios
-      .put(`/api/employees/${payload.id}/`, payload.form, {
+      .put(`/adham/employees/${payload.id}/`, payload.form, {
         headers: {
           ...rootGetters.getHttpHeader
           // 'Content-Type': 'multipart/form-data'
@@ -128,7 +128,7 @@ const actions = {
   async deleteEmployee({ rootGetters }, payload) {
     let response;
     await axios
-      .delete(`/api/employees/${payload}/`, {
+      .delete(`/adham/employees/${payload}/`, {
         headers: {
           ...rootGetters.getHttpHeader
           // 'Content-Type': 'multipart/form-data'

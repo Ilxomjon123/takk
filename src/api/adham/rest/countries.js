@@ -3,7 +3,7 @@ import makeRequest from '../makeRequest';
 export const fetchCountries = async () => {
   try {
     const res = await makeRequest({
-      url: `/api/location/countries/`,
+      url: `/adham/location/countries/`,
       headers: { authorization: true },
       params: {
         limit: 250
@@ -19,7 +19,7 @@ export const fetchCountries = async () => {
 export const fetchStates = async countryCode => {
   try {
     const res = await makeRequest({
-      url: `/api/location/states/`,
+      url: `/adham/location/states/`,
       params: {
         country: countryCode,
         limit: 100
@@ -38,7 +38,7 @@ export const fetchCities = async (countryCode, stateCode) => {
   console.log({ countryCode, stateCode });
   try {
     const res = await makeRequest({
-      url: `/api/location/cities`,
+      url: `/adham/location/cities`,
       params: {
         country: countryCode,
         state: stateCode,

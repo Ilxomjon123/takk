@@ -1,5 +1,5 @@
 import axios from 'axios';
-import makeRequest from '@/api/makeRequest';
+import makeRequest from '@/api/adham/makeRequest';
 import { isNull } from 'lodash';
 
 const state = () => {
@@ -32,7 +32,7 @@ const actions = {
   async fetchMenus({ commit, rootGetters }) {
     let response;
     await axios
-      .get(`/api/menus/`, {
+      .get(`/adham/menus/`, {
         headers: rootGetters.getHttpHeader
       })
       .then(res => {
@@ -50,7 +50,7 @@ const actions = {
     let response;
     await axios
       .post(
-        `/api/menus/`,
+        `/adham/menus/`,
         { ...payload, company: rootGetters.getCompanyId },
         {
           headers: rootGetters.getHttpHeader
@@ -75,7 +75,7 @@ const actions = {
     let response;
     await axios
       .put(
-        `/api/menus/${payload.id}/`,
+        `/adham/menus/${payload.id}/`,
         { ...payload, company: rootGetters.getCompanyId },
         {
           headers: rootGetters.getHttpHeader
@@ -101,7 +101,7 @@ const actions = {
     if (!isNull(payload)) {
       if (payload === state.selectedMenuId) commit('setSelectedMenuId', null);
       await axios
-        .delete(`/api/menus/${payload}/`, {
+        .delete(`/adham/menus/${payload}/`, {
           headers: rootGetters.getHttpHeader
         })
         .then(async res => {
@@ -123,7 +123,7 @@ const actions = {
   async updateModifierTypePositions({ rootGetters }, payload) {
     try {
       const res = makeRequest({
-        url: '/api/menus/ordering-items/',
+        url: '/adham/menus/ordering-items/',
         method: 'post',
         data: payload,
         headers: { authorization: true }

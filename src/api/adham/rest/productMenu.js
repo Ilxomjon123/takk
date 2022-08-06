@@ -3,7 +3,7 @@ import makeRequest from '../makeRequest';
 export const updateProductPositions = async payload => {
   try {
     const res = makeRequest({
-      url: '/api/menus/ordering-items/',
+      url: '/adham/menus/ordering-items/',
       method: 'post',
       data: payload,
       headers: { authorization: true }
@@ -18,7 +18,7 @@ export const updateProductPositions = async payload => {
 export const fetchMenus = async () => {
   try {
     const res = await makeRequest({
-      url: '/api/menus/',
+      url: '/adham/menus/',
       headers: { authorization: true }
     });
     return res.data;
@@ -31,7 +31,7 @@ export const fetchMenus = async () => {
 export const fetchSelectedMenuCategories = async (menuID, limit = 10) => {
   try {
     const res = await makeRequest({
-      url: `/api/menus/${menuID}/categories/`,
+      url: `/adham/menus/${menuID}/categories/`,
       method: 'get',
       headers: { authorization: true },
       params: {
@@ -49,7 +49,7 @@ export const fetchSelectedMenuCategories = async (menuID, limit = 10) => {
 export const fetchSelectedMenuModifiers = async menuID => {
   try {
     const res = await makeRequest({
-      url: `/api/menus/${menuID}/modifiers/`,
+      url: `/adham/menus/${menuID}/modifiers/`,
       method: 'get',
       headers: { authorization: true }
     });

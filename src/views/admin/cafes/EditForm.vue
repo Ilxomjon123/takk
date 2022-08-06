@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { isEmpty } from 'lodash';
 import cash from 'cash-dom';
@@ -12,15 +12,18 @@ import CafeOperations from './CafeOperations.vue';
 import CafeDelivery from './CafeDelivery.vue';
 import CafeGallery from './CafeGallery.vue';
 import CafeWorkingDays from './CafeWorkingDays.vue';
-import { fetchCafe, updateCafe, deleteCafe, deleteCafeImage } from '@/admin';
+import { fetchCafe, updateCafe, deleteCafe, deleteCafeImage } from '@/api/adham';
 import router from '@/router';
 
 const route = useRoute();
+const currentId = (route.params?.id) ?? null
 const currentItem = ref('CafeInformation');
 const formFields = ref({
   location: {
-    lat: 35.1234,
-    lon: -95.1234
+    coordinates: [
+      35.1234,
+      -95.1234
+    ]
   },
   country: '',
   name: '',
@@ -88,14 +91,30 @@ const formFields = ref({
 });
 const externalErrors = ref({});
 
-onMounted(async () => {
-  store.commit('setLoadingStatus', true);
-  const res1 = await fetchCafe(route.params.id);
-  // store.commit('setSelectedCountry', res1.country);
-  // store.dispatch('fetchCitiesByCountry', res1.country)
-  formFields.value = res1
-  store.commit('setLoadingStatus', false);
-});
+watch(
+  () => route.params.id,
+  async (newVal) => {
+    console.log('newVal: ', newVal);
+    if (newVal) {
+      store.commit('setLoadingStatus', true);
+      const res1 = await fetchCafe(route.params?.id);
+      formFields.value = res1
+      store.commit('setLoadingStatus', false);
+    }
+  },
+  { deep: true, immediate: true });
+
+async function fetchData() {
+  try {
+    store.commit('setLoadingStatus', true);
+    const res1 = await fetchCafe(route.params?.id);
+    formFields.value = res1
+  } catch (error) {
+
+  } finally {
+    store.commit('setLoadingStatus', false);
+  }
+}
 
 function changeComponent(componentName) {
   currentItem.value = componentName;
@@ -160,45 +179,45 @@ async function removeCafe() {
 
 <template>
   <div>
-    <div class="intro-y flex items-center mt-8">
-      <h2 class="text-lg font-medium mr-auto">Cafe Edit Form</h2>
-    </div>
-    <div class="grid grid-cols-12 gap-6">
-      <CafeMenu @update:selected-item="changeComponent($event)" form-type="edit" :form-data="formFields"
-        :external-errors="externalErrors" @remove:form-data="openConfirmModal" />
-      <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
-        <KeepAlive>
+    <div>
+      <div class="intro-y flex items-center mt-8">
+        <h2 class="text-lg font-medium mr-auto">Cafe Edit Form</h2>
+      </div>
+      <div class="grid grid-cols-12 gap-6">
+        <CafeMenu @update:selected-item="changeComponent($event)" form-type="edit" :form-data="formFields"
+          :external-errors="externalErrors" @remove:form-data="openConfirmModal" />
+        <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
           <component :is="currentItem === 'CafeOperations' ? CafeOperations
     : currentItem === 'CafeDelivery' ? CafeDelivery
       : currentItem === 'CafeGallery' ? CafeGallery
         : currentItem === 'CafeWorkingDays' ? CafeWorkingDays
           : CafeInformation" :form-data="formFields" :external-errors="externalErrors"
             @update:form-data="submit($event)" />
-        </KeepAlive>
+        </div>
       </div>
     </div>
-  </div>
-  <!-- BEGIN: Delete Confirmation Modal -->
-  <div id="delete-confirmation-modal" class="modal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-body p-0">
-          <div class="p-5 text-center">
-            <XCircleIcon class="w-16 h-16 text-theme-6 mx-auto mt-3" />
-            <div class="text-3xl mt-5">Are you sure?</div>
-            <div class="text-gray-600 mt-2">
-              Do you really want to delete these records?
-              <br />This process cannot be undone.
+
+    <!-- BEGIN: Delete Confirmation Modal -->
+    <div id="delete-confirmation-modal" class="modal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body p-0">
+            <div class="p-5 text-center">
+              <XCircleIcon class="w-16 h-16 text-theme-6 mx-auto mt-3" />
+              <div class="text-3xl mt-5">Are you sure?</div>
+              <div class="text-gray-600 mt-2">
+                Do you really want to delete these records?
+                <br />This process cannot be undone.
+              </div>
             </div>
-          </div>
-          <div class="px-5 pb-8 text-center">
-            <button type="button" data-dismiss="modal" class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
-            <button type="button" class="btn btn-danger w-24" @click="removeCafe">Delete</button>
+            <div class="px-5 pb-8 text-center">
+              <button type="button" data-dismiss="modal" class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
+              <button type="button" class="btn btn-danger w-24" @click="removeCafe">Delete</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- END: Delete Confirmation Modal -->
   </div>
-  <!-- END: Delete Confirmation Modal -->
-
 </template>

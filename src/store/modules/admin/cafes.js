@@ -1,4 +1,4 @@
-import makeRequest from '@/admn/makeRequest.js';
+import makeRequest from '@/api/adham/makeRequest.js';
 import axios from 'axios';
 
 const state = () => {
@@ -14,10 +14,10 @@ const getters = {
   getAdminCafeList: state => state.cafeList,
   getAdminSquareCafeList: state => state.squareCafeList,
   getAdminSquareCafeIDList: state =>
-    state.squareCafeList.map(item => item.square_location_id),
+    state.squareCafeList?.map(item => item.square_location_id),
   getAdminCafeById: state => state.cafeById,
   getAdminSquareSelectedCafeList: state =>
-    state.cafeList.filter(item => item.square_location_id?.length > 0)
+    state.cafeList?.filter(item => item.square_location_id?.length > 0)
 };
 
 // mutations
@@ -37,7 +37,7 @@ const mutations = {
 const actions = {
   async fetchAdminCafeList({ rootGetters, commit }) {
     try {
-      const res = await axios.get('/admn/cafes/', {
+      const res = await axios.get('/adham/cafes/', {
         params: rootGetters.getAdminParameter,
         headers: rootGetters.getHttpHeader
       });
@@ -50,7 +50,7 @@ const actions = {
 
   async fetchAdminSquareCafeList({ rootGetters, commit }) {
     try {
-      const res = await axios.get('/admn/square/locations/parse/', {
+      const res = await axios.get('/adham/square/locations/parse/', {
         headers: rootGetters.getHttpHeader
       });
       commit('setSquareCafeList', res.data);
@@ -61,7 +61,7 @@ const actions = {
 
   async fetchAdminCafeById({ rootGetters, commit }, payload) {
     try {
-      const res = await axios.get('/admn/cafes/' + payload + '/', {
+      const res = await axios.get('/adham/cafes/' + payload + '/', {
         // params: { id: payload },
         headers: rootGetters.getHttpHeader
       });
@@ -77,7 +77,7 @@ const actions = {
 
     try {
       const res = await makeRequest({
-        url: `/admn/cafes/`,
+        url: `/adham/cafes/`,
         method: 'post',
         data,
         headers: { authorization: true }
@@ -92,7 +92,7 @@ const actions = {
     let response;
     await axios
       .post(
-        `/admn/square/locations/import/`,
+        `/adham/square/locations/import/`,
         { locations: payload },
         { headers: rootGetters.getHttpHeader }
       )
@@ -113,7 +113,7 @@ const actions = {
   },
   squareCafeNotification({ rootGetters }, payload) {
     axios.post(
-      `/admn/cafes/square/notifications/`,
+      `/adham/cafes/square/notifications/`,
       { cafe: payload },
       { headers: rootGetters.getHttpHeader }
     );
@@ -123,7 +123,7 @@ const actions = {
     await dispatch('fetchSquareCafeList');
     await axios
       .post(
-        `/admn/square/locations/import/`,
+        `/adham/square/locations/import/`,
         {
           locations: getters.getSquareCafeIDList
         },

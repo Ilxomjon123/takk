@@ -5,8 +5,8 @@ import { isEmpty } from 'lodash';
 
 const props = defineProps({
   modelValue: {
-    type: String,
-    default: ''
+    type: Number,
+    default: null
   }
 });
 
@@ -24,15 +24,18 @@ const selectedCountry = computed({
   },
   set: async (val) => {
     emit('update:modelValue', val);
-    await setSelectedCountry(val)
+    // await setSelectedCountry(val);
   }
 });
 
 getCountries()
 
-watch(() => props.modelValue, async (newVal, oldVal) => {
-  await setSelectedCountry(newVal)
-})
+watch(
+  () => props.modelValue,
+  async (newVal, oldVal) => {
+    !isNaN(newVal) && await setSelectedCountry(newVal)
+  },
+  { deep: true, immediate: true })
 
 
 </script>

@@ -1,21 +1,21 @@
 <template>
   <div class="flex">
-    <CafeSelect v-model="cafe" class="md:w-80"/>
+    <CafeSelect v-model="cafe" class="md:w-80" />
     <button class="ml-auto btn btn-primary mr-2">
-      <UserIcon/>
+      <UserIcon />
     </button>
     <button class="btn btn-primary">
       <DollarSignIcon />
     </button>
   </div>
   <div class="mt-2 bg-white">
-    <apexchart
+    <!-- <apexchart
       id="year-sales-chart"
       width="100%"
       type="bar"
       :options="chartOptions"
       :series="series"
-    />
+    /> -->
   </div>
 </template>
 
@@ -30,11 +30,11 @@ export default {
     return {
       cafe: '0',
       series: [{
-          data: []
-        },
-        {
-          data: []
-        },
+        data: []
+      },
+      {
+        data: []
+      },
       ],
       chartOptions: {
         dataLabels: {
@@ -61,28 +61,28 @@ export default {
   },
   methods: {
     ...mapActions(["fetchStatisticsSalesYear"]),
-    async fetchData(){
+    async fetchData() {
       let res;
-      if(this.cafe != 0){
-        res = await this.fetchStatisticsSalesYear({cafe: this.cafe});
+      if (this.cafe != 0) {
+        res = await this.fetchStatisticsSalesYear({ cafe: this.cafe });
       } else {
         res = await this.fetchStatisticsSalesYear();
       }
       if (res.status) {
         this.series = [{
-            // data: res.last_year.map(item => item.count),
-            data: res.last.reverse(),
-            name: "Last Year"
-          },
-          {
-            // data: res.this_year.map(item => item.count),
-            data: res.current.reverse(),
-            name: "This Year"
-          },
+          // data: res.last_year.map(item => item.count),
+          data: res.last.reverse(),
+          name: "Last Year"
+        },
+        {
+          // data: res.this_year.map(item => item.count),
+          data: res.current.reverse(),
+          name: "This Year"
+        },
         ];
         this.chartOptions = {
           ...this.chartOptions,
-          xaxis:{
+          xaxis: {
             categories: res.months.reverse()
           }
         }

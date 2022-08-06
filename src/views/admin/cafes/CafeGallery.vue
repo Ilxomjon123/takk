@@ -2,7 +2,7 @@
 import { useRoute } from 'vue-router';
 import cash from 'cash-dom';
 import Toastify from 'toastify-js';
-import { addCafeGallery } from '@/api';
+import { addCafeGallery } from '@/api/adham';
 import MultipleImageUpload from './MultipleImageUpload.vue';
 
 const props = defineProps({

@@ -4,7 +4,7 @@ import makeRequest from '../makeRequest.js';
 export const login = async ({ username, password }) => {
   try {
     const res = await makeRequest({
-      url: '/api/users/register',
+      url: '/adham/users/register',
       method: 'post',
       data: {
         username,
@@ -22,7 +22,7 @@ export const login = async ({ username, password }) => {
 
 export const logout = async () => {
   await makeRequest({
-    url: '/api/auth/logout',
+    url: '/adham/auth/logout',
     method: 'post',
     headers: { authorization: true }
   });

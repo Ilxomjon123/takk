@@ -94,9 +94,10 @@ function openMessageModal() {
       </div>
       <!-- END: Chat Content -->
     </div>
+
+    <!-- create message modal -->
+    <SendMessageModal />
   </div>
 
-  <!-- create message modal -->
-  <SendMessageModal />
 </template>
 

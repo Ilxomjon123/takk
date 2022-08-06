@@ -3,7 +3,7 @@ import makeRequest from '../makeRequest';
 export const fetchCafeList = async () => {
   try {
     const res = await makeRequest({
-      url: `/admn/cafes/`,
+      url: `/adham/cafes/`,
       headers: { authorization: true }
     });
 
@@ -16,7 +16,7 @@ export const fetchCafeList = async () => {
 export const fetchCafe = async cafeID => {
   try {
     const res = await makeRequest({
-      url: `/admn/cafes/${cafeID}/`,
+      url: `/adham/cafes/${cafeID}/`,
       headers: { authorization: true }
     });
 
@@ -30,7 +30,7 @@ export const fetchCafe = async cafeID => {
 export const fetchCafeGallery = async cafeID => {
   try {
     const res = await makeRequest({
-      url: `/admn/cafes/${cafeID}/photos/`,
+      url: `/adham/cafes/${cafeID}/photos/`,
       headers: { authorization: true }
     });
 
@@ -44,7 +44,7 @@ export const fetchCafeGallery = async cafeID => {
 export const fetchCafeWorkDays = async cafeID => {
   try {
     const res = await makeRequest({
-      url: `/admn/cafes/${cafeID}/work-days/`,
+      url: `/adham/cafes/${cafeID}/work-days/`,
       headers: { authorization: true }
     });
 
@@ -58,7 +58,7 @@ export const fetchCafeWorkDays = async cafeID => {
 export const updateCafeWorkDays = async payload => {
   try {
     const res = await makeRequest({
-      url: `/admn/cafes/${payload.id}/work-days/`,
+      url: `/adham/cafes/${payload.id}/work-days/`,
       method: 'put',
       data: payload.data,
       headers: { authorization: true }
@@ -74,7 +74,7 @@ export const updateCafeWorkDays = async payload => {
 export const updateCafe = async payload => {
   try {
     const res = await makeRequest({
-      url: `/admn/cafes/${payload.id}/`,
+      url: `/adham/cafes/${payload.id}/`,
       method: 'put',
       data: payload.data,
       headers: { authorization: true }
@@ -93,7 +93,7 @@ export const storeCafe = async payload => {
       ?.company_id;
     const data = { ...payload, company: companyId };
     const res = await makeRequest({
-      url: `/admn/cafes/`,
+      url: `/adham/cafes/`,
       method: 'post',
       data,
       headers: { authorization: true }
@@ -109,7 +109,7 @@ export const storeCafe = async payload => {
 export const addCafeGallery = async payload => {
   try {
     const res = await makeRequest({
-      url: `/admn/cafes/photos/`,
+      url: `/adham/cafes/photos/`,
       method: 'post',
       data: payload,
       headers: { authorization: true }
@@ -125,7 +125,7 @@ export const addCafeGallery = async payload => {
 export const deleteCafe = async payload => {
   try {
     const res = await makeRequest({
-      url: `/admn/cafes/${payload}/`,
+      url: `/adham/cafes/${payload}/`,
       method: 'delete',
       headers: { authorization: true }
     });
@@ -140,7 +140,7 @@ export const deleteCafe = async payload => {
 export const deleteCafeImage = async imageID => {
   try {
     const res = await makeRequest({
-      url: `/admn/cafes/photos/${imageID}/`,
+      url: `/adham/cafes/photos/${imageID}/`,
       method: 'delete',
       headers: { authorization: true }
     });

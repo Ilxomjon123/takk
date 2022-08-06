@@ -22,7 +22,7 @@ export default () => {
     await getCities();
   };
 
-  const setSelectedCity = async payload => {
+  const setSelectedCity = payload => {
     selectedCity.value = payload;
   };
 

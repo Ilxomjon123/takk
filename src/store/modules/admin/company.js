@@ -56,7 +56,7 @@ const mutations = {
 const actions = {
   async fetchAdminCompanies({ commit, rootGetters }) {
     await axios
-      .get('/admn/companies/', {
+      .get('/adham/companies/', {
         headers: rootGetters.getHttpHeader
       })
       .then(res => {
@@ -69,7 +69,7 @@ const actions = {
 
   async fetchAdminCompany({ commit, rootGetters }) {
     await axios
-      .get('/admn/companies/', {
+      .get('/adham/companies/', {
         headers: rootGetters.getHttpHeader,
         params: {
           id: rootGetters.getCompanyId
@@ -87,7 +87,7 @@ const actions = {
   async putCompany({ rootGetters }, payload) {
     let response;
     await axios
-      .put(`/admn/companies/`, payload.form, {
+      .put(`/adham/companies/`, payload.form, {
         headers: {
           ...rootGetters.getHttpHeader,
           'Content-Type': 'multipart/form-data'
@@ -111,8 +111,8 @@ const actions = {
   async fetchAdminCustomers({ commit, rootGetters }, payload) {
     let response;
     await axios
-      // .get(`/admn/companies/${rootGetters.getCompanyId}/customers/`, {
-      .get(`/admn/companies/customers/`, {
+      // .get(`/adham/companies/${rootGetters.getCompanyId}/customers/`, {
+      .get(`/adham/companies/customers/`, {
         headers: rootGetters.getHttpHeader,
         params: payload
       })
@@ -130,8 +130,8 @@ const actions = {
   async fetchAdminTransactions({ commit, rootGetters }, payload) {
     let response;
     await axios
-      // .get(`/admn/companies/${rootGetters.getCompanyId}/transactions/`, {
-      .get(`/admn/companies/transactions/`, {
+      // .get(`/adham/companies/${rootGetters.getCompanyId}/transactions/`, {
+      .get(`/adham/companies/transactions/`, {
         headers: rootGetters.getHttpHeader,
         params: payload
       })
@@ -148,8 +148,8 @@ const actions = {
   async fetchAdminStripeConnect({ commit, rootGetters }) {
     let response;
     await axios
-      // .get(`/admn/companies/${rootGetters.getCompanyId}/transactions/`, {
-      .get(`/admn/stripe/connect/`, {
+      // .get(`/adham/companies/${rootGetters.getCompanyId}/transactions/`, {
+      .get(`/adham/stripe/connect/`, {
         headers: rootGetters.getHttpHeader
       })
       .then(res => {
@@ -164,7 +164,7 @@ const actions = {
   async fetchAdminStatisticsSalesYear({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/admn/statistics/sales/year/`, {
+      .get(`/adham/statistics/sales/year/`, {
         headers: rootGetters.getHttpHeader,
         params: payload
       })
@@ -179,7 +179,7 @@ const actions = {
   async fetchAdminStatisticsSalesWeek({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/admn/statistics/sales/week/`, {
+      .get(`/adham/statistics/sales/week/`, {
         headers: rootGetters.getHttpHeader,
         params: payload
       })
@@ -194,7 +194,7 @@ const actions = {
   async fetchAdminStatisticsCustomer({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/admn/statistics/customers/`, {
+      .get(`/adham/statistics/customers/`, {
         headers: rootGetters.getHttpHeader,
         params: { ...payload, limit: 10 }
       })
@@ -210,7 +210,7 @@ const actions = {
   async fetchAdminStatisticsProducts({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/admn/statistics/products/`, {
+      .get(`/adham/statistics/products/`, {
         headers: rootGetters.getHttpHeader,
         params: { ...payload, limit: 10 }
       })

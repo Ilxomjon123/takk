@@ -3,7 +3,7 @@ import makeRequest from '../makeRequest';
 export const fetchProductsList = async payload => {
   try {
     const res = await makeRequest({
-      url: `/api/menus/${payload.menuId}/products/?search=${payload.search}&page=${payload.page}&limit=${payload.limit}`,
+      url: `/adham/menus/${payload.menuId}/products/?search=${payload.search}&page=${payload.page}&limit=${payload.limit}`,
       headers: { authorization: true }
     });
     return res.data;
@@ -15,7 +15,7 @@ export const fetchProductsList = async payload => {
 export const fetchProduct = async productID => {
   try {
     const res = await makeRequest({
-      url: `/api/products/${productID}/`,
+      url: `/adham/products/${productID}/`,
       headers: { authorization: true }
     });
     return res.data;
@@ -27,7 +27,7 @@ export const fetchProduct = async productID => {
 export const fetchProductSizes = async productSizeID => {
   try {
     const res = await makeRequest({
-      url: `/api/products/sizes/${productSizeID}/`,
+      url: `/adham/products/sizes/${productSizeID}/`,
       headers: { authorization: true }
     });
     return res.data;
@@ -39,7 +39,7 @@ export const fetchProductSizes = async productSizeID => {
 export const updateProduct = async payload => {
   try {
     const res = await makeRequest({
-      url: `/api/products/${payload.id}/`,
+      url: `/adham/products/${payload.id}/`,
       method: 'put',
       data: payload.data,
       headers: { authorization: true, 'Content-Type': 'multipart/form-data' }
@@ -55,7 +55,7 @@ export const updateProduct = async payload => {
 export const createProduct = async payload => {
   try {
     const res = await makeRequest({
-      url: `/api/products/`,
+      url: `/adham/products/`,
       method: 'post',
       data: payload,
       headers: { authorization: true }
@@ -71,7 +71,7 @@ export const createProduct = async payload => {
 export const duplicateProduct = async payload => {
   try {
     const res = await makeRequest({
-      url: `/api/products/duplicate/`,
+      url: `/adham/products/duplicate/`,
       method: 'post',
       data: payload,
       headers: { authorization: true }
@@ -87,7 +87,7 @@ export const duplicateProduct = async payload => {
 export const isProductAvailable = async payload => {
   try {
     const res = await makeRequest({
-      url: `/api/products/available/`,
+      url: `/adham/products/available/`,
       method: 'post',
       data: payload,
       headers: { authorization: true }
@@ -103,7 +103,7 @@ export const isProductAvailable = async payload => {
 export const deleteProduct = async productID => {
   try {
     const res = await makeRequest({
-      url: `/api/products/${productID}/`,
+      url: `/adham/products/${productID}/`,
       method: 'delete',
       headers: { authorization: true }
     });

@@ -1,21 +1,21 @@
 <template>
   <div class="flex">
-    <CafeSelect v-model="cafe" class="md:w-80"/>
+    <CafeSelect v-model="cafe" class="md:w-80" />
     <button class="ml-auto btn btn-primary mr-2">
-      <UserIcon/>
+      <UserIcon />
     </button>
     <button class="btn btn-primary">
       <DollarSignIcon />
     </button>
   </div>
   <div class="mt-2 bg-white">
-    <apexchart
+    <!-- <apexchart
       id="week-sales-chart"
       width="100%"
       type="bar"
       :options="chartOptions"
       :series="series"
-    />
+    /> -->
   </div>
 </template>
 
@@ -39,19 +39,19 @@ export default {
       }
       if (res.status) {
         this.series = [{
-            // data: res.last_week.map(item => item.count),
-            data: res.last.reverse(),
-            name: "Last Week"
-          },
-          {
-            // data: res.this_week.map(item => item.count),
-            data: res.current.reverse(),
-            name: "This Week"
-          },
+          // data: res.last_week.map(item => item.count),
+          data: res.last.reverse(),
+          name: "Last Week"
+        },
+        {
+          // data: res.this_week.map(item => item.count),
+          data: res.current.reverse(),
+          name: "This Week"
+        },
         ];
         this.chartOptions = {
           ...this.chartOptions,
-          xaxis:{
+          xaxis: {
             categories: res.days.reverse()
           }
         }
@@ -62,11 +62,11 @@ export default {
     return {
       cafe: '0',
       series: [{
-          data: []
-        },
-        {
-          data: []
-        },
+        data: []
+      },
+      {
+        data: []
+      },
       ],
       chartOptions: {
         dataLabels: {

@@ -1,6 +1,8 @@
 <script setup>
-import cash from 'cash-dom';
 import { onMounted } from 'vue';
+import cash from 'cash-dom';
+import EntryModal from '@/components/modals/EntryModal.vue';
+import ContactUsModal from '@/components/modals/ContactUsModal.vue';
 
 onMounted(() => {
   if (!localStorage.getItem('interested-in')) showProgrammaticallyShowModal();
@@ -17,10 +19,10 @@ function gotoLoginPage() {
 </script>
 
 <template>
+<div>
   <div class="scroll-smooth">
     <section id="hero-rectangle">
-      <div
-        class="
+      <div class="
           container
           grid grid-cols-1
           md:grid-cols-2
@@ -28,42 +30,26 @@ function gotoLoginPage() {
           2xl:px-16
           py-10
           2xl:py-32
-        "
-      >
+        ">
         <div class="my-auto">
           <h1 class="mb-5 lg:mb-10">
             The all you need app for your
-            <span class="colored-underline1 whitespace-nowrap"
-              >coffee shop.</span
-            >
+            <span class="colored-underline1 whitespace-nowrap">coffee shop.</span>
           </h1>
-          <button
-            type="button"
-            class="btn-primary hidden md:inline-block"
-            @click="gotoLoginPage"
-          >
+          <button type="button" class="btn-primary hidden md:inline-block" @click="gotoLoginPage">
             Sign Up
           </button>
         </div>
         <div class="mt-16 lg:mt-0 2xl:max-w-fit 2xl:ml-auto">
-          <img
-            class
-            src="@/assets/images/Hero_coffee_img.png"
-            alt="Hero image"
-          />
-          <button
-            type="button"
-            class="btn-primary md:hidden mt-16"
-            @click="gotoLoginPage"
-          >
+          <img class src="@/assets/images/Hero_coffee_img.png" alt="Hero image" />
+          <button type="button" class="btn-primary md:hidden mt-16" @click="gotoLoginPage">
             Sign Up
           </button>
         </div>
       </div>
     </section>
     <section id="preordering-rectangle" class="mt-6 lg:mt-10 2xl:mt-12">
-      <div
-        class="
+      <div class="
           rectangle
           container
           grid grid-cols-1
@@ -71,19 +57,13 @@ function gotoLoginPage() {
           bg-theme-34
           p-5
           lg:p-10
-        "
-      >
+        ">
         <div class="grid">
-          <img
-            class="m-auto"
-            src="@/assets/images/preordering-img.png"
-            alt="Preordering image"
-          />
+          <img class="m-auto" src="@/assets/images/preordering-img.png" alt="Preordering image" />
         </div>
         <div class="grid">
           <div class="md:mx-5 my-auto">
-            <h2
-              class="
+            <h2 class="
                 title1
                 md:text-center
                 lg:text-left
@@ -91,8 +71,7 @@ function gotoLoginPage() {
                 lg:mt-0
                 mb-5
                 lg:mb-10
-              "
-            >
+              ">
               Preordering
             </h2>
             <p class="body1 mb-5">
@@ -106,8 +85,7 @@ function gotoLoginPage() {
       </div>
     </section>
     <section id="delivery-rectangle" class="mt-6 lg:mt-10 2xl:mt-12">
-      <div
-        class="
+      <div class="
           rectangle
           container
           grid grid-cols-1
@@ -115,12 +93,10 @@ function gotoLoginPage() {
           bg-theme-33
           p-5
           lg:p-10
-        "
-      >
+        ">
         <div class="grid">
           <div class="md:ml-16 my-auto">
-            <h2
-              class="
+            <h2 class="
                 title1
                 md:text-center
                 lg:text-left
@@ -128,8 +104,7 @@ function gotoLoginPage() {
                 lg:mt-0
                 mb-5
                 lg:mb-10
-              "
-            >
+              ">
               Delivery
             </h2>
             <p class="body1">
@@ -139,17 +114,12 @@ function gotoLoginPage() {
           </div>
         </div>
         <div class="grid order-first md:order-last">
-          <img
-            class="m-auto"
-            src="@/assets/images/delivery_img.png"
-            alt="Deliver image"
-          />
+          <img class="m-auto" src="@/assets/images/delivery_img.png" alt="Deliver image" />
         </div>
       </div>
     </section>
     <section id="loyalty-stamps-rectangle" class="mt-6 lg:mt-10 2xl:mt-12">
-      <div
-        class="
+      <div class="
           rectangle
           container
           grid grid-cols-1
@@ -157,19 +127,13 @@ function gotoLoginPage() {
           bg-theme-34
           p-5
           lg:p-10
-        "
-      >
+        ">
         <div class="grid">
-          <img
-            class="m-auto"
-            src="@/assets/images/loyalty_stamps_img.png"
-            alt="Loyalty Stamps image"
-          />
+          <img class="m-auto" src="@/assets/images/loyalty_stamps_img.png" alt="Loyalty Stamps image" />
         </div>
         <div class="grid">
           <div class="md:mx-5 my-auto">
-            <h2
-              class="
+            <h2 class="
                 title1
                 md:text-center
                 lg:text-left
@@ -177,8 +141,7 @@ function gotoLoginPage() {
                 lg:mt-0
                 mb-5
                 lg:mb-10
-              "
-            >
+              ">
               Loyalty Stamps
             </h2>
             <p class="body1 mb-5">
@@ -192,8 +155,7 @@ function gotoLoginPage() {
       </div>
     </section>
     <section id="self-checkout-rectangle" class="mt-6 lg:mt-10 2xl:mt-12">
-      <div
-        class="
+      <div class="
           rectangle
           container
           grid grid-cols-1
@@ -201,12 +163,10 @@ function gotoLoginPage() {
           bg-theme-33
           p-5
           lg:p-10
-        "
-      >
+        ">
         <div class="grid">
           <div class="md:ml-16 my-auto">
-            <h2
-              class="
+            <h2 class="
                 title1
                 md:text-center
                 lg:text-left
@@ -214,8 +174,7 @@ function gotoLoginPage() {
                 lg:mt-0
                 mb-5
                 lg:mb-10
-              "
-            >
+              ">
               Self Checkout
             </h2>
             <p class="body1">
@@ -225,17 +184,12 @@ function gotoLoginPage() {
           </div>
         </div>
         <div class="grid order-first md:order-last">
-          <img
-            class="m-auto"
-            src="@/assets/images/self_checkout.png"
-            alt="Deliver image"
-          />
+          <img class="m-auto" src="@/assets/images/self_checkout.png" alt="Deliver image" />
         </div>
       </div>
     </section>
     <section id="analytics-rectangle" class="mt-6 lg:mt-10 2xl:mt-12">
-      <div
-        class="
+      <div class="
           rectangle
           container
           grid grid-cols-1
@@ -243,19 +197,13 @@ function gotoLoginPage() {
           bg-theme-34
           p-5
           lg:p-10
-        "
-      >
+        ">
         <div class="grid">
-          <img
-            class="m-auto"
-            src="@/assets/images/analytics_img.png"
-            alt="Loyalty Stamps image"
-          />
+          <img class="m-auto" src="@/assets/images/analytics_img.png" alt="Loyalty Stamps image" />
         </div>
         <div class="grid">
           <div class="md:mx-5 my-auto">
-            <h2
-              class="
+            <h2 class="
                 title1
                 md:text-center
                 lg:text-left
@@ -263,8 +211,7 @@ function gotoLoginPage() {
                 lg:mt-0
                 mb-5
                 lg:mb-10
-              "
-            >
+              ">
               Analytics
               <span class="body2">*coming up</span>
             </h2>
@@ -279,8 +226,7 @@ function gotoLoginPage() {
     <section id="fees-rectangle" class="mt-6 lg:mt-10 2xl:mt-12">
       <div class="container grid md:bg-theme-33 px-5 lg:px-10">
         <div class="grid justify-center">
-          <h2
-            class="
+          <h2 class="
               text-4xl
               lg:text-6xl
               font-bold
@@ -288,11 +234,8 @@ function gotoLoginPage() {
               my-7
               2xl:my-14
               md:text-center
-            "
-          >
-            <span class="colored-underline2"
-              >Our fees are low, and straightforward.</span
-            >
+            ">
+            <span class="colored-underline2">Our fees are low, and straightforward.</span>
           </h2>
         </div>
         <div class="">
@@ -311,8 +254,7 @@ function gotoLoginPage() {
             <div class="intro-y flex items-center">
               <!-- BEGIN: Pricing Layout -->
               <div class="intro-y box flex flex-col lg:flex-row w-full">
-                <div
-                  class="
+                <div class="
                     intro-y
                     border-b border-t
                     lg:border-b-0 lg:border-t-0
@@ -321,18 +263,15 @@ function gotoLoginPage() {
                     lg:border-l lg:border-r
                     border-gray-200
                     dark:border-dark-5
-                  "
-                >
-                  <CreditCardIcon
-                    class="
+                  ">
+                  <CreditCardIcon class="
                       block
                       w-12
                       h-12
                       text-theme-1
                       dark:text-theme-10
                       mx-auto
-                    "
-                  />
+                    " />
                   <div class="text-xl font-medium text-center mt-10">
                     Standard Plan
                   </div>
@@ -341,8 +280,7 @@ function gotoLoginPage() {
                 <span class="mx-1">•</span> 10 Users
                 <span class="mx-1">•</span> 20 Copies
               </div>-->
-                  <div
-                    class="
+                  <div class="
                       text-gray-600
                       dark:text-gray-400
                       px-10
@@ -350,8 +288,7 @@ function gotoLoginPage() {
                       mx-auto
                       mt-5
                       min-h-[80px]
-                    "
-                  >
+                    ">
                     No risk, 6 months free use of the Takk platform (order
                     accepting system and mobile app). After trial period, 1% of
                     sales. Plus credit card fees (2.9%+30c) passed on to payment
@@ -360,40 +297,32 @@ function gotoLoginPage() {
                   <div class="mt-auto">
                     <div class="flex justify-center">
                       <div class="relative text-5xl font-semibold mt-8 mx-auto">
-                        <span
-                          class="
+                        <span class="
                             absolute
                             text-2xl
                             top-0
                             left-0
                             text-gray-600
                             -ml-4
-                          "
-                          >$</span
-                        >
+                          ">$</span>
                         0
                       </div>
                     </div>
                     <div class="mt-auto">
-                      <RouterLink
-                        to="/dashboard/tariffs"
-                        class="
+                      <RouterLink to="/dashboard/tariffs" class="
                           btn btn-rounded-primary
                           py-3
                           px-4
                           block
                           mx-auto
                           mt-8
-                        "
-                        >PURCHASE NOW</RouterLink
-                      >
+                        ">PURCHASE NOW</RouterLink>
                       <!-- <a href="javascript:;" data-toggle="modal" data-target="#squareup-modal-preview"
                     class="btn btn-rounded-primary py-3 px-4 block mx-auto mt-8">PURCHASE NOW</a> -->
                     </div>
                   </div>
                 </div>
-                <div
-                  class="
+                <div class="
                     intro-y
                     border-b border-t
                     lg:border-b-0 lg:border-t-0
@@ -402,23 +331,19 @@ function gotoLoginPage() {
                     lg:border-l lg:border-r
                     border-gray-200
                     dark:border-dark-5
-                  "
-                >
-                  <BriefcaseIcon
-                    class="
+                  ">
+                  <BriefcaseIcon class="
                       block
                       w-12
                       h-12
                       text-theme-1
                       dark:text-theme-10
                       mx-auto
-                    "
-                  />
+                    " />
                   <div class="text-xl font-medium text-center mt-10">
                     Proprietary Plan
                   </div>
-                  <div
-                    class="
+                  <div class="
                       text-gray-600
                       dark:text-gray-400
                       px-10
@@ -426,41 +351,33 @@ function gotoLoginPage() {
                       mx-auto
                       mt-5
                       min-h-[80px]
-                    "
-                  >
+                    ">
                     Same as Standard plan, plus you will have your custom mobile
                     application with your own logo for $49 per month.
                   </div>
                   <div class="mt-auto">
                     <div class="flex justify-center">
                       <div class="relative text-5xl font-semibold mt-8 mx-auto">
-                        <span
-                          class="
+                        <span class="
                             absolute
                             text-2xl
                             top-0
                             left-0
                             text-gray-600
                             -ml-4
-                          "
-                          >$</span
-                        >
+                          ">$</span>
                         49
                       </div>
                     </div>
                     <div class="mt-auto">
-                      <RouterLink
-                        to="/dashboard/tariffs"
-                        class="
+                      <RouterLink to="/dashboard/tariffs" class="
                           btn btn-rounded-primary
                           py-3
                           px-4
                           block
                           mx-auto
                           mt-8
-                        "
-                        >PURCHASE NOW</RouterLink
-                      >
+                        ">PURCHASE NOW</RouterLink>
                     </div>
                   </div>
                 </div>
@@ -470,34 +387,20 @@ function gotoLoginPage() {
           </div>
           <div class="hidden md:flex justify-center mx-auto w-full">
             <a href="https://apps.apple.com/us/app/kaffe-landskap/id1469010325" target="blank">
-              <img
-                class="mr-12 w-[240px] h-[80px]"
-                src="@/assets/images/App_Store_badge_US.png"
-                alt="App Store badge"
-              />
+              <img class="mr-12 w-[240px] h-[80px]" src="@/assets/images/App_Store_badge_US.png"
+                alt="App Store badge" />
             </a>
             <a href="https://play.google.com/store/apps/details?id=com.takk.cafe" target="blank">
-              <img
-                class="ml-12 w-[240px] h-[80px]"
-                src="@/assets/images/Google_Play_Badge.png"
-                alt="Google_Play_Badge"
-              />
+              <img class="ml-12 w-[240px] h-[80px]" src="@/assets/images/Google_Play_Badge.png"
+                alt="Google_Play_Badge" />
             </a>
           </div>
           <div class="flex md:hidden justify-between">
             <a href="https://apps.apple.com/us/app/kaffe-landskap/id1469010325" target="blank">
-              <img
-                class="w-11/12"
-                src="@/assets/images/App_Store_badge_US.png"
-                alt="App Store badge"
-              />
+              <img class="w-11/12" src="@/assets/images/App_Store_badge_US.png" alt="App Store badge" />
             </a>
             <a href="https://play.google.com/store/apps/details?id=com.takk.cafe" target="blank">
-              <img
-                class="w-11/12 ml-auto"
-                src="@/assets/images/Google_Play_Badge.png"
-                alt="Google_Play_Badge"
-              />
+              <img class="w-11/12 ml-auto" src="@/assets/images/Google_Play_Badge.png" alt="Google_Play_Badge" />
             </a>
           </div>
           <div class="flex lg:justify-center lg:my-10">
@@ -509,6 +412,9 @@ function gotoLoginPage() {
       </div>
     </section>
   </div>
+  <EntryModal />
+  <ContactUsModal />
+</div>
 </template>
 
 <style scoped lang="scss">

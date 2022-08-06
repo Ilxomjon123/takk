@@ -6,7 +6,7 @@ const { sendEvent } = useWebSocket();
 export const fetchChats = async () => {
   try {
     const res = await makeRequest({
-      url: `/api/ws-chat/`,
+      url: `/adham/ws-chat/`,
       headers: { authorization: true }
     });
     return res.data;
@@ -18,7 +18,7 @@ export const fetchChats = async () => {
 export const fetchChatMessages = async (chatID, page = 1) => {
   try {
     const res = await makeRequest({
-      url: `/api/ws-chat/${chatID}/messages/`,
+      url: `/adham/ws-chat/${chatID}/messages/`,
       params: { page },
       headers: { authorization: true }
     });
@@ -31,7 +31,7 @@ export const fetchChatMessages = async (chatID, page = 1) => {
 export const createChatroom = async payload => {
   try {
     const res = await makeRequest({
-      url: `/api/ws-chat/`,
+      url: `/adham/ws-chat/`,
       method: 'post',
       data: payload, // {item_type -> тип сообщения [video, image, message, video], files -> список файлов, chat*}
       headers: { authorization: true }
@@ -54,7 +54,7 @@ export const createChatroom = async payload => {
 export const sendMessagesInChatroom = async payload => {
   try {
     const res = await makeRequest({
-      url: `/api/ws-chat/send-messages-chat/`,
+      url: `/adham/ws-chat/send-messages-chat/`,
       method: 'post',
       data: payload,
       headers: { authorization: true }
@@ -69,7 +69,7 @@ export const sendMessagesInChatroom = async payload => {
 export const sendMessageToCustomers = async payload => {
   try {
     const res = await makeRequest({
-      url: `/api/ws-chat/send-messages-customer/`,
+      url: `/adham/ws-chat/send-messages-customer/`,
       method: 'post',
       data: payload, // {item_type -> тип сообщения [video, image, message, video], files -> список файлов, chat*}
       headers: { authorization: true }

@@ -4,15 +4,18 @@ import cash from 'cash-dom';
 import Toastify from 'toastify-js';
 import CafeMenu from './CafeMenu.vue';
 import CafeInformation from './CafeInformation.vue';
-import { ref } from 'vue';
-import { storeCafe } from '../../../api';
-import store from '../../../store';
+import { computed, onMounted, ref } from 'vue';
+import { storeCafe } from '@/api/adham';
+import store from '@/store';
+import CompanySelectModal from '../../../components/modals/CompanySelectModal.vue';
 
 const router = useRouter();
 const formFields = ref({
   location: {
-    lat: 35.1234,
-    lon: -95.1234
+    coordinates: [
+      35.1234,
+      -95.1234
+    ]
   },
   country: '',
   name: '',
@@ -27,7 +30,11 @@ const formFields = ref({
   photos: []
 });
 const externalErrors = ref({});
+const isCompanySet = computed(() => store.getters['getAdminSelectedCompanyID'])
 
+onMounted(() => {
+  isCompanySet.value === '0' && cash('#company-select-modal').modal('show');
+})
 async function submit(formData) {
   store.commit('setLoadingStatus', true);
   // isLoading.value = true
@@ -76,5 +83,6 @@ function invalidSubmit() {
         <CafeInformation :form-data="formFields" @update:form-data="submit($event)" :external-errors="externalErrors" />
       </div>
     </div>
+    <CompanySelectModal />
   </div>
 </template>

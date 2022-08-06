@@ -1,21 +1,26 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { LMap, LMarker, LTileLayer } from "@vue-leaflet/vue-leaflet";
 import axios from 'axios';
+
 import CountrySelect from '@/components/selects/CountrySelect.vue';
 import StateSelect from '@/components/selects/StateSelect.vue';
 import CitySelect from '@/components/selects/CitySelect.vue';
-import InputField from './InputField.vue';
 import TelInput from '@/components/forms/TelInput.vue';
+import InputField from './InputField.vue';
+import useCountries from '@/features/useCountries';
 
 // leaflet styles
 import 'leaflet/dist/leaflet.css';
-import useCountries from '../../../features/useCountries';
 
 const props = defineProps({
   formData: {
     type: Object,
-    default: () => { }
+    default: () => ({
+      location: {
+        coordinates: [0, 0]
+      }
+    })
   },
   externalErrors: {
     type: Object,
@@ -36,8 +41,8 @@ const {
 
 function changeLatLng(e) {
   const targetLatLng = e.target.getLatLng();
-  props.formData.location.lat = targetLatLng.lat;
-  props.formData.location.lon = targetLatLng.lng;
+  props.formData.location.coordinates[1] = targetLatLng.lat;
+  props.formData.location.coordinates[0] = targetLatLng.lng;
 }
 
 async function submit() {
@@ -53,8 +58,8 @@ function searchLocationByAddress() {
   let url = `https://nominatim.openstreetmap.org/search?format=json&limit=3&q=${ addr }`;
   axios.get(url).then(res => {
     if (res.data.length > 0) {
-      props.formData.location.lat = res.data[0].lat;
-      props.formData.location.lon = res.data[0].lon;
+      props.formData.location.coordinates[1] = Number(res.data[0]?.lat);
+      props.formData.location.coordinates[0] = Number(res.data[0]?.lon);
     }
   });
 }
@@ -123,9 +128,10 @@ function searchLocationByAddress() {
             <div class="col-span-12 2xl:col-span-6">
               <div class="map_container mt-3">
                 <label for="cafe-form-5" class="form-label">Location</label>
-                <l-map id="map" v-model:zoom="zoomLevel" :center="[formData.location.lat, formData.location.lon]">
+                <l-map id="map" v-model:zoom="zoomLevel"
+                  :center="[formData.location.coordinates[1], formData.location.coordinates[0]]">
                   <l-tile-layer :url="openstreetMapUrl" layer-type="base" name="OpenStreetMap" />
-                  <l-marker :lat-lng="[formData.location.lat, formData.location.lon]" draggable
+                  <l-marker :lat-lng="[formData.location.coordinates[1], formData.location.coordinates[0]]" draggable
                     @moveend="changeLatLng" />
                 </l-map>
               </div>
