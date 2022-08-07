@@ -18,10 +18,11 @@ specifiers:
   '@popperjs/core': ^2.7.0
   '@types/leaflet': ^1.7.11
   '@types/vue-select': ^3.16.0
-  '@vitejs/plugin-vue': ^2.0.1
+  '@vitejs/plugin-vue': ^3.0.1
   '@vue-leaflet/vue-leaflet': ^0.6.1
   '@vuelidate/core': ^2.0.0-alpha.12
   '@vuelidate/validators': ^2.0.0-alpha.11
+  '@vueuse/core': ^9.1.0
   '@zhuowenli/vue-feather-icons': ^5.0.2
   apexcharts: ^3.35.3
   autoprefixer: ^10.3.1
@@ -82,6 +83,7 @@ dependencies:
   '@vue-leaflet/vue-leaflet': 0.6.1_6be3vsffnz3mbpixk7nlhbwqzu
   '@vuelidate/core': 2.0.0-alpha.43_vue@3.2.37
   '@vuelidate/validators': 2.0.0-alpha.31_vue@3.2.37
+  '@vueuse/core': 9.1.0_vue@3.2.37
   '@zhuowenli/vue-feather-icons': 5.0.2
   apexcharts: 3.35.4
   axios: 0.27.2
@@ -119,7 +121,7 @@ dependencies:
 devDependencies:
   '@types/leaflet': 1.7.11
   '@types/vue-select': 3.16.1
-  '@vitejs/plugin-vue': 2.3.3_vite@3.0.4+vue@3.2.37
+  '@vitejs/plugin-vue': 3.0.1_vite@3.0.4+vue@3.2.37
   autoprefixer: 10.4.8_postcss@8.4.14
   lodash: 4.17.21
   postcss: 8.4.14
@@ -689,11 +691,15 @@ packages:
       vue: 2.7.8
     dev: true
 
-  /@vitejs/plugin-vue/2.3.3_vite@3.0.4+vue@3.2.37:
-    resolution: {integrity: sha512-SmQLDyhz+6lGJhPELsBdzXGc+AcaT8stgkbiTFGpXPe8Tl1tJaBw1A6pxDqDuRsVkD8uscrkx3hA7QDOoKYtyw==}
-    engines: {node: '>=12.0.0'}
+  /@types/web-bluetooth/0.0.15:
+    resolution: {integrity: sha512-w7hEHXnPMEZ+4nGKl/KDRVpxkwYxYExuHOYXyzIzCDzEZ9ZCGMAewulr9IqJu2LR4N37fcnb1XVeuZ09qgOxhA==}
+    dev: false
+
+  /@vitejs/plugin-vue/3.0.1_vite@3.0.4+vue@3.2.37:
+    resolution: {integrity: sha512-Ll9JgxG7ONIz/XZv3dssfoMUDu9qAnlJ+km+pBA0teYSXzwPCIzS/e1bmwNYl5dcQGs677D21amgfYAnzMl17A==}
+    engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
-      vite: ^2.5.10
+      vite: ^3.0.0
       vue: ^3.2.25
     dependencies:
       vite: 3.0.4_sass@1.54.2
@@ -808,6 +814,31 @@ packages:
 
   /@vuelidate/validators/2.0.0-alpha.31_vue@3.2.37:
     resolution: {integrity: sha512-+MFA9nZ7Y9zCpq383/voPDk/hiAmu6KqiJJhLOYB/FmrUPVoyKnuKnI9Bwiq8ok9GZlVkI8BnIrKPKGj9QpwiQ==}
+    dependencies:
+      vue-demi: 0.13.6_vue@3.2.37
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: false
+
+  /@vueuse/core/9.1.0_vue@3.2.37:
+    resolution: {integrity: sha512-BIroqvXEqt826aE9r3K5cox1zobuPuAzdYJ36kouC2TVhlXvFKIILgFVWrpp9HZPwB3aLzasmG3K87q7TSyXZg==}
+    dependencies:
+      '@types/web-bluetooth': 0.0.15
+      '@vueuse/metadata': 9.1.0
+      '@vueuse/shared': 9.1.0_vue@3.2.37
+      vue-demi: 0.13.6_vue@3.2.37
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+    dev: false
+
+  /@vueuse/metadata/9.1.0:
+    resolution: {integrity: sha512-8OEhlog1iaAGTD3LICZ8oBGQdYeMwByvXetOtAOZCJOzyCRSwqwdggTsmVZZ1rkgYIEqgUBk942AsAPwM21s6A==}
+    dev: false
+
+  /@vueuse/shared/9.1.0_vue@3.2.37:
+    resolution: {integrity: sha512-pB/3njQu4tfJJ78ajELNda0yMG6lKfpToQW7Soe09CprF1k3QuyoNi1tBNvo75wBDJWD+LOnr+c4B5HZ39jY/Q==}
     dependencies:
       vue-demi: 0.13.6_vue@3.2.37
     transitivePeerDependencies:

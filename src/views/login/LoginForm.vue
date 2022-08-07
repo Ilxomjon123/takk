@@ -1,5 +1,7 @@
 <template>
-  <h2 class="intro-x font-bold text-2xl xl:text-3xl text-center xl:text-left">{{ headText }}</h2>
+  <h2 class="intro-x font-bold text-2xl xl:text-3xl text-center xl:text-left">
+    {{ headText }}
+  </h2>
   <div class="intro-x mt-2 text-gray-500 xl:hidden text-center">
     A few more clicks to sign in to your account. Manage all your e-commerce
     accounts in one place
@@ -11,25 +13,50 @@
         v-model="form.phone" /> -->
       <!-- <input autofocus type="text" class="intro-x login__input form-control py-3 px-4 border-gray-300 block"
         placeholder="Phone" v-model="form.phone" :disabled="!isDisabled" required /> -->
-      <input type="text" class="intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4"
-        placeholder="SMS Code" v-model="form.sms_code" v-if="!isDisabled" />
-      <input v-if="isRegister" type="text"
-        class="intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4" placeholder="Username"
-        v-model="form.username" />
-      <input v-if="isRegister" type="email"
-        class="intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4" placeholder="Email"
-        v-model="form.email" />
+      <input
+        type="text"
+        class="intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4"
+        placeholder="SMS Code"
+        v-model="form.sms_code"
+        v-if="!isDisabled"
+      />
+      <input
+        v-if="isRegister"
+        type="text"
+        class="intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4"
+        placeholder="Username"
+        v-model="form.username"
+      />
+      <input
+        v-if="isRegister"
+        type="email"
+        class="intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4"
+        placeholder="Email"
+        v-model="form.email"
+      />
       <div class="text-theme-6 mt-2" v-text="errorText" />
     </div>
-    <div class="intro-x flex text-gray-700 dark:text-gray-600 text-xs sm:text-sm mt-4"></div>
+    <div
+      class="intro-x flex text-gray-700 dark:text-gray-600 text-xs sm:text-sm mt-4"
+    ></div>
     <div class="intro-x mt-5 xl:mt-8 text-center xl:text-center">
-      <button class="btn btn-primary py-3 px-5 w-full xl:w-32 xl:mr-3 align-top" :disabled="isLoading">
+      <button
+        class="btn btn-primary py-3 px-5 w-full xl:w-32 xl:mr-3 align-top"
+        :disabled="isLoading"
+      >
         {{ submitText }}
-        <LoadingIcon v-if="isLoading" icon="three-dots" color="white" class="ml-2" />
+        <LoadingIcon
+          v-if="isLoading"
+          icon="three-dots"
+          color="white"
+          class="ml-2"
+        />
       </button>
     </div>
   </form>
-  <div class="intro-x mt-10 xl:mt-24 text-gray-700 dark:text-gray-600 text-center xl:text-left">
+  <div
+    class="intro-x mt-10 xl:mt-24 text-gray-700 dark:text-gray-600 text-center xl:text-left"
+  >
     By signin up, you agree to our
     <br />
     <a class="text-theme-1 dark:text-theme-10" href>Terms and Conditions</a>
@@ -48,32 +75,30 @@ export default defineComponent({
     return {
       form: {},
       isDisabled: true,
-      submitText: "Send Code",
+      submitText: 'Send Code',
       isRegister: false,
-      errorText: "",
+      errorText: '',
       isLoading: false,
-      headText: "Enter phone number",
+      headText: 'Enter phone number',
       telInputOptions: {
         autofocus: true,
         required: true,
-        defaultCountry: '+1',
-        showDialCode: true,
         autoDefaultCountry: false,
         maxlength: 20
       }
     };
   },
   methods: {
-    ...mapMutations(["setRequiredDetails"]),
-    ...mapActions(["signin"]),
+    ...mapMutations(['setRequiredDetails']),
+    ...mapActions(['signin']),
     async submit() {
-      this.errorText = "";
+      this.errorText = '';
       const oldButtonText = this.submitText;
-      this.submitText = "";
+      this.submitText = '';
       this.isLoading = true;
       this.form.referral_code = this.$route.query?.referral_code;
-      this.form.phone = this.form.phone.replace(/\s+/g, '')
-      const res = await this.$store.dispatch("signin", this.form);
+      this.form.phone = this.form.phone.replace(/\s+/g, '');
+      const res = await this.$store.dispatch('signin', this.form);
       // this.signin(this.form);
       // console.log(res);
       if (res.status) {
@@ -81,12 +106,11 @@ export default defineComponent({
           // Telefon Raqam kiritilgandan so'ng
           this.isRegister = res.data.is_register;
           this.isDisabled = false;
-          this.submitText = this.isRegister ? "Sign Up" : "Sign In";
+          this.submitText = this.isRegister ? 'Sign Up' : 'Sign In';
           this.headText = this.isRegister
-            ? "Fill the form below"
-            : "Enter SMS code";
-        }
-        else {
+            ? 'Fill the form below'
+            : 'Enter SMS code';
+        } else {
           // Login muvaffaqiyatli bo'lsa
           this.submitText = oldButtonText;
           this.setRequiredDetails({
@@ -96,9 +120,9 @@ export default defineComponent({
           setToken(res.data.token.access);
           // this.$router.push('/entry');
           if (res.data.user?.is_superuser) {
-            window.location.replace("/admin");
+            window.location.replace('/admin');
           } else {
-            window.location.replace("/entry/company");
+            window.location.replace('/entry/company');
           }
         }
       }
@@ -106,10 +130,9 @@ export default defineComponent({
       else {
         this.submitText = oldButtonText;
         // this.errorText = "Invalid Input";
-        if (typeof res.data.detail !== "undefined") {
+        if (typeof res.data.detail !== 'undefined') {
           this.errorText = res.data.detail;
-        }
-        else {
+        } else {
           this.errorText = res.data.data.detail;
         }
       }

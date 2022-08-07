@@ -14,7 +14,7 @@ function goto(path) {
 </script>
 
 <template>
-  <div id="entry-modal" class="modal" tabindex="-1" aria-hidden="true">
+  <div id="entry-modal" class="modal" data-backdrop="static" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl min-w-fit">
       <div class="modal-content rounded-3xl md:rounded-large">
         <div class="modal-body md:p-10">

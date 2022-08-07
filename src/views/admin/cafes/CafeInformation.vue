@@ -16,11 +16,7 @@ import 'leaflet/dist/leaflet.css';
 const props = defineProps({
   formData: {
     type: Object,
-    default: () => ({
-      location: {
-        coordinates: [0, 0]
-      }
-    })
+    default: () => { }
   },
   externalErrors: {
     type: Object,

@@ -5,33 +5,41 @@ import 'vue-tel-input/dist/vue-tel-input.css';
 const props = defineProps({
   inputOptions: {
     type: Object,
-    default: () => { }
+    default: () => {}
   }
 });
 
-const emits = defineEmits(['update.modelValue'])
+const emits = defineEmits(['update.modelValue']);
 
+const countryDialCode = ref('');
 const phone = ref('');
-// const formattedVal = computed({
-//   get: () => phone.value,
-//   set: (val) => {
-//     const correctVal = val.replace(/\s+/g, '')
-//     console.log({ correctVal });
-//     phone.value = correctVal
-//   }
-// })
 
+function onCountryChange(countryObj) {
+  console.log({ countryObj });
+  countryDialCode.value = countryObj.dialCode;
+}
 </script>
 
 <template>
-  <vue-tel-input v-model="phone" mode="international" :autoFormat="true"
+  <vue-tel-input
+    v-model="phone"
+    mode="international"
+    :autoFormat="true"
     :defaultCountry="'US'"
-    :showDialCode="true"
     :inputOptions="{
-    styleClasses: 'form-control border-gray-300',
-    id: 'phone',
-    ...inputOptions
-  }" />
+      styleClasses: 'form-control border-gray-300',
+      id: 'phone',
+      showDialCode: true,
+      ...inputOptions
+    }"
+    :dropdownOptions="{
+      showDialCodeInList: true,
+      showDialCodeInSelection: false,
+      showFlags: true,
+      showSearchBox: true
+    }"
+    @country-changed="onCountryChange"
+  />
 </template>
 
 <style lang="scss">
@@ -42,7 +50,7 @@ const phone = ref('');
 
 .vti__input,
 .vti__dropdown {
-  border-radius: .375rem;
+  border-radius: 0.375rem;
 }
 
 .vti__dropdown-list {

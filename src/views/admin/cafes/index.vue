@@ -12,7 +12,7 @@ const list = reactive([])
 
 onMounted(async () => {
   store.commit('setLoadingStatus', true)
-  const res = await fetchCafeList()
+  const res = await fetchCafeList(100)
   Object.assign(list, res.results)
   store.commit('setLoadingStatus', false)
 

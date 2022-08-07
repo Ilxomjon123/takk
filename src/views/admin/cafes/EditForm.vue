@@ -12,18 +12,19 @@ import CafeOperations from './CafeOperations.vue';
 import CafeDelivery from './CafeDelivery.vue';
 import CafeGallery from './CafeGallery.vue';
 import CafeWorkingDays from './CafeWorkingDays.vue';
-import { fetchCafe, updateCafe, deleteCafe, deleteCafeImage } from '@/api/adham';
+import {
+  fetchCafe,
+  updateCafe,
+  deleteCafe,
+  deleteCafeImage
+} from '@/api/adham';
 import router from '@/router';
 
 const route = useRoute();
-const currentId = (route.params?.id) ?? null
 const currentItem = ref('CafeInformation');
 const formFields = ref({
   location: {
-    coordinates: [
-      35.1234,
-      -95.1234
-    ]
+    coordinates: [35.1234, -95.1234]
   },
   country: '',
   name: '',
@@ -87,34 +88,23 @@ const formFields = ref({
   delivery_km_amount: 0,
   delivery_min_time: 30,
   cafe_timezone: 'America/New_York',
-  status: 0,
+  status: 0
 });
 const externalErrors = ref({});
 
 watch(
   () => route.params.id,
-  async (newVal) => {
+  async newVal => {
     console.log('newVal: ', newVal);
     if (newVal) {
       store.commit('setLoadingStatus', true);
-      const res1 = await fetchCafe(route.params?.id);
-      formFields.value = res1
+      const res1 = await fetchCafe(newVal);
+      formFields.value = res1;
       store.commit('setLoadingStatus', false);
     }
   },
-  { deep: true, immediate: true });
-
-async function fetchData() {
-  try {
-    store.commit('setLoadingStatus', true);
-    const res1 = await fetchCafe(route.params?.id);
-    formFields.value = res1
-  } catch (error) {
-
-  } finally {
-    store.commit('setLoadingStatus', false);
-  }
-}
+  { deep: true, immediate: true }
+);
 
 function changeComponent(componentName) {
   currentItem.value = componentName;
@@ -133,7 +123,7 @@ async function submit(formData) {
       node: cash('#success-notification-content')
         .clone()
         .removeClass('hidden')[0],
-      duration: 3000,
+      duration: 3000
     }).showToast();
   } catch (error) {
     if (error.response) {
@@ -151,23 +141,25 @@ function invalidSubmit() {
     node: cash('#failed-notification-content')
       .clone()
       .removeClass('hidden')[0],
-    duration: 3000,
+    duration: 3000
   }).showToast();
 }
 
 function openConfirmModal() {
-  cash('#delete-confirmation-modal').modal('show')
+  cash('#delete-confirmation-modal').modal('show');
 }
 
 async function removeCafe() {
   store.commit('setLoadingStatus', true);
-  cash('#delete-confirmation-modal').modal('hide')
+  cash('#delete-confirmation-modal').modal('hide');
   if (!isEmpty(formFields.value.photos)) {
-    formFields.value.photos.forEach(async ({ id }) => await deleteCafeImage(id));
+    formFields.value.photos.forEach(
+      async ({ id }) => await deleteCafeImage(id)
+    );
   }
   await deleteCafe(formFields.value.id);
   store.commit('setLoadingStatus', false);
-  router.push('/dashboard/cafes');
+  router.back();
   // Toastify({
   //   node: cash('#success-notification-content')
   //     .clone()
@@ -184,21 +176,41 @@ async function removeCafe() {
         <h2 class="text-lg font-medium mr-auto">Cafe Edit Form</h2>
       </div>
       <div class="grid grid-cols-12 gap-6">
-        <CafeMenu @update:selected-item="changeComponent($event)" form-type="edit" :form-data="formFields"
-          :external-errors="externalErrors" @remove:form-data="openConfirmModal" />
+        <CafeMenu
+          @update:selected-item="changeComponent($event)"
+          form-type="edit"
+          :form-data="formFields"
+          :external-errors="externalErrors"
+          @remove:form-data="openConfirmModal"
+        />
         <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
-          <component :is="currentItem === 'CafeOperations' ? CafeOperations
-    : currentItem === 'CafeDelivery' ? CafeDelivery
-      : currentItem === 'CafeGallery' ? CafeGallery
-        : currentItem === 'CafeWorkingDays' ? CafeWorkingDays
-          : CafeInformation" :form-data="formFields" :external-errors="externalErrors"
-            @update:form-data="submit($event)" />
+          <component
+            :is="
+              currentItem === 'CafeOperations'
+                ? CafeOperations
+                : currentItem === 'CafeDelivery'
+                ? CafeDelivery
+                : currentItem === 'CafeGallery'
+                ? CafeGallery
+                : currentItem === 'CafeWorkingDays'
+                ? CafeWorkingDays
+                : CafeInformation
+            "
+            :form-data="formFields"
+            :external-errors="externalErrors"
+            @update:form-data="submit($event)"
+          />
         </div>
       </div>
     </div>
 
     <!-- BEGIN: Delete Confirmation Modal -->
-    <div id="delete-confirmation-modal" class="modal" tabindex="-1" aria-hidden="true">
+    <div
+      id="delete-confirmation-modal"
+      class="modal"
+      tabindex="-1"
+      aria-hidden="true"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-body p-0">
@@ -211,8 +223,20 @@ async function removeCafe() {
               </div>
             </div>
             <div class="px-5 pb-8 text-center">
-              <button type="button" data-dismiss="modal" class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
-              <button type="button" class="btn btn-danger w-24" @click="removeCafe">Delete</button>
+              <button
+                type="button"
+                data-dismiss="modal"
+                class="btn btn-outline-secondary w-24 mr-1"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger w-24"
+                @click="removeCafe"
+              >
+                Delete
+              </button>
             </div>
           </div>
         </div>

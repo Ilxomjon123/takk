@@ -1,9 +1,9 @@
 import axios from 'axios';
 import * as config from './config';
 
-const companyID = localStorage.getItem('selectedCompanyID');
+// const companyID = localStorage.getItem('selectedCompanyID');
 
-const parameter = companyID == 0 ? {} : { company: companyID };
+// const parameter = companyID == 0 ? {} : { company: companyID };
 
 export default async ({
   url = '/',
@@ -21,7 +21,8 @@ export default async ({
       url,
       method,
       headers,
-      params: { ...params, ...parameter },
+      params,
+      // params: { ...params, ...parameter },
       data
     });
   } catch (error) {

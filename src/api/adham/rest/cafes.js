@@ -1,9 +1,12 @@
 import makeRequest from '../makeRequest';
+import { useStorage } from '@vueuse/core';
 
-export const fetchCafeList = async () => {
+const companyId = useStorage('selectedCompanyID', 0);
+
+export const fetchCafeList = async (limit = 10) => {
   try {
     const res = await makeRequest({
-      url: `/adham/cafes/`,
+      url: `/adham/cafes/?company=${companyId.value}&limit=${limit}`,
       headers: { authorization: true }
     });
 
@@ -59,7 +62,7 @@ export const updateCafeWorkDays = async payload => {
   try {
     const res = await makeRequest({
       url: `/adham/cafes/${payload.id}/work-days/`,
-      method: 'put',
+      method: 'PUT',
       data: payload.data,
       headers: { authorization: true }
     });
@@ -75,7 +78,7 @@ export const updateCafe = async payload => {
   try {
     const res = await makeRequest({
       url: `/adham/cafes/${payload.id}/`,
-      method: 'put',
+      method: 'PUT',
       data: payload.data,
       headers: { authorization: true }
     });
@@ -89,13 +92,10 @@ export const updateCafe = async payload => {
 
 export const storeCafe = async payload => {
   try {
-    const companyId = JSON.parse(localStorage.getItem('required_details'))?.user
-      ?.company_id;
-    const data = { ...payload, company: companyId };
     const res = await makeRequest({
       url: `/adham/cafes/`,
-      method: 'post',
-      data,
+      method: 'POST',
+      data: payload,
       headers: { authorization: true }
     });
 
@@ -110,7 +110,7 @@ export const addCafeGallery = async payload => {
   try {
     const res = await makeRequest({
       url: `/adham/cafes/photos/`,
-      method: 'post',
+      method: 'POST',
       data: payload,
       headers: { authorization: true }
     });
@@ -126,7 +126,7 @@ export const deleteCafe = async payload => {
   try {
     const res = await makeRequest({
       url: `/adham/cafes/${payload}/`,
-      method: 'delete',
+      method: 'DELETE',
       headers: { authorization: true }
     });
 
@@ -141,7 +141,7 @@ export const deleteCafeImage = async imageID => {
   try {
     const res = await makeRequest({
       url: `/adham/cafes/photos/${imageID}/`,
-      method: 'delete',
+      method: 'DELETE',
       headers: { authorization: true }
     });
 

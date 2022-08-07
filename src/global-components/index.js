@@ -16,6 +16,7 @@ import Dropzone from './dropzone/Main.vue';
 import FullCalendar from './calendar/Main.vue';
 import FullCalendarDraggable from './calendar/Draggable.vue';
 import * as featherIcons from '@zhuowenli/vue-feather-icons';
+
 export default app => {
   app.component('Chart', Chart);
   app.component('GoogleMapLoader', GoogleMapLoader);

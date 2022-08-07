@@ -1,9 +1,10 @@
 import axios from 'axios';
+import { useStorage } from '@vueuse/core';
 
 const state = () => {
   return {
     company: {},
-    selectedCompanyID: localStorage.getItem('selectedCompanyID'),
+    selectedCompanyID: useStorage('selectedCompanyID', 0),
     companies: [],
     customers: [],
     statisticCustomers: [],
@@ -34,7 +35,7 @@ const mutations = {
   },
   setSelectedCompanyID(state, payload) {
     state.selectedCompanyID = payload;
-    localStorage.setItem('selectedCompanyID', payload);
+    // localStorage.setItem('selectedCompanyID', payload);
   },
   setCompanies(state, payload) {
     state.companies = payload;
@@ -87,7 +88,7 @@ const actions = {
   async putCompany({ rootGetters }, payload) {
     let response;
     await axios
-      .put(`/adham/companies/`, payload.form, {
+      .put(`/adham/companies/${payload.id}/`, payload.form, {
         headers: {
           ...rootGetters.getHttpHeader,
           'Content-Type': 'multipart/form-data'

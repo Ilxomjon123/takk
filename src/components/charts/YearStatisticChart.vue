@@ -9,32 +9,34 @@
     </button>
   </div>
   <div class="mt-2 bg-white">
-    <!-- <apexchart
+    <apexchart
       id="year-sales-chart"
       width="100%"
       type="bar"
       :options="chartOptions"
       :series="series"
-    /> -->
+    />
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
 import CafeSelect from '../selects/CafeSelect.vue';
+
 export default {
   async created() {
     this.fetchData();
   },
   data() {
     return {
-      cafe: '0',
-      series: [{
-        data: []
-      },
-      {
-        data: []
-      },
+      cafe: 0,
+      series: [
+        {
+          data: []
+        },
+        {
+          data: []
+        }
       ],
       chartOptions: {
         dataLabels: {
@@ -42,7 +44,7 @@ export default {
           enabledOnSeries: []
         },
         chart: {
-          type: "bar",
+          type: 'bar'
         },
         tooltip: {
           shared: true,
@@ -50,8 +52,8 @@ export default {
         },
         xaxis: {
           // categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        },
-      },
+        }
+      }
     };
   },
   watch: {
@@ -60,7 +62,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["fetchStatisticsSalesYear"]),
+    ...mapActions(['fetchStatisticsSalesYear']),
     async fetchData() {
       let res;
       if (this.cafe != 0) {
@@ -69,23 +71,24 @@ export default {
         res = await this.fetchStatisticsSalesYear();
       }
       if (res.status) {
-        this.series = [{
-          // data: res.last_year.map(item => item.count),
-          data: res.last.reverse(),
-          name: "Last Year"
-        },
-        {
-          // data: res.this_year.map(item => item.count),
-          data: res.current.reverse(),
-          name: "This Year"
-        },
+        this.series = [
+          {
+            // data: res.last_year.map(item => item.count),
+            data: res.last.reverse(),
+            name: 'Last Year'
+          },
+          {
+            // data: res.this_year.map(item => item.count),
+            data: res.current.reverse(),
+            name: 'This Year'
+          }
         ];
         this.chartOptions = {
           ...this.chartOptions,
           xaxis: {
             categories: res.months.reverse()
           }
-        }
+        };
       }
     }
   },
