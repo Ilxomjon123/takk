@@ -4,9 +4,10 @@ import { useStorage } from '@vueuse/core';
 const companyId = useStorage('selectedCompanyID', 0);
 
 export const fetchCafeList = async (limit = 10) => {
+  const company = companyId.value === 0 ? '' : companyId.value;
   try {
     const res = await makeRequest({
-      url: `/adham/cafes/?company=${companyId.value}&limit=${limit}`,
+      url: `/adham/cafes/?company=${company}&limit=${limit}`,
       headers: { authorization: true }
     });
 
