@@ -1,7 +1,6 @@
 <script setup>
 import { computed, onMounted, watch } from 'vue';
 import useCountries from '@/features/useCountries';
-import { isEmpty } from 'lodash';
 
 const props = defineProps({
   modelValue: {
@@ -12,16 +11,13 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
-const {
-  setSelectedState,
-  statesList
-} = useCountries();
+const { setSelectedState, statesList } = useCountries();
 
 const selectedState = computed({
   get: () => {
     return Number(props.modelValue);
   },
-  set: async (val) => {
+  set: async val => {
     emit('update:modelValue', val);
     await setSelectedState(Number(val));
   }
@@ -30,21 +26,25 @@ const selectedState = computed({
 watch(
   () => props.modelValue,
   async (newVal, oldVal) => {
-    if (Number(newVal)) await setSelectedState(Number(newVal))
+    if (Number(newVal)) await setSelectedState(Number(newVal));
   },
-  { deep: true, immediate: true })
-
-// onMounted(async () => {
-//   if (!isEmpty(props.modelValue))
-//     await setSelectedState(props.modelValue)
-// })
+  { deep: true, immediate: true }
+);
 </script>
 
 <template>
-  <TomSelect v-model="selectedState" :options="{
-    placeholder: 'Select state'
-  }" class="w-full">
-    <option v-for="({ id, name, state_code }) in statesList" :key="state_code" :value="id">
+  <TomSelect
+    v-model="selectedState"
+    :options="{
+      placeholder: 'Select state'
+    }"
+    class="w-full"
+  >
+    <option
+      v-for="{ id, name, state_code } in statesList"
+      :key="state_code"
+      :value="id"
+    >
       {{ name }}
     </option>
   </TomSelect>

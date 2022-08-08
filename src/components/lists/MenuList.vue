@@ -1,8 +1,8 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
-import MenuAddEditFormModal from '../modals/MenuAddEditFormModal.vue'
-import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue'
-import cash from 'cash-dom'
+import { computed, onMounted, ref } from 'vue';
+import MenuAddEditFormModal from '../modals/MenuAddEditFormModal.vue';
+import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
+import cash from 'cash-dom';
 import store from '@/store';
 
 const props = defineProps({
@@ -12,21 +12,21 @@ const props = defineProps({
 
 const emit = defineEmits(['update-id']);
 
-const items = ref([])
-const dispatcher = ref('postMenu')
-const addDispatcher = ref('postMenu')
-const editDispatcher = ref('putMenu')
-const successMessage = ref('Successfully Deleted!')
-const selectedMenuDetails = ref({})
+const items = ref([]);
+const dispatcher = ref('postMenu');
+const addDispatcher = ref('postMenu');
+const editDispatcher = ref('putMenu');
+const successMessage = ref('Successfully Deleted!');
+const selectedMenuDetails = ref({});
 
-const getSelectedMenuId = computed(() => store.getters['getSelectedMenuId'])
+const getSelectedMenuId = computed(() => store.getters['getSelectedMenuId']);
 
 onMounted(() => {
-  fetchData()
-})
+  fetchData();
+});
 
 function paginate(val) {
-  items.value = val
+  items.value = val;
 }
 
 function search() {
@@ -43,14 +43,14 @@ function selectMenu(val) {
 }
 
 function addMenu() {
-  selectedMenuDetails.value = {}
+  selectedMenuDetails.value = {};
   dispatcher.value = addDispatcher.value;
   cash('#menu-add-edit-modal').modal('show');
 }
 
 function editMenu(val) {
   dispatcher.value = editDispatcher.value;
-  selectedMenuDetails.value = val
+  selectedMenuDetails.value = val;
   cash('#menu-add-edit-modal').modal('show');
 }
 
@@ -60,10 +60,10 @@ async function deleteMenu(val) {
   const res = await store.dispatch('deleteMenu', val);
 
   if (res.status === true) {
-    successMessage.value = 'Successfully Deleted!'
+    successMessage.value = 'Successfully Deleted!';
     store.commit('setSuccessNotification', true);
     // search();
-    updateList()
+    updateList();
   } else store.commit('setSuccessNotification', true);
 
   store.commit('setLoadingStatus', false);
@@ -78,9 +78,8 @@ async function fetchData() {
 }
 
 function updateList() {
-  fetchData()
+  fetchData();
 }
-
 </script>
 
 <template>
@@ -90,17 +89,25 @@ function updateList() {
       <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
         <button class="btn btn-primary" @click="addMenu">
           <span class="flex items-center justify-center">
-            <PlusIcon class="h-4 w-4 mr-3"/>
-          </span> Add Menu
+            <PlusIcon class="h-4 w-4 mr-3" />
+          </span>
+          Add Menu
         </button>
       </div>
     </div>
 
     <div class="grid grid-cols-12 gap-5 mt-5">
-      <div class="col-span-12 sm:col-span-4 xl:col-span-3 2xl:col-span-2 box p-5 cursor-pointer zoom-in"
-        v-for="(item, index) in items" :key="index"
-        :class="item.id == getSelectedMenuId ? 'bg-theme-1 dark:bg-theme-1 text-white' : ''"
-        @click="selectMenu(item.id)">
+      <div
+        class="col-span-12 sm:col-span-4 xl:col-span-3 2xl:col-span-2 box p-5 cursor-pointer zoom-in"
+        v-for="(item, index) in items"
+        :key="index"
+        :class="
+          item.id == getSelectedMenuId
+            ? 'bg-theme-1 dark:bg-theme-1 text-white'
+            : ''
+        "
+        @click="selectMenu(item.id)"
+      >
         <div class="flex col-span-12 w-full">
           <div class="mr-auto font-medium text-base">{{ item.name }}</div>
           <!-- <MoreHorizontalIcon /> -->
@@ -110,16 +117,24 @@ function updateList() {
             </button>
             <div class="dropdown-menu w-40">
               <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                <a @click="editMenu(item)" data-dismiss="dropdown"
-                  class="flex cursor-pointer items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                <a
+                  @click="editMenu(item)"
+                  data-dismiss="dropdown"
+                  class="flex cursor-pointer items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                >
                   <Edit2Icon class="w-4 h-4 mr-2" />Edit
                 </a>
-                <a data-dismiss="dropdown"
-                  class="flex cursor-pointer items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
-                  <DeleteConfirmModal @onConfirmedDelete="deleteMenu(item.id)" :isIcon="true" iconClass="w-4 h-4 mr-2"
-                    :modalId="`menu-delete-modal-${ item.id }`" />
+                <a
+                  data-dismiss="dropdown"
+                  class="flex cursor-pointer items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                >
+                  <DeleteConfirmModal
+                    @onConfirmedDelete="deleteMenu(item.id)"
+                    :isIcon="true"
+                    iconClass="w-4 h-4 mr-2"
+                    :modalId="`menu-delete-modal-${item.id}`"
+                  />
                 </a>
-
               </div>
             </div>
           </div>
@@ -134,7 +149,9 @@ function updateList() {
           <!-- <TrashIcon @click="editMenu(item)" class="hover:text-theme-6" /> -->
         </div>
         <div class="flex">
-          <div class="mr-auto text-gray-600">{{ subItemTitle + ": " + item[subItemValue] }}</div>
+          <div class="mr-auto text-gray-600">
+            {{ subItemTitle + ': ' + item[subItemValue] }}
+          </div>
         </div>
       </div>
     </div>
