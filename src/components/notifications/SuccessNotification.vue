@@ -13,9 +13,9 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import Toastify from 'toastify-js'
-import cash from 'cash-dom'
+import { defineComponent } from 'vue';
+import Toastify from 'toastify-js';
+import cash from 'cash-dom';
 import { mapGetters } from 'vuex';
 
 export default defineComponent({
@@ -28,17 +28,17 @@ export default defineComponent({
   methods: {
     show() {
       const duration = this.duration;
-      Toastify({
-        node: cash('#success-notification-content')
-          .clone()
-          .removeClass('hidden')[0],
-        duration: duration,
-        newWindow: true,
-        close: true,
-        gravity: 'top',
-        position: 'right',
-        stopOnFocus: true
-      }).showToast()
+      // Toastify({
+      //   node: cash('#success-notification-content')
+      //     .clone()
+      //     .removeClass('hidden')[0],
+      //   duration: duration,
+      //   newWindow: true,
+      //   close: true,
+      //   gravity: 'top',
+      //   position: 'right',
+      //   stopOnFocus: true
+      // }).showToast()
     }
   },
   computed: {
@@ -55,5 +55,5 @@ export default defineComponent({
       }
     }
   }
-})
+});
 </script>

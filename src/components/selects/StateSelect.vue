@@ -1,12 +1,9 @@
 <script setup>
-import { computed, onMounted, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import useCountries from '@/features/useCountries';
 
 const props = defineProps({
-  modelValue: {
-    type: Number,
-    default: null
-  }
+  modelValue: Number
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -18,28 +15,26 @@ const selectedState = computed({
     return Number(props.modelValue);
   },
   set: async val => {
-    emit('update:modelValue', val);
-    await setSelectedState(Number(val));
+    emit('update:modelValue', Number(val));
+    // await setSelectedState(Number(val));
   }
 });
 
 watch(
   () => props.modelValue,
   async (newVal, oldVal) => {
-    if (Number(newVal)) await setSelectedState(Number(newVal));
+    if (Number(newVal)) {
+      // emit('update:modelValue', Number(newVal));
+      await setSelectedState(Number(newVal));
+    }
   },
   { deep: true, immediate: true }
 );
 </script>
 
 <template>
-  <TomSelect
-    v-model="selectedState"
-    :options="{
-      placeholder: 'Select state'
-    }"
-    class="w-full"
-  >
+  <TomSelect v-model="selectedState" class="w-full">
+    <option>Select state</option>
     <option
       v-for="{ id, name, state_code } in statesList"
       :key="state_code"

@@ -3,7 +3,6 @@ import { onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { isEmpty } from 'lodash';
 import cash from 'cash-dom';
-import Toastify from 'toastify-js';
 
 import store from '@/store';
 import CafeMenu from './CafeMenu.vue';
@@ -19,6 +18,7 @@ import {
   deleteCafeImage
 } from '@/api/adham';
 import router from '@/router';
+import Toastify from 'toastify-js';
 
 const route = useRoute();
 const currentItem = ref('CafeInformation');
@@ -91,6 +91,7 @@ const formFields = ref({
   status: 0
 });
 const externalErrors = ref({});
+// const toastify = useToastify();
 
 watch(
   () => route.params.id,
@@ -125,6 +126,7 @@ async function submit(formData) {
         .removeClass('hidden')[0],
       duration: 3000
     }).showToast();
+    // toastify.success('Successfully updated');
   } catch (error) {
     if (error.response) {
       console.log(error.response.data);

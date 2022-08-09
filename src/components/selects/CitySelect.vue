@@ -3,10 +3,7 @@ import { computed, onMounted, watch } from 'vue';
 import useCountries from '@/features/useCountries';
 
 const props = defineProps({
-  modelValue: {
-    type: Number,
-    default: null
-  }
+  modelValue: Number
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -25,13 +22,8 @@ const selectedCity = computed({
 </script>
 
 <template>
-  <TomSelect
-    v-model="selectedCity"
-    :options="{
-      placeholder: 'Search..'
-    }"
-    class="w-full"
-  >
+  <TomSelect v-model="selectedCity" class="w-full">
+    <option>Select city</option>
     <option
       v-for="({ id, name }, index) in citiesList"
       :key="index"

@@ -52,8 +52,13 @@ export default () => {
   const getCities = async () => {
     try {
       cities.value = [];
-      const res = await fetchCities(selectedCountry.value, selectedState.value);
-      cities.value = res;
+      if (selectedState.value) {
+        const res = await fetchCities(
+          selectedCountry.value,
+          selectedState.value
+        );
+        cities.value = res;
+      }
     } catch (error) {
       console.log(
         'Error while fetching cities of selected country and state: ',
