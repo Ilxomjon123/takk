@@ -1,5 +1,5 @@
 import axios from 'axios';
-import makeRequest from '@/api/adham/makeRequest';
+import makeRequest from '@/api/admin/makeRequest';
 import { isNull } from 'lodash';
 
 const state = () => {
@@ -137,6 +137,7 @@ const actions = {
 };
 
 export default {
+  namespaced: true,
   state,
   getters,
   actions,

@@ -2,8 +2,14 @@
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
+import router from '../../router';
 
 const route = useRoute();
+const query = router.currentRoute.value.query.id
+  ? `?id=${router.currentRoute.value.query.id}`
+  : '';
+console.log({ route });
+console.log({ router });
 const store = useStore();
 const company = computed(() => store.getters.getCompany);
 </script>
@@ -30,52 +36,32 @@ const company = computed(() => store.getters.getCompany);
       </div>
       <div class="p-5 border-t border-gray-200 dark:border-dark-5">
         <RouterLink
-          to="/dashboard/company"
+          :to="`/admin/company/form${query}`"
           class="flex items-center"
-          :class="{
-            'text-theme-1 dark:text-theme-10 font-medium':
-              route.path == '/dashboard/company'
-          }"
         >
           <SettingsIcon class="w-4 h-4 mr-2" /> Company Information
         </RouterLink>
         <RouterLink
           class="flex items-center mt-5"
-          :class="{
-            'text-theme-1 dark:text-theme-10 font-medium':
-              route.path == '/dashboard/company/square'
-          }"
-          to="/dashboard/company/square"
+          :to="`/admin/company/form/square${query}`"
         >
           <BoxIcon class="w-4 h-4 mr-2" /> Square
         </RouterLink>
         <RouterLink
           class="flex items-center mt-5"
-          :class="{
-            'text-theme-1 dark:text-theme-10 font-medium':
-              route.path == '/dashboard/company/banking'
-          }"
-          to="/dashboard/company/banking"
+          :to="`/admin/company/form/banking${query}`"
         >
           <CreditCardIcon class="w-4 h-4 mr-2" /> Banking Information
         </RouterLink>
         <RouterLink
           class="flex items-center mt-5"
-          :class="{
-            'text-theme-1 dark:text-theme-10 font-medium':
-              route.path == '/dashboard/company/tariffs'
-          }"
-          to="/dashboard/company/tariffs"
+          :to="`/admin/company/form/tariffs${query}`"
         >
           <ActivityIcon class="w-4 h-4 mr-2" /> Tariffs
         </RouterLink>
         <RouterLink
           class="flex items-center mt-5"
-          :class="{
-            'text-theme-1 dark:text-theme-10 font-medium':
-              route.path == '/dashboard/company/app-images'
-          }"
-          to="/dashboard/company/app-images"
+          :to="`/admin/company/form/app-images${query}`"
         >
           <ImageIcon class="w-4 h-4 mr-2" /> Mobile App Images
         </RouterLink>
@@ -83,3 +69,9 @@ const company = computed(() => store.getters.getCompany);
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+.router-link-exact-active {
+  @apply text-theme-1 dark:text-theme-10 font-medium;
+}
+</style>

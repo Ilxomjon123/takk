@@ -5,16 +5,13 @@ import Toastify from 'toastify-js';
 import CafeMenu from './CafeMenu.vue';
 import CafeInformation from './CafeInformation.vue';
 import { computed, nextTick, onMounted, ref } from 'vue';
-import { storeCafe } from '@/api/adham';
+import { storeCafe } from '@/api/admin';
 import store from '@/store';
 
 const router = useRouter();
 const formFields = ref({
   location: {
-    coordinates: [
-      35.1234,
-      -95.1234
-    ]
+    coordinates: [35.1234, -95.1234]
   },
   country: null,
   state: null,
@@ -29,16 +26,18 @@ const formFields = ref({
   photos: []
 });
 const externalErrors = ref({});
-const selectedCompanyId = computed(() => store.getters['getAdminSelectedCompanyID'])
+const selectedCompanyId = computed(
+  () => store.getters['getAdminSelectedCompanyID']
+);
 
 onMounted(() => {
-  selectedCompanyId.value === 0 && showCompanySelectModal()
-})
+  selectedCompanyId.value === 0 && showCompanySelectModal();
+});
 
 async function submit(formData) {
   store.commit('setLoadingStatus', true);
   // isLoading.value = true
-  externalErrors.value = {}
+  externalErrors.value = {};
 
   try {
     const res1 = await storeCafe({ ...formData, company: selectedCompanyId });
@@ -47,7 +46,7 @@ async function submit(formData) {
       node: cash('#success-notification-content')
         .clone()
         .removeClass('hidden')[0],
-      duration: 3000,
+      duration: 3000
     }).showToast();
     router.push('/dashboard/cafe/' + res1.id);
   } catch (error) {
@@ -67,7 +66,7 @@ function invalidSubmit() {
     node: cash('#failed-notification-content')
       .clone()
       .removeClass('hidden')[0],
-    duration: 3000,
+    duration: 3000
   }).showToast();
 }
 
@@ -85,7 +84,11 @@ function showCompanySelectModal() {
     <div class="grid grid-cols-12 gap-6">
       <CafeMenu :form-data="formFields" :external-errors="externalErrors" />
       <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
-        <CafeInformation :form-data="formFields" @update:form-data="submit($event)" :external-errors="externalErrors" />
+        <CafeInformation
+          :form-data="formFields"
+          @update:form-data="submit($event)"
+          :external-errors="externalErrors"
+        />
       </div>
     </div>
   </div>

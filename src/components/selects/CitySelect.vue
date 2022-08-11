@@ -15,8 +15,8 @@ const selectedCity = computed({
     return Number(props.modelValue);
   },
   set: val => {
-    emit('update:modelValue', val);
-    setSelectedCity(val);
+    emit('update:modelValue', Number(val));
+    setSelectedCity(Number(val));
   }
 });
 </script>

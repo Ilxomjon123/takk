@@ -1,4 +1,4 @@
-import makeRequest from '@/api/adham/makeRequest.js';
+import makeRequest from '@/api/admin/makeRequest.js';
 import axios from 'axios';
 
 const state = () => {

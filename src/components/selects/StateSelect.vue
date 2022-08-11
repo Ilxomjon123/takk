@@ -15,18 +15,14 @@ const selectedState = computed({
     return Number(props.modelValue);
   },
   set: async val => {
-    emit('update:modelValue', Number(val));
-    // await setSelectedState(Number(val));
+    if (!isNaN(Number(val))) emit('update:modelValue', Number(val));
   }
 });
 
 watch(
   () => props.modelValue,
   async (newVal, oldVal) => {
-    if (Number(newVal)) {
-      // emit('update:modelValue', Number(newVal));
-      await setSelectedState(Number(newVal));
-    }
+    if (!isNaN(Number(newVal))) await setSelectedState(Number(newVal));
   },
   { deep: true, immediate: true }
 );

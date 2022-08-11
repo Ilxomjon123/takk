@@ -8,8 +8,6 @@ import ErrorNotification from '@/components/notifications/ErrorNotification.vue'
 import StateSelect from '@/components/selects/StateSelect.vue';
 import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 import TelInput from '../../../components/forms/TelInput.vue';
-import CompanyCard from '../../../components/cards/CompanyCard.vue';
-import useCountries from '../../../features/useCountries';
 
 const image = ref(null)
 const isLoading = ref(false)
@@ -20,30 +18,6 @@ const errorNotification = ref(null);
 const getCompany = computed(() => store.getters["getCompany"])
 if(getCompany.value.cashback_percent == null) getCompany.value.cashback_percent = 10;
 const globalLoading = computed(() => store.state.common.loadingStatus)
-
-const {
-  setSelectedState,
-  setSelectedCountry,
-} = useCountries();
-
-
-onMounted(async () => {
-  // store.commit('setLoadingStatus', true);
-  // await store.dispatch('fetchCompany');
-  // getCompany.value = store.getters["getCompany"]
-  // console.log(getCompany.value);
-  if (getCompany.value?.country) {
-    // console.log('country: ', getCompany.value.country);
-    setSelectedCountry(getCompany.value.country)
-  }
-
-  if (getCompany.value?.state) {
-    // console.log('state: ', getCompany.value.state);
-    setSelectedState(getCompany.value.state)
-  }
-
-  // store.commit('setLoadingStatus', false);
-});
 
 async function submit() {
   isLoading.value = true;

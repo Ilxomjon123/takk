@@ -2,7 +2,6 @@
 import Login from '../views/login/Main.vue';
 import DashboardMain from '../views/dashboard/Main.vue';
 import AdminMain from '../views/admin/Main.vue';
-import Entry from '../views/steps/Entry.vue';
 import SquareUp from '../views/steps/SquareUp.vue';
 import ErrorPage from '../views/error/index.vue';
 import Home from '../views/home/index.vue';
@@ -17,27 +16,9 @@ import AppLayout from '../layouts/app-layout/index.vue';
 import DashboardLayout from '../layouts/dashboard/Main.vue';
 import AdminLayout from '../layouts/admin/Main.vue';
 import CompanyLayout from '../layouts/dashboard/company/Main.vue';
+import AdminCompanyLayout from '../layouts/admin/company/Main.vue';
 import CustomLayout from '../layouts/dashboard/Custom.vue';
 import EntryLayout from '../layouts/entry/Main.vue';
-// import CafeDataList from '../views/dashboard/cafes/index.vue';
-// import CafeAdd from '../views/dashboard/cafes/AddForm.vue';
-// import CafeEdit from '../views/dashboard/cafes/EditForm.vue';
-// import Company from '../views/dashboard/company/Main.vue';
-// import Customer from '../views/dashboard/customer/Main.vue';
-// import Transaction from '../views/dashboard/transactions/Main.vue';
-// import Profile from '../views/profile/Main.vue';
-// import Employees from '../views/dashboard/employees/Main.vue';
-// import AddNewEmployee from '../views/dashboard/employees/AddNew.vue';
-// import AddExistEmployee from '../views/dashboard/employees/AddExist.vue';
-// import EditEmployee from '../views/dashboard/employees/Edit.vue';
-// import Categories from '../views/dashboard/categories/Main.vue';
-// import AddCategory from '../views/dashboard/categories/Add.vue';
-// import EditCategory from '../views/dashboard/categories/Edit.vue';
-// import Modifiers from '../views/dashboard/modifiers/Main.vue';
-// import Products from '../views/dashboard/products/index.vue';
-// import ProductAddForm from '../views/dashboard/products/AddForm.vue';
-// import ProductEditForm from '../views/dashboard/products/EditForm.vue';
-// import Chat from '../views/dashboard/chat/index.vue';
 
 const routes = [
   {
@@ -111,32 +92,43 @@ const routes = [
       },
       {
         path: 'company',
-        component: CompanyLayout,
         children: [
           {
             path: '',
             name: 'admin-company',
-            component: () => import('../views/admin/company/Main.vue')
+            component: () => import('../views/admin/company/index.vue')
           },
           {
-            path: 'banking',
-            name: 'admin-banking',
-            component: () => import('../views/admin/company/Banking.vue')
-          },
-          {
-            path: 'app-images',
-            name: 'admin-app-images',
-            component: () => import('../views/admin/company/AppImage.vue')
-          },
-          {
-            path: 'square',
-            name: 'admin-square',
-            component: () => import('../views/admin/company/Square.vue')
-          },
-          {
-            path: 'tariffs',
-            name: 'admin-tariffs',
-            component: () => import('../views/admin/company/Tariffs.vue')
+            path: 'form',
+            component: AdminCompanyLayout,
+            children: [
+              {
+                path: '',
+                name: 'admin-company-form',
+                component: () =>
+                  import('../views/admin/company/CompanyForm.vue')
+              },
+              {
+                path: 'banking',
+                name: 'admin-company-banking',
+                component: () => import('../views/admin/company/Banking.vue')
+              },
+              {
+                path: 'app-images',
+                name: 'admin-company-app-images',
+                component: () => import('../views/admin/company/AppImage.vue')
+              },
+              {
+                path: 'square',
+                name: 'admin-company-square',
+                component: () => import('../views/admin/company/Square.vue')
+              },
+              {
+                path: 'tariffs',
+                name: 'admin-company-tariffs',
+                component: () => import('../views/admin/company/Tariffs.vue')
+              }
+            ]
           }
         ]
       },

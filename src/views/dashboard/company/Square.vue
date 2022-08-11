@@ -1,27 +1,12 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
 import store from '@/store';
-import SquareCafeForm from '../../../components/forms/cafes/SquareCafeForm.vue';
 import SquareIntegrate from '../../../components/cards/SquareIntegrate.vue';
 import SquareCafeList from '../../../components/lists/SquareCafeList.vue';
-const isLoading = ref(false)
-const getCompany = computed(() => store.getters["getCompany"])
-const globalLoading = computed(() => store.state.common.loadingStatus)
-// const loading = ref(false);
-// function synchSquare(){
-//   // store.commit('setLoadingStatus', true);
-//   loading.value = true;
-//   store.dispatch('syncSquare').then(()=>{
-//     loading.value = false;
-//     // store.commit('setLoadingStatus', false);
-//   });
-// }
-// onMounted(async () => {
-//   store.commit('setLoadingStatus', true);
-//   await store.dispatch('fetchCompany');
-//   store.commit('setLoadingStatus', false);
-// });
 
+const getCompany = computed(() => store.getters["getCompany"])
+const isLoading = ref(false)
+const globalLoading = computed(() => store.state.common.loadingStatus)
 </script>
 
 <template>

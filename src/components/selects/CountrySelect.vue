@@ -16,11 +16,10 @@ const { setSelectedCountry, countriesList, getCountries } = useCountries();
 
 const selectedCountry = computed({
   get: () => {
-    return props.modelValue || 236;
+    return Number(props.modelValue) || 236;
   },
   set: async val => {
-    emit('update:modelValue', val);
-    // await setSelectedCountry(val);
+    if (!isNaN(Number(val))) emit('update:modelValue', Number(val));
   }
 });
 
@@ -29,7 +28,7 @@ getCountries();
 watch(
   () => selectedCountry.value,
   async (newVal, oldVal) => {
-    !isNaN(newVal) && (await setSelectedCountry(newVal));
+    if (!isNaN(Number(newVal))) await setSelectedCountry(Number(newVal));
   },
   { deep: true, immediate: true }
 );

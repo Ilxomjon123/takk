@@ -21,6 +21,7 @@ router.beforeEach((to, from, next) => {
     ?.token;
   const is_superuser = JSON.parse(localStorage.getItem('required_details'))
     ?.user?.is_superuser;
+
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!accessToken) {
       next({ path: '/login' });

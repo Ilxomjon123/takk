@@ -16,7 +16,7 @@ import {
   updateCafe,
   deleteCafe,
   deleteCafeImage
-} from '@/api/adham';
+} from '@/api/admin';
 import router from '@/router';
 import Toastify from 'toastify-js';
 
