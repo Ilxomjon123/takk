@@ -1,17 +1,55 @@
 <script setup>
 import { useStore } from 'vuex';
-import { useRoute } from 'vue-router';
-import { computed } from 'vue';
-import router from '../../router';
+import { computed, watch } from 'vue';
+import router from '@/router';
+import useCompany from '@/features/useCompany';
+import { fetchCompanyById } from '@/api/admin';
+import ConfirmModal from '../modals/ConfirmModal.vue';
+import cash from 'cash-dom';
+import { updateCompanyById } from '../../api/admin';
 
-const route = useRoute();
+// const props = defineProps({
+//   company: {
+//     type: Object,
+//     default: () => {}
+//   }
+// });
+
+const { getSelected, setSelected } = useCompany();
+const company = computed(() => getSelected.value);
+const queryID = router.currentRoute.value?.query?.id ?? null;
 const query = router.currentRoute.value.query.id
   ? `?id=${router.currentRoute.value.query.id}`
   : '';
-console.log({ route });
-console.log({ router });
+
 const store = useStore();
-const company = computed(() => store.getters.getCompany);
+// const company = computed(() => store.getters.getCompany);
+
+watch(
+  () => company.value,
+  async newVal => {
+    console.log('newVal: ', newVal);
+    if (!newVal && queryID) {
+      const res = await fetchCompanyById(queryID);
+      setSelected(res);
+      console.log('newVal in IF statement: ', company.value);
+    }
+  },
+  { deep: true, immediate: true }
+);
+
+async function toggleStatus() {
+  console.log('ok');
+  const res = await updateCompanyById(company.value.id, {
+    name: company.value.name,
+    is_activate: !company.value.is_activate
+  });
+  setSelected(res);
+}
+
+function showConfirmModal() {
+  cash('#confirm-modal').modal('show');
+}
 </script>
 
 <template>
@@ -28,9 +66,9 @@ const company = computed(() => store.getters.getCompany);
         <div>
           <div
             class="font-medium text-base"
-            :class="company?.status ? 'text-theme-9' : 'text-theme-6'"
+            :class="company?.is_activate ? 'text-theme-9' : 'text-theme-6'"
           >
-            {{ company?.status ? 'Active' : 'Not Active' }}
+            {{ company?.is_activate ? 'Active' : 'Not Active' }}
           </div>
         </div>
       </div>
@@ -65,8 +103,18 @@ const company = computed(() => store.getters.getCompany);
         >
           <ImageIcon class="w-4 h-4 mr-2" /> Mobile App Images
         </RouterLink>
+        <a
+          class="flex items-center mt-5"
+          href="javascript:;"
+          :class="company?.is_activate ? 'text-theme-6' : 'text-theme-9'"
+          @click="showConfirmModal"
+        >
+          <ImageIcon class="w-4 h-4 mr-2" />
+          {{ company?.is_activate ? 'Inactivate' : 'Activate' }}
+        </a>
       </div>
     </div>
+    <ConfirmModal @confirm="toggleStatus()" />
   </div>
 </template>
 

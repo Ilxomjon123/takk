@@ -4,7 +4,9 @@ import { useRouter } from 'vue-router';
 import { fetchCompanyList } from '@/api/admin';
 import store from '@/store';
 import CompanyCard from './CompanyCard.vue';
+import useCompany from '@/features/useCompany';
 
+const { setSelected } = useCompany();
 const router = useRouter();
 const list = ref([]);
 const selectedCompanyId = computed(
@@ -26,11 +28,12 @@ async function fetchData() {
   store.commit('setLoadingStatus', false);
 }
 
-function gotoForm(id) {
+function gotoForm(company = null) {
   store.commit('setLoadingStatus', true);
+  setSelected(company);
 
-  if (id) {
-    router.push(`/admin/company/form?id=${id}`);
+  if (company) {
+    router.push(`/admin/company/form?id=${company.id}`);
   } else {
     router.push(`/admin/company/form`);
   }
@@ -45,7 +48,7 @@ function gotoForm(id) {
       <h2 class="text-lg font-medium">Company List</h2>
       <div class="w-full sm:w-auto flex ml-2 sm:mt-0">
         <div class="intro-y flex flex-wrap sm:flex-nowrap items-center">
-          <button class="btn btn-primary shadow-md" @click="gotoForm(null)">
+          <button class="btn btn-primary shadow-md" @click="gotoForm()">
             <PlusIcon class="h-4 w-4 mr-3" />
             Add New Company
           </button>
@@ -63,7 +66,7 @@ function gotoForm(id) {
             v-for="(company, index) in list"
             :key="index"
             :company="company"
-            @click="gotoForm(company.id)"
+            @click="gotoForm(company)"
             class="cafe_item"
           />
         </div>

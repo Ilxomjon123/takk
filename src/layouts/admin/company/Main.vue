@@ -1,13 +1,5 @@
 <script setup>
-import { onMounted } from 'vue';
-import { useStore } from 'vuex';
 import AdminCompanyCard from '@/components/cards/AdminCompanyCard.vue';
-
-const store = useStore();
-
-// onMounted(() => {
-//   store.dispatch('fetchCompany');
-// });
 </script>
 
 <template>

@@ -16,15 +16,15 @@ const image = ref(null);
 const isLoading = ref(false);
 const errors = ref(null);
 
-const queryId = router.currentRoute.value?.query?.id ?? null;
+const queryID = router.currentRoute.value?.query?.id ?? null;
 const companyData = reactive({});
 
 const globalLoading = computed(() => store.state.common.loadingStatus);
 
 onMounted(async () => {
-  console.log('route query id: ', queryId);
-  if (queryId) {
-    const res = await fetchCompanyById(queryId);
+  console.log('route query id: ', queryID);
+  if (queryID) {
+    const res = await fetchCompanyById(queryID);
     Object.assign(companyData, res);
   }
 
