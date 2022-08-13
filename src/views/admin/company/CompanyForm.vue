@@ -2,6 +2,7 @@
 import { computed, onMounted, reactive, ref } from 'vue';
 import Toastify from 'toastify-js';
 import cash from 'cash-dom';
+import { isEmpty } from 'lodash';
 
 import store from '@/store';
 import CountrySelect from '@/components/selects/CountrySelect.vue';
@@ -9,27 +10,25 @@ import CitySelect from '@/components/selects/CitySelect.vue';
 import StateSelect from '@/components/selects/StateSelect.vue';
 import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 import TelInput from '@/components/forms/TelInput.vue';
-import { fetchCompanyById } from '@/api/admin';
-import router from '@/router';
+import {
+  createCompany,
+  fetchCompanyById,
+  updateCompanyById
+} from '@/api/admin';
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
 const image = ref(null);
 const isLoading = ref(false);
 const errors = ref(null);
-
-const queryID = router.currentRoute.value?.query?.id ?? null;
-const companyData = reactive({});
+const queryID = route.query?.id ?? null;
+const companyData = reactive({
+  // country: 236
+});
 
 const globalLoading = computed(() => store.state.common.loadingStatus);
 
-onMounted(async () => {
-  console.log('route query id: ', queryID);
-  if (queryID) {
-    const res = await fetchCompanyById(queryID);
-    Object.assign(companyData, res);
-  }
-
-  if (!companyData.cashback_percent) companyData.cashback_percent = 10;
-});
+await fetchData();
 
 async function submit() {
   try {
@@ -55,8 +54,14 @@ async function submit() {
     formData.append('pub_show_like', companyData.pub_show_like);
     formData.append('about', companyData.about);
 
-    const res = await updateCompanyById(companyData.id, formData);
+    const res = companyData.id
+      ? await updateCompanyById(companyData.id, formData)
+      : createCompany(formData);
     Object.assign(companyData, res);
+
+    if (isEmpty(companyData.country)) companyData.country = 236;
+    if (isEmpty(companyData.cashback_percent))
+      companyData.cashback_percent = 10;
 
     Toastify({
       node: cash('#success-notification-content')
@@ -78,6 +83,17 @@ async function submit() {
 
 function getError(key) {
   return errors.value && errors.value[key]?.[0];
+}
+
+async function fetchData() {
+  console.log('route query id: ', queryID);
+  if (queryID) {
+    const res = await fetchCompanyById(queryID);
+    Object.assign(companyData, res);
+    if (isEmpty(companyData.country)) companyData.country = 236;
+    if (isEmpty(companyData.cashback_percent))
+      companyData.cashback_percent = 10;
+  }
 }
 </script>
 

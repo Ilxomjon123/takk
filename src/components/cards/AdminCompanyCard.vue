@@ -7,6 +7,7 @@ import { fetchCompanyById } from '@/api/admin';
 import ConfirmModal from '../modals/ConfirmModal.vue';
 import cash from 'cash-dom';
 import { updateCompanyById } from '../../api/admin';
+import Toastify from 'toastify-js';
 
 // const props = defineProps({
 //   company: {
@@ -39,12 +40,19 @@ watch(
 );
 
 async function toggleStatus() {
-  console.log('ok');
-  const res = await updateCompanyById(company.value.id, {
-    name: company.value.name,
-    is_activate: !company.value.is_activate
-  });
-  setSelected(res);
+  try {
+    const res = await updateCompanyById(company.value.id, {
+      name: company.value.name,
+      is_activate: !company.value.is_activate
+    });
+    setSelected(res);
+  } catch (error) {
+    Toastify({
+      node: cash('#error-notification-content')
+        .clone()
+        .removeClass('hidden')[0]
+    }).showToast();
+  }
 }
 
 function showConfirmModal() {
@@ -60,7 +68,7 @@ function showConfirmModal() {
       <div class="relative flex items-center p-5">
         <div class="mr-auto">
           <div class="font-medium text-base">
-            {{ company?.name }}
+            {{ company?.name || '...' }}
           </div>
         </div>
         <div>
@@ -68,7 +76,9 @@ function showConfirmModal() {
             class="font-medium text-base"
             :class="company?.is_activate ? 'text-theme-9' : 'text-theme-6'"
           >
-            {{ company?.is_activate ? 'Active' : 'Not Active' }}
+            <span v-if="company?.id">
+              {{ company?.is_activate ? 'Active' : 'Not Active' }}
+            </span>
           </div>
         </div>
       </div>
@@ -103,18 +113,25 @@ function showConfirmModal() {
         >
           <ImageIcon class="w-4 h-4 mr-2" /> Mobile App Images
         </RouterLink>
-        <a
-          class="flex items-center mt-5"
+      </div>
+      <hr class="dark:border-dark-5 my-3" />
+      <div class="p-5">
+        <button
+          v-if="company?.id"
+          class="btn"
           href="javascript:;"
-          :class="company?.is_activate ? 'text-theme-6' : 'text-theme-9'"
+          :class="company?.is_activate ? 'btn-danger' : 'btn-success'"
           @click="showConfirmModal"
         >
-          <ImageIcon class="w-4 h-4 mr-2" />
+          <!-- <ImageIcon class="w-4 h-4 mr-2" /> -->
           {{ company?.is_activate ? 'Inactivate' : 'Activate' }}
-        </a>
+        </button>
       </div>
     </div>
-    <ConfirmModal @confirm="toggleStatus()" />
+    <ConfirmModal
+      @confirm="toggleStatus()"
+      :ok-color="company?.is_activate ? 'btn-danger' : 'btn-success'"
+    />
   </div>
 </template>
 

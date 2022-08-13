@@ -23,12 +23,15 @@ const selectedCountry = computed({
   }
 });
 
-getCountries();
+await getCountries();
 
 watch(
   () => selectedCountry.value,
   async (newVal, oldVal) => {
-    if (!isNaN(Number(newVal))) await setSelectedCountry(Number(newVal));
+    if (!isNaN(Number(newVal))) {
+      await setSelectedCountry(Number(newVal));
+      emit('update:modelValue', Number(newVal));
+    }
   },
   { deep: true, immediate: true }
 );

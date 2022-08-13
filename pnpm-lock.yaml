@@ -17,6 +17,8 @@ specifiers:
   '@left4code/tw-starter': ^1.1.0
   '@popperjs/core': ^2.7.0
   '@types/leaflet': ^1.7.11
+  '@types/lodash': ^4.14.182
+  '@types/toastify-js': ^1.11.1
   '@types/vue-select': ^3.16.0
   '@vitejs/plugin-vue': ^3.0.1
   '@vue-leaflet/vue-leaflet': ^0.6.1
@@ -120,6 +122,8 @@ dependencies:
 
 devDependencies:
   '@types/leaflet': 1.7.11
+  '@types/lodash': 4.14.182
+  '@types/toastify-js': 1.11.1
   '@types/vue-select': 3.16.1
   '@vitejs/plugin-vue': 3.0.1_vite@3.0.4+vue@3.2.37
   autoprefixer: 10.4.8_postcss@8.4.14
@@ -683,7 +687,10 @@ packages:
 
   /@types/lodash/4.14.182:
     resolution: {integrity: sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==}
-    dev: false
+
+  /@types/toastify-js/1.11.1:
+    resolution: {integrity: sha512-Ef03kGFWseAQYIQwN83WbhRxD+DOd+X6p22j9olA/TnvE0crDMc3fyoctKSpXgEDVWq5l3p98otIdpNX1pOYMA==}
+    dev: true
 
   /@types/vue-select/3.16.1:
     resolution: {integrity: sha512-8gh1Lti+I20hTs4m8oZtSs8s9ghA6E9pmvxw0VtYkZm5HEhG2+YorpXrxqfu+Wb+pijxjyTcV8d0HK+FqdNxLQ==}

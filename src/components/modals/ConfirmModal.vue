@@ -17,6 +17,10 @@ const props = defineProps({
   iconClass: {
     type: String,
     default: ''
+  },
+  okColor: {
+    type: String,
+    default: 'btn-danger'
   }
 });
 
@@ -68,7 +72,7 @@ function showModal() {
             </button>
             <button
               type="button"
-              class="btn btn-danger w-24"
+              :class="['btn w-24', okColor]"
               data-dismiss="modal"
               @click="emits('confirm')"
             >
