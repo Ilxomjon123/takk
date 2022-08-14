@@ -6,7 +6,7 @@ import useCompany from '@/features/useCompany';
 import { fetchCompanyById } from '@/api/admin';
 import ConfirmModal from '../modals/ConfirmModal.vue';
 import cash from 'cash-dom';
-import { updateCompanyById } from '../../api/admin';
+import { updateCompanyById } from '@/api/admin';
 import Toastify from 'toastify-js';
 
 // const props = defineProps({

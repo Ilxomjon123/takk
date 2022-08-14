@@ -1,18 +1,17 @@
 <script setup>
-import { ref } from 'vue';
-import MenuList from '@/components/lists/MenuList.vue';
-import CategoryList from '@/components/lists/CategoryList.vue';
+import AdminMenuList from '@/components/lists/AdminMenuList.vue';
+import AdminCategoryList from './AdminCategoryList.vue';
 </script>
 
 <template>
   <div>
     <!-- Menu List start -->
-    <MenuList
+    <AdminMenuList
       sub-item-title="Categories"
       sub-item-value="product_category_count"
     />
     <!-- Menu List end -->
 
-    <CategoryList />
+    <AdminCategoryList />
   </div>
 </template>

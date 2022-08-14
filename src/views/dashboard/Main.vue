@@ -1,11 +1,9 @@
 <script setup>
-import YearStatisticChart from '../../components/charts/YearStatisticChart.vue'
-import WeekStatisticChart from '../../components/charts/WeekStatisticChart.vue'
-import StatisticsCustomers from '../../components/lists/StatisticsCustomers.vue';
-import StatisticsProducts from '../../components/lists/StatisticsProducts.vue';
-
+import YearStatisticChart from '@/components/charts/YearStatisticChart.vue';
+import WeekStatisticChart from '@/components/charts/WeekStatisticChart.vue';
+import StatisticsCustomers from '@/components/lists/StatisticsCustomers.vue';
+import StatisticsProducts from '@/components/lists/StatisticsProducts.vue';
 </script>
-
 
 <template>
   <div>
@@ -21,8 +19,7 @@ import StatisticsProducts from '../../components/lists/StatisticsProducts.vue';
             <h2 class="font-medium text-base mr-auto">Sales Overview</h2>
             <div
               class="w-full sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0"
-            >
-              </div>
+            ></div>
           </div>
           <div id="vertical-bar-chart" class="p-5">
             <div class="preview">
@@ -39,14 +36,12 @@ import StatisticsProducts from '../../components/lists/StatisticsProducts.vue';
             <h2 class="font-medium text-base mr-auto">Sales Overview</h2>
             <div
               class="w-full sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0"
-            >
-              </div>
+            ></div>
           </div>
           <div id="horizontal-bar-chart" class="p-5">
             <div class="preview">
               <WeekStatisticChart />
             </div>
-
           </div>
         </div>
       </div>
@@ -58,13 +53,12 @@ import StatisticsProducts from '../../components/lists/StatisticsProducts.vue';
             <h2 class="font-medium text-base mr-auto">Most sold Products</h2>
             <div
               class="w-full sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0"
-            >
-              </div>
+            ></div>
           </div>
           <div id="vertical-bar-chart" class="p-5">
             <div class="preview">
               <StatisticsProducts />
-              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -76,8 +70,7 @@ import StatisticsProducts from '../../components/lists/StatisticsProducts.vue';
             <h2 class="font-medium text-base mr-auto">Best Customers</h2>
             <div
               class="w-full sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0"
-            >
-              </div>
+            ></div>
           </div>
           <div id="horizontal-bar-chart" class="p-5">
             <div class="preview">
@@ -87,7 +80,5 @@ import StatisticsProducts from '../../components/lists/StatisticsProducts.vue';
         </div>
       </div>
     </div>
-
   </div>
 </template>
-

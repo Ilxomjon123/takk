@@ -13,7 +13,9 @@
           id="company-name"
           type="text"
           class="form-control"
-          :class="getError('name') != null ? 'border-theme-6' : 'border-gray-300'"
+          :class="
+            getError('name') != null ? 'border-theme-6' : 'border-gray-300'
+          "
           placeholder="Company Name"
           v-model="company.name"
           required
@@ -26,7 +28,9 @@
           id="phone"
           type="text"
           class="form-control"
-          :class="getError('phone') != null ? 'border-theme-6' : 'border-gray-300'"
+          :class="
+            getError('phone') != null ? 'border-theme-6' : 'border-gray-300'
+          "
           placeholder="Phone"
           v-model="company.phone"
         />
@@ -40,7 +44,9 @@
           id="company-email"
           type="email"
           class="form-control"
-          :class="getError('email') != null ? 'border-theme-6' : 'border-gray-300'"
+          :class="
+            getError('email') != null ? 'border-theme-6' : 'border-gray-300'
+          "
           placeholder="Email"
           v-model="company.email"
         />
@@ -52,7 +58,9 @@
           id="website"
           type="text"
           class="form-control"
-          :class="getError('website') != null ? 'border-theme-6' : 'border-gray-300'"
+          :class="
+            getError('website') != null ? 'border-theme-6' : 'border-gray-300'
+          "
           placeholder="https://example.com"
           v-model="company.website"
         />
@@ -63,7 +71,9 @@
       <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
         <label class="form-label">Country</label>
         <CountrySelect
-          :class="getError('country') != null ? 'border-theme-6' : 'border-gray-300'"
+          :class="
+            getError('country') != null ? 'border-theme-6' : 'border-gray-300'
+          "
           v-model="company.country"
         />
         <div class="text-theme-6 mt-2" v-text="getError('country')" />
@@ -71,7 +81,9 @@
       <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
         <label class="form-label">City</label>
         <CitySelect
-          :class="getError('city') != null ? 'border-theme-6' : 'border-gray-300'"
+          :class="
+            getError('city') != null ? 'border-theme-6' : 'border-gray-300'
+          "
           v-model="company.city"
         />
         <div class="text-theme-6 mt-2" v-text="getError('city')" />
@@ -84,7 +96,11 @@
           id="postal-code"
           type="number"
           class="form-control"
-          :class="getError('postal_code') != null ? 'border-theme-6' : 'border-gray-300'"
+          :class="
+            getError('postal_code') != null
+              ? 'border-theme-6'
+              : 'border-gray-300'
+          "
           placeholder="Postal Code"
           v-model="company.postal_code"
         />
@@ -98,18 +114,26 @@
             id="address"
             type="text"
             class="form-control"
-            :class="getError('address') != null ? 'border-theme-6' : 'border-gray-300'"
+            :class="
+              getError('address') != null ? 'border-theme-6' : 'border-gray-300'
+            "
             placeholder="Address"
             v-model="company.address"
           />
           <div class="text-theme-6" v-text="getError('address')" />
         </div>
-        <label for="second-address" class="form-label">Additional address line</label>
+        <label for="second-address" class="form-label"
+          >Additional address line</label
+        >
         <input
           id="second-address"
           type="text"
           class="form-control"
-          :class="getError('second_address') != null ? 'border-theme-6' : 'border-gray-300'"
+          :class="
+            getError('second_address') != null
+              ? 'border-theme-6'
+              : 'border-gray-300'
+          "
           placeholder="Second Address"
           v-model="company.second_address"
         />
@@ -125,7 +149,11 @@
             id="cashback"
             type="number"
             class="form-control"
-            :class="getError('cashback_percent') != null ? 'border-theme-6' : 'border-gray-300'"
+            :class="
+              getError('cashback_percent') != null
+                ? 'border-theme-6'
+                : 'border-gray-300'
+            "
             min="5"
             max="10"
             maxlength="2"
@@ -159,7 +187,9 @@
             type="checkbox"
             v-model="company.pub_show_like"
           />
-          <label for="show-example-6">Make customer likes/dislikes public</label>
+          <label for="show-example-6"
+            >Make customer likes/dislikes public</label
+          >
         </div>
       </div>
     </div>
@@ -169,7 +199,9 @@
         id="about"
         type="text"
         class="form-control"
-        :class="getError('about') != null ? 'border-theme-6' : 'border-gray-300'"
+        :class="
+          getError('about') != null ? 'border-theme-6' : 'border-gray-300'
+        "
         placeholder="Describe your company"
         v-model="company.about"
       />
@@ -196,9 +228,9 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import CountrySelect from '../../components/selects/CountrySelect.vue'
-import CitySelect from '../../components/selects/CitySelect.vue';
+import { defineComponent } from 'vue';
+import CountrySelect from '@/components/selects/CountrySelect.vue';
+import CitySelect from '@/components/selects/CitySelect.vue';
 import { mapActions } from 'vuex';
 import SuccessNotification from '../notifications/SuccessNotification.vue';
 import ErrorNotification from '../notifications/ErrorNotification.vue';
@@ -209,8 +241,8 @@ export default defineComponent({
       form: {},
       isLoading: false,
       errors: {},
-      successMessage: 'Successfully saved!',
-    }
+      successMessage: 'Successfully saved!'
+    };
   },
   props: {
     company: {
@@ -237,23 +269,28 @@ export default defineComponent({
         this.errors = {};
         // const resp = await this.putStep(this.$store.state.user.STEP_CAFE)
         if (res.status) {
-          this.$refs.successNotification.show()
+          this.$refs.successNotification.show();
           // this.$router.push('/entry/company')
         } else {
-          this.$refs.errorNotification.show()
+          this.$refs.errorNotification.show();
         }
         // this.$router.push('/entry/cafe')
       } else {
         this.errors = res.data;
       }
-      this.isLoading = false
+      this.isLoading = false;
     },
     getError(key) {
       return this.errors[key]?.[0];
     }
   },
-  components: { CountrySelect, CitySelect, SuccessNotification, ErrorNotification }
-})
+  components: {
+    CountrySelect,
+    CitySelect,
+    SuccessNotification,
+    ErrorNotification
+  }
+});
 </script>
 <style scoped>
 /* Chrome, Safari, Edge, Opera */
@@ -266,10 +303,10 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 </style>

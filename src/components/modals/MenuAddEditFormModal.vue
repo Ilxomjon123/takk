@@ -1,44 +1,39 @@
 <script setup>
-import cash from 'cash-dom'
+import cash from 'cash-dom';
 import { isEmpty } from 'lodash';
 import { ref } from 'vue';
-import store from '../../store';
+import store from '@/store';
 
 const props = defineProps({
   item: {
-    type: Object, default: () => { }
+    type: Object,
+    default: () => {}
   }
 });
 
-const emit = defineEmits(['submitted'])
+const emit = defineEmits(['submitted']);
 
-const isLoading = ref(false)
-const errors = ref(null)
+const isLoading = ref(false);
+const errors = ref(null);
 
 async function submit(event) {
-  const nameValue = Object.fromEntries(new FormData(event.target)).menuName
+  const nameValue = Object.fromEntries(new FormData(event.target)).menuName;
   console.log('nameValue: ', nameValue);
 
   isLoading.value = true;
-  let res = null
+  let res = null;
 
   if (!isEmpty(props.item)) {
-    res = await store.dispatch(
-      'putMenu',
-      {
-        id: props.item.id,
-        name: nameValue
-      }
-    );
+    res = await store.dispatch('putMenu', {
+      id: props.item.id,
+      name: nameValue
+    });
   }
 
   if (isEmpty(props.item)) {
-    res = await store.dispatch(
-      'postMenu',
-      {
-        name: nameValue
-      }
-    );
+    res = await store.dispatch('postMenu', {
+      name: nameValue
+    });
   }
 
   if (res.status) {
@@ -54,7 +49,6 @@ async function submit(event) {
 function hideModal() {
   cash('#menu-add-edit-modal').modal('hide');
 }
-
 </script>
 
 <template>
@@ -83,7 +77,9 @@ function hideModal() {
               type="button"
               @click="hideModal"
               class="btn btn-outline-secondary w-24 mr-1"
-            >Cancel</button>
+            >
+              Cancel
+            </button>
             <button type="submit" class="btn btn-primary w-24">
               {{ isLoading ? '' : 'Save' }}
               <LoadingIcon

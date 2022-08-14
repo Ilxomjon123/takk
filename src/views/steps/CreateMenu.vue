@@ -15,12 +15,11 @@
   <ErrorNotification ref="errorNotification" />
 </template>
 
-
 <script>
-import { defineComponent } from 'vue'
-import { mapActions } from 'vuex'
-import MenuForm from '../../components/forms/MenuForm.vue'
-import ErrorNotification from '../../components/notifications/ErrorNotification.vue';
+import { defineComponent } from 'vue';
+import { mapActions } from 'vuex';
+import MenuForm from '@/components/forms/MenuForm.vue';
+import ErrorNotification from '@/components/notifications/ErrorNotification.vue';
 
 export default defineComponent({
   components: { MenuForm, ErrorNotification },
@@ -29,9 +28,9 @@ export default defineComponent({
     async skip() {
       const res = await this.putStep(this.$store.state.user.STEP_DASHBOARD);
       if (res.status) {
-        this.$router.push('/dashboard')
+        this.$router.push('/dashboard');
       } else {
-        this.$refs.errorNotification.show()
+        this.$refs.errorNotification.show();
       }
     }
   }

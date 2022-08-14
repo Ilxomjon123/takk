@@ -3,7 +3,9 @@
     <div>
       <h2 class="intro-y text-lg font-medium mt-10">Transactions List</h2>
       <div class="grid grid-cols-12 gap-6 mt-5">
-        <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
+        <div
+          class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"
+        >
           <ExcelExportButton :form="form" />
           <div class="hidden md:block mx-auto text-gray-600"></div>
           <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
@@ -51,8 +53,12 @@
                 <td v-text="item.state" />
                 <td v-text="new Date(item.updated_dt)" />
                 <td>
-                  <a class="btn btn-primary" data-toggle="modal" data-target="#order-detail-modal"
-                    @click="setOrder(item)">
+                  <a
+                    class="btn btn-primary"
+                    data-toggle="modal"
+                    data-target="#order-detail-modal"
+                    @click="setOrder(item)"
+                  >
                     <EyeIcon class="w-5 h-5" />
                   </a>
                 </td>
@@ -62,7 +68,12 @@
         </div>
         <!-- END: Data List -->
         <!-- BEGIN: Pagination -->
-        <MainPaginator dispatcher="fetchTransactions" @setItems="setItems($event)" ref="paginator" :form="form" />
+        <MainPaginator
+          dispatcher="fetchTransactions"
+          @setItems="setItems($event)"
+          ref="paginator"
+          :form="form"
+        />
         <!-- END: Pagination -->
       </div>
     </div>
@@ -118,10 +129,10 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import MainPaginator from '../../../components/paginator/MainPaginator.vue'
-import ExcelExportButton from '../../../components/buttons/ExcelExportButton.vue'
-import TransactionSearch from '../../../components/forms/TransactionSearch.vue'
+import { defineComponent } from 'vue';
+import MainPaginator from '@/components/paginator/MainPaginator.vue';
+import ExcelExportButton from '@/components/buttons/ExcelExportButton.vue';
+import TransactionSearch from '@/components/forms/TransactionSearch.vue';
 
 export default defineComponent({
   components: { MainPaginator, ExcelExportButton, TransactionSearch },
@@ -131,11 +142,11 @@ export default defineComponent({
       order: {},
       form: {},
       statuses: ['PAID', 'REFUND']
-    }
+    };
   },
   methods: {
     setItems(val) {
-      this.items = val
+      this.items = val;
     },
     async search(form) {
       this.form = form;
@@ -145,7 +156,7 @@ export default defineComponent({
     setOrder(val) {
       this.order = val.order;
       this.order['order_detail'] = val.order_detail;
-    },
+    }
   }
-})
+});
 </script>

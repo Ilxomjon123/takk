@@ -1,18 +1,19 @@
 import axios from 'axios';
 import makeRequest from '@/api/admin/makeRequest';
 import { isNull } from 'lodash';
+import { useStorage } from '@vueuse/core';
 
 const state = () => {
   return {
     menus: [],
-    selectedMenuId: null
+    selectedMenuId: useStorage('selected-productmenu-id', null)
   };
 };
 
 const getters = {
   getMenus: state => state.menus,
-  getSelectedMenuId: state =>
-    state.selectedMenuId || localStorage.getItem('selected-productmenu-id')
+  getSelectedMenuId: state => state.selectedMenuId
+  // state.selectedMenuId || localStorage.getItem('selected-productmenu-id')
 };
 
 const mutations = {
@@ -20,11 +21,12 @@ const mutations = {
     state.menus = payload;
   },
   setSelectedMenuId(state, payload) {
-    if (isNull(payload)) localStorage.removeItem('selected-productmenu-id');
-    else {
-      localStorage.setItem('selected-productmenu-id', payload);
-      state.selectedMenuId = payload;
-    }
+    // if (isNull(payload)) localStorage.removeItem('selected-productmenu-id');
+    // else {
+    //   localStorage.setItem('selected-productmenu-id', payload);
+    //   state.selectedMenuId = payload;
+    // }
+    state.selectedMenuId = payload;
   }
 };
 

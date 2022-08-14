@@ -3,7 +3,7 @@ import { computed, onMounted, ref } from 'vue';
 import store from '@/store';
 import SuccessNotification from '@/components/notifications/SuccessNotification.vue';
 import ErrorNotification from '@/components/notifications/ErrorNotification.vue';
-import SimpleImageUpload from '../../../components/forms/file-upload/SimpleImageUpload.vue';
+import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 
 const isLoading = ref(false);
 const morning = ref(false);

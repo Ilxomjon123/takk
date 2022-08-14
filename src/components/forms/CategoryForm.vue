@@ -29,7 +29,9 @@
             type="button"
             @click="clickInput('avatar-image')"
             class="btn btn-primary w-full"
-          >Change Photo</button>
+          >
+            Change Photo
+          </button>
         </div>
       </div>
     </div>
@@ -47,10 +49,9 @@
             class="form-check-switch"
             type="checkbox"
           />
-          <label
-            class="form-check-label text-base"
-            for="category-available"
-          >Available</label>
+          <label class="form-check-label text-base" for="category-available"
+            >Available</label
+          >
         </div>
       </div>
       <div class="w-full md:w-1/2 px-3 mb-3">
@@ -61,10 +62,9 @@
             class="form-check-switch"
             type="checkbox"
           />
-          <label
-            class="form-check-label text-base"
-            for="kitchen-order"
-          >Kitchen Order</label>
+          <label class="form-check-label text-base" for="kitchen-order"
+            >Kitchen Order</label
+          >
         </div>
       </div>
       <div class="w-full px-3 mb-3">
@@ -73,18 +73,21 @@
           id="name"
           type="text"
           class="form-control"
-          :class="getError('name') != null ? 'border-theme-6' : 'border-gray-300'"
+          :class="
+            getError('name') != null ? 'border-theme-6' : 'border-gray-300'
+          "
           placeholder="Name"
           v-model="category.name"
         />
         <div class="text-theme-6" v-text="getError('name')" />
       </div>
-      <label for="start-time" class="w-full px-3 mb-2">Available Time
-         <Tippy
+      <label for="start-time" class="w-full px-3 mb-2"
+        >Available Time
+        <Tippy
           tag="a"
           href="javascript:;"
           content="If left blank product is always available."
-          >
+        >
           <InfoIcon class="block text-xs" />
         </Tippy>
       </label>
@@ -93,7 +96,9 @@
           id="start-time"
           type="time"
           class="form-control"
-          :class="getError('start') != null ? 'border-theme-6' : 'border-gray-300'"
+          :class="
+            getError('start') != null ? 'border-theme-6' : 'border-gray-300'
+          "
           placeholder="Username"
           v-model="category.start"
         />
@@ -104,7 +109,9 @@
           id="end-time"
           type="time"
           class="form-control"
-          :class="getError('end') != null ? 'border-theme-6' : 'border-gray-300'"
+          :class="
+            getError('end') != null ? 'border-theme-6' : 'border-gray-300'
+          "
           placeholder="Username"
           v-model="category.end"
         />
@@ -124,7 +131,8 @@
             v-for="(item, index) in categoryList"
             :key="index"
             :value="item.id"
-          >{{ item.name }}</option>
+            >{{ item.name }}</option
+          >
         </TomSelect>
         <div class="text-theme-6" v-text="getError('parent')" />
       </div>
@@ -152,110 +160,108 @@
   <ErrorNotification ref="errorNotification" />
 </template>
 
-<script>
-import { defineComponent } from 'vue'
-import { mapActions, mapGetters } from 'vuex';
-import SuccessNotification from '../../components/notifications/SuccessNotification.vue';
-import ErrorNotification from '../../components/notifications/ErrorNotification.vue';
-import { jsonToFormData } from '../../utils/functions'
-export default defineComponent({
-  data() {
-    return {
-      category: {},
-      images: {},
-      isLoading: false,
-      errors: {},
-      successMessage: "Successfully saved!",
-      menuId: null
+<script setup>
+import SuccessNotification from '@/components/notifications/SuccessNotification.vue';
+import ErrorNotification from '@/components/notifications/ErrorNotification.vue';
+import { jsonToFormData } from '@/utils/functions';
+import { computed, onMounted, reactive, ref } from 'vue';
+import store from '@/store';
+import { useRoute, useRouter } from 'vue-router';
+
+const route = useRoute();
+const router = useRouter();
+const props = defineProps({
+  form: {
+    type: Object,
+    default: {
+      image: '/src/assets/images/product_category.jpg'
+    }
+  },
+  isEdit: {
+    type: Boolean,
+    default: false
+  },
+  dispatcher: {
+    type: String,
+    default: 'postCategory'
+  }
+});
+
+const category = reactive({});
+const images = reactive({});
+const errors = reactive({});
+const isLoading = ref(false);
+const successNotification = ref(null);
+const errorNotification = ref(null);
+const menuId = route.params?.menuId ?? null;
+const successMessage = 'Successfully saved!';
+const categories = computed(() => store.getters['getCategories']);
+const categoryList = computed(() =>
+  categories.value.filter(item => item.id != category?.id)
+);
+
+onMounted(async () => {
+  // store.commit('setSelectedMenuId', menuId);
+  Object.assign(category, props.form);
+  await store.dispatch('fetchCategories');
+});
+
+function clickInput(name) {
+  document.getElementById(name).click();
+}
+
+function changeImage(e, name) {
+  images[name] = e.target.files[0];
+  const fileUrl = URL.createObjectURL(e.target.files[0]);
+  category[name] = fileUrl;
+}
+
+function removeAvatar() {
+  images['image'] == null;
+  form.user.image == null;
+}
+
+async function submit() {
+  isLoading.value = true;
+
+  if (category?.parent == 0) {
+    category.parent = null;
+  }
+
+  let formData;
+  const data = { ...category, ...images, menu: menuId };
+
+  if (typeof data.image == 'string') delete data.image;
+
+  if (props.isEdit) {
+    formData = {
+      id: data.id,
+      form: jsonToFormData(data)
     };
-  },
-  computed: {
-    ...mapGetters(['getCategories']),
-    categoryList() {
-      return this.getCategories.filter(item => item.id != this.category?.id)
-    }
-  },
-  props: {
-    form: {
-      type: Object,
-      default: {
-        image: '/src/assets/images/product_category.jpg'
-      },
-    },
-    isEdit: {
-      type: Boolean,
-      default: false
-    },
-    dispatcher: {
-      type: String,
-      default: 'postCategory'
-    }
-  },
-  async created() {
-    this.menuId = this.$route.params.menuId;
-    this.$store.commit('setSelectedMenuId', this.menuId);
-    this.category = this.form;
-    await this.fetchCategories();
-  },
-  methods: {
-    ...mapActions(['fetchCategories']),
+  } else {
+    formData = jsonToFormData(data);
+  }
 
-    // Image part start
-    clickInput(name) {
-      document.getElementById(name).click();
-    },
-    changeImage(e, name) {
-      this.images[name] = e.target.files[0];
-      const fileUrl = URL.createObjectURL(e.target.files[0])
-      this.category[name] = fileUrl;
-    },
-    removeAvatar() {
-      this.images['image'] == null;
-      this.form.user.image == null;
-    },
-    // Image part end
+  const res = await store.dispatch(props.dispatcher, formData);
 
-    async submit() {
-      this.isLoading = true;
-      if (this.category?.parent == 0) {
-        this.category.parent = null;
-      }
-      let formData;
-      const data = { ...this.category, ...this.images, menu: this.menuId };
-      if (typeof data.image == 'string')
-        delete data.image;
-      if (this.isEdit) {
-        formData = {
-          id: data.id,
-          form: jsonToFormData(data),
-        }
-      } else {
-        formData = jsonToFormData(data);
-      }
-      this.errors = {};
+  if (res.status) {
+    Object.assign(errors, {});
+    successNotification.show();
+    router.push('/dashboard/categories');
+  } else {
+    errorNotification.show();
+    Object.assign(errors, res.data);
+  }
+  isLoading.value = false;
+}
 
-      const res = await this.$store.dispatch(this.dispatcher, formData);
-      if (res.status) {
-        this.errors = {};
-        this.$refs.successNotification.show();
-        this.$router.push('/dashboard/categories')
-      }
-      else {
-        this.$refs.errorNotification.show();
-        this.errors = res.data;
-      }
-      this.isLoading = false;
-    },
-    getError(key) {
-      return this.errors[key]?.[0];
-    }
-  },
-  components: { SuccessNotification, ErrorNotification }
-})
+function getError(key) {
+  return errors[key]?.[0];
+}
 </script>
 
 <style>
-input[type="time"]::-webkit-calendar-picker-indicator {
+input[type='time']::-webkit-calendar-picker-indicator {
   filter: invert(100%) sepia(13%) saturate(3207%) hue-rotate(130deg)
     brightness(100%) contrast(80%);
 }

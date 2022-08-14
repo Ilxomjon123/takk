@@ -38,16 +38,16 @@
         <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
           <div class="w-56 relative text-gray-700 dark:text-gray-300">
             <form @submit.prevent="search">
-            <input
-              type="text"
-              v-model="form.search"
-              class="form-control w-56 box pr-10 placeholder-theme-13"
-              placeholder="Search..."
-            />
-            <SearchIcon
-              type="submit"
-              class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0 cursor-pointer"
-            />
+              <input
+                type="text"
+                v-model="form.search"
+                class="form-control w-56 box pr-10 placeholder-theme-13"
+                placeholder="Search..."
+              />
+              <SearchIcon
+                type="submit"
+                class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0 cursor-pointer"
+              />
             </form>
           </div>
         </div>
@@ -101,8 +101,8 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import MainPaginator from '../../../components/paginator/MainPaginator.vue'
+import { defineComponent } from 'vue';
+import MainPaginator from '@/components/paginator/MainPaginator.vue';
 
 export default defineComponent({
   components: { MainPaginator },
@@ -110,15 +110,15 @@ export default defineComponent({
     return {
       items: [],
       form: {}
-    }
+    };
   },
   methods: {
     setItems(val) {
-      this.items = val
+      this.items = val;
     },
     search() {
-      this.$refs.paginator.paginate(1)
+      this.$refs.paginator.paginate(1);
     }
   }
-})
+});
 </script>

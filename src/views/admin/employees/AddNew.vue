@@ -24,15 +24,14 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
-import EmployeeForm from '../../../components/forms/EmployeeForm.vue';
+import EmployeeForm from '@/components/forms/EmployeeForm.vue';
 
 export default defineComponent({
-
   components: { EmployeeForm },
   computed: {
     ...mapGetters(['getLoadingStatus'])
   }
-})
+});
 </script>

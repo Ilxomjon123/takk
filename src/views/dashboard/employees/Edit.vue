@@ -28,9 +28,9 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
 import { mapActions, mapGetters } from 'vuex';
-import EmployeeForm from '../../../components/forms/EmployeeForm.vue';
+import EmployeeForm from '@/components/forms/EmployeeForm.vue';
 
 export default defineComponent({
   components: { EmployeeForm },
@@ -39,7 +39,6 @@ export default defineComponent({
 
     await this.fetchEmployee(this.$route.params.id);
     this.$store.commit('setLoadingStatus', false);
-
   },
   computed: {
     ...mapGetters(['getLoadingStatus', 'getEmployee'])
@@ -47,5 +46,5 @@ export default defineComponent({
   methods: {
     ...mapActions(['fetchEmployee'])
   }
-})
+});
 </script>

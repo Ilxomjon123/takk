@@ -1,3 +1,11 @@
+<script setup>
+import { computed } from 'vue';
+import CategoryForm from './CategoryForm.vue';
+import store from '@/store';
+
+const loadingStatus = computed(() => store.getters['getLoadingStatus']);
+</script>
+
 <template>
   <div>
     <div class="grid grid-cols-12 gap-6">
@@ -6,8 +14,10 @@
       <!-- END: Profile Menu -->
       <div class="col-span-12 lg:col-span-12 2xl:col-span-12">
         <!-- BEGIN: Display Information -->
-        <div class="intro-y box lg:mt-5" v-if="!getLoadingStatus">
-          <div class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
+        <div class="intro-y box lg:mt-5" v-if="!loadingStatus">
+          <div
+            class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5"
+          >
             <h2 class="font-medium text-base mr-auto">Add New Category</h2>
           </div>
           <div class="p-5">
@@ -20,17 +30,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import { defineComponent } from 'vue'
-import { mapGetters } from 'vuex';
-import CategoryForm from '../../../components/forms/CategoryForm.vue';
-
-export default defineComponent({
-
-  components: { CategoryForm },
-  computed: {
-    ...mapGetters(['getLoadingStatus'])
-  }
-})
-</script>

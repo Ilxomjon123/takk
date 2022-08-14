@@ -75,6 +75,8 @@ const routes = [
         component: () => import('../views/admin/chat/index.vue')
       },
       { path: 'test', name: 'admin-test', component: DashboardMain },
+
+      // products
       {
         path: 'products',
         name: 'admin-products',
@@ -89,6 +91,23 @@ const routes = [
         path: 'products/:id',
         name: 'admin-products-edit',
         component: () => import('../views/admin/products/EditForm.vue')
+      },
+
+      // categories
+      {
+        path: 'categories',
+        name: 'admin-categories',
+        component: () => import('../views/admin/categories/Main.vue')
+      },
+      {
+        path: 'categories/add',
+        name: 'admin-categories-add',
+        component: () => import('../views/admin/categories/Add.vue')
+      },
+      {
+        path: 'categories/:id',
+        name: 'admin-categories-edit',
+        component: () => import('../views/admin/categories/Edit.vue')
       },
       {
         path: 'company',
@@ -154,11 +173,7 @@ const routes = [
           }
         ]
       },
-      // {
-      //   path: 'tariffs',
-      //   name: 'admin-tariffs',
-      //   component: () => import('../views/admin/company/Tariffs.vue')
-      // },
+      // profile
       {
         path: 'profile',
         component: CustomLayout,
@@ -170,6 +185,7 @@ const routes = [
           }
         ]
       },
+      // employees
       {
         path: 'employees',
         component: CustomLayout,
@@ -193,27 +209,27 @@ const routes = [
           }
         ]
       },
-      {
-        path: 'categories',
-        component: CustomLayout,
-        children: [
-          {
-            path: '',
-            name: 'admin-categories',
-            component: () => import('../views/admin/categories/Main.vue')
-          },
-          {
-            path: ':menuId/add',
-            name: 'admin-categories-add',
-            component: () => import('../views/admin/categories/Add.vue')
-          },
-          {
-            path: ':menuId/:id',
-            name: 'admin-categories-edit',
-            component: () => import('../views/admin/categories/Edit.vue')
-          }
-        ]
-      },
+      // {
+      //   path: 'categories',
+      //   component: CustomLayout,
+      //   children: [
+      //     {
+      //       path: '',
+      //       name: 'admin-categories',
+      //       component: () => import('../views/admin/categories/Main.vue')
+      //     },
+      //     {
+      //       path: ':menuId/add',
+      //       name: 'admin-categories-add',
+      //       component: () => import('../views/admin/categories/Add.vue')
+      //     },
+      //     {
+      //       path: ':menuId/:id',
+      //       name: 'admin-categories-edit',
+      //       component: () => import('../views/admin/categories/Edit.vue')
+      //     }
+      //   ]
+      // },
       {
         path: 'modifiers',
         component: CustomLayout,

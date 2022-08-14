@@ -1,4 +1,4 @@
-import { tns } from 'tiny-slider/src/tiny-slider'
+import { tns } from 'tiny-slider/src/tiny-slider';
 
 const init = (el, props) => {
   el.tns = tns({
@@ -10,12 +10,12 @@ const init = (el, props) => {
     nav: false,
     speed: 500,
     ...props.options
-  })
-}
+  });
+};
 
 const reInit = el => {
-  el.tns.destroy()
-  el.tns.rebuild()
-}
+  el.tns?.destroy();
+  el.tns?.rebuild();
+};
 
-export { init, reInit }
+export { init, reInit };

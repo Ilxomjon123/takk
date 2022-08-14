@@ -1,35 +1,33 @@
 <script setup>
-import CountrySelect from '@/components/selects/CountrySelect.vue'
+import CountrySelect from '@/components/selects/CountrySelect.vue';
 import CitySelect from '@/components/selects/CitySelect.vue';
 import StateSelect from '../selects/StateSelect.vue';
 import TelInput from './TelInput.vue';
 import { computed, onMounted, ref } from 'vue';
-import store from '../../store';
-import router from '../../router';
-import useCountries from '../../features/useCountries';
+import store from '@/store';
+import router from '@/router';
+import useCountries from '@/features/useCountries';
 
-const { email, phone } = store.getters['getUser']
+const { email, phone } = store.getters['getUser'];
 
 const form = ref({
   email,
   phone: phone.startsWith('+') ? phone : '+' + phone,
   country: '236'
-})
-const isLoading = ref(false)
-const errors = ref({})
-const errorNotification = ref()
-const {
-  countriesList,
-  selectedCountry
-} = useCountries();
-
+});
+const isLoading = ref(false);
+const errors = ref({});
+const errorNotification = ref();
+const { countriesList, selectedCountry } = useCountries();
 
 async function submit() {
   isLoading.value = true;
   errors.value = {};
-  form.value.phone = form.value.phone.replace(/\s+/g, '')
-  const country = countriesList.value.find(item => item.id == selectedCountry.value)
-  form.value.country_code = country['iso_2']
+  form.value.phone = form.value.phone.replace(/\s+/g, '');
+  const country = countriesList.value.find(
+    item => item.id == selectedCountry.value
+  );
+  form.value.country_code = country['iso_2'];
   form.value.cashback_persent = 10;
 
   const res = await store.dispatch('postCompany', form.value);
@@ -37,10 +35,10 @@ async function submit() {
   if (res.status) {
     await goCafe();
   } else {
-    if (res.data?.detail == "You already have a company") await goCafe();
+    if (res.data?.detail == 'You already have a company') await goCafe();
     else errors.value = res.data;
   }
-  isLoading.value = false
+  isLoading.value = false;
 }
 
 function getError(key) {
@@ -49,11 +47,11 @@ function getError(key) {
 
 async function goCafe() {
   errors.value = {};
-  const resp = await store.dispatch('putStep', store.state.user.STEP_CAFE)
+  const resp = await store.dispatch('putStep', store.state.user.STEP_CAFE);
   if (resp.status) {
-    router.push('/entry/cafe')
+    router.push('/entry/cafe');
   } else {
-    errorNotification.value.show()
+    errorNotification.value.show();
   }
 }
 </script>
@@ -66,9 +64,17 @@ async function goCafe() {
           Company Name
           <span class="text-theme-6">*</span>
         </label>
-        <input id="company-name" type="text" class="form-control"
-          :class="getError('name') != null ? 'border-theme-6' : 'border-gray-300'" placeholder="Company Name"
-          v-model="form.name" required />
+        <input
+          id="company-name"
+          type="text"
+          class="form-control"
+          :class="
+            getError('name') != null ? 'border-theme-6' : 'border-gray-300'
+          "
+          placeholder="Company Name"
+          v-model="form.name"
+          required
+        />
         <div class="text-theme-6" v-text="getError('name')" />
       </div>
       <div class="w-full md:w-1/3 px-3 md:mb-0">
@@ -78,17 +84,28 @@ async function goCafe() {
       </div>
       <div class="w-full md:w-1/3 px-3 md:mb-0">
         <label for="company-email" class="form-label">Email</label>
-        <input id="company-email" type="email" class="form-control"
-          :class="getError('email') != null ? 'border-theme-6' : 'border-gray-300'" placeholder="Email"
-          v-model="form.email" />
+        <input
+          id="company-email"
+          type="email"
+          class="form-control"
+          :class="
+            getError('email') != null ? 'border-theme-6' : 'border-gray-300'
+          "
+          placeholder="Email"
+          v-model="form.email"
+        />
         <div class="text-theme-6" v-text="getError('email')" />
       </div>
     </div>
     <div class="flex flex-wrap -mx-3 mb-1">
       <div class="w-full px-3 md:mb-0 md:w-1/3">
         <label class="form-label">Country</label>
-        <CountrySelect :class="getError('country') != null ? 'border-theme-6' : 'border-gray-300'"
-          v-model="form.country" />
+        <CountrySelect
+          :class="
+            getError('country') != null ? 'border-theme-6' : 'border-gray-300'
+          "
+          v-model="form.country"
+        />
         <div class="text-theme-6 mt-2" v-text="getError('country')" />
       </div>
       <div class="w-full px-3 mb-3 md:w-1/3 md:mb-0">
@@ -98,31 +115,60 @@ async function goCafe() {
       </div>
       <div class="w-full px-3 md:mb-0 md:w-1/3">
         <label class="form-label">City</label>
-        <CitySelect :class="getError('city') != null ? 'border-theme-6' : 'border-gray-300'" v-model="form.city" />
+        <CitySelect
+          :class="
+            getError('city') != null ? 'border-theme-6' : 'border-gray-300'
+          "
+          v-model="form.city"
+        />
         <div class="text-theme-6 mt-2" v-text="getError('city')" />
       </div>
     </div>
     <div class="flex flex-wrap -mx-3 mb-3">
       <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
         <label for="postal-code" class="form-label">Postal Code</label>
-        <input id="postal-code" class="form-control"
-          :class="getError('postal_code') != null ? 'border-theme-6' : 'border-gray-300'" placeholder="Postal Code"
-          v-model="form.postal_code" />
+        <input
+          id="postal-code"
+          class="form-control"
+          :class="
+            getError('postal_code') != null
+              ? 'border-theme-6'
+              : 'border-gray-300'
+          "
+          placeholder="Postal Code"
+          v-model="form.postal_code"
+        />
         <div class="text-theme-6" v-text="getError('postal_code')" />
       </div>
       <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
         <label for="address" class="form-label">Address</label>
-        <input id="address" type="text" class="form-control"
-          :class="getError('address') != null ? 'border-theme-6' : 'border-gray-300'" placeholder="Address"
-          v-model="form.address" />
+        <input
+          id="address"
+          type="text"
+          class="form-control"
+          :class="
+            getError('address') != null ? 'border-theme-6' : 'border-gray-300'
+          "
+          placeholder="Address"
+          v-model="form.address"
+        />
         <div class="text-theme-6" v-text="getError('address')" />
       </div>
     </div>
     <div class="text-theme-6 text-center" v-text="errors['detail']" />
     <div>
-      <button type="submit" class="btn btn-primary px-4 block mx-auto mt-8 px-10 align-top" :disabled="isLoading">
+      <button
+        type="submit"
+        class="btn btn-primary px-4 block mx-auto mt-8 px-10 align-top"
+        :disabled="isLoading"
+      >
         {{ isLoading ? '' : 'Next' }}
-        <LoadingIcon v-if="isLoading" icon="three-dots" color="white" class="w-8 h-8 my-2" />
+        <LoadingIcon
+          v-if="isLoading"
+          icon="three-dots"
+          color="white"
+          class="w-8 h-8 my-2"
+        />
       </button>
     </div>
   </form>
@@ -137,7 +183,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 </style>

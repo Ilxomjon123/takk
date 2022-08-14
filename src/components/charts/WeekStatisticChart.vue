@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, ref, watch } from 'vue';
-import store from '../../store';
+import store from '@/store';
 import CafeSelect from '../selects/CafeSelect.vue';
 
 const cafe = ref(0);

@@ -14,8 +14,10 @@ import category from './modules/dashboard/category';
 import modifier from './modules/dashboard/modifier';
 import cafes from './modules/cafes';
 import square from './modules/square';
-import adminCompany from './modules/admin/company';
 import adminCafe from './modules/admin/cafes';
+import adminCategory from './modules/admin/category';
+import adminCompany from './modules/admin/company';
+import adminMenu from './modules/admin/menu';
 
 const store = createStore({
   modules: {
@@ -35,8 +37,10 @@ const store = createStore({
     modifier,
     square,
     // admin
+    adminCafe,
+    adminCategory,
     adminCompany,
-    adminCafe
+    adminMenu
   }
 });
 

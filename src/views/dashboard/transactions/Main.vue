@@ -5,7 +5,7 @@
       <div
         class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"
       >
-      <ExcelExportButton :form="form"/>
+        <ExcelExportButton :form="form" />
         <div class="hidden md:block mx-auto text-gray-600"></div>
         <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
           <div class="w-56 relative text-gray-700 dark:text-gray-300">
@@ -127,10 +127,10 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import MainPaginator from '../../../components/paginator/MainPaginator.vue'
-import ExcelExportButton from '../../../components/buttons/ExcelExportButton.vue'
-import TransactionSearch from '../../../components/forms/TransactionSearch.vue'
+import { defineComponent } from 'vue';
+import MainPaginator from '@/components/paginator/MainPaginator.vue';
+import ExcelExportButton from '@/components/buttons/ExcelExportButton.vue';
+import TransactionSearch from '@/components/forms/TransactionSearch.vue';
 
 export default defineComponent({
   components: { MainPaginator, ExcelExportButton, TransactionSearch },
@@ -140,11 +140,11 @@ export default defineComponent({
       order: {},
       form: {},
       statuses: ['PAID', 'REFUND']
-    }
+    };
   },
   methods: {
     setItems(val) {
-      this.items = val
+      this.items = val;
     },
     async search(form) {
       this.form = form;
@@ -154,7 +154,7 @@ export default defineComponent({
     setOrder(val) {
       this.order = val.order;
       this.order['order_detail'] = val.order_detail;
-    },
+    }
   }
-})
+});
 </script>

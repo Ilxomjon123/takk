@@ -1,8 +1,8 @@
 <script setup>
-import YearStatisticChart from '../../components/charts/YearStatisticChart.vue';
-import WeekStatisticChart from '../../components/charts/WeekStatisticChart.vue';
-import StatisticsCustomers from '../../components/lists/StatisticsCustomers.vue';
-import StatisticsProducts from '../../components/lists/StatisticsProducts.vue';
+import YearStatisticChart from '@/components/charts/YearStatisticChart.vue';
+import WeekStatisticChart from '@/components/charts/WeekStatisticChart.vue';
+import StatisticsCustomers from '@/components/lists/StatisticsCustomers.vue';
+import StatisticsProducts from '@/components/lists/StatisticsProducts.vue';
 </script>
 
 <template>

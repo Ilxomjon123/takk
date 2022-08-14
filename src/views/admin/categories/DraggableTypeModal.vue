@@ -1,35 +1,36 @@
 <script setup>
-import cash from "cash-dom";
-import { ref } from "vue";
-import Draggable from "vuedraggable";
-import { useStore } from "vuex";
+import cash from 'cash-dom';
+import { ref } from 'vue';
+import Draggable from 'vuedraggable';
+import store from '@/store';
 
 const props = defineProps({
   list: Array,
   paginator: Object
 });
-const store = useStore()
 
 const isReordered = ref(false);
 
 async function saveReorderedList() {
-  store.commit('setLoadingStatus', true)
+  store.commit('setLoadingStatus', true);
   try {
     const res = await store.dispatch('updateModifierTypePositions', {
-      obj_type: "product_category",
-      obj_list: props.list.map((item, itemIndex) => ({ id: item.id, position: itemIndex + 1 + (props.paginator?.page - 1) * props.paginator?.limit }))
+      obj_type: 'product_category',
+      obj_list: props.list.map((item, itemIndex) => ({
+        id: item.id,
+        position:
+          itemIndex + 1 + (props.paginator?.page - 1) * props.paginator?.limit
+      }))
     });
 
-    isReordered.value = false
-    cash('#draggable-category-type-modal').modal('hide')
-
+    isReordered.value = false;
+    cash('#draggable-category-type-modal').modal('hide');
   } catch (error) {
     console.log(error);
   } finally {
-    store.commit('setLoadingStatus', false)
+    store.commit('setLoadingStatus', false);
   }
 }
-
 </script>
 
 <template>
@@ -63,14 +64,6 @@ async function saveReorderedList() {
               </li>
             </template>
           </draggable>
-
-          <!-- <div class="flex mt-5">
-            <button
-              class="btn btn-success ml-auto"
-              @click="saveReorderedList"
-              type="button"
-            >Save positions</button>
-          </div>-->
         </div>
         <!-- BEGIN: Modal Footer -->
         <div class="modal-footer text-right">
@@ -78,13 +71,17 @@ async function saveReorderedList() {
             type="button"
             data-dismiss="modal"
             class="btn btn-outline-secondary mr-1"
-          >Cancel</button>
+          >
+            Cancel
+          </button>
           <button
             type="button"
             class="btn btn-primary"
             @click="saveReorderedList"
             :disabled="!isReordered"
-          >Save positions</button>
+          >
+            Save positions
+          </button>
         </div>
         <!-- END: Modal Footer -->
       </div>

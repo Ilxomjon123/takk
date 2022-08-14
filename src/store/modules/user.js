@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setToken } from '../../api';
+import { setToken } from '@/api';
 const REQUIRED_DETAILS = 'required_details';
 
 const state = () => {

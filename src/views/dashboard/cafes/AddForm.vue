@@ -5,8 +5,8 @@ import Toastify from 'toastify-js';
 import CafeMenu from './CafeMenu.vue';
 import CafeInformation from './CafeInformation.vue';
 import { ref } from 'vue';
-import { storeCafe } from '../../../api';
-import store from '../../../store';
+import { storeCafe } from '@/api';
+import store from '@/store';
 
 const router = useRouter();
 const formFields = ref({
@@ -31,7 +31,7 @@ const externalErrors = ref({});
 async function submit(formData) {
   store.commit('setLoadingStatus', true);
   // isLoading.value = true
-  externalErrors.value = {}
+  externalErrors.value = {};
 
   try {
     const res1 = await storeCafe(formData);
@@ -40,7 +40,7 @@ async function submit(formData) {
       node: cash('#success-notification-content')
         .clone()
         .removeClass('hidden')[0],
-      duration: 3000,
+      duration: 3000
     }).showToast();
     router.push('/dashboard/cafe/' + res1.id);
   } catch (error) {
@@ -60,7 +60,7 @@ function invalidSubmit() {
     node: cash('#failed-notification-content')
       .clone()
       .removeClass('hidden')[0],
-    duration: 3000,
+    duration: 3000
   }).showToast();
 }
 </script>
@@ -73,7 +73,11 @@ function invalidSubmit() {
     <div class="grid grid-cols-12 gap-6">
       <CafeMenu :form-data="formFields" :external-errors="externalErrors" />
       <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
-        <CafeInformation :form-data="formFields" @update:form-data="submit($event)" :external-errors="externalErrors" />
+        <CafeInformation
+          :form-data="formFields"
+          @update:form-data="submit($event)"
+          :external-errors="externalErrors"
+        />
       </div>
     </div>
   </div>

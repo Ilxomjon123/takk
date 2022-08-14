@@ -37,25 +37,25 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import CountrySelect from '../../components/selects/CountrySelect.vue'
-import CitySelect from '../../components/selects/CitySelect.vue';
+import { defineComponent } from 'vue';
+import CountrySelect from '@/components/selects/CountrySelect.vue';
+import CitySelect from '@/components/selects/CitySelect.vue';
 import { mapActions, mapGetters } from 'vuex';
 
 export default defineComponent({
   data() {
     return {
       form: {
-        week_time: [{ day: "monday" }],
-        cafe_timezone: "Etc/GMT+12",
+        week_time: [{ day: 'monday' }],
+        cafe_timezone: 'Etc/GMT+12',
         location: {
           lat: 0,
           lon: 0
-        },
+        }
       },
       isLoading: false,
       errors: {}
-    }
+    };
   },
   methods: {
     ...mapActions(['postStepMenu']),
@@ -66,11 +66,11 @@ export default defineComponent({
       const res = await this.postStepMenu(this.form);
       console.log(res);
       if (res.status) {
-        this.$router.push('/dashboard')
+        this.$router.push('/dashboard');
       } else {
         this.errors = res.data;
       }
-      this.isLoading = false
+      this.isLoading = false;
     },
     getError(key) {
       return this.errors[key]?.[0];
@@ -80,7 +80,7 @@ export default defineComponent({
     ...mapGetters(['getUser'])
   },
   components: { CountrySelect, CitySelect }
-})
+});
 </script>
 
 <style scoped>
@@ -93,7 +93,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 .form-check-label {
