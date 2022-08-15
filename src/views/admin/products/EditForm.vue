@@ -4,10 +4,10 @@ import { useRoute } from 'vue-router';
 import _ from 'lodash';
 import Toastify from 'toastify-js';
 import cash from 'cash-dom';
-import { updateProduct } from '@/api';
-import { fetchProduct } from '@/api';
-import FormFields from './FormFields.vue';
+
+import { fetchProduct, updateProduct } from '@/api/admin';
 import store from '@/store';
+import FormFields from './FormFields.vue';
 
 const externalErrors = ref({});
 const isLoading = ref(false);

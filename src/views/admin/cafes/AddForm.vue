@@ -48,7 +48,7 @@ async function submit(formData) {
         .removeClass('hidden')[0],
       duration: 3000
     }).showToast();
-    router.push('/dashboard/cafe/' + res1.id);
+    router.push('/admin/cafe/' + res1.id);
   } catch (error) {
     if (error.response) {
       console.log(error.response.data);

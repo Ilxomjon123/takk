@@ -79,15 +79,12 @@ async function submit() {
 
   if (res.status) {
     Object.assign(errors, {});
-    // successNotification.show();
-    // router.push('/dashboard/categories');
     Toastify({
       node: cash('#success-notification-content')
         .clone()
         .removeClass('hidden')[0]
     }).showToast();
   } else {
-    // errorNotification.show();
     Object.assign(errors, res.data);
     Toastify({
       node: cash('#error-notification-content')

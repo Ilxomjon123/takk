@@ -81,13 +81,6 @@ function reorderModifierItem() {
         </button>
         <div class="dropdown-menu w-fit">
           <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-            <!-- <router-link :to="selectedMenuId != null ? `/dashboard/categories/${ selectedMenuId }/add` : ''"
-              class="btn w-full" data-toggle="dropdown">
-              <span class="w-5 h-5 flex items-center justify-center">
-                <PlusIcon class="w-4 h-4" />
-              </span>
-              <span class="whitespace-nowrap">Add Category</span>
-            </router-link> -->
             <button
               class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md w-full"
               @click="reorderModifierType"
@@ -259,79 +252,6 @@ function reorderModifierItem() {
     "
   />
 </template>
-
-<!-- <script>
-import { defineComponent } from 'vue'
-import { mapGetters } from 'vuex';
-import MainPaginator from '../paginator/MainPaginator.vue'
-import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
-import DraggableTypeModal from '@/views/dashboard/categories/DraggableTypeModal.vue';
-import DraggableItemModal from '@/views/dashboard/categories/DraggableItemModal.vue';
-import cash from 'cash-dom';
-
-export default defineComponent({
-  data() {
-    return {
-      items: [],
-      form: {},
-      showChildren: []
-    };
-  },
-  methods: {
-    paginate(val) {
-      this.items = val;
-    },
-    search() {
-      this.$refs.paginator?.paginate(1);
-    },
-    setItems(val) {
-      // console.log(val);
-      this.items = val
-      // this.showChildren = val.map(item => { if (item?.children?.length > 0) return item.id });
-    },
-    async deleteItem(val) {
-      this.$store.commit('setLoadingStatus', true);
-      const res = await this.$store.dispatch('deleteCategory', val);
-      if (res.status) {
-        this.$store.commit('setSuccessNotification', true);
-        this.search();
-      } else {
-        this.$store.commit('setErrorNotification', true);
-      }
-      this.$store.commit('setLoadingStatus', false);
-    },
-    toggleChildren(valId) {
-      this.isVisibleChildren(valId) ?
-        this.showChildren = [] :
-        this.showChildren = [valId]
-      // if (this.isVisibleChildren(val)) {
-      //   delete this.showChildren[this.showChildren.indexOf(val)];
-      // } else {
-      //   this.showChildren.push(val);
-      // }
-    },
-    isVisibleChildren(val) {
-      return this.showChildren.includes(val)
-    },
-    reorderModifierType() {
-      cash('#draggable-category-type-modal').modal('show')
-    },
-    reorderModifierItem() {
-      cash('#draggable-category-item-modal').modal('show')
-    },
-  },
-  computed: {
-    ...mapGetters(['getSelectedMenuId'])
-  },
-
-  components: {
-    MainPaginator,
-    DeleteConfirmModal,
-    DraggableTypeModal,
-    DraggableItemModal
-  }
-});
-</script> -->
 
 <style lang="scss" scoped>
 .dark .inner-tr td {
