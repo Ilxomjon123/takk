@@ -1,70 +1,3 @@
-<script setup>
-import { reactive, ref, watch } from 'vue';
-import store from '@/store';
-import CafeSelect from '../selects/CafeSelect.vue';
-
-const cafe = ref(0);
-const chartSeries = ref([
-  {
-    data: []
-  },
-  {
-    data: []
-  }
-]);
-const chartOptions = reactive({
-  dataLabels: {
-    enabled: true,
-    enabledOnSeries: []
-  },
-  chart: {
-    type: 'bar'
-  },
-  tooltip: {
-    shared: true,
-    intersect: false
-  },
-  xaxis: {
-    categories: ['Mon', 'Thu', 'Wed', 'Thr', 'Fri', 'Sun', 'Sat']
-  }
-});
-
-watch(
-  () => cafe.value,
-  (newVal, oldVal) => {
-    console.log('ok in watch');
-    fetchData();
-  },
-  { deep: true, immediate: true }
-);
-
-async function fetchData() {
-  let res;
-  if (cafe.value != 0) {
-    res = await store.dispatch('fetchStatisticsSalesWeek', {
-      cafe: cafe.value
-    });
-  } else {
-    res = await store.dispatch('fetchStatisticsSalesWeek');
-  }
-  if (res.status) {
-    chartSeries.value = [
-      {
-        // data: res.last_week.map(item => item.count),
-        data: res.last.reverse(),
-        name: 'Last Week'
-      },
-      {
-        // data: res.this_week.map(item => item.count),
-        data: res.current.reverse(),
-        name: 'This Week'
-      }
-    ];
-    chartOptions.xaxis.categories = res.days.reverse();
-  }
-}
-</script>
-
 <template>
   <div class="flex">
     <CafeSelect v-model="cafe" class="md:w-80" />
@@ -81,7 +14,86 @@ async function fetchData() {
       width="100%"
       type="bar"
       :options="chartOptions"
-      :series="chartSeries"
+      :series="series"
     />
   </div>
 </template>
+
+<script>
+import { mapActions } from 'vuex';
+import CafeSelect from '../selects/CafeSelect.vue';
+
+export default {
+  async created() {
+    this.fetchData();
+  },
+  data() {
+    return {
+      cafe: 0,
+      series: [
+        {
+          data: []
+        },
+        {
+          data: []
+        }
+      ],
+      chartOptions: {
+        dataLabels: {
+          enabled: true,
+          enabledOnSeries: []
+        },
+        chart: {
+          type: 'bar'
+        },
+        tooltip: {
+          shared: true,
+          intersect: false
+        },
+        xaxis: {
+          // categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        }
+      }
+    };
+  },
+  watch: {
+    cafe(to, from) {
+      this.fetchData();
+    }
+  },
+  methods: {
+    ...mapActions(['fetchStatisticsSalesWeek']),
+    async fetchData() {
+      let res;
+      if (this.cafe != 0) {
+        res = await this.fetchStatisticsSalesWeek({ cafe: this.cafe });
+      } else {
+        res = await this.fetchStatisticsSalesWeek();
+      }
+      if (res.status) {
+        this.series = [
+          {
+            // data: res.last_year.map(item => item.count),
+            data: res.last.reverse(),
+            name: 'Last Week'
+          },
+          {
+            // data: res.this_year.map(item => item.count),
+            data: res.current.reverse(),
+            name: 'This Week'
+          }
+        ];
+        this.chartOptions = {
+          ...this.chartOptions,
+          xaxis: {
+            categories: res.days.reverse()
+          }
+        };
+      }
+    }
+  },
+  components: {
+    CafeSelect
+  }
+};
+</script>
