@@ -1,13 +1,13 @@
 <template>
-  <div class="flex">
-    <CafeSelect v-model="cafe" class="md:w-80" />
+  <!-- <div class="flex">
+    <CafeSelect v-model="cafe"/>
     <button class="ml-auto btn btn-primary mr-2">
       <UserIcon />
     </button>
     <button class="btn btn-primary">
       <DollarSignIcon />
     </button>
-  </div>
+  </div> -->
   <div class="mt-2 bg-white">
     <apexchart id="year-sales-chart" width="100%" type="bar" :options="chartOptions" :series="series" />
   </div>
@@ -56,13 +56,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchStatisticsSalesYear']),
+    ...mapActions(['fetchStatisticsRegistrationYear']),
     async fetchData() {
       let res;
       if (this.cafe != 0) {
-        res = await this.fetchStatisticsSalesYear({ cafe: this.cafe });
+        res = await this.fetchStatisticsRegistrationYear({ cafe: this.cafe });
       } else {
-        res = await this.fetchStatisticsSalesYear();
+        res = await this.fetchStatisticsRegistrationYear();
       }
       if (res.status) {
         this.series = [

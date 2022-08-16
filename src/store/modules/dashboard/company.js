@@ -161,6 +161,66 @@ const actions = {
       });
     return response;
   },
+  async fetchStatisticsTransactionYear({ commit, rootGetters }, payload) {
+    let response;
+    await axios
+      .get(`/api/statistics/transaction/year/`, {
+        headers: rootGetters.getHttpHeader,
+        params: payload
+      })
+      .then(res => {
+        response = { status: true, ...res.data };
+      })
+      .catch(err => {
+        response = { status: false, ...err.data };
+      });
+    return response;
+  },
+  async fetchStatisticsTransactionWeek({ commit, rootGetters }, payload) {
+    let response;
+    await axios
+      .get(`/api/statistics/transaction/week/`, {
+        headers: rootGetters.getHttpHeader,
+        params: payload
+      })
+      .then(res => {
+        response = { status: true, ...res.data };
+      })
+      .catch(err => {
+        response = { status: false, ...err.data };
+      });
+    return response;
+  },
+  async fetchStatisticsRegistrationYear({ commit, rootGetters }, payload) {
+    let response;
+    await axios
+      .get(`/api/statistics/user-register/year/`, {
+        headers: rootGetters.getHttpHeader,
+        params: payload
+      })
+      .then(res => {
+        response = { status: true, ...res.data };
+      })
+      .catch(err => {
+        response = { status: false, ...err.data };
+      });
+    return response;
+  },
+  async fetchStatisticsRegistrationWeek({ commit, rootGetters }, payload) {
+    let response;
+    await axios
+      .get(`/api/statistics/user-register/week/`, {
+        headers: rootGetters.getHttpHeader,
+        params: payload
+      })
+      .then(res => {
+        response = { status: true, ...res.data };
+      })
+      .catch(err => {
+        response = { status: false, ...err.data };
+      });
+    return response;
+  },
   async fetchStatisticsCustomer({ commit, rootGetters }, payload) {
     let response;
     await axios

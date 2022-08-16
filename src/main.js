@@ -13,7 +13,7 @@ import VueApexCharts from 'vue3-apexcharts';
 // SASS Theme
 import './assets/sass/app.scss';
 
-axios.interceptors.response.use(undefined, async function(error) {
+axios.interceptors.response.use(undefined, async function (error) {
   if (error) {
     const originalRequest = error.config;
     if (error.response?.status === 401 /* && !originalRequest._retry */) {
@@ -39,5 +39,15 @@ const app = createApp(App)
 
 globalComponents(app);
 utils(app);
-
+app.mixin({
+  methods: {
+    toMonthName: function (monthNumber) {
+      const date = new Date();
+      date.setMonth(monthNumber - 1);
+      return date.toLocaleString('en-US', {
+        month: 'short',
+      });
+    },
+  }
+});
 app.mount('#app');

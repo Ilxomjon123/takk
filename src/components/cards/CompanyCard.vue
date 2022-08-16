@@ -22,9 +22,9 @@ const company = computed(() => store.getters.getCompany);
         <div>
           <div
             class="font-medium text-base"
-            :class="company?.status ? 'text-theme-9' : 'text-theme-6'"
+            :class="company?.is_activate ? 'text-theme-9' : 'text-theme-6'"
           >
-            {{ company?.status ? 'Active' : 'Not Active' }}
+            {{ company?.is_activate ? 'Active' : 'Not Active' }}
           </div>
         </div>
       </div>

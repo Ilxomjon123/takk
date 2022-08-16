@@ -124,7 +124,9 @@ const actions = {
     }
   },
   logout() {
-    localStorage.clear();
+    // localStorage.clear();
+    localStorage.removeItem('token');
+    localStorage.removeItem('required_details');
   },
   async fetchProfile({ commit, rootGetters }) {
     console.log(rootGetters.getHttpHeader);

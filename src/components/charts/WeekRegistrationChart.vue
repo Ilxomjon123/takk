@@ -1,15 +1,21 @@
 <template>
-  <div class="flex">
-    <CafeSelect v-model="cafe" class="md:w-80" />
+  <!-- <div class="flex">
+    <CafeSelect v-model="cafe" />
     <button class="ml-auto btn btn-primary mr-2">
       <UserIcon />
     </button>
     <button class="btn btn-primary">
       <DollarSignIcon />
     </button>
-  </div>
+  </div> -->
   <div class="mt-2 bg-white">
-    <apexchart id="year-sales-chart" width="100%" type="bar" :options="chartOptions" :series="series" />
+    <apexchart
+      id="week-sales-chart"
+      width="100%"
+      type="bar"
+      :options="chartOptions"
+      :series="series"
+    />
   </div>
 </template>
 
@@ -56,31 +62,31 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['fetchStatisticsSalesYear']),
+    ...mapActions(['fetchStatisticsRegistrationWeek']),
     async fetchData() {
       let res;
       if (this.cafe != 0) {
-        res = await this.fetchStatisticsSalesYear({ cafe: this.cafe });
+        res = await this.fetchStatisticsRegistrationWeek({ cafe: this.cafe });
       } else {
-        res = await this.fetchStatisticsSalesYear();
+        res = await this.fetchStatisticsRegistrationWeek();
       }
       if (res.status) {
         this.series = [
           {
             // data: res.last_year.map(item => item.count),
             data: res.last.reverse(),
-            name: 'Last Year'
+            name: 'Last Week'
           },
           {
             // data: res.this_year.map(item => item.count),
             data: res.current.reverse(),
-            name: 'This Year'
+            name: 'This Week'
           }
         ];
         this.chartOptions = {
           ...this.chartOptions,
           xaxis: {
-            categories: res.months.reverse().map(item => this.toMonthName(item))
+            categories: res.days.reverse()
           }
         };
       }
