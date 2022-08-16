@@ -15,7 +15,7 @@ const countryDialCode = ref('');
 const phone = ref('');
 
 function onCountryChange(countryObj) {
-  console.log({ countryObj });
+  // console.log({ countryObj });
   countryDialCode.value = countryObj.dialCode;
 }
 </script>

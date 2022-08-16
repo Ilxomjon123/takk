@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { isEmpty } from 'lodash';
 import cash from 'cash-dom';
@@ -22,11 +22,11 @@ import Toastify from 'toastify-js';
 
 const route = useRoute();
 const currentItem = ref('CafeInformation');
-const formFields = ref({
+const formFields = reactive({
   location: {
     coordinates: [35.1234, -95.1234]
   },
-  country: '',
+  country: 236,
   name: '',
   call_center: '',
   website: '',
@@ -92,6 +92,13 @@ const formFields = ref({
 });
 const externalErrors = ref({});
 // const toastify = useToastify();
+const components = {
+  CafeInformation,
+  CafeOperations,
+  CafeDelivery,
+  CafeGallery,
+  CafeWorkingDays
+};
 
 watch(
   () => route.params.id,
@@ -100,7 +107,10 @@ watch(
     if (newVal) {
       store.commit('setLoadingStatus', true);
       const res1 = await fetchCafe(newVal);
-      formFields.value = res1;
+      Object.assign(formFields, res1);
+      // formFields.country = Number(res1.country);
+      // formFields.state = Number(res1.state);
+      // formFields.city = Number(res1.city);
       store.commit('setLoadingStatus', false);
     }
   },
@@ -118,7 +128,10 @@ async function submit(formData) {
   delete formData.logo;
 
   try {
-    await updateCafe({ data: formData, id: route.params.id });
+    await updateCafe({
+      data: formData,
+      id: route.params.id
+    });
 
     Toastify({
       node: cash('#success-notification-content')
@@ -154,12 +167,10 @@ function openConfirmModal() {
 async function removeCafe() {
   store.commit('setLoadingStatus', true);
   cash('#delete-confirmation-modal').modal('hide');
-  if (!isEmpty(formFields.value.photos)) {
-    formFields.value.photos.forEach(
-      async ({ id }) => await deleteCafeImage(id)
-    );
+  if (!isEmpty(formFields.photos)) {
+    formFields.photos.forEach(async ({ id }) => await deleteCafeImage(id));
   }
-  await deleteCafe(formFields.value.id);
+  await deleteCafe(formFields.id);
   store.commit('setLoadingStatus', false);
   router.back();
   // Toastify({
@@ -187,17 +198,7 @@ async function removeCafe() {
         />
         <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
           <component
-            :is="
-              currentItem === 'CafeOperations'
-                ? CafeOperations
-                : currentItem === 'CafeDelivery'
-                ? CafeDelivery
-                : currentItem === 'CafeGallery'
-                ? CafeGallery
-                : currentItem === 'CafeWorkingDays'
-                ? CafeWorkingDays
-                : CafeInformation
-            "
+            :is="components[currentItem]"
             :form-data="formFields"
             :external-errors="externalErrors"
             @update:form-data="submit($event)"

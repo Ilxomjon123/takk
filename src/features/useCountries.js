@@ -12,14 +12,14 @@ const selectedState = ref();
 const selectedCity = ref();
 
 export default () => {
-  const setSelectedCountry = async payload => {
+  const setSelectedCountry = payload => {
     selectedCountry.value = payload;
-    await getStates(selectedCountry.value);
+    // await getStates(selectedCountry.value);
   };
 
-  const setSelectedState = async payload => {
+  const setSelectedState = payload => {
     selectedState.value = payload;
-    await getCities();
+    // await getCities();
   };
 
   const setSelectedCity = payload => {

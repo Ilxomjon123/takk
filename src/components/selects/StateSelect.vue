@@ -1,31 +1,46 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch, watchEffect } from 'vue';
 import useCountries from '@/features/useCountries';
 
-const props = defineProps({
-  modelValue: Number
-});
+const props = defineProps(['modelValue']);
 
 const emit = defineEmits(['update:modelValue']);
 
-const { setSelectedState, statesList } = useCountries();
+const {
+  getCities,
+  getStates,
+  selectedCountry,
+  setSelectedState,
+  statesList
+} = useCountries();
 
 const selectedState = computed({
   get: () => {
-    return Number(props.modelValue);
+    return props.modelValue;
   },
-  set: async val => {
-    if (!isNaN(Number(val))) emit('update:modelValue', Number(val));
+  set: val => {
+    emit('update:modelValue', val);
   }
 });
 
-watch(
-  () => props.modelValue,
-  async (newVal, oldVal) => {
-    if (!isNaN(Number(newVal))) await setSelectedState(Number(newVal));
-  },
-  { deep: true, immediate: true }
-);
+// watch(
+//   () => props.modelValue,
+//   async (newVal, oldVal) => {
+//     console.log('state new val: ', newVal);
+//     setSelectedState(newVal);
+//     await getCities();
+//   },
+//   { deep: true, immediate: true }
+// );
+
+watchEffect(async () => {
+  if (props.modelValue) {
+    setSelectedState(props.modelValue);
+    if (selectedCountry.value) {
+      await getCities();
+    }
+  }
+});
 </script>
 
 <template>

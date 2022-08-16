@@ -4,16 +4,16 @@ import cash from 'cash-dom';
 import Toastify from 'toastify-js';
 import CafeMenu from './CafeMenu.vue';
 import CafeInformation from './CafeInformation.vue';
-import { computed, nextTick, onMounted, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { storeCafe } from '@/api/admin';
 import store from '@/store';
 
 const router = useRouter();
-const formFields = ref({
+const formFields = reactive({
   location: {
     coordinates: [35.1234, -95.1234]
   },
-  country: null,
+  country: 236,
   state: null,
   city: null,
   name: '',
@@ -40,7 +40,10 @@ async function submit(formData) {
   externalErrors.value = {};
 
   try {
-    const res1 = await storeCafe({ ...formData, company: selectedCompanyId });
+    const res1 = await storeCafe({
+      ...formData,
+      company: selectedCompanyId
+    });
 
     Toastify({
       node: cash('#success-notification-content')

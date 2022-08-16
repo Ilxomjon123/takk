@@ -3,35 +3,34 @@ import { computed, onMounted, watch } from 'vue';
 import useCountries from '@/features/useCountries';
 import { isEmpty } from 'lodash';
 
-const props = defineProps({
-  modelValue: {
-    type: Number,
-    default: null
-  }
-});
+const props = defineProps(['modelValue']);
 
 const emit = defineEmits(['update:modelValue']);
 
-const { setSelectedCountry, countriesList, getCountries } = useCountries();
+const {
+  countriesList,
+  getCountries,
+  getStates,
+  setSelectedCountry
+} = useCountries();
 
 const selectedCountry = computed({
   get: () => {
-    return Number(props.modelValue) || 236;
+    return props.modelValue || 236;
   },
-  set: async val => {
-    if (!isNaN(Number(val))) emit('update:modelValue', Number(val));
+  set: val => {
+    emit('update:modelValue', val);
   }
 });
 
 await getCountries();
 
 watch(
-  () => selectedCountry.value,
+  () => props.modelValue,
   async (newVal, oldVal) => {
-    if (!isNaN(Number(newVal))) {
-      await setSelectedCountry(Number(newVal));
-      emit('update:modelValue', Number(newVal));
-    }
+    console.log('country new val: ', newVal);
+    setSelectedCountry(newVal);
+    await getStates();
   },
   { deep: true, immediate: true }
 );

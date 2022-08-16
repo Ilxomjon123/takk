@@ -2,21 +2,18 @@
 import { computed, onMounted, watch } from 'vue';
 import useCountries from '@/features/useCountries';
 
-const props = defineProps({
-  modelValue: Number
-});
+const props = defineProps(['modelValue']);
 
 const emit = defineEmits(['update:modelValue']);
 
 const { citiesList, setSelectedCity } = useCountries();
-
 const selectedCity = computed({
   get: () => {
-    return Number(props.modelValue);
+    return props.modelValue;
   },
   set: val => {
-    emit('update:modelValue', Number(val));
-    setSelectedCity(Number(val));
+    emit('update:modelValue', val);
+    setSelectedCity(val);
   }
 });
 </script>
