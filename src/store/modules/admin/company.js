@@ -165,7 +165,7 @@ const actions = {
   async fetchAdminStatisticsSalesYear({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/adham/statistics/sales/year/`, {
+      .get(`/adham/statistics/sales/year`, {
         headers: rootGetters.getHttpHeader,
         params: payload
       })

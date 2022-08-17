@@ -62,15 +62,15 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['adminCompany/fetchStatisticsSalesYear']),
+    ...mapActions(['adminCompany/fetchAdminStatisticsSalesYear']),
     async fetchData() {
       let res;
       if (this.cafe != 0) {
-        res = await this['adminCompany/fetchStatisticsSalesYear']({
+        res = await this['adminCompany/fetchAdminStatisticsSalesYear']({
           cafe: this.cafe
         });
       } else {
-        res = await this['adminCompany/fetchStatisticsSalesYear']();
+        res = await this['adminCompany/fetchAdminStatisticsSalesYear']();
       }
       if (res.status) {
         this.series = [
