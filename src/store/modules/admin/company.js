@@ -192,6 +192,66 @@ const actions = {
       });
     return response;
   },
+  async fetchAdminStatisticsTransactionYear({ commit, rootGetters }, payload) {
+    let response;
+    await axios
+      .get(`/adham/statistics/transaction/year/`, {
+        headers: rootGetters.getHttpHeader,
+        params: payload
+      })
+      .then(res => {
+        response = { status: true, ...res.data };
+      })
+      .catch(err => {
+        response = { status: false, ...err.data };
+      });
+    return response;
+  },
+  async fetchAdminStatisticsTransactionWeek({ commit, rootGetters }, payload) {
+    let response;
+    await axios
+      .get(`/adham/statistics/transaction/week/`, {
+        headers: rootGetters.getHttpHeader,
+        params: payload
+      })
+      .then(res => {
+        response = { status: true, ...res.data };
+      })
+      .catch(err => {
+        response = { status: false, ...err.data };
+      });
+    return response;
+  },
+  async fetchAdminStatisticsRegistrationYear({ commit, rootGetters }, payload) {
+    let response;
+    await axios
+      .get(`/adham/statistics/user-register/year/`, {
+        headers: rootGetters.getHttpHeader,
+        params: payload
+      })
+      .then(res => {
+        response = { status: true, ...res.data };
+      })
+      .catch(err => {
+        response = { status: false, ...err.data };
+      });
+    return response;
+  },
+  async fetchAdminStatisticsRegistrationWeek({ commit, rootGetters }, payload) {
+    let response;
+    await axios
+      .get(`/adham/statistics/user-register/week/`, {
+        headers: rootGetters.getHttpHeader,
+        params: payload
+      })
+      .then(res => {
+        response = { status: true, ...res.data };
+      })
+      .catch(err => {
+        response = { status: false, ...err.data };
+      });
+    return response;
+  },
   async fetchAdminStatisticsCustomer({ commit, rootGetters }, payload) {
     let response;
     await axios
