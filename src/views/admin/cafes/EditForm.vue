@@ -108,6 +108,10 @@ watch(
       store.commit('setLoadingStatus', true);
       const res1 = await fetchCafe(newVal);
       Object.assign(formFields, res1);
+
+      if (isEmpty(formFields.country) || !Number(formFields.country))
+        formFields.country = 236;
+
       // formFields.country = Number(res1.country);
       // formFields.state = Number(res1.state);
       // formFields.city = Number(res1.city);

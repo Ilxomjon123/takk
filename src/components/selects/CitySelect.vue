@@ -13,7 +13,7 @@ const selectedCity = computed({
   },
   set: val => {
     emit('update:modelValue', val);
-    setSelectedCity(val);
+    // setSelectedCity(val);
   }
 });
 </script>

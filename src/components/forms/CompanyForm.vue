@@ -18,16 +18,16 @@ const form = ref({
 const isLoading = ref(false);
 const errors = ref({});
 const errorNotification = ref();
-const { countriesList, selectedCountry } = useCountries();
+// const { countriesList, selectedCountry } = useCountries();
 
 async function submit() {
   isLoading.value = true;
   errors.value = {};
   form.value.phone = form.value.phone.replace(/\s+/g, '');
-  const country = countriesList.value.find(
-    item => item.id == selectedCountry.value
-  );
-  form.value.country_code = country['iso_2'];
+  // const country = countriesList.value.find(
+  //   item => item.id == selectedCountry.value
+  // );
+  form.value.country_code = 'US';
   form.value.cashback_persent = 10;
 
   const res = await store.dispatch('postCompany', form.value);

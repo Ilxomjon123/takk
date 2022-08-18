@@ -13,13 +13,13 @@ const selectedCompanyId = computed(
   () => store.getters['adminCompany/getAdminSelectedCompanyID']
 );
 
-onMounted(() => {
+onMounted(async () => {
   if (selectedCompanyId.value != 0) {
     router.push('/admin/company/form');
+  } else {
+    await fetchData();
   }
 });
-
-await fetchData();
 
 async function fetchData() {
   store.commit('setLoadingStatus', true);
@@ -28,16 +28,17 @@ async function fetchData() {
   store.commit('setLoadingStatus', false);
 }
 
-function gotoForm(company = null) {
+function gotoEditForm(company) {
   store.commit('setLoadingStatus', true);
   setSelected(company);
+  router.push(`/admin/company/form?id=${company.id}`);
+  store.commit('setLoadingStatus', false);
+}
 
-  if (company) {
-    router.push(`/admin/company/form?id=${company.id}`);
-  } else {
-    router.push(`/admin/company/form`);
-  }
-
+function gotoAddForm() {
+  store.commit('setLoadingStatus', true);
+  // setSelected(undefined);
+  router.push(`/admin/company/form`);
   store.commit('setLoadingStatus', false);
 }
 </script>
@@ -48,7 +49,7 @@ function gotoForm(company = null) {
       <h2 class="text-lg font-medium">Company List</h2>
       <div class="w-full sm:w-auto flex ml-2 sm:mt-0">
         <div class="intro-y flex flex-wrap sm:flex-nowrap items-center">
-          <button class="btn btn-primary shadow-md" @click="gotoForm()">
+          <button class="btn btn-primary shadow-md" @click="gotoAddForm()">
             <PlusIcon class="h-4 w-4 mr-3" />
             Add New Company
           </button>
@@ -58,24 +59,21 @@ function gotoForm(company = null) {
     <div class="grid grid-cols-12 gap-6 mt-5">
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
-        <div
-          v-if="list.length"
-          class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10"
-        >
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
           <CompanyCard
             v-for="(company, index) in list"
             :key="index"
             :company="company"
-            @click="gotoForm(company)"
+            @click="gotoEditForm(company)"
             class="cafe_item"
           />
         </div>
-        <div
+        <!-- <div
           v-else
           class="hidden md:block mx-auto text-gray-600 text-center col-span-12"
         >
           No Data
-        </div>
+        </div> -->
       </div>
       <!-- END: Data List -->
     </div>

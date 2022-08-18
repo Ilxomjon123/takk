@@ -24,6 +24,21 @@ const errors = ref(null);
 const queryID = route.query?.id ?? null;
 const companyData = reactive({
   // country: 236
+  name: '',
+  phone: '',
+  email: '',
+  website: '',
+  country: 236,
+  country_code: 'US',
+  state: '',
+  city: '',
+  address: '',
+  second_address: '',
+  postal_code: '',
+  cashback_percent: 10,
+  pub_show_reviews: '',
+  pub_show_like: '',
+  about: ''
 });
 
 const globalLoading = computed(() => store.state.common.loadingStatus);
@@ -45,7 +60,7 @@ async function submit() {
     formData.append('country', companyData.country);
     formData.append('country_code', companyData.country_code || 'US');
     formData.append('state', companyData.state);
-    formData.append('city', Number(companyData.city));
+    formData.append('city', companyData.city);
     formData.append('address', companyData.address);
     formData.append('second_address', companyData.second_address);
     formData.append('postal_code', companyData.postal_code);
@@ -59,9 +74,9 @@ async function submit() {
       : createCompany(formData);
     Object.assign(companyData, res);
 
-    if (isEmpty(companyData.country)) companyData.country = 236;
-    if (isEmpty(companyData.cashback_percent))
-      companyData.cashback_percent = 10;
+    // if (isEmpty(companyData.country)) companyData.country = 236;
+    // if (isEmpty(companyData.cashback_percent))
+    //   companyData.cashback_percent = 10;
 
     Toastify({
       node: cash('#success-notification-content')
@@ -90,7 +105,8 @@ async function fetchData() {
   if (queryID) {
     const res = await fetchCompanyById(queryID);
     Object.assign(companyData, res);
-    if (isEmpty(companyData.country)) companyData.country = 236;
+    if (isEmpty(companyData.country) || !Number(companyData.country))
+      companyData.country = 236;
     if (isEmpty(companyData.cashback_percent))
       companyData.cashback_percent = 10;
   }
@@ -100,7 +116,7 @@ async function fetchData() {
 <template>
   <div class="col-span-12 lg:col-span-9 2xl:col-span-9">
     <!-- BEGIN: Display Information -->
-    <div class="intro-y box" v-if="!globalLoading">
+    <div class="intro-y box">
       <div
         class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5"
       >
