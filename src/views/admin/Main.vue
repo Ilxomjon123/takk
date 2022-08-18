@@ -5,8 +5,8 @@ import AdminYearTransactionChart from '@/components/admin-charts/AdminYearTransa
 import AdminWeekTransactionChart from '@/components/admin-charts/AdminWeekTransactionChart.vue';
 import AdminYearRegistrationChart from '@/components/admin-charts/AdminYearRegistrationChart.vue';
 import AdminWeekRegistrationChart from '@/components/admin-charts/AdminWeekRegistrationChart.vue';
-import StatisticsCustomers from '@/components/lists/StatisticsCustomers.vue';
-import StatisticsProducts from '@/components/lists/StatisticsProducts.vue';
+import AdminStatisticsCustomers from '@/components/lists/AdminStatisticsCustomers.vue';
+import AdminStatisticsProducts from '@/components/lists/AdminStatisticsProducts.vue';
 </script>
 
 <template>
@@ -54,7 +54,9 @@ import StatisticsProducts from '@/components/lists/StatisticsProducts.vue';
           <div
             class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200 dark:border-dark-5"
           >
-            <h2 class="font-medium text-base mr-auto">User Regisrations Overview</h2>
+            <h2 class="font-medium text-base mr-auto">
+              User Regisrations Overview
+            </h2>
             <div
               class="w-full sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0"
             ></div>
@@ -71,7 +73,9 @@ import StatisticsProducts from '@/components/lists/StatisticsProducts.vue';
           <div
             class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200 dark:border-dark-5"
           >
-            <h2 class="font-medium text-base mr-auto">User Regisrations Overview</h2>
+            <h2 class="font-medium text-base mr-auto">
+              User Regisrations Overview
+            </h2>
             <div
               class="w-full sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0"
             ></div>
@@ -129,7 +133,7 @@ import StatisticsProducts from '@/components/lists/StatisticsProducts.vue';
           </div>
           <div id="vertical-bar-chart" class="p-5">
             <div class="preview">
-              <StatisticsProducts />
+              <AdminStatisticsProducts />
             </div>
           </div>
         </div>
@@ -146,7 +150,7 @@ import StatisticsProducts from '@/components/lists/StatisticsProducts.vue';
           </div>
           <div id="horizontal-bar-chart" class="p-5">
             <div class="preview">
-              <StatisticsCustomers />
+              <AdminStatisticsCustomers />
             </div>
           </div>
         </div>

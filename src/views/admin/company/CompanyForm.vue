@@ -101,7 +101,7 @@ function getError(key) {
 }
 
 async function fetchData() {
-  console.log('route query id: ', queryID);
+  // console.log('route query id: ', queryID);
   if (queryID) {
     const res = await fetchCompanyById(queryID);
     Object.assign(companyData, res);
