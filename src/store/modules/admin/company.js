@@ -115,7 +115,7 @@ const actions = {
       // .get(`/adham/companies/${rootGetters.getCompanyId}/customers/`, {
       .get(`/adham/companies/customers/`, {
         headers: rootGetters.getHttpHeader,
-        params: payload
+        params: { ...payload, ...rootGetters.getAdminParameter }
       })
       .then(res => {
         response = res.data;
@@ -134,7 +134,7 @@ const actions = {
       // .get(`/adham/companies/${rootGetters.getCompanyId}/transactions/`, {
       .get(`/adham/companies/transactions/`, {
         headers: rootGetters.getHttpHeader,
-        params: payload
+        params: { ...payload, ...rootGetters.getAdminParameter }
       })
       .then(res => {
         response = res.data;
@@ -167,7 +167,7 @@ const actions = {
     await axios
       .get(`/adham/statistics/sales/year`, {
         headers: rootGetters.getHttpHeader,
-        params: payload
+        params: { ...payload, ...rootGetters.getAdminParameter }
       })
       .then(res => {
         response = { status: true, ...res.data };
@@ -182,7 +182,7 @@ const actions = {
     await axios
       .get(`/adham/statistics/sales/week/`, {
         headers: rootGetters.getHttpHeader,
-        params: payload
+        params: { ...payload, ...rootGetters.getAdminParameter }
       })
       .then(res => {
         response = { status: true, ...res.data };
@@ -197,7 +197,7 @@ const actions = {
     await axios
       .get(`/adham/statistics/transaction/year/`, {
         headers: rootGetters.getHttpHeader,
-        params: payload
+        params: { ...payload, ...rootGetters.getAdminParameter }
       })
       .then(res => {
         response = { status: true, ...res.data };
@@ -212,7 +212,7 @@ const actions = {
     await axios
       .get(`/adham/statistics/transaction/week/`, {
         headers: rootGetters.getHttpHeader,
-        params: payload
+        params: { ...payload, ...rootGetters.getAdminParameter }
       })
       .then(res => {
         response = { status: true, ...res.data };
@@ -227,7 +227,7 @@ const actions = {
     await axios
       .get(`/adham/statistics/user-register/year/`, {
         headers: rootGetters.getHttpHeader,
-        params: payload
+        params: { ...payload, ...rootGetters.getAdminParameter }
       })
       .then(res => {
         response = { status: true, ...res.data };
@@ -242,7 +242,7 @@ const actions = {
     await axios
       .get(`/adham/statistics/user-register/week/`, {
         headers: rootGetters.getHttpHeader,
-        params: payload
+        params: { ...payload, ...rootGetters.getAdminParameter }
       })
       .then(res => {
         response = { status: true, ...res.data };
@@ -257,7 +257,7 @@ const actions = {
     await axios
       .get(`/adham/statistics/customers/`, {
         headers: rootGetters.getHttpHeader,
-        params: { ...payload, limit: 10 }
+        params: { ...payload, ...rootGetters.getAdminParameter, limit: 10 }
       })
       .then(res => {
         commit('setStatisticCustomers', res.data.results);
@@ -273,7 +273,7 @@ const actions = {
     await axios
       .get(`/adham/statistics/products/`, {
         headers: rootGetters.getHttpHeader,
-        params: { ...payload, limit: 10 }
+        params: { ...payload, ...rootGetters.getAdminParameter, limit: 10 }
       })
       .then(res => {
         commit('setStatisticProducts', res.data.results);
