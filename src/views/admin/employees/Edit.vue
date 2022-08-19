@@ -14,10 +14,10 @@
           </div>
           <div class="p-5">
             <div class="grid grid-cols-12 gap-6">
-              <EmployeeForm
+              <AdminEmployeeForm
                 :isEdit="true"
                 dispatcher="putEmployee"
-                :form="getEmployee"
+                :form="getAdminEmployee"
               />
             </div>
           </div>
@@ -30,21 +30,21 @@
 <script>
 import { defineComponent } from 'vue';
 import { mapActions, mapGetters } from 'vuex';
-import EmployeeForm from '@/components/forms/EmployeeForm.vue';
+import AdminEmployeeForm from '@/components/forms/AdminEmployeeForm.vue';
 
 export default defineComponent({
-  components: { EmployeeForm },
+  components: { AdminEmployeeForm },
   async created() {
     this.$store.commit('setLoadingStatus', true);
 
-    await this.fetchEmployee(this.$route.params.id);
+    await this.fetchAdminEmployee(this.$route.params.id);
     this.$store.commit('setLoadingStatus', false);
   },
   computed: {
-    ...mapGetters(['getLoadingStatus', 'getEmployee'])
+    ...mapGetters(['getLoadingStatus', 'getAdminEmployee'])
   },
   methods: {
-    ...mapActions(['fetchEmployee'])
+    ...mapActions(['fetchAdminEmployee'])
   }
 });
 </script>

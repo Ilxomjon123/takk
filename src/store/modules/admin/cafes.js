@@ -41,8 +41,8 @@ const actions = {
         params: rootGetters['adminCompany/getAdminParameter'],
         headers: rootGetters.getHttpHeader
       });
-
       commit('setAdminCafeList', res.data.results);
+      return res.data;
     } catch (err) {
       return console.log('error while fetching cafes: ', err);
     }

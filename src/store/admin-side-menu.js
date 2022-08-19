@@ -59,22 +59,22 @@ const state = () => {
         icon: 'UsersIcon',
         pageName: 'admin-employees',
         title: 'Employees'
-      },
-      {
-        icon: 'CreditCardIcon',
-        pageName: 'admin-transactions',
-        title: 'Transactions'
-      },
+      }
+      // {
+      //   icon: 'CreditCardIcon',
+      //   pageName: 'admin-transactions',
+      //   title: 'Transactions'
+      // },
       // {
       //   icon: 'MessageCircleIcon',
       //   pageName: 'admin-test',
       //   title: 'Messages'
       // },
-      {
-        icon: 'UserPlusIcon',
-        pageName: 'admin-customer',
-        title: 'Customers'
-      }
+      // {
+      //   icon: 'UserPlusIcon',
+      //   pageName: 'admin-customer',
+      //   title: 'Customers'
+      // }
       // {
       //   icon: 'DollarSignIcon',
       //   pageName: 'admin-tariffs',
