@@ -54,7 +54,9 @@ import StatisticsProducts from '@/components/lists/StatisticsProducts.vue';
           <div
             class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200 dark:border-dark-5"
           >
-            <h2 class="font-medium text-base mr-auto">User Regisrations Overview</h2>
+            <h2 class="font-medium text-base mr-auto">
+              User Regisrations Overview
+            </h2>
             <div
               class="w-full sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0"
             ></div>
@@ -71,7 +73,9 @@ import StatisticsProducts from '@/components/lists/StatisticsProducts.vue';
           <div
             class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200 dark:border-dark-5"
           >
-            <h2 class="font-medium text-base mr-auto">User Regisrations Overview</h2>
+            <h2 class="font-medium text-base mr-auto">
+              User Regisrations Overview
+            </h2>
             <div
               class="w-full sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0"
             ></div>

@@ -251,6 +251,7 @@ export default defineComponent({
     }
   },
   mounted() {
+    this.company.country = parseInt(this.company.country);
     this.form = this.company;
   },
   methods: {

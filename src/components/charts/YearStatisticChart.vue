@@ -1,15 +1,21 @@
 <template>
   <div class="flex">
     <CafeSelect v-model="cafe" class="md:w-80" />
-    <button class="ml-auto btn btn-primary mr-2">
+    <button class="ml-auto btn btn-primary mr-2" @click="fetchData('users')">
       <UserIcon />
     </button>
-    <button class="btn btn-primary">
+    <button class="btn btn-primary" @click="fetchData('')">
       <DollarSignIcon />
     </button>
   </div>
   <div class="mt-2 bg-white">
-    <apexchart id="year-sales-chart" width="100%" type="bar" :options="chartOptions" :series="series" />
+    <apexchart
+      id="year-sales-chart"
+      width="100%"
+      type="bar"
+      :options="chartOptions"
+      :series="series"
+    />
   </div>
 </template>
 
@@ -24,6 +30,7 @@ export default {
   data() {
     return {
       cafe: 0,
+      type: '',
       series: [
         {
           data: []
@@ -52,17 +59,23 @@ export default {
   },
   watch: {
     cafe(to, from) {
-      this.fetchData();
+      this.fetchData(this.type);
     }
   },
   methods: {
     ...mapActions(['fetchStatisticsSalesYear']),
-    async fetchData() {
+    async fetchData(val) {
       let res;
+      this.type = val;
       if (this.cafe != 0) {
-        res = await this.fetchStatisticsSalesYear({ cafe: this.cafe });
+        res = await this.fetchStatisticsSalesYear({
+          cafe: this.cafe,
+          type: this.type
+        });
       } else {
-        res = await this.fetchStatisticsSalesYear();
+        res = await this.fetchStatisticsSalesYear({
+          type: this.type
+        });
       }
       if (res.status) {
         this.series = [
