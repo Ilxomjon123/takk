@@ -179,7 +179,7 @@ const actions = {
           // data: res.data
         };
         commit('setToken', res.data.access);
-        setToken(res.data.access);
+        // setToken(res.data.access);
       })
       .catch(err => {
         response = {

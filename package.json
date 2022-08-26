@@ -41,6 +41,7 @@
     "leaflet": "^1.7.1",
     "litepicker": "^2.0.11",
     "moment": "^2.29.1",
+    "swiper": "^8.3.2",
     "tabulator-tables": "^4.9.3",
     "tiny-slider": "^2.9.3",
     "tippy.js": "^6.2.7",
@@ -77,3 +78,4 @@
     "vite": "^3"
   }
 }
+

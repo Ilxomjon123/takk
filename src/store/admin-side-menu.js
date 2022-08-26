@@ -9,7 +9,7 @@ const state = () => {
       {
         icon: 'SettingsIcon',
         pageName: 'admin-company',
-        title: 'Company Settings'
+        title: 'Companies'
       },
       {
         icon: 'CoffeeIcon',

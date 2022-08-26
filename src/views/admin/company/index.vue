@@ -13,13 +13,14 @@ const selectedCompanyId = computed(
   () => store.getters['adminCompany/getAdminSelectedCompanyID']
 );
 
-onMounted(async () => {
-  if (selectedCompanyId.value != 0) {
-    router.push('/admin/company/form');
-  } else {
-    await fetchData();
-  }
-});
+await fetchData();
+
+// onMounted(async () => {
+// if (selectedCompanyId.value != 0) {
+//   router.push('/admin/company/form');
+// }
+// await fetchData();
+// });
 
 async function fetchData() {
   store.commit('setLoadingStatus', true);
