@@ -2,7 +2,7 @@
   <div>
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
       <h2 class="text-lg font-medium">Employees List</h2>
-      <div class="w-full sm:w-auto flex mt-4 ml-2 sm:mt-0">
+      <!-- <div class="w-full sm:w-auto flex mt-4 ml-2 sm:mt-0">
         <router-link to="/admin/employees/add-new" class="btn btn-primary mr-3">
           <PlusIcon class="w-4 h-4 mr-3" />
           Add New User
@@ -11,7 +11,7 @@
           <PlusIcon class="w-4 h-4 mr-3" />
           Add Existing User
         </router-link>
-      </div>
+      </div> -->
     </div>
 
     <!-- BEGIN: Data List -->
@@ -23,7 +23,7 @@
         :key="index"
         class="intro-y block col-span-12 sm:col-span-4 xl:col-span-3 2xl:col-span-2"
         :to="`employees/${item.id}`"
-        @click="setEmployee(item)"
+        @click="setAdminEmployee(item)"
       >
         <EmployeeCard :employee="item" />
       </router-link>
@@ -32,7 +32,7 @@
     <!-- BEGIN: Pagination -->
     <MainPaginator
       class="mt-5"
-      dispatcher="fetchEmployees"
+      dispatcher="fetchAdminEmployees"
       ref="paginator"
       @setItems="setItems($event)"
       :form="form"
@@ -61,8 +61,8 @@ export default defineComponent({
     search() {
       this.$refs.paginator.paginate(1);
     },
-    setEmployee(item) {
-      this.$store.commit('setEmployee', item);
+    setAdminEmployee(item) {
+      this.$store.commit('setAdminEmployee', item);
     }
   }
 });

@@ -11,11 +11,11 @@ const state = () => {
 
 // getters
 const getters = {
-  getAdminCafeList: state => state.cafeList,
-  getAdminSquareCafeList: state => state.squareCafeList,
+  getAdminCafeList: state => state.adminCafeList,
+  getAdminSquareCafeList: state => state.adminSquareCafeList,
   getAdminSquareCafeIDList: state =>
     state.squareCafeList?.map(item => item.square_location_id),
-  getAdminCafeById: state => state.cafeById,
+  getAdminCafeById: state => state.adminCafeById,
   getAdminSquareSelectedCafeList: state =>
     state.cafeList?.filter(item => item.square_location_id?.length > 0)
 };
@@ -23,13 +23,13 @@ const getters = {
 // mutations
 const mutations = {
   setAdminCafeList(state, payload) {
-    state.cafeList = payload;
+    state.adminCafeList = payload;
   },
   setAdminSquareCafeList(state, payload) {
-    state.squareCafeList = payload;
+    state.adminSquareCafeList = payload;
   },
   setAdminCafeById(state, payload) {
-    state.cafeById = payload;
+    state.adminCafeById = payload;
   }
 };
 
@@ -38,11 +38,11 @@ const actions = {
   async fetchAdminCafeList({ rootGetters, commit }) {
     try {
       const res = await axios.get('/adham/cafes/', {
-        params: rootGetters.getAdminParameter,
+        params: rootGetters['adminCompany/getAdminParameter'],
         headers: rootGetters.getHttpHeader
       });
-
-      commit('setCafeList', res.data.results);
+      commit('setAdminCafeList', res.data.results);
+      return res.data;
     } catch (err) {
       return console.log('error while fetching cafes: ', err);
     }
@@ -66,7 +66,7 @@ const actions = {
         headers: rootGetters.getHttpHeader
       });
 
-      commit('setCafeById', res.data);
+      commit('setAdminCafeById', res.data);
     } catch (err) {
       return console.log('error while fetching cafes: ', err);
     }

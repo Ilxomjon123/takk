@@ -1,6 +1,6 @@
 <template>
   <!-- <div class="flex"> -->
-  <CafeSelect v-model="cafe" />
+  <AdminCafeSelect v-model="cafe" />
   <!-- <button class="ml-auto btn btn-primary mr-2">
       <UserIcon />
     </button>
@@ -9,13 +9,19 @@
     </button> -->
   <!-- </div> -->
   <div class="mt-2 bg-white">
-    <apexchart id="year-sales-chart" width="100%" type="bar" :options="chartOptions" :series="series" />
+    <apexchart
+      id="year-sales-chart"
+      width="100%"
+      type="bar"
+      :options="chartOptions"
+      :series="series"
+    />
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
-import CafeSelect from '../selects/CafeSelect.vue';
+import AdminCafeSelect from '../selects/AdminCafeSelect.vue';
 
 export default {
   async created() {
@@ -60,7 +66,9 @@ export default {
     async fetchData() {
       let res;
       if (this.cafe != 0) {
-        res = await this['adminCompany/fetchAdminStatisticsTransactionYear']({ cafe: this.cafe });
+        res = await this['adminCompany/fetchAdminStatisticsTransactionYear']({
+          cafe: this.cafe
+        });
       } else {
         res = await this['adminCompany/fetchAdminStatisticsTransactionYear']();
       }
@@ -87,7 +95,7 @@ export default {
     }
   },
   components: {
-    CafeSelect
+    AdminCafeSelect
   }
 };
 </script>

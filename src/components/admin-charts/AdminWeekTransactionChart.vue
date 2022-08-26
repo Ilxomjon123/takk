@@ -1,6 +1,6 @@
 <template>
   <!-- <div class="flex"> -->
-  <CafeSelect v-model="cafe" />
+  <AdminCafeSelect v-model="cafe" />
   <!-- <button class="ml-auto btn btn-primary mr-2">
       <UserIcon />
     </button>
@@ -21,7 +21,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import CafeSelect from '../selects/CafeSelect.vue';
+import AdminCafeSelect from '../selects/AdminCafeSelect.vue';
 
 export default {
   async created() {
@@ -95,7 +95,7 @@ export default {
     }
   },
   components: {
-    CafeSelect
+    AdminCafeSelect
   }
 };
 </script>

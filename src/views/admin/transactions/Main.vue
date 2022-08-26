@@ -34,7 +34,7 @@
                 <th class="whitespace-nowrap">ID</th>
                 <th class="whitespace-nowrap">CUSTOMER</th>
                 <th class="whitespace-nowrap">LAST 4 DIGITS</th>
-                <th class="whitespace-nowrap">CLIENT TYPE</th>
+                <th class="whitespace-nowrap">OS TYPE</th>
                 <th class="whitespace-nowrap">CAFE NAME</th>
                 <th class="whitespace-nowrap">NET PROCEEDS</th>
                 <th class="whitespace-nowrap">STATUS</th>

@@ -18,6 +18,7 @@ import adminCafe from './modules/admin/cafes';
 import adminCategory from './modules/admin/category';
 import adminCompany from './modules/admin/company';
 import adminMenu from './modules/admin/menu';
+import adminEmployee from './modules/admin/employee';
 
 const store = createStore({
   modules: {
@@ -40,7 +41,8 @@ const store = createStore({
     adminCafe,
     adminCategory,
     adminCompany,
-    adminMenu
+    adminMenu,
+    adminEmployee
   }
 });
 

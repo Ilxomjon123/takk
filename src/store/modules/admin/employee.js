@@ -2,61 +2,61 @@ import axios from 'axios';
 
 const state = () => {
   return {
-    employees: [],
-    employee: {}
+    adminEmployees: [],
+    adminEmployee: {}
   };
 };
 
 const getters = {
-  getEmployees: state => state.employees,
-  getEmployee: state => state.employee
+  getAdminEmployees: state => state.adminEmployees,
+  getAdminEmployee: state => state.adminEmployee
 };
 
 const mutations = {
-  setEmployees(state, payload) {
-    state.employees = payload;
+  setAdminEmployees(state, payload) {
+    state.adminEmployees = payload;
   },
-  setEmployee(state, payload) {
-    state.employee = payload;
+  setAdminEmployee(state, payload) {
+    state.adminEmployee = payload;
   }
 };
 
 const actions = {
-  async fetchEmployees({ commit, rootGetters }, payload) {
+  async fetchAdminEmployees({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/adham/employees/`, {
+      .get(`/adham/employee/`, {
         headers: rootGetters.getHttpHeader,
-        params: payload
+        params: { ...payload, ...rootGetters['adminCompany/getAdminParameter'] }
       })
       .then(res => {
         response = res.data;
-        commit('setEmployees', res.data);
+        commit('setAdminEmployees', res.data);
       })
       .catch(err => {
         response = res.data;
-        // commit('setEmployees', err.response.data);
+        // commit('setAdminEmployees', err.response.data);
       });
     return response;
   },
-  async fetchEmployee({ commit, rootGetters }, payload) {
+  async fetchAdminEmployee({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/adham/employees/${payload}/`, {
-        headers: rootGetters.getHttpHeader,
-        params: payload
+      .get(`/adham/employee/${payload}/`, {
+        headers: rootGetters.getHttpHeader
+        // params: payload
       })
       .then(res => {
         response = res.data;
-        commit('setEmployee', res.data);
+        commit('setAdminEmployee', res.data);
       })
       .catch(err => {
         response = res.data;
-        // commit('setEmployees', err.response.data);
+        // commit('setAdminEmployees', err.response.data);
       });
     return response;
   },
-  async postEmployeeNew({ rootGetters }, payload) {
+  async postAdminEmployeeNew({ rootGetters }, payload) {
     let response;
     await axios
       .post(`/adham/employees/new/`, payload, {
@@ -79,7 +79,7 @@ const actions = {
       });
     return response;
   },
-  async postEmployeeExist({ rootGetters }, payload) {
+  async postAdminEmployeeExist({ rootGetters }, payload) {
     let response;
     await axios
       .post(`/adham/employees/exists/`, payload, {
@@ -102,7 +102,7 @@ const actions = {
       });
     return response;
   },
-  async putEmployee({ rootGetters }, payload) {
+  async putAdminEmployee({ rootGetters }, payload) {
     let response;
     await axios
       .put(`/adham/employees/${payload.id}/`, payload.form, {
@@ -125,7 +125,7 @@ const actions = {
       });
     return response;
   },
-  async deleteEmployee({ rootGetters }, payload) {
+  async deleteAdminEmployee({ rootGetters }, payload) {
     let response;
     await axios
       .delete(`/adham/employees/${payload}/`, {
@@ -151,7 +151,7 @@ const actions = {
 };
 
 export default {
-  namespaced: true,
+  // namespaced: true,
   state,
   getters,
   actions,
