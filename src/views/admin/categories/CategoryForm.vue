@@ -1,16 +1,13 @@
 <script setup>
 import { jsonToFormData } from '@/utils/functions';
-import { computed, onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import store from '@/store';
 import { fetchCategories } from '@/api/admin';
-import { useRoute, useRouter } from 'vue-router';
 import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 import { useStorage } from '@vueuse/core';
 import Toastify from 'toastify-js';
 import cash from 'cash-dom';
 
-const route = useRoute();
-const router = useRouter();
 const props = defineProps({
   form: {
     type: Object,
@@ -43,16 +40,6 @@ onMounted(async () => {
     item => item.id !== category?.id
   );
 });
-
-function clickInput(name) {
-  document.getElementById(name).click();
-}
-
-function changeImage(e, name) {
-  images[name] = e.target.files[0];
-  const fileUrl = URL.createObjectURL(e.target.files[0]);
-  category[name] = fileUrl;
-}
 
 async function submit() {
   isLoading.value = true;
@@ -104,31 +91,6 @@ function getError(key) {
   <div
     class="col-span-12 lg:col-span-4 2xl:col-span-3 flex lg:block flex-col-reverse"
   >
-    <!-- <div class="intro-y">
-      <div
-        class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5 items-center"
-      >
-        <div class="h-60 w-60 image-fit cursor-pointer zoom-in mx-auto">
-          <img class="rounded-md" alt="Takk" :src="category?.image" />
-          <input
-            type="file"
-            hidden
-            id="avatar-image"
-            @change="e => changeImage(e, 'image')"
-          />
-        </div>
-        <div class="text-theme-6" v-text="getError('image')" />
-        <div class="mx-auto cursor-pointer relative mt-5">
-          <button
-            type="button"
-            @click="clickInput('avatar-image')"
-            class="btn btn-primary w-full"
-          >
-            Change Photo
-          </button>
-        </div>
-      </div>
-    </div> -->
     <SimpleImageUpload
       class="w-52"
       :title="category.image ? 'Change photo' : 'Add photo'"
@@ -257,8 +219,6 @@ function getError(key) {
       </div>
     </div>
   </form>
-  <!-- <SuccessNotification ref="successNotification" :message="successMessage" />
-  <ErrorNotification ref="errorNotification" /> -->
 </template>
 
 <style>

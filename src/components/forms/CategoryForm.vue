@@ -1,3 +1,101 @@
+<script setup>
+import { computed, onMounted, reactive, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import store from '@/store';
+import { jsonToFormData } from '@/utils/functions';
+import { useNotyf } from '@/composables/useNotyf';
+
+const notyf = useNotyf();
+const route = useRoute();
+const router = useRouter();
+const props = defineProps({
+  form: {
+    type: Object,
+    default: {
+      image: '/src/assets/images/product_category.jpg'
+    }
+  },
+  isEdit: {
+    type: Boolean,
+    default: false
+  },
+  dispatcher: {
+    type: String,
+    default: 'postCategory'
+  }
+});
+
+const category = reactive({});
+const images = reactive({});
+const errors = reactive({});
+const isLoading = ref(false);
+const menuId = route.params?.menuId ?? null;
+const categories = computed(() => store.getters['getCategories']);
+const categoryList = computed(() =>
+  categories.value.filter(item => item.id != category?.id)
+);
+
+onMounted(async () => {
+  // store.commit('setSelectedMenuId', menuId);
+  Object.assign(category, props.form);
+  await store.dispatch('fetchCategories');
+});
+
+function clickInput(name) {
+  document.getElementById(name).click();
+}
+
+function changeImage(e, name) {
+  images[name] = e.target.files[0];
+  const fileUrl = URL.createObjectURL(e.target.files[0]);
+  category[name] = fileUrl;
+}
+
+function removeAvatar() {
+  images['image'] == null;
+  form.user.image == null;
+}
+
+async function submit() {
+  try {
+    isLoading.value = true;
+    Object.assign(errors, {});
+
+    if (category?.parent == 0) {
+      category.parent = null;
+    }
+
+    let formData;
+    const data = { ...category, ...images, menu: menuId };
+
+    if (typeof data.image == 'string') delete data.image;
+
+    if (props.isEdit) {
+      formData = {
+        id: data.id,
+        form: jsonToFormData(data)
+      };
+    } else {
+      formData = jsonToFormData(data);
+    }
+
+    const res = await store.dispatch(props.dispatcher, formData);
+
+    notyf.success();
+    router.push('/dashboard/categories');
+  } catch (error) {
+    Object.assign(errors, error.response?.data);
+    notyf.error();
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+function getError(key) {
+  return errors[key]?.[0];
+}
+</script>
+
 <template>
   <div
     class="col-span-12 lg:col-span-4 2xl:col-span-3 flex lg:block flex-col-reverse"
@@ -156,109 +254,7 @@
       </div>
     </div>
   </form>
-  <SuccessNotification ref="successNotification" :message="successMessage" />
-  <ErrorNotification ref="errorNotification" />
 </template>
-
-<script setup>
-import SuccessNotification from '@/components/notifications/SuccessNotification.vue';
-import ErrorNotification from '@/components/notifications/ErrorNotification.vue';
-import { jsonToFormData } from '@/utils/functions';
-import { computed, onMounted, reactive, ref } from 'vue';
-import store from '@/store';
-import { useRoute, useRouter } from 'vue-router';
-
-const route = useRoute();
-const router = useRouter();
-const props = defineProps({
-  form: {
-    type: Object,
-    default: {
-      image: '/src/assets/images/product_category.jpg'
-    }
-  },
-  isEdit: {
-    type: Boolean,
-    default: false
-  },
-  dispatcher: {
-    type: String,
-    default: 'postCategory'
-  }
-});
-
-const category = reactive({});
-const images = reactive({});
-const errors = reactive({});
-const isLoading = ref(false);
-const successNotification = ref(null);
-const errorNotification = ref(null);
-const menuId = route.params?.menuId ?? null;
-const successMessage = 'Successfully saved!';
-const categories = computed(() => store.getters['getCategories']);
-const categoryList = computed(() =>
-  categories.value.filter(item => item.id != category?.id)
-);
-
-onMounted(async () => {
-  // store.commit('setSelectedMenuId', menuId);
-  Object.assign(category, props.form);
-  await store.dispatch('fetchCategories');
-});
-
-function clickInput(name) {
-  document.getElementById(name).click();
-}
-
-function changeImage(e, name) {
-  images[name] = e.target.files[0];
-  const fileUrl = URL.createObjectURL(e.target.files[0]);
-  category[name] = fileUrl;
-}
-
-function removeAvatar() {
-  images['image'] == null;
-  form.user.image == null;
-}
-
-async function submit() {
-  isLoading.value = true;
-
-  if (category?.parent == 0) {
-    category.parent = null;
-  }
-
-  let formData;
-  const data = { ...category, ...images, menu: menuId };
-
-  if (typeof data.image == 'string') delete data.image;
-
-  if (props.isEdit) {
-    formData = {
-      id: data.id,
-      form: jsonToFormData(data)
-    };
-  } else {
-    formData = jsonToFormData(data);
-  }
-
-  const res = await store.dispatch(props.dispatcher, formData);
-
-  if (res.status) {
-    Object.assign(errors, {});
-    successNotification.show();
-    router.push('/dashboard/categories');
-  } else {
-    errorNotification.show();
-    Object.assign(errors, res.data);
-  }
-  isLoading.value = false;
-}
-
-function getError(key) {
-  return errors[key]?.[0];
-}
-</script>
 
 <style>
 input[type='time']::-webkit-calendar-picker-indicator {

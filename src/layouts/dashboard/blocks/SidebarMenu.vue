@@ -4,14 +4,12 @@ import { useRoute, useRouter } from 'vue-router';
 import SideMenuTooltip from '@/components/side-menu-tooltip/Main.vue';
 import store from '@/store';
 import { helper as $h } from '@/utils/helper';
-import { linkTo, enter, leave, nestedMenu } from './configs.js';
+import { linkTo, nestedMenu, enter, leave } from '../index.js';
 
 const route = useRoute();
 const router = useRouter();
 const formattedMenu = ref([]);
-const sideMenu = computed(() =>
-  nestedMenu(store.state.adminSideMenu.menu, route)
-);
+const sideMenu = computed(() => nestedMenu(store.state.sideMenu.menu, route));
 
 watch(
   computed(() => route.path),
@@ -25,13 +23,13 @@ watch(
 <template>
   <nav class="side-nav">
     <!-- BEGIN: Logo -->
-    <router-link
-      to="/admin"
+    <RouterLink
+      to="/dashboard"
       tag="a"
       class="intro-x flex items-center pl-5 pt-4"
     >
       <img alt="Takk" class="w-24" src="@/assets/images/new-logo.png" />
-    </router-link>
+    </RouterLink>
     <!-- END: Logo -->
     <div class="side-nav__devider my-6"></div>
     <ul>

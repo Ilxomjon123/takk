@@ -45,7 +45,7 @@ export function createApi() {
           const res = await store.dispatch('refreshToken');
 
           if (res.status) {
-            location.reload();
+            // location.reload();
             originalRequest._retry = true;
           } else {
             store.dispatch('logout');
@@ -61,9 +61,9 @@ export function createApi() {
   return api;
 }
 
-export default (function makeRequest() {
+export function useApi() {
   if (!api) {
     createApi();
   }
   return api;
-})();
+}

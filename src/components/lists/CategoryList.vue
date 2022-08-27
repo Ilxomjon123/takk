@@ -7,15 +7,15 @@ import DraggableItemModal from '@/views/dashboard/categories/DraggableItemModal.
 import cash from 'cash-dom';
 import store from '@/store';
 
-const items = reactive([]);
+const items = ref([]);
 const form = reactive({});
-const showChildren = reactive([]);
+const showChildren = ref([]);
 const paginator = ref(null);
 
-const selectedMenuId = computed(() => store.getters['getSelectedMenuId']);
+const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
 
 watch(
-  () => selectedMenuId,
+  () => activeMenuID.value,
   newVal => {
     search();
   },
@@ -23,7 +23,7 @@ watch(
 );
 
 function paginate(val) {
-  Object.assign(items, val);
+  items.value = val;
 }
 
 function search() {
@@ -33,7 +33,7 @@ function search() {
 }
 
 function setItems(val) {
-  Object.assign(items, val);
+  items.value = val;
 }
 
 async function deleteItem(val) {
@@ -51,12 +51,12 @@ async function deleteItem(val) {
 
 function toggleChildren(valId) {
   isVisibleChildren(valId)
-    ? Object.assign(showChildren, [])
-    : Object.assign(showChildren, [valId]);
+    ? (showChildren.value = [])
+    : (showChildren.value = [valId]);
 }
 
 function isVisibleChildren(val) {
-  return showChildren.includes(val);
+  return showChildren.value.includes(val);
 }
 
 function reorderModifierType() {
@@ -69,14 +69,14 @@ function reorderModifierItem() {
 </script>
 
 <template>
-  <div v-if="selectedMenuId != null">
+  <div v-if="activeMenuID != null">
     <div class="intro-y flex flex-col sm:flex-row items-center mt-10">
       <h2 class="text-lg font-medium">Categories List</h2>
       <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
         <router-link
           :to="
-            selectedMenuId != null
-              ? `/dashboard/categories/${selectedMenuId}/add`
+            activeMenuID != null
+              ? `/dashboard/categories/${activeMenuID}/add`
               : ''
           "
           class="btn btn-primary ml-3"
@@ -90,13 +90,6 @@ function reorderModifierItem() {
         </button>
         <div class="dropdown-menu w-fit">
           <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-            <!-- <router-link :to="selectedMenuId != null ? `/dashboard/categories/${ selectedMenuId }/add` : ''"
-              class="btn w-full" data-toggle="dropdown">
-              <span class="w-5 h-5 flex items-center justify-center">
-                <PlusIcon class="w-4 h-4" />
-              </span>
-              <span class="whitespace-nowrap">Add Category</span>
-            </router-link> -->
             <button
               class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md w-full"
               @click="reorderModifierType"
@@ -164,9 +157,7 @@ function reorderModifierItem() {
                   <div class="dropdown-menu w-40">
                     <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
                       <router-link
-                        :to="
-                          `/dashboard/categories/${selectedMenuId}/${item.id}`
-                        "
+                        :to="`/dashboard/categories/${activeMenuID}/${item.id}`"
                         data-dismiss="dropdown"
                         class="flex items-center  p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
                       >
@@ -218,7 +209,7 @@ function reorderModifierItem() {
                   <div class="dropdown-menu w-40">
                     <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
                       <router-link
-                        :to="`/dashboard/categories/${selectedMenuId}/${el.id}`"
+                        :to="`/dashboard/categories/${activeMenuID}/${el.id}`"
                         data-dismiss="dropdown"
                         class="flex items-center  p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
                       >
@@ -247,11 +238,11 @@ function reorderModifierItem() {
     <!-- END: Data List -->
     <!-- BEGIN: Pagination -->
     <MainPaginator
-      v-if="selectedMenuId != 'null' && selectedMenuId"
+      v-if="activeMenuID != 'null' && activeMenuID"
       class="mt-5"
       dispatcher="fetchCategories"
       ref="paginator"
-      @setItems="setItems($event)"
+      @set-items="setItems($event)"
       :form="form"
     />
     <!-- END: Pagination -->
@@ -270,79 +261,6 @@ function reorderModifierItem() {
     "
   />
 </template>
-
-<!-- <script>
-import { defineComponent } from 'vue'
-import { mapGetters } from 'vuex';
-import MainPaginator from '../paginator/MainPaginator.vue'
-import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
-import DraggableTypeModal from '@/views/dashboard/categories/DraggableTypeModal.vue';
-import DraggableItemModal from '@/views/dashboard/categories/DraggableItemModal.vue';
-import cash from 'cash-dom';
-
-export default defineComponent({
-  data() {
-    return {
-      items: [],
-      form: {},
-      showChildren: []
-    };
-  },
-  methods: {
-    paginate(val) {
-      this.items = val;
-    },
-    search() {
-      this.$refs.paginator?.paginate(1);
-    },
-    setItems(val) {
-      // console.log(val);
-      this.items = val
-      // this.showChildren = val.map(item => { if (item?.children?.length > 0) return item.id });
-    },
-    async deleteItem(val) {
-      this.$store.commit('setLoadingStatus', true);
-      const res = await this.$store.dispatch('deleteCategory', val);
-      if (res.status) {
-        this.$store.commit('setSuccessNotification', true);
-        this.search();
-      } else {
-        this.$store.commit('setErrorNotification', true);
-      }
-      this.$store.commit('setLoadingStatus', false);
-    },
-    toggleChildren(valId) {
-      this.isVisibleChildren(valId) ?
-        this.showChildren = [] :
-        this.showChildren = [valId]
-      // if (this.isVisibleChildren(val)) {
-      //   delete this.showChildren[this.showChildren.indexOf(val)];
-      // } else {
-      //   this.showChildren.push(val);
-      // }
-    },
-    isVisibleChildren(val) {
-      return this.showChildren.includes(val)
-    },
-    reorderModifierType() {
-      cash('#draggable-category-type-modal').modal('show')
-    },
-    reorderModifierItem() {
-      cash('#draggable-category-item-modal').modal('show')
-    },
-  },
-  computed: {
-    ...mapGetters(['getSelectedMenuId'])
-  },
-
-  components: {
-    MainPaginator,
-    DeleteConfirmModal,
-    DraggableTypeModal,
-    DraggableItemModal
-  }
-});
-</script> -->
 
 <style lang="scss" scoped>
 .dark .inner-tr td {

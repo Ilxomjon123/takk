@@ -7,21 +7,20 @@ import AppFooter from '@/components/global-blocks/app-footer/index.vue';
 import MobileOverlayMenu from '@/components/overlay-menus/mobile-menu/index.vue';
 
 onMounted(() => {
-  cash('html').addClass('bg-theme-2')
+  cash('html').addClass('bg-theme-2');
   cash('html body').css('padding', 0);
-})
+});
 
 onUnmounted(() => {
-  cash('html').removeClass('bg-theme-2')
-})
-
+  cash('html').removeClass('bg-theme-2');
+});
 </script>
 
 <template>
   <div class="content">
     <AppTopBar />
     <main>
-      <router-view />
+      <RouterView />
     </main>
     <AppFooter />
   </div>

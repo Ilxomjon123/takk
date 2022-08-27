@@ -47,25 +47,16 @@ async function submit(formData) {
     });
 
     router.push('/admin/cafes/' + res1.id);
+    notyf.success();
   } catch (error) {
     if (error.response) {
-      console.log(error.response.data);
+      notyf.error();
       externalErrors.value = error.response.data;
-      invalidSubmit();
     }
   } finally {
     store.commit('setLoadingStatus', false);
     // isLoading.value = false
   }
-}
-
-function invalidSubmit() {
-  Toastify({
-    node: cash('#failed-notification-content')
-      .clone()
-      .removeClass('hidden')[0],
-    duration: 3000
-  }).showToast();
 }
 
 // Show modal

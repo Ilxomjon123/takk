@@ -3,6 +3,7 @@ import nProgress from 'nprogress';
 import store from '@/store';
 
 let api;
+nProgress.configure({ parent: '#custom-nprogress' });
 
 export function createApi() {
   // Here we set the base URL for all requests made to the api

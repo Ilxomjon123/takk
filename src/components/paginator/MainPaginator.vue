@@ -58,6 +58,7 @@ export default defineComponent({
         ...this.paginator
       });
       this.total = res?.total_objects;
+      console.log('res?.results', res?.results);
       this.$emit('setItems', res?.results);
       // this.$store.commit('setLoadingStatus', false);
     }

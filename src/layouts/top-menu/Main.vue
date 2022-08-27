@@ -89,7 +89,9 @@
                   <div class="ml-3">{{ faker.users[0].name }}</div>
                   <div
                     class="ml-auto w-48 truncate text-gray-600 text-xs text-right"
-                  >{{ faker.users[0].email }}</div>
+                  >
+                    {{ faker.users[0].email }}
+                  </div>
                 </a>
               </div>
               <div class="search-result__content__title">Products</div>
@@ -109,7 +111,9 @@
                 <div class="ml-3">{{ faker.products[0].name }}</div>
                 <div
                   class="ml-auto w-48 truncate text-gray-600 text-xs text-right"
-                >{{ faker.products[0].category }}</div>
+                >
+                  {{ faker.products[0].category }}
+                </div>
               </a>
             </div>
           </div>
@@ -147,17 +151,18 @@
                 </div>
                 <div class="ml-2 overflow-hidden">
                   <div class="flex items-center">
-                    <a
-                      href="javascript:;"
-                      class="font-medium truncate mr-5"
-                    >{{ faker.users[0].name }}</a>
+                    <a href="javascript:;" class="font-medium truncate mr-5">{{
+                      faker.users[0].name
+                    }}</a>
                     <div
                       class="text-xs text-gray-500 ml-auto whitespace-nowrap"
-                    >{{ faker.times[0] }}</div>
+                    >
+                      {{ faker.times[0] }}
+                    </div>
                   </div>
-                  <div
-                    class="w-full truncate text-gray-600 mt-0.5"
-                  >{{ faker.news[0].shortContent }}</div>
+                  <div class="w-full truncate text-gray-600 mt-0.5">
+                    {{ faker.news[0].shortContent }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -179,9 +184,9 @@
             >
               <div class="p-4 border-b border-theme-27 dark:border-dark-3">
                 <div class="font-medium">{{ $f()[0].users[0].name }}</div>
-                <div
-                  class="text-xs text-theme-41 mt-0.5 dark:text-gray-600"
-                >{{ $f()[0].jobs[0] }}</div>
+                <div class="text-xs text-theme-41 mt-0.5 dark:text-gray-600">
+                  {{ $f()[0].jobs[0] }}
+                </div>
               </div>
               <div class="p-2">
                 <a
@@ -305,23 +310,27 @@
     <!-- END: Top Menu -->
     <!-- BEGIN: Content -->
     <div class="content">
-      <router-view />
+      <RouterView />
     </div>
     <!-- END: Content -->
   </div>
 </template>
 
 <script>
-import { defineComponent, computed, onMounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useStore } from '@/store'
-import { helper as $h } from '@/utils/helper'
-import TopBar from '@/components/top-bar/Main.vue'
-import MobileMenu from '@/components/mobile-menu/Main.vue'
-import DarkModeSwitcher from '@/components/dark-mode-switcher/Main.vue'
-import { searchDropdown, showSearchDropdown, hideSearchDropdown } from './index'
-import { nestedMenu, linkTo } from '@/layouts/side-menu'
-import { take } from 'lodash'
+import { defineComponent, computed, onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from '@/store';
+import { helper as $h } from '@/utils/helper';
+import TopBar from '@/components/top-bar/Main.vue';
+import MobileMenu from '@/components/mobile-menu/Main.vue';
+import DarkModeSwitcher from '@/components/dark-mode-switcher/Main.vue';
+import {
+  searchDropdown,
+  showSearchDropdown,
+  hideSearchDropdown
+} from './index';
+import { nestedMenu, linkTo } from '@/layouts/side-menu';
+import { take } from 'lodash';
 
 export default defineComponent({
   components: {
@@ -330,26 +339,26 @@ export default defineComponent({
     DarkModeSwitcher
   },
   setup() {
-    const route = useRoute()
-    const router = useRouter()
-    const store = useStore()
-    const formattedMenu = ref([])
-    const topMenu = computed(() => nestedMenu(store.state.topMenu.menu, route))
+    const route = useRoute();
+    const router = useRouter();
+    const store = useStore();
+    const formattedMenu = ref([]);
+    const topMenu = computed(() => nestedMenu(store.state.topMenu.menu, route));
 
     watch(
       computed(() => route.path),
       () => {
-        formattedMenu.value = $h.toRaw(topMenu.value)
+        formattedMenu.value = $h.toRaw(topMenu.value);
       }
-    )
+    );
 
     onMounted(() => {
       cash('body')
         .removeClass('error-page')
         .removeClass('login')
-        .addClass('main')
-      formattedMenu.value = $h.toRaw(topMenu.value)
-    })
+        .addClass('main');
+      formattedMenu.value = $h.toRaw(topMenu.value);
+    });
 
     return {
       searchDropdown,
@@ -357,8 +366,9 @@ export default defineComponent({
       hideSearchDropdown,
       formattedMenu,
       router,
-      linkTo, take
-    }
+      linkTo,
+      take
+    };
   }
 });
 </script>

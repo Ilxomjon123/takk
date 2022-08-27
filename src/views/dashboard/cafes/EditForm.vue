@@ -14,8 +14,10 @@ import CafeGallery from './CafeGallery.vue';
 import CafeWorkingDays from './CafeWorkingDays.vue';
 import { fetchCafe, updateCafe, deleteCafe, deleteCafeImage } from '@/api';
 import router from '@/router';
+import { useNotyf } from '@/composables/useNotyf';
 
 const route = useRoute();
+const notyf = useNotyf();
 const currentItem = ref('CafeInformation');
 const formFields = ref({
   location: {
@@ -84,7 +86,7 @@ const formFields = ref({
   delivery_km_amount: 0,
   delivery_min_time: 30,
   cafe_timezone: 'America/New_York',
-  status: 0,
+  status: 0
 });
 const externalErrors = ref({});
 
@@ -93,7 +95,7 @@ onMounted(async () => {
   const res1 = await fetchCafe(route.params.id);
   // store.commit('setSelectedCountry', res1.country);
   // store.dispatch('fetchCitiesByCountry', res1.country)
-  formFields.value = res1
+  formFields.value = res1;
   store.commit('setLoadingStatus', false);
 });
 
@@ -110,51 +112,32 @@ async function submit(formData) {
   try {
     await updateCafe({ data: formData, id: route.params.id });
 
-    Toastify({
-      node: cash('#success-notification-content')
-        .clone()
-        .removeClass('hidden')[0],
-      duration: 3000,
-    }).showToast();
+    notyf.error();
   } catch (error) {
     if (error.response) {
-      console.log(error.response.data);
+      notyf.error();
       externalErrors.value = error.response.data;
-      invalidSubmit();
     }
   } finally {
     store.commit('setLoadingStatus', false);
   }
 }
 
-function invalidSubmit() {
-  Toastify({
-    node: cash('#failed-notification-content')
-      .clone()
-      .removeClass('hidden')[0],
-    duration: 3000,
-  }).showToast();
-}
-
 function openConfirmModal() {
-  cash('#delete-confirmation-modal').modal('show')
+  cash('#delete-confirmation-modal').modal('show');
 }
 
 async function removeCafe() {
   store.commit('setLoadingStatus', true);
-  cash('#delete-confirmation-modal').modal('hide')
+  cash('#delete-confirmation-modal').modal('hide');
   if (!isEmpty(formFields.value.photos)) {
-    formFields.value.photos.forEach(async ({ id }) => await deleteCafeImage(id));
+    formFields.value.photos.forEach(
+      async ({ id }) => await deleteCafeImage(id)
+    );
   }
   await deleteCafe(formFields.value.id);
   store.commit('setLoadingStatus', false);
   router.push('/dashboard/cafes');
-  // Toastify({
-  //   node: cash('#success-notification-content')
-  //     .clone()
-  //     .removeClass('hidden')[0],
-  //   duration: 3000,
-  // }).showToast();
 }
 </script>
 
@@ -164,39 +147,70 @@ async function removeCafe() {
       <h2 class="text-lg font-medium mr-auto">Cafe Edit Form</h2>
     </div>
     <div class="grid grid-cols-12 gap-6">
-      <CafeMenu @update:selected-item="changeComponent($event)" form-type="edit" :form-data="formFields"
-        :external-errors="externalErrors" @remove:form-data="openConfirmModal" />
+      <CafeMenu
+        @update:selected-item="changeComponent($event)"
+        form-type="edit"
+        :form-data="formFields"
+        :external-errors="externalErrors"
+        @remove:form-data="openConfirmModal"
+      />
       <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
-        <component :is="currentItem === 'CafeOperations' ? CafeOperations
-  : currentItem === 'CafeDelivery' ? CafeDelivery
-    : currentItem === 'CafeGallery' ? CafeGallery
-      : currentItem === 'CafeWorkingDays' ? CafeWorkingDays
-        : CafeInformation" :form-data="formFields" :external-errors="externalErrors"
-          @update:form-data="submit($event)" />
+        <component
+          :is="
+            currentItem === 'CafeOperations'
+              ? CafeOperations
+              : currentItem === 'CafeDelivery'
+              ? CafeDelivery
+              : currentItem === 'CafeGallery'
+              ? CafeGallery
+              : currentItem === 'CafeWorkingDays'
+              ? CafeWorkingDays
+              : CafeInformation
+          "
+          :form-data="formFields"
+          :external-errors="externalErrors"
+          @update:form-data="submit($event)"
+        />
       </div>
     </div>
-  </div>
-  <!-- BEGIN: Delete Confirmation Modal -->
-  <div id="delete-confirmation-modal" class="modal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-body p-0">
-          <div class="p-5 text-center">
-            <XCircleIcon class="w-16 h-16 text-theme-6 mx-auto mt-3" />
-            <div class="text-3xl mt-5">Are you sure?</div>
-            <div class="text-gray-600 mt-2">
-              Do you really want to delete these records?
-              <br />This process cannot be undone.
+    <!-- BEGIN: Delete Confirmation Modal -->
+    <div
+      id="delete-confirmation-modal"
+      class="modal"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body p-0">
+            <div class="p-5 text-center">
+              <XCircleIcon class="w-16 h-16 text-theme-6 mx-auto mt-3" />
+              <div class="text-3xl mt-5">Are you sure?</div>
+              <div class="text-gray-600 mt-2">
+                Do you really want to delete these records?
+                <br />This process cannot be undone.
+              </div>
             </div>
-          </div>
-          <div class="px-5 pb-8 text-center">
-            <button type="button" data-dismiss="modal" class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
-            <button type="button" class="btn btn-danger w-24" @click="removeCafe">Delete</button>
+            <div class="px-5 pb-8 text-center">
+              <button
+                type="button"
+                data-dismiss="modal"
+                class="btn btn-outline-secondary w-24 mr-1"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger w-24"
+                @click="removeCafe"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- END: Delete Confirmation Modal -->
   </div>
-  <!-- END: Delete Confirmation Modal -->
-
 </template>

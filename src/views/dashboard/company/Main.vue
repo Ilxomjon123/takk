@@ -1,65 +1,58 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import store from '@/store';
 import CountrySelect from '@/components/selects/CountrySelect.vue';
 import CitySelect from '@/components/selects/CitySelect.vue';
-import SuccessNotification from '@/components/notifications/SuccessNotification.vue';
-import ErrorNotification from '@/components/notifications/ErrorNotification.vue';
 import StateSelect from '@/components/selects/StateSelect.vue';
 import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 import TelInput from '@/components/forms/TelInput.vue';
+import { useNotyf } from '@/composables/useNotyf';
 
+const notyf = useNotyf();
 const image = ref(null);
 const isLoading = ref(false);
 const errors = ref(null);
-const successMessage = ref('Successfully saved!');
-const successNotification = ref(null);
-const errorNotification = ref(null);
 const getCompany = computed(() => store.getters['getCompany']);
+
 if (getCompany.value.cashback_percent == null)
   getCompany.value.cashback_percent = 10;
-const globalLoading = computed(() => store.state.common.loadingStatus);
 
 async function submit() {
-  isLoading.value = true;
-
-  const formData = new FormData();
-
-  image.value && formData.append('logo', image.value);
-  formData.append('name', getCompany.value.name);
-  formData.append('phone', getCompany.value.phone.replace(/\s+/g, ''));
-  formData.append('email', getCompany.value.email);
-  formData.append('website', getCompany.value.website);
-  formData.append('country', getCompany.value.country);
-  formData.append('country_code', getCompany.value.country_code || 'US');
-  formData.append('state', getCompany.value.state);
-  formData.append('city', getCompany.value.city);
-  formData.append('address', getCompany.value.address);
-  formData.append('second_address', getCompany.value.second_address);
-  formData.append('postal_code', getCompany.value.postal_code);
-  formData.append('cashback_percent', getCompany.value.cashback_percent);
-  formData.append('pub_show_reviews', getCompany.value.pub_show_reviews);
-  formData.append('pub_show_like', getCompany.value.pub_show_like);
-  formData.append('about', getCompany.value.about);
-
-  errors.value = null;
-  const res = await store.dispatch('putCompany', {
-    form: formData,
-    id: getCompany.value.id
-  });
-  await store.dispatch('fetchCompany');
-
-  if (res.status) {
+  try {
+    isLoading.value = true;
     errors.value = null;
-    if (res.status) {
-      successNotification.value.show();
-    } else {
-      errorNotification.value.show();
-    }
-  } else {
-    errors.value = res.data;
+
+    const formData = new FormData();
+
+    image.value && formData.append('logo', image.value);
+    formData.append('name', getCompany.value.name);
+    formData.append('phone', getCompany.value.phone.replace(/\s+/g, ''));
+    formData.append('email', getCompany.value.email);
+    formData.append('website', getCompany.value.website);
+    formData.append('country', getCompany.value.country);
+    formData.append('country_code', getCompany.value.country_code || 'US');
+    formData.append('state', getCompany.value.state);
+    formData.append('city', getCompany.value.city);
+    formData.append('address', getCompany.value.address);
+    formData.append('second_address', getCompany.value.second_address);
+    formData.append('postal_code', getCompany.value.postal_code);
+    formData.append('cashback_percent', getCompany.value.cashback_percent);
+    formData.append('pub_show_reviews', getCompany.value.pub_show_reviews);
+    formData.append('pub_show_like', getCompany.value.pub_show_like);
+    formData.append('about', getCompany.value.about);
+
+    const res = await store.dispatch('putCompany', {
+      form: formData,
+      id: getCompany.value.id
+    });
+
+    notyf.success();
+  } catch (error) {
+    notyf.error();
+    errors.value = error.response?.data?.errors;
+  } finally {
+    isLoading.value = false;
   }
-  isLoading.value = false;
 }
 
 function getError(key) {
@@ -70,7 +63,7 @@ function getError(key) {
 <template>
   <div class="col-span-12 lg:col-span-9 2xl:col-span-9">
     <!-- BEGIN: Display Information -->
-    <div class="intro-y box" v-if="!globalLoading">
+    <div class="intro-y box">
       <div
         class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5"
       >
@@ -332,11 +325,6 @@ function getError(key) {
               </button>
             </div>
           </form>
-          <SuccessNotification
-            ref="successNotification"
-            :message="successMessage"
-          />
-          <ErrorNotification ref="errorNotification" />
         </div>
       </div>
     </div>

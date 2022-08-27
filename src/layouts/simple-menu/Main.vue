@@ -112,7 +112,7 @@
                               lastSubMenu.subMenu
                                 ? 'javascript:;'
                                 : router.resolve({ name: lastSubMenu.pageName })
-                                  .path
+                                    .path
                             "
                             class="side-menu"
                             :class="{ 'side-menu--active': lastSubMenu.active }"
@@ -121,9 +121,9 @@
                             <div class="side-menu__icon">
                               <ZapIcon />
                             </div>
-                            <div
-                              class="side-menu__title"
-                            >{{ lastSubMenu.title }}</div>
+                            <div class="side-menu__title">
+                              {{ lastSubMenu.title }}
+                            </div>
                           </Tippy>
                         </li>
                       </ul>
@@ -142,7 +142,7 @@
       <!-- BEGIN: Content -->
       <div class="content">
         <TopBar />
-        <router-view />
+        <RouterView />
       </div>
       <!-- END: Content -->
     </div>
@@ -150,14 +150,14 @@
 </template>
 
 <script>
-import { defineComponent, computed, onMounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useStore } from '@/store'
-import { helper as $h } from '@/utils/helper'
-import TopBar from '@/components/top-bar/Main.vue'
-import MobileMenu from '@/components/mobile-menu/Main.vue'
-import DarkModeSwitcher from '@/components/dark-mode-switcher/Main.vue'
-import { linkTo, nestedMenu, enter, leave } from '@/layouts/side-menu'
+import { defineComponent, computed, onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from '@/store';
+import { helper as $h } from '@/utils/helper';
+import TopBar from '@/components/top-bar/Main.vue';
+import MobileMenu from '@/components/mobile-menu/Main.vue';
+import DarkModeSwitcher from '@/components/dark-mode-switcher/Main.vue';
+import { linkTo, nestedMenu, enter, leave } from '@/layouts/side-menu';
 
 export default defineComponent({
   components: {
@@ -166,28 +166,28 @@ export default defineComponent({
     DarkModeSwitcher
   },
   setup() {
-    const route = useRoute()
-    const router = useRouter()
-    const store = useStore()
-    const formattedMenu = ref([])
+    const route = useRoute();
+    const router = useRouter();
+    const store = useStore();
+    const formattedMenu = ref([]);
     const simpleMenu = computed(() =>
       nestedMenu(store.state.simpleMenu.menu, route)
-    )
+    );
 
     watch(
       computed(() => route.path),
       () => {
-        formattedMenu.value = $h.toRaw(simpleMenu.value)
+        formattedMenu.value = $h.toRaw(simpleMenu.value);
       }
-    )
+    );
 
     onMounted(() => {
       cash('body')
         .removeClass('error-page')
         .removeClass('login')
-        .addClass('main')
-      formattedMenu.value = $h.toRaw(simpleMenu.value)
-    })
+        .addClass('main');
+      formattedMenu.value = $h.toRaw(simpleMenu.value);
+    });
 
     return {
       formattedMenu,
@@ -195,7 +195,7 @@ export default defineComponent({
       linkTo,
       enter,
       leave
-    }
+    };
   }
-})
+});
 </script>

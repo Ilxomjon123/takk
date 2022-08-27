@@ -1,18 +1,19 @@
 import axios from 'axios';
 import makeRequest from '@/api/makeRequest';
 import { isNull } from 'lodash';
+import { useStorage } from '@vueuse/core';
 
 const state = () => {
   return {
     menus: [],
-    selectedMenuId: null
+    // selectedMenuId: null,
+    selectedMenuID: useStorage('selected-productmenu-id', null)
   };
 };
 
 const getters = {
   getMenus: state => state.menus,
-  getSelectedMenuId: state =>
-    state.selectedMenuId || localStorage.getItem('selected-productmenu-id')
+  getSelectedMenuId: state => state.selectedMenuID
 };
 
 const mutations = {
@@ -20,11 +21,7 @@ const mutations = {
     state.menus = payload;
   },
   setSelectedMenuId(state, payload) {
-    if (isNull(payload)) localStorage.removeItem('selected-productmenu-id');
-    else {
-      localStorage.setItem('selected-productmenu-id', payload);
-      state.selectedMenuId = payload;
-    }
+    state.selectedMenuID = payload;
   }
 };
 
@@ -99,7 +96,7 @@ const actions = {
   async deleteMenu({ rootGetters, state, commit }, payload) {
     let response;
     if (!isNull(payload)) {
-      if (payload === state.selectedMenuId) commit('setSelectedMenuId', null);
+      if (payload === state.selectedMenuID) commit('setSelectedMenuId', null);
       await axios
         .delete(`/api/menus/${payload}/`, {
           headers: rootGetters.getHttpHeader

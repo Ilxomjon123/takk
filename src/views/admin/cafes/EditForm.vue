@@ -18,9 +18,10 @@ import {
   deleteCafeImage
 } from '@/api/admin';
 import router from '@/router';
-import Toastify from 'toastify-js';
+import { useNotyf } from '@/composables/useNotyf';
 
 const route = useRoute();
+const notyf = useNotyf();
 const currentItem = ref('CafeInformation');
 const formFields = reactive({
   location: {
@@ -91,7 +92,6 @@ const formFields = reactive({
   status: 0
 });
 const externalErrors = ref({});
-// const toastify = useToastify();
 const components = {
   CafeInformation,
   CafeOperations,
@@ -137,31 +137,15 @@ async function submit(formData) {
       id: route.params.id
     });
 
-    Toastify({
-      node: cash('#success-notification-content')
-        .clone()
-        .removeClass('hidden')[0],
-      duration: 3000
-    }).showToast();
-    // toastify.success('Successfully updated');
+    notyf.success();
   } catch (error) {
     if (error.response) {
-      console.log(error.response.data);
+      notyf.error();
       externalErrors.value = error.response.data;
-      invalidSubmit();
     }
   } finally {
     store.commit('setLoadingStatus', false);
   }
-}
-
-function invalidSubmit() {
-  Toastify({
-    node: cash('#failed-notification-content')
-      .clone()
-      .removeClass('hidden')[0],
-    duration: 3000
-  }).showToast();
 }
 
 function openConfirmModal() {

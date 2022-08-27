@@ -223,8 +223,6 @@
       </button>
     </div>
   </form>
-  <SuccessNotification ref="successNotification" :message="successMessage" />
-  <ErrorNotification ref="errorNotification" />
 </template>
 
 <script>
@@ -232,16 +230,13 @@ import { defineComponent } from 'vue';
 import CountrySelect from '@/components/selects/CountrySelect.vue';
 import CitySelect from '@/components/selects/CitySelect.vue';
 import { mapActions } from 'vuex';
-import SuccessNotification from '../notifications/SuccessNotification.vue';
-import ErrorNotification from '../notifications/ErrorNotification.vue';
 
 export default defineComponent({
   data() {
     return {
       form: {},
       isLoading: false,
-      errors: {},
-      successMessage: 'Successfully saved!'
+      errors: {}
     };
   },
   props: {
@@ -287,12 +282,11 @@ export default defineComponent({
   },
   components: {
     CountrySelect,
-    CitySelect,
-    SuccessNotification,
-    ErrorNotification
+    CitySelect
   }
 });
 </script>
+
 <style scoped>
 /* Chrome, Safari, Edge, Opera */
 input::-webkit

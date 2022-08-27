@@ -151,18 +151,13 @@
       </div>
     </div>
   </form>
-  <SuccessNotification ref="successNotification" :message="successMessage" />
-  <ErrorNotification ref="errorNotification" />
 </template>
 
 <script>
 import { defineComponent } from 'vue';
 import { mapActions, mapGetters } from 'vuex';
-import SuccessNotification from '@/components/notifications/SuccessNotification.vue';
-import ErrorNotification from '@/components/notifications/ErrorNotification.vue';
-// import { fetchAdminCafeList } from '@/api';
-import { jsonToFormData } from '@/utils/functions';
 import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
+
 export default defineComponent({
   data() {
     return {
@@ -170,7 +165,6 @@ export default defineComponent({
       images: {},
       isLoading: false,
       errors: {},
-      successMessage: 'Successfully saved!',
       cafeList: [],
       deleteLoading: false
     };
@@ -282,6 +276,6 @@ export default defineComponent({
       return this.errors[key]?.[0];
     }
   },
-  components: { SuccessNotification, ErrorNotification, DeleteConfirmModal }
+  components: { DeleteConfirmModal }
 });
 </script>

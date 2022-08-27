@@ -1,10 +1,9 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import cash from 'cash-dom';
 import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
 import { fetchCafeWorkDays, updateCafeWorkDays } from '@/api';
-import Toastify from 'toastify-js';
+import { useNotyf } from '@/composables/useNotyf';
 
 const props = defineProps({
   formData: {
@@ -19,6 +18,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:formData']);
 const route = useRoute();
+const notyf = useNotyf();
 const isLoading = ref(false);
 const workingDayTimes = ref([
   {
@@ -85,31 +85,15 @@ async function submit() {
       id: route.params.id
     });
 
-    // Toastify({
-    //   node: cash('#success-notification-content')
-    //     .clone()
-    //     .removeClass('hidden')[0],
-    //   duration: 3000
-    // }).showToast();
+    notyf.success();
   } catch (error) {
     if (error.response) {
-      console.log(error.response.data);
+      notyf.error();
       props.externalErrors.value = error.response.data;
-      invalidSubmit();
     }
   } finally {
     isLoading.value = false;
   }
-}
-
-function invalidSubmit() {
-  Toastify({
-    node: cash('#failed-notification-content')
-      .clone()
-      .removeClass('hidden')[0],
-    duration: 3000
-  }).showToast();
-  // toastify.error('Error while updating');
 }
 </script>
 
@@ -171,5 +155,4 @@ function invalidSubmit() {
       </div>
     </div>
   </div>
-  <!-- <SuccessNotification message="Successfully updated" /> -->
 </template>

@@ -4,6 +4,7 @@ import MenuAddEditFormModal from '../modals/MenuAddEditFormModal.vue';
 import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
 import cash from 'cash-dom';
 import store from '@/store';
+import { useNotyf } from '@/composables/useNotyf';
 
 const props = defineProps({
   subItemTitle: String,
@@ -11,18 +12,16 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update-id']);
-
+const notyf = useNotyf();
 const items = ref([]);
 const dispatcher = ref('postMenu');
 const addDispatcher = ref('postMenu');
 const editDispatcher = ref('putMenu');
-const successMessage = ref('Successfully Deleted!');
 const selectedMenuDetails = ref({});
+const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
 
-const getSelectedMenuId = computed(() => store.getters['getSelectedMenuId']);
-
-onMounted(() => {
-  fetchData();
+onMounted(async () => {
+  await fetchData();
 });
 
 function paginate(val) {
@@ -55,30 +54,28 @@ function editMenu(val) {
 }
 
 async function deleteMenu(val) {
-  store.commit('setLoadingStatus', true);
+  try {
+    store.commit('setLoadingStatus', true);
 
-  const res = await store.dispatch('deleteMenu', val);
-
-  if (res.status === true) {
-    successMessage.value = 'Successfully Deleted!';
-    store.commit('setSuccessNotification', true);
-    // search();
-    updateList();
-  } else store.commit('setSuccessNotification', true);
-
-  store.commit('setLoadingStatus', false);
+    const res = await store.dispatch('deleteMenu', val);
+    await fetchData();
+    notyf.success('Menu item deleted successfully!');
+  } catch (error) {
+    notyf.error('Error while deleting menu: ' + error.message);
+  } finally {
+    store.commit('setLoadingStatus', false);
+  }
 }
 
 async function fetchData() {
-  // console.log(dispatcher.value);
   store.commit('setLoadingStatus', true);
   const res = await store.dispatch('fetchMenus');
   items.value = res.results;
   store.commit('setLoadingStatus', false);
 }
 
-function updateList() {
-  fetchData();
+async function updateList() {
+  await fetchData();
 }
 </script>
 
@@ -102,9 +99,7 @@ function updateList() {
         v-for="(item, index) in items"
         :key="index"
         :class="
-          item.id == getSelectedMenuId
-            ? 'bg-theme-1 dark:bg-theme-1 text-white'
-            : ''
+          item.id == activeMenuID ? 'bg-theme-1 dark:bg-theme-1 text-white' : ''
         "
         @click="selectMenu(item.id)"
       >
@@ -138,15 +133,6 @@ function updateList() {
               </div>
             </div>
           </div>
-          <!-- <div class="flex">
-            <Edit2Icon @click="editMenu(item)" class="hover:text-theme-12" />
-            <DeleteConfirmModal
-              @onConfirmedDelete="deleteMenu(item.id)"
-              :isIcon="true"
-              :modalId="`menu-delete-modal-${ item.id }`"
-            />
-          </div> -->
-          <!-- <TrashIcon @click="editMenu(item)" class="hover:text-theme-6" /> -->
         </div>
         <div class="flex">
           <div class="mr-auto text-gray-600">
@@ -155,16 +141,6 @@ function updateList() {
         </div>
       </div>
     </div>
-
-    <!-- BEGIN: Pagination -->
-    <!-- <MainPaginator
-      class="mt-5"
-      dispatcher="fetchMenus"
-      ref="paginator"
-      @setItems="setItems($event)"
-      :form="paginationForm"
-    />-->
-    <!-- END: Pagination -->
   </div>
 
   <MenuAddEditFormModal :item="selectedMenuDetails" @submitted="updateList" />

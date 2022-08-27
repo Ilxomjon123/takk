@@ -103,7 +103,7 @@
                               lastSubMenu.subMenu
                                 ? 'javascript:;'
                                 : router.resolve({ name: lastSubMenu.pageName })
-                                  .path
+                                    .path
                             "
                             class="side-menu"
                             :class="{ 'side-menu--active': lastSubMenu.active }"
@@ -112,9 +112,9 @@
                             <div class="side-menu__icon">
                               <ZapIcon />
                             </div>
-                            <div
-                              class="side-menu__title"
-                            >{{ lastSubMenu.title }}</div>
+                            <div class="side-menu__title">
+                              {{ lastSubMenu.title }}
+                            </div>
                           </SideMenuTooltip>
                         </li>
                       </ul>
@@ -133,7 +133,7 @@
       <!-- BEGIN: Content -->
       <div class="content">
         <TopBar />
-        <router-view />
+        <RouterView />
       </div>
       <!-- END: Content -->
     </div>
@@ -141,16 +141,16 @@
 </template>
 
 <script>
-import { defineComponent, computed, onMounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useStore } from '@/store'
-import { helper as $h } from '@/utils/helper'
-import TopBar from '@/components/top-bar/Main.vue'
-import MobileMenu from '@/components/mobile-menu/Main.vue'
-import DarkModeSwitcher from '@/components/dark-mode-switcher/Main.vue'
-import SideMenuTooltip from '@/components/side-menu-tooltip/Main.vue'
-import { linkTo, nestedMenu, enter, leave } from './index'
-import cash from 'cash-dom'
+import { defineComponent, computed, onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from '@/store';
+import { helper as $h } from '@/utils/helper';
+import TopBar from '@/components/top-bar/Main.vue';
+import MobileMenu from '@/components/mobile-menu/Main.vue';
+import DarkModeSwitcher from '@/components/dark-mode-switcher/Main.vue';
+import SideMenuTooltip from '@/components/side-menu-tooltip/Main.vue';
+import { linkTo, nestedMenu, enter, leave } from './index';
+import cash from 'cash-dom';
 
 export default defineComponent({
   components: {
@@ -160,28 +160,28 @@ export default defineComponent({
     SideMenuTooltip
   },
   setup() {
-    const route = useRoute()
-    const router = useRouter()
-    const store = useStore()
-    const formattedMenu = ref([])
+    const route = useRoute();
+    const router = useRouter();
+    const store = useStore();
+    const formattedMenu = ref([]);
     const sideMenu = computed(() =>
       nestedMenu(store.state.sideMenu.menu, route)
-    )
+    );
 
     watch(
       computed(() => route.path),
       () => {
-        formattedMenu.value = $h.toRaw(sideMenu.value)
+        formattedMenu.value = $h.toRaw(sideMenu.value);
       }
-    )
+    );
 
     onMounted(() => {
       cash('body')
         .removeClass('error-page')
         .removeClass('login')
-        .addClass('main')
-      formattedMenu.value = $h.toRaw(sideMenu.value)
-    })
+        .addClass('main');
+      formattedMenu.value = $h.toRaw(sideMenu.value);
+    });
 
     return {
       formattedMenu,
@@ -189,7 +189,7 @@ export default defineComponent({
       linkTo,
       enter,
       leave
-    }
+    };
   }
 });
 </script>

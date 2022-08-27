@@ -1,4 +1,7 @@
 import axios from 'axios';
+import { useApi } from '@/composables/useApi';
+
+const api = useApi();
 
 const state = () => {
   return {
@@ -54,28 +57,40 @@ const actions = {
       });
   },
 
-  async putCompany({ rootGetters }, payload) {
-    let response;
-    await axios
-      .put(`/api/companies/`, payload.form, {
-        headers: {
-          ...rootGetters.getHttpHeader,
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-      .then(async res => {
-        response = {
-          status: true,
-          data: res.data
-        };
-      })
-      .catch(err => {
-        response = {
-          status: false,
-          data: err.response?.data
-        };
+  async putCompany({ commit }, payload) {
+    // let response;
+    // await axios
+    //   .put(`/api/companies/`, payload.form, {
+    //     headers: {
+    //       ...rootGetters.getHttpHeader,
+    //       'Content-Type': 'multipart/form-data'
+    //     }
+    //   })
+    //   .then(async res => {
+    //     response = {
+    //       status: true,
+    //       data: res.data
+    //     };
+    //   })
+    //   .catch(err => {
+    //     response = {
+    //       status: false,
+    //       data: err.response?.data
+    //     };
+    //   });
+    // return response;
+
+    try {
+      const res = await api({
+        url: `/api/companies/`,
+        method: 'PUT',
+        data: payload.form
       });
-    return response;
+
+      commit('setCompany', res.data);
+    } catch (error) {
+      throw error;
+    }
   },
 
   async fetchCustomers({ commit, rootGetters }, payload) {

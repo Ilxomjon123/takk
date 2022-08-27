@@ -23,14 +23,13 @@ const selectedCountry = computed({
   }
 });
 
-await getCountries();
-// onMounted(async () => {
-// });
+onMounted(async () => {
+  await getCountries();
+});
 
 watch(
   () => props.modelValue,
   async (newVal, oldVal) => {
-    console.log('country new val: ', newVal);
     setSelectedCountry(newVal);
     await getStates();
   },

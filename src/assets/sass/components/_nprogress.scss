@@ -1,0 +1,17 @@
+#custom-nprogress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+#nprogress {
+  // position: absolute;
+  // top: 0;
+  // left: 0;
+  .bar {
+    background: white;
+    z-index: 100000;
+    height: 5px;
+  }
+}

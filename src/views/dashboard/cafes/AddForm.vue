@@ -1,14 +1,15 @@
 <script setup>
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import cash from 'cash-dom';
-import Toastify from 'toastify-js';
+import store from '@/store';
 import CafeMenu from './CafeMenu.vue';
 import CafeInformation from './CafeInformation.vue';
-import { ref } from 'vue';
 import { storeCafe } from '@/api';
-import store from '@/store';
+import { useNotyf } from '@/composables/useNotyf';
 
 const router = useRouter();
+const notyf = useNotyf();
 const formFields = ref({
   location: {
     lat: 35.1234,
@@ -27,41 +28,28 @@ const formFields = ref({
   photos: []
 });
 const externalErrors = ref({});
+const isLoading = ref(false);
 
 async function submit(formData) {
   store.commit('setLoadingStatus', true);
-  // isLoading.value = true
+
+  isLoading.value = true;
   externalErrors.value = {};
 
   try {
     const res1 = await storeCafe(formData);
 
-    Toastify({
-      node: cash('#success-notification-content')
-        .clone()
-        .removeClass('hidden')[0],
-      duration: 3000
-    }).showToast();
-    router.push('/dashboard/cafe/' + res1.id);
+    notyf.success();
+    router.push('/dashboard/cafes/' + res1.id);
   } catch (error) {
     if (error.response) {
-      console.log(error.response.data);
-      externalErrors.value = error.response.data;
-      invalidSubmit();
+      notyf.error();
+      externalErrors.value = error.response?.data;
     }
   } finally {
     store.commit('setLoadingStatus', false);
-    // isLoading.value = false
+    isLoading.value = false;
   }
-}
-
-function invalidSubmit() {
-  Toastify({
-    node: cash('#failed-notification-content')
-      .clone()
-      .removeClass('hidden')[0],
-    duration: 3000
-  }).showToast();
 }
 </script>
 

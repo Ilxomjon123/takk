@@ -11,6 +11,7 @@ import TelInput from '@/components/forms/TelInput.vue';
 // leaflet styles
 import 'leaflet/dist/leaflet.css';
 import useCountries from '@/features/useCountries';
+import store from '../../../store';
 
 const props = defineProps({
   formData: {
@@ -39,6 +40,7 @@ function changeLatLng(e) {
 }
 
 async function submit() {
+  props.formData.company = store.getters['getCompanyId'];
   emit('update:formData', props.formData);
 }
 
@@ -73,7 +75,7 @@ function searchLocationByAddress() {
     </div>
     <div class="p-5">
       <div class="flex xl:flex-row flex-col">
-        <div class="flex-1 mt-6 xl:mt-0">
+        <form class="flex-1 mt-6 xl:mt-0" @submit.prevent="submit">
           <div class="grid grid-cols-12 gap-x-5">
             <div class="col-span-12 2xl:col-span-6">
               <InputField
@@ -101,49 +103,53 @@ function searchLocationByAddress() {
                 "
               />
             </div>
-            <div class="col-span-12 2xl:col-span-6">
-              <div class="mt-3">
-                <label for="cafe-form-country" class="form-label"
-                  >Country</label
-                >
-                <CountrySelect
-                  id="cafe-form-country"
-                  v-model="formData.country"
-                />
-                <span class="text-theme-6 mt-2">{{
-                  externalErrors.country && externalErrors.country[0]
-                }}</span>
-              </div>
-              <div class="mt-3">
-                <label for="cafe-form-city" class="form-label">City</label>
-                <CitySelect
-                  id="cafe-form-city"
-                  v-model="formData.city"
-                  @change="searchLocationByAddress"
-                />
-                <span class="text-theme-6 mt-2">{{
-                  externalErrors.city && externalErrors.city[0]
-                }}</span>
+            <div class="col-span-12 2xl:col-span-12">
+              <div class="grid grid-cols-1 2xl:grid-cols-2 gap-x-5">
+                <div class="mt-3">
+                  <label for="cafe-form-country" class="form-label"
+                    >Country</label
+                  >
+                  <CountrySelect
+                    id="cafe-form-country"
+                    v-model="formData.country"
+                  />
+                  <span class="text-theme-6 mt-2">{{
+                    externalErrors.country && externalErrors.country[0]
+                  }}</span>
+                </div>
+                <div class="mt-3">
+                  <label class="form-label" for="cafe-form-state">State</label>
+                  <StateSelect v-model="formData.state" id="cafe-form-state" />
+                  <span class="text-theme-6 mt-2">{{
+                    externalErrors.state && externalErrors.state[0]
+                  }}</span>
+                </div>
               </div>
             </div>
-            <div class="col-span-12 2xl:col-span-6">
-              <div class="mt-3">
-                <label class="form-label" for="cafe-form-state">State</label>
-                <StateSelect v-model="formData.state" id="cafe-form-state" />
-                <span class="text-theme-6 mt-2">{{
-                  externalErrors.state && externalErrors.state[0]
-                }}</span>
+            <div class="col-span-12 2xl:col-span-12">
+              <div class="grid grid-cols-1 2xl:grid-cols-2 gap-x-5">
+                <div class="mt-3">
+                  <label for="cafe-form-city" class="form-label">City</label>
+                  <CitySelect
+                    id="cafe-form-city"
+                    v-model="formData.city"
+                    @change="searchLocationByAddress"
+                  />
+                  <span class="text-theme-6 mt-2">{{
+                    externalErrors.city && externalErrors.city[0]
+                  }}</span>
+                </div>
+                <InputField
+                  v-model="formData.postal_code"
+                  title="Postal code"
+                  id-value="cafe-form-postal_code"
+                  :error="
+                    externalErrors.postal_code && externalErrors.postal_code[0]
+                  "
+                  @change="searchLocationByAddress"
+                  class="mt-3"
+                />
               </div>
-              <InputField
-                v-model="formData.postal_code"
-                title="Postal code"
-                id-value="cafe-form-postal_code"
-                :error="
-                  externalErrors.postal_code && externalErrors.postal_code[0]
-                "
-                @change="searchLocationByAddress"
-                class="mt-3"
-              />
             </div>
             <div class="col-span-12 2xl:col-span-6">
               <InputField
@@ -204,11 +210,11 @@ function searchLocationByAddress() {
               </div>
             </div>
           </div>
-          <button type="button" class="btn btn-primary mt-3" @click="submit">
+          <button type="submit" class="btn btn-primary mt-3">
             <!-- <LoadingIcon v-if="isLoading" icon="tail-spin" class="w-4 h-4 mr-3" color="#fff" /> -->
             <span>Save</span>
           </button>
-        </div>
+        </form>
       </div>
     </div>
   </div>

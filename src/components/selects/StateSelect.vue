@@ -8,7 +8,6 @@ const emit = defineEmits(['update:modelValue']);
 
 const {
   getCities,
-  getStates,
   selectedCountry,
   setSelectedState,
   statesList
@@ -23,19 +22,10 @@ const selectedState = computed({
   }
 });
 
-// watch(
-//   () => props.modelValue,
-//   async (newVal, oldVal) => {
-//     console.log('state new val: ', newVal);
-//     setSelectedState(newVal);
-//     await getCities();
-//   },
-//   { deep: true, immediate: true }
-// );
-
 watchEffect(async () => {
   if (props.modelValue) {
     setSelectedState(props.modelValue);
+
     if (selectedCountry.value) {
       await getCities();
     }

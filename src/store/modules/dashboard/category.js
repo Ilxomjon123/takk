@@ -1,4 +1,7 @@
 import axios from 'axios';
+import { useApi } from '@/composables/useApi';
+
+const api = useApi();
 
 const state = () => {
   return {
@@ -23,22 +26,17 @@ const mutations = {
 
 const actions = {
   async fetchCategories({ commit, rootGetters }, payload) {
-    let response;
-    await axios
-      .get(`/api/menus/${rootGetters.getSelectedMenuId}/categories/`, {
-        // .get(`/api/transactions/`, {
-        headers: rootGetters.getHttpHeader,
+    try {
+      const res = await api({
+        url: `/api/menus/${rootGetters.getSelectedMenuId}/categories/`,
         params: payload
-      })
-      .then(res => {
-        response = res.data;
-        commit('setCategories', res?.data?.results);
-      })
-      .catch(err => {
-        response = err.data;
-        // commit('setTransactions', err.response.data);
       });
-    return response;
+
+      commit('setCategories', res.data.results);
+      return res.data;
+    } catch (error) {
+      throw error;
+    }
   },
   async fetchCategory({ commit, rootGetters }, payload) {
     let response;
@@ -58,27 +56,17 @@ const actions = {
     return response;
   },
   async postCategory({ rootGetters }, payload) {
-    let response;
-    await axios
-      .post(`/api/categories/`, payload, {
-        headers: {
-          ...rootGetters.getHttpHeader,
-          'Conten-type': 'multipart/form-data'
-        }
-      })
-      .then(async res => {
-        response = {
-          status: true,
-          data: res.data
-        };
-      })
-      .catch(err => {
-        response = {
-          status: false,
-          data: err.response.data
-        };
+    try {
+      const res = await api({
+        url: '/api/categories/',
+        method: 'POST',
+        data: payload
       });
-    return response;
+
+      return res.data;
+    } catch (error) {
+      throw error;
+    }
   },
   async putCategory({ rootGetters }, payload) {
     let response;

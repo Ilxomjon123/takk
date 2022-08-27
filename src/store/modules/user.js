@@ -1,5 +1,9 @@
 import axios from 'axios';
+import { useApi } from '@/composables/useApi';
+
 const REQUIRED_DETAILS = 'required_details';
+
+const api = useApi();
 
 const state = () => {
   return {
@@ -68,20 +72,6 @@ const mutations = {
 
 const actions = {
   async signin({ commit }, form) {
-    // try {
-    //   let res = await axios.post('/api/users/register/', form);
-    //   console.log(res);
-    //   return {
-    //     status: true,
-    //     data: res.data
-    //   };
-    // } catch (err) {
-    //   console.log(err);
-    //   return {
-    //     status: false,
-    //     data: err.response
-    //   };
-    // }
     let response;
     await axios
       .post('/api/users/register/', form)
@@ -129,7 +119,6 @@ const actions = {
     localStorage.removeItem('required_details');
   },
   async fetchProfile({ commit, rootGetters }) {
-    console.log(rootGetters.getHttpHeader);
     await axios
       .get('/api/users/profile/', {
         headers: rootGetters.getHttpHeader
@@ -144,28 +133,40 @@ const actions = {
       });
   },
   async putProfile({ commit, rootGetters }, payload) {
-    let response;
-    await axios
-      .put(`/api/users/profile/`, payload, {
-        headers: {
-          ...rootGetters.getHttpHeader,
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-      .then(async res => {
-        response = {
-          status: true,
-          data: res.data
-        };
-        commit('setUser', res.data);
-      })
-      .catch(err => {
-        response = {
-          status: false,
-          data: err.response.data
-        };
+    // let response;
+    // await axios
+    //   .put(`/api/users/profile/`, payload, {
+    //     headers: {
+    //       ...rootGetters.getHttpHeader,
+    //       'Content-Type': 'multipart/form-data'
+    //     }
+    //   })
+    //   .then(async res => {
+    //     response = {
+    //       status: true,
+    //       data: res.data
+    //     };
+    //     commit('setUser', res.data);
+    //   })
+    //   .catch(err => {
+    //     response = {
+    //       status: false,
+    //       data: err.response.data
+    //     };
+    //   });
+    // return response;
+
+    try {
+      const res = await api({
+        url: `/api/users/profile/`,
+        method: 'PUT',
+        data: payload
       });
-    return response;
+
+      commit('setUser', res.data);
+    } catch (error) {
+      throw error;
+    }
   },
   async refreshToken({ commit, rootGetters }) {
     let response;

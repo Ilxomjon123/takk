@@ -1,4 +1,4 @@
-import { Notyf, INotyfNotificationOptions } from 'notyf';
+import { Notyf } from 'notyf';
 import { createSharedComposable } from '@vueuse/core';
 
 // import { useThemeColors } from '/@src/composable/useThemeColors'
