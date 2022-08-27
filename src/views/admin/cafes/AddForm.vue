@@ -1,12 +1,12 @@
 <script setup>
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import cash from 'cash-dom';
-import Toastify from 'toastify-js';
 import CafeMenu from './CafeMenu.vue';
 import CafeInformation from './CafeInformation.vue';
-import { computed, onMounted, reactive, ref } from 'vue';
 import { storeCafe } from '@/api/admin';
 import store from '@/store';
+import { useNotyf } from '@/composables/useNotyf';
 
 const router = useRouter();
 const formFields = reactive({
@@ -29,6 +29,7 @@ const externalErrors = ref({});
 const selectedCompanyId = computed(
   () => store.getters['getAdminSelectedCompanyID']
 );
+const notyf = useNotyf();
 
 onMounted(() => {
   selectedCompanyId.value === 0 && showCompanySelectModal();
@@ -45,13 +46,7 @@ async function submit(formData) {
       company: selectedCompanyId
     });
 
-    Toastify({
-      node: cash('#success-notification-content')
-        .clone()
-        .removeClass('hidden')[0],
-      duration: 3000
-    }).showToast();
-    router.push('/admin/cafe/' + res1.id);
+    router.push('/admin/cafes/' + res1.id);
   } catch (error) {
     if (error.response) {
       console.log(error.response.data);

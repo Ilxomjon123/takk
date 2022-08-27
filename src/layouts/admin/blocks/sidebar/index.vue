@@ -6,7 +6,7 @@ import { linkTo, enter, leave, nestedMenu } from './configs.js';
 import { useStore } from '@/store';
 import { helper as $h } from '@/utils/helper';
 import cash from 'cash-dom';
-import useWebSocket from '@/features/useWebSocket.js';
+// import useWebSocket from '@/features/useWebSocket.js';
 
 const route = useRoute();
 const router = useRouter();
@@ -15,8 +15,8 @@ const formattedMenu = ref([]);
 const sideMenu = computed(() =>
   nestedMenu(store.state.adminSideMenu.menu, route)
 );
-const { setConnection, sendEvent, getConnection } = useWebSocket();
-const authUser = store.getters['getUser'];
+// const { setConnection, sendEvent, getConnection } = useWebSocket();
+// const authUser = store.getters['getUser'];
 
 watch(
   computed(() => route.path),
@@ -25,7 +25,7 @@ watch(
   }
 );
 
-onMounted(async () => {
+onMounted(() => {
   cash('body')
     .removeClass('error-page')
     .removeClass('login')
@@ -34,21 +34,21 @@ onMounted(async () => {
   formattedMenu.value = $h.toRaw(sideMenu.value);
 
   // connect to web socket
-  await setConnection();
+  // setConnection();
 
-  getConnection.value.onopen = function(event) {
-    // console.log('Successfully connected to the websocket server...');
-    // console.log(event);
-    sendEvent(
-      JSON.stringify({
-        event_type: 'customer_update_status',
-        data: {
-          id: authUser.id,
-          status: true
-        }
-      })
-    );
-  };
+  // getConnection.value.onopen = function(event) {
+  //   // console.log('Successfully connected to the websocket server...');
+  //   // console.log(event);
+  //   sendEvent(
+  //     JSON.stringify({
+  //       event_type: 'customer_update_status',
+  //       data: {
+  //         id: authUser.id,
+  //         status: true
+  //       }
+  //     })
+  //   );
+  // };
 });
 </script>
 

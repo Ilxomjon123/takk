@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, watch, watchEffect } from 'vue';
+import { computed, watchEffect } from 'vue';
 import useCountries from '@/features/useCountries';
 
 const props = defineProps(['modelValue']);

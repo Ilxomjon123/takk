@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { setToken } from '@/api';
 const REQUIRED_DETAILS = 'required_details';
 
 const state = () => {
@@ -35,7 +34,8 @@ const getters = {
     return state.user?.state_steps;
     // return getters.getUser.state_steps;
   },
-  getEmployeeTypes: state => state.employee_types
+  getEmployeeTypes: state => state.employee_types,
+  isLoggedIn: state => state.token !== undefined && state.token !== ''
 };
 
 const mutations = {

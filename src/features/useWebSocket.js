@@ -3,15 +3,15 @@ import { getToken } from '@/api/config';
 import useChatState from './useChatState';
 import { fetchChatMessages } from '@/api';
 
-const token = getToken();
-const wsUrl = 'ws://api.takk.cafe:8001/connect';
+// const token = getToken();
+const wsUrl = import.meta.env.VITE_WS_URL;
 const wsConnect = ref(null);
 const wsMessages = ref([]);
 const { getSelectedChat, setSelectedChatMessages } = useChatState();
 
 export default () => {
   const setConnection = () => {
-    wsConnect.value = new WebSocket(`${wsUrl}/?token=${token}`);
+    wsConnect.value = new WebSocket(`${wsUrl}/?token=${getToken.value}`);
     wsConnect.value.addEventListener('open', event => {
       console.log('Successfully connected to the websocket server...');
       console.log(event);

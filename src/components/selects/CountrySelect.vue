@@ -24,6 +24,8 @@ const selectedCountry = computed({
 });
 
 await getCountries();
+// onMounted(async () => {
+// });
 
 watch(
   () => props.modelValue,

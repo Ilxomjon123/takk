@@ -1,7 +1,5 @@
 import { computed, ref } from 'vue';
-import { fetchCities, fetchCountries, fetchStates } from '../api';
-// import countries from '@/assets/json/countries.json';
-// import allStates from '@/assets/json/states.json';
+import { fetchCities, fetchCountries, fetchStates } from '@/api';
 
 const countries = ref([]);
 const states = ref([]);
@@ -32,7 +30,8 @@ export default () => {
       const res = await fetchCountries();
       countries.value = res;
     } catch (error) {
-      console.log('Error while fetching countries: ', error.message);
+      // console.log('Error while fetching countries: ', error.message);
+      throw error;
     }
   };
 
@@ -42,10 +41,11 @@ export default () => {
       const res = await fetchStates(selectedCountry.value);
       states.value = res;
     } catch (error) {
-      console.log(
-        'Error while fetching states of selected country: ',
-        error.message
-      );
+      // console.log(
+      //   'Error while fetching states of selected country: ',
+      //   error.message
+      // );
+      throw error;
     }
   };
 
@@ -60,10 +60,11 @@ export default () => {
         cities.value = res;
       }
     } catch (error) {
-      console.log(
-        'Error while fetching cities of selected country and state: ',
-        error.message
-      );
+      // console.log(
+      //   'Error while fetching cities of selected country and state: ',
+      //   error.message
+      // );
+      throw error;
     }
   };
 

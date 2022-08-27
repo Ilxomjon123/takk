@@ -2,8 +2,6 @@ import { createStore } from 'vuex';
 import main from './main';
 import sideMenu from './side-menu';
 import adminSideMenu from './admin-side-menu';
-import simpleMenu from './simple-menu';
-import topMenu from './top-menu';
 import user from './modules/user';
 import common from './modules/common';
 import steps from './modules/steps';
@@ -25,8 +23,6 @@ const store = createStore({
     main,
     sideMenu,
     adminSideMenu,
-    simpleMenu,
-    topMenu,
     user,
     common,
     steps,

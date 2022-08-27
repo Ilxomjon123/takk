@@ -3,8 +3,8 @@ import makeRequest from '../makeRequest';
 export const fetchCafeList = async () => {
   try {
     const res = await makeRequest({
-      url: `/api/cafes/`,
-      headers: { authorization: true }
+      url: `/api/cafes/`
+      // headers: { authorization: true }
     });
 
     return res.data;
@@ -16,8 +16,8 @@ export const fetchCafeList = async () => {
 export const fetchCafe = async cafeID => {
   try {
     const res = await makeRequest({
-      url: `/api/cafes/${cafeID}/`,
-      headers: { authorization: true }
+      url: `/api/cafes/${cafeID}/`
+      // headers: { authorization: true }
     });
 
     return res.data;
@@ -30,8 +30,8 @@ export const fetchCafe = async cafeID => {
 export const fetchCafeGallery = async cafeID => {
   try {
     const res = await makeRequest({
-      url: `/api/cafes/${cafeID}/photos/`,
-      headers: { authorization: true }
+      url: `/api/cafes/${cafeID}/photos/`
+      // headers: { authorization: true }
     });
 
     return res.data;
@@ -44,8 +44,8 @@ export const fetchCafeGallery = async cafeID => {
 export const fetchCafeWorkDays = async cafeID => {
   try {
     const res = await makeRequest({
-      url: `/api/cafes/${cafeID}/work-days/`,
-      headers: { authorization: true }
+      url: `/api/cafes/${cafeID}/work-days/`
+      // headers: { authorization: true }
     });
 
     return res.data;
@@ -60,8 +60,8 @@ export const updateCafeWorkDays = async payload => {
     const res = await makeRequest({
       url: `/api/cafes/${payload.id}/work-days/`,
       method: 'put',
-      data: payload.data,
-      headers: { authorization: true }
+      data: payload.data
+      // headers: { authorization: true }
     });
 
     return res.data;
@@ -76,8 +76,8 @@ export const updateCafe = async payload => {
     const res = await makeRequest({
       url: `/api/cafes/${payload.id}/`,
       method: 'put',
-      data: payload.data,
-      headers: { authorization: true }
+      data: payload.data
+      // headers: { authorization: true }
     });
 
     return res.data;
@@ -95,8 +95,8 @@ export const storeCafe = async payload => {
     const res = await makeRequest({
       url: `/api/cafes/`,
       method: 'post',
-      data,
-      headers: { authorization: true }
+      data
+      // headers: { authorization: true }
     });
 
     return res.data;
@@ -111,8 +111,8 @@ export const addCafeGallery = async payload => {
     const res = await makeRequest({
       url: `/api/cafes/photos/`,
       method: 'post',
-      data: payload,
-      headers: { authorization: true }
+      data: payload
+      // headers: { authorization: true }
     });
 
     return res.data;
@@ -126,8 +126,8 @@ export const deleteCafe = async payload => {
   try {
     const res = await makeRequest({
       url: `/api/cafes/${payload}/`,
-      method: 'delete',
-      headers: { authorization: true }
+      method: 'delete'
+      // headers: { authorization: true }
     });
 
     return res.data;
@@ -141,8 +141,8 @@ export const deleteCafeImage = async imageID => {
   try {
     const res = await makeRequest({
       url: `/api/cafes/photos/${imageID}/`,
-      method: 'delete',
-      headers: { authorization: true }
+      method: 'delete'
+      // headers: { authorization: true }
     });
 
     return res.data;

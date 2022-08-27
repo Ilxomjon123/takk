@@ -16,16 +16,16 @@ const state = () => {
         pageName: 'cafes',
         title: 'My cafes'
         // subMenu: [
-        //   {
-        //     icon: '',
-        //     pageName: 'side-menu-cafe-data-list',
-        //     title: 'List'
-        //   },
-        //   {
-        //     icon: '',
-        //     pageName: 'side-menu-cafe-add-form',
-        //     title: 'Add new cafe'
-        //   }
+        // {
+        //   icon: '',
+        //   pageName: 'side-menu-cafe-data-list',
+        //   title: 'List'
+        // },
+        // {
+        //   icon: '',
+        //   pageName: 'cafes-add',
+        //   title: 'Add new cafe'
+        // }
         // ]
       },
       {
