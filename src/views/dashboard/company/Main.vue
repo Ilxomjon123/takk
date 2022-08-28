@@ -309,19 +309,14 @@ function getError(key) {
               />
               <div class="text-theme-6" v-text="getError('about')" />
             </div>
-            <div>
+            <div class="flex">
               <button
                 type="submit"
-                class="btn btn-primary py-3 block mx-auto mt-8 px-10 align-top"
+                class="btn btn-primary py-3 ml-auto mt-8 px-10 align-top"
                 :disabled="isLoading"
               >
-                {{ isLoading ? '' : 'Save' }}
-                <LoadingIcon
-                  v-if="isLoading"
-                  icon="three-dots"
-                  color="white"
-                  class="w-8 h-8 my-2"
-                />
+                <LoadingIcon v-if="isLoading" color="white" class="w-5 h-5" />
+                <span v-else>Save</span>
               </button>
             </div>
           </form>

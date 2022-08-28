@@ -6,13 +6,14 @@ import TelInput from './TelInput.vue';
 import { computed, onMounted, ref } from 'vue';
 import store from '@/store';
 import router from '@/router';
-import useCountries from '@/features/useCountries';
 
-const { email, phone } = store.getters['getUser'];
+const user = computed(() => store.getters['getUser']);
 
 const form = ref({
-  email,
-  phone: phone.startsWith('+') ? phone : '+' + phone,
+  email: user.value.email,
+  phone: user.value.phone.startsWith('+')
+    ? user.value.phone
+    : '+' + user.value.phone,
   country: '236'
 });
 const isLoading = ref(false);
@@ -47,7 +48,7 @@ function getError(key) {
 
 async function goCafe() {
   errors.value = {};
-  const resp = await store.dispatch('putStep', store.state.user.STEP_CAFE);
+  const resp = await store.dispatch('putStep', user.value.STEP_CAFE);
   if (resp.status) {
     router.push('/entry/cafe');
   } else {

@@ -1,39 +1,37 @@
-import makeRequest from '../makeRequest';
+import { useApi } from '@/composables/useApi';
+
+const api = useApi();
 
 export const updateProductPositions = async payload => {
   try {
-    const res = makeRequest({
+    const res = api({
       url: '/api/menus/ordering-items/',
       method: 'post',
-      data: payload,
-      headers: { authorization: true }
+      data: payload
     });
+
     return (await res).data;
   } catch (error) {
-    console.log('error while updating Product: ', err);
     throw err;
   }
 };
 
 export const fetchMenus = async () => {
   try {
-    const res = await makeRequest({
-      url: '/api/menus/',
-      headers: { authorization: true }
+    const res = await api({
+      url: '/api/menus/'
     });
     return res.data;
   } catch (error) {
-    console.log('error while updating Product: ', err);
     throw err;
   }
 };
 
 export const fetchSelectedMenuCategories = async (menuID, limit = 10) => {
   try {
-    const res = await makeRequest({
+    const res = await api({
       url: `/api/menus/${menuID}/categories/`,
       method: 'get',
-      headers: { authorization: true },
       params: {
         limit
       }
@@ -41,22 +39,19 @@ export const fetchSelectedMenuCategories = async (menuID, limit = 10) => {
 
     return res.data;
   } catch (err) {
-    console.log('error while deleting Product data: ', err);
     throw err;
   }
 };
 
 export const fetchSelectedMenuModifiers = async menuID => {
   try {
-    const res = await makeRequest({
+    const res = await api({
       url: `/api/menus/${menuID}/modifiers/`,
-      method: 'get',
-      headers: { authorization: true }
+      method: 'get'
     });
 
     return res.data;
   } catch (err) {
-    console.log('error while deleting Product data: ', err);
     throw err;
   }
 };

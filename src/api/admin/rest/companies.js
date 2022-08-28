@@ -1,10 +1,11 @@
-import makeRequest from '../makeRequest';
+import { useApi } from '@/composables/useApi';
+
+const api = useApi();
 
 export const fetchCompanyList = async (limit = 10, page = 1) => {
   try {
-    const res = await makeRequest({
-      url: `/adham/companies/?page=${page}&limit=${limit}`,
-      headers: { authorization: true }
+    const res = await api({
+      url: `/adham/companies/?page=${page}&limit=${limit}`
     });
 
     return res.data;
@@ -15,9 +16,8 @@ export const fetchCompanyList = async (limit = 10, page = 1) => {
 
 export const fetchCompanyById = async id => {
   try {
-    const res = await makeRequest({
-      url: `/adham/companies/${id}/`,
-      headers: { authorization: true }
+    const res = await api({
+      url: `/adham/companies/${id}/`
     });
 
     return res.data;
@@ -28,11 +28,10 @@ export const fetchCompanyById = async id => {
 
 export const updateCompanyById = async (id, payload) => {
   try {
-    const res = await makeRequest({
+    const res = await api({
       url: `/adham/companies/${id}/`,
       method: 'PUT',
-      data: payload,
-      headers: { authorization: true }
+      data: payload
     });
 
     return res.data;
@@ -43,11 +42,10 @@ export const updateCompanyById = async (id, payload) => {
 
 export const createCompany = async payload => {
   try {
-    const res = await makeRequest({
+    const res = await api({
       url: `/adham/companies/`,
       method: 'POST',
-      data: payload,
-      headers: { authorization: true }
+      data: payload
     });
 
     return res.data;
@@ -58,10 +56,9 @@ export const createCompany = async payload => {
 
 export const removeCompanyById = async id => {
   try {
-    const res = await makeRequest({
+    const res = await api({
       url: `/adham/companies/${id}/`,
-      method: 'DELETE',
-      headers: { authorization: true }
+      method: 'DELETE'
     });
 
     return res.data;

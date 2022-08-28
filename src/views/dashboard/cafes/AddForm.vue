@@ -15,7 +15,7 @@ const formFields = ref({
     lat: 35.1234,
     lon: -95.1234
   },
-  country: '',
+  country: 236,
   name: '',
   call_center: '',
   website: '',

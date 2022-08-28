@@ -10,8 +10,8 @@ import MobileMenu from '@/components/mobile-menu/Main.vue';
 const router = useRouter();
 
 onMounted(() => {
-  if (store.getters['getStep'] != store.state.user.STEP_DASHBOARD)
-    router.push('/entry');
+  // if (store.getters['getStep'] != store.state.user.STEP_DASHBOARD)
+  //   router.push('/entry');
 
   cash('body')
     .removeClass('error-page')

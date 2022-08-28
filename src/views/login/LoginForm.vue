@@ -1,3 +1,77 @@
+<script setup>
+import TelInput from '@/components/forms/TelInput.vue';
+import { reactive, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import store from '@/store';
+
+const route = useRoute(),
+  form = reactive({}),
+  isDisabled = ref(true),
+  submitText = ref('Send Code'),
+  isRegister = ref(false),
+  errorText = ref(''),
+  isLoading = ref(false),
+  headText = ref('Enter phone number'),
+  telInputOptions = reactive({
+    autofocus: true,
+    required: true,
+    autoDefaultCountry: false,
+    maxlength: 20
+  });
+
+async function submit() {
+  try {
+    isLoading.value = true;
+    errorText.value = '';
+
+    const oldButtonText = submitText.value;
+    submitText.value = '';
+    form.referral_code = route.query?.referral_code;
+    form.phone = form.phone.replace(/\s+/g, '');
+    const res = await store.dispatch('signin', form);
+
+    if (!res.token) {
+      console.log('ok1');
+      // Telefon Raqam kiritilgandan so'ng
+      isRegister.value = res.is_register;
+      isDisabled.value = false;
+      submitText.value = isRegister.value ? 'Sign Up' : 'Sign In';
+      headText.value = isRegister.value
+        ? 'Fill the form below'
+        : 'Enter SMS code';
+    } else {
+      // Login muvaffaqiyatli bo'lsa
+      submitText.value = oldButtonText;
+      // store.commit('setRequiredDetails', {
+      //   user: res.user,
+      //   token: res.token
+      // });
+
+      store.commit('setToken', res.token);
+      store.commit('setUser', res.user);
+
+      if (res.user?.is_superuser) {
+        location.href = '/admin';
+      } else {
+        location.href = '/entry/company';
+      }
+    }
+  } catch (error) {
+    // API dan xato qaytsa
+    submitText.value = 'Send code';
+    errorText.value = error.response?.data?.detail;
+
+    // if (typeof error.response?.data?.detail !== 'undefined') {
+    //   errorText.value = error.response?.data?.detail;
+    // } else {
+    //   errorText.value = error.response?.data?.data?.detail;
+    // }
+  } finally {
+    isLoading.value = false;
+  }
+}
+</script>
+
 <template>
   <h2 class="intro-x font-bold text-2xl xl:text-3xl text-center xl:text-left">
     {{ headText }}
@@ -64,81 +138,3 @@
     <a class="text-theme-1 dark:text-theme-10" href>Privacy Policy</a>
   </div>
 </template>
-<script>
-import { defineComponent } from 'vue';
-import { mapActions, mapMutations } from 'vuex';
-import { setToken } from '@/api';
-import TelInput from '@/components/forms/TelInput.vue';
-
-export default defineComponent({
-  data() {
-    return {
-      form: {},
-      isDisabled: true,
-      submitText: 'Send Code',
-      isRegister: false,
-      errorText: '',
-      isLoading: false,
-      headText: 'Enter phone number',
-      telInputOptions: {
-        autofocus: true,
-        required: true,
-        autoDefaultCountry: false,
-        maxlength: 20
-      }
-    };
-  },
-  methods: {
-    ...mapMutations(['setRequiredDetails']),
-    ...mapActions(['signin']),
-    async submit() {
-      this.errorText = '';
-      const oldButtonText = this.submitText;
-      this.submitText = '';
-      this.isLoading = true;
-      this.form.referral_code = this.$route.query?.referral_code;
-      this.form.phone = this.form.phone.replace(/\s+/g, '');
-      const res = await this.$store.dispatch('signin', this.form);
-      // this.signin(this.form);
-      // console.log(res);
-      if (res.status) {
-        if (!res.data.token) {
-          // Telefon Raqam kiritilgandan so'ng
-          this.isRegister = res.data.is_register;
-          this.isDisabled = false;
-          this.submitText = this.isRegister ? 'Sign Up' : 'Sign In';
-          this.headText = this.isRegister
-            ? 'Fill the form below'
-            : 'Enter SMS code';
-        } else {
-          // Login muvaffaqiyatli bo'lsa
-          this.submitText = oldButtonText;
-          this.setRequiredDetails({
-            user: res.data.user,
-            token: res.data.token
-          });
-          setToken(res.data.token.access);
-          // this.$router.push('/entry');
-          if (res.data.user?.is_superuser) {
-            window.location.replace('/admin');
-          } else {
-            window.location.replace('/entry/company');
-          }
-        }
-      }
-      // API dan xato qaytsa
-      else {
-        this.submitText = oldButtonText;
-        // this.errorText = "Invalid Input";
-        if (typeof res.data.detail !== 'undefined') {
-          this.errorText = res.data.detail;
-        } else {
-          this.errorText = res.data.data.detail;
-        }
-      }
-      this.isLoading = false;
-    }
-  },
-  components: { TelInput }
-});
-</script>

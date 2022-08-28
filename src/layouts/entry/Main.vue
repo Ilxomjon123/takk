@@ -1,15 +1,8 @@
 <template>
-  <!-- <DarkModeSwitcher /> -->
-  <!-- <div class="py-10">
-    <RouterView />
-  </div>-->
   <div>
     <div class="flex items-center mt-8">
       <!-- <h2 class="intro-y text-lg font-medium mr-auto">Wizard Layout</h2> -->
-      <button
-        class="btn btn-outline-danger text-white ml-auto"
-        @click="log_out"
-      >
+      <button class="btn btn-outline-danger text-white ml-auto" @click="logout">
         Logout
       </button>
     </div>
@@ -101,54 +94,43 @@
   </div>
 </template>
 
-<script>
-import { defineComponent } from 'vue';
-import { mapActions, mapGetters } from 'vuex';
-import DarkModeSwitcher from '@/components/dark-mode-switcher/Main.vue';
+<script setup>
+import { computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import store from '@/store';
 
-export default defineComponent({
-  computed: {
-    ...mapGetters(['getStep']),
-    isCompany() {
-      return this.$route.name == 'entry-company';
-    },
-    isCafe() {
-      return this.$route.name == 'entry-cafe';
-    },
-    isFinish() {
-      return this.$route.name == 'entry-finish';
-    }
-  },
-  mounted() {
-    const step = this.getStep;
-    // console.log(step);
-    let path = '/';
-    switch (step) {
-      // case this.$store.state.user.STEP_COMPANY: path = '/entry/company'; break;
-      case this.$store.state.user.STEP_CAFE:
-        path = '/entry/cafe';
-        break;
-      case this.$store.state.user.STEP_FINISH:
-        path = '/entry/finish';
-        break;
-      case this.$store.state.user.STEP_DASHBOARD:
-        path = '/dashboard';
-        break;
-      default:
-        path = '/entry/company';
-    }
-    this.$router.push(path);
-  },
-  methods: {
-    ...mapActions(['logout']),
-    log_out() {
-      confirm('Are you sure?');
-      this.logout();
-      window.location.replace('/');
-    }
-  },
-  components: {
-    DarkModeSwitcher
+const route = useRoute();
+const router = useRouter();
+const isCompany = computed(() => route.name == 'entry-company');
+const isCafe = computed(() => route.name == 'entry-cafe');
+const isFinish = computed(() => route.name == 'entry-finish');
+const getStep = computed(() => store.getters['getStep']);
+console.log({ getStep });
+
+await checkStep();
+
+async function checkStep() {
+  let path;
+  switch (getStep.value) {
+    case store.state.user.STEP_CAFE:
+      path = '/entry/cafe';
+      break;
+    case store.state.user.STEP_FINISH:
+      path = '/entry/finish';
+      break;
+    case store.state.user.STEP_DASHBOARD:
+      path = '/dashboard';
+      break;
+    default:
+      path = '/entry/company';
   }
-});
+
+  router.push(path);
+}
+
+function logout() {
+  confirm('Are you sure?');
+  store.dispatch('logout');
+  window.location.replace('/');
+}
 </script>

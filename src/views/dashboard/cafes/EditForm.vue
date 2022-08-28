@@ -24,7 +24,7 @@ const formFields = ref({
     lat: 35.1234,
     lon: -95.1234
   },
-  country: '',
+  country: 236,
   name: '',
   call_center: '',
   website: '',
@@ -112,7 +112,7 @@ async function submit(formData) {
   try {
     await updateCafe({ data: formData, id: route.params.id });
 
-    notyf.error();
+    notyf.success();
   } catch (error) {
     if (error.response) {
       notyf.error();

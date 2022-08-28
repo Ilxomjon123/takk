@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { useApi } from '@/composables/useApi';
+import { useStorage } from '@vueuse/core';
+import { reactive } from 'vue';
 
 const REQUIRED_DETAILS = 'required_details';
 
@@ -7,10 +9,15 @@ const api = useApi();
 
 const state = () => {
   return {
-    refreshToken: JSON.parse(localStorage.getItem(REQUIRED_DETAILS))?.token
-      ?.refresh,
-    token: JSON.parse(localStorage.getItem(REQUIRED_DETAILS))?.token?.access,
-    user: JSON.parse(localStorage.getItem(REQUIRED_DETAILS))?.user,
+    // refreshToken: JSON.parse(localStorage.getItem(REQUIRED_DETAILS))?.token
+    //   ?.refresh,
+    // token: JSON.parse(localStorage.getItem(REQUIRED_DETAILS))?.token?.access,
+    token: useStorage('token', ''),
+    refreshToken: useStorage('refresh', ''),
+    // user: JSON.parse(localStorage.getItem(REQUIRED_DETAILS))?.user,
+    // user: useStorage('user', null),
+    user: reactive({}),
+    requiredDetails: useStorage(REQUIRED_DETAILS, null),
     // STEP_ENTRY: null,
     STEP_COMPANY: 1,
     STEP_CAFE: 2,
@@ -26,6 +33,7 @@ const state = () => {
 
 const getters = {
   getUser: state => state.user,
+  isSuperuser: state => state.user?.is_superuser,
   getCompanyId: state => state.user.company_id,
   getToken: state => state.token,
   getRefreshToken: state => state.refreshToken,
@@ -44,19 +52,23 @@ const getters = {
 
 const mutations = {
   setUser(state, payload) {
-    let details = JSON.parse(localStorage.getItem(REQUIRED_DETAILS));
-    details.user = payload;
-    localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(details));
-    state.user = payload;
+    // let details = JSON.parse(localStorage.getItem(REQUIRED_DETAILS));
+    // details.user = payload;
+    // localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(details));
+    Object.assign(state.user, payload);
+    // state.user = payload
   },
   setToken(state, payload) {
-    let details = JSON.parse(localStorage.getItem(REQUIRED_DETAILS));
-    details.token.access = payload;
-    localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(details));
+    // let details = JSON.parse(localStorage.getItem(REQUIRED_DETAILS));
+    // details.token.access = payload;
+    // localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(details));
+    state.token = payload.access;
+    state.refreshToken = payload.refresh;
   },
   setRequiredDetails(state, payload) {
-    state.token = payload;
-    localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(payload));
+    // state.token = payload;
+    // localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(payload));
+    state.requiredDetails = payload;
   },
   setStep(state, payload) {
     let required_details = JSON.parse(localStorage.getItem(REQUIRED_DETAILS));
@@ -72,22 +84,16 @@ const mutations = {
 
 const actions = {
   async signin({ commit }, form) {
-    let response;
-    await axios
-      .post('/api/users/register/', form)
-      .then(res => {
-        response = {
-          status: true,
-          data: res.data
-        };
-      })
-      .catch(err => {
-        response = {
-          status: false,
-          data: err.response
-        };
+    try {
+      const { data } = await api({
+        url: '/api/users/register/',
+        method: 'POST',
+        data: form
       });
-    return response;
+      return data;
+    } catch (error) {
+      throw error;
+    }
   },
   async putStep({ commit, rootGetters }, payload) {
     // console.log(payload);
@@ -118,19 +124,16 @@ const actions = {
     localStorage.removeItem('token');
     localStorage.removeItem('required_details');
   },
-  async fetchProfile({ commit, rootGetters }) {
-    await axios
-      .get('/api/users/profile/', {
-        headers: rootGetters.getHttpHeader
-      })
-      .then(res => {
-        response = res.data;
-        commit('setUser', res.data);
-      })
-      .catch(err => {
-        // response = err.response.data;
-        // commit('setTransactions', err.response.data);
+  async fetchProfile({ commit }) {
+    try {
+      const { data } = await api({
+        url: '/api/users/profile/'
       });
+
+      commit('setUser', data);
+    } catch (error) {
+      throw error;
+    }
   },
   async putProfile({ commit, rootGetters }, payload) {
     // let response;

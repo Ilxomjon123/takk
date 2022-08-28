@@ -1,3 +1,52 @@
+<script setup>
+import { computed, onMounted, ref } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import store from '@/store';
+import { useNotyf } from '@/composables/useNotyf';
+
+const router = useRouter();
+const route = useRoute();
+const notyf = useNotyf();
+let is_make_create_order = true;
+
+onMounted(() => {
+  const squareError = route.query?.squareError;
+
+  if (typeof squareError !== 'undefined') {
+    notyf.error('Error');
+  }
+
+});
+
+async function toCompany() {
+  const res = await store.dispatch('putStep', store.state.user.STEP_COMPANY);
+
+  if (res.status) {
+    router.go('/entry/company');
+  } else {
+    notyf.error('Error while updating data');
+  }
+}
+
+async function gotoSquareUpSite() {
+  const res = await store.dispatch('fetchSquareRedirectUrl', {
+    is_make_create_order
+  });
+  // console.log(res);
+  if (res.status) {
+    location.href = res?.data?.url;
+  }
+  // const SQUARE_APP_ID = "sandbox-sq0idb-O7t0Iz9KjwN1g1l2IeSjAQ"
+  // location.href = `https://connect.squareupsandbox.com/login?redirect=/oauth2/authorize?client_id=${SQUARE_APP_ID}&scope=CUSTOMERS_WRITE+CUSTOMERS_READ`
+  // location.href = `https://connect.squareupsandbox.com/oauth2/authorize?client_id=${SQUARE_APP_ID}&scope=CUSTOMERS_WRITE+CUSTOMERS_READ`
+}
+
+function logout() {
+  store.dispatch('logout');
+  window.location.replace('/');
+}
+</script>
+
 <template>
   <!-- <DarkModeSwitcher /> -->
   <div class="container mx-auto grid overflow-hidden">
@@ -74,129 +123,67 @@
         </button>
       </div>
     </div>
-  </div>
 
-  <div id="delete-modal-preview" class="modal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-body p-0">
-          <div class="p-5 text-center">
-            <div class="flex justify-center my-3 h-10 mt-3">
-              <img src="@/assets/images/Takk_Logo.png" class="mr-3" />
-              <img src="@/assets/images/squareup.png" />
-            </div>
-            <div class="text-3xl mt-5">
-              Do you want to integrate with SquareUp
-            </div>
-            <div class="text-base mt-3">
-              Do you already use Square? We can import all your menu and
-              products from Square if you like.
-            </div>
-            <div class="text-gray-600 mt-2">
-              <div class="sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0">
-                <input
-                  id="show-example-1"
-                  data-target="#basic-button"
-                  class="show-code form-check-switch mr-0 ml-3"
-                  type="checkbox"
-                  v-model="is_make_create_order"
-                />
-                <label
-                  class="form-check-label ml-0 sm:ml-2"
-                  for="show-example-1"
-                  >Do you want to get notifications on SquareApp?</label
+    <!-- modals -->
+    <div
+      id="delete-modal-preview"
+      class="modal"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-body p-0">
+            <div class="p-5 text-center">
+              <div class="flex justify-center my-3 h-10 mt-3">
+                <img src="@/assets/images/Takk_Logo.png" class="mr-3" />
+                <img src="@/assets/images/squareup.png" />
+              </div>
+              <div class="text-3xl mt-5">
+                Do you want to integrate with SquareUp
+              </div>
+              <div class="text-base mt-3">
+                Do you already use Square? We can import all your menu and
+                products from Square if you like.
+              </div>
+              <div class="text-gray-600 mt-2">
+                <div
+                  class="sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0"
                 >
+                  <input
+                    id="show-example-1"
+                    data-target="#basic-button"
+                    class="show-code form-check-switch mr-0 ml-3"
+                    type="checkbox"
+                    v-model="is_make_create_order"
+                  />
+                  <label
+                    class="form-check-label ml-0 sm:ml-2"
+                    for="show-example-1"
+                    >Do you want to get notifications on SquareApp?</label
+                  >
+                </div>
               </div>
             </div>
-          </div>
-          <div class="px-5 pb-8 text-center">
-            <button
-              data-dismiss="modal"
-              class="btn btn-outline-secondary w-24 dark:border-dark-5 dark:text-gray-300 mr-1"
-              @click="toCompany"
-            >
-              No
-            </button>
-            <button
-              type="button"
-              class="btn btn-success w-24"
-              @click="gotoSquareUpSite"
-            >
-              Yes!
-            </button>
+            <div class="px-5 pb-8 text-center">
+              <button
+                data-dismiss="modal"
+                class="btn btn-outline-secondary w-24 dark:border-dark-5 dark:text-gray-300 mr-1"
+                @click="toCompany"
+              >
+                No
+              </button>
+              <button
+                type="button"
+                class="btn btn-success w-24"
+                @click="gotoSquareUpSite"
+              >
+                Yes!
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <ErrorNotification ref="errorNotification" />
 </template>
-
-<script setup>
-import DarkModeSwitcher from '@/components/dark-mode-switcher/Main.vue';
-import { useStore } from 'vuex';
-import ErrorNotification from '@/components/notifications/ErrorNotification.vue';
-import { computed, onMounted, ref } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-
-const store = useStore();
-const router = useRouter();
-const route = useRoute();
-const getStep = computed(() => store.getters['getStep']);
-const errorNotification = ref(null);
-let is_make_create_order = true;
-
-onMounted(() => {
-  const squareError = route.query?.squareError;
-  if (typeof squareError !== 'undefined') {
-    store.commit('setErrorNotification');
-  }
-  const step = getStep.value;
-  let path;
-  switch (step) {
-    case store.state.user.STEP_COMPANY:
-      path = '/entry/company';
-      break;
-    case store.state.user.STEP_CAFE:
-      path = '/entry/cafe';
-      break;
-    case store.state.user.STEP_FINISH:
-      path = '/entry/finish';
-      break;
-    case store.state.user.STEP_DASHBOARD:
-      path = '/dashboard';
-      break;
-    default:
-      path = '/entry';
-  }
-  router.push(path);
-});
-
-async function toCompany() {
-  const res = await store.dispatch('putStep', store.state.user.STEP_COMPANY);
-  if (res.status) {
-    router.go('/entry/company');
-    // window.location.reload();
-  } else {
-    errorNotification.value.show();
-  }
-}
-
-async function gotoSquareUpSite() {
-  const res = await store.dispatch('fetchSquareRedirectUrl', {
-    is_make_create_order
-  });
-  // console.log(res);
-  if (res.status) {
-    location.href = res?.data?.url;
-  }
-  // const SQUARE_APP_ID = "sandbox-sq0idb-O7t0Iz9KjwN1g1l2IeSjAQ"
-  // location.href = `https://connect.squareupsandbox.com/login?redirect=/oauth2/authorize?client_id=${SQUARE_APP_ID}&scope=CUSTOMERS_WRITE+CUSTOMERS_READ`
-  // location.href = `https://connect.squareupsandbox.com/oauth2/authorize?client_id=${SQUARE_APP_ID}&scope=CUSTOMERS_WRITE+CUSTOMERS_READ`
-}
-
-function logout() {
-  store.dispatch('logout');
-  window.location.replace('/');
-}
-</script>

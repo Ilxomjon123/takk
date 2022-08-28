@@ -1,10 +1,11 @@
-import makeRequest from '../makeRequest';
+import { useApi } from '@/composables/useApi';
+
+const api = useApi();
 
 export const fetchCountries = async () => {
   try {
-    const res = await makeRequest({
+    const res = await api({
       url: `/api/location/countries/`,
-      // headers: { authorization: true },
       params: {
         limit: 250
       }
@@ -18,13 +19,12 @@ export const fetchCountries = async () => {
 
 export const fetchStates = async countryCode => {
   try {
-    const res = await makeRequest({
+    const res = await api({
       url: `/api/location/states/`,
       params: {
         country: countryCode,
         limit: 100
       }
-      // headers: { authorization: true }
     });
 
     return res.data.results;
@@ -35,14 +35,13 @@ export const fetchStates = async countryCode => {
 
 export const fetchCities = async (countryCode, stateCode) => {
   try {
-    const res = await makeRequest({
+    const res = await api({
       url: `/api/location/cities`,
       params: {
         country: countryCode,
         state: stateCode,
         limit: 1000
       }
-      // headers: { authorization: true }
     });
 
     return res.data.results;

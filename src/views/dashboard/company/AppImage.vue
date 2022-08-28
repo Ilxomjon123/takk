@@ -88,18 +88,16 @@ async function submit() {
               />
             </div>
           </div>
+        </div>
+        <div class="flex">
           <button
-            class="btn btn-primary py-3 block mx-auto px-10 align-top"
+            type="button"
+            class="btn btn-primary py-3 ml-auto px-10 align-top"
             @click="submit"
             :disabled="isLoading"
           >
-            {{ isLoading ? '' : 'Save' }}
-            <LoadingIcon
-              v-if="isLoading"
-              icon="three-dots"
-              color="white"
-              class="w-8 h-8 my-2"
-            />
+            <LoadingIcon v-if="isLoading" color="white" class="w-5 h-5" />
+            <span v-else>Save</span>
           </button>
         </div>
       </div>

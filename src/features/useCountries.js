@@ -60,10 +60,6 @@ export default () => {
         cities.value = res;
       }
     } catch (error) {
-      // console.log(
-      //   'Error while fetching cities of selected country and state: ',
-      //   error.message
-      // );
       throw error;
     }
   };

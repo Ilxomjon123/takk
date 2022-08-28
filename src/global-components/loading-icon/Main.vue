@@ -558,7 +558,13 @@
     >
       <g fill="none" fill-rule="evenodd">
         <g transform="translate(2 1)" :stroke="iconColor" stroke-width="1.5">
-          <circle cx="42.601" cy="11.462" r="5" fill-opacity="1" :fill="iconColor">
+          <circle
+            cx="42.601"
+            cy="11.462"
+            r="5"
+            fill-opacity="1"
+            :fill="iconColor"
+          >
             <animate
               attributeName="fill-opacity"
               begin="0s"
@@ -568,7 +574,13 @@
               repeatCount="indefinite"
             />
           </circle>
-          <circle cx="49.063" cy="27.063" r="5" fill-opacity="0" :fill="iconColor">
+          <circle
+            cx="49.063"
+            cy="27.063"
+            r="5"
+            fill-opacity="0"
+            :fill="iconColor"
+          >
             <animate
               attributeName="fill-opacity"
               begin="0s"
@@ -578,7 +590,13 @@
               repeatCount="indefinite"
             />
           </circle>
-          <circle cx="42.601" cy="42.663" r="5" fill-opacity="0" :fill="iconColor">
+          <circle
+            cx="42.601"
+            cy="42.663"
+            r="5"
+            fill-opacity="0"
+            :fill="iconColor"
+          >
             <animate
               attributeName="fill-opacity"
               begin="0s"
@@ -598,7 +616,13 @@
               repeatCount="indefinite"
             />
           </circle>
-          <circle cx="11.399" cy="42.663" r="5" fill-opacity="0" :fill="iconColor">
+          <circle
+            cx="11.399"
+            cy="42.663"
+            r="5"
+            fill-opacity="0"
+            :fill="iconColor"
+          >
             <animate
               attributeName="fill-opacity"
               begin="0s"
@@ -608,7 +632,13 @@
               repeatCount="indefinite"
             />
           </circle>
-          <circle cx="4.938" cy="27.063" r="5" fill-opacity="0" :fill="iconColor">
+          <circle
+            cx="4.938"
+            cy="27.063"
+            r="5"
+            fill-opacity="0"
+            :fill="iconColor"
+          >
             <animate
               attributeName="fill-opacity"
               begin="0s"
@@ -618,7 +648,13 @@
               repeatCount="indefinite"
             />
           </circle>
-          <circle cx="11.399" cy="11.462" r="5" fill-opacity="0" :fill="iconColor">
+          <circle
+            cx="11.399"
+            cy="11.462"
+            r="5"
+            fill-opacity="0"
+            :fill="iconColor"
+          >
             <animate
               attributeName="fill-opacity"
               begin="0s"
@@ -764,14 +800,14 @@
 </template>
 
 <script>
-import { defineComponent, computed } from 'vue'
-import { useStore } from '@/store'
+import { defineComponent, computed } from 'vue';
+import { useStore } from '@/store';
 
 export default defineComponent({
   props: {
     icon: {
       type: String,
-      default: ''
+      default: 'spinning-circles'
     },
     color: {
       type: String,
@@ -779,14 +815,14 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const store = useStore()
+    const store = useStore();
     const iconColor = computed(() =>
       !store.state.main.darkMode ? props.color : '#ffffff'
-    )
+    );
 
     return {
       iconColor
-    }
+    };
   }
-})
+});
 </script>

@@ -81,7 +81,7 @@ onMounted(async () => {
 async function submit() {
   try {
     isLoading.value = true;
-    emit('update:formData', props.formData);
+    // emit('update:formData', props.formData);
     const res = await updateCafeWorkDays({
       data: { week_time: workingDayTimes.value },
       id: route.params.id
@@ -149,7 +149,12 @@ async function submit() {
               externalErrors.week_time && externalErrors.week_time[0]
             }}</span>
           </template>
-          <button type="button" class="btn btn-primary mt-5" @click="submit">
+          <button
+            type="button"
+            class="btn btn-primary mt-5"
+            @click="submit"
+            :disabled="isLoading"
+          >
             <!-- <LoadingIcon v-if="isLoading" icon="tail-spin" class="w-4 h-4 mr-3" color="#fff" /> -->
             <span>Save</span>
           </button>
