@@ -25,19 +25,24 @@ const searchValue = ref('');
 
 const filteredChatList = computed(() => {
   if (searchValue.value) {
-    return chatList.filter(chat => chat.customer?.username.toLowerCase().includes(searchValue.value.toLowerCase()) || chat.customer?.phone.includes(searchValue.value.toLowerCase()));
+    return chatList.filter(
+      chat =>
+        chat.customer?.username
+          .toLowerCase()
+          .includes(searchValue.value.toLowerCase()) ||
+        chat.customer?.phone.includes(searchValue.value.toLowerCase())
+    );
   }
   if (props.chatType) {
     return chatList.filter(chat => chat.chat_type === props.chatType);
-  }
-  else return chatList;
+  } else return chatList;
 });
 
 onMounted(() => {
   document.addEventListener('keyup', keyListener);
 });
 
-const selectChat = async (chat) => {
+const selectChat = async chat => {
   if (getSelectedChat.value.id !== chat.id) {
     try {
       setChatBoxLoading(true);
@@ -53,54 +58,83 @@ const selectChat = async (chat) => {
   }
 };
 
-const formattedDate = (value) => {
+const formattedDate = value => {
   return moment(value).fromNow();
 };
 
 function keyListener(event) {
-  if (event.defaultPrevented)
-    return;
+  if (event.defaultPrevented) return;
 
   const key = event.key || event.keyCode;
 
   if (key === 'Escape' || key === 'Esc' || key === 27) {
-    setSelectedChat({})
+    setSelectedChat({});
     setErrorMessage('');
   }
 }
 </script>
 
 <template>
-  <!-- <SearchInput /> -->
-  <SearchInput v-model="searchValue" />
-  <div class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 pt-1 mt-4">
-    <div v-for="(chat, chatKey) in filteredChatList" :key="chatKey" class="intro-x cursor-pointer relative flex p-3"
-      :class="{ 'bg-theme-1 dark:bg-theme-1 text-white': chat.id === getSelectedChat.id }" @click="selectChat(chat)">
-      <div class="w-12 h-12 flex-none image-fit mr-1">
-        <img alt="image" class="rounded-full" :src="chat.customer.avatar" />
+  <div>
+    <!-- <SearchInput /> -->
+    <SearchInput v-model="searchValue" />
+    <div
+      class="chat__chat-list overflow-y-auto scrollbar-hidden pr-1 pt-1 mt-4"
+    >
+      <div
+        v-for="(chat, chatKey) in filteredChatList"
+        :key="chatKey"
+        class="intro-x cursor-pointer relative flex p-3"
+        :class="{
+          'bg-theme-1 dark:bg-theme-1 text-white':
+            chat.id === getSelectedChat.id
+        }"
+        @click="selectChat(chat)"
+      >
+        <div class="w-12 h-12 flex-none image-fit mr-1">
+          <img alt="image" class="rounded-full" :src="chat.customer.avatar" />
 
-        <div v-if="chat.customer?.is_online"
-          class="w-3 h-3 bg-theme-9 absolute right-0 bottom-0 rounded-full border-2 border-white"></div>
-      </div>
-      <div class="ml-2 overflow-hidden w-full">
-        <div class="flex">
-          <h6 href="javascript:;" class="font-medium">{{ chat.customer?.username }}</h6>
-          <div class="text-xs text-gray-500 ml-auto">{{
-            chat.last_message?.created_dt &&
-              formattedDate(chat.last_message.created_dt)
-          }}</div>
+          <div
+            v-if="chat.customer?.is_online"
+            class="w-3 h-3 bg-theme-9 absolute right-0 bottom-0 rounded-full border-2 border-white"
+          ></div>
         </div>
-        <template v-if="chat.last_message">
-          <div class="w-full truncate text-gray-600 mt-0.5">{{ chat.last_message.text }}</div>
-          <div v-if="chat.last_message?.files?.length > 0" class="flex text-gray-600 mt-0.5 gap-2 items-center">
-            <img :src="chat.last_message?.files[0].file" alt="last image" width="30" />
-            <span>Photo</span>
+        <div class="ml-2 overflow-hidden w-full">
+          <div class="flex">
+            <h6 href="javascript:;" class="font-medium">
+              {{ chat.customer?.username }}
+            </h6>
+            <div class="text-xs text-gray-500 ml-auto">
+              {{
+                chat.last_message?.created_dt &&
+                  formattedDate(chat.last_message.created_dt)
+              }}
+            </div>
           </div>
-        </template>
+          <template v-if="chat.last_message">
+            <div class="w-full truncate text-gray-600 mt-0.5">
+              {{ chat.last_message.text }}
+            </div>
+            <div
+              v-if="chat.last_message?.files?.length > 0"
+              class="flex text-gray-600 mt-0.5 gap-2 items-center"
+            >
+              <img
+                :src="chat.last_message?.files[0].file"
+                alt="last image"
+                width="30"
+              />
+              <span>Photo</span>
+            </div>
+          </template>
+        </div>
+        <div
+          v-if="chat.unread_messages_count"
+          class="w-5 h-5 flex items-center justify-center absolute top-0 right-0 text-xs text-white rounded-full bg-theme-1 font-medium -mt-1 -mr-1"
+        >
+          {{ chat.unread_messages_count }}
+        </div>
       </div>
-      <div v-if="chat.unread_messages_count"
-        class="w-5 h-5 flex items-center justify-center absolute top-0 right-0 text-xs text-white rounded-full bg-theme-1 font-medium -mt-1 -mr-1">
-        {{ chat.unread_messages_count }}</div>
     </div>
   </div>
 </template>
