@@ -2,15 +2,15 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import cash from 'cash-dom';
-import store from '@/store';
 import CafeMenu from './CafeMenu.vue';
+import store from '@/store';
 import CafeInformation from './CafeInformation.vue';
 import { storeCafe } from '@/api';
 import { useNotyf } from '@/composables/useNotyf';
 
 const router = useRouter();
 const notyf = useNotyf();
-const formFields = ref({
+const formFields = reactive({
   location: {
     lat: 35.1234,
     lon: -95.1234

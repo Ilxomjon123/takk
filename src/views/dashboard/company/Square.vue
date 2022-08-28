@@ -6,7 +6,6 @@ import SquareCafeList from '@/components/lists/SquareCafeList.vue';
 
 const getCompany = computed(() => store.getters['getCompany']);
 const isLoading = ref(false);
-const globalLoading = computed(() => store.state.common.loadingStatus);
 </script>
 
 <template>

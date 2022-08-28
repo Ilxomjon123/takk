@@ -4,6 +4,8 @@ import cash from 'cash-dom';
 import Toastify from 'toastify-js';
 import { addCafeGallery } from '@/api/admin';
 import MultipleImageUpload from './MultipleImageUpload.vue';
+import { useNotyf } from '../../../composables/useNotyf';
+import { ref } from 'vue';
 
 const props = defineProps({
   formData: {
@@ -18,22 +20,28 @@ const props = defineProps({
 
 const emit = defineEmits(['update:formData']);
 const route = useRoute();
+const notyf = useNotyf();
+const isLoading = ref(false);
 
 async function submit() {
-  // emit('update:formData', props.formData);
-  if (props.formData.upload_photos.length > 0) {
-    const imagesFormData = new FormData();
-    for (let image of props.formData.upload_photos) {
-      imagesFormData.append('images', image);
-    }
-    imagesFormData.append('cafe', props.formData.id);
-    await addCafeGallery(imagesFormData);
-    Toastify({
-      node: cash('#success-notification-content')
-        .clone()
-        .removeClass('hidden')[0],
-      duration: 3000
-    }).showToast();
+  isLoading.value = true;
+
+  try {
+    if (props.formData?.upload_photos?.length) {
+      const imagesFormData = new FormData();
+
+      for (let image of props.formData.upload_photos) {
+        imagesFormData.append('images', image);
+      }
+
+      imagesFormData.append('cafe', props.formData.id);
+      await addCafeGallery(imagesFormData);
+      notyf.success();
+    } else notyf.warning('There is nothing to update!');
+  } catch (error) {
+    notyf.error();
+  } finally {
+    isLoading.value = false;
   }
 }
 </script>
@@ -53,10 +61,22 @@ async function submit() {
             :obj-id="route.params.id"
             class="my-5"
           />
-          <button type="button" class="btn btn-primary mt-5" @click="submit">
-            <!-- <LoadingIcon v-if="isLoading" icon="tail-spin" class="w-4 h-4 mr-3" color="#fff" /> -->
-            <span>Save</span>
-          </button>
+          <div class="flex">
+            <button
+              type="button"
+              class="btn btn-primary mt-5 ml-auto"
+              @click="submit"
+              :disabled="isLoading"
+            >
+              <LoadingIcon
+                v-if="isLoading"
+                icon="tail-spin"
+                class="w-4 h-4 mr-3"
+                color="#fff"
+              />
+              <span>Save</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

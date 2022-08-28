@@ -1,20 +1,23 @@
 <script setup>
-import { onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { fetchCafeList } from '@/api/admin';
 import store from '@/store';
 import CafeAdminItemCard from './CafeAdminItemCard.vue';
 
 const router = useRouter();
-// const rowId = ref(null)
-// const isLoading = ref(true)
 const list = reactive([]);
-
+const selectedCompanyId = computed(
+  () => store.getters['adminCompany/getAdminSelectedCompanyID']
+);
 await fetchData();
 
 async function fetchData() {
   store.commit('setLoadingStatus', true);
-  const res = await fetchCafeList(100);
+  const res = await fetchCafeList({
+    limit: 100,
+    company: selectedCompanyId.value
+  });
   Object.assign(list, res.results);
   store.commit('setLoadingStatus', false);
 }

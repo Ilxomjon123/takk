@@ -20,7 +20,23 @@ onUnmounted(() => {
   <div class="content">
     <AppTopBar />
     <main>
-      <RouterView />
+      <RouterView v-slot="{ Component, route }">
+        <template v-if="Component">
+          <Transition name="fade-fast" mode="out-in">
+            <!-- <KeepAlive> -->
+            <Suspense>
+              <!-- main content -->
+              <component :is="Component" :key="route" />
+
+              <!-- loading state -->
+              <template #fallback>
+                Loading...
+              </template>
+            </Suspense>
+            <!-- </KeepAlive> -->
+          </Transition>
+        </template>
+      </RouterView>
     </main>
     <AppFooter />
   </div>

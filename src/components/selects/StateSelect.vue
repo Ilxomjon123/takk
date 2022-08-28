@@ -23,7 +23,7 @@ const selectedState = computed({
 });
 
 watchEffect(async () => {
-  if (props.modelValue) {
+  if (props.modelValue && Number(props.modelValue)) {
     setSelectedState(props.modelValue);
 
     if (selectedCountry.value) {

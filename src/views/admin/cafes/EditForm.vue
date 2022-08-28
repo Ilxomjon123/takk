@@ -99,6 +99,7 @@ const components = {
   CafeGallery,
   CafeWorkingDays
 };
+const isLoading = ref(false);
 
 watch(
   () => route.params.id,
@@ -126,8 +127,7 @@ function changeComponent(componentName) {
 }
 
 async function submit(formData) {
-  store.commit('setLoadingStatus', true);
-
+  isLoading.value = true;
   externalErrors.value = {};
   delete formData.logo;
 
@@ -144,7 +144,7 @@ async function submit(formData) {
       externalErrors.value = error.response.data;
     }
   } finally {
-    store.commit('setLoadingStatus', false);
+    isLoading.value = false;
   }
 }
 
@@ -188,6 +188,7 @@ async function removeCafe() {
           <component
             :is="components[currentItem]"
             :form-data="formFields"
+            :is-loading="isLoading"
             :external-errors="externalErrors"
             @update:form-data="submit($event)"
           />

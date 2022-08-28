@@ -23,17 +23,12 @@ await fetchData();
 // });
 
 async function fetchData() {
-  store.commit('setLoadingStatus', true);
   const res = await fetchCompanyList(100);
   list.value = res.results;
-  store.commit('setLoadingStatus', false);
 }
 
 function gotoEditForm(company) {
-  store.commit('setLoadingStatus', true);
-  setSelected(company);
   router.push(`/admin/company/form?id=${company.id}`);
-  store.commit('setLoadingStatus', false);
 }
 
 function gotoAddForm() {
@@ -70,11 +65,11 @@ function gotoAddForm() {
           />
         </div>
         <!-- <div
-          v-else
-          class="hidden md:block mx-auto text-gray-600 text-center col-span-12"
-        >
-          No Data
-        </div> -->
+            v-else
+            class="hidden md:block mx-auto text-gray-600 text-center col-span-12"
+          >
+            No Data
+          </div> -->
       </div>
       <!-- END: Data List -->
     </div>

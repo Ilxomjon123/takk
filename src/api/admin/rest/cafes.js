@@ -1,14 +1,12 @@
-import { useStorage } from '@vueuse/core';
 import { useApi } from '@/composables/useApi';
 
 const api = useApi();
-const companyId = useStorage('selectedCompanyID', 0);
 
-export const fetchCafeList = async (limit = 10) => {
-  const company = companyId.value === 0 ? '' : companyId.value;
+export const fetchCafeList = async (payload = { limit: 10, company: '' }) => {
   try {
     const res = await api({
-      url: `/adham/cafes/?company=${company}&limit=${limit}`
+      url: `/adham/cafes/`,
+      params: payload
     });
 
     return res.data;

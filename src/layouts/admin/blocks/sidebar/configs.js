@@ -21,8 +21,7 @@ const nestedMenu = (menu, route) => {
     if (typeof item !== 'string') {
       let menuItem = menu[key];
       menuItem.active =
-        ((item.pageName !== '' && route.name.startsWith(item.pageName)) ||
-          item.pageName === route.name ||
+        (item.pageName === route.name ||
           (item.subMenu && findActiveMenu(item.subMenu, route))) &&
         !item.ignore;
 

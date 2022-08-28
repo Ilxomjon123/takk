@@ -16,11 +16,11 @@ export const fetchCompanyList = async (limit = 10, page = 1) => {
 
 export const fetchCompanyById = async id => {
   try {
-    const res = await api({
+    const { data } = await api({
       url: `/adham/companies/${id}/`
     });
 
-    return res.data;
+    return data;
   } catch (error) {
     throw error;
   }

@@ -3,41 +3,19 @@ import { useStore } from 'vuex';
 import { computed, watch } from 'vue';
 import router from '@/router';
 import useCompany from '@/features/useCompany';
-import { fetchCompanyById } from '@/api/admin';
 import ConfirmModal from '../modals/ConfirmModal.vue';
 import cash from 'cash-dom';
 import { updateCompanyById } from '@/api/admin';
-import Toastify from 'toastify-js';
+import { useNotyf } from '../../composables/useNotyf';
 
-// const props = defineProps({
-//   company: {
-//     type: Object,
-//     default: () => {}
-//   }
-// });
-
+const notyf = useNotyf();
 const { getSelected, setSelected } = useCompany();
 const company = computed(() => getSelected.value);
-const queryID = router.currentRoute.value?.query?.id ?? null;
 const query = router.currentRoute.value.query.id
   ? `?id=${router.currentRoute.value.query.id}`
   : '';
 
 const store = useStore();
-// const company = computed(() => store.getters.getCompany);
-
-watch(
-  () => company.value,
-  async newVal => {
-    console.log('newVal: ', newVal);
-    if (!newVal && queryID) {
-      const res = await fetchCompanyById(queryID);
-      setSelected(res);
-      console.log('newVal in IF statement: ', company.value);
-    }
-  },
-  { deep: true, immediate: true }
-);
 
 async function toggleStatus() {
   try {
@@ -47,11 +25,7 @@ async function toggleStatus() {
     });
     setSelected(res);
   } catch (error) {
-    Toastify({
-      node: cash('#error-notification-content')
-        .clone()
-        .removeClass('hidden')[0]
-    }).showToast();
+    notyf.error();
   }
 }
 

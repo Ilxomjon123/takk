@@ -53,7 +53,23 @@ async function submit() {
       if (res.user?.is_superuser) {
         location.href = '/admin';
       } else {
-        location.href = '/entry/company';
+        let path;
+
+        switch (res.user?.state_steps) {
+          case store.state.user.STEP_CAFE:
+            path = '/entry/cafe';
+            break;
+          case store.state.user.STEP_FINISH:
+            path = '/entry/finish';
+            break;
+          case store.state.user.STEP_DASHBOARD:
+            path = '/dashboard';
+            break;
+          default:
+            path = '/entry/company';
+        }
+
+        location.href = path;
       }
     }
   } catch (error) {

@@ -30,8 +30,10 @@ onMounted(async () => {
 watch(
   () => props.modelValue,
   async (newVal, oldVal) => {
-    setSelectedCountry(newVal);
-    await getStates();
+    if (Number(newVal)) {
+      setSelectedCountry(newVal);
+      await getStates();
+    }
   },
   { deep: true, immediate: true }
 );

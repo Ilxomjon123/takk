@@ -33,7 +33,7 @@ const state = () => {
 
 const getters = {
   getUser: state => state.user,
-  isSuperuser: state => state.user?.is_superuser,
+  isSuperuser: state => state.user.is_superuser,
   getCompanyId: state => state.user.company_id,
   getToken: state => state.token,
   getRefreshToken: state => state.refreshToken,
@@ -85,12 +85,13 @@ const mutations = {
 const actions = {
   async signin({ commit }, form) {
     try {
-      const { data } = await api({
+      const res = await api({
         url: '/api/users/register/',
         method: 'POST',
         data: form
       });
-      return data;
+
+      return res.data;
     } catch (error) {
       throw error;
     }
@@ -119,10 +120,11 @@ const actions = {
       };
     }
   },
-  logout() {
+  logout({ state }) {
     // localStorage.clear();
-    localStorage.removeItem('token');
-    localStorage.removeItem('required_details');
+    // localStorage.removeItem('required_details');
+    state.token = '';
+    localStorage.removeItem('selected-productmenu-id');
   },
   async fetchProfile({ commit }) {
     try {

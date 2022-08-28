@@ -1,7 +1,5 @@
 <script setup>
-import { computed, onMounted, reactive, ref } from 'vue';
-import Toastify from 'toastify-js';
-import cash from 'cash-dom';
+import { computed, onMounted, reactive, ref, watchEffect } from 'vue';
 import { isEmpty } from 'lodash';
 
 import store from '@/store';
@@ -16,14 +14,17 @@ import {
   updateCompanyById
 } from '@/api/admin';
 import { useRoute } from 'vue-router';
+import { useNotyf } from '@/composables/useNotyf';
+import useCompany from '../../../features/useCompany';
 
+const { getSelected } = useCompany();
 const route = useRoute();
+const notyf = useNotyf();
 const image = ref(null);
 const isLoading = ref(false);
 const errors = ref(null);
 const queryID = route.query?.id ?? null;
 const companyData = reactive({
-  // country: 236
   name: '',
   phone: '',
   email: '',
@@ -41,9 +42,10 @@ const companyData = reactive({
   about: ''
 });
 
-const globalLoading = computed(() => store.state.common.loadingStatus);
-
-await fetchData();
+watchEffect(() => {
+  Object.assign(companyData, getSelected.value);
+});
+// await fetchData();
 
 async function submit() {
   try {
@@ -74,23 +76,10 @@ async function submit() {
       : createCompany(formData);
     Object.assign(companyData, res);
 
-    // if (isEmpty(companyData.country)) companyData.country = 236;
-    // if (isEmpty(companyData.cashback_percent))
-    //   companyData.cashback_percent = 10;
-
-    Toastify({
-      node: cash('#success-notification-content')
-        .clone()
-        .removeClass('hidden')[0]
-    }).showToast();
+    notyf.success();
   } catch (error) {
-    console.log(error);
     errors.value = error.response?.data;
-    Toastify({
-      node: cash('#error-notification-content')
-        .clone()
-        .removeClass('hidden')[0]
-    }).showToast();
+    notyf.error();
   } finally {
     isLoading.value = false;
   }
@@ -100,17 +89,17 @@ function getError(key) {
   return errors.value && errors.value[key]?.[0];
 }
 
-async function fetchData() {
-  // console.log('route query id: ', queryID);
-  if (queryID) {
-    const res = await fetchCompanyById(queryID);
-    Object.assign(companyData, res);
-    if (isEmpty(companyData.country) || !Number(companyData.country))
-      companyData.country = 236;
-    if (isEmpty(companyData.cashback_percent))
-      companyData.cashback_percent = 10;
-  }
-}
+// async function fetchData() {
+//   // console.log('route query id: ', queryID);
+//   if (queryID) {
+//     const res = await fetchCompanyById(queryID);
+//     Object.assign(companyData, res);
+//     if (isEmpty(companyData.country) || !Number(companyData.country))
+//       companyData.country = 236;
+//     if (isEmpty(companyData.cashback_percent))
+//       companyData.cashback_percent = 10;
+//   }
+// }
 </script>
 
 <template>
@@ -122,8 +111,8 @@ async function fetchData() {
       >
         <h2 class="font-medium text-base mr-auto">Information</h2>
         <!-- <h2 class="font-medium text-base ml-auto" :class="companyData.status ? 'text-theme-9' : 'text-theme-6'">{{
-            companyData.status ? 'Active' : 'Not Active'
-        }}</h2> -->
+              companyData.status ? 'Active' : 'Not Active'
+          }}</h2> -->
       </div>
       <div class="p-5">
         <div class="grid grid-cols-12 gap-6">
@@ -294,7 +283,9 @@ async function fetchData() {
                   >Cashback Percent</label
                 >
                 <div class="input-group">
-                  <div id="input-group-percent" class="input-group-text">%</div>
+                  <div id="input-group-percent" class="input-group-text">
+                    %
+                  </div>
                   <TomSelect
                     id="cashback"
                     class="w-full"
@@ -370,7 +361,6 @@ async function fetchData() {
                 {{ isLoading ? '' : 'Save' }}
                 <LoadingIcon
                   v-if="isLoading"
-                  icon="three-dots"
                   color="white"
                   class="w-8 h-8 my-2"
                 />

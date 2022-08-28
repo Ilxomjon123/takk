@@ -1,26 +1,36 @@
 <script setup>
 import cash from 'cash-dom';
-import { ref } from 'vue'
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import store from '@/store';
 
-const router = useRouter()
-const isLoggedIn = ref(false);
+const router = useRouter();
+const isLoggedIn = store.getters['isLoggedIn'];
+const isSuperuser = computed(() => store.getters['isSuperuser']);
+const appleStore = 'https://apps.apple.com/us/app/kaffe-landskap/id1469010325';
+const playStore = 'https://play.google.com/store/apps/details?id=com.takk.cafe';
 
-if (localStorage.getItem('token') && localStorage.getItem('required_details'))
-  isLoggedIn.value = true
+isLoggedIn && store.dispatch('fetchProfile');
 
 function openMobileMenu() {
-  cash("#mobile-over-menu").modal("show");
+  cash('#mobile-over-menu').modal('show');
 }
 
 const showContactUsModal = () => {
-  cash("#contact-us-modal").modal("show");
+  cash('#contact-us-modal').modal('show');
 };
-
+const cabinetLink = computed(() => {
+  if (isLoggedIn) {
+    if (isSuperuser) {
+      return '/admin';
+    }
+    return '/dashboard';
+  }
+  return '/login';
+});
 const goto = url => {
-  router.push(url)
+  router.push(url);
 };
-
 </script>
 
 <template>
@@ -42,32 +52,35 @@ const goto = url => {
           class="flex flex-wrap p-1 md:p-2 text-base xl:text-2xl text-theme-32 font-medium content-center"
         >
           <li class="mx-1 px-1 py-2">
-            <a
-              class="whitespace-no-wrap"
-              href="#preordering-rectangle"
-            >Preordering</a>
+            <a class="whitespace-no-wrap" href="#preordering-rectangle"
+              >Preordering</a
+            >
           </li>
           <li class="mx-1 px-1 py-2">
-            <a class="whitespace-no-wrap" href="#delivery-rectangle">Delivery</a>
+            <a class="whitespace-no-wrap" href="#delivery-rectangle"
+              >Delivery</a
+            >
           </li>
           <li class="mx-1 px-1 py-2">
-            <a
-              class="whitespace-no-wrap"
-              href="#loyalty-stamps-rectangle"
-            >Loyalty Stamps</a>
+            <a class="whitespace-no-wrap" href="#loyalty-stamps-rectangle"
+              >Loyalty Stamps</a
+            >
           </li>
           <li class="mx-1 px-1 py-2">
-            <a
-              class="whitespace-no-wrap"
-              href="#self-checkout-rectangle"
-            >Self Checkout System</a>
+            <a class="whitespace-no-wrap" href="#self-checkout-rectangle"
+              >Self Checkout System</a
+            >
           </li>
           <li class="mx-1 px-1 py-2">
-            <a class="whitespace-no-wrap" href="#analytics-rectangle">Analytics</a>
+            <a class="whitespace-no-wrap" href="#analytics-rectangle"
+              >Analytics</a
+            >
           </li>
           <li class="mx-1 px-1 py-2">
-            <a href="/login" class="text-theme-31 font-bold">
-              <span>{{ isLoggedIn ? 'Dashboard' : 'Sign In' }}</span>
+            <a :href="cabinetLink" class="text-theme-31 font-bold">
+              <span>{{
+                !cabinetLink.includes('login') ? 'Dashboard' : 'Sign In'
+              }}</span>
             </a>
           </li>
         </ul>
@@ -77,11 +90,12 @@ const goto = url => {
         >
           Takk app is available on
           <span class="text-theme-31">
-            <router-link to="/">App Store</router-link>
-          </span> and
+            <a :href="appleStore">App Store</a>
+          </span>
+          and
           <span class="text-theme-31">
-            <router-link to="/">Google Play</router-link>
-          </span>.
+            <a :href="playStore">Google Play</a> </span
+          >.
         </h1>
       </div>
       <div class="hidden lg:flex w-full lg:w-auto">

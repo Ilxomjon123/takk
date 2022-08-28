@@ -3,12 +3,13 @@ import { computed, onMounted, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import cash from 'cash-dom';
 import CafeMenu from './CafeMenu.vue';
+import store from '@/store';
 import CafeInformation from './CafeInformation.vue';
 import { storeCafe } from '@/api/admin';
-import store from '@/store';
 import { useNotyf } from '@/composables/useNotyf';
 
 const router = useRouter();
+const notyf = useNotyf();
 const formFields = reactive({
   location: {
     coordinates: [35.1234, -95.1234]
@@ -26,36 +27,30 @@ const formFields = reactive({
   photos: []
 });
 const externalErrors = ref({});
+const isLoading = ref(false);
 const selectedCompanyId = computed(
-  () => store.getters['getAdminSelectedCompanyID']
+  () => store.getters['adminCompany/getAdminSelectedCompanyID']
 );
-const notyf = useNotyf();
 
 onMounted(() => {
   selectedCompanyId.value === 0 && showCompanySelectModal();
 });
 
 async function submit(formData) {
-  store.commit('setLoadingStatus', true);
-  // isLoading.value = true
+  isLoading.value = true;
   externalErrors.value = {};
+  formData.company = selectedCompanyId.value;
 
   try {
-    const res1 = await storeCafe({
-      ...formData,
-      company: selectedCompanyId
-    });
+    const res1 = await storeCafe(formData);
 
     router.push('/admin/cafes/' + res1.id);
     notyf.success();
   } catch (error) {
-    if (error.response) {
-      notyf.error();
-      externalErrors.value = error.response.data;
-    }
+    notyf.error();
+    externalErrors.value = error.response?.data;
   } finally {
-    store.commit('setLoadingStatus', false);
-    // isLoading.value = false
+    isLoading.value = false;
   }
 }
 

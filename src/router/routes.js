@@ -16,7 +16,7 @@ import AppLayout from '../layouts/app-layout/index.vue';
 import DashboardLayout from '../layouts/dashboard/Main.vue';
 import AdminLayout from '../layouts/admin/Main.vue';
 import CompanyLayout from '../layouts/dashboard/company/Main.vue';
-import AdminCompanyLayout from '../layouts/admin/company/Main.vue';
+import AdminCompanyLayout from '../layouts/admin/AdminCompanyLayout.vue';
 import CustomLayout from '../layouts/dashboard/Custom.vue';
 import EntryLayout from '../layouts/entry/Main.vue';
 
@@ -45,6 +45,7 @@ const routes = [
       }
     ]
   },
+  // admin routes
   {
     path: '/admin',
     component: AdminLayout,
@@ -243,6 +244,7 @@ const routes = [
       }
     ]
   },
+  // dashboard routes
   {
     path: '/dashboard',
     component: DashboardLayout,
@@ -414,6 +416,7 @@ const routes = [
       }
     ]
   },
+  // auth routes
   {
     path: '/login',
     name: 'login',

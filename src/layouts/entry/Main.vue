@@ -1,3 +1,21 @@
+<script setup>
+import { computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import store from '@/store';
+
+const route = useRoute();
+const router = useRouter();
+const isCompany = computed(() => route.name == 'entry-company');
+const isCafe = computed(() => route.name == 'entry-cafe');
+const isFinish = computed(() => route.name == 'entry-finish');
+
+function logout() {
+  confirm('Are you sure?');
+  store.dispatch('logout');
+  window.location.replace('/');
+}
+</script>
+
 <template>
   <div>
     <div class="flex items-center mt-8">
@@ -87,50 +105,25 @@
       <div
         class="px-5 sm:px-20 mt-10 pt-10 border-t border-gray-200 dark:border-dark-5"
       >
-        <RouterView />
+        <RouterView v-slot="{ Component, route }">
+          <template v-if="Component">
+            <Transition name="fade-fast" mode="out-in">
+              <!-- <KeepAlive> -->
+              <Suspense>
+                <!-- main content -->
+                <component :is="Component" :key="route" />
+
+                <!-- loading state -->
+                <template #fallback>
+                  Loading...
+                </template>
+              </Suspense>
+              <!-- </KeepAlive> -->
+            </Transition>
+          </template>
+        </RouterView>
       </div>
     </div>
     <!-- END: Wizard Layout -->
   </div>
 </template>
-
-<script setup>
-import { computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import store from '@/store';
-
-const route = useRoute();
-const router = useRouter();
-const isCompany = computed(() => route.name == 'entry-company');
-const isCafe = computed(() => route.name == 'entry-cafe');
-const isFinish = computed(() => route.name == 'entry-finish');
-const getStep = computed(() => store.getters['getStep']);
-console.log({ getStep });
-
-await checkStep();
-
-async function checkStep() {
-  let path;
-  switch (getStep.value) {
-    case store.state.user.STEP_CAFE:
-      path = '/entry/cafe';
-      break;
-    case store.state.user.STEP_FINISH:
-      path = '/entry/finish';
-      break;
-    case store.state.user.STEP_DASHBOARD:
-      path = '/dashboard';
-      break;
-    default:
-      path = '/entry/company';
-  }
-
-  router.push(path);
-}
-
-function logout() {
-  confirm('Are you sure?');
-  store.dispatch('logout');
-  window.location.replace('/');
-}
-</script>
