@@ -160,13 +160,8 @@ async function removeCafe() {
   }
   await deleteCafe(formFields.id);
   store.commit('setLoadingStatus', false);
+  notyf.success('Data successfully removed!')
   router.back();
-  // Toastify({
-  //   node: cash('#success-notification-content')
-  //     .clone()
-  //     .removeClass('hidden')[0],
-  //   duration: 3000,
-  // }).showToast();
 }
 </script>
 

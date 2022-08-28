@@ -12,17 +12,15 @@
       <MenuForm />
     </div>
   </div>
-  <ErrorNotification ref="errorNotification" />
 </template>
 
 <script>
 import { defineComponent } from 'vue';
 import { mapActions } from 'vuex';
 import MenuForm from '@/components/forms/MenuForm.vue';
-import ErrorNotification from '@/components/notifications/ErrorNotification.vue';
 
 export default defineComponent({
-  components: { MenuForm, ErrorNotification },
+  components: { MenuForm },
   methods: {
     ...mapActions(['putStep']),
     async skip() {

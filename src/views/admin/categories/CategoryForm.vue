@@ -5,8 +5,6 @@ import store from '@/store';
 import { fetchCategories } from '@/api/admin';
 import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 import { useStorage } from '@vueuse/core';
-import Toastify from 'toastify-js';
-import cash from 'cash-dom';
 
 const props = defineProps({
   form: {
@@ -25,6 +23,7 @@ const props = defineProps({
   }
 });
 
+const notyf = useNotyf();
 const category = reactive({});
 const images = reactive({});
 const errors = reactive({});
@@ -66,18 +65,10 @@ async function submit() {
 
   if (res.status) {
     Object.assign(errors, {});
-    Toastify({
-      node: cash('#success-notification-content')
-        .clone()
-        .removeClass('hidden')[0]
-    }).showToast();
+    notyf.success();
   } else {
     Object.assign(errors, res.data);
-    Toastify({
-      node: cash('#error-notification-content')
-        .clone()
-        .removeClass('hidden')[0]
-    }).showToast();
+    notyf.error();
   }
   isLoading.value = false;
 }

@@ -1,16 +1,15 @@
 <script setup>
-import Toastify from 'toastify-js';
-import cash from 'cash-dom';
 import { reactive, ref } from 'vue';
 import { createProduct } from '@/api';
-import _ from 'lodash';
 import FormFields from './FormFields.vue';
 import { useRouter } from 'vue-router';
+import { useNotyf } from '../../../composables/useNotyf';
 
 const router = useRouter();
+const notyf = useNotyf();
 const externalErrors = reactive({});
 const isLoading = ref(false);
-const productImagePath = ref("");
+const productImagePath = ref('');
 
 const formFields = reactive({
   sizes: [
@@ -19,12 +18,12 @@ const formFields = reactive({
       // square_id: '',
       price: 0,
       available: false,
-      default: false,
+      default: false
     }
   ],
   modifiers: [],
   quickest_time: 5,
-  tax_percent: "100"
+  tax_percent: '100'
 });
 
 async function onSubmit() {
@@ -32,46 +31,43 @@ async function onSubmit() {
   Object.assign(externalErrors, {});
 
   try {
-    const formData = new FormData()
+    const formData = new FormData();
 
-    formData.append('image', formFields.image)
-    formData.append('start', formFields.start)
-    formData.append('end', formFields.end)
-    formData.append('quickest_time', formFields.quickest_time)
-    formData.append('name', formFields.name)
-    formData.append('description', formFields.description)
-    formData.append('category', formFields.category)
-    formData.append('tax_percent', formFields.tax_percent)
+    formData.append('image', formFields.image);
+    formData.append('start', formFields.start);
+    formData.append('end', formFields.end);
+    formData.append('quickest_time', formFields.quickest_time);
+    formData.append('name', formFields.name);
+    formData.append('description', formFields.description);
+    formData.append('category', formFields.category);
+    formData.append('tax_percent', formFields.tax_percent);
 
     for (let i = 0; i < formFields.sizes.length; i++) {
-      formData.append('sizes[' + i + ']name', formFields.sizes[i].name)
-      formData.append('sizes[' + i + ']price', formFields.sizes[i].price)
-      formData.append('sizes[' + i + ']available', formFields.sizes[i].available)
-      formData.append('sizes[' + i + ']default', formFields.sizes[i].default)
+      formData.append('sizes[' + i + ']name', formFields.sizes[i].name);
+      formData.append('sizes[' + i + ']price', formFields.sizes[i].price);
+      formData.append(
+        'sizes[' + i + ']available',
+        formFields.sizes[i].available
+      );
+      formData.append('sizes[' + i + ']default', formFields.sizes[i].default);
     }
 
     for (let i = 0; i < formFields.modifiers.length; i++) {
-      formData.append('modifiers', formFields.modifiers[i])
+      formData.append('modifiers', formFields.modifiers[i]);
     }
 
     const res = await createProduct(formData);
+
     if (res.id) {
-      router.push('/dashboard/products/' + res.id)
+      router.push('/dashboard/products/' + res.id);
     }
 
-    Toastify({
-      node: cash('#success-notification-content')
-        .clone()
-        .removeClass('hidden')[0],
-      duration: 3000,
-    }).showToast();
+    notyf.success();
   } catch (error) {
-    if (error.response) {
-      console.log(error.response.data);
-      Object.assign(externalErrors, error.response.data);
-    }
+    Object.assign(externalErrors, error.response.data);
+    notyf.error();
   } finally {
-    isLoading.value = false
+    isLoading.value = false;
   }
 }
 </script>
@@ -87,12 +83,31 @@ async function onSubmit() {
         <div class="intro-y box">
           <div id="form-validation" class="p-5">
             <!-- BEGIN: Validation Form -->
-            <form class="validate-form" @submit.prevent="onSubmit" enctype="multipart/form-data">
-              <FormFields :form-fields="formFields" :product-image-path="productImagePath"
-                :external-errors="externalErrors" @update:form-fields="formFields = $event" />
-              <div class="flex pt-5 justify-end border-t border-gray-200 dark:border-dark-5">
-                <button type="submit" class="btn btn-primary" :disabled="isLoading">
-                  <LoadingIcon v-if="isLoading" icon="tail-spin" class="w-4 h-4 mr-3" color="#fff" />
+            <form
+              class="validate-form"
+              @submit.prevent="onSubmit"
+              enctype="multipart/form-data"
+            >
+              <FormFields
+                :form-fields="formFields"
+                :product-image-path="productImagePath"
+                :external-errors="externalErrors"
+                @update:form-fields="formFields = $event"
+              />
+              <div
+                class="flex pt-5 justify-end border-t border-gray-200 dark:border-dark-5"
+              >
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  :disabled="isLoading"
+                >
+                  <LoadingIcon
+                    v-if="isLoading"
+                    icon="tail-spin"
+                    class="w-4 h-4 mr-3"
+                    color="#fff"
+                  />
                   <span>Save</span>
                 </button>
               </div>

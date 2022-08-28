@@ -1,19 +1,16 @@
 <script setup>
-import Toastify from 'toastify-js';
-import cash from 'cash-dom';
-import { useStore } from 'vuex';
 import { onMounted, reactive, ref } from 'vue';
 import { updateProduct } from '@/api';
 import { useRoute } from 'vue-router';
 import { fetchProduct } from '@/api';
-import _ from 'lodash';
 import FormFields from './FormFields.vue';
+import { useNotyf } from '../../../composables/useNotyf';
+import store from '../../../store';
 
-const store = useStore();
 const externalErrors = ref({});
 const isLoading = ref(false);
 const route = useRoute();
-
+const notyf = useNotyf();
 const formFields = reactive({
   sizes: [
     {
@@ -84,17 +81,10 @@ async function onSubmit() {
 
     const res = await updateProduct({ id: route.params.id, data: formData });
 
-    Toastify({
-      node: cash('#success-notification-content')
-        .clone()
-        .removeClass('hidden')[0],
-      duration: 3000
-    }).showToast();
+    notyf.success();
   } catch (error) {
-    if (error.response) {
-      console.log(error.response.data);
-      externalErrors.value = error.response.data;
-    }
+    externalErrors.value = error.response.data;
+    notyf.error();
   } finally {
     isLoading.value = false;
   }

@@ -1,13 +1,12 @@
 <script setup>
-import Toastify from 'toastify-js';
-import cash from 'cash-dom';
 import { reactive, ref } from 'vue';
 import { createProduct } from '@/api/admin';
-import _ from 'lodash';
 import FormFields from './FormFields.vue';
 import { useRouter } from 'vue-router';
+import { useNotyf } from '../../../composables/useNotyf';
 
 const router = useRouter();
+const notyf = useNotyf();
 const externalErrors = reactive({});
 const isLoading = ref(false);
 const productImagePath = ref('');
@@ -62,17 +61,10 @@ async function onSubmit() {
       router.push('/admin/products/' + res.id);
     }
 
-    Toastify({
-      node: cash('#success-notification-content')
-        .clone()
-        .removeClass('hidden')[0],
-      duration: 3000
-    }).showToast();
+    notyf.success();
   } catch (error) {
-    if (error.response) {
-      console.log(error.response.data);
-      Object.assign(externalErrors, error.response.data);
-    }
+    Object.assign(externalErrors, error.response.data);
+    notyf.error();
   } finally {
     isLoading.value = false;
   }

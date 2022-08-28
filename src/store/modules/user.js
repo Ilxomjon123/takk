@@ -59,9 +59,6 @@ const mutations = {
     // state.user = payload
   },
   setToken(state, payload) {
-    // let details = JSON.parse(localStorage.getItem(REQUIRED_DETAILS));
-    // details.token.access = payload;
-    // localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(details));
     state.token = payload.access;
     state.refreshToken = payload.refresh;
   },
@@ -137,30 +134,7 @@ const actions = {
       throw error;
     }
   },
-  async putProfile({ commit, rootGetters }, payload) {
-    // let response;
-    // await axios
-    //   .put(`/api/users/profile/`, payload, {
-    //     headers: {
-    //       ...rootGetters.getHttpHeader,
-    //       'Content-Type': 'multipart/form-data'
-    //     }
-    //   })
-    //   .then(async res => {
-    //     response = {
-    //       status: true,
-    //       data: res.data
-    //     };
-    //     commit('setUser', res.data);
-    //   })
-    //   .catch(err => {
-    //     response = {
-    //       status: false,
-    //       data: err.response.data
-    //     };
-    //   });
-    // return response;
-
+  async putProfile({ commit }, payload) {
     try {
       const res = await api({
         url: `/api/users/profile/`,
@@ -173,27 +147,18 @@ const actions = {
       throw error;
     }
   },
-  async refreshToken({ commit, rootGetters }) {
-    let response;
-    await axios
-      .post(`/api/token/refresh/`, {
-        refresh: rootGetters.getRefreshToken
-      })
-      .then(async res => {
-        response = {
-          status: true
-          // data: res.data
-        };
-        commit('setToken', res.data.access);
-        // setToken(res.data.access);
-      })
-      .catch(err => {
-        response = {
-          status: false
-          // data: err.response.data
-        };
+  async refreshToken({ state, getters }) {
+    try {
+      const res = await api({
+        url: `/api/token/refresh/`,
+        method: 'POST',
+        data: { refresh: getters.getRefreshToken }
       });
-    return response;
+
+      state.token = res.data;
+    } catch (error) {
+      throw error;
+    }
   }
 };
 

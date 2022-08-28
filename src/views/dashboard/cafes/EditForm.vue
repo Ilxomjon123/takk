@@ -3,7 +3,6 @@ import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { isEmpty } from 'lodash';
 import cash from 'cash-dom';
-import Toastify from 'toastify-js';
 
 import store from '@/store';
 import CafeMenu from './CafeMenu.vue';

@@ -1,10 +1,10 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import _ from 'lodash';
-import Toastify from 'toastify-js';
 import store from '@/store';
 import { deleteCafeImage, fetchCafeGallery } from '@/api';
+import { useNotyf } from '../../../composables/useNotyf';
+import { remove } from 'lodash';
 
 const props = defineProps({
   objId: null
@@ -12,10 +12,11 @@ const props = defineProps({
 
 const emit = defineEmits(['update:image-files']);
 
+const route = useRoute();
+const notyf = useNotyf();
 const inputFile = ref(null);
 const imageFiles = ref([]);
 const imageSources = ref([]);
-const route = useRoute();
 
 onMounted(async () => {
   if (route.params.id) {
@@ -38,20 +39,16 @@ function addImage(e) {
     });
     emit('update:image-files', imageFiles.value);
   } else {
-    Toastify({
-      text: 'You can add max 5 images',
-      className: 'toastify_warning',
-      duration: 3000
-    }).showToast();
+    notyf.warning('You can add max 5 images')
   }
 }
 
 function removeImage(imgID, imgIndex) {
-  imageSources.value = _.remove(
+  imageSources.value = remove(
     imageSources.value,
     (el, idx) => el.id !== imgID
   );
-  imageFiles.value = _.remove(imageFiles.value, (el, idx) => imgIndex !== idx);
+  imageFiles.value = remove(imageFiles.value, (el, idx) => imgIndex !== idx);
   emit('update:image-files', imageFiles.value);
 
   if (!String(imgID).startsWith('img')) {

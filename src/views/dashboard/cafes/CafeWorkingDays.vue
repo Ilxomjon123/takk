@@ -1,8 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import cash from 'cash-dom';
-import Toastify from 'toastify-js';
 import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
 import { fetchCafeWorkDays, updateCafeWorkDays } from '@/api';
 import { useNotyf } from '@/composables/useNotyf';
@@ -89,10 +87,8 @@ async function submit() {
 
     notyf.success();
   } catch (error) {
-    if (error.response) {
-      notyf.error();
-      props.externalErrors.value = error.response.data;
-    }
+    notyf.error();
+    props.externalErrors.value = error.response.data;
   } finally {
     isLoading.value = false;
   }
@@ -104,7 +100,7 @@ async function submit() {
     <div
       class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5"
     >
-      <h2 class="font-medium text-base mr-auto">Cafe gallery</h2>
+      <h2 class="font-medium text-base mr-auto">Cafe working days</h2>
     </div>
     <div class="p-5">
       <div class="flex xl:flex-row flex-col">

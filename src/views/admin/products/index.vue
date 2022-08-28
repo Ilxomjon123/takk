@@ -4,18 +4,18 @@ import { useStore } from 'vuex';
 import AdminMenuList from '@/components/lists/AdminMenuList.vue';
 import { fetchProductsList, updateProductPositions } from '@/api';
 import Pagination from '@/components/paginator/Pagination.vue';
-import Toastify from 'toastify-js';
-import cash from 'cash-dom';
 import { useRouter } from 'vue-router';
 import DraggableList from './DraggableList.vue';
 import SearchProduct from './SearchProduct.vue';
+import { useNotyf } from '../../../composables/useNotyf';
 
-const store = useStore();
 const router = useRouter();
+const notyf = useNotyf();
+const store = useStore();
 const products = reactive({});
 const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
-const clickedProductId = ref(null);
 const isReordered = ref(false);
+const isLoading = ref(false);
 
 const paginator = reactive({
   page: ref(1),
@@ -30,7 +30,8 @@ onMounted(() => {
 });
 
 async function fetchProducts() {
-  store.commit('setLoadingStatus', true);
+  isLoading.value = true;
+
   try {
     const res = await fetchProductsList({
       menuId: activeMenuID.value,
@@ -44,14 +45,9 @@ async function fetchProducts() {
       paginator.total = res.total_objects;
     }
   } catch (error) {
-    Toastify({
-      node: cash('#failed-notification-content')
-        .clone()
-        .removeClass('hidden')[0],
-      duration: 3000
-    }).showToast();
+    notyf.error('Error while fetching data list: ' + error.message);
   } finally {
-    store.commit('setLoadingStatus', false);
+    isLoading.value = false;
   }
 }
 
@@ -111,12 +107,7 @@ async function handleSearchEvent(value) {
       paginator.total = res.total_objects;
     }
   } catch (error) {
-    Toastify({
-      node: cash('#failed-notification-content')
-        .clone()
-        .removeClass('hidden')[0],
-      duration: 3000
-    }).showToast();
+    notyf.error();
   } finally {
     store.commit('setLoadingStatus', false);
   }

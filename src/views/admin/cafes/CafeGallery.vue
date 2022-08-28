@@ -1,7 +1,5 @@
 <script setup>
 import { useRoute } from 'vue-router';
-import cash from 'cash-dom';
-import Toastify from 'toastify-js';
 import { addCafeGallery } from '@/api/admin';
 import MultipleImageUpload from './MultipleImageUpload.vue';
 import { useNotyf } from '../../../composables/useNotyf';
