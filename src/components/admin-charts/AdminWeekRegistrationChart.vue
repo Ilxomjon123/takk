@@ -66,7 +66,9 @@ export default {
     async fetchData() {
       let res;
       if (this.cafe != 0) {
-        res = await this['adminCompany/fetchAdminStatisticsRegistrationWeek']({ cafe: this.cafe });
+        res = await this['adminCompany/fetchAdminStatisticsRegistrationWeek']({
+          cafe: this.cafe
+        });
       } else {
         res = await this['adminCompany/fetchAdminStatisticsRegistrationWeek']();
       }
@@ -74,19 +76,19 @@ export default {
         this.series = [
           {
             // data: res.last_year.map(item => item.count),
-            data: res.last.reverse(),
+            data: res.last?.reverse(),
             name: 'Last Week'
           },
           {
             // data: res.this_year.map(item => item.count),
-            data: res.current.reverse(),
+            data: res.current?.reverse(),
             name: 'This Week'
           }
         ];
         this.chartOptions = {
           ...this.chartOptions,
           xaxis: {
-            categories: res.days.reverse()
+            categories: res.days?.reverse()
           }
         };
       }
