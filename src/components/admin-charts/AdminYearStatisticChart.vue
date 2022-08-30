@@ -81,19 +81,21 @@ export default {
         this.series = [
           {
             // data: res.last_year.map(item => item.count),
-            data: res.last.reverse(),
+            data: res.last?.reverse(),
             name: 'Last Year'
           },
           {
             // data: res.this_year.map(item => item.count),
-            data: res.current.reverse(),
+            data: res.current?.reverse(),
             name: 'This Year'
           }
         ];
         this.chartOptions = {
           ...this.chartOptions,
           xaxis: {
-            categories: res.months.reverse().map(item => this.toMonthName(item))
+            categories: res.months
+              ?.reverse()
+              .map(item => this.toMonthName(item))
           }
         };
       }

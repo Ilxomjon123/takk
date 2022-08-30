@@ -1,17 +1,9 @@
 <script setup>
-import moment, { months } from 'moment';
 import { computed, onMounted, ref } from 'vue';
+import moment from 'moment';
 
 onMounted(() => {
   emit('submit', {
-    // start: getDate(30)
-    //   .split('-')
-    //   .reverse()
-    //   .join('-'),
-    // end: getDate()
-    //   .split('-')
-    //   .reverse()
-    //   .join('-')
     start: startDate.value,
     end: endDate.value
   });
@@ -26,21 +18,9 @@ const startDate = ref(
 );
 const endDate = ref(moment().format('DD-MM-YYYY'));
 
-// function getDate(val = 0, date = new Date()) {
-//   // const date = new Date();
-//   date.setDate(date.getDate() - val);
-//   const month =
-//     date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
-//   const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-//   return day + '-' + month + '-' + date.getFullYear();
-// }
-
-// const daterange = ref(getDate(30) + ' - ' + getDate());
 const daterange = computed(() => `${startDate.value} - ${endDate.value}`);
 
 const search = rangeString => {
-  // console.log({ val1 });
-  // console.log({ val2 });
   const dates = rangeString.split(' - ');
   startDate.value = dates[0];
   endDate.value = dates[1];
@@ -48,15 +28,6 @@ const search = rangeString => {
   emit('submit', {
     start: startDate.value,
     end: endDate.value
-
-    // start: dates[0]
-    //   .split('-')
-    //   .reverse()
-    //   .join('-'),
-    // end: dates[1]
-    //   .split('-')
-    //   .reverse()
-    //   .join('-')
   });
 };
 
@@ -68,28 +39,15 @@ const setRange = val => {
     endDate.value = moment()
       .subtract(val, 'day')
       .format('DD-MM-YYYY');
-    // daterange.value = getDate(val) + ' - ' + getDate(val);
   } else {
     switch (val) {
       case 10:
-        // const date = new Date(),
-        //   y = date.getFullYear(),
-        //   m = date.getMonth();
-        // const firstDay = new Date(y, m, 1);
-        // const lastDay = new Date(y, m + 1, 0);
-        // daterange.value = getDate(0, firstDay) + ' - ' + getDate(0, lastDay);
         startDate.value = moment()
           .startOf('month')
           .format('DD-MM-YYYY');
         endDate.value = moment().format('DD-MM-YYYY');
         break;
       case 20:
-        // const date1 = new Date(),
-        //   y1 = date1.getFullYear(),
-        //   m1 = date1.getMonth() - 1;
-        // const firstDay1 = new Date(y1, m1, 1);
-        // const lastDay1 = new Date(y1, m1 + 1, 0);
-        // daterange.value = getDate(0, firstDay1) + ' - ' + getDate(0, lastDay1);
         startDate.value = moment()
           .subtract(1, 'month')
           .startOf('month')
@@ -104,8 +62,6 @@ const setRange = val => {
           .subtract(val, 'days')
           .format('DD-MM-YYYY');
         endDate.value = moment().format('DD-MM-YYYY');
-      // daterange.value = getDate(val) + ' - ' + getDate();
-      // break;
     }
   }
   search();

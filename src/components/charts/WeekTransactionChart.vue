@@ -1,7 +1,7 @@
 <template>
   <!-- <div class="flex"> -->
-    <CafeSelect v-model="cafe" />
-    <!-- <button class="ml-auto btn btn-primary mr-2">
+  <CafeSelect v-model="cafe" />
+  <!-- <button class="ml-auto btn btn-primary mr-2">
       <UserIcon />
     </button>
     <button class="btn btn-primary">
@@ -74,19 +74,19 @@ export default {
         this.series = [
           {
             // data: res.last_year.map(item => item.count),
-            data: res.last.reverse(),
+            data: res.last?.reverse(),
             name: 'Last Week'
           },
           {
             // data: res.this_year.map(item => item.count),
-            data: res.current.reverse(),
+            data: res.current?.reverse(),
             name: 'This Week'
           }
         ];
         this.chartOptions = {
           ...this.chartOptions,
           xaxis: {
-            categories: res.days.reverse()
+            categories: res.days?.reverse()
           }
         };
       }
