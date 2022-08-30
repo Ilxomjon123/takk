@@ -21,9 +21,12 @@ const endDate = ref(moment().format('DD-MM-YYYY'));
 const daterange = computed(() => `${startDate.value} - ${endDate.value}`);
 
 const search = rangeString => {
-  const dates = rangeString.split(' - ');
-  startDate.value = dates[0];
-  endDate.value = dates[1];
+  if (rangeString) {
+    console.log('rangeStr: ', rangeString);
+    const dates = rangeString.split(' - ');
+    startDate.value = dates[0];
+    endDate.value = dates[1];
+  }
 
   emit('submit', {
     start: startDate.value,
