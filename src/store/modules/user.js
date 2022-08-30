@@ -147,15 +147,15 @@ const actions = {
       throw error;
     }
   },
-  async refreshToken({ state, getters }) {
+  async refreshToken({ commit, getters }) {
     try {
-      const res = await api({
+      const { data } = await api({
         url: `/api/token/refresh/`,
         method: 'POST',
         data: { refresh: getters.getRefreshToken }
       });
 
-      state.token = res.data;
+      commit('setToken', data);
     } catch (error) {
       throw error;
     }

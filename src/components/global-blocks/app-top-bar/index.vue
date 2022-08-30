@@ -21,7 +21,7 @@ const showContactUsModal = () => {
 };
 const cabinetLink = computed(() => {
   if (isLoggedIn) {
-    if (isSuperuser) {
+    if (isSuperuser.value) {
       return '/admin';
     }
     return '/dashboard';
