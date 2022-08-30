@@ -17,7 +17,7 @@
           <ul class="py-5 text-3xl font-medium">
             <li
               v-for="(menu, index) in formattedMenu"
-              :key="(index + 1) + '-link'"
+              :key="index + 1 + '-link'"
               class="mb-5"
             >
               <router-link
@@ -61,13 +61,11 @@
 </template>
 
 <script setup>
-import { useRoute, useRouter } from 'vue-router'
-import { useStore } from '@/store'
-import { onMounted, ref } from 'vue'
-import cash from 'cash-dom'
+import { useRoute, useRouter } from 'vue-router';
+import { onMounted, ref } from 'vue';
+import cash from 'cash-dom';
 
-const route = useRoute()
-const store = useStore()
+const route = useRoute();
 const formattedMenu = ref([
   {
     label: 'Preordering',
@@ -98,14 +96,14 @@ const formattedMenu = ref([
     label: 'Sign In',
     path: '/login',
     selfClass: 'text-theme-31'
-  },
-])
+  }
+]);
 
 function goto() {
-  cash("#mobile-over-menu").modal("hide");
+  cash('#mobile-over-menu').modal('hide');
 }
 
 onMounted(() => {
   // formattedMenu.value =
-})
+});
 </script>

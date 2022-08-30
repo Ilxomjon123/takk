@@ -198,14 +198,17 @@ const routes = [
           },
           {
             path: 'add-new',
+            name: 'admin-employees-add-new',
             component: () => import('../views/admin/employees/AddNew.vue')
           },
           {
             path: 'add-exist',
+            name: 'admin-employees-add-exist',
             component: () => import('../views/admin/employees/AddExist.vue')
           },
           {
             path: ':id',
+            name: 'admin-employees-edit',
             component: () => import('../views/admin/employees/Edit.vue')
           }
         ]
@@ -370,14 +373,17 @@ const routes = [
           },
           {
             path: 'add-new',
+            name: 'employees-add-new',
             component: () => import('../views/dashboard/employees/AddNew.vue')
           },
           {
             path: 'add-exist',
+            name: 'employees-add-exist',
             component: () => import('../views/dashboard/employees/AddExist.vue')
           },
           {
             path: ':id',
+            name: 'employees-edit',
             component: () => import('../views/dashboard/employees/Edit.vue')
           }
         ]

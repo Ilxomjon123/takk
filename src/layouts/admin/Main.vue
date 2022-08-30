@@ -2,9 +2,9 @@
 import { onMounted } from 'vue';
 import cash from 'cash-dom';
 import TopBar from '@/components/admin-top-bar/Main.vue';
-import Sidebar from './blocks/sidebar/index.vue';
 import MobileMenu from '@/components/mobile-menu/Main.vue';
 import CompanySelectModal from '@/components/modals/CompanySelectModal.vue';
+import SidebarMenu from './blocks/SidebarMenu.vue';
 
 onMounted(() => {
   cash('body')
@@ -20,7 +20,7 @@ onMounted(() => {
     <MobileMenu />
     <div class="flex">
       <!-- BEGIN: Side Menu -->
-      <Sidebar />
+      <SidebarMenu />
       <!-- END: Side Menu -->
       <!-- BEGIN: Content -->
       <div class="content">

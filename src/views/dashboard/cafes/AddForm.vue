@@ -1,7 +1,6 @@
 <script setup>
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import cash from 'cash-dom';
 import CafeMenu from './CafeMenu.vue';
 import store from '@/store';
 import CafeInformation from './CafeInformation.vue';

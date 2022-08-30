@@ -1,3 +1,31 @@
+<script setup>
+import { reactive, ref } from 'vue';
+import MainPaginator from '@/components/paginator/MainPaginator.vue';
+import ExcelExportButton from '@/components/buttons/ExcelExportButton.vue';
+import TransactionSearch from '@/components/forms/TransactionSearch.vue';
+
+const items = ref([]),
+  paginator = ref(null),
+  order = reactive({}),
+  form = reactive({}),
+  statuses = ref(['PAID', 'REFUND']);
+
+function setItems(val) {
+  items.value = val;
+}
+
+async function search(formData) {
+  Object.assign(form, formData);
+  // console.log(form);
+  await paginator.value.paginate(1, form);
+}
+
+function setOrder(val) {
+  Object.assign(order, val.order);
+  order['order_detail'] = val.order_detail;
+}
+</script>
+
 <template>
   <div>
     <div>
@@ -10,18 +38,6 @@
           <div class="hidden md:block mx-auto text-gray-600"></div>
           <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
             <div class="w-56 relative text-gray-700 dark:text-gray-300">
-              <!-- <form @submit.prevent="search">
-                <input
-                  v-model="form.search"
-                  type="text"
-                  class="form-control w-56 box pr-10 placeholder-theme-13"
-                  placeholder="Search..."
-                />
-                <SearchIcon
-                  class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0 cursor-pointer"
-                  @click="search"
-                />
-              </form> -->
               <TransactionSearch @submit="search($event)" />
             </div>
           </div>
@@ -77,6 +93,8 @@
         <!-- END: Pagination -->
       </div>
     </div>
+
+    <!-- modals -->
     <div id="order-detail-modal" class="modal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -127,36 +145,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import { defineComponent } from 'vue';
-import MainPaginator from '@/components/paginator/MainPaginator.vue';
-import ExcelExportButton from '@/components/buttons/ExcelExportButton.vue';
-import TransactionSearch from '@/components/forms/TransactionSearch.vue';
-
-export default defineComponent({
-  components: { MainPaginator, ExcelExportButton, TransactionSearch },
-  data() {
-    return {
-      items: [],
-      order: {},
-      form: {},
-      statuses: ['PAID', 'REFUND']
-    };
-  },
-  methods: {
-    setItems(val) {
-      this.items = val;
-    },
-    async search(form) {
-      this.form = form;
-      // console.log(form);
-      await this.$refs.paginator.paginate(1, form);
-    },
-    setOrder(val) {
-      this.order = val.order;
-      this.order['order_detail'] = val.order_detail;
-    }
-  }
-});
-</script>

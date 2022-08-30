@@ -19,6 +19,7 @@ specifiers:
   '@types/leaflet': ^1.7.11
   '@types/lodash': ^4.14.182
   '@types/toastify-js': ^1.11.1
+  '@types/velocity-animate': ^2.0.1
   '@types/vue-select': ^3.16.0
   '@vitejs/plugin-vue': ^3.0.1
   '@vue-leaflet/vue-leaflet': ^0.6.1
@@ -132,6 +133,7 @@ devDependencies:
   '@types/leaflet': 1.7.11
   '@types/lodash': 4.14.182
   '@types/toastify-js': 1.11.1
+  '@types/velocity-animate': 2.0.1
   '@types/vue-select': 3.16.1
   '@vitejs/plugin-vue': 3.0.1_vite@3.0.4+vue@3.2.36
   autoprefixer: 10.4.8_postcss@8.4.14
@@ -698,6 +700,13 @@ packages:
 
   /@types/toastify-js/1.11.1:
     resolution: {integrity: sha512-Ef03kGFWseAQYIQwN83WbhRxD+DOd+X6p22j9olA/TnvE0crDMc3fyoctKSpXgEDVWq5l3p98otIdpNX1pOYMA==}
+    dev: true
+
+  /@types/velocity-animate/2.0.1:
+    resolution: {integrity: sha512-6uo06eV6A8eDFOAnF0DR8krFFzWPE+FiEsXbYJfRE1ZREvOBwuGPBVOPeM0FJfEWylUGXEYT4/slItHtHIgjWQ==}
+    deprecated: This is a stub types definition. velocity-animate provides its own type definitions, so you do not need this installed.
+    dependencies:
+      velocity-animate: 1.5.2
     dev: true
 
   /@types/vue-select/3.16.1:
@@ -2147,7 +2156,6 @@ packages:
 
   /velocity-animate/1.5.2:
     resolution: {integrity: sha512-m6EXlCAMetKztO1ppBhGU1/1MR3IiEevO6ESq6rcrSQ3Q77xYSW13jkfXW88o4xMrkXJhy/U7j4wFR/twMB0Eg==}
-    dev: false
 
   /vite/3.0.4_sass@1.54.2:
     resolution: {integrity: sha512-NU304nqnBeOx2MkQnskBQxVsa0pRAH5FphokTGmyy8M3oxbvw7qAXts2GORxs+h/2vKsD+osMhZ7An6yK6F1dA==}

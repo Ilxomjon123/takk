@@ -4,7 +4,12 @@ import { useRoute, useRouter } from 'vue-router';
 import SideMenuTooltip from '@/components/side-menu-tooltip/Main.vue';
 import store from '@/store';
 import { helper as $h } from '@/utils/helper';
-import { linkTo, nestedMenu, enter, leave } from '../index.js';
+import {
+  linkTo,
+  nestedMenu,
+  enter,
+  leave
+} from '@/utils/sidebar-menu-configs.js';
 
 const route = useRoute();
 const router = useRouter();

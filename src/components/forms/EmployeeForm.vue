@@ -158,6 +158,9 @@ import { defineComponent } from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import { fetchCafeList } from '@/api';
 import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
+import { useNotyf } from '../../composables/useNotyf';
+
+const notyf = useNotyf;
 
 export default defineComponent({
   data() {
@@ -207,50 +210,58 @@ export default defineComponent({
     ...mapActions(['fetchCafeList']),
 
     async submit() {
-      this.isLoading = true;
-      const user = {
-        ...this.employee.user,
-        ...this.images,
-        password: '123456'
-      };
-      const userData = {};
-      for (var key in user) {
-        if (key == 'avatar') {
-          if (typeof user[key] != 'string') userData[key] = user[key];
-        } else {
-          userData[key] = user[key];
-        }
-      }
-
-      const formData = {
-        phone: user.phone,
-        username: user.username,
-        date_of_birthday: user.date_of_birthday
-      };
-      for (var key in this.employee) {
-        formData[key] = this.employee[key];
-      }
-      formData['user'] = userData;
-      let data;
-      if (this.isEdit) {
-        data = {
-          id: this.employee?.id,
-          form: formData
-        };
-      } else {
-        data = formData;
-      }
-      this.errors = {};
-      const res = await this.$store.dispatch(this.dispatcher, data);
-      if (res.status) {
+      try {
+        this.isLoading = true;
         this.errors = {};
-        this.$refs.successNotification.show();
-        this.$router.push('/dashboard/employees');
-      } else {
-        this.$refs.errorNotification.show();
-        this.errors = res.data;
+
+        const user = {
+          ...this.employee.user,
+          ...this.images,
+          password: '123456'
+        };
+        const userData = {};
+
+        for (var key in user) {
+          if (key == 'avatar') {
+            if (typeof user[key] != 'string') userData[key] = user[key];
+          } else {
+            userData[key] = user[key];
+          }
+        }
+
+        const formData = {
+          phone: user.phone,
+          username: user.username,
+          date_of_birthday: user.date_of_birthday
+        };
+
+        for (var key in this.employee) {
+          formData[key] = this.employee[key];
+        }
+
+        formData['user'] = userData;
+        let data;
+
+        if (this.isEdit) {
+          data = {
+            id: this.employee?.id,
+            form: formData
+          };
+        } else {
+          data = formData;
+        }
+        const res = await this.$store.dispatch(this.dispatcher, data);
+
+        if (res.status) {
+          notyf.success();
+          this.$router.push('/dashboard/employees');
+        }
+      } catch (error) {
+        notyf.error();
+        this.errors = error.response?.data;
+      } finally {
+        this.isLoading = false;
       }
-      this.isLoading = false;
     },
     async deleteEmployee() {
       this.deleteLoading = true;
