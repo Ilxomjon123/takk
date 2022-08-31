@@ -146,6 +146,7 @@ export default defineComponent({
       form: {
         country_code: 'US',
         phone: this.$store.getters['getUser'].phone,
+        phone_code: this.$store.getters['getUser'].phone_code,
         email: this.$store.getters['getUser'].email
       },
       isLoading: false,

@@ -7,10 +7,7 @@ const props = defineProps({
     type: Object,
     default: () => {}
   },
-  dialCode: {
-    type: Number || String,
-    default: 'US'
-  },
+  dialCode: '',
   phoneNumber: ''
 });
 
@@ -18,7 +15,7 @@ const emits = defineEmits(['update:phoneNumber', 'update:dialCode']);
 const defaultCountryCode = ref('US');
 
 watchEffect(() => {
-  defaultCountryCode.value = Number(props.dialCode);
+  defaultCountryCode.value = Number(props.dialCode) || 'US';
 });
 
 function onCountryChange(countryObj) {

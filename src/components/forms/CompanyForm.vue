@@ -11,9 +11,8 @@ const user = computed(() => store.getters['getUser']);
 
 const form = ref({
   email: user.value.email,
-  phone: user.value.phone.startsWith('+')
-    ? user.value.phone
-    : '+' + user.value.phone,
+  phone: user.value.phone,
+  phone_code: user.value.phone_code,
   country: '236'
 });
 const isLoading = ref(false);
@@ -24,7 +23,6 @@ const errorNotification = ref();
 async function submit() {
   isLoading.value = true;
   errors.value = {};
-  form.value.phone = form.value.phone.replace(/\s+/g, '');
   // const country = countriesList.value.find(
   //   item => item.id == selectedCountry.value
   // );

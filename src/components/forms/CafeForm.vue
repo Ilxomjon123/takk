@@ -119,6 +119,7 @@ export default defineComponent({
         },
         country: '',
         call_center: '',
+        phone_code: '',
         state: '',
         city: '',
         address: ''
