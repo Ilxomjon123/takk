@@ -3,7 +3,7 @@ const state = () => {
     menu: [
       {
         icon: 'HomeIcon',
-        pageName: 'admin',
+        pageName: 'admin-dashboard',
         title: 'Dashboard'
       },
       {
@@ -35,7 +35,7 @@ const state = () => {
       },
       {
         icon: 'FileTextIcon',
-        pageName: 'admin-',
+        // pageName: 'admin-',
         title: 'Menu',
         subMenu: [
           {
@@ -59,12 +59,12 @@ const state = () => {
         icon: 'UsersIcon',
         pageName: 'admin-employees',
         title: 'Employees'
+      },
+      {
+        icon: 'CreditCardIcon',
+        pageName: 'admin-transactions',
+        title: 'Transactions'
       }
-      // {
-      //   icon: 'CreditCardIcon',
-      //   pageName: 'admin-transactions',
-      //   title: 'Transactions'
-      // },
       // {
       //   icon: 'MessageCircleIcon',
       //   pageName: 'admin-test',

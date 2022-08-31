@@ -43,7 +43,7 @@
             getError('phone') != null ? 'border-theme-6' : 'border-gray-300'
           "
           placeholder="Phone"
-          v-model="employee.user.phone"
+          v-model="user.phone"
         />
         <div class="text-theme-6" v-text="getError('phone')" />
         <div class="text-theme-6" v-text="errors?.detail" />
@@ -59,7 +59,7 @@
             getError('username') != null ? 'border-theme-6' : 'border-gray-300'
           "
           placeholder="Username"
-          v-model="employee.user.username"
+          v-model="user.username"
         />
         <div class="text-theme-6" v-text="getError('username')" />
       </div>
@@ -72,7 +72,7 @@
             <CalendarIcon class="w-4 h-4" />
           </div>
           <Litepicker
-            v-model="employee.user.date_of_birthday"
+            v-model="user.date_of_birthday"
             :options="{
               autoApply: false,
               showWeekNumbers: true,
@@ -156,16 +156,32 @@
 <script>
 import { defineComponent } from 'vue';
 import { mapActions, mapGetters } from 'vuex';
+import { useNotyf } from '../../composables/useNotyf';
 import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
+
+const notyf = useNotyf();
 
 export default defineComponent({
   data() {
     return {
-      employee: {},
+      employee: {
+        cafes: [],
+        created_dt: Number,
+        employee_position: Number,
+        favorite_cafes: []
+      },
+      user: {
+        avatar: '',
+        date_of_birthday: '2000-01-01',
+        phone: '',
+        username: ''
+      },
       images: {},
       isLoading: false,
       errors: {},
-      cafeList: [],
+      cafeList: {
+        results: []
+      },
       deleteLoading: false
     };
   },
@@ -189,7 +205,7 @@ export default defineComponent({
     },
     dispatcher: {
       type: String,
-      default: 'postAdminEmployeeNew'
+      default: 'adminEmployee/postAdminEmployeeNew'
     },
     isAddExist: {
       type: Boolean,
@@ -198,74 +214,83 @@ export default defineComponent({
   },
   async created() {
     this.employee = this.form;
-    this.employee.user.date_of_birthday =
-      this.employee.user.date_of_birthday ?? '2000-01-01';
-    this.employee.cafes = this.employee.cafes.map(el => el.id);
-    this.cafeList = await this['adminCafe/fetchAdminCafeList']();
+    this.user = this.form.user;
+    // this.employee.cafes = this.employee.cafes?.map(el => el.id);
+    this.cafeList = await this.fetchAdminCafeList();
   },
   methods: {
-    ...mapActions(['adminCafe/fetchAdminCafeList']),
+    ...mapActions({ fetchAdminCafeList: 'adminCafe/fetchAdminCafeList' }),
 
     async submit() {
-      this.isLoading = true;
-      const user = {
-        ...this.employee.user,
-        ...this.images,
-        password: '123456'
-      };
-      const userData = {};
-      for (var key in user) {
-        if (key == 'avatar') {
-          if (typeof user[key] != 'string') userData[key] = user[key];
-        } else {
-          userData[key] = user[key];
-        }
-      }
-
-      const formData = {
-        phone: user.phone,
-        username: user.username,
-        date_of_birthday: user.date_of_birthday
-      };
-      for (var key in this.employee) {
-        formData[key] = this.employee[key];
-      }
-      formData['user'] = userData;
-      let data;
-      if (this.isEdit) {
-        data = {
-          id: this.employee?.id,
-          form: formData
-        };
-      } else {
-        data = formData;
-      }
-      this.errors = {};
-      const res = await this.$store.dispatch(this.dispatcher, data);
-      if (res.status) {
+      try {
+        this.isLoading = true;
         this.errors = {};
-        this.$refs.successNotification.show();
+
+        const user = {
+          ...this.user,
+          ...this.images,
+          password: '123456'
+        };
+        const userData = {};
+
+        for (var key in user) {
+          if (key == 'avatar') {
+            if (typeof user[key] != 'string') userData[key] = user[key];
+          } else {
+            userData[key] = user[key];
+          }
+        }
+
+        const formData = {
+          phone: user.phone,
+          username: user.username,
+          date_of_birthday: user.date_of_birthday
+        };
+
+        for (var key in this.employee) {
+          formData[key] = this.employee[key];
+        }
+
+        formData['user'] = userData;
+        let data;
+
+        if (this.isEdit) {
+          data = {
+            id: this.employee?.id,
+            form: {
+              created_dt: this.employee.created_dt,
+              cafes: this.employee.cafes,
+              employee_position: this.employee.employee_position
+            }
+          };
+        } else {
+          data = formData;
+        }
+
+        const res = await this.$store.dispatch(this.dispatcher, data);
+
+        notyf.success();
         this.$router.push('/admin/employees');
-      } else {
-        this.$refs.errorNotification.show();
-        this.errors = res.data;
+      } catch (error) {
+        notyf.error();
+        this.errors = error.response?.data;
+      } finally {
+        this.isLoading = false;
       }
-      this.isLoading = false;
     },
     async deleteAdminEmployee() {
       this.deleteLoading = true;
       this.errors = {};
       const res = await this.$store.dispatch(
-        'deleteAdminEmployee',
+        'adminEmployee/deleteAdminEmployee',
         this.employee?.id
       );
+
       if (res.status) {
         this.errors = {};
         if (res.status) {
-          this.$refs.successNotification.show();
           this.$router.push('/admin/employees');
         } else {
-          this.$refs.errorNotification.show();
         }
       } else {
         this.errors = res.data;

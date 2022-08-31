@@ -54,7 +54,7 @@ const routes = [
       requiresSuperUser: true
     },
     children: [
-      { path: '', name: 'admin', component: AdminMain },
+      { path: '', name: 'admin-dashboard', component: AdminMain },
       {
         path: 'cafes',
         name: 'admin-cafes',

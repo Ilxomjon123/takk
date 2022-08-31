@@ -1,27 +1,53 @@
+<script setup>
+import MainPaginator from '@/components/paginator/MainPaginator.vue';
+import EmployeeCard from '@/components/cards/EmployeeCard.vue';
+import { reactive, ref } from 'vue';
+import store from '../../../store';
+
+const items = ref([]),
+  paginator = ref(null),
+  form = reactive({});
+
+function setItems(val) {
+  items.value = val;
+}
+
+function search() {
+  paginator.value.paginate(1);
+}
+
+function setAdminEmployee(item) {
+  store.commit('adminEmployee/setAdminEmployee', item);
+}
+</script>
+
 <template>
   <div>
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
       <h2 class="text-lg font-medium">Employees List</h2>
-      <!-- <div class="w-full sm:w-auto flex mt-4 ml-2 sm:mt-0">
-        <router-link to="/admin/employees/add-new" class="btn btn-primary mr-3">
-          <PlusIcon class="w-4 h-4 mr-3" />
-          Add New User
-        </router-link>
-        <router-link to="/admin/employees/add-exist" class="btn btn-success">
-          <PlusIcon class="w-4 h-4 mr-3" />
-          Add Existing User
-        </router-link>
-      </div> -->
     </div>
 
     <!-- BEGIN: Data List -->
     <div
-      class="intro-y grid grid-cols-12 gap-5 mt-5 pt-5 border-t border-theme-5"
+      class="
+      intro-y
+      grid
+      grid-cols-1
+      sm:grid-cols-2
+      md:grid-cols-3
+      xl:grid-cols-4
+      2xl:grid-cols-5
+      gap-5
+      mt-5
+      pt-5
+      border-t
+      border-theme-5
+      "
     >
       <router-link
         v-for="(item, index) in items"
         :key="index"
-        class="intro-y block col-span-12 sm:col-span-4 xl:col-span-3 2xl:col-span-2"
+        class="intro-y block"
         :to="`employees/${item.id}`"
         @click="setAdminEmployee(item)"
       >
@@ -32,7 +58,7 @@
     <!-- BEGIN: Pagination -->
     <MainPaginator
       class="mt-5"
-      dispatcher="fetchAdminEmployees"
+      dispatcher="adminEmployee/fetchAdminEmployees"
       ref="paginator"
       @setItems="setItems($event)"
       :form="form"
@@ -40,30 +66,3 @@
     <!-- END: Pagination -->
   </div>
 </template>
-
-<script>
-import { defineComponent } from 'vue';
-import MainPaginator from '@/components/paginator/MainPaginator.vue';
-import EmployeeCard from '@/components/cards/EmployeeCard.vue';
-
-export default defineComponent({
-  components: { MainPaginator, EmployeeCard },
-  data() {
-    return {
-      items: [],
-      form: {}
-    };
-  },
-  methods: {
-    setItems(val) {
-      this.items = val;
-    },
-    search() {
-      this.$refs.paginator.paginate(1);
-    },
-    setAdminEmployee(item) {
-      this.$store.commit('setAdminEmployee', item);
-    }
-  }
-});
-</script>

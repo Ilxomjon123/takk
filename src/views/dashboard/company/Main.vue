@@ -26,7 +26,8 @@ async function submit() {
 
     image.value && formData.append('logo', image.value);
     formData.append('name', getCompany.value.name);
-    formData.append('phone', getCompany.value.phone.replace(/\s+/g, ''));
+    formData.append('phone', getCompany.value.phone);
+    formData.append('phone_code', getCompany.value.phone_code);
     formData.append('email', getCompany.value.email);
     formData.append('website', getCompany.value.website);
     formData.append('country', getCompany.value.country);
@@ -113,7 +114,10 @@ function getError(key) {
               </div>
               <div class="w-full md:w-1/2 px-3 md:mb-0">
                 <label for="phone" class="form-label">Phone</label>
-                <TelInput v-model="getCompany.phone" />
+                <TelInput
+                  v-model:phone-number="getCompany.phone"
+                  v-model:dial-code="getCompany.phone_code"
+                />
                 <div class="text-theme-6" v-text="getError('phone')" />
               </div>
             </div>

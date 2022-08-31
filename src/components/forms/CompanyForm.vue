@@ -80,7 +80,10 @@ async function goCafe() {
       </div>
       <div class="w-full md:w-1/3 px-3 md:mb-0">
         <label for="phone" class="form-label">Phone</label>
-        <TelInput v-model="form.phone" />
+        <TelInput
+          v-model:phone-number="form.phone"
+          v-model:dial-code="form.phone_code"
+        />
         <div class="text-theme-6" v-text="getError('phone')" />
       </div>
       <div class="w-full md:w-1/3 px-3 md:mb-0">

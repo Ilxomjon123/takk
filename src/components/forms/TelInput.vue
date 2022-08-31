@@ -1,44 +1,60 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch, watchEffect } from 'vue';
 import { VueTelInput } from 'vue-tel-input';
 import 'vue-tel-input/dist/vue-tel-input.css';
 const props = defineProps({
   inputOptions: {
     type: Object,
     default: () => {}
-  }
+  },
+  dialCode: {
+    type: Number || String,
+    default: 'US'
+  },
+  phoneNumber: ''
 });
 
-const emits = defineEmits(['update.modelValue']);
+const emits = defineEmits(['update:phoneNumber', 'update:dialCode']);
+const defaultCountryCode = ref('US');
 
-const countryDialCode = ref('');
-const phone = ref('');
+watchEffect(() => {
+  defaultCountryCode.value = Number(props.dialCode);
+});
 
 function onCountryChange(countryObj) {
-  // console.log({ countryObj });
-  countryDialCode.value = countryObj.dialCode;
+  emits('update:dialCode', countryObj.dialCode);
+}
+
+function onPhoneChange(number, phoneObj) {
+  emits(
+    'update:phoneNumber',
+    phoneObj.number?.substring(phoneObj.countryCallingCode.length + 1)
+  );
 }
 </script>
 
 <template>
   <vue-tel-input
-    v-model="phone"
+    v-model="phoneNumber"
+    @on-input="onPhoneChange"
+    @country-changed="onCountryChange"
     mode="international"
-    :autoFormat="true"
-    :defaultCountry="'US'"
+    :autoFormat="false"
+    :defaultCountry="defaultCountryCode"
+    :key="defaultCountryCode"
+    :autoDefaultCountry="false"
     :inputOptions="{
       styleClasses: 'form-control border-gray-300',
       id: 'phone',
-      showDialCode: true,
+      showDialCode: false,
       ...inputOptions
     }"
     :dropdownOptions="{
       showDialCodeInList: true,
-      showDialCodeInSelection: false,
+      showDialCodeInSelection: true,
       showFlags: true,
-      showSearchBox: true
+      showSearchBox: false
     }"
-    @country-changed="onCountryChange"
   />
 </template>
 

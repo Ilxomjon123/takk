@@ -22,7 +22,6 @@ const daterange = computed(() => `${startDate.value} - ${endDate.value}`);
 
 const search = rangeString => {
   if (rangeString) {
-    console.log('rangeStr: ', rangeString);
     const dates = rangeString.split(' - ');
     startDate.value = dates[0];
     endDate.value = dates[1];

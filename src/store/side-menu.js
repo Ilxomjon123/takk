@@ -35,7 +35,7 @@ const state = () => {
       },
       {
         icon: 'FileTextIcon',
-        pageName: '',
+        // pageName: '',
         title: 'Menu',
         subMenu: [
           {
