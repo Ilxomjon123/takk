@@ -56,7 +56,7 @@ async function submit() {
 
     image.value && formData.append('logo', image.value);
     formData.append('name', companyData.name);
-    formData.append('phone', companyData.phone.replace(/\s+/g, ''));
+    formData.append('phone', companyData.phone);
     formData.append('phone_code', companyData.phone_code);
     formData.append('email', companyData.email);
     formData.append('website', companyData.website);

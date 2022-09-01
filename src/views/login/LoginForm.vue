@@ -10,6 +10,7 @@ const route = useRoute(),
   submitText = ref('Send Code'),
   isRegister = ref(false),
   errorText = ref(''),
+  dialCode = ref(''),
   isLoading = ref(false),
   headText = ref('Enter phone number'),
   telInputOptions = reactive({
@@ -26,7 +27,6 @@ async function submit() {
     const oldButtonText = submitText.value;
     submitText.value = '';
     form.referral_code = route.query?.referral_code;
-    form.phone = form.phone.replace(/\s+/g, '');
     const res = await store.dispatch('signin', form);
 
     if (!res.token) {
@@ -41,10 +41,6 @@ async function submit() {
     } else {
       // Login muvaffaqiyatli bo'lsa
       submitText.value = oldButtonText;
-      // store.commit('setRequiredDetails', {
-      //   user: res.user,
-      //   token: res.token
-      // });
 
       store.commit('setToken', res.token);
       store.commit('setUser', res.user);
@@ -97,7 +93,11 @@ async function submit() {
   </div>
   <form @submit.prevent="submit">
     <div class="intro-x mt-8">
-      <TelInput v-model="form.phone" :inputOptions="telInputOptions" />
+      <TelInput
+        v-model:phone-number="form.phone"
+        v-model:dial-code="dialCode"
+        :inputOptions="telInputOptions"
+      />
       <input
         type="text"
         class="intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4"

@@ -21,7 +21,8 @@ const props = defineProps({
   externalErrors: {
     type: Object,
     default: () => {}
-  }
+  },
+  isLoading: false
 });
 
 const emit = defineEmits(['update:formData']);
@@ -73,7 +74,7 @@ function searchLocationByAddress() {
     >
       <h2 class="font-medium text-base mr-auto">Cafe Information</h2>
     </div>
-    <div class="p-5">
+    <form class="p-5" @submit.prevent="submit">
       <div class="flex xl:flex-row flex-col">
         <form class="flex-1 mt-6 xl:mt-0" @submit.prevent="submit">
           <div class="grid grid-cols-12 gap-x-5">
@@ -213,13 +214,24 @@ function searchLocationByAddress() {
               </div>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary mt-3">
-            <!-- <LoadingIcon v-if="isLoading" icon="tail-spin" class="w-4 h-4 mr-3" color="#fff" /> -->
-            <span>Save</span>
-          </button>
+          <div class="flex">
+            <button
+              type="submit"
+              class="btn btn-primary mt-3 ml-auto"
+              :disabled="isLoading"
+            >
+              <LoadingIcon
+                v-if="isLoading"
+                icon="tail-spin"
+                class="w-4 h-4 mr-3"
+                color="#fff"
+              />
+              <span>Save</span>
+            </button>
+          </div>
         </form>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 

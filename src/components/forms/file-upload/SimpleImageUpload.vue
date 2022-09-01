@@ -26,15 +26,22 @@
           type="button"
           class="btn btn-primary w-full cursor-pointer"
           @click="$refs.inputFile.click()"
-        >{{ title }}</button>
-        <input type="file" ref="inputFile" class="hidden" @change="changeImage" />
+        >
+          {{ title }}
+        </button>
+        <input
+          type="file"
+          ref="inputFile"
+          class="hidden"
+          @change="changeImage"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   props: ['imagePath', 'title'],
@@ -43,28 +50,26 @@ export default defineComponent({
   }),
   mounted() {
     if (this.imagePath) {
-      this.selectedFilePath = this.imagePath
+      this.selectedFilePath = this.imagePath;
     }
   },
   methods: {
     changeImage(e) {
-      this.selectedFilePath = URL.createObjectURL(e.target.files[0])
-      this.$refs.image.src = URL.createObjectURL(e.target.files[0])
-      this.$emit("updateImageFile", e.target.files[0]);
+      this.selectedFilePath = URL.createObjectURL(e.target.files[0]);
+      this.$refs.image.src = URL.createObjectURL(e.target.files[0]);
+      this.$emit('updateImageFile', e.target.files[0]);
     },
     removeImage() {
-      this.$refs.image.src = '/src/assets/images/plus-icon.jpg'
-      this.$emit('updateImageFile', '')
+      this.$refs.image.src = '/src/assets/images/plus-icon.jpg';
+      this.$emit('updateImageFile', '');
     },
     replaceByDefault(e) {
-      if (this.selectedFilePath)
-        e.target.src = this.selectedFilePath
+      if (this.selectedFilePath) e.target.src = this.selectedFilePath;
       else {
-        e.target.style.display = 'none'
-        alert('Error while image uploading..')
+        e.target.style.display = 'none';
+        alert('Error while image uploading..');
       }
     }
   }
-
 });
 </script>

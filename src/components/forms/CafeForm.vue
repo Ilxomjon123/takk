@@ -144,7 +144,6 @@ export default defineComponent({
     async submit() {
       this.isLoading = true;
       this.errors = {};
-      this.form.call_center = this.form.call_center.replace(/\s+/g, '');
       const res = await this.postCafe(this.form);
 
       if (res.status) {

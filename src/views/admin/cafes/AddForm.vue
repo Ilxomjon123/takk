@@ -70,6 +70,7 @@ function showCompanySelectModal() {
       <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
         <CafeInformation
           :form-data="formFields"
+          :is-loading="isLoading"
           @update:form-data="submit($event)"
           :external-errors="externalErrors"
         />

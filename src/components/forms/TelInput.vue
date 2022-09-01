@@ -1,7 +1,8 @@
 <script setup>
-import { computed, ref, watch, watchEffect } from 'vue';
+import { computed, onMounted, ref, watch, watchEffect } from 'vue';
 import { VueTelInput } from 'vue-tel-input';
 import 'vue-tel-input/dist/vue-tel-input.css';
+
 const props = defineProps({
   inputOptions: {
     type: Object,
@@ -12,28 +13,44 @@ const props = defineProps({
 });
 
 const emits = defineEmits(['update:phoneNumber', 'update:dialCode']);
+const phone = ref('');
 const defaultCountryCode = ref('US');
 
+watch(
+  props,
+  newVal => {
+    if (newVal) {
+      phone.value = props.phoneNumber?.substring(props.dialCode?.length + 1);
+    }
+  },
+  { immediate: true }
+);
+
 watchEffect(() => {
-  defaultCountryCode.value = Number(props.dialCode) || 'US';
+  if (Number(props.dialCode)) {
+    if (Number(props.dialCode) == 1) {
+      defaultCountryCode.value = 'US';
+    } else defaultCountryCode.value = Number(props.dialCode);
+  }
 });
 
 function onCountryChange(countryObj) {
   emits('update:dialCode', countryObj.dialCode);
 }
 
-function onPhoneChange(number, phoneObj) {
+function onPhoneChange(event) {
+  console.log({ event });
   emits(
     'update:phoneNumber',
-    phoneObj.number?.substring(phoneObj.countryCallingCode.length + 1)
+    '+' + defaultCountryCode.value + event.target?.value
   );
 }
 </script>
 
 <template>
   <vue-tel-input
-    v-model="phoneNumber"
-    @on-input="onPhoneChange"
+    v-model="phone"
+    @change="onPhoneChange"
     @country-changed="onCountryChange"
     mode="international"
     :autoFormat="false"

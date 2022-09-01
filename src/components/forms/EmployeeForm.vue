@@ -2,11 +2,16 @@
   <div
     class="col-span-12 lg:col-span-4 2xl:col-span-3 flex lg:block flex-col-reverse"
   >
-    <div class="intro-y">
+    <SimpleImageUpload
+      :title="employee.user?.avatar && 'Change photo'"
+      :image-path="employee.user?.avatar"
+      @update-image-file="employee.user.avatar = $event"
+    />
+    <!-- <div class="intro-y">
       <div
         class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5 items-center"
       >
-        <div class="h-60 w-60 image-fit cursor-pointer zoom-in mx-auto">
+        <div class="h-60 image-fit cursor-pointer zoom-in mx-auto">
           <img class="rounded-md" alt="Takk" :src="employee.user?.avatar" />
           <input
             type="file"
@@ -16,7 +21,7 @@
           />
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
   <form
     @submit.prevent="submit"
@@ -149,6 +154,7 @@ import { mapActions, mapGetters } from 'vuex';
 import { fetchCafeList } from '@/api';
 import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
 import { useNotyf } from '../../composables/useNotyf';
+import SimpleImageUpload from './file-upload/SimpleImageUpload.vue';
 
 const notyf = useNotyf();
 
@@ -159,7 +165,6 @@ export default defineComponent({
       images: {},
       isLoading: false,
       errors: {},
-      successMessage: 'Successfully saved!',
       cafeList: [],
       deleteLoading: false
     };
@@ -275,6 +280,6 @@ export default defineComponent({
       return this.errors[key]?.[0];
     }
   },
-  components: { DeleteConfirmModal }
+  components: { DeleteConfirmModal, SimpleImageUpload }
 });
 </script>

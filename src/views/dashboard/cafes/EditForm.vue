@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { isEmpty } from 'lodash';
 import cash from 'cash-dom';
@@ -18,7 +18,7 @@ import { useNotyf } from '@/composables/useNotyf';
 const route = useRoute();
 const notyf = useNotyf();
 const currentItem = ref('CafeInformation');
-const formFields = ref({
+const formFields = reactive({
   location: {
     lat: 35.1234,
     lon: -95.1234
@@ -88,15 +88,19 @@ const formFields = ref({
   cafe_timezone: 'America/New_York',
   status: 0
 });
-const externalErrors = ref({});
+const externalErrors = reactive({});
+const isLoading = ref(false);
+const components = {
+  CafeInformation,
+  CafeOperations,
+  CafeDelivery,
+  CafeGallery,
+  CafeWorkingDays
+};
 
 onMounted(async () => {
-  store.commit('setLoadingStatus', true);
   const res1 = await fetchCafe(route.params.id);
-  // store.commit('setSelectedCountry', res1.country);
-  // store.dispatch('fetchCitiesByCountry', res1.country)
-  formFields.value = res1;
-  store.commit('setLoadingStatus', false);
+  Object.assign(formFields, res1);
 });
 
 function changeComponent(componentName) {
@@ -104,9 +108,8 @@ function changeComponent(componentName) {
 }
 
 async function submit(formData) {
-  store.commit('setLoadingStatus', true);
-
-  externalErrors.value = {};
+  isLoading.value = true;
+  Object.assign(externalErrors, {});
   delete formData.logo;
 
   try {
@@ -114,12 +117,10 @@ async function submit(formData) {
 
     notyf.success();
   } catch (error) {
-    if (error.response) {
-      notyf.error();
-      externalErrors.value = error.response.data;
-    }
+    notyf.error();
+    Object.assign(externalErrors, error.response?.data);
   } finally {
-    store.commit('setLoadingStatus', false);
+    isLoading.value = false;
   }
 }
 
@@ -128,15 +129,13 @@ function openConfirmModal() {
 }
 
 async function removeCafe() {
-  store.commit('setLoadingStatus', true);
+  isLoading.value = true;
   cash('#delete-confirmation-modal').modal('hide');
-  if (!isEmpty(formFields.value.photos)) {
-    formFields.value.photos.forEach(
-      async ({ id }) => await deleteCafeImage(id)
-    );
+  if (!isEmpty(formFields.photos)) {
+    formFields.photos.forEach(async ({ id }) => await deleteCafeImage(id));
   }
-  await deleteCafe(formFields.value.id);
-  store.commit('setLoadingStatus', false);
+  await deleteCafe(formFields.id);
+  isLoading.value = true;
   router.push('/dashboard/cafes');
 }
 </script>
@@ -156,23 +155,15 @@ async function removeCafe() {
       />
       <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
         <component
-          :is="
-            currentItem === 'CafeOperations'
-              ? CafeOperations
-              : currentItem === 'CafeDelivery'
-              ? CafeDelivery
-              : currentItem === 'CafeGallery'
-              ? CafeGallery
-              : currentItem === 'CafeWorkingDays'
-              ? CafeWorkingDays
-              : CafeInformation
-          "
+          :is="components[currentItem]"
           :form-data="formFields"
+          :is-loading="isLoading"
           :external-errors="externalErrors"
           @update:form-data="submit($event)"
         />
       </div>
     </div>
+
     <!-- BEGIN: Delete Confirmation Modal -->
     <div
       id="delete-confirmation-modal"

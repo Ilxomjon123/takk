@@ -4,7 +4,7 @@ import { useStorage } from '@vueuse/core';
 const state = () => {
   return {
     company: {},
-    selectedCompanyID: useStorage('selectedCompanyID', 0),
+    selectedCompanyID: useStorage('selected-company-id', 0),
     companies: [],
     customers: [],
     statisticCustomers: [],
@@ -36,7 +36,6 @@ const mutations = {
   },
   setSelectedCompanyID(state, payload) {
     state.selectedCompanyID = payload;
-    // localStorage.setItem('selectedCompanyID', payload);
   },
   setCompanies(state, payload) {
     state.companies = payload;

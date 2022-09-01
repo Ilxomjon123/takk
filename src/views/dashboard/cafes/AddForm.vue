@@ -27,14 +27,12 @@ const formFields = reactive({
   description: '',
   photos: []
 });
-const externalErrors = ref({});
+const externalErrors = reactive({});
 const isLoading = ref(false);
 
 async function submit(formData) {
-  store.commit('setLoadingStatus', true);
-
   isLoading.value = true;
-  externalErrors.value = {};
+  Object.assign(externalErrors, {});
 
   try {
     const res1 = await storeCafe(formData);
@@ -42,12 +40,9 @@ async function submit(formData) {
     notyf.success();
     router.push('/dashboard/cafes/' + res1.id);
   } catch (error) {
-    if (error.response) {
-      notyf.error();
-      externalErrors.value = error.response?.data;
-    }
+    notyf.error();
+    Object.assign(externalErrors, error.response?.data);
   } finally {
-    store.commit('setLoadingStatus', false);
     isLoading.value = false;
   }
 }
@@ -63,6 +58,7 @@ async function submit(formData) {
       <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
         <CafeInformation
           :form-data="formFields"
+          :is-loading="isLoading"
           @update:form-data="submit($event)"
           :external-errors="externalErrors"
         />
