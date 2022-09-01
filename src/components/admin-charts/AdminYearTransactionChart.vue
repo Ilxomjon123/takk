@@ -76,12 +76,12 @@ export default {
         this.series = [
           {
             // data: res.last_year.map(item => item.count),
-            data: res.last?.reverse(),
+            data: res.last,
             name: 'Last Year'
           },
           {
             // data: res.this_year.map(item => item.count),
-            data: res.current?.reverse(),
+            data: res.current,
             name: 'This Year'
           }
         ];
