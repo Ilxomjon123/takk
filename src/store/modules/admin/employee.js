@@ -1,4 +1,7 @@
 import axios from 'axios';
+import { useApi } from '@/composables/useApi';
+
+const api = useApi();
 
 const state = () => {
   return {
@@ -23,43 +26,34 @@ const mutations = {
 
 const actions = {
   async fetchAdminEmployees({ commit, rootGetters }, payload) {
-    let response;
-    await axios
-      .get(`/adham/employee/`, {
-        headers: rootGetters.getHttpHeader,
-        params: { ...payload, ...rootGetters['adminCompany/getAdminParameter'] }
-      })
-      .then(res => {
-        response = res.data;
-        commit('setAdminEmployees', res.data);
-      })
-      .catch(err => {
-        response = res.data;
-        // commit('setAdminEmployees', err.response.data);
+    try {
+      const { data } = await api({
+        url: `/adham/employee/`,
+        params: {
+          ...payload,
+          ...rootGetters['adminCompany/getAdminParameter']
+        }
       });
-    return response;
+
+      commit('setAdminEmployees', data);
+      return data;
+    } catch (error) {
+      throw error;
+    }
   },
-  async fetchAdminEmployee({ commit, rootGetters }, payload) {
-    let response;
-    await axios
-      .get(`/adham/employee/${payload}/`, {
-        headers: rootGetters.getHttpHeader
-        // params: payload
-      })
-      .then(res => {
-        response = res.data;
-        commit('setAdminEmployee', res.data);
-      })
-      .catch(err => {
-        response = res.data;
-        // commit('setAdminEmployees', err.response.data);
-      });
-    return response;
+  async fetchAdminEmployee({ commit }, id) {
+    try {
+      const { data } = await api.get(`/adham/employee/${id}/`);
+      commit('setAdminEmployee', data);
+      return data;
+    } catch (error) {
+      throw error;
+    }
   },
   async postAdminEmployeeNew({ rootGetters }, payload) {
     let response;
     await axios
-      .post(`/adham/employees/new/`, payload, {
+      .post(`/adham/employee/new/`, payload, {
         headers: {
           ...rootGetters.getHttpHeader
           // 'Content-Type': 'multipart/form-data'
@@ -82,7 +76,7 @@ const actions = {
   async postAdminEmployeeExist({ rootGetters }, payload) {
     let response;
     await axios
-      .post(`/adham/employees/exists/`, payload, {
+      .post(`/adham/employee/exists/`, payload, {
         headers: {
           ...rootGetters.getHttpHeader
           // 'Content-Type': 'multipart/form-data'
@@ -102,33 +96,24 @@ const actions = {
       });
     return response;
   },
-  async putAdminEmployee({ rootGetters }, payload) {
-    let response;
-    await axios
-      .put(`/adham/employees/${payload.id}/`, payload.form, {
-        headers: {
-          ...rootGetters.getHttpHeader
-          // 'Content-Type': 'multipart/form-data'
-        }
-      })
-      .then(async res => {
-        response = {
-          status: true,
-          data: res.data
-        };
-      })
-      .catch(err => {
-        response = {
-          status: false,
-          data: err.response.data
-        };
+
+  async putAdminEmployee({ commit }, payload) {
+    try {
+      const { data } = await api({
+        url: `/adham/employee/${payload.id}/`,
+        method: 'PUT',
+        data: payload.form
       });
-    return response;
+
+      return data;
+    } catch (error) {
+      throw error;
+    }
   },
   async deleteAdminEmployee({ rootGetters }, payload) {
     let response;
     await axios
-      .delete(`/adham/employees/${payload}/`, {
+      .delete(`/adham/employee/${payload}/`, {
         headers: {
           ...rootGetters.getHttpHeader
           // 'Content-Type': 'multipart/form-data'
@@ -151,7 +136,7 @@ const actions = {
 };
 
 export default {
-  // namespaced: true,
+  namespaced: true,
   state,
   getters,
   actions,

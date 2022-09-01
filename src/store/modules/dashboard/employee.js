@@ -1,4 +1,6 @@
-import axios from 'axios';
+import { useApi } from '@/composables/useApi';
+
+const api = useApi();
 
 const state = () => {
   return {
@@ -22,131 +24,86 @@ const mutations = {
 };
 
 const actions = {
-  async fetchEmployees({ commit, rootGetters }, payload) {
-    let response;
-    await axios
-      .get(`/api/employees/`, {
-        headers: rootGetters.getHttpHeader,
+  async fetchEmployees({ commit }, payload) {
+    try {
+      const { data } = await api({
+        url: '/api/employees/',
         params: payload
-      })
-      .then(res => {
-        response = res.data;
-        commit('setEmployees', res.data);
-      })
-      .catch(err => {
-        response = res.data;
-        // commit('setEmployees', err.response.data);
       });
-    return response;
+
+      commit('setEmployees', data);
+      return data;
+    } catch (error) {
+      throw error;
+    }
   },
-  async fetchEmployee({ commit, rootGetters }, payload) {
-    let response;
-    await axios
-      .get(`/api/employees/${payload}/`, {
-        headers: rootGetters.getHttpHeader,
+
+  async fetchEmployee({ commit }, payload) {
+    try {
+      const { data } = await api({
+        url: `/api/employees/${payload}/`,
         params: payload
-      })
-      .then(res => {
-        response = res.data;
-        commit('setEmployee', res.data);
-      })
-      .catch(err => {
-        response = res.data;
-        // commit('setEmployees', err.response.data);
       });
-    return response;
+      commit('setEmployee', data);
+      return data;
+    } catch (error) {
+      throw error;
+    }
   },
-  async postEmployeeNew({ rootGetters }, payload) {
-    let response;
-    await axios
-      .post(`/api/employees/new/`, payload, {
-        headers: {
-          ...rootGetters.getHttpHeader
-          // 'Content-Type': 'multipart/form-data'
-        }
-      })
-      .then(async res => {
-        response = {
-          status: true,
-          data: res.data
-        };
-      })
-      .catch(err => {
-        response = {
-          status: false,
-          data: err.response.data
-        };
+
+  async postEmployeeNew(payload) {
+    try {
+      const { data } = await api({
+        url: '/api/employees/new/',
+        method: 'POST',
+        data: payload
       });
-    return response;
+
+      return data;
+    } catch (error) {
+      throw error;
+    }
   },
-  async postEmployeeExist({ rootGetters }, payload) {
-    let response;
-    await axios
-      .post(`/api/employees/exists/`, payload, {
-        headers: {
-          ...rootGetters.getHttpHeader
-          // 'Content-Type': 'multipart/form-data'
-        }
-      })
-      .then(async res => {
-        response = {
-          status: true,
-          data: res.data
-        };
-      })
-      .catch(err => {
-        response = {
-          status: false,
-          data: err.response.data
-        };
+
+  async postEmployeeExist(payload) {
+    try {
+      const { data } = await api({
+        url: '/api/employees/exists/',
+        method: 'POST',
+        data: payload
       });
-    return response;
+
+      return data;
+    } catch (error) {
+      throw error;
+    }
   },
-  async putEmployee({ rootGetters }, payload) {
-    let response;
-    await axios
-      .put(`/api/employees/${payload.id}/`, payload.form, {
-        headers: {
-          ...rootGetters.getHttpHeader
-          // 'Content-Type': 'multipart/form-data'
-        }
-      })
-      .then(async res => {
-        response = {
-          status: true,
-          data: res.data
-        };
-      })
-      .catch(err => {
-        response = {
-          status: false,
-          data: err.response.data
-        };
+
+  async putEmployee(payload) {
+    try {
+      const { data } = await api({
+        url: `/api/employees/${payload.id}/`,
+        method: 'PUT',
+        data: payload.form
       });
-    return response;
+
+      return data;
+    } catch (error) {
+      throw error;
+    }
   },
-  async deleteEmployee({ rootGetters }, payload) {
-    let response;
-    await axios
-      .delete(`/api/employees/${payload}/`, {
-        headers: {
-          ...rootGetters.getHttpHeader
-          // 'Content-Type': 'multipart/form-data'
-        }
-      })
-      .then(async res => {
-        response = {
-          status: true,
-          data: res.data
-        };
-      })
-      .catch(err => {
-        response = {
-          status: false,
-          data: err.response.data
-        };
+
+  async deleteEmployee(payload) {
+    try {
+      const { data } = await api({
+        url: `/api/employees/${payload}/`,
+        method: 'DELETE'
       });
-    return response;
+
+      return data;
+    } catch (error) {
+      throw error;
+    }
   }
 };
 

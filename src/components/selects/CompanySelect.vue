@@ -3,7 +3,7 @@ import { computed, onMounted } from 'vue';
 import { isEmpty } from 'lodash';
 import store from '@/store';
 
-const selected = computed({
+const selectedCompany = computed({
   get: () => {
     return store.getters['adminCompany/getAdminSelectedCompanyID'];
   },
@@ -13,12 +13,12 @@ const selected = computed({
   }
 });
 
-const cafeList = computed(
+const companyList = computed(
   () => store.getters['adminCompany/getAdminCompanies']
 );
 
 onMounted(async () => {
-  isEmpty(cafeList.value) &&
+  isEmpty(companyList.value) &&
     (await store.dispatch('adminCompany/fetchAdminCompanies'));
 });
 </script>
@@ -26,14 +26,17 @@ onMounted(async () => {
 <template>
   <TomSelect
     class="w-44"
-    v-model="selected"
+    v-model="selectedCompany"
     :options="{
       placeholder: 'Select Company'
     }"
   >
     <option :value="0">All Companies</option>
-    <option v-for="(item, index) in cafeList" :key="index" :value="item.id">{{
-      item.name
-    }}</option>
+    <option
+      v-for="(item, index) in companyList"
+      :key="index"
+      :value="item.id"
+      >{{ item.name }}</option
+    >
   </TomSelect>
 </template>

@@ -22,10 +22,10 @@
           Cafe phone number
           <!-- <span class="text-theme-6">*</span> -->
         </label>
-        <!-- <input id="call_center" type="text" required class="form-control"
-          :class="getError('call_center') != null ? 'border-theme-6' : ''" placeholder="Phone"
-          v-model="form.call_center" /> -->
-        <TelInput v-model="form.call_center" />
+        <TelInput
+          v-model:phone-number="form.call_center"
+          v-model:dial-code="form.phone_code"
+        />
         <div class="text-theme-6" v-text="getError('call_center')" />
       </div>
     </div>
@@ -119,6 +119,7 @@ export default defineComponent({
         },
         country: '',
         call_center: '',
+        phone_code: '',
         state: '',
         city: '',
         address: ''

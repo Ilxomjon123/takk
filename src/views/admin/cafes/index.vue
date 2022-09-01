@@ -10,13 +10,14 @@ const list = reactive([]);
 const selectedCompanyId = computed(
   () => store.getters['adminCompany/getAdminSelectedCompanyID']
 );
+
 await fetchData();
 
 async function fetchData() {
   store.commit('setLoadingStatus', true);
   const res = await fetchCafeList({
     limit: 100,
-    company: selectedCompanyId.value
+    company: selectedCompanyId.value || ''
   });
   Object.assign(list, res.results);
   store.commit('setLoadingStatus', false);

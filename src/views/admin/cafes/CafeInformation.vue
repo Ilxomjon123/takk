@@ -94,7 +94,10 @@ function searchLocationByAddress() {
             </div>
             <div class="col-span-12 2xl:col-span-6">
               <label for="phone" class="form-label">Cafe phone number</label>
-              <TelInput v-model="formData.call_center" />
+              <TelInput
+                v-model:phone-number="formData.call_center"
+                v-model:dial-code="formData.phone_code"
+              />
               <div
                 class="text-theme-6"
                 v-text="

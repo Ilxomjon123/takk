@@ -15,7 +15,6 @@ const route = useRoute(),
   telInputOptions = reactive({
     autofocus: true,
     required: true,
-    autoDefaultCountry: false,
     maxlength: 20
   });
 
@@ -98,11 +97,7 @@ async function submit() {
   </div>
   <form @submit.prevent="submit">
     <div class="intro-x mt-8">
-      <TelInput :inputOptions="telInputOptions" v-model="form.phone" />
-      <!-- <vue-tel-input styleClasses="intro-x login__input border-gray-200 block py-1" :inputOptions="telInputOptions"
-        v-model="form.phone" /> -->
-      <!-- <input autofocus type="text" class="intro-x login__input form-control py-3 px-4 border-gray-300 block"
-        placeholder="Phone" v-model="form.phone" :disabled="!isDisabled" required /> -->
+      <TelInput v-model="form.phone" :inputOptions="telInputOptions" />
       <input
         type="text"
         class="intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4"

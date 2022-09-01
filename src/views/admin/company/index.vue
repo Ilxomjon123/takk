@@ -4,23 +4,11 @@ import { useRouter } from 'vue-router';
 import { fetchCompanyList } from '@/api/admin';
 import store from '@/store';
 import CompanyCard from './CompanyCard.vue';
-import useCompany from '@/features/useCompany';
 
-const { setSelected } = useCompany();
 const router = useRouter();
 const list = ref([]);
-const selectedCompanyId = computed(
-  () => store.getters['adminCompany/getAdminSelectedCompanyID']
-);
 
 await fetchData();
-
-// onMounted(async () => {
-// if (selectedCompanyId.value != 0) {
-//   router.push('/admin/company/form');
-// }
-// await fetchData();
-// });
 
 async function fetchData() {
   const res = await fetchCompanyList(100);
