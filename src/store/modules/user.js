@@ -80,14 +80,14 @@ const mutations = {
 };
 
 const actions = {
-  async signin({ commit }, form) {
+  async signin({ dispatch }, form) {
     try {
       const res = await api({
         url: '/api/users/register/',
         method: 'POST',
         data: form
       });
-
+      dispatch('postFcm');
       return res.data;
     } catch (error) {
       throw error;
@@ -117,9 +117,10 @@ const actions = {
       };
     }
   },
-  logout({ state }) {
+  async logout({ state, dispatch }) {
     // localStorage.clear();
     // localStorage.removeItem('required_details');
+    await dispatch('deleteFcm');
     state.token = '';
     localStorage.removeItem('selected-productmenu-id');
   },
@@ -143,6 +144,27 @@ const actions = {
       });
 
       commit('setUser', res.data);
+    } catch (error) {
+      throw error;
+    }
+  },
+  async postFcm({ getters }) {
+    try {
+      const res = await api({
+        url: `/api/fcm-notofications/`,
+        method: 'POST',
+        data: { type: 'web', registration_id: getters.getToken }
+      });
+    } catch (error) {
+      throw error;
+    }
+  },
+  async deleteFcm({ commit }) {
+    try {
+      const res = await api({
+        url: `/api/fcm-notofications/`,
+        method: 'DELETE'
+      });
     } catch (error) {
       throw error;
     }
