@@ -120,7 +120,7 @@ const actions = {
   async logout({ state, dispatch }) {
     // localStorage.clear();
     // localStorage.removeItem('required_details');
-    await dispatch('deleteFcm');
+    // await dispatch('deleteFcm');
     state.token = '';
     localStorage.removeItem('selected-productmenu-id');
   },
