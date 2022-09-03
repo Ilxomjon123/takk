@@ -86,9 +86,7 @@ export default {
         this.chartOptions = {
           ...this.chartOptions,
           xaxis: {
-            categories: res.months
-              ?.reverse()
-              .map(item => this.toMonthName(item))
+            categories: res.months.map(item => this.toMonthName(item))
           }
         };
       }

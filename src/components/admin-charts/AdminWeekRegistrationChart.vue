@@ -88,7 +88,7 @@ export default {
         this.chartOptions = {
           ...this.chartOptions,
           xaxis: {
-            categories: res.days?.reverse()
+            categories: res.days
           }
         };
       }
