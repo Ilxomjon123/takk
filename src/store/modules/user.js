@@ -96,7 +96,9 @@ const actions = {
     }
   },
 
-  async logout({ state }) {
+  async logout({ state, dispatch }) {
+    // 100- va 101-qatorlarni o'chirib yubormang!!!
+    // await dispatch('deleteFcm');
     state.token = '';
     state.refreshToken = '';
     localStorage.removeItem('selected-company-id');
