@@ -31,14 +31,14 @@ function gotoAddForm() {
   <div>
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
       <h2 class="text-lg font-medium">Company List</h2>
-      <div class="w-full sm:w-auto flex ml-2 sm:mt-0">
+      <!-- <div class="w-full sm:w-auto flex ml-2 sm:mt-0">
         <div class="intro-y flex flex-wrap sm:flex-nowrap items-center">
           <button class="btn btn-primary shadow-md" @click="gotoAddForm()">
             <PlusIcon class="h-4 w-4 mr-3" />
             Add New Company
           </button>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="grid grid-cols-12 gap-6 mt-5">
       <!-- BEGIN: Data List -->

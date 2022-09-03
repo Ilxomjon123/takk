@@ -17,10 +17,15 @@ const phone = ref('');
 const defaultCountryCode = ref('US');
 
 watch(
-  props,
+  () => props.phoneNumber,
   newVal => {
     if (newVal) {
-      phone.value = props.phoneNumber?.substring(props.dialCode?.length + 1);
+      if (
+        newVal.startsWith(props.dialCode) ||
+        newVal.startsWith('+' + props.dialCode)
+      ) {
+        phone.value = props.phoneNumber?.substring(props.dialCode?.length + 1);
+      } else phone.value = props.phoneNumber;
     }
   },
   { immediate: true }
@@ -32,6 +37,9 @@ watchEffect(() => {
       defaultCountryCode.value = 'US';
     } else defaultCountryCode.value = Number(props.dialCode);
   }
+  // if (props.phoneNumber) {
+  //   phone.value = props.phoneNumber?.substring(props.dialCode?.length + 1);
+  // }
 });
 
 function onCountryChange(countryObj) {
@@ -40,10 +48,14 @@ function onCountryChange(countryObj) {
 
 function onPhoneChange(event) {
   console.log({ event });
-  emits(
-    'update:phoneNumber',
-    '+' + defaultCountryCode.value + event.target?.value
-  );
+  if (defaultCountryCode.value == 'US') {
+    emits('update:phoneNumber', '+1' + event.target?.value);
+  } else {
+    emits(
+      'update:phoneNumber',
+      '+' + defaultCountryCode.value + event.target?.value
+    );
+  }
 }
 </script>
 
