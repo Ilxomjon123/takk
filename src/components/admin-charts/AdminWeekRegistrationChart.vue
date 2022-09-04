@@ -65,34 +65,35 @@ export default {
   methods: {
     ...mapActions(['adminCompany/fetchAdminStatisticsRegistrationWeek']),
     async fetchData() {
-      let res;
-      if (this.cafe != 0) {
-        res = await this['adminCompany/fetchAdminStatisticsRegistrationWeek']({
-          cafe: this.cafe
-        });
-      } else {
-        res = await this['adminCompany/fetchAdminStatisticsRegistrationWeek']();
-      }
-      if (res.status) {
-        this.series = [
-          {
-            // data: res.last_year.map(item => item.count),
-            data: res.last,
-            name: 'Last Week'
-          },
-          {
-            // data: res.this_year.map(item => item.count),
-            data: res.current,
-            name: 'This Week'
-          }
-        ];
-        this.chartOptions = {
-          ...this.chartOptions,
-          xaxis: {
-            categories: res.days
-          }
-        };
-      }
+      try {
+        let res;
+        if (this.cafe != 0) {
+          res = await this['adminCompany/fetchAdminStatisticsRegistrationWeek'](
+            {
+              cafe: this.cafe
+            }
+          );
+        } else {
+          res = await this[
+            'adminCompany/fetchAdminStatisticsRegistrationWeek'
+          ]();
+        }
+        if (res.status) {
+          this.series = [
+            {
+              // data: res.last_year.map(item => item.count),
+              data: res.last,
+              name: 'Last Week'
+            },
+            {
+              // data: res.this_year.map(item => item.count),
+              data: res.current,
+              name: 'This Week'
+            }
+          ];
+          this.chartOptions.xaxis.categories = res.days;
+        }
+      } catch (error) {}
     }
   },
   components: {
