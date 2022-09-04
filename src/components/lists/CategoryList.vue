@@ -1,10 +1,10 @@
 <script setup>
 import { computed, reactive, ref, watch } from 'vue';
+import cash from 'cash-dom';
 import MainPaginator from '../paginator/MainPaginator.vue';
 import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
 import DraggableTypeModal from '@/views/dashboard/categories/DraggableTypeModal.vue';
 import DraggableItemModal from '@/views/dashboard/categories/DraggableItemModal.vue';
-import cash from 'cash-dom';
 import store from '@/store';
 
 const items = ref([]);

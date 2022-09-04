@@ -5,19 +5,21 @@ import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
 import cash from 'cash-dom';
 import store from '@/store';
 import { useNotyf } from '@/composables/useNotyf';
+import ConfirmDeletionModal from '../modals/ConfirmDeletionModal.vue';
 
 const props = defineProps({
   subItemTitle: String,
   subItemValue: String
 });
-
 const emit = defineEmits(['update-id']);
+
 const notyf = useNotyf();
 const items = ref([]);
 const dispatcher = ref('postMenu');
 const addDispatcher = ref('postMenu');
 const editDispatcher = ref('putMenu');
 const selectedMenuDetails = ref({});
+const selectedMenuID = ref(null);
 const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
 
 onMounted(async () => {
@@ -51,6 +53,11 @@ function editMenu(val) {
   dispatcher.value = editDispatcher.value;
   selectedMenuDetails.value = val;
   cash('#menu-add-edit-modal').modal('show');
+}
+
+function onDelete(id) {
+  selectedMenuID.value = id;
+  cash('#confirm-deletion-modal').modal('show');
 }
 
 async function deleteMenu(val) {
@@ -101,10 +108,14 @@ async function updateList() {
         :class="
           item.id == activeMenuID ? 'bg-theme-1 dark:bg-theme-1 text-white' : ''
         "
-        @click="selectMenu(item.id)"
       >
         <div class="flex col-span-12 w-full">
-          <div class="mr-auto font-medium text-base">{{ item.name }}</div>
+          <div
+            class="mr-auto font-medium text-base"
+            @click="selectMenu(item.id)"
+          >
+            {{ item.name }}
+          </div>
           <!-- <MoreHorizontalIcon /> -->
           <div class="dropdown inline-block" data-placement="right-start">
             <button class="dropdown-toggle -mr-3" aria-expanded="false">
@@ -113,22 +124,20 @@ async function updateList() {
             <div class="dropdown-menu w-40">
               <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
                 <a
+                  href="javascript:void(0);"
                   @click="editMenu(item)"
                   data-dismiss="dropdown"
                   class="flex cursor-pointer items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
                 >
-                  <Edit2Icon class="w-4 h-4 mr-2" />Edit
+                  <span><Edit2Icon class="w-4 h-4 mr-2" /> Edit</span>
                 </a>
                 <a
+                  href="javascript:void(0);"
+                  @click="onDelete(item.id)"
                   data-dismiss="dropdown"
                   class="flex cursor-pointer items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
                 >
-                  <DeleteConfirmModal
-                    @onConfirmedDelete="deleteMenu(item.id)"
-                    :isIcon="true"
-                    iconClass="w-4 h-4 mr-2"
-                    :modalId="`menu-delete-modal-${item.id}`"
-                  />
+                  <span><TrashIcon class="w-4 h-4 mr-2" /> Delete</span>
                 </a>
               </div>
             </div>
@@ -143,5 +152,10 @@ async function updateList() {
     </div>
   </div>
 
-  <MenuAddEditFormModal :item="selectedMenuDetails" @submitted="updateList" />
+  <MenuAddEditFormModal
+    :dispatcher="dispatcher"
+    :item="selectedMenuDetails"
+    @submitted="updateList"
+  />
+  <ConfirmDeletionModal @confirm="deleteMenu" />
 </template>

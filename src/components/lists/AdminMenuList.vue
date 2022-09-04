@@ -1,9 +1,11 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
-import MenuAddEditFormModal from '../modals/MenuAddEditFormModal.vue';
-import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import cash from 'cash-dom';
 import store from '@/store';
+import { useNotyf } from '@/composables/useNotyf';
+import MenuAddEditFormModal from '@/components/modals/MenuAddEditFormModal.vue';
+import ConfirmDeletionModal from '@/components/modals/ConfirmDeletionModal.vue';
+import CustomPagination from '@/components/paginator/CustomPagination.vue';
 
 const props = defineProps({
   subItemTitle: String,
@@ -12,28 +14,40 @@ const props = defineProps({
 
 const emit = defineEmits(['update-id']);
 
-const items = ref([]);
-const dispatcher = ref('postMenu');
-const addDispatcher = ref('postMenu');
-const editDispatcher = ref('putMenu');
-const successMessage = ref('Successfully Deleted!');
+const notyf = useNotyf();
+const menusData = reactive({
+  current_page_size: 10,
+  limit: 6,
+  links: {
+    next: '',
+    previous: ''
+  },
+  page: 1,
+  total_objects: 51,
+  total_pages: 6,
+  results: []
+});
+const dispatcher = ref('adminMenu/postMenu');
+const addDispatcher = ref('adminMenu/postMenu');
+const editDispatcher = ref('adminMenu/putMenu');
 const selectedMenuDetails = ref({});
-const getSelectedMenuId = computed(() => store.getters['getSelectedMenuId']);
+const selectedMenuID = ref(null);
+const activeMenuId = computed(() => store.getters['getSelectedMenuId']);
 
 onMounted(() => {
   fetchData();
 });
 
-function paginate(val) {
-  items.value = val;
-}
+// function paginate(val) {
+//   menusData.results = val;
+// }
 
 function search() {
   selectMenu(null);
 }
 
 function setItems(val) {
-  items.value = val;
+  menusData.results = val;
 }
 
 function selectMenu(val) {
@@ -53,31 +67,46 @@ function editMenu(val) {
   cash('#menu-add-edit-modal').modal('show');
 }
 
-async function deleteMenu(val) {
-  store.commit('setLoadingStatus', true);
+function onDelete(id) {
+  selectedMenuID.value = id;
+  cash('#confirm-deletion-modal').modal('show');
+}
 
-  const res = await store.dispatch('deleteMenu', val);
-
-  if (res.status === true) {
-    successMessage.value = 'Successfully Deleted!';
-    store.commit('setSuccessNotification', true);
-    // search();
-    updateList();
-  } else store.commit('setSuccessNotification', true);
-
-  store.commit('setLoadingStatus', false);
+async function deleteMenu() {
+  const res = await store.dispatch(
+    'adminMenu/deleteMenu',
+    selectedMenuID.value
+  );
+  updateList();
+  notyf.success('Menu item removed successfully!');
 }
 
 async function fetchData() {
-  // console.log(dispatcher.value);
-  store.commit('setLoadingStatus', true);
-  const res = await store.dispatch('adminMenu/fetchMenus');
-  items.value = res.results;
-  store.commit('setLoadingStatus', false);
+  try {
+    const res = await store.dispatch('adminMenu/fetchMenus', {
+      page: menusData.page,
+      limit: menusData.limit
+    });
+    Object.assign(menusData, res);
+  } catch (error) {
+    notyf.error('Error while fetching data: ', error.message);
+  }
 }
 
 function updateList() {
   fetchData();
+}
+
+async function onPaginate(page) {
+  menusData.page = page;
+  await fetchData();
+}
+
+async function updateLimit(limit) {
+  console.log({ limit });
+
+  menusData.limit = limit;
+  await fetchData();
 }
 </script>
 
@@ -97,19 +126,20 @@ function updateList() {
 
     <div class="grid grid-cols-12 gap-5 mt-5">
       <div
-        class="col-span-12 sm:col-span-4 xl:col-span-3 2xl:col-span-2 box p-5 cursor-pointer zoom-in"
-        v-for="(item, index) in items"
+        class="col-span-12 sm:col-span-4 xl:col-span-3 2xl:col-span-2 box p-5 zoom-in"
+        v-for="(item, index) in menusData.results"
         :key="index"
         :class="
-          item.id == getSelectedMenuId
-            ? 'bg-theme-1 dark:bg-theme-1 text-white'
-            : ''
+          item.id == activeMenuId ? 'bg-theme-1 dark:bg-theme-1 text-white' : ''
         "
-        @click="selectMenu(item.id)"
       >
         <div class="flex col-span-12 w-full">
-          <div class="mr-auto font-medium text-base">{{ item.name }}</div>
-          <!-- <MoreHorizontalIcon /> -->
+          <div
+            class="mr-auto font-medium text-base cursor-pointer"
+            @click="selectMenu(item.id)"
+          >
+            {{ item.name }}
+          </div>
           <div class="dropdown inline-block" data-placement="right-start">
             <button class="dropdown-toggle -mr-3" aria-expanded="false">
               <MoreVerticalIcon />
@@ -117,35 +147,24 @@ function updateList() {
             <div class="dropdown-menu w-40">
               <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
                 <a
+                  href="javascript:void(0);"
                   @click="editMenu(item)"
                   data-dismiss="dropdown"
                   class="flex cursor-pointer items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
                 >
-                  <Edit2Icon class="w-4 h-4 mr-2" />Edit
+                  <span><Edit2Icon class="w-4 h-4 mr-2" /> Edit</span>
                 </a>
                 <a
+                  href="javascript:void(0);"
+                  @click="onDelete(item.id)"
                   data-dismiss="dropdown"
                   class="flex cursor-pointer items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
                 >
-                  <DeleteConfirmModal
-                    @onConfirmedDelete="deleteMenu(item.id)"
-                    :isIcon="true"
-                    iconClass="w-4 h-4 mr-2"
-                    :modalId="`menu-delete-modal-${item.id}`"
-                  />
+                  <span><TrashIcon class="w-4 h-4 mr-2" /> Delete</span>
                 </a>
               </div>
             </div>
           </div>
-          <!-- <div class="flex">
-            <Edit2Icon @click="editMenu(item)" class="hover:text-theme-12" />
-            <DeleteConfirmModal
-              @onConfirmedDelete="deleteMenu(item.id)"
-              :isIcon="true"
-              :modalId="`menu-delete-modal-${ item.id }`"
-            />
-          </div> -->
-          <!-- <TrashIcon @click="editMenu(item)" class="hover:text-theme-6" /> -->
         </div>
         <div class="flex">
           <div class="mr-auto text-gray-600">
@@ -162,9 +181,23 @@ function updateList() {
       ref="paginator"
       @setItems="setItems($event)"
       :form="paginationForm"
-    />-->
+    /> -->
+    <CustomPagination
+      class="mt-5"
+      :limit="menusData.limit"
+      :links="menusData.links"
+      :page="menusData.page"
+      :total="menusData.total_pages"
+      @paginate="onPaginate($event)"
+      @update:limit="updateLimit($event)"
+    />
     <!-- END: Pagination -->
   </div>
 
-  <MenuAddEditFormModal :item="selectedMenuDetails" @submitted="updateList" />
+  <MenuAddEditFormModal
+    :dispatcher="dispatcher"
+    :item="selectedMenuDetails"
+    @submitted="updateList"
+  />
+  <ConfirmDeletionModal @confirm="deleteMenu" />
 </template>

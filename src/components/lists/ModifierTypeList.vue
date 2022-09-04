@@ -6,8 +6,8 @@
         <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
           <button class="btn btn-primary" @click="addModifierType">
             <span class="w-5 h-5 flex items-center justify-center">
-              <PlusIcon class="w-4 h-4" />
-            </span>Add Modifier Type
+              <PlusIcon class="w-4 h-4" /> </span
+            >Add Modifier Type
           </button>
         </div>
       </div>
@@ -17,7 +17,11 @@
           class="col-span-12 sm:col-span-4 xl:col-span-3 2xl:col-span-2 box p-5 cursor-pointer zoom-in"
           v-for="(item, index) in items"
           :key="index"
-          :class="item.id == getSelectedModifierTypeId ? 'bg-theme-1 dark:bg-theme-1 text-white' : ''"
+          :class="
+            item.id == getSelectedModifierTypeId
+              ? 'bg-theme-1 dark:bg-theme-1 text-white'
+              : ''
+          "
           @click="selectModifierType(item)"
         >
           <div class="flex col-span-12 w-full">
@@ -27,7 +31,10 @@
                 @click="editModifierType(item)"
                 class="hover:text-theme-12"
               />
-              <TrashIcon class="hover:text-theme-6" @click="selectItem(item)" />
+              <TrashIcon
+                class="hover:text-theme-6"
+                @click="onDeleteAction(item)"
+              />
             </div>
             <!-- <TrashIcon @click="editModifierType(item)" class="hover:text-theme-6" /> -->
           </div>
@@ -55,32 +62,30 @@
       :ref="modalId"
       @submitted="search"
     />
-    <DeleteConfirmModal2
-      @onConfirmedDelete2="deleteItem"
-      :modalId="deleteModalId"
+    <ConfirmDeletionModal
+      @confirm="deleteItem"
+      :modal-id="deleteModalId"
       :ref="deleteModalId"
     />
   </div>
-  <div
-    v-else
-    class="text-base text-center mt-10 text-gray-600"
-  >For showing Modifiers Types Please select Menu</div>
+  <div v-else class="text-base text-center mt-10 text-gray-600">
+    For showing Modifiers Types Please select Menu
+  </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import MainPaginator from '../paginator/MainPaginator.vue'
-import MenuModalForm from '../forms/MenuModalForm.vue'
-import { mapGetters } from 'vuex'
-import ModifierTypeModalForm from '../forms/ModifierTypeModalForm.vue'
-import DeleteConfirmModal2 from '../modals/DeleteConfirmModal2.vue'
+import { defineComponent } from 'vue';
+import MainPaginator from '../paginator/MainPaginator.vue';
+import MenuModalForm from '../forms/MenuModalForm.vue';
+import { mapGetters } from 'vuex';
+import ModifierTypeModalForm from '../forms/ModifierTypeModalForm.vue';
+import ConfirmDeletionModal from '../modals/ConfirmDeletionModal.vue';
 export default defineComponent({
-
   components: {
     MainPaginator,
     MenuModalForm,
     ModifierTypeModalForm,
-    DeleteConfirmModal2
+    ConfirmDeletionModal
   },
   data() {
     return {
@@ -88,13 +93,13 @@ export default defineComponent({
       items: [],
       dispatcher: 'postModifierType',
       modalId: 'modifier-form-modal',
-      deleteModalId: "modifier-type-delete-modal",
+      deleteModalId: 'modifier-type-delete-modal',
       addDispatcher: 'postModifierType',
       editDispatcher: 'putModifierType',
       successMessage: 'Successfully Deleted!',
       loadingDelete: {},
       selectedItem: {}
-    }
+    };
   },
   emits: ['update-modifier-type-id'],
   computed: {
@@ -102,11 +107,11 @@ export default defineComponent({
   },
   methods: {
     paginate(val) {
-      this.items = val
+      this.items = val;
     },
     search() {
       this.selectModifierType(null);
-      this.$refs.paginator.paginate(1)
+      this.$refs.paginator.paginate(1);
     },
     setItems(val) {
       this.items = val;
@@ -132,7 +137,7 @@ export default defineComponent({
       this.selectModifierType(null);
       const res = await this.$store.dispatch('deleteModifierType', val);
       if (res.status) {
-        this.successMessage = 'Successfully Deleted!'
+        this.successMessage = 'Successfully Deleted!';
         this.$store.commit('setSuccessNotification', true);
         this.search();
       } else {
@@ -140,7 +145,7 @@ export default defineComponent({
       }
       this.$store.commit('setLoadingStatus', false);
     },
-    selectItem(val) {
+    onDeleteAction(val) {
       this.selectedItem = val;
       this.$refs[this.deleteModalId].showModal();
     }

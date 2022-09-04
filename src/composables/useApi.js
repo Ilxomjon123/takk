@@ -42,12 +42,12 @@ export function createApi() {
         const originalRequest = error.config;
 
         if (error.response?.status === 401 /* && !originalRequest._retry */) {
-          const res = await store.dispatch('refreshToken');
+          try {
+            const res = await store.dispatch('refreshToken');
 
-          if (res.status) {
             location.reload();
             originalRequest._retry = true;
-          } else {
+          } catch (error) {
             store.dispatch('logout');
             // location.href = '/'
           }

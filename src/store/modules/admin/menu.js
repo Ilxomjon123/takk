@@ -2,6 +2,9 @@ import axios from 'axios';
 import makeRequest from '@/api/admin/makeRequest';
 import { isNull } from 'lodash';
 import { useStorage } from '@vueuse/core';
+import { useApi } from '@/composables/useApi';
+
+const api = useApi();
 
 const state = () => {
   return {
@@ -31,21 +34,18 @@ const mutations = {
 };
 
 const actions = {
-  async fetchMenus({ commit, rootGetters }) {
-    let response;
-    await axios
-      .get(`/adham/menus/`, {
-        headers: rootGetters.getHttpHeader
-      })
-      .then(res => {
-        response = res.data;
-        commit('setMenus', res.data);
-      })
-      .catch(err => {
-        response = err.data;
-        // commit('setTransactions', err.response.data);
+  async fetchMenus({ commit }, payload) {
+    try {
+      const { data } = await api({
+        url: `/adham/menus/`,
+        params: payload
       });
-    return response;
+      commit('setMenus', data);
+
+      return data;
+    } catch (error) {
+      throw error;
+    }
   },
 
   async postMenu({ rootGetters }, payload) {
