@@ -32,10 +32,12 @@ export default {
       cafe: 0,
       series: [
         {
-          data: []
+          data: [],
+          name: 'Last Week'
         },
         {
-          data: []
+          data: [],
+          name: 'This Week'
         }
       ],
       chartOptions: {
@@ -79,18 +81,8 @@ export default {
           ]();
         }
         if (res.status) {
-          this.series = [
-            {
-              // data: res.last_year.map(item => item.count),
-              data: res.last,
-              name: 'Last Week'
-            },
-            {
-              // data: res.this_year.map(item => item.count),
-              data: res.current,
-              name: 'This Week'
-            }
-          ];
+          this.series[0].data = res.last;
+          this.series[1].data = res.current;
           this.chartOptions.xaxis.categories = res.days;
         }
       } catch (error) {}
