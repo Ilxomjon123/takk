@@ -15,9 +15,13 @@ const props = defineProps({
 const emits = defineEmits(['paginate', 'update:limit']);
 const amount = ref(5);
 const amountOfPagesToShow = computed(() => {
-  if (props.total > amount.value) {
+  if (props.total >= amount.value) {
     if (props.page >= amount.value - 2 && amount.value < props.total) {
       amount.value += 1;
+    }
+
+    if (props.page <= amount.value - 3 && amount.value > 5) {
+      amount.value -= 1;
     }
   } else amount.value = props.total;
 
