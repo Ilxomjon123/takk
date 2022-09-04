@@ -25,7 +25,7 @@ import AdminCafeSelect from '../selects/AdminCafeSelect.vue';
 
 export default {
   async created() {
-    this.fetchData();
+    await this.fetchData();
   },
   data() {
     return {
@@ -52,14 +52,15 @@ export default {
           intersect: false
         },
         xaxis: {
+          categories: []
           // categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
         }
       }
     };
   },
   watch: {
-    cafe(to, from) {
-      this.fetchData(this.type);
+    async cafe(to, from) {
+      await this.fetchData(this.type);
     }
   },
   methods: {
