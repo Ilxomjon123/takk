@@ -3,6 +3,7 @@ import { useRoute } from 'vue-router';
 import { addCafeGallery } from '@/api';
 import MultipleImageUpload from './MultipleImageUpload.vue';
 import { useNotyf } from '../../../composables/useNotyf';
+import { ref } from 'vue';
 
 const props = defineProps({
   formData: {
