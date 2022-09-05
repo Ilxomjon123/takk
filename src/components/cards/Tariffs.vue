@@ -3,7 +3,7 @@
     <div class="flex items-center">
       <div class="box flex flex-col lg:flex-row w-full">
         <div
-          class="intro-y border-b border-t lg:border-b-0 lg:border-t-0 flex-1 p-5 lg:border-l lg:border-r border-gray-200 dark:border-dark-5"
+          class="intro-y border-b border-t lg:border-b-0 lg:border-t-0 flex flex-col flex-1 p-5 lg:border-l lg:border-r border-gray-200 dark:border-dark-5"
         >
           <CreditCardIcon
             class="block w-12 h-12 text-theme-1 dark:text-theme-10 mx-auto"
@@ -16,7 +16,7 @@
             system and mobile app). After trial period, 1% of sales. Plus credit
             card fees (2.9%+30c) passed on to payment processing companies.
           </div>
-          <div class="items-end">
+          <div class="mt-auto">
             <div class="flex justify-center">
               <div class="relative text-5xl font-semibold mt-8 mx-auto">
                 <span class="absolute text-2xl top-0 left-0 text-gray-600 -ml-4"
@@ -37,7 +37,7 @@
           </div>
         </div>
         <div
-          class="intro-y border-b border-t lg:border-b-0 lg:border-t-0 flex-1 p-5 lg:border-l lg:border-r border-gray-200 dark:border-dark-5"
+          class="intro-y border-b border-t lg:border-b-0 lg:border-t-0 flex flex-col flex-1 p-5 lg:border-l lg:border-r border-gray-200 dark:border-dark-5"
         >
           <BriefcaseIcon
             class="block w-12 h-12 text-theme-1 dark:text-theme-10 mx-auto"
@@ -51,7 +51,7 @@
             Same as Standard plan, plus you will have your custom mobile
             application with your own logo for $49 per month.
           </div>
-          <div class="items-end mt-10">
+          <div class="col mt-auto">
             <div class="flex justify-center">
               <div class="relative text-5xl font-semibold mt-8 mx-auto">
                 <span class="absolute text-2xl top-0 left-0 text-gray-600 -ml-4"

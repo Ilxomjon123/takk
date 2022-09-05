@@ -7,7 +7,7 @@ import { useNotyf } from '../../../composables/useNotyf';
 import store from '@/store';
 
 const props = defineProps({
-  objId: null
+  objId: null,
 });
 
 const emit = defineEmits(['update:image-files']);
@@ -21,7 +21,7 @@ const notyf = useNotyf();
 onMounted(async () => {
   if (route.params.id) {
     store.commit('setLoadingStatus', true);
-    fetchCafeGallery(route.params.id).then(res => {
+    fetchCafeGallery(route.params.id).then((res) => {
       imageSources.value = res || [];
       store.commit('setLoadingStatus', false);
     });
@@ -33,7 +33,7 @@ function addImage(e) {
     e.target.files.forEach((file, fileIndex) => {
       imageSources.value.push({
         image: URL.createObjectURL(file),
-        id: `img-${fileIndex}-${new Date().getTime()}`
+        id: `img-${fileIndex}-${new Date().getTime()}`,
       });
       imageFiles.value.push(file);
     });
@@ -100,20 +100,3 @@ function removeImage(imgID, imgIndex) {
     </div>
   </div>
 </template>
-
-<style>
-.toastify_warning {
-  background: rgba(0, 0, 0, 0)
-    linear-gradient(
-      to right,
-      rgb(255, 0, 0),
-      rgb(255, 95, 110),
-      rgb(255, 195, 113)
-    )
-    repeat scroll 0% 0% !important;
-  /* transform: translate(0); */
-  padding: 12px 20px !important;
-  color: #fff !important;
-  /* background: linear-gradient(to right, #00b09b, #96c93d); */
-}
-</style>

@@ -78,10 +78,7 @@
 
 <script setup>
 import { computed } from 'vue';
-// import { VueReCaptcha, useReCaptcha } from 'vue-recaptcha-v3'
-import { VueRecaptcha } from 'vue-recaptcha'
-
-// const { executeRecaptcha, recaptchaLoaded } = useReCaptcha()
+import { VueRecaptcha } from 'vue-recaptcha';
 
 const siteKey = computed(() => {
   return 'yourSiteAPIKey';
@@ -97,7 +94,7 @@ const handleSuccess = (response) => {
 
 // Hide modal
 const hideModal = () => {
-  cash("#programmatically-modal").modal("hide");
+  cash('#programmatically-modal').modal('hide');
 };
 </script>
 
@@ -106,4 +103,3 @@ const hideModal = () => {
   @apply bg-theme-31 text-white shadow-lg py-2 px-6 rounded-xl font-bold hover:bg-theme-2 hover:text-black text-base lg:text-lg;
 }
 </style>
-

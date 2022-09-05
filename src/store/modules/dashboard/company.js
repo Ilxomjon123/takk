@@ -9,16 +9,16 @@ const state = () => {
     customers: [],
     statisticCustomers: [],
     statisticProducts: [],
-    transactions: []
+    transactions: [],
   };
 };
 
 const getters = {
-  getCompany: state => state.company,
-  getCustomers: state => state.customers,
-  getTransactions: state => state.transactions,
-  getStatisticCustomers: state => state.statisticCustomers,
-  getStatisticProducts: state => state.statisticProducts
+  getCompany: (state) => state.company,
+  getCustomers: (state) => state.customers,
+  getTransactions: (state) => state.transactions,
+  getStatisticCustomers: (state) => state.statisticCustomers,
+  getStatisticProducts: (state) => state.statisticProducts,
 };
 
 const mutations = {
@@ -36,7 +36,7 @@ const mutations = {
   },
   setTransactions(state, payload) {
     state.transactions = payload;
-  }
+  },
 };
 
 const actions = {
@@ -45,14 +45,14 @@ const actions = {
       .get('/api/companies/', {
         headers: rootGetters.getHttpHeader,
         params: {
-          id: rootGetters.getCompanyId
-        }
+          id: rootGetters.getCompanyId,
+        },
       })
-      .then(res => {
+      .then((res) => {
         commit('setCompany', res.data);
         // commit('cafes/setCafeList', res.data.cafes, { root: true });
       })
-      .catch(err => {
+      .catch((err) => {
         commit('setCompany', err.response.data);
       });
   },
@@ -84,7 +84,7 @@ const actions = {
       const res = await api({
         url: `/api/companies/`,
         method: 'PUT',
-        data: payload.form
+        data: payload.form,
       });
 
       commit('setCompany', res.data);
@@ -99,13 +99,13 @@ const actions = {
       // .get(`/api/companies/${rootGetters.getCompanyId}/customers/`, {
       .get(`/api/companies/customers/`, {
         headers: rootGetters.getHttpHeader,
-        params: payload
+        params: payload,
       })
-      .then(res => {
+      .then((res) => {
         response = res.data;
         commit('setCustomers', res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         // commit('setCustomers', err.response.data);
       });
@@ -118,45 +118,41 @@ const actions = {
       // .get(`/api/companies/${rootGetters.getCompanyId}/transactions/`, {
       .get(`/api/companies/transactions/`, {
         headers: rootGetters.getHttpHeader,
-        params: payload
+        params: payload,
       })
-      .then(res => {
+      .then((res) => {
         response = res.data;
         commit('setTransactions', res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         response = err.data;
         // commit('setTransactions', err.response.data);
       });
     return response;
   },
-  async fetchStripeConnect({ commit, rootGetters }) {
-    let response;
-    await axios
-      // .get(`/api/companies/${rootGetters.getCompanyId}/transactions/`, {
-      .get(`/api/stripe/connect/`, {
-        headers: rootGetters.getHttpHeader
-      })
-      .then(res => {
-        response = { status: true, ...res.data };
-      })
-      .catch(err => {
-        response = { status: false, ...err.data };
-        // commit('setTransactions', err.response.data);
-      });
-    return response;
+
+  async fetchStripeConnect() {
+    try {
+      const { data } = await api
+        // .get(`/api/companies/${rootGetters.getCompanyId}/transactions/`, {
+        .get(`/api/stripe/connect/`);
+      return data;
+    } catch (error) {
+      throw error;
+    }
   },
+
   async fetchStatisticsSalesYear({ commit, rootGetters }, payload) {
     let response;
     await axios
       .get(`/api/statistics/sales/year/`, {
         headers: rootGetters.getHttpHeader,
-        params: payload
+        params: payload,
       })
-      .then(res => {
+      .then((res) => {
         response = { status: true, ...res.data };
       })
-      .catch(err => {
+      .catch((err) => {
         response = { status: false, ...err.data };
       });
     return response;
@@ -166,12 +162,12 @@ const actions = {
     await axios
       .get(`/api/statistics/sales/week/`, {
         headers: rootGetters.getHttpHeader,
-        params: payload
+        params: payload,
       })
-      .then(res => {
+      .then((res) => {
         response = { status: true, ...res.data };
       })
-      .catch(err => {
+      .catch((err) => {
         response = { status: false, ...err.data };
       });
     return response;
@@ -181,12 +177,12 @@ const actions = {
     await axios
       .get(`/api/statistics/transaction/year/`, {
         headers: rootGetters.getHttpHeader,
-        params: payload
+        params: payload,
       })
-      .then(res => {
+      .then((res) => {
         response = { status: true, ...res.data };
       })
-      .catch(err => {
+      .catch((err) => {
         response = { status: false, ...err.data };
       });
     return response;
@@ -196,12 +192,12 @@ const actions = {
     await axios
       .get(`/api/statistics/transaction/week/`, {
         headers: rootGetters.getHttpHeader,
-        params: payload
+        params: payload,
       })
-      .then(res => {
+      .then((res) => {
         response = { status: true, ...res.data };
       })
-      .catch(err => {
+      .catch((err) => {
         response = { status: false, ...err.data };
       });
     return response;
@@ -211,12 +207,12 @@ const actions = {
     await axios
       .get(`/api/statistics/user-register/year/`, {
         headers: rootGetters.getHttpHeader,
-        params: payload
+        params: payload,
       })
-      .then(res => {
+      .then((res) => {
         response = { status: true, ...res.data };
       })
-      .catch(err => {
+      .catch((err) => {
         response = { status: false, ...err.data };
       });
     return response;
@@ -226,12 +222,12 @@ const actions = {
     await axios
       .get(`/api/statistics/user-register/week/`, {
         headers: rootGetters.getHttpHeader,
-        params: payload
+        params: payload,
       })
-      .then(res => {
+      .then((res) => {
         response = { status: true, ...res.data };
       })
-      .catch(err => {
+      .catch((err) => {
         response = { status: false, ...err.data };
       });
     return response;
@@ -241,13 +237,13 @@ const actions = {
     await axios
       .get(`/api/statistics/customers/`, {
         headers: rootGetters.getHttpHeader,
-        params: { ...payload, limit: 10 }
+        params: { ...payload, limit: 10 },
       })
-      .then(res => {
+      .then((res) => {
         commit('setStatisticCustomers', res.data.results);
         response = { status: true, ...res.data };
       })
-      .catch(err => {
+      .catch((err) => {
         response = { status: false, ...err.data };
       });
     return response;
@@ -257,22 +253,22 @@ const actions = {
     await axios
       .get(`/api/statistics/products/`, {
         headers: rootGetters.getHttpHeader,
-        params: { ...payload, limit: 10 }
+        params: { ...payload, limit: 10 },
       })
-      .then(res => {
+      .then((res) => {
         commit('setStatisticProducts', res.data.results);
         response = { status: true, ...res.data };
       })
-      .catch(err => {
+      .catch((err) => {
         response = { status: false, ...err.data };
       });
     return response;
-  }
+  },
 };
 
 export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

@@ -21,7 +21,7 @@ async function toggleStatus() {
   try {
     const res = await updateCompanyById(company.value.id, {
       name: company.value.name,
-      is_activate: !company.value.is_activate
+      is_activate: !company.value.is_activate,
     });
     setSelected(res);
   } catch (error) {
@@ -63,24 +63,24 @@ function showConfirmModal() {
         >
           <SettingsIcon class="w-4 h-4 mr-2" /> Company Information
         </RouterLink>
-        <RouterLink
+        <!-- <RouterLink
           class="flex items-center mt-5"
           :to="`/admin/company/form/square${query}`"
         >
           <BoxIcon class="w-4 h-4 mr-2" /> Square
-        </RouterLink>
-        <RouterLink
+        </RouterLink> -->
+        <!-- <RouterLink
           class="flex items-center mt-5"
           :to="`/admin/company/form/banking${query}`"
         >
           <CreditCardIcon class="w-4 h-4 mr-2" /> Banking Information
-        </RouterLink>
-        <RouterLink
+        </RouterLink> -->
+        <!-- <RouterLink
           class="flex items-center mt-5"
           :to="`/admin/company/form/tariffs${query}`"
         >
           <ActivityIcon class="w-4 h-4 mr-2" /> Tariffs
-        </RouterLink>
+        </RouterLink> -->
         <RouterLink
           class="flex items-center mt-5"
           :to="`/admin/company/form/app-images${query}`"

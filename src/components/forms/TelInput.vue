@@ -6,10 +6,10 @@ import 'vue-tel-input/dist/vue-tel-input.css';
 const props = defineProps({
   inputOptions: {
     type: Object,
-    default: () => {}
+    default: () => {},
   },
   dialCode: '',
-  phoneNumber: ''
+  phoneNumber: '',
 });
 
 const emits = defineEmits(['update:phoneNumber', 'update:dialCode']);
@@ -18,7 +18,7 @@ const defaultCountryCode = ref('US');
 
 watch(
   () => props.phoneNumber,
-  newVal => {
+  (newVal) => {
     if (newVal) {
       if (
         newVal.startsWith(props.dialCode) ||
@@ -48,13 +48,12 @@ function onCountryChange(countryObj) {
 
 function onPhoneChange(event) {
   console.log({ event });
+  const phoneValue = event.target?.value.replace(/\s+/g, '');
+
   if (defaultCountryCode.value == 'US') {
-    emits('update:phoneNumber', '+1' + event.target?.value);
+    emits('update:phoneNumber', '+1' + phoneValue);
   } else {
-    emits(
-      'update:phoneNumber',
-      '+' + defaultCountryCode.value + event.target?.value
-    );
+    emits('update:phoneNumber', '+' + defaultCountryCode.value + phoneValue);
   }
 }
 </script>
@@ -73,13 +72,13 @@ function onPhoneChange(event) {
       styleClasses: 'form-control border-gray-300',
       id: 'phone',
       showDialCode: false,
-      ...inputOptions
+      ...inputOptions,
     }"
     :dropdownOptions="{
       showDialCodeInList: true,
       showDialCodeInSelection: true,
       showFlags: true,
-      showSearchBox: false
+      showSearchBox: false,
     }"
   />
 </template>
