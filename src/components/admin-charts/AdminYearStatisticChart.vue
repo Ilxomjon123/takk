@@ -92,7 +92,6 @@ export default {
           }
         ];
         this.chartOptions = {
-          ...this.chartOptions,
           xaxis: {
             categories: res.months?.map(item => this.toMonthName(item))
           }

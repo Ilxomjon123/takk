@@ -83,7 +83,12 @@ export default {
         if (res.status) {
           this.series[0].data = res.last;
           this.series[1].data = res.current;
-          this.chartOptions.xaxis.categories = res.days;
+          // this.chartOptions.xaxis.categories = res.days;
+          this.chartOptions = {
+            xaxis: {
+              categories: res.days
+            }
+          };
         }
       } catch (error) {}
     }
