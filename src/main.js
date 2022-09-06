@@ -1,6 +1,4 @@
 import { createApp } from 'vue';
-// import axios from 'axios';
-// import VueAxios from 'vue-axios';
 
 import router from './router';
 import store from './store';
@@ -13,24 +11,20 @@ import VueApexCharts from 'vue3-apexcharts';
 // SASS Theme
 import './assets/sass/app.scss';
 
-const app = createApp(App)
-  .use(store)
-  .use(router)
-  // .use(VueAxios, axios)
-  .use(VueApexCharts);
+const app = createApp(App).use(store).use(router).use(VueApexCharts);
 
 globalComponents(app);
 utils(app);
 
 app.mixin({
   methods: {
-    toMonthName: function(monthNumber) {
+    toMonthName: function (monthNumber) {
       const date = new Date();
       date.setMonth(monthNumber - 1);
       return date.toLocaleString('en-US', {
-        month: 'short'
+        month: 'short',
       });
-    }
-  }
+    },
+  },
 });
 app.mount('#app');

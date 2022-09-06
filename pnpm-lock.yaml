@@ -16,9 +16,7 @@ specifiers:
   axios: ^0.27.2
   cash-dom: ^8.1.0
   dayjs: ^1.10.4
-  dropzone: ^5.7.6
   feather-icons: ^4.28.0
-  highlight.js: ^10.6.0
   js-beautify: ^1.13.5
   leaflet: ^1.7.1
   litepicker: ^2.0.11
@@ -29,9 +27,7 @@ specifiers:
   postcss: ^8.3.6
   prettier: ^2.7.1
   sass: ^1.37.5
-  swiper: ^8.3.2
   tailwindcss: ^3.0.11
-  tiny-slider: ^2.9.3
   tippy.js: ^6.2.7
   tom-select: ^1.7.5
   velocity-animate: ^1.5.2
@@ -59,17 +55,13 @@ dependencies:
   axios: 0.27.2
   cash-dom: 8.1.1
   dayjs: 1.11.5
-  dropzone: 5.9.3
   feather-icons: 4.29.0
-  highlight.js: 10.7.3
   js-beautify: 1.14.6
   leaflet: 1.8.0
   litepicker: 2.0.12
   moment: 2.29.4
   notyf: 3.10.0
   nprogress: 0.2.0
-  swiper: 8.3.2
-  tiny-slider: 2.9.4
   tippy.js: 6.3.7
   tom-select: 1.7.8
   velocity-animate: 1.5.2
@@ -569,16 +561,6 @@ packages:
     resolution: {integrity: sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==}
     dev: true
 
-  /dom7/4.0.4:
-    resolution: {integrity: sha512-DSSgBzQ4rJWQp1u6o+3FVwMNnT5bzQbMb+o31TjYYeRi05uAcpF8koxdfzeoe5ElzPmua7W7N28YJhF7iEKqIw==}
-    dependencies:
-      ssr-window: 4.0.2
-    dev: false
-
-  /dropzone/5.9.3:
-    resolution: {integrity: sha512-Azk8kD/2/nJIuVPK+zQ9sjKMRIpRvNyqn9XwbBHNq+iNuSccbJS6hwm1Woy0pMST0erSo0u4j+KJaodndDk4vA==}
-    dev: false
-
   /editorconfig/0.15.3:
     resolution: {integrity: sha512-M9wIMFx96vq0R4F+gRpY3o2exzb8hEj/n9S8unZtHSvYjibBp/iMufSzvmOcV/laG0ZtuTVGtiJggPOSW2r93g==}
     hasBin: true
@@ -916,10 +898,6 @@ packages:
     dependencies:
       function-bind: 1.1.1
     dev: true
-
-  /highlight.js/10.7.3:
-    resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
-    dev: false
 
   /immutable/4.1.0:
     resolution: {integrity: sha512-oNkuqVTA8jqG1Q6c+UglTOD1xhC1BtjKI7XkCXRkZHrN5m18/XsnUp8Q89GkQO/z+0WjonSvl0FLhDYftp46nQ==}
@@ -1291,10 +1269,6 @@ packages:
       frac: 1.1.2
     dev: false
 
-  /ssr-window/4.0.2:
-    resolution: {integrity: sha512-ISv/Ch+ig7SOtw7G2+qkwfVASzazUnvlDTwypdLoPoySv+6MqlOV10VwPSE6EWkGjhW50lUmghPmpYZXMu/+AQ==}
-    dev: false
-
   /supports-preserve-symlinks-flag/1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
@@ -1354,15 +1328,6 @@ packages:
       svg.js: 2.7.1
     dev: false
 
-  /swiper/8.3.2:
-    resolution: {integrity: sha512-8wsC7ORYvVSnLUoxs2+xmfLrDPNjBVQXMCFbOlqtHeON6wtu/blOyySDr8TCBCdse1bdcIbn7m8xJNxVFL8o4Q==}
-    engines: {node: '>= 4.7.0'}
-    requiresBuild: true
-    dependencies:
-      dom7: 4.0.4
-      ssr-window: 4.0.2
-    dev: false
-
   /tailwindcss/3.1.8_postcss@8.4.16:
     resolution: {integrity: sha512-YSneUCZSFDYMwk+TGq8qYFdCA3yfBRdBlS7txSq0LUmzyeqRe3a8fBQzbz9M3WS/iFT4BNf/nmw9mEzrnSaC0g==}
     engines: {node: '>=12.13.0'}
@@ -1395,10 +1360,6 @@ packages:
     transitivePeerDependencies:
       - ts-node
     dev: true
-
-  /tiny-slider/2.9.4:
-    resolution: {integrity: sha512-LAs2kldWcY+BqCKw4kxd4CMx2RhWrHyEePEsymlOIISTlOVkjfK40sSD7ay73eKXBLg/UkluAZpcfCstimHXew==}
-    dev: false
 
   /tippy.js/6.3.7:
     resolution: {integrity: sha512-E1d3oP2emgJ9dRQZdf3Kkn0qJgI6ZLpyS5z6ZkY1DF3kaQaBsGZsndEpHwx+eC+tYM41HaSNvNtLx8tU57FzTQ==}

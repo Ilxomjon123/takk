@@ -9,7 +9,7 @@ import CustomPagination from '@/components/paginator/CustomPagination.vue';
 
 const props = defineProps({
   subItemTitle: String,
-  subItemValue: String
+  subItemValue: String,
 });
 
 const emit = defineEmits(['update-id']);
@@ -17,15 +17,15 @@ const emit = defineEmits(['update-id']);
 const notyf = useNotyf();
 const menusData = reactive({
   current_page_size: 10,
-  limit: 6,
+  limit: 100,
   links: {
     next: '',
-    previous: ''
+    previous: '',
   },
   page: 1,
   total_objects: 51,
   total_pages: 6,
-  results: []
+  results: [],
 });
 const dispatcher = ref('adminMenu/postMenu');
 const addDispatcher = ref('adminMenu/postMenu');
@@ -85,7 +85,7 @@ async function fetchData() {
   try {
     const res = await store.dispatch('adminMenu/fetchMenus', {
       page: menusData.page,
-      limit: menusData.limit
+      limit: menusData.limit,
     });
     Object.assign(menusData, res);
   } catch (error) {
@@ -182,7 +182,7 @@ async function updateLimit(limit) {
       @setItems="setItems($event)"
       :form="paginationForm"
     /> -->
-    <CustomPagination
+    <!-- <CustomPagination
       class="mt-5"
       :limit="menusData.limit"
       :links="menusData.links"
@@ -190,7 +190,7 @@ async function updateLimit(limit) {
       :total="menusData.total_pages"
       @paginate="onPaginate($event)"
       @update:limit="updateLimit($event)"
-    />
+    /> -->
     <!-- END: Pagination -->
   </div>
 

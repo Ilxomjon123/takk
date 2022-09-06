@@ -7,16 +7,12 @@ import CompanySelectModal from '@/components/modals/CompanySelectModal.vue';
 import SidebarMenu from './blocks/SidebarMenu.vue';
 
 onMounted(() => {
-  cash('body')
-    .removeClass('error-page')
-    .removeClass('login')
-    .addClass('main');
+  cash('body').removeClass('error-page').removeClass('login').addClass('main');
 });
 </script>
 
 <template>
   <div>
-    <!-- <DarkModeSwitcher /> -->
     <MobileMenu />
     <div class="flex">
       <!-- BEGIN: Side Menu -->
@@ -27,21 +23,13 @@ onMounted(() => {
         <TopBar />
         <div class="container">
           <RouterView v-slot="{ Component, route }">
-            <template v-if="Component">
-              <Transition name="fade-fast" mode="out-in">
-                <!-- <KeepAlive> -->
-                <Suspense>
-                  <!-- main content -->
-                  <component :is="Component" :key="route" />
+            <Suspense>
+              <!-- main content -->
+              <component :is="Component" :key="route" />
 
-                  <!-- loading state -->
-                  <template #fallback>
-                    Loading...
-                  </template>
-                </Suspense>
-                <!-- </KeepAlive> -->
-              </Transition>
-            </template>
+              <!-- loading state -->
+              <template #fallback> Loading... </template>
+            </Suspense>
           </RouterView>
         </div>
       </div>

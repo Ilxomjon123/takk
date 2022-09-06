@@ -8,18 +8,19 @@ nProgress.configure({ parent: '#custom-nprogress' });
 export function createApi() {
   // Here we set the base URL for all requests made to the api
   api = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL
+    baseURL: import.meta.env.VITE_API_BASE_URL,
   });
 
   // We set an interceptor for each request to
   // include Bearer token to the request if user is logged in
-  api.interceptors.request.use(config => {
+  api.interceptors.request.use((config) => {
     nProgress.start();
+    nProgress.set(0.4);
 
     if (store.getters['isLoggedIn']) {
       config.headers = {
         ...config.headers,
-        Authorization: `JWT ${store.getters['getToken']}`
+        Authorization: `JWT ${store.getters['getToken']}`,
       };
     }
 
@@ -29,13 +30,13 @@ export function createApi() {
   // We set an interceptor for each response to
   // check if user is logged in
   api.interceptors.response.use(
-    function(response) {
+    function (response) {
       // Any status code that lie within the range of 2xx cause this function to trigger
       // Do something with response data
       nProgress.done();
       return response;
     },
-    async function(error) {
+    async function (error) {
       nProgress.done();
 
       if (error) {

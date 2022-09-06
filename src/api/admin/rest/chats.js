@@ -1,14 +1,18 @@
 import { useApi } from '@/composables/useApi';
-import useWebSocket from '@/features/useWebSocket.js';
+import { useWebSocket } from '@vueuse/core';
+import store from '@/store';
+
+const wsUrl = import.meta.env.VITE_WS_URL;
+const { send } = useWebSocket(`${wsUrl}/?token=${store.getters['getToken']}`, {
+  autoReconnect: true,
+});
 
 const api = useApi();
-
-const { sendEvent } = useWebSocket();
 
 export const fetchChats = async () => {
   try {
     const res = await api({
-      url: `/adham/ws-chat/`
+      url: `/adham/ws-chat/`,
     });
 
     return res.data;
@@ -21,7 +25,7 @@ export const fetchChatMessages = async (chatID, page = 1) => {
   try {
     const res = await api({
       url: `/adham/ws-chat/${chatID}/messages/`,
-      params: { page }
+      params: { page },
     });
 
     return res.data;
@@ -30,20 +34,20 @@ export const fetchChatMessages = async (chatID, page = 1) => {
   }
 };
 
-export const createChatroom = async payload => {
+export const createChatroom = async (payload) => {
   try {
     const res = await api({
       url: `/adham/ws-chat/`,
       method: 'post',
-      data: payload // {item_type -> тип сообщения [video, image, message, video], files -> список файлов, chat*}
+      data: payload, // {item_type -> тип сообщения [video, image, message, video], files -> список файлов, chat*}
     });
 
-    sendEvent(
+    send(
       JSON.stringify({
         event_type: 'new_chat',
         data: {
-          chat_id: res.data?.id
-        }
+          chat_id: res.data?.id,
+        },
       })
     );
 
@@ -53,12 +57,12 @@ export const createChatroom = async payload => {
   }
 };
 
-export const sendMessagesInChatroom = async payload => {
+export const sendMessagesInChatroom = async (payload) => {
   try {
     const res = await api({
       url: `/adham/ws-chat/send-messages-chat/`,
       method: 'post',
-      data: payload
+      data: payload,
     });
 
     return res.data;
@@ -67,12 +71,12 @@ export const sendMessagesInChatroom = async payload => {
   }
 };
 
-export const sendMessageToCustomers = async payload => {
+export const sendMessageToCustomers = async (payload) => {
   try {
     const res = await api({
       url: `/adham/ws-chat/send-messages-customer/`,
       method: 'post',
-      data: payload // {item_type -> тип сообщения [video, image, message, video], files -> список файлов, chat*}
+      data: payload, // {item_type -> тип сообщения [video, image, message, video], files -> список файлов, chat*}
     });
 
     return res.data;
