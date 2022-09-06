@@ -18,20 +18,23 @@
 import { defineComponent } from 'vue';
 import { mapActions } from 'vuex';
 import MenuForm from '@/components/forms/MenuForm.vue';
+import { useNotyf } from '../../composables/useNotyf';
+
+const notyf = useNotyf();
 
 export default defineComponent({
   components: { MenuForm },
   methods: {
     ...mapActions(['putStep']),
     async skip() {
-      const res = await this.putStep(this.$store.state.user.STEP_DASHBOARD);
-      if (res.status) {
+      try {
+        const res = await this.putStep(this.$store.state.user.STEP_DASHBOARD);
         this.$router.push('/dashboard');
-      } else {
-        this.$refs.errorNotification.show();
+      } catch (error) {
+        notyf.error('Error while updating step: ' + error.messages);
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

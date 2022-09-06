@@ -106,6 +106,9 @@ import CitySelect from '@/components/selects/CitySelect.vue';
 import { mapActions } from 'vuex';
 import TelInput from './TelInput.vue';
 import StateSelect from '../selects/StateSelect.vue';
+import { useNotyf } from '../../composables/useNotyf';
+
+const notyf = useNotyf();
 
 export default defineComponent({
   data() {
@@ -115,24 +118,23 @@ export default defineComponent({
         cafe_timezone: 'Etc/GMT+12',
         location: {
           lat: 0,
-          lon: 0
+          lon: 0,
         },
         country: '',
         call_center: '',
         phone_code: '',
         state: '',
         city: '',
-        address: ''
+        address: '',
       },
       isLoading: false,
-      errors: {}
+      errors: {},
     };
   },
   async mounted() {
     await this.$store.dispatch('fetchCompany');
-    const { country, phone, state, city, address } = this.$store.getters[
-      'getCompany'
-    ];
+    const { country, phone, state, city, address } =
+      this.$store.getters['getCompany'];
     this.form.country = country;
     this.form.call_center = phone;
     this.form.state = state;
@@ -152,7 +154,7 @@ export default defineComponent({
         if (resp.status) {
           this.$router.push('/entry/finish');
         } else {
-          this.$refs.errorNotification.show();
+          notyf.error('Error while updating step: ' + error.messages);
         }
       } else {
         this.errors = res.data;
@@ -161,9 +163,9 @@ export default defineComponent({
     },
     getError(key) {
       return this.errors[key]?.[0];
-    }
+    },
   },
-  components: { CountrySelect, CitySelect, TelInput, StateSelect }
+  components: { CountrySelect, CitySelect, TelInput, StateSelect },
 });
 </script>
 

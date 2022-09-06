@@ -47,7 +47,6 @@ function onCountryChange(countryObj) {
 }
 
 function onPhoneChange(event) {
-  console.log({ event });
   const phoneValue = event.target?.value.replace(/\s+/g, '');
 
   if (defaultCountryCode.value == 'US') {

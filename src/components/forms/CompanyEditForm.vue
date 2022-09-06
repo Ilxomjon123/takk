@@ -230,20 +230,23 @@ import { defineComponent } from 'vue';
 import CountrySelect from '@/components/selects/CountrySelect.vue';
 import CitySelect from '@/components/selects/CitySelect.vue';
 import { mapActions } from 'vuex';
+import { useNotyf } from '../../composables/useNotyf';
+
+const notyf = useNotyf();
 
 export default defineComponent({
   data() {
     return {
       form: {},
       isLoading: false,
-      errors: {}
+      errors: {},
     };
   },
   props: {
     company: {
       type: Object,
-      default: {}
-    }
+      default: {},
+    },
   },
   mounted() {
     this.company.country = parseInt(this.company.country);
@@ -252,38 +255,31 @@ export default defineComponent({
   methods: {
     ...mapActions(['putCompany', 'putStep']),
     async submit() {
-      this.isLoading = true;
-      const form = this.company;
-      delete form.logo;
-      delete form.loading_app_image;
-      delete form.app_image_morning;
-      delete form.app_image_evening;
-      delete form.app_image_day;
-      this.errors = {};
-      const res = await this.putCompany(form);
-      if (res.status) {
+      try {
+        this.isLoading = true;
+        const form = this.company;
+        delete form.logo;
+        delete form.loading_app_image;
+        delete form.app_image_morning;
+        delete form.app_image_evening;
+        delete form.app_image_day;
         this.errors = {};
-        // const resp = await this.putStep(this.$store.state.user.STEP_CAFE)
-        if (res.status) {
-          this.$refs.successNotification.show();
-          // this.$router.push('/entry/company')
-        } else {
-          this.$refs.errorNotification.show();
-        }
-        // this.$router.push('/entry/cafe')
-      } else {
-        this.errors = res.data;
+        const res = await this.putCompany(form);
+        notyf.success();
+      } catch (error) {
+        notyf.error();
+      } finally {
+        this.isLoading = false;
       }
-      this.isLoading = false;
     },
     getError(key) {
       return this.errors[key]?.[0];
-    }
+    },
   },
   components: {
     CountrySelect,
-    CitySelect
-  }
+    CitySelect,
+  },
 });
 </script>
 

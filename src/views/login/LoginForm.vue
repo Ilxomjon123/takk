@@ -16,7 +16,7 @@ const route = useRoute(),
   telInputOptions = reactive({
     autofocus: true,
     required: true,
-    maxlength: 20
+    maxlength: 20,
   });
 
 async function submit() {
@@ -95,7 +95,7 @@ async function submit() {
     <div class="intro-x mt-8">
       <TelInput
         v-model:phone-number="form.phone"
-        v-model:dial-code="dialCode"
+        v-model:dial-code="form.phone_code"
         :inputOptions="telInputOptions"
       />
       <input

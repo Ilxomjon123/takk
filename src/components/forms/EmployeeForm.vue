@@ -79,8 +79,8 @@
                 minYear: 1990,
                 maxYear: null,
                 months: true,
-                years: true
-              }
+                years: true,
+              },
             }"
             class="form-control pl-12"
           />
@@ -97,8 +97,9 @@
             v-for="(item, index) in getEmployeeTypes"
             :key="index"
             :value="item.value"
-            >{{ item.name }}</option
           >
+            {{ item.name }}
+          </option>
         </TomSelect>
         <div class="text-theme-6" v-text="getError('employee_position')" />
       </div>
@@ -107,7 +108,7 @@
         <TomSelect
           v-model="employee.cafes"
           :options="{
-            placeholder: 'Select Cafe'
+            placeholder: 'Select Cafe',
           }"
           class="w-full"
           multiple
@@ -117,8 +118,9 @@
             v-for="(item, index) in cafeList.results"
             :key="index"
             :value="item.id"
-            >{{ item.name }}</option
           >
+            {{ item.name }}
+          </option>
         </TomSelect>
         <div class="text-theme-6" v-text="getError('cafes')" />
       </div>
@@ -166,39 +168,39 @@ export default defineComponent({
       isLoading: false,
       errors: {},
       cafeList: [],
-      deleteLoading: false
+      deleteLoading: false,
     };
   },
   computed: {
-    ...mapGetters(['getEmployeeTypes', 'getCompanyId'])
+    ...mapGetters(['getEmployeeTypes', 'getCompanyId']),
   },
   props: {
     form: {
       type: Object,
       default: {
         user: {
-          avatar: '/src/assets/images/default_employee.png'
+          avatar: '/src/assets/images/default_employee.png',
         },
         cafes: [],
-        employee_position: ''
-      }
+        employee_position: '',
+      },
     },
     isEdit: {
       type: Boolean,
-      default: false
+      default: false,
     },
     dispatcher: {
       type: String,
-      default: 'postEmployeeNew'
+      default: 'postEmployeeNew',
     },
     isAddExist: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   async created() {
     this.employee = this.form;
-    this.employee.cafes = this.employee.cafes.map(el => el.id);
+    this.employee.cafes = this.employee.cafes.map((el) => el.id);
     this.cafeList = await fetchCafeList();
   },
   methods: {
@@ -212,7 +214,7 @@ export default defineComponent({
         const user = {
           ...this.employee.user,
           ...this.images,
-          password: '123456'
+          password: '123456',
         };
         const userData = {};
 
@@ -227,7 +229,7 @@ export default defineComponent({
         const formData = {
           phone: user.phone,
           username: user.username,
-          date_of_birthday: user.date_of_birthday
+          date_of_birthday: user.date_of_birthday,
         };
 
         for (var key in this.employee) {
@@ -240,7 +242,7 @@ export default defineComponent({
         if (this.isEdit) {
           data = {
             id: this.employee?.id,
-            form: formData
+            form: formData,
           };
         } else {
           data = formData;
@@ -257,29 +259,25 @@ export default defineComponent({
       }
     },
     async deleteEmployee() {
-      this.deleteLoading = true;
-      this.errors = {};
-      const res = await this.$store.dispatch(
-        'deleteEmployee',
-        this.employee?.id
-      );
-      if (res.status) {
+      try {
+        this.deleteLoading = true;
         this.errors = {};
-        if (res.status) {
-          this.$refs.successNotification.show();
-          this.$router.push({ name: 'employees' });
-        } else {
-          this.$refs.errorNotification.show();
-        }
-      } else {
-        this.errors = res.data;
+        const res = await this.$store.dispatch(
+          'deleteEmployee',
+          this.employee?.id
+        );
+        notyf.success('Record deleted successfully!');
+        this.$router.push({ name: 'employees' });
+      } catch (error) {
+        notyf.error('Error while deleting data: ' + error.messages);
+      } finally {
+        this.deleteLoading = false;
       }
-      this.deleteLoading = false;
     },
     getError(key) {
       return this.errors[key]?.[0];
-    }
+    },
   },
-  components: { DeleteConfirmModal, SimpleImageUpload }
+  components: { DeleteConfirmModal, SimpleImageUpload },
 });
 </script>

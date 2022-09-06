@@ -1,3 +1,7 @@
+<script setup>
+import ChatList from './ChatList.vue';
+</script>
+
 <template>
   <div class="col-span-12 lg:col-span-4 2xl:col-span-3">
     <div class="intro-y pr-1">
@@ -12,7 +16,8 @@
             role="tab"
             aria-controls="allchats"
             aria-selected="true"
-          >All Chats</a>
+            >All Chats</a
+          >
           <!-- <a
             id="order-chats-tab"
             data-toggle="tab"
@@ -67,7 +72,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import ChatList from './ChatList.vue';
-</script>

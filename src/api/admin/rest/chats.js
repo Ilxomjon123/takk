@@ -3,9 +3,7 @@ import { useWebSocket } from '@vueuse/core';
 import store from '@/store';
 
 const wsUrl = import.meta.env.VITE_WS_URL;
-const { send } = useWebSocket(`${wsUrl}/?token=${store.getters['getToken']}`, {
-  autoReconnect: true,
-});
+// const { send } = useWebSocket(`${wsUrl}/?token=${store.getters['getToken']}`);
 
 const api = useApi();
 
@@ -27,29 +25,6 @@ export const fetchChatMessages = async (chatID, page = 1) => {
       url: `/adham/ws-chat/${chatID}/messages/`,
       params: { page },
     });
-
-    return res.data;
-  } catch (err) {
-    throw err;
-  }
-};
-
-export const createChatroom = async (payload) => {
-  try {
-    const res = await api({
-      url: `/adham/ws-chat/`,
-      method: 'post',
-      data: payload, // {item_type -> тип сообщения [video, image, message, video], files -> список файлов, chat*}
-    });
-
-    send(
-      JSON.stringify({
-        event_type: 'new_chat',
-        data: {
-          chat_id: res.data?.id,
-        },
-      })
-    );
 
     return res.data;
   } catch (err) {

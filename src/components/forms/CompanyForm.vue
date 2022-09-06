@@ -6,14 +6,15 @@ import TelInput from './TelInput.vue';
 import { computed, onMounted, ref } from 'vue';
 import store from '@/store';
 import router from '@/router';
+import { useNotyf } from '../../composables/useNotyf';
 
 const user = computed(() => store.getters['getUser']);
-
+const notyf = useNotyf();
 const form = ref({
   email: user.value.email,
   phone: user.value.phone,
   phone_code: user.value.phone_code,
-  country: '236'
+  country: '236',
 });
 const isLoading = ref(false);
 const errors = ref({});
@@ -45,12 +46,12 @@ function getError(key) {
 }
 
 async function goCafe() {
-  errors.value = {};
-  const resp = await store.dispatch('putStep', user.value.STEP_CAFE);
-  if (resp.status) {
+  try {
+    errors.value = {};
+    const resp = await store.dispatch('putStep', user.value.STEP_CAFE);
     router.push('/entry/cafe');
-  } else {
-    errorNotification.value.show();
+  } catch (error) {
+    notyf.error('Error while updating step: ' + error.messages);
   }
 }
 </script>

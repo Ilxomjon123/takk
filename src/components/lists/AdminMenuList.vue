@@ -89,7 +89,7 @@ async function fetchData() {
     });
     Object.assign(menusData, res);
   } catch (error) {
-    notyf.error('Error while fetching data: ', error.message);
+    notyf.error('Error while fetching data: ' + error.message);
   }
 }
 

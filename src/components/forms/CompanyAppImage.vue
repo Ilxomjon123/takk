@@ -47,7 +47,7 @@
         class="w-full px-3 md:mb-0"
         :class="{
           'md:w-1/2': !isUnitedStates,
-          'md:w-1/3': isUnitedStates
+          'md:w-1/3': isUnitedStates,
         }"
       >
         <label class="form-label">Country</label>
@@ -69,7 +69,7 @@
         class="w-full px-3 md:mb-0"
         :class="{
           'md:w-1/2': !isUnitedStates,
-          'md:w-1/3': isUnitedStates
+          'md:w-1/3': isUnitedStates,
         }"
       >
         <label class="form-label">City</label>
@@ -139,6 +139,9 @@ import CitySelect from '@/components/selects/CitySelect.vue';
 import { mapActions } from 'vuex';
 import StateSelect from '../selects/StateSelect.vue';
 import TelInput from './TelInput.vue';
+import { useNotyf } from '../../composables/useNotyf';
+
+const notyf = useNotyf();
 
 export default defineComponent({
   data() {
@@ -147,16 +150,16 @@ export default defineComponent({
         country_code: 'US',
         phone: this.$store.getters['getUser'].phone,
         phone_code: this.$store.getters['getUser'].phone_code,
-        email: this.$store.getters['getUser'].email
+        email: this.$store.getters['getUser'].email,
       },
       isLoading: false,
-      errors: {}
+      errors: {},
     };
   },
   computed: {
     isUnitedStates() {
       return this.form.country_code == 'US';
-    }
+    },
   },
   methods: {
     ...mapActions(['postCompany', 'putStep']),
@@ -181,11 +184,11 @@ export default defineComponent({
       if (resp.status) {
         this.$router.push('/entry/cafe');
       } else {
-        this.$refs.errorNotification.show();
+        notyf.error('Error while updating step: ' + error.messages);
       }
-    }
+    },
   },
-  components: { CountrySelect, CitySelect, StateSelect, TelInput }
+  components: { CountrySelect, CitySelect, StateSelect, TelInput },
 });
 </script>
 
