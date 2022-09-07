@@ -1,5 +1,5 @@
 <template>
-  <span>
+  <div>
     <svg
       v-if="icon == 'audio'"
       width="15"
@@ -796,7 +796,7 @@
         />
       </circle>
     </svg>
-  </span>
+  </div>
 </template>
 
 <script>
@@ -807,12 +807,12 @@ export default defineComponent({
   props: {
     icon: {
       type: String,
-      default: 'spinning-circles'
+      default: 'tail-spin',
     },
     color: {
       type: String,
-      default: '#2d3748'
-    }
+      default: '#2d3748',
+    },
   },
   setup(props) {
     const store = useStore();
@@ -821,8 +821,8 @@ export default defineComponent({
     );
 
     return {
-      iconColor
+      iconColor,
     };
-  }
+  },
 });
 </script>

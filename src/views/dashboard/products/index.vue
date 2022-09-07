@@ -15,11 +15,12 @@ const store = useStore();
 const products = reactive({});
 const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
 const isReordered = ref(false);
+const isLoading = ref(false);
 
 const paginator = reactive({
   page: ref(1),
   limit: ref(10),
-  total: ref(0)
+  total: ref(0),
 });
 
 onMounted(() => {
@@ -35,7 +36,7 @@ async function fetchProducts() {
       menuId: activeMenuID.value,
       page: paginator.page,
       limit: paginator.limit,
-      search: ''
+      search: '',
     });
 
     if (res) {
@@ -75,8 +76,8 @@ async function saveReorderedList() {
       obj_type: 'product',
       obj_list: products.results.map((item, itemIndex) => ({
         id: item.id,
-        position: itemIndex + 1 + (paginator.page - 1) * paginator.limit
-      }))
+        position: itemIndex + 1 + (paginator.page - 1) * paginator.limit,
+      })),
     });
 
     if (res) {
@@ -92,23 +93,26 @@ async function saveReorderedList() {
 }
 
 async function handleSearchEvent(value) {
-  store.commit('setLoadingStatus', true);
+  // store.commit('setLoadingStatus', true);
+  isLoading.value = true;
   try {
-    const res = await fetchProductsList({
-      menuId: activeMenuID.value,
-      page: paginator.page,
-      limit: paginator.limit,
-      search: value
-    });
+    if (value.length === 0 || value.length > 2) {
+      const res = await fetchProductsList({
+        menuId: activeMenuID.value,
+        page: paginator.page,
+        limit: paginator.limit,
+        search: value,
+      });
 
-    if (res) {
-      Object.assign(products, res);
-      paginator.total = res.total_objects;
+      if (res) {
+        Object.assign(products, res);
+        paginator.total = res.total_objects;
+      }
     }
   } catch (error) {
     notyf.error('Error while fetching data list: ' + error.message);
   } finally {
-    store.commit('setLoadingStatus', false);
+    isLoading.value = false;
   }
 }
 </script>
@@ -141,7 +145,7 @@ async function handleSearchEvent(value) {
           </span>
           Save positions
         </button> -->
-        <SearchProduct @searching="handleSearchEvent" />
+        <SearchProduct :loading="isLoading" @searching="handleSearchEvent" />
       </div>
     </div>
     <div class="pos intro-y grid grid-cols-12 gap-5 mt-5">

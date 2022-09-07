@@ -26,14 +26,14 @@
           class="btn btn-primary mr-3"
         >
           <PlusIcon class="w-4 h-4 mr-3" />
-          Add New User
+          Add New Employee
         </router-link>
         <router-link
           to="/dashboard/employees/add-exist"
           class="btn btn-success"
         >
           <PlusIcon class="w-4 h-4 mr-3" />
-          Add Existing User
+          Add Existing Employee
         </router-link>
       </div>
     </div>
@@ -75,7 +75,7 @@ export default defineComponent({
   data() {
     return {
       items: [],
-      form: {}
+      form: {},
     };
   },
   methods: {
@@ -87,7 +87,7 @@ export default defineComponent({
     },
     setEmployee(item) {
       this.$store.commit('setEmployee', item);
-    }
-  }
+    },
+  },
 });
 </script>

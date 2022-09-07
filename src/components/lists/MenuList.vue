@@ -9,7 +9,7 @@ import ConfirmDeletionModal from '../modals/ConfirmDeletionModal.vue';
 
 const props = defineProps({
   subItemTitle: String,
-  subItemValue: String
+  subItemValue: String,
 });
 const emit = defineEmits(['update-id']);
 
@@ -102,7 +102,7 @@ async function updateList() {
 
     <div class="grid grid-cols-12 gap-5 mt-5">
       <div
-        class="col-span-12 sm:col-span-4 xl:col-span-3 2xl:col-span-2 box p-5 cursor-pointer zoom-in"
+        class="col-span-12 sm:col-span-4 xl:col-span-3 2xl:col-span-2 box p-5"
         v-for="(item, index) in items"
         :key="index"
         :class="
@@ -111,7 +111,7 @@ async function updateList() {
       >
         <div class="flex col-span-12 w-full">
           <div
-            class="mr-auto font-medium text-base"
+            class="mr-auto font-medium text-base cursor-pointer"
             @click="selectMenu(item.id)"
           >
             {{ item.name }}

@@ -1,16 +1,20 @@
 <script setup>
-import { computed, ref } from "vue";
-import { isNull } from "lodash";
-import Draggable from "vuedraggable";
+import { computed, ref } from 'vue';
+import { isNull } from 'lodash';
+import Draggable from 'vuedraggable';
 import { isProductAvailable } from '@/api';
-import cash from "cash-dom";
-import store from "@/store";
-import router from "@/router";
-import MenuSelect from "@/components/selects/MenuSelect.vue";
-import { fetchSelectedMenuCategories, duplicateProduct, deleteProduct } from "@/api";
+import cash from 'cash-dom';
+import store from '@/store';
+import router from '@/router';
+import MenuSelect from '@/components/selects/MenuSelect.vue';
+import {
+  fetchSelectedMenuCategories,
+  duplicateProduct,
+  deleteProduct,
+} from '@/api';
 
 const props = defineProps({
-  list: Array
+  list: Array,
 });
 
 const emit = defineEmits(['update:list', 'reorder:list']);
@@ -28,11 +32,14 @@ async function handleSelectedMenuCategories(menu_id) {
   isLoading.value = false;
 }
 async function reorderList(event) {
-  emit('reorder:list')
+  emit('reorder:list');
 }
 
 function handleSwitcher(event, product_id) {
-  isProductAvailable({ product: product_id, is_available: event.target.checked })
+  isProductAvailable({
+    product: product_id,
+    is_available: event.target.checked,
+  });
 }
 
 function openDuplicateModal(product_id) {
@@ -46,12 +53,12 @@ function openDeleteModal(product_id) {
 }
 
 async function deleteObj() {
-  cash('#delete-confirmation-modal').modal('hide')
-  store.commit('setLoadingStatus', true)
-  await deleteProduct(selectedProductId.value)
+  cash('#delete-confirmation-modal').modal('hide');
+  store.commit('setLoadingStatus', true);
+  await deleteProduct(selectedProductId.value);
   // await fetchProducts()
   emit('update:list');
-  store.commit('setLoadingStatus', false)
+  store.commit('setLoadingStatus', false);
 }
 
 async function handleProductDuplicate(category) {
@@ -59,7 +66,7 @@ async function handleProductDuplicate(category) {
     isLoading.value = true;
     const data = {
       product: selectedProductId.value,
-      category
+      category,
     };
 
     const res = await duplicateProduct(data);
@@ -74,7 +81,14 @@ async function handleProductDuplicate(category) {
 </script>
 
 <template>
-  <Draggable tag="tbody" :list="list" group="list" item-key="id" @change="reorderList" :animation="300">
+  <Draggable
+    tag="tbody"
+    :list="list"
+    group="list"
+    item-key="id"
+    @change="reorderList"
+    :animation="300"
+  >
     <template #item="{ element }">
       <tr class="intro-x">
         <!-- <td>
@@ -85,18 +99,25 @@ async function handleProductDuplicate(category) {
         </td> -->
         <td>
           <div class="form-check">
-            <input :id="'product_available' + element.id" class="form-check-switch" type="checkbox"
-              @change="(e) => handleSwitcher(e, element.id)" :checked="element.available" />
+            <input
+              :id="'product_available' + element.id"
+              class="form-check-switch"
+              type="checkbox"
+              @change="(e) => handleSwitcher(e, element.id)"
+              :checked="element.available"
+            />
           </div>
         </td>
         <td scope="row">
           <div class="w-20 h-20 image-fit zoom-in">
-            <img alt="image" class="rounded-full" :src="element.image" />
+            <img alt="image" class="rounded-full" :src="element.image_medium" />
           </div>
         </td>
         <td>
           <p class="font-medium whitespace-nowrap">{{ element.name }}</p>
-          <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5">{{ element.category?.name }}</div>
+          <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5">
+            {{ element.category?.name }}
+          </div>
         </td>
         <td class="text-center">{{ element.position }}</td>
         <td class v-html="element.description"></td>
@@ -107,16 +128,22 @@ async function handleProductDuplicate(category) {
             </button>
             <div class="dropdown-menu w-40">
               <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                <button @click="$router.push('/dashboard/products/' + element.id)"
-                  class="flex w-full items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                <button
+                  @click="$router.push('/dashboard/products/' + element.id)"
+                  class="flex w-full items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                >
                   <Edit2Icon class="w-4 h-4 mr-2" />Edit
                 </button>
-                <button @click="openDuplicateModal(element.id)"
-                  class="flex w-full items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                <button
+                  @click="openDuplicateModal(element.id)"
+                  class="flex w-full items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                >
                   <CopyIcon class="w-4 h-4 mr-2" />Duplicate
                 </button>
-                <button @click="openDeleteModal(element.id)"
-                  class="flex w-full items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                <button
+                  @click="openDeleteModal(element.id)"
+                  class="flex w-full items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                >
                   <Trash2Icon class="w-4 h-4 mr-2" />Delete
                 </button>
               </div>
@@ -133,14 +160,30 @@ async function handleProductDuplicate(category) {
       <div class="modal-content">
         <!-- BEGIN: Modal Body -->
         <div class="modal-body">
-          <MenuSelect class="mt-2" @update:model-value="handleSelectedMenuCategories" />
-          <div class="border-t border-theme-3 dark:border-dark-5 mt-5 text-white relative">
-            <div v-show="isLoading" style="background-color: rgba(100, 100, 100, 0.1);"
-              class="absolute w-full h-full z-50 flex flex-col justify-center items-center">
-              <LoadingIcon icon="tail-spin" class="mr-3 w-16 h-16" color="#fff" />
+          <MenuSelect
+            class="mt-2"
+            @update:model-value="handleSelectedMenuCategories"
+          />
+          <div
+            class="border-t border-theme-3 dark:border-dark-5 mt-5 text-white relative"
+          >
+            <div
+              v-show="isLoading"
+              style="background-color: rgba(100, 100, 100, 0.1)"
+              class="absolute w-full h-full z-50 flex flex-col justify-center items-center"
+            >
+              <LoadingIcon
+                icon="tail-spin"
+                class="mr-3 w-16 h-16"
+                color="#fff"
+              />
             </div>
-            <button class="flex w-full items-center px-3 py-3 rounded-md hover:bg-gray-500"
-              v-for="cat in selectedMenuCategories" type="button" @click="handleProductDuplicate(cat.id)">
+            <button
+              class="flex w-full items-center px-3 py-3 rounded-md hover:bg-gray-500"
+              v-for="cat in selectedMenuCategories"
+              type="button"
+              @click="handleProductDuplicate(cat.id)"
+            >
               <img class="rounded-full" :src="cat.image_small" alt="cat img" />
               <span class="ml-5">{{ cat.name }}</span>
             </button>
@@ -164,7 +207,12 @@ async function handleProductDuplicate(category) {
   <!-- END: Duplicate Modal -->
 
   <!-- BEGIN: Delete Confirmation Modal -->
-  <div id="delete-confirmation-modal" class="modal" tabindex="-1" aria-hidden="true">
+  <div
+    id="delete-confirmation-modal"
+    class="modal"
+    tabindex="-1"
+    aria-hidden="true"
+  >
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-body p-0">
@@ -177,8 +225,20 @@ async function handleProductDuplicate(category) {
             </div>
           </div>
           <div class="px-5 pb-8 text-center">
-            <button type="button" data-dismiss="modal" class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
-            <button type="button" class="btn btn-danger w-24" @click="deleteObj">Delete</button>
+            <button
+              type="button"
+              data-dismiss="modal"
+              class="btn btn-outline-secondary w-24 mr-1"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger w-24"
+              @click="deleteObj"
+            >
+              Delete
+            </button>
           </div>
         </div>
       </div>

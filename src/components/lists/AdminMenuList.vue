@@ -126,7 +126,7 @@ async function updateLimit(limit) {
 
     <div class="grid grid-cols-12 gap-5 mt-5">
       <div
-        class="col-span-12 sm:col-span-4 xl:col-span-3 2xl:col-span-2 box p-5 zoom-in"
+        class="col-span-12 sm:col-span-4 xl:col-span-3 2xl:col-span-2 box p-5"
         v-for="(item, index) in menusData.results"
         :key="index"
         :class="
