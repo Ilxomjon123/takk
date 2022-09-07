@@ -1,12 +1,13 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 import { fetchProduct, updateProduct } from '@/api/admin';
 import store from '@/store';
 import FormFields from './FormFields.vue';
 
 const route = useRoute();
+const router = useRouter();
 const notyf = useNotyf();
 const externalErrors = ref({});
 const isLoading = ref(false);
@@ -18,18 +19,17 @@ const formFields = reactive({
       square_id: '',
       price: 0,
       available: false,
-      default: false
-    }
+      default: false,
+    },
   ],
   modifiers: [],
-  quickest_time: 5
+  quickest_time: 5,
 });
 
 const productImagePath = ref(null);
 
-onMounted(() => {
-  store.commit('setLoadingStatus', true);
-  fetchProduct(currentId).then(res => {
+onMounted(async () => {
+  await fetchProduct(currentId).then((res) => {
     formFields.sizes = res.sizes;
     formFields.start = res.start;
     formFields.end = res.end;
@@ -42,7 +42,6 @@ onMounted(() => {
     formFields.modifiers = res.modifiers;
     productImagePath.value = res.image;
   });
-  store.commit('setLoadingStatus', false);
 });
 
 async function onSubmit() {
@@ -82,6 +81,7 @@ async function onSubmit() {
     const res = await updateProduct({ id: currentId, data: formData });
 
     notyf.success();
+    router.push('/admin/products');
   } catch (error) {
     externalErrors.value = error.response.data;
     notyf.error();

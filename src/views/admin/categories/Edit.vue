@@ -10,9 +10,7 @@ const category = computed(() => store.getters['getCategory']);
 const id = route.params?.id ?? null;
 
 onMounted(async () => {
-  store.commit('setLoadingStatus', true);
   await store.dispatch('fetchCategory', id);
-  store.commit('setLoadingStatus', false);
 });
 </script>
 

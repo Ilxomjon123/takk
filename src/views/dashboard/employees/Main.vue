@@ -21,13 +21,13 @@
         </div>
       </div> -->
       <div class="w-full sm:w-auto flex mt-4 ml-2 sm:mt-0">
-        <router-link
+        <!-- <router-link
           to="/dashboard/employees/add-new"
           class="btn btn-primary mr-3"
         >
           <PlusIcon class="w-4 h-4 mr-3" />
           Add New Employee
-        </router-link>
+        </router-link> -->
         <router-link
           to="/dashboard/employees/add-exist"
           class="btn btn-success"

@@ -12,17 +12,17 @@ const props = defineProps({
   form: {
     type: Object,
     default: {
-      image: '/src/assets/images/product_category.jpg'
-    }
+      image: '/src/assets/images/product_category.jpg',
+    },
   },
   isEdit: {
     type: Boolean,
-    default: false
+    default: false,
   },
   dispatcher: {
     type: String,
-    default: 'postCategory'
-  }
+    default: 'postCategory',
+  },
 });
 
 const category = reactive({});
@@ -32,7 +32,7 @@ const isLoading = ref(false);
 const menuId = route.params?.menuId ?? null;
 const categories = computed(() => store.getters['getCategories']);
 const categoryList = computed(() =>
-  categories.value.filter(item => item.id != category?.id)
+  categories.value.filter((item) => item.id != category?.id)
 );
 
 onMounted(async () => {
@@ -73,7 +73,7 @@ async function submit() {
     if (props.isEdit) {
       formData = {
         id: data.id,
-        form: jsonToFormData(data)
+        form: jsonToFormData(data),
       };
     } else {
       formData = jsonToFormData(data);
@@ -110,7 +110,7 @@ function getError(key) {
             type="file"
             hidden
             id="avatar-image"
-            @change="e => changeImage(e, 'image')"
+            @change="(e) => changeImage(e, 'image')"
           />
           <!-- <Tippy
                         tag="div"
@@ -181,12 +181,8 @@ function getError(key) {
       </div>
       <label for="start-time" class="w-full px-3 mb-2"
         >Available Time
-        <Tippy
-          tag="a"
-          href="javascript:;"
-          content="If left blank product is always available."
-        >
-          <InfoIcon class="block text-xs" />
+        <Tippy content="If left blank product is always available.">
+          <InfoIcon class="block text-xs w-4" />
         </Tippy>
       </label>
       <div class="w-full px-3 mb-3 md:w-1/2">
@@ -220,7 +216,7 @@ function getError(key) {
         <TomSelect
           v-model="category.parent"
           :options="{
-            placeholder: 'Select Category'
+            placeholder: 'Select Category',
           }"
           class="w-full"
         >
@@ -229,8 +225,9 @@ function getError(key) {
             v-for="(item, index) in categoryList"
             :key="index"
             :value="item.id"
-            >{{ item.name }}</option
           >
+            {{ item.name }}
+          </option>
         </TomSelect>
         <div class="text-theme-6" v-text="getError('parent')" />
       </div>

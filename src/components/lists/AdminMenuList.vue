@@ -34,13 +34,7 @@ const selectedMenuDetails = ref({});
 const selectedMenuID = ref(null);
 const activeMenuId = computed(() => store.getters['getSelectedMenuId']);
 
-onMounted(() => {
-  fetchData();
-});
-
-// function paginate(val) {
-//   menusData.results = val;
-// }
+await fetchData();
 
 function search() {
   selectMenu(null);
@@ -114,14 +108,12 @@ async function updateLimit(limit) {
   <div>
     <div class="intro-y flex flex-col sm:flex-row items-center mt-5 gap-5">
       <h2 class="text-lg font-medium">Menus List</h2>
-      <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-        <button class="btn btn-primary" @click="addMenu">
-          <span class="flex items-center justify-center">
-            <PlusIcon class="h-4 w-4 mr-3" />
-          </span>
-          Add Menu
-        </button>
-      </div>
+      <button class="btn btn-primary" @click="addMenu">
+        <span class="flex items-center justify-center">
+          <PlusIcon class="h-4 w-4 mr-3" />
+        </span>
+        Add Menu
+      </button>
     </div>
 
     <div class="grid grid-cols-12 gap-5 mt-5">
@@ -173,25 +165,6 @@ async function updateLimit(limit) {
         </div>
       </div>
     </div>
-
-    <!-- BEGIN: Pagination -->
-    <!-- <MainPaginator
-      class="mt-5"
-      dispatcher="fetchMenus"
-      ref="paginator"
-      @setItems="setItems($event)"
-      :form="paginationForm"
-    /> -->
-    <!-- <CustomPagination
-      class="mt-5"
-      :limit="menusData.limit"
-      :links="menusData.links"
-      :page="menusData.page"
-      :total="menusData.total_pages"
-      @paginate="onPaginate($event)"
-      @update:limit="updateLimit($event)"
-    /> -->
-    <!-- END: Pagination -->
   </div>
 
   <MenuAddEditFormModal
@@ -199,5 +172,6 @@ async function updateLimit(limit) {
     :item="selectedMenuDetails"
     @submitted="updateList"
   />
+
   <ConfirmDeletionModal @confirm="deleteMenu" />
 </template>

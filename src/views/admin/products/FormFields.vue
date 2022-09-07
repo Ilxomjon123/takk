@@ -5,7 +5,7 @@ import _ from 'lodash';
 import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 import {
   fetchSelectedMenuCategories,
-  fetchSelectedMenuModifiers
+  fetchSelectedMenuModifiers,
 } from '@/api/admin';
 import store from '@/store';
 
@@ -14,7 +14,7 @@ const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
 const props = defineProps({
   formFields: Object,
   externalErrors: Object,
-  productImagePath: String
+  productImagePath: String,
 });
 const emit = defineEmits(['update:form-fields']);
 const productCategories = reactive([]);
@@ -22,10 +22,10 @@ const productModifiers = reactive([]);
 
 onMounted(() => {
   store.commit('setLoadingStatus', true);
-  fetchSelectedMenuCategories(activeMenuID.value).then(res =>
+  fetchSelectedMenuCategories(activeMenuID.value).then((res) =>
     Object.assign(productCategories, res.results)
   );
-  fetchSelectedMenuModifiers(activeMenuID.value).then(res =>
+  fetchSelectedMenuModifiers(activeMenuID.value).then((res) =>
     Object.assign(productModifiers, res.results)
   );
   store.commit('setLoadingStatus', false);
@@ -91,10 +91,13 @@ function removeProductSize() {
             >
           </div>
         </div>
-        <div class="pt-5">
+        <div class="flex flex-col lg:flex-row gap-5 py-5">
           <div class="input-form">
             <label class="form-label" :for="'product_size_name' + index">
-              Product size name
+              Product variance name
+              <Tippy content="For example: Large, Medium, Small">
+                <InfoIcon class="block text-xs w-4" />
+              </Tippy>
               <span class="text-theme-6">*</span>
             </label>
             <input
@@ -107,11 +110,9 @@ function removeProductSize() {
               externalErrors.sizes && externalErrors.sizes[0]
             }}</span>
           </div>
-        </div>
-        <div class="flex flex-col lg:flex-row gap-5 py-5">
-          <div class="input-form basis-1/2">
+          <div class="input-form">
             <label class="form-label" :for="'product_size_price' + index">
-              Product size price
+              Product variance price
               <span class="text-theme-6">*</span>
             </label>
             <input
@@ -125,18 +126,6 @@ function removeProductSize() {
               externalErrors.sizes && externalErrors.sizes[0]
             }}</span>
           </div>
-          <!-- <div class="input-form basis-1/2">
-            <label
-              class="form-label"
-              :for="'product_size_square_id' + index"
-            >Square id</label>
-            <input
-              :id="'product_size_square_id' + index"
-              v-model="item.square_id"
-              class="form-control"
-              type="text"
-            />
-          </div>-->
         </div>
       </template>
       <div class="flex pb-5 w-full justify-between">
@@ -234,25 +223,16 @@ function removeProductSize() {
           }}</span>
         </div>
       </div>
-      <!-- <div class="flex flex-col lg:flex-row gap-5 pt-3">
-        <div class="input-form lg:basis-1/2">
-          <label class="form-label" for="product_square_id">Product square id</label>
-          <input
-            id="product_square_id"
-            v-model="formFields.square_id"
-            class="form-control"
-            type="text"
-          />
-          <span
-            class="text-theme-6 mt-2"
-          >{{ externalErrors.square_id && externalErrors.square_id[0] }}</span>
-        </div>
-      </div>-->
       <div class="flex flex-col lg:flex-row gap-5 pt-3">
         <div class="input-form lg:basis-1/2">
-          <label class="form-label" for="product_tax_percent"
-            >Tax applicability</label
-          >
+          <label class="form-label" for="product_tax_percent">
+            Tax applicability
+            <Tippy
+              content="Is the product liable for full, partial tax or tax exempt."
+            >
+              <InfoIcon class="block text-xs w-4" />
+            </Tippy>
+          </label>
           <select
             id="product_tax_percent"
             v-model="formFields.tax_percent"
@@ -276,9 +256,9 @@ function removeProductSize() {
             id="product_categories"
             v-model="formFields.category"
           >
-            <option v-for="item in productCategories" :value="item.id">{{
-              item.name
-            }}</option>
+            <option v-for="item in productCategories" :value="item.id">
+              {{ item.name }}
+            </option>
           </select>
           <span class="text-theme-6 mt-2">{{
             externalErrors.category && externalErrors.category[0]
@@ -294,13 +274,13 @@ function removeProductSize() {
             id="product_modifiers"
             v-model="formFields.modifiers"
             :options="{
-              placeholder: 'Select product modifiers'
+              placeholder: 'Select product modifiers',
             }"
             multiple
           >
-            <option v-for="item in productModifiers" :value="item.id">{{
-              item.name
-            }}</option>
+            <option v-for="item in productModifiers" :value="item.id">
+              {{ item.name }}
+            </option>
           </TomSelect>
           <span class="text-theme-6 mt-2">{{
             externalErrors.modifiers && externalErrors.modifiers[0]

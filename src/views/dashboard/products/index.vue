@@ -23,14 +23,15 @@ const paginator = reactive({
   total: ref(0),
 });
 
-onMounted(() => {
+onMounted(async () => {
   if (activeMenuID.value) {
-    fetchProducts();
+    await fetchProducts();
   }
 });
 
 async function fetchProducts() {
-  store.commit('setLoadingStatus', true);
+  isLoading.value = true;
+
   try {
     const res = await fetchProductsList({
       menuId: activeMenuID.value,
@@ -46,7 +47,7 @@ async function fetchProducts() {
   } catch (error) {
     notyf.error('Error while fetching data list: ' + error.message);
   } finally {
-    store.commit('setLoadingStatus', false);
+    isLoading.value = false;
   }
 }
 
@@ -70,7 +71,8 @@ function gotoAddPage() {
 }
 
 async function saveReorderedList() {
-  store.commit('setLoadingStatus', true);
+  isLoading.value = true;
+
   try {
     const res = await updateProductPositions({
       obj_type: 'product',
@@ -88,12 +90,11 @@ async function saveReorderedList() {
   } catch (error) {
     notyf.error();
   } finally {
-    store.commit('setLoadingStatus', false);
+    isLoading.value = false;
   }
 }
 
 async function handleSearchEvent(value) {
-  // store.commit('setLoadingStatus', true);
   isLoading.value = true;
   try {
     if (value.length === 0 || value.length > 2) {
@@ -128,25 +129,17 @@ async function handleSearchEvent(value) {
     <!-- Menu List end -->
     <div class="intro-y flex flex-col sm:flex-row items-center gap-5 mt-10">
       <h2 class="text-lg font-medium">Products List</h2>
-      <div class="intro-y flex flex-wrap sm:flex-nowrap items-center">
-        <button
-          class="btn btn-primary mr-3 flex align-middle"
-          @click="gotoAddPage"
-          :disabled="!activeMenuID"
-        >
-          <span class="flex items-center justify-center">
-            <PlusIcon class="w-4 h-4" />
-          </span>
-          <span class="ml-3">Add Product</span>
-        </button>
-        <!-- <button class="btn btn-primary mr-3" @click="saveReorderedList" :disabled="!isReordered">
-          <span class="flex items-center justify-center">
-            <ShuffleIcon />
-          </span>
-          Save positions
-        </button> -->
-        <SearchProduct :loading="isLoading" @searching="handleSearchEvent" />
-      </div>
+      <button
+        class="btn btn-primary flex align-middle"
+        @click="gotoAddPage"
+        :disabled="!activeMenuID"
+      >
+        <span class="flex items-center justify-center">
+          <PlusIcon class="w-4 h-4" />
+        </span>
+        <span class="ml-3">Add Product</span>
+      </button>
+      <SearchProduct :loading="isLoading" @searching="handleSearchEvent" />
     </div>
     <div class="pos intro-y grid grid-cols-12 gap-5 mt-5">
       <!-- BEGIN: Data List -->

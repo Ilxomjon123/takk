@@ -18,12 +18,12 @@ const formFields = reactive({
       // square_id: '',
       price: 0,
       available: false,
-      default: false
-    }
+      default: false,
+    },
   ],
   modifiers: [],
   quickest_time: 5,
-  tax_percent: '100'
+  tax_percent: '100',
 });
 
 async function onSubmit() {
@@ -58,11 +58,8 @@ async function onSubmit() {
 
     const res = await createProduct(formData);
 
-    if (res.id) {
-      router.push('/dashboard/products/' + res.id);
-    }
-
     notyf.success();
+    router.push('/dashboard/products');
   } catch (error) {
     Object.assign(externalErrors, error.response.data);
     notyf.error();

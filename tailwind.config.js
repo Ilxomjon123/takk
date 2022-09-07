@@ -5,13 +5,13 @@ module.exports = {
   content: [
     './src/**/*.{php,html,js,jsx,ts,tsx,vue}',
     './resources/**/*.{php,html,js,jsx,ts,tsx,vue}',
-    './node_modules/@left4code/tw-starter/**/*.js'
+    './node_modules/@left4code/tw-starter/**/*.js',
   ],
   darkMode: 'class',
   theme: {
-    borderColor: theme => ({
+    borderColor: (theme) => ({
       ...theme('colors'),
-      DEFAULT: primaryColors.gray['300']
+      DEFAULT: primaryColors.gray['300'],
     }),
     borderRadius: {
       none: '0',
@@ -23,7 +23,7 @@ module.exports = {
       '2xl': '1rem',
       '3xl': '1.5rem',
       full: '9999px',
-      large: '3.125rem'
+      large: '3.125rem',
     },
     colors: {
       ...primaryColors,
@@ -62,35 +62,35 @@ module.exports = {
         28: '#BBC8FD',
         29: '#284EB2',
         30: '#98AFF5',
-        31: '#01E3C7',
+        31: '#01C3C7',
         32: '#919191',
         33: '#E8F6F9',
         34: '#FBFEFF',
-        35: '#2f2e41'
-      }
+        35: '#2f2e41',
+      },
     },
     extend: {
       fontFamily: {
-        roboto: ['Roboto']
+        roboto: ['Roboto'],
       },
       container: {
-        center: true
+        center: true,
       },
       maxWidth: {
         '1/4': '25%',
         '1/2': '50%',
-        '3/4': '75%'
+        '3/4': '75%',
       },
       strokeWidth: {
         0.5: 0.5,
         1.5: 1.5,
-        2.5: 2.5
-      }
-    }
+        2.5: 2.5,
+      },
+    },
   },
   variants: {
     extend: {
-      boxShadow: ['dark']
-    }
-  }
+      boxShadow: ['dark'],
+    },
+  },
 };

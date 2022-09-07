@@ -16,7 +16,7 @@ const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
 
 watch(
   () => activeMenuID.value,
-  newVal => {
+  (newVal) => {
     search();
   },
   { deep: true, immediate: true }
@@ -100,7 +100,7 @@ function reorderModifierItem() {
               <span class="whitespace-nowrap">Reorder Categories</span>
             </button>
             <button
-              class="flex items-center  p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md w-full cursor-pointer disabled:cursor-not-allowed"
+              class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md w-full cursor-pointer disabled:cursor-not-allowed"
               @click="reorderModifierItem"
               :disabled="showChildren.length === 0"
               data-toggle="dropdown"
@@ -159,7 +159,7 @@ function reorderModifierItem() {
                       <router-link
                         :to="`/dashboard/categories/${activeMenuID}/${item.id}`"
                         data-dismiss="dropdown"
-                        class="flex items-center  p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                        class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
                       >
                         <Edit2Icon class="w-4 h-4 mr-2" />Edit
                       </router-link>
@@ -211,7 +211,7 @@ function reorderModifierItem() {
                       <router-link
                         :to="`/dashboard/categories/${activeMenuID}/${el.id}`"
                         data-dismiss="dropdown"
-                        class="flex items-center  p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                        class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
                       >
                         <Edit2Icon class="w-4 h-4 mr-3" />Edit
                       </router-link>
@@ -256,8 +256,9 @@ function reorderModifierItem() {
   />
   <DraggableItemModal
     :list="
-      items.find(item => showChildren.length > 0 && item.id == showChildren[0])
-        ?.children
+      items.find(
+        (item) => showChildren.length > 0 && item.id == showChildren[0]
+      )?.children
     "
   />
 </template>
