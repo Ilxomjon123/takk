@@ -12,17 +12,18 @@ import TelInput from '@/components/forms/TelInput.vue';
 import 'leaflet/dist/leaflet.css';
 import useCountries from '@/features/useCountries';
 import store from '../../../store';
+import SubmitButton from '../../../components/buttons/SubmitButton.vue';
 
 const props = defineProps({
   formData: {
     type: Object,
-    default: () => {}
+    default: () => {},
   },
   externalErrors: {
     type: Object,
-    default: () => {}
+    default: () => {},
   },
-  isLoading: false
+  isLoading: false,
 });
 
 const emit = defineEmits(['update:formData']);
@@ -47,18 +48,18 @@ async function submit() {
 
 function searchLocationByAddress() {
   const countryName = countriesList.value?.find(
-    country => country.id == props.formData.country
+    (country) => country.id == props.formData.country
   )?.name;
   const stateName = statesList.value?.find(
-    state => state.id == props.formData.state
+    (state) => state.id == props.formData.state
   )?.name;
   const cityName = citiesList.value?.find(
-    city => city.id == props.formData.city
+    (city) => city.id == props.formData.city
   )?.name;
 
   const addr = `${countryName}, ${stateName}, ${cityName}, ${props.formData.postal_code}, ${props.formData.address}`;
   let url = `https://nominatim.openstreetmap.org/search?format=json&limit=3&q=${addr}`;
-  axios.get(url).then(res => {
+  axios.get(url).then((res) => {
     if (res.data.length > 0) {
       props.formData.location.lat = res.data[0].lat;
       props.formData.location.lon = res.data[0].lon;
@@ -77,7 +78,7 @@ function searchLocationByAddress() {
     <form class="p-5" @submit.prevent="submit">
       <div class="flex xl:flex-row flex-col">
         <form class="flex-1 mt-6 xl:mt-0" @submit.prevent="submit">
-          <div class="grid grid-cols-12 gap-x-5">
+          <div class="grid grid-cols-12 gap-x-5 mb-5">
             <div class="col-span-12 2xl:col-span-6">
               <InputField
                 v-model="formData.name"
@@ -172,7 +173,7 @@ function searchLocationByAddress() {
                 id-value="cafe-form-second_address"
                 :error="
                   externalErrors.second_address &&
-                    externalErrors.second_address[0]
+                  externalErrors.second_address[0]
                 "
                 class="mt-3"
               />
@@ -214,20 +215,8 @@ function searchLocationByAddress() {
               </div>
             </div>
           </div>
-          <div class="flex">
-            <button
-              type="submit"
-              class="btn btn-primary mt-3 ml-auto"
-              :disabled="isLoading"
-            >
-              <LoadingIcon
-                v-if="isLoading"
-                icon="tail-spin"
-                class="w-4 h-4 mr-3"
-                color="#fff"
-              />
-              <span>Save</span>
-            </button>
+          <div class="flex justify-end gap-3">
+            <SubmitButton :is-loading="isLoading" />
           </div>
         </form>
       </div>

@@ -5,20 +5,21 @@ import Draggable from 'vuedraggable';
 import store from '@/store';
 
 const props = defineProps({
-  list: Array
+  list: Array,
 });
 
 const isReordered = ref(false);
+const isLoading = ref(false);
 
 async function saveReorderedList() {
-  store.commit('setLoadingStatus', true);
   try {
-    const res = await store.dispatch('updateModifierTypePositions', {
+    isLoading.value = true;
+    const res = await store.dispatch('adminMenu/updateModifierTypePositions', {
       obj_type: 'product_category',
       obj_list: props.list.map((item, itemIndex) => ({
         id: item.id,
-        position: itemIndex + 1
-      }))
+        position: itemIndex + 1,
+      })),
     });
 
     isReordered.value = false;
@@ -26,7 +27,7 @@ async function saveReorderedList() {
   } catch (error) {
     console.log(error);
   } finally {
-    store.commit('setLoadingStatus', false);
+    isLoading.value = false;
   }
 }
 </script>
@@ -62,14 +63,6 @@ async function saveReorderedList() {
               </li>
             </template>
           </draggable>
-
-          <!-- <div class="flex mt-5">
-            <button
-              class="btn btn-success ml-auto"
-              @click="saveReorderedList"
-              type="button"
-            >Save positions</button>
-          </div>-->
         </div>
         <!-- BEGIN: Modal Footer -->
         <div class="modal-footer text-right">
@@ -84,9 +77,15 @@ async function saveReorderedList() {
             type="button"
             class="btn btn-primary"
             @click="saveReorderedList"
-            :disabled="!isReordered"
+            :disabled="!isReordered || isLoading"
           >
-            Save positions
+            <LoadingIcon
+              v-if="isLoading"
+              icon="three-dots"
+              color="white"
+              class="my-2 mx-1"
+            />
+            <span v-else>Save positions</span>
           </button>
         </div>
         <!-- END: Modal Footer -->

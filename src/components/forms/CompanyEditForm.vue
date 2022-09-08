@@ -207,20 +207,8 @@
       />
       <div class="text-theme-6" v-text="getError('about')" />
     </div>
-    <div>
-      <button
-        type="submit"
-        class="btn btn-primary px-4 block mx-auto mt-8 px-10 align-top"
-        :disabled="isLoading"
-      >
-        {{ isLoading ? '' : 'Save' }}
-        <LoadingIcon
-          v-if="isLoading"
-          icon="three-dots"
-          color="white"
-          class="w-8 h-8 my-2"
-        />
-      </button>
+    <div class="flex justify-end gap-3">
+      <SubmitButton :is-loading="isLoading" />
     </div>
   </form>
 </template>
@@ -231,6 +219,7 @@ import CountrySelect from '@/components/selects/CountrySelect.vue';
 import CitySelect from '@/components/selects/CitySelect.vue';
 import { mapActions } from 'vuex';
 import { useNotyf } from '../../composables/useNotyf';
+import SubmitButton from '../buttons/SubmitButton.vue';
 
 const notyf = useNotyf();
 
@@ -279,6 +268,7 @@ export default defineComponent({
   components: {
     CountrySelect,
     CitySelect,
+    SubmitButton,
   },
 });
 </script>

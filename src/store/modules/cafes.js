@@ -1,23 +1,25 @@
-import makeRequest from '@/api/makeRequest.js';
 import axios from 'axios';
+import { useApi } from '@/composables/useApi';
+
+const api = useApi();
 
 const state = () => {
   return {
     cafeList: [],
     squareCafeList: [],
-    cafeById: {}
+    cafeById: {},
   };
 };
 
 // getters
 const getters = {
-  getCafeList: state => state.cafeList,
-  getSquareCafeList: state => state.squareCafeList,
-  getSquareCafeIDList: state =>
-    state.squareCafeList.map(item => item.square_location_id),
-  getCafeById: state => state.cafeById,
-  getSquareSelectedCafeList: state =>
-    state.cafeList.filter(item => item.square_location_id?.length > 0)
+  getCafeList: (state) => state.cafeList,
+  getSquareCafeList: (state) => state.squareCafeList,
+  getSquareCafeIDList: (state) =>
+    state.squareCafeList.map((item) => item.square_location_id),
+  getCafeById: (state) => state.cafeById,
+  getSquareSelectedCafeList: (state) =>
+    state.cafeList.filter((item) => item.square_location_id?.length > 0),
 };
 
 // mutations
@@ -30,7 +32,7 @@ const mutations = {
   },
   setCafeById(state, payload) {
     state.cafeById = payload;
-  }
+  },
 };
 
 // actions
@@ -39,7 +41,7 @@ const actions = {
     try {
       const res = await axios.get('/api/cafes/', {
         // params: { id: rootGetters.getUser.company_id },
-        headers: rootGetters.getHttpHeader
+        headers: rootGetters.getHttpHeader,
       });
 
       commit('setCafeList', res.data.results);
@@ -51,7 +53,7 @@ const actions = {
   async fetchSquareCafeList({ rootGetters, commit }) {
     try {
       const res = await axios.get('/api/square/locations/parse/', {
-        headers: rootGetters.getHttpHeader
+        headers: rootGetters.getHttpHeader,
       });
       commit('setSquareCafeList', res.data);
     } catch (err) {
@@ -63,7 +65,7 @@ const actions = {
     try {
       const res = await axios.get('/api/cafes/' + payload + '/', {
         // params: { id: payload },
-        headers: rootGetters.getHttpHeader
+        headers: rootGetters.getHttpHeader,
       });
 
       commit('setCafeById', res.data);
@@ -76,11 +78,10 @@ const actions = {
     const data = { ...payload, company: rootGetters.getUser.company_id };
 
     try {
-      const res = await makeRequest({
+      const res = await api({
         url: `/api/cafes/`,
         method: 'post',
         data,
-        headers: { authorization: true }
       });
 
       return res.data;
@@ -96,16 +97,16 @@ const actions = {
         { locations: payload },
         { headers: rootGetters.getHttpHeader }
       )
-      .then(res => {
+      .then((res) => {
         response = {
           status: true,
-          data: res.data
+          data: res.data,
         };
       })
-      .catch(err => {
+      .catch((err) => {
         response = {
           status: false,
-          data: err.response
+          data: err.response,
         };
       });
 
@@ -125,27 +126,27 @@ const actions = {
       .post(
         `/api/square/locations/import/`,
         {
-          locations: getters.getSquareCafeIDList
+          locations: getters.getSquareCafeIDList,
         },
         {
-          headers: rootGetters.getHttpHeader
+          headers: rootGetters.getHttpHeader,
         }
       )
-      .then(res => {
+      .then((res) => {
         response = {
           status: true,
-          data: res.data
+          data: res.data,
         };
       })
-      .catch(err => {
+      .catch((err) => {
         response = {
           status: false,
-          data: err.response
+          data: err.response,
         };
       });
 
     return response;
-  }
+  },
 };
 
 export default {
@@ -153,5 +154,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

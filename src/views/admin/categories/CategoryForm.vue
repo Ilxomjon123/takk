@@ -5,22 +5,24 @@ import store from '@/store';
 import { fetchCategories } from '@/api/admin';
 import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 import { useStorage } from '@vueuse/core';
+import { useNotyf } from '@/composables/useNotyf';
+import SubmitButton from '../../../components/buttons/SubmitButton.vue';
 
 const props = defineProps({
   form: {
     type: Object,
     default: {
-      image: '/src/assets/images/product_category.jpg'
-    }
+      image: '/src/assets/images/product_category.jpg',
+    },
   },
   isEdit: {
     type: Boolean,
-    default: false
+    default: false,
   },
   dispatcher: {
     type: String,
-    default: 'postCategory'
-  }
+    default: 'postCategory',
+  },
 });
 
 const notyf = useNotyf();
@@ -36,7 +38,7 @@ onMounted(async () => {
   Object.assign(category, props.form);
   const res = await fetchCategories(menuID.value);
   filteredCategories.value = res.results?.filter(
-    item => item.id !== category?.id
+    (item) => item.id !== category?.id
   );
 });
 
@@ -55,7 +57,7 @@ async function submit() {
   if (props.isEdit) {
     formData = {
       id: data.id,
-      form: jsonToFormData(data)
+      form: jsonToFormData(data),
     };
   } else {
     formData = jsonToFormData(data);
@@ -176,7 +178,7 @@ function getError(key) {
         <TomSelect
           v-model="category.parent"
           :options="{
-            placeholder: 'Select Category'
+            placeholder: 'Select Category',
           }"
           class="w-full"
         >
@@ -185,29 +187,16 @@ function getError(key) {
             v-for="(item, index) in filteredCategories"
             :key="index"
             :value="item.id"
-            >{{ item.name }}</option
           >
+            {{ item.name }}
+          </option>
         </TomSelect>
         <div class="text-theme-6" v-text="getError('parent')" />
       </div>
       <div class="text-theme-6" v-text="errors?.detail" />
     </div>
-    <div>
-      <div class="mx-auto">
-        <button
-          type="submit"
-          class="btn btn-primary mt-8 px-10 py-3 px-4 mr-3"
-          :disabled="isLoading"
-        >
-          {{ isLoading ? '' : 'Save' }}
-          <LoadingIcon
-            v-if="isLoading"
-            icon="three-dots"
-            color="white"
-            class="my-2"
-          />
-        </button>
-      </div>
+    <div class="flex justify-end gap-3">
+      <SubmitButton :is-loading="isLoading" />
     </div>
   </form>
 </template>

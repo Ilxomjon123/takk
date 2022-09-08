@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import store from '@/store';
 import { jsonToFormData } from '@/utils/functions';
 import { useNotyf } from '@/composables/useNotyf';
+import SubmitButton from '../buttons/SubmitButton.vue';
 
 const notyf = useNotyf();
 const route = useRoute();
@@ -233,22 +234,8 @@ function getError(key) {
       </div>
       <div class="text-theme-6" v-text="errors?.detail" />
     </div>
-    <div>
-      <div class="mx-auto">
-        <button
-          type="submit"
-          class="btn btn-primary mt-8 px-10 py-3 px-4 mr-3"
-          :disabled="isLoading"
-        >
-          {{ isLoading ? '' : 'Save' }}
-          <LoadingIcon
-            v-if="isLoading"
-            icon="three-dots"
-            color="white"
-            class="my-2"
-          />
-        </button>
-      </div>
+    <div class="flex justify-end gap-3">
+      <SubmitButton :is-loading="isLoading" />
     </div>
   </form>
 </template>

@@ -6,21 +6,22 @@ import store from '@/store';
 
 const props = defineProps({
   list: Array,
-  paginator: Object
+  paginator: Object,
 });
 
 const isReordered = ref(false);
+const isLoading = ref(false);
 
 async function saveReorderedList() {
-  store.commit('setLoadingStatus', true);
+  isLoading.value = true;
   try {
     const res = await store.dispatch('updateModifierTypePositions', {
       obj_type: 'product_category',
       obj_list: props.list.map((item, itemIndex) => ({
         id: item.id,
         position:
-          itemIndex + 1 + (props.paginator?.page - 1) * props.paginator?.limit
-      }))
+          itemIndex + 1 + (props.paginator?.page - 1) * props.paginator?.limit,
+      })),
     });
 
     isReordered.value = false;
@@ -28,7 +29,7 @@ async function saveReorderedList() {
   } catch (error) {
     console.log(error);
   } finally {
-    store.commit('setLoadingStatus', false);
+    isLoading.value = false;
   }
 }
 </script>
@@ -78,9 +79,15 @@ async function saveReorderedList() {
             type="button"
             class="btn btn-primary"
             @click="saveReorderedList"
-            :disabled="!isReordered"
+            :disabled="!isReordered || isLoading"
           >
-            Save positions
+            <LoadingIcon
+              v-if="isLoading"
+              icon="three-dots"
+              color="white"
+              class="my-2 mx-1"
+            />
+            <span v-else>Save positions</span>
           </button>
         </div>
         <!-- END: Modal Footer -->

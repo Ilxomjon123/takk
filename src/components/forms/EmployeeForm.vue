@@ -125,27 +125,13 @@
         <div class="text-theme-6" v-text="getError('cafes')" />
       </div>
     </div>
-    <div>
-      <div class="mx-auto">
-        <button
-          type="submit"
-          class="btn btn-primary mt-8 px-10 py-3 px-4 mr-3"
-          :disabled="isLoading"
-        >
-          {{ isLoading ? '' : 'Save' }}
-          <LoadingIcon
-            v-if="isLoading"
-            icon="three-dots"
-            color="white"
-            class="my-2"
-          />
-        </button>
-        <DeleteConfirmModal
-          @onConfirmedDelete="deleteEmployee"
-          :isLoading="deleteLoading"
-          v-if="isEdit"
-        />
-      </div>
+    <div class="flex justify-end gap-3">
+      <DeleteConfirmModal
+        @onConfirmedDelete="deleteEmployee"
+        :isLoading="deleteLoading"
+        v-if="isEdit"
+      />
+      <SubmitButton :is-loading="isLoading" />
     </div>
   </form>
 </template>
@@ -153,9 +139,10 @@
 <script>
 import { defineComponent } from 'vue';
 import { mapActions, mapGetters } from 'vuex';
+import { isUndefined } from 'lodash';
+import { useNotyf } from '@/composables/useNotyf';
 import { fetchCafeList } from '@/api';
 import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
-import { useNotyf } from '../../composables/useNotyf';
 import SimpleImageUpload from './file-upload/SimpleImageUpload.vue';
 
 const notyf = useNotyf();
@@ -205,7 +192,7 @@ export default defineComponent({
   },
   async created() {
     this.employee = this.form;
-    this.employee.cafes = this.employee.cafes
+    this.employee.cafes = this.form.cafes
       ?.filter((el) => !isUndefined(el))
       .map((el) => el.id);
     this.cafeList = await fetchCafeList();

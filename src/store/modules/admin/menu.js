@@ -1,6 +1,4 @@
 import axios from 'axios';
-import makeRequest from '@/api/admin/makeRequest';
-import { isNull } from 'lodash';
 import { useStorage } from '@vueuse/core';
 import { useApi } from '@/composables/useApi';
 
@@ -16,7 +14,6 @@ const state = () => {
 const getters = {
   getMenus: (state) => state.menus,
   getSelectedMenuId: (state) => state.selectedMenuId,
-  // state.selectedMenuId || localStorage.getItem('selected-productmenu-id')
 };
 
 const mutations = {
@@ -24,11 +21,6 @@ const mutations = {
     state.menus = payload;
   },
   setSelectedMenuId(state, payload) {
-    // if (isNull(payload)) localStorage.removeItem('selected-productmenu-id');
-    // else {
-    //   localStorage.setItem('selected-productmenu-id', payload);
-    //   state.selectedMenuId = payload;
-    // }
     state.selectedMenuId = payload;
   },
 };
@@ -114,11 +106,10 @@ const actions = {
 
   async updateModifierTypePositions({ rootGetters }, payload) {
     try {
-      const res = makeRequest({
+      const res = api({
         url: '/adham/menus/ordering-items/',
-        method: 'post',
+        method: 'PUT',
         data: payload,
-        headers: { authorization: true },
       });
       return (await res).data;
     } catch (error) {

@@ -1,34 +1,36 @@
 <script setup>
-import cash from "cash-dom";
-import { ref } from "vue";
-import Draggable from "vuedraggable";
-import { useStore } from "vuex";
+import cash from 'cash-dom';
+import { ref } from 'vue';
+import Draggable from 'vuedraggable';
+import { useStore } from 'vuex';
 
 const props = defineProps({
-  list: Array
+  list: Array,
 });
-const store = useStore()
+const store = useStore();
 
 const isReordered = ref(false);
+const isLoading = ref(false);
 
 async function saveReorderedList() {
-  store.commit('setLoadingStatus', true)
+  isLoading.value = true;
   try {
     const res = await store.dispatch('updateModifierTypePositions', {
-      obj_type: "modifier_item",
-      obj_list: props.list.map((item, itemIndex) => ({ id: item.id, position: itemIndex + 1 }))
+      obj_type: 'modifier_item',
+      obj_list: props.list.map((item, itemIndex) => ({
+        id: item.id,
+        position: itemIndex + 1,
+      })),
     });
 
-    isReordered.value = false
-    cash('#draggable-modifier-item-modal').modal('hide')
-
+    isReordered.value = false;
+    cash('#draggable-modifier-item-modal').modal('hide');
   } catch (error) {
     console.log(error);
   } finally {
-    store.commit('setLoadingStatus', false)
+    isLoading.value = false;
   }
 }
-
 </script>
 
 <template>
@@ -62,14 +64,6 @@ async function saveReorderedList() {
               </li>
             </template>
           </draggable>
-
-          <!-- <div class="flex mt-5">
-            <button
-              class="btn btn-success ml-auto"
-              @click="saveReorderedList"
-              type="button"
-            >Save positions</button>
-          </div>-->
         </div>
         <!-- BEGIN: Modal Footer -->
         <div class="modal-footer text-right">
@@ -77,13 +71,23 @@ async function saveReorderedList() {
             type="button"
             data-dismiss="modal"
             class="btn btn-outline-secondary mr-1"
-          >Cancel</button>
+          >
+            Cancel
+          </button>
           <button
             type="button"
             class="btn btn-primary"
             @click="saveReorderedList"
-            :disabled="!isReordered"
-          >Save positions</button>
+            :disabled="!isReordered || isLoading"
+          >
+            <LoadingIcon
+              v-if="isLoading"
+              icon="three-dots"
+              color="white"
+              class="my-2 mx-1"
+            />
+            <span v-else>Save positions</span>
+          </button>
         </div>
         <!-- END: Modal Footer -->
       </div>

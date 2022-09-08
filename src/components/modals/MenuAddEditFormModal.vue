@@ -4,13 +4,14 @@ import { isEmpty } from 'lodash';
 import { ref } from 'vue';
 import store from '@/store';
 import { useNotyf } from '../../composables/useNotyf';
+import SubmitButton from '../buttons/SubmitButton.vue';
 
 const props = defineProps({
   item: {
     type: Object,
-    default: () => {}
+    default: () => {},
   },
-  dispatcher: ''
+  dispatcher: '',
 });
 
 const emit = defineEmits(['submitted']);
@@ -28,13 +29,13 @@ async function submit(event) {
   if (!isEmpty(props.item)) {
     res = await store.dispatch(props.dispatcher, {
       id: props.item.id,
-      name: nameValue
+      name: nameValue,
     });
   }
 
   if (isEmpty(props.item)) {
     res = await store.dispatch(props.dispatcher, {
-      name: nameValue
+      name: nameValue,
     });
   }
 
@@ -82,19 +83,11 @@ function hideModal() {
             <button
               type="button"
               @click="hideModal"
-              class="btn btn-outline-secondary w-24 mr-1"
+              class="btn btn-outline-secondary mr-3"
             >
               Cancel
             </button>
-            <button type="submit" class="btn btn-primary w-24">
-              {{ isLoading ? '' : 'Save' }}
-              <LoadingIcon
-                v-if="isLoading"
-                icon="three-dots"
-                color="white"
-                class="my-2"
-              />
-            </button>
+            <SubmitButton :is-loading="isLoading" />
           </div>
         </div>
       </form>

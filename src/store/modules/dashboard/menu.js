@@ -1,13 +1,12 @@
 import axios from 'axios';
-import makeRequest from '@/api/makeRequest';
 import { useStorage } from '@vueuse/core';
 import { useApi } from '@/composables/useApi';
 
 const api = useApi();
+
 const state = () => {
   return {
     menus: [],
-    // selectedMenuId: null,
     selectedMenuID: useStorage('selected-productmenu-id', null),
   };
 };
@@ -27,21 +26,18 @@ const mutations = {
 };
 
 const actions = {
-  async fetchMenus({ commit, rootGetters }) {
-    let response;
-    await axios
-      .get(`/api/menus/`, {
-        headers: rootGetters.getHttpHeader,
-      })
-      .then((res) => {
-        response = res.data;
-        commit('setMenus', res.data);
-      })
-      .catch((err) => {
-        response = err.data;
-        // commit('setTransactions', err.response.data);
+  async fetchMenus({ commit }, payload) {
+    try {
+      const { data } = await api({
+        url: `/api/menus/`,
+        params: payload,
       });
-    return response;
+      commit('setMenus', data);
+
+      return data;
+    } catch (error) {
+      throw error;
+    }
   },
 
   async postMenu({ rootGetters }, payload) {
@@ -110,11 +106,10 @@ const actions = {
 
   async updateModifierTypePositions({ rootGetters }, payload) {
     try {
-      const res = makeRequest({
+      const res = api({
         url: '/api/menus/ordering-items/',
-        method: 'post',
+        method: 'POST',
         data: payload,
-        headers: { authorization: true },
       });
       return (await res).data;
     } catch (error) {

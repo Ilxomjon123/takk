@@ -2,17 +2,18 @@
 import store from '@/store';
 import { onMounted, ref } from 'vue';
 import InputField from './InputField.vue';
+import SubmitButton from '../../../components/buttons/SubmitButton.vue';
 
 const props = defineProps({
   formData: {
     type: Object,
-    default: () => {}
+    default: () => {},
   },
   externalErrors: {
     type: Object,
-    default: () => {}
+    default: () => {},
   },
-  isLoading: false
+  isLoading: false,
 });
 
 const emit = defineEmits(['update:formData']);
@@ -38,7 +39,7 @@ onMounted(async () => {
     <form class="p-5" @submit.prevent="submit">
       <div class="flex xl:flex-row flex-col">
         <div class="flex-1 mt-6 xl:mt-0">
-          <div class="grid grid-cols-12 gap-x-5">
+          <div class="grid grid-cols-12 gap-x-5 mb-5">
             <div class="col-span-12 2xl:col-span-6">
               <InputField
                 v-model="formData.tax_rate"
@@ -67,7 +68,7 @@ onMounted(async () => {
                 id-value="cafe-form-order_time_limit"
                 :error="
                   externalErrors.order_time_limit &&
-                    externalErrors.order_time_limit[0]
+                  externalErrors.order_time_limit[0]
                 "
                 :is-required="true"
                 typeValue="number"
@@ -79,7 +80,7 @@ onMounted(async () => {
                   id="cafe-form-menu"
                   v-model="formData.menu"
                   :options="{
-                    placeholder: 'Search..'
+                    placeholder: 'Search..',
                   }"
                   class="w-full"
                 >
@@ -87,26 +88,15 @@ onMounted(async () => {
                     v-for="{ name, id } in menuList"
                     :key="id"
                     :value="id"
-                    >{{ name }}</option
                   >
+                    {{ name }}
+                  </option>
                 </TomSelect>
               </div>
             </div>
           </div>
-          <div class="flex">
-            <button
-              type="submit"
-              class="btn btn-primary mt-5 ml-auto"
-              :disabled="isLoading"
-            >
-              <LoadingIcon
-                v-if="isLoading"
-                icon="tail-spin"
-                class="w-4 h-4 mr-3"
-                color="#fff"
-              />
-              <span>Save</span>
-            </button>
+          <div class="flex justify-end gap-3">
+            <SubmitButton :is-loading="isLoading" />
           </div>
         </div>
       </div>

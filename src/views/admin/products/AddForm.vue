@@ -4,6 +4,7 @@ import { createProduct } from '@/api/admin';
 import FormFields from './FormFields.vue';
 import { useRouter } from 'vue-router';
 import { useNotyf } from '../../../composables/useNotyf';
+import SubmitButton from '../../../components/buttons/SubmitButton.vue';
 
 const router = useRouter();
 const notyf = useNotyf();
@@ -94,19 +95,7 @@ async function onSubmit() {
               <div
                 class="flex pt-5 justify-end border-t border-gray-200 dark:border-dark-5"
               >
-                <button
-                  type="submit"
-                  class="btn btn-primary"
-                  :disabled="isLoading"
-                >
-                  <LoadingIcon
-                    v-if="isLoading"
-                    icon="tail-spin"
-                    class="w-4 h-4 mr-3"
-                    color="#fff"
-                  />
-                  <span>Save</span>
-                </button>
+                <SubmitButton :is-loading="isLoading" />
               </div>
               <!-- <pre>{{ values }}</pre> -->
             </form>

@@ -4,16 +4,17 @@ import { useRoute } from 'vue-router';
 import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
 import { fetchCafeWorkDays, updateCafeWorkDays } from '@/api';
 import { useNotyf } from '@/composables/useNotyf';
+import SubmitButton from '../../../components/buttons/SubmitButton.vue';
 
 const props = defineProps({
   formData: {
     type: Object,
-    default: () => {}
+    default: () => {},
   },
   externalErrors: {
     type: Object,
-    default: () => {}
-  }
+    default: () => {},
+  },
 });
 
 const emit = defineEmits(['update:formData']);
@@ -25,44 +26,44 @@ const workingDayTimes = ref([
     day: 'monday',
     opening_time: null,
     closing_time: null,
-    is_open: false
+    is_open: false,
   },
   {
     day: 'tuesday',
     opening_time: null,
     closing_time: null,
-    is_open: false
+    is_open: false,
   },
   {
     day: 'wednesday',
     opening_time: null,
     closing_time: null,
-    is_open: false
+    is_open: false,
   },
   {
     day: 'thursday',
     opening_time: null,
     closing_time: null,
-    is_open: false
+    is_open: false,
   },
   {
     day: 'friday',
     opening_time: null,
     closing_time: null,
-    is_open: false
+    is_open: false,
   },
   {
     day: 'saturday',
     opening_time: null,
     closing_time: null,
-    is_open: false
+    is_open: false,
   },
   {
     day: 'sunday',
     opening_time: null,
     closing_time: null,
-    is_open: false
-  }
+    is_open: false,
+  },
 ]);
 
 onMounted(async () => {
@@ -81,7 +82,7 @@ async function submit() {
     isLoading.value = true;
     const res = await updateCafeWorkDays({
       data: { week_time: workingDayTimes.value },
-      id: route.params.id
+      id: route.params.id,
     });
 
     notyf.success();
@@ -144,20 +145,8 @@ async function submit() {
               externalErrors.week_time && externalErrors.week_time[0]
             }}</span>
           </template>
-          <div class="flex">
-            <button
-              type="submit"
-              class="btn btn-primary mt-5 ml-auto"
-              :disabled="isLoading"
-            >
-              <LoadingIcon
-                v-if="isLoading"
-                icon="tail-spin"
-                class="w-4 h-4 mr-3"
-                color="#fff"
-              />
-              <span>Save</span>
-            </button>
+          <div class="flex justify-end gap-3">
+            <SubmitButton :is-loading="isLoading" />
           </div>
         </div>
       </div>

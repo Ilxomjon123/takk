@@ -11,11 +11,12 @@ import TelInput from '@/components/forms/TelInput.vue';
 import {
   createCompany,
   fetchCompanyById,
-  updateCompanyById
+  updateCompanyById,
 } from '@/api/admin';
 import { useRoute } from 'vue-router';
 import { useNotyf } from '@/composables/useNotyf';
 import useCompany from '../../../features/useCompany';
+import SubmitButton from '../../../components/buttons/SubmitButton.vue';
 
 const { getSelected } = useCompany();
 const route = useRoute();
@@ -39,7 +40,7 @@ const companyData = reactive({
   cashback_percent: 10,
   pub_show_reviews: '',
   pub_show_like: '',
-  about: ''
+  about: '',
 });
 
 watchEffect(() => {
@@ -287,9 +288,7 @@ function getError(key) {
                   >Cashback Percent</label
                 >
                 <div class="input-group">
-                  <div id="input-group-percent" class="input-group-text">
-                    %
-                  </div>
+                  <div id="input-group-percent" class="input-group-text">%</div>
                   <TomSelect
                     id="cashback"
                     class="w-full"
@@ -341,7 +340,7 @@ function getError(key) {
                 </div>
               </div>
             </div>
-            <div>
+            <div class="mb-5">
               <label for="about" class="form-label">About</label>
               <textarea
                 id="about"
@@ -356,19 +355,8 @@ function getError(key) {
               />
               <div class="text-theme-6" v-text="getError('about')" />
             </div>
-            <div>
-              <button
-                type="submit"
-                class="btn btn-primary py-3 block mx-auto mt-8 px-10 align-top"
-                :disabled="isLoading"
-              >
-                {{ isLoading ? '' : 'Save' }}
-                <LoadingIcon
-                  v-if="isLoading"
-                  color="white"
-                  class="w-8 h-8 my-2"
-                />
-              </button>
+            <div class="flex justify-end gap-3">
+              <SubmitButton :is-loading="isLoading" />
             </div>
           </form>
         </div>

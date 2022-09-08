@@ -71,7 +71,8 @@
                   <label
                     class="form-check-label text-base"
                     for="modifier-available"
-                  >Modifier available</label>
+                    >Modifier available</label
+                  >
                   <div class="text-theme-6" v-text="getError('available')" />
                 </div>
               </div>
@@ -86,7 +87,8 @@
                   <label
                     class="form-check-label text-base"
                     for="modifier-default"
-                  >Modifier is default</label>
+                    >Modifier is default</label
+                  >
                   <div class="text-theme-6" v-text="getError('default')" />
                 </div>
               </div>
@@ -96,17 +98,11 @@
             <button
               type="button"
               data-dismiss="modal"
-              class="btn btn-outline-secondary w-24 mr-1"
-            >Cancel</button>
-            <button type="submit" class="btn btn-primary w-24">
-              {{ isLoading ? '' : 'Save' }}
-              <LoadingIcon
-                v-if="isLoading"
-                icon="three-dots"
-                color="white"
-                class="my-2"
-              />
+              class="btn btn-outline-secondary mr-3"
+            >
+              Cancel
             </button>
+            <SubmitButton :is-loading="isLoading" />
           </div>
         </div>
       </form>
@@ -115,21 +111,22 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import cash from 'cash-dom'
+import { defineComponent } from 'vue';
+import cash from 'cash-dom';
 import { mapGetters } from 'vuex';
 import SingleSelect from '../selects/SingleSelect.vue';
+import SubmitButton from '../buttons/SubmitButton.vue';
 
 export default defineComponent({
   props: {
     dispatcher: {
       type: String,
-      default: "postModifierType"
+      default: 'postModifierType',
     },
     modalId: {
       type: String,
-      default: "modifier-form-modal"
-    }
+      default: 'modifier-form-modal',
+    },
   },
   data() {
     return {
@@ -142,27 +139,26 @@ export default defineComponent({
         default: false,
         modifier: null,
         price: 0,
-        name: ''
+        name: '',
       },
-      errors: {}
+      errors: {},
     };
   },
   methods: {
     async submit() {
       this.isLoading = true;
       console.log('this.modifier: ', this.modifier);
-      const res = await this.$store.dispatch(
-        this.dispatcher,
-        { ...this.modifier, modifier: this.modifierTypeId }
-      );
+      const res = await this.$store.dispatch(this.dispatcher, {
+        ...this.modifier,
+        modifier: this.modifierTypeId,
+      });
       if (res.status) {
         this.hideModal();
-        this.$emit("submitted", {
-          type: this.modifier.id ? "edit" : "add",
-          ...res.data
+        this.$emit('submitted', {
+          type: this.modifier.id ? 'edit' : 'add',
+          ...res.data,
         });
-      }
-      else {
+      } else {
         this.errors = res.data;
       }
       this.isLoading = false;
@@ -170,20 +166,19 @@ export default defineComponent({
     showModal(form, modifierTypeId) {
       this.modifier = form;
       this.modifierTypeId = modifierTypeId;
-      if (this.modifier.modifier == null)
-        this.modifier.modifier = 0;
-      cash("#" + this.modalId).modal("show");
+      if (this.modifier.modifier == null) this.modifier.modifier = 0;
+      cash('#' + this.modalId).modal('show');
     },
     hideModal() {
-      cash("#" + this.modalId).modal("hide");
+      cash('#' + this.modalId).modal('hide');
     },
     getError(key) {
       return this.errors[key]?.[0];
-    }
+    },
   },
   computed: {
-    ...mapGetters(["getModifierTypes"])
+    ...mapGetters(['getModifierTypes']),
   },
-  components: { SingleSelect }
-})
+  components: { SingleSelect, SubmitButton },
+});
 </script>

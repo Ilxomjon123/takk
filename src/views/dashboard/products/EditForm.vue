@@ -5,6 +5,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { fetchProduct } from '@/api';
 import FormFields from './FormFields.vue';
 import { useNotyf } from '../../../composables/useNotyf';
+import SubmitButton from '../../../components/buttons/SubmitButton.vue';
 
 const externalErrors = ref({});
 const isLoading = ref(false);
@@ -115,20 +116,7 @@ async function onSubmit() {
               <div
                 class="flex pt-5 justify-end border-t border-gray-200 dark:border-dark-5"
               >
-                <button
-                  type="submit"
-                  class="btn btn-primary"
-                  :disabled="isLoading"
-                >
-                  <LoadingIcon
-                    v-if="isLoading"
-                    icon="tail-spin"
-                    class="w-4 h-4 mr-3"
-                    color="#fff"
-                  />
-                  <!-- <RefreshCwIcon v-else class="mr-3" /> -->
-                  <span>Update</span>
-                </button>
+                <SubmitButton :is-loading="isLoading" />
               </div>
               <!-- <pre>{{ values }}</pre> -->
             </form>

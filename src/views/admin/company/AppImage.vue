@@ -5,6 +5,7 @@ import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.
 import { useNotyf } from '@/composables/useNotyf';
 import { useRoute } from 'vue-router';
 import useCompany from '../../../features/useCompany';
+import SubmitButton from '../../../components/buttons/SubmitButton.vue';
 
 const { getSelected } = useCompany();
 const route = useRoute();
@@ -39,7 +40,7 @@ async function submit() {
 
     const res = await store.dispatch('adminCompany/putCompany', {
       form: formData,
-      id: getCompany.id
+      id: getCompany.id,
     });
 
     notyf.success();
@@ -104,15 +105,9 @@ async function submit() {
             </div>
           </div>
         </div>
-        <button
-          type="button"
-          class="btn btn-primary py-3 ml-auto px-10 align-top"
-          @click="submit"
-          :disabled="isLoading"
-        >
-          <LoadingIcon v-if="isLoading" color="white" class="w-5 h-5" />
-          <span v-else>Save</span>
-        </button>
+        <div class="flex justify-end gap-3">
+          <SubmitButton type="button" :is-loading="isLoading" @click="submit" />
+        </div>
       </div>
     </div>
   </div>

@@ -30,7 +30,8 @@
                   <label
                     class="form-check-label text-base"
                     for="modifier-type-is-single"
-                  >Modifier is single</label>
+                    >Modifier is single</label
+                  >
                   <div class="text-theme-6" v-text="getError('is_single')" />
                 </div>
               </div>
@@ -45,7 +46,8 @@
                   <label
                     class="form-check-label text-base"
                     for="modifier-type-available"
-                  >Modifier available</label>
+                    >Modifier available</label
+                  >
                   <div class="text-theme-6" v-text="getError('available')" />
                 </div>
               </div>
@@ -60,7 +62,8 @@
                   <label
                     class="form-check-label text-base"
                     for="modifier-type-required"
-                  >Modifier is required</label>
+                    >Modifier is required</label
+                  >
                   <div class="text-theme-6" v-text="getError('required')" />
                 </div>
               </div>
@@ -70,17 +73,11 @@
             <button
               type="button"
               data-dismiss="modal"
-              class="btn btn-outline-secondary w-24 mr-1"
-            >Cancel</button>
-            <button type="submit" class="btn btn-primary w-24">
-              {{ isLoading ? '' : 'Save' }}
-              <LoadingIcon
-                v-if="isLoading"
-                icon="three-dots"
-                color="white"
-                class="my-2"
-              />
+              class="btn btn-outline-secondary mr-3"
+            >
+              Cancel
             </button>
+            <SubmitButton :is-loading="isLoading" />
           </div>
         </div>
       </form>
@@ -89,19 +86,20 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import cash from 'cash-dom'
+import { defineComponent } from 'vue';
+import cash from 'cash-dom';
+import SubmitButton from '../buttons/SubmitButton.vue';
 
 export default defineComponent({
   props: {
     dispatcher: {
       type: String,
-      default: "postModifierType"
+      default: 'postModifierType',
     },
     modalId: {
       type: String,
-      default: 'modifier-type-type-form-modal'
-    }
+      default: 'modifier-type-type-form-modal',
+    },
   },
   data() {
     return {
@@ -109,8 +107,8 @@ export default defineComponent({
       id: null,
       isLoading: false,
       modifier: {},
-      errors: {}
-    }
+      errors: {},
+    };
   },
   methods: {
     async submit() {
@@ -122,7 +120,6 @@ export default defineComponent({
       } else {
         this.errors = res.data;
       }
-
       this.isLoading = false;
     },
     showModal(form) {
@@ -134,7 +131,8 @@ export default defineComponent({
     },
     getError(key) {
       return this.errors[key]?.[0];
-    }
-  }
-})
+    },
+  },
+  components: { SubmitButton },
+});
 </script>

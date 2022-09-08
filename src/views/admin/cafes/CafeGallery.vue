@@ -4,16 +4,17 @@ import { addCafeGallery } from '@/api/admin';
 import MultipleImageUpload from './MultipleImageUpload.vue';
 import { useNotyf } from '../../../composables/useNotyf';
 import { ref } from 'vue';
+import SubmitButton from '../../../components/buttons/SubmitButton.vue';
 
 const props = defineProps({
   formData: {
     type: Object,
-    default: () => {}
+    default: () => {},
   },
   externalErrors: {
     type: Object,
-    default: () => {}
-  }
+    default: () => {},
+  },
 });
 
 const emit = defineEmits(['update:formData']);
@@ -59,21 +60,8 @@ async function submit() {
             :obj-id="route.params.id"
             class="my-5"
           />
-          <div class="flex">
-            <button
-              type="button"
-              class="btn btn-primary mt-5 ml-auto"
-              @click="submit"
-              :disabled="isLoading"
-            >
-              <LoadingIcon
-                v-if="isLoading"
-                icon="tail-spin"
-                class="w-4 h-4 mr-3"
-                color="#fff"
-              />
-              <span>Save</span>
-            </button>
+          <div class="flex justify-end gap-3">
+            <SubmitButton :is-loading="isLoading" />
           </div>
         </div>
       </div>

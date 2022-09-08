@@ -14,7 +14,10 @@
           </div>
           <div class="p-5">
             <div class="grid grid-cols-12 gap-6">
-              <EmployeeForm dispatcher="postEmployeeExist" :isAddExist="true" />
+              <AdminEmployeeForm
+                dispatcher="adminEmployee/postEmployeeExist"
+                :isAddExist="true"
+              />
             </div>
           </div>
         </div>
@@ -27,11 +30,12 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import EmployeeForm from '@/components/forms/EmployeeForm.vue';
+import AdminEmployeeForm from '../../../components/forms/AdminEmployeeForm.vue';
 
 export default defineComponent({
-  components: { EmployeeForm },
+  components: { EmployeeForm, AdminEmployeeForm },
   computed: {
-    ...mapGetters(['getLoadingStatus'])
-  }
+    ...mapGetters(['getLoadingStatus']),
+  },
 });
 </script>

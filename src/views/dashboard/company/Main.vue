@@ -7,6 +7,7 @@ import StateSelect from '@/components/selects/StateSelect.vue';
 import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 import TelInput from '@/components/forms/TelInput.vue';
 import { useNotyf } from '@/composables/useNotyf';
+import SubmitButton from '../../../components/buttons/SubmitButton.vue';
 
 const notyf = useNotyf();
 const image = ref(null);
@@ -44,7 +45,7 @@ async function submit() {
 
     const res = await store.dispatch('putCompany', {
       form: formData,
-      id: getCompany.value.id
+      id: getCompany.value.id,
     });
 
     notyf.success();
@@ -298,7 +299,7 @@ function getError(key) {
                 </div>
               </div>
             </div>
-            <div>
+            <div class="mb-5">
               <label for="about" class="form-label">About</label>
               <textarea
                 id="about"
@@ -313,15 +314,8 @@ function getError(key) {
               />
               <div class="text-theme-6" v-text="getError('about')" />
             </div>
-            <div class="flex">
-              <button
-                type="submit"
-                class="btn btn-primary py-3 ml-auto mt-8 px-10 align-top"
-                :disabled="isLoading"
-              >
-                <LoadingIcon v-if="isLoading" color="white" class="w-5 h-5" />
-                <span v-else>Save</span>
-              </button>
+            <div class="flex justify-end gap-3">
+              <SubmitButton :is-loading="isLoading" />
             </div>
           </form>
         </div>

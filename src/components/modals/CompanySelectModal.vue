@@ -3,6 +3,7 @@ import cash from 'cash-dom';
 import { ref } from 'vue';
 import router from '@/router';
 import CompanySelect from '../selects/CompanySelect.vue';
+import SubmitButton from '../buttons/SubmitButton.vue';
 
 const isLoading = ref(false);
 const errors = ref(null);
@@ -49,23 +50,15 @@ function setCompany() {
           <button
             type="button"
             @click="closeModal"
-            class="btn btn-outline-secondary w-24 mr-1"
+            class="btn btn-outline-secondary mr-3"
           >
             Back
           </button>
-          <button
+          <SubmitButton
             type="button"
-            class="btn btn-primary w-24"
+            :is-loading="isLoading"
             @click="setCompany"
-          >
-            {{ isLoading ? '' : 'Save' }}
-            <LoadingIcon
-              v-if="isLoading"
-              icon="three-dots"
-              color="white"
-              class="my-2"
-            />
-          </button>
+          />
         </div>
       </div>
     </div>

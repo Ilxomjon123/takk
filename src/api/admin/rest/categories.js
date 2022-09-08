@@ -9,8 +9,7 @@ export async function fetchCategories(
   try {
     const res = await api({
       url: `/adham/menus/${menuID}/categories/`,
-      headers: { authorization: true },
-      params: payload
+      params: payload,
     });
     return res.data;
   } catch (error) {

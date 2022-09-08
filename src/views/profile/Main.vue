@@ -28,7 +28,7 @@
                       type="file"
                       hidden
                       id="avatar-image"
-                      @change="e => changeImage(e, 'avatar')"
+                      @change="(e) => changeImage(e, 'avatar')"
                     />
                   </div>
                   <div class="text-theme-6" v-text="getError('avatar')" />
@@ -116,8 +116,8 @@
                           minYear: 1990,
                           maxYear: null,
                           months: true,
-                          years: true
-                        }
+                          years: true,
+                        },
                       }"
                       class="form-control pl-12"
                     />
@@ -128,20 +128,8 @@
                   />
                 </div>
               </div>
-              <div>
-                <button
-                  type="submit"
-                  class="btn btn-primary py-3 block mx-auto mt-8 px-10 align-top"
-                  :disabled="isLoading"
-                >
-                  {{ isLoading ? '' : 'Save' }}
-                  <LoadingIcon
-                    v-if="isLoading"
-                    icon="three-dots"
-                    color="white"
-                    class="w-8 h-8 my-2"
-                  />
-                </button>
+              <div class="flex justify-end gap-3">
+                <SubmitButton :is-loading="isLoading" />
               </div>
             </form>
           </div>
@@ -155,6 +143,7 @@
 import { defineComponent } from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import { useNotyf } from '@/composables/useNotyf';
+import SubmitButton from '../../components/buttons/SubmitButton.vue';
 
 const notyf = useNotyf();
 
@@ -165,14 +154,14 @@ export default defineComponent({
       isLoading: false,
       errors: {},
       user: {},
-      successMessage: 'Successfully saved!'
+      successMessage: 'Successfully saved!',
     };
   },
   computed: {
     ...mapGetters(['getUser']),
     globalLoading() {
       return this.$store.state.common.loadingStatus;
-    }
+    },
   },
   async created() {
     this.$store.commit('setLoadingStatus', true);
@@ -201,18 +190,14 @@ export default defineComponent({
       try {
         this.isLoading = true;
         this.errors = {};
-
         let form = this.user;
-
         form = { ...form, ...this.images };
         const formData = new FormData();
-
         for (var key in form) {
           if (key == 'avatar') {
             if (typeof form[key] != 'string') formData.append(key, form[key]);
           } else formData.append(key, form[key]);
         }
-
         await this.putProfile(formData);
         this.user = this.getUser;
         notyf.success();
@@ -226,7 +211,8 @@ export default defineComponent({
     },
     getError(key) {
       return this.errors[key]?.[0];
-    }
-  }
+    },
+  },
+  components: { SubmitButton },
 });
 </script>

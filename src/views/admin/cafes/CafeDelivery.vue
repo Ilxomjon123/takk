@@ -1,16 +1,17 @@
 <script setup>
 import InputField from './InputField.vue';
+import SubmitButton from '../../../components/buttons/SubmitButton.vue';
 
 const props = defineProps({
   formData: {
     type: Object,
-    default: () => {}
+    default: () => {},
   },
   externalErrors: {
     type: Object,
-    default: () => {}
+    default: () => {},
   },
-  isLoading: false
+  isLoading: false,
 });
 
 const emit = defineEmits(['update:formData']);
@@ -30,7 +31,7 @@ async function submit() {
     <form class="p-5" @submit.prevent="submit">
       <div class="flex xl:flex-row flex-col">
         <div class="flex-1 mt-6 xl:mt-0">
-          <div class="flex">
+          <div class="flex mb-3">
             <div class="form-check w-auto">
               <input
                 id="delivery_available"
@@ -62,7 +63,7 @@ async function submit() {
                   />
                   <span class="text-theme-6 mt-2">{{
                     externalErrors.delivery_max_distance &&
-                      externalErrors.delivery_max_distance[0]
+                    externalErrors.delivery_max_distance[0]
                   }}</span>
                 </div>
               </div>
@@ -86,7 +87,7 @@ async function submit() {
                   />
                   <span class="text-theme-6 mt-2">{{
                     externalErrors.delivery_min_amount &&
-                      externalErrors.delivery_min_amount[0]
+                    externalErrors.delivery_min_amount[0]
                   }}</span>
                 </div>
               </div>
@@ -112,7 +113,7 @@ async function submit() {
                   />
                   <span class="text-theme-6 mt-2">{{
                     externalErrors.delivery_fee &&
-                      externalErrors.delivery_fee[0]
+                    externalErrors.delivery_fee[0]
                   }}</span>
                 </div>
               </div>
@@ -132,11 +133,11 @@ async function submit() {
                 />
                 <span class="text-theme-6 mt-2">{{
                   externalErrors.delivery_percent &&
-                    externalErrors.delivery_percent[0]
+                  externalErrors.delivery_percent[0]
                 }}</span>
               </div>
             </div>
-            <div class="flex flex-col lg:flex-row gap-5 pt-5">
+            <div class="flex flex-col lg:flex-row gap-5 py-5">
               <div class="input-form lg:basis-1/2">
                 <label
                   for="delivery_km_amount"
@@ -152,7 +153,7 @@ async function submit() {
                 />
                 <span class="text-theme-6 mt-2">{{
                   externalErrors.delivery_km_amount &&
-                    externalErrors.delivery_km_amount[0]
+                  externalErrors.delivery_km_amount[0]
                 }}</span>
               </div>
               <div class="input-form lg:basis-1/2">
@@ -170,25 +171,13 @@ async function submit() {
                 />
                 <span class="text-theme-6 mt-2">{{
                   externalErrors.delivery_min_time &&
-                    externalErrors.delivery_min_time[0]
+                  externalErrors.delivery_min_time[0]
                 }}</span>
               </div>
             </div>
           </template>
-          <div class="flex">
-            <button
-              type="submit"
-              class="btn btn-primary mt-5 ml-auto"
-              :disabled="isLoading"
-            >
-              <LoadingIcon
-                v-if="isLoading"
-                icon="tail-spin"
-                class="w-4 h-4 mr-3"
-                color="#fff"
-              />
-              <span>Save</span>
-            </button>
+          <div class="flex justify-end gap-3">
+            <SubmitButton :is-loading="isLoading" />
           </div>
         </div>
       </div>
