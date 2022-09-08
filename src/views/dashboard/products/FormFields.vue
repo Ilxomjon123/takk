@@ -92,10 +92,10 @@ function removeProductSize() {
           <div class="input-form">
             <label class="form-label" :for="'product_size_name' + index">
               Product variance name
-              <Tippy content="For example: Large, Medium, Small">
-                <InfoIcon class="block text-xs w-4" />
-              </Tippy>
               <span class="text-theme-6">*</span>
+              <Tippy content="Available sizes: Large, Medium, Small">
+                <InfoIcon class="block w-4" />
+              </Tippy>
             </label>
             <input
               :id="'product_size_name' + index"
@@ -111,6 +111,9 @@ function removeProductSize() {
             <label class="form-label" :for="'product_size_price' + index">
               Product variance price
               <span class="text-theme-6">*</span>
+              <Tippy class="invisible" content="Fill price">
+                <InfoIcon class="block w-4" />
+              </Tippy>
             </label>
             <input
               :id="'product_size_price' + index"

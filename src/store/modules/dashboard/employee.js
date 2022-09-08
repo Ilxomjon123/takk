@@ -5,13 +5,13 @@ const api = useApi();
 const state = () => {
   return {
     employees: [],
-    employee: {}
+    employee: {},
   };
 };
 
 const getters = {
-  getEmployees: state => state.employees,
-  getEmployee: state => state.employee
+  getEmployees: (state) => state.employees,
+  getEmployee: (state) => state.employee,
 };
 
 const mutations = {
@@ -20,7 +20,7 @@ const mutations = {
   },
   setEmployee(state, payload) {
     state.employee = payload;
-  }
+  },
 };
 
 const actions = {
@@ -28,7 +28,7 @@ const actions = {
     try {
       const { data } = await api({
         url: '/api/employees/',
-        params: payload
+        params: payload,
       });
 
       commit('setEmployees', data);
@@ -42,7 +42,7 @@ const actions = {
     try {
       const { data } = await api({
         url: `/api/employees/${payload}/`,
-        params: payload
+        params: payload,
       });
       commit('setEmployee', data);
       return data;
@@ -56,7 +56,7 @@ const actions = {
       const { data } = await api({
         url: '/api/employees/new/',
         method: 'POST',
-        data: payload
+        data: payload,
       });
 
       return data;
@@ -65,12 +65,12 @@ const actions = {
     }
   },
 
-  async postEmployeeExist(payload) {
+  async postEmployeeExist({ commit }, payload) {
     try {
       const { data } = await api({
         url: '/api/employees/exists/',
         method: 'POST',
-        data: payload
+        data: payload,
       });
 
       return data;
@@ -84,7 +84,7 @@ const actions = {
       const { data } = await api({
         url: `/api/employees/${payload.id}/`,
         method: 'PUT',
-        data: payload.form
+        data: payload.form,
       });
 
       return data;
@@ -97,19 +97,19 @@ const actions = {
     try {
       const { data } = await api({
         url: `/api/employees/${payload}/`,
-        method: 'DELETE'
+        method: 'DELETE',
       });
 
       return data;
     } catch (error) {
       throw error;
     }
-  }
+  },
 };
 
 export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

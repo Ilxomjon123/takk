@@ -33,7 +33,7 @@
           class="btn btn-success"
         >
           <PlusIcon class="w-4 h-4 mr-3" />
-          Add Existing Employee
+          Add Employee
         </router-link>
       </div>
     </div>

@@ -14,7 +14,7 @@
           </div>
           <div class="p-5">
             <div class="grid grid-cols-12 gap-6">
-              <EmployeeForm dispatcher="postEmployeeExist" :isAddExist="true" />
+              <EmployeeForm :isAddExist="true" />
             </div>
           </div>
         </div>
@@ -31,7 +31,7 @@ import EmployeeForm from '@/components/forms/EmployeeForm.vue';
 export default defineComponent({
   components: { EmployeeForm },
   computed: {
-    ...mapGetters(['getLoadingStatus'])
-  }
+    ...mapGetters(['getLoadingStatus']),
+  },
 });
 </script>

@@ -41,7 +41,7 @@
             getError('phone') != null ? 'border-theme-6' : 'border-gray-300'
           "
           placeholder="Phone"
-          v-model="employee.user.phone"
+          v-model="employee.phone"
         />
         <div class="text-theme-6" v-text="getError('phone')" />
         <div class="text-theme-6" v-text="errors?.detail" />
@@ -163,7 +163,11 @@ const notyf = useNotyf();
 export default defineComponent({
   data() {
     return {
-      employee: {},
+      employee: {
+        phone: '',
+        employee_position: null,
+        cafes: [],
+      },
       images: {},
       isLoading: false,
       errors: {},
@@ -183,6 +187,7 @@ export default defineComponent({
         },
         cafes: [],
         employee_position: '',
+        phone: '',
       },
     },
     isEdit: {
@@ -191,7 +196,7 @@ export default defineComponent({
     },
     dispatcher: {
       type: String,
-      default: 'postEmployeeNew',
+      default: 'postEmployeeExist',
     },
     isAddExist: {
       type: Boolean,
@@ -200,7 +205,9 @@ export default defineComponent({
   },
   async created() {
     this.employee = this.form;
-    this.employee.cafes = this.employee.cafes.map((el) => el.id);
+    this.employee.cafes = this.employee.cafes
+      ?.filter((el) => !isUndefined(el))
+      .map((el) => el.id);
     this.cafeList = await fetchCafeList();
   },
   methods: {
@@ -211,41 +218,15 @@ export default defineComponent({
         this.isLoading = true;
         this.errors = {};
 
-        const user = {
-          ...this.employee.user,
-          ...this.images,
-          password: '123456',
-        };
-        const userData = {};
-
-        for (var key in user) {
-          if (key == 'avatar') {
-            if (typeof user[key] != 'string') userData[key] = user[key];
-          } else {
-            userData[key] = user[key];
-          }
-        }
-
-        const formData = {
-          phone: user.phone,
-          username: user.username,
-          date_of_birthday: user.date_of_birthday,
-        };
-
-        for (var key in this.employee) {
-          formData[key] = this.employee[key];
-        }
-
-        formData['user'] = userData;
         let data;
 
         if (this.isEdit) {
           data = {
             id: this.employee?.id,
-            form: formData,
+            form: this.employee,
           };
         } else {
-          data = formData;
+          data = this.employee;
         }
         const res = await this.$store.dispatch(this.dispatcher, data);
 

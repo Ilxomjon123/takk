@@ -58,17 +58,13 @@ function onDelete(id) {
   cash('#confirm-deletion-modal').modal('show');
 }
 
-async function deleteMenu(val) {
+async function deleteMenu() {
   try {
-    store.commit('setLoadingStatus', true);
-
-    const res = await store.dispatch('deleteMenu', val);
+    await store.dispatch('deleteMenu', selectedMenuID.value);
     await fetchData();
-    notyf.success('Menu item deleted successfully!');
+    notyf.success('Menu item removed successfully!');
   } catch (error) {
-    notyf.error('Error while deleting menu: ' + error.message);
-  } finally {
-    store.commit('setLoadingStatus', false);
+    notyf.error('Error while removing menu: ' + error.message);
   }
 }
 

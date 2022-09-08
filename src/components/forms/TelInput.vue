@@ -20,10 +20,9 @@ watch(
   () => props.phoneNumber,
   (newVal) => {
     if (newVal) {
-      if (
-        newVal.startsWith(props.dialCode) ||
-        newVal.startsWith('+' + props.dialCode)
-      ) {
+      if (newVal.startsWith(props.dialCode)) {
+        phone.value = props.phoneNumber?.substring(props.dialCode?.length);
+      } else if (newVal.startsWith('+' + props.dialCode)) {
         phone.value = props.phoneNumber?.substring(props.dialCode?.length + 1);
       } else phone.value = props.phoneNumber;
     }

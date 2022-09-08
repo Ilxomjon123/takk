@@ -1,17 +1,16 @@
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue';
-import { useStore } from 'vuex';
-import AdminMenuList from '@/components/lists/AdminMenuList.vue';
-import { fetchProductsList, updateProductPositions } from '@/api';
-import Pagination from '@/components/paginator/Pagination.vue';
 import { useRouter } from 'vue-router';
+import { useNotyf } from '@/composables/useNotyf';
+import { fetchProductsList, updateProductPositions } from '@/api';
+import AdminMenuList from '@/components/lists/AdminMenuList.vue';
+import Pagination from '@/components/paginator/Pagination.vue';
+import SearchProduct from '@/components/forms/SearchProduct.vue';
 import DraggableList from './DraggableList.vue';
-import SearchProduct from './SearchProduct.vue';
-import { useNotyf } from '../../../composables/useNotyf';
+import store from '@/store';
 
 const router = useRouter();
 const notyf = useNotyf();
-const store = useStore();
 const products = reactive({});
 const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
 const isReordered = ref(false);
@@ -52,18 +51,14 @@ async function fetchProducts() {
 }
 
 async function paginate(val) {
-  store.commit('setLoadingStatus', true);
   paginator.page = val;
   await fetchProducts();
-  store.commit('setLoadingStatus', false);
 }
 
 async function changePerPage(val) {
-  store.commit('setLoadingStatus', true);
   paginator.limit = val;
   paginator.page = 1;
   await fetchProducts();
-  store.commit('setLoadingStatus', false);
 }
 
 function gotoAddPage() {

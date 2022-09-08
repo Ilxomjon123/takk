@@ -67,12 +67,13 @@ function onDelete(id) {
 }
 
 async function deleteMenu() {
-  const res = await store.dispatch(
-    'adminMenu/deleteMenu',
-    selectedMenuID.value
-  );
-  updateList();
-  notyf.success('Menu item removed successfully!');
+  try {
+    await store.dispatch('adminMenu/deleteMenu', selectedMenuID.value);
+    await fetchData();
+    notyf.success('Menu item removed successfully!');
+  } catch (error) {
+    notyf.error('Error while removing menu: ' + error.message);
+  }
 }
 
 async function fetchData() {

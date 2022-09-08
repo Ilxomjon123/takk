@@ -12,7 +12,7 @@
             type="file"
             hidden
             id="avatar-image"
-            @change="e => changeImage(e, 'avatar')"
+            @change="(e) => changeImage(e, 'avatar')"
           />
           <!-- <Tippy
                         tag="div"
@@ -43,7 +43,7 @@
             getError('phone') != null ? 'border-theme-6' : 'border-gray-300'
           "
           placeholder="Phone"
-          v-model="user.phone"
+          v-model="employee.phone"
         />
         <div class="text-theme-6" v-text="getError('phone')" />
         <div class="text-theme-6" v-text="errors?.detail" />
@@ -81,8 +81,8 @@
                 minYear: 1990,
                 maxYear: null,
                 months: true,
-                years: true
-              }
+                years: true,
+              },
             }"
             class="form-control pl-12"
           />
@@ -96,15 +96,16 @@
           class="w-full"
           v-model="employee.employee_position"
           :options="{
-            placeholder: 'Select Position'
+            placeholder: 'Select Position',
           }"
         >
           <option
             v-for="(item, index) in getEmployeeTypes"
             :key="index"
             :value="item.value"
-            >{{ item.name }}</option
           >
+            {{ item.name }}
+          </option>
         </TomSelect>
         <div class="text-theme-6" v-text="getError('employee_position')" />
       </div>
@@ -113,7 +114,7 @@
         <TomSelect
           v-model="employee.cafes"
           :options="{
-            placeholder: 'Select Cafe'
+            placeholder: 'Select Cafe',
           }"
           class="w-full"
           multiple
@@ -122,8 +123,9 @@
             v-for="(item, index) in cafeList.results"
             :key="index"
             :value="item.id"
-            >{{ item.name }}</option
           >
+            {{ item.name }}
+          </option>
         </TomSelect>
         <div class="text-theme-6" v-text="getError('cafes')" />
       </div>
@@ -154,6 +156,7 @@
 </template>
 
 <script>
+import { isUndefined } from 'lodash';
 import { defineComponent } from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import { useNotyf } from '../../composables/useNotyf';
@@ -165,57 +168,59 @@ export default defineComponent({
   data() {
     return {
       employee: {
+        phone: '',
+        employee_position: null,
         cafes: [],
-        created_dt: Number,
-        employee_position: Number,
-        favorite_cafes: []
       },
       user: {
         avatar: '',
         date_of_birthday: '2000-01-01',
         phone: '',
-        username: ''
+        username: '',
       },
       images: {},
       isLoading: false,
       errors: {},
       cafeList: {
-        results: []
+        results: [],
       },
-      deleteLoading: false
+      deleteLoading: false,
     };
   },
   computed: {
-    ...mapGetters(['getEmployeeTypes', 'getCompanyId'])
+    ...mapGetters(['getEmployeeTypes', 'getCompanyId']),
   },
   props: {
     form: {
       type: Object,
       default: {
         user: {
-          avatar: '/src/assets/images/default_employee.png'
+          avatar: '/src/assets/images/default_employee.png',
         },
         cafes: [],
-        employee_position: 2
-      }
+        employee_position: 2,
+        phone: '',
+      },
     },
     isEdit: {
       type: Boolean,
-      default: false
+      default: false,
     },
     dispatcher: {
       type: String,
-      default: 'adminEmployee/postAdminEmployeeNew'
+      default: 'adminEmployee/postAdminEmployeeNew',
     },
     isAddExist: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   async created() {
     this.employee = this.form;
     this.user = this.form.user;
-    // this.employee.cafes = this.employee.cafes?.map(el => el.id);
+    this.employee.cafes = this.employee.cafes
+      ?.filter((el) => !isUndefined(el))
+      .map((el) => el.id);
     this.cafeList = await this.fetchAdminCafeList();
   },
   methods: {
@@ -226,47 +231,20 @@ export default defineComponent({
         this.isLoading = true;
         this.errors = {};
 
-        const user = {
-          ...this.user,
-          ...this.images,
-          password: '123456'
-        };
-        const userData = {};
-
-        for (var key in user) {
-          if (key == 'avatar') {
-            if (typeof user[key] != 'string') userData[key] = user[key];
-          } else {
-            userData[key] = user[key];
-          }
-        }
-
-        const formData = {
-          phone: user.phone,
-          username: user.username,
-          date_of_birthday: user.date_of_birthday
-        };
-
-        for (var key in this.employee) {
-          formData[key] = this.employee[key];
-        }
-
-        formData['user'] = userData;
         let data;
 
         if (this.isEdit) {
           data = {
             id: this.employee?.id,
             form: {
-              created_dt: this.employee.created_dt,
               cafes: this.employee.cafes,
-              employee_position: this.employee.employee_position
-            }
+              employee_position: this.employee.employee_position,
+              user: { date_of_birthday: this.employee.user?.date_of_birthday },
+            },
           };
         } else {
-          data = formData;
+          data = this.employee;
         }
-
         const res = await this.$store.dispatch(this.dispatcher, data);
 
         notyf.success();
@@ -299,8 +277,8 @@ export default defineComponent({
     },
     getError(key) {
       return this.errors[key]?.[0];
-    }
+    },
   },
-  components: { DeleteConfirmModal }
+  components: { DeleteConfirmModal },
 });
 </script>

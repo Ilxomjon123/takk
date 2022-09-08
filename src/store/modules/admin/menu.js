@@ -9,13 +9,13 @@ const api = useApi();
 const state = () => {
   return {
     menus: [],
-    selectedMenuId: useStorage('selected-productmenu-id', null)
+    selectedMenuId: useStorage('selected-productmenu-id', null),
   };
 };
 
 const getters = {
-  getMenus: state => state.menus,
-  getSelectedMenuId: state => state.selectedMenuId
+  getMenus: (state) => state.menus,
+  getSelectedMenuId: (state) => state.selectedMenuId,
   // state.selectedMenuId || localStorage.getItem('selected-productmenu-id')
 };
 
@@ -30,7 +30,7 @@ const mutations = {
     //   state.selectedMenuId = payload;
     // }
     state.selectedMenuId = payload;
-  }
+  },
 };
 
 const actions = {
@@ -38,7 +38,7 @@ const actions = {
     try {
       const { data } = await api({
         url: `/adham/menus/`,
-        params: payload
+        params: payload,
       });
       commit('setMenus', data);
 
@@ -55,19 +55,19 @@ const actions = {
         `/adham/menus/`,
         { ...payload, company: rootGetters.getCompanyId },
         {
-          headers: rootGetters.getHttpHeader
+          headers: rootGetters.getHttpHeader,
         }
       )
-      .then(async res => {
+      .then(async (res) => {
         response = {
           status: true,
-          data: res.data
+          data: res.data,
         };
       })
-      .catch(err => {
+      .catch((err) => {
         response = {
           status: false,
-          data: err.response.data
+          data: err.response.data,
         };
       });
     return response;
@@ -80,46 +80,36 @@ const actions = {
         `/adham/menus/${payload.id}/`,
         { ...payload, company: rootGetters.getCompanyId },
         {
-          headers: rootGetters.getHttpHeader
+          headers: rootGetters.getHttpHeader,
         }
       )
-      .then(async res => {
+      .then(async (res) => {
         response = {
           status: true,
-          data: res.data
+          data: res.data,
         };
       })
-      .catch(err => {
+      .catch((err) => {
         response = {
           status: false,
-          data: err.response.data
+          data: err.response.data,
         };
       });
     return response;
   },
 
-  async deleteMenu({ rootGetters, state, commit }, payload) {
-    let response;
-    if (!isNull(payload)) {
-      if (payload === state.selectedMenuId) commit('setSelectedMenuId', null);
-      await axios
-        .delete(`/adham/menus/${payload}/`, {
-          headers: rootGetters.getHttpHeader
-        })
-        .then(async res => {
-          response = {
-            status: true,
-            data: res.data
-          };
-        })
-        .catch(err => {
-          response = {
-            status: false,
-            data: err.response.data
-          };
-        });
+  async deleteMenu({ state, commit }, payload) {
+    if (payload === state.selectedMenuId) commit('setSelectedMenuId', null);
+    try {
+      const res = await api({
+        url: `/adham/menus/${payload}/`,
+        method: 'DELETE',
+      });
+
+      return res.data;
+    } catch (error) {
+      throw error;
     }
-    return response;
   },
 
   async updateModifierTypePositions({ rootGetters }, payload) {
@@ -128,14 +118,14 @@ const actions = {
         url: '/adham/menus/ordering-items/',
         method: 'post',
         data: payload,
-        headers: { authorization: true }
+        headers: { authorization: true },
       });
       return (await res).data;
     } catch (error) {
       console.log('error while updating Product: ', err);
       throw err;
     }
-  }
+  },
 };
 
 export default {
@@ -143,5 +133,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };
