@@ -1,21 +1,21 @@
-# rubick
+# Takk admin web app
 
 ## Project setup
 
 ```
-yarn
+pnpm i
 ```
 
 ### Compiles and hot-reloads for development
 
 ```
-yarn dev
+pnpm dev
 ```
 
 ### Compiles and minifies for production
 
 ```
-yarn build
+pnpm build
 ```
 
 # Vue 3 + Vite
