@@ -1,10 +1,99 @@
+<script setup>
+import { reactive, ref, watch } from 'vue';
+import { useNotyf } from '@/composables/useNotyf';
+import store from '@/store';
+import { helper } from '@/utils/helper';
+import AdminCafeSelect from '../selects/AdminCafeSelect.vue';
+
+const notyf = useNotyf();
+const cafe = ref(0);
+const type = ref(null);
+const chart = reactive({
+  series: [
+    {
+      data: [],
+    },
+    {
+      data: [],
+    },
+  ],
+  options: {
+    dataLabels: {
+      enabled: true,
+      enabledOnSeries: [],
+    },
+    chart: {
+      type: 'bar',
+    },
+    tooltip: {
+      shared: true,
+      intersect: false,
+    },
+    xaxis: {
+      categories: [],
+      // categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    },
+  },
+});
+
+watch(
+  () => cafe.value,
+  async (newVal) => {
+    await fetchData(type.value);
+  },
+  { immediate: true }
+);
+
+async function fetchData(val) {
+  try {
+    let res;
+    type.value = val;
+
+    if (cafe.value != 0) {
+      res = await store.dispatch('adminCompany/fetchAdminStatisticsSalesYear', {
+        cafe: cafe.value,
+        type: type.value,
+      });
+    } else {
+      res = await store.dispatch('adminCompany/fetchAdminStatisticsSalesYear', {
+        type: type.value,
+      });
+    }
+
+    console.log({ res });
+
+    chart.series = [
+      {
+        // data: res.last_year.map(item => item.count),
+        data: res.last,
+        name: 'Last Year',
+      },
+      {
+        // data: res.this_year.map(item => item.count),
+        data: res.current,
+        name: 'This Year',
+      },
+    ];
+    chart.options = {
+      ...chart.options,
+      xaxis: {
+        categories: res.months?.map((item) => helper.toMonthName(item)),
+      },
+    };
+  } catch (error) {
+    console.log({ error });
+    notyf.error('Error while fetching first chart data: ' + error.message);
+  }
+}
+</script>
+
 <template>
   <div class="flex">
     <AdminCafeSelect v-model="cafe" class="md:w-80" />
     <button class="ml-auto btn btn-primary mr-2" @click="fetchData('users')">
       <UserIcon />
     </button>
-    <button class="btn btn-primary" @click="fetchData('')">
+    <button class="btn btn-primary" @click="fetchData(null)">
       <DollarSignIcon />
     </button>
   </div>
@@ -13,94 +102,8 @@
       id="year-sales-chart"
       width="100%"
       type="bar"
-      :options="chartOptions"
-      :series="series"
+      :series="chart.series"
+      :options="chart.options"
     />
   </div>
 </template>
-
-<script>
-import { mapActions } from 'vuex';
-import AdminCafeSelect from '../selects/AdminCafeSelect.vue';
-
-export default {
-  async created() {
-    await this.fetchData();
-  },
-  data() {
-    return {
-      cafe: 0,
-      type: '',
-      series: [
-        {
-          data: []
-        },
-        {
-          data: []
-        }
-      ],
-      chartOptions: {
-        dataLabels: {
-          enabled: true,
-          enabledOnSeries: []
-        },
-        chart: {
-          type: 'bar'
-        },
-        tooltip: {
-          shared: true,
-          intersect: false
-        },
-        xaxis: {
-          categories: []
-          // categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        }
-      }
-    };
-  },
-  watch: {
-    async cafe(to, from) {
-      await this.fetchData(this.type);
-    }
-  },
-  methods: {
-    ...mapActions(['adminCompany/fetchAdminStatisticsSalesYear']),
-    async fetchData(val) {
-      let res;
-      this.type = val;
-      if (this.cafe != 0) {
-        res = await this['adminCompany/fetchAdminStatisticsSalesYear']({
-          cafe: this.cafe,
-          type: this.type
-        });
-      } else {
-        res = await this['adminCompany/fetchAdminStatisticsSalesYear']({
-          type: this.type
-        });
-      }
-      if (res.status) {
-        this.series = [
-          {
-            // data: res.last_year.map(item => item.count),
-            data: res.last,
-            name: 'Last Year'
-          },
-          {
-            // data: res.this_year.map(item => item.count),
-            data: res.current,
-            name: 'This Year'
-          }
-        ];
-        this.chartOptions = {
-          xaxis: {
-            categories: res.months?.map(item => this.toMonthName(item))
-          }
-        };
-      }
-    }
-  },
-  components: {
-    AdminCafeSelect
-  }
-};
-</script>

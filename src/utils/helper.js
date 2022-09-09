@@ -76,16 +76,8 @@ const helpers = {
     );
   },
   diffTimeByNow(time) {
-    const startDate = dayjs(
-      dayjs()
-        .format('YYYY-MM-DD HH:mm:ss')
-        .toString()
-    );
-    const endDate = dayjs(
-      dayjs(time)
-        .format('YYYY-MM-DD HH:mm:ss')
-        .toString()
-    );
+    const startDate = dayjs(dayjs().format('YYYY-MM-DD HH:mm:ss').toString());
+    const endDate = dayjs(dayjs(time).format('YYYY-MM-DD HH:mm:ss').toString());
 
     const duration = dayjs.duration(endDate.diff(startDate));
     const milliseconds = Math.floor(duration.asMilliseconds());
@@ -105,7 +97,7 @@ const helpers = {
       days: days.toString().length < 2 ? '0' + days : days,
       hours: hours.toString().length < 2 ? '0' + hours : hours,
       minutes: minutes.toString().length < 2 ? '0' + minutes : minutes,
-      seconds: seconds.toString().length < 2 ? '0' + seconds : seconds
+      seconds: seconds.toString().length < 2 ? '0' + seconds : seconds,
     };
   },
   isset(obj) {
@@ -129,10 +121,17 @@ const helpers = {
     }
 
     return numbers;
-  }
+  },
+  toMonthName(monthNumber) {
+    const date = new Date();
+    date.setMonth(monthNumber - 1);
+    return date.toLocaleString('en-US', {
+      month: 'short',
+    });
+  },
 };
 
-const install = app => {
+const install = (app) => {
   app.config.globalProperties.$h = helpers;
 };
 

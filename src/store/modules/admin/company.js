@@ -1,5 +1,8 @@
 import axios from 'axios';
 import { useStorage } from '@vueuse/core';
+import { useApi } from '@/composables/useApi';
+
+const api = useApi();
 
 const state = () => {
   return {
@@ -9,25 +12,26 @@ const state = () => {
     customers: [],
     statisticCustomers: [],
     statisticProducts: [],
-    transactions: []
+    transactions: [],
   };
 };
 
 const getters = {
-  getAdminCompany: state => state.company,
-  getAdminSelectedCompanyID: state => state.selectedCompanyID,
-  getAdminCompanies: state => state.companies,
-  getAdminCustomers: state => state.customers,
-  getAdminTransactions: state => state.transactions,
-  getAdminStatisticCustomers: state => state.statisticCustomers,
-  getAdminStatisticProducts: state => state.statisticProducts,
-  getAdminParameter: state => {
+  getAdminCompany: (state) => state.company,
+  getAdminSelectedCompanyID: (state) =>
+    state.selectedCompanyID == 0 ? null : state.selectedCompanyID,
+  getAdminCompanies: (state) => state.companies,
+  getAdminCustomers: (state) => state.customers,
+  getAdminTransactions: (state) => state.transactions,
+  getAdminStatisticCustomers: (state) => state.statisticCustomers,
+  getAdminStatisticProducts: (state) => state.statisticProducts,
+  getAdminParameter: (state) => {
     let result = {};
     if (state.selectedCompanyID != 0) {
       result = { company: state.selectedCompanyID };
     }
     return result;
-  }
+  },
 };
 
 const mutations = {
@@ -51,19 +55,19 @@ const mutations = {
   },
   setTransactions(state, payload) {
     state.transactions = payload;
-  }
+  },
 };
 
 const actions = {
   async fetchAdminCompanies({ commit, rootGetters }) {
     await axios
       .get('/adham/companies/', {
-        headers: rootGetters.getHttpHeader
+        headers: rootGetters.getHttpHeader,
       })
-      .then(res => {
+      .then((res) => {
         commit('setCompanies', res.data.results);
       })
-      .catch(err => {
+      .catch((err) => {
         commit('setCompanies', err.response.data);
       });
   },
@@ -73,14 +77,14 @@ const actions = {
       .get('/adham/companies/', {
         headers: rootGetters.getHttpHeader,
         params: {
-          id: rootGetters.getCompanyId
-        }
+          id: rootGetters.getCompanyId,
+        },
       })
-      .then(res => {
+      .then((res) => {
         commit('setCompany', res.data);
         // commit('cafes/setCafeList', res.data.cafes, { root: true });
       })
-      .catch(err => {
+      .catch((err) => {
         commit('setCompany', err.response.data);
       });
   },
@@ -91,19 +95,19 @@ const actions = {
       .put(`/adham/companies/${payload.id}/`, payload.form, {
         headers: {
           ...rootGetters.getHttpHeader,
-          'Content-Type': 'multipart/form-data'
-        }
+          'Content-Type': 'multipart/form-data',
+        },
       })
-      .then(async res => {
+      .then(async (res) => {
         response = {
           status: true,
-          data: res.data
+          data: res.data,
         };
       })
-      .catch(err => {
+      .catch((err) => {
         response = {
           status: false,
-          data: err.response?.data
+          data: err.response?.data,
         };
       });
     return response;
@@ -115,13 +119,16 @@ const actions = {
       // .get(`/adham/companies/${rootGetters.getCompanyId}/customers/`, {
       .get(`/adham/companies/customers/`, {
         headers: rootGetters.getHttpHeader,
-        params: { ...payload, ...rootGetters['adminCompany/getAdminParameter'] }
+        params: {
+          ...payload,
+          ...rootGetters['adminCompany/getAdminParameter'],
+        },
       })
-      .then(res => {
+      .then((res) => {
         response = res.data;
         commit('setCustomers', res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         // commit('setCustomers', err.response.data);
       });
@@ -135,13 +142,16 @@ const actions = {
       // .get(`/adham/companies/${rootGetters.getCompanyId}/transactions/`, {
       .get(`/adham/companies/transactions/`, {
         headers: rootGetters.getHttpHeader,
-        params: { ...payload, ...rootGetters['adminCompany/getAdminParameter'] }
+        params: {
+          ...payload,
+          ...rootGetters['adminCompany/getAdminParameter'],
+        },
       })
-      .then(res => {
+      .then((res) => {
         response = res.data;
         commit('setTransactions', res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         response = err.data;
         // commit('setTransactions', err.response.data);
       });
@@ -152,43 +162,46 @@ const actions = {
     await axios
       // .get(`/adham/companies/${rootGetters.getCompanyId}/transactions/`, {
       .get(`/adham/stripe/connect/`, {
-        headers: rootGetters.getHttpHeader
+        headers: rootGetters.getHttpHeader,
       })
-      .then(res => {
+      .then((res) => {
         response = { status: true, ...res.data };
       })
-      .catch(err => {
+      .catch((err) => {
         response = { status: false, ...err.data };
         // commit('setTransactions', err.response.data);
       });
     return response;
   },
-  async fetchAdminStatisticsSalesYear({ commit, rootGetters }, payload) {
-    let response;
-    await axios
-      .get(`/adham/statistics/sales/year/`, {
-        headers: rootGetters.getHttpHeader,
-        params: { ...payload, ...rootGetters['adminCompany/getAdminParameter'] }
-      })
-      .then(res => {
-        response = { status: true, ...res.data };
-      })
-      .catch(err => {
-        response = { status: false, ...err.data };
+
+  async fetchAdminStatisticsSalesYear({ getters }, payload) {
+    try {
+      const { data } = await api.get(`/adham/statistics/sales/year/`, {
+        params: {
+          ...payload,
+          company: getters['getAdminSelectedCompanyID'],
+        },
       });
-    return response;
+      return data;
+    } catch (error) {
+      throw error;
+    }
   },
+
   async fetchAdminStatisticsSalesWeek({ commit, rootGetters }, payload) {
     let response;
     await axios
       .get(`/adham/statistics/sales/week/`, {
         headers: rootGetters.getHttpHeader,
-        params: { ...payload, ...rootGetters['adminCompany/getAdminParameter'] }
+        params: {
+          ...payload,
+          ...rootGetters['adminCompany/getAdminParameter'],
+        },
       })
-      .then(res => {
+      .then((res) => {
         response = { status: true, ...res.data };
       })
-      .catch(err => {
+      .catch((err) => {
         response = { status: false, ...err.data };
       });
     return response;
@@ -198,12 +211,15 @@ const actions = {
     await axios
       .get(`/adham/statistics/transaction/year/`, {
         headers: rootGetters.getHttpHeader,
-        params: { ...payload, ...rootGetters['adminCompany/getAdminParameter'] }
+        params: {
+          ...payload,
+          ...rootGetters['adminCompany/getAdminParameter'],
+        },
       })
-      .then(res => {
+      .then((res) => {
         response = { status: true, ...res.data };
       })
-      .catch(err => {
+      .catch((err) => {
         response = { status: false, ...err.data };
       });
     return response;
@@ -214,12 +230,15 @@ const actions = {
     await axios
       .get(`/adham/statistics/transaction/week/`, {
         headers: rootGetters.getHttpHeader,
-        params: { ...payload, ...rootGetters['adminCompany/getAdminParameter'] }
+        params: {
+          ...payload,
+          ...rootGetters['adminCompany/getAdminParameter'],
+        },
       })
-      .then(res => {
+      .then((res) => {
         response = { status: true, ...res.data };
       })
-      .catch(err => {
+      .catch((err) => {
         response = { status: false, ...err.data };
       });
     return response;
@@ -229,12 +248,15 @@ const actions = {
     await axios
       .get(`/adham/statistics/user-register/year/`, {
         headers: rootGetters.getHttpHeader,
-        params: { ...payload, ...rootGetters['adminCompany/getAdminParameter'] }
+        params: {
+          ...payload,
+          ...rootGetters['adminCompany/getAdminParameter'],
+        },
       })
-      .then(res => {
+      .then((res) => {
         response = { status: true, ...res.data };
       })
-      .catch(err => {
+      .catch((err) => {
         response = { status: false, ...err.data };
       });
     return response;
@@ -244,12 +266,15 @@ const actions = {
     await axios
       .get(`/adham/statistics/user-register/week/`, {
         headers: rootGetters.getHttpHeader,
-        params: { ...payload, ...rootGetters['adminCompany/getAdminParameter'] }
+        params: {
+          ...payload,
+          ...rootGetters['adminCompany/getAdminParameter'],
+        },
       })
-      .then(res => {
+      .then((res) => {
         response = { status: true, ...res.data };
       })
-      .catch(err => {
+      .catch((err) => {
         response = { status: false, ...err.data };
       });
     return response;
@@ -262,14 +287,14 @@ const actions = {
         params: {
           ...payload,
           ...rootGetters['adminCompany/getAdminParameter'],
-          limit: 10
-        }
+          limit: 10,
+        },
       })
-      .then(res => {
+      .then((res) => {
         commit('setStatisticCustomers', res.data.results);
         response = { status: true, ...res.data };
       })
-      .catch(err => {
+      .catch((err) => {
         response = { status: false, ...err.data };
       });
     return response;
@@ -282,18 +307,18 @@ const actions = {
         params: {
           ...payload,
           ...rootGetters['adminCompany/getAdminParameter'],
-          limit: 10
-        }
+          limit: 10,
+        },
       })
-      .then(res => {
+      .then((res) => {
         commit('setStatisticProducts', res.data.results);
         response = { status: true, ...res.data };
       })
-      .catch(err => {
+      .catch((err) => {
         response = { status: false, ...err.data };
       });
     return response;
-  }
+  },
 };
 
 export default {
@@ -301,5 +326,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };
