@@ -144,6 +144,7 @@ import { useNotyf } from '@/composables/useNotyf';
 import { fetchCafeList } from '@/api';
 import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
 import SimpleImageUpload from './file-upload/SimpleImageUpload.vue';
+import SubmitButton from '../buttons/SubmitButton.vue';
 
 const notyf = useNotyf();
 
@@ -246,6 +247,6 @@ export default defineComponent({
       return this.errors[key]?.[0];
     },
   },
-  components: { DeleteConfirmModal, SimpleImageUpload },
+  components: { DeleteConfirmModal, SimpleImageUpload, SubmitButton },
 });
 </script>

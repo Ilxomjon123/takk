@@ -4,6 +4,7 @@ import { addCafeGallery } from '@/api';
 import MultipleImageUpload from './MultipleImageUpload.vue';
 import { useNotyf } from '../../../composables/useNotyf';
 import { ref } from 'vue';
+import SubmitButton from '../../../components/buttons/SubmitButton.vue';
 
 const props = defineProps({
   formData: {
