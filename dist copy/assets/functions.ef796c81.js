@@ -1,1 +1,0 @@
-function s(c,o,e){if(o&&typeof o=="object"&&!(o instanceof Date)&&!(o instanceof File))Object.keys(o).forEach(n=>{s(c,o[n],e?`${e}[${n}]`:n)});else{const n=o==null?"":o;c.append(e,n)}}const f=c=>{const o=new FormData;return s(o,c),o};export{f as j};
