@@ -1,0 +1,1 @@
+import{T as a}from"./Tariffs.e290fad0.js";import{a as s,b as e,e as o}from"./index.c1d8041c.js";const c={class:"col-span-12 lg:col-span-9 2xl:col-span-9"},_={__name:"Tariffs",setup(r){return(t,n)=>(s(),e("div",c,[o(a)]))}};export{_ as default};
