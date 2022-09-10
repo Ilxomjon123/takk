@@ -1,3 +1,10 @@
+<script setup>
+import ProfileAvatar from './parts/ProfileAvatar.vue';
+import Breadcumb from './parts/Breadcumb.vue';
+import ThemeModeButton from '../dark-mode-switcher/Button.vue';
+import RouteBackButton from './parts/RouteBackButton.vue';
+</script>
+
 <template>
   <!-- BEGIN: Top Bar -->
   <div class="top-bar">
@@ -18,17 +25,3 @@
   </div>
   <!-- END: Top Bar -->
 </template>
-
-<script>
-import { defineComponent } from 'vue'
-import ProfileAvatar from './parts/ProfileAvatar.vue'
-import Breadcumb from './parts/Breadcumb.vue';
-import GlobalSearch from './parts/GlobalSearch.vue';
-import Notifications from './parts/Notifications.vue';
-import ThemeModeButton from '../dark-mode-switcher/Button.vue'
-import RouteBackButton from './parts/RouteBackButton.vue';
-
-export default defineComponent({
-  components: { ProfileAvatar, Breadcumb, GlobalSearch, Notifications, ThemeModeButton, RouteBackButton }
-});
-</script>
