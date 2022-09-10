@@ -1,28 +1,29 @@
+import { useStorage } from '@vueuse/core';
 import * as types from './mutation-types';
 
 const state = () => {
   return {
-    darkMode: false
+    darkMode: useStorage('dark-mode', false),
   };
 };
 
 // getters
 const getters = {
-  darkMode: state => state.darkMode
+  darkMode: (state) => state.darkMode,
 };
 
 // actions
 const actions = {
   setDarkMode({ commit }, darkMode) {
     commit(types.SET_DARK_MODE, { darkMode });
-  }
+  },
 };
 
 // mutations
 const mutations = {
   [types.SET_DARK_MODE](state, { darkMode }) {
     state.darkMode = darkMode;
-  }
+  },
 };
 
 export default {
@@ -30,5 +31,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

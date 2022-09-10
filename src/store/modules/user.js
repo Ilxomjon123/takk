@@ -19,28 +19,28 @@ const state = () => {
     STEP_DASHBOARD: 4,
     employee_types: [
       { name: 'Manager', value: 1 },
-      { name: 'Casher', value: 2 }
-    ]
+      { name: 'Casher', value: 2 },
+    ],
   };
 };
 
 const getters = {
-  getUser: state => state.user,
-  isSuperuser: state => state.user.is_superuser,
-  getCompanyId: state => state.user.company_id,
-  getToken: state => state.token,
-  getRefreshToken: state => state.refreshToken,
+  getUser: (state) => state.user,
+  isSuperuser: (state) => state.user.is_superuser,
+  getCompanyId: (state) => state.user.company_id,
+  getToken: (state) => state.token,
+  getRefreshToken: (state) => state.refreshToken,
   getHttpHeader(state, getters) {
     return {
-      Authorization: `JWT ${getters.getToken}`
+      Authorization: `JWT ${getters.getToken}`,
     };
   },
   getStep(state, getters) {
     return state.user?.state_steps;
     // return getters.getUser.state_steps;
   },
-  getEmployeeTypes: state => state.employee_types,
-  isLoggedIn: state => state.token !== undefined && state.token !== ''
+  getEmployeeTypes: (state) => state.employee_types,
+  isLoggedIn: (state) => state.token !== undefined && state.token !== '',
 };
 
 const mutations = {
@@ -60,7 +60,7 @@ const mutations = {
     let required_details = JSON.parse(localStorage.getItem(REQUIRED_DETAILS));
     required_details.user.company_id = payload;
     localStorage.setItem(REQUIRED_DETAILS, JSON.stringify(required_details));
-  }
+  },
 };
 
 const actions = {
@@ -69,7 +69,7 @@ const actions = {
       const res = await api({
         url: '/api/users/register/',
         method: 'POST',
-        data: form
+        data: form,
       });
       dispatch('postFcm');
       return res.data;
@@ -86,12 +86,12 @@ const actions = {
 
       return {
         status: true,
-        data: res.data
+        data: res.data,
       };
     } catch (err) {
       return {
         status: false,
-        data: err.response
+        data: err.response,
       };
     }
   },
@@ -108,7 +108,7 @@ const actions = {
   async fetchProfile({ commit }) {
     try {
       const { data } = await api({
-        url: '/api/users/profile/'
+        url: '/api/users/profile/',
       });
 
       commit('setUser', data);
@@ -122,7 +122,7 @@ const actions = {
       const res = await api({
         url: `/api/users/profile/`,
         method: 'PUT',
-        data: payload
+        data: payload,
       });
 
       commit('setUser', res.data);
@@ -136,7 +136,7 @@ const actions = {
       const res = await api({
         url: `/api/fcm-notofications/`,
         method: 'POST',
-        data: { type: 'web', registration_id: getters.getToken }
+        data: { type: 'web', registration_id: getters.getToken },
       });
     } catch (error) {
       throw error;
@@ -147,7 +147,7 @@ const actions = {
     try {
       const res = await api({
         url: `/api/fcm-notofications/`,
-        method: 'DELETE'
+        method: 'DELETE',
       });
     } catch (error) {
       throw error;
@@ -159,19 +159,19 @@ const actions = {
       const { data } = await api({
         url: `/api/token/refresh/`,
         method: 'POST',
-        data: { refresh: getters.getRefreshToken }
+        data: { refresh: getters.getRefreshToken },
       });
 
       commit('setToken', data);
     } catch (error) {
       throw error;
     }
-  }
+  },
 };
 
 export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };
