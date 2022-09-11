@@ -1,3 +1,70 @@
+<script setup>
+import { onMounted, reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import store from '@/store';
+import { useNotyf } from '@/composables/useNotyf';
+import CountrySelect from '@/components/selects/CountrySelect.vue';
+import CitySelect from '@/components/selects/CitySelect.vue';
+import TelInput from './TelInput.vue';
+import StateSelect from '../selects/StateSelect.vue';
+import { storeCafe } from '@/api';
+import SubmitButton from '../buttons/SubmitButton.vue';
+
+const router = useRouter();
+const notyf = useNotyf();
+const form = reactive({
+    week_time: [{ day: 'monday' }],
+    cafe_timezone: 'Etc/GMT+12',
+    location: {
+      lat: 0,
+      lon: 0,
+    },
+    country: '',
+    call_center: '',
+    phone_code: '',
+    state: '',
+    city: '',
+    address: '',
+    postal_code: '',
+  }),
+  isLoading = ref(false),
+  errors = reactive({});
+
+onMounted(async () => {
+  await store.dispatch('fetchCompany');
+
+  const { country, phone, state, city, postal_code, address } =
+    store.getters['getCompany'];
+
+  form.country = country;
+  form.call_center = phone;
+  form.state = state;
+  form.city = city;
+  form.postal_code = postal_code;
+  form.address = address;
+});
+
+async function submit() {
+  try {
+    isLoading.value = true;
+    Object.assign(errors, {});
+    await storeCafe(form);
+    await store.dispatch('putStep', store.state.user.STEP_FINISH);
+    notyf.success();
+    router.push('/entry/finish');
+  } catch (error) {
+    Object.assign(errors, error.response?.data);
+    notyf.error('Error while updating step: ' + error.message);
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+function getError(key) {
+  return errors[key]?.[0];
+}
+</script>
+
 <template>
   <form @submit.prevent="submit">
     <div class="flex flex-wrap -mx-3 mb-3">
@@ -13,7 +80,6 @@
           :class="getError('name') != null ? 'border-theme-6' : ''"
           placeholder="Cafe Name"
           v-model="form.name"
-          required
         />
         <div class="text-theme-6" v-text="getError('name')" />
       </div>
@@ -57,18 +123,6 @@
     </div>
     <div class="flex flex-wrap -mx-3 mb-3">
       <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
-        <label for="address" class="form-label">Address</label>
-        <input
-          id="address"
-          type="text"
-          class="form-control"
-          :class="getError('address') != null ? 'border-theme-6' : ''"
-          placeholder="Address"
-          v-model="form.address"
-        />
-        <div class="text-theme-6" v-text="getError('address')" />
-      </div>
-      <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
         <label for="postal_code" class="form-label">Postal Code</label>
         <input
           id="postal_code"
@@ -80,94 +134,24 @@
         />
         <div class="text-theme-6" v-text="getError('postal_code')" />
       </div>
-    </div>
-    <div>
-      <button
-        type="submit"
-        class="btn btn-primary px-4 block mx-auto mt-8 px-10 align-top"
-        :disabled="isLoading"
-      >
-        {{ isLoading ? '' : 'Submit' }}
-        <LoadingIcon
-          v-if="isLoading"
-          icon="three-dots"
-          color="white"
-          class="w-8 h-8 my-2"
+      <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
+        <label for="address" class="form-label">Address</label>
+        <input
+          id="address"
+          type="text"
+          class="form-control"
+          :class="getError('address') != null ? 'border-theme-6' : ''"
+          placeholder="Address"
+          v-model="form.address"
         />
-      </button>
+        <div class="text-theme-6" v-text="getError('address')" />
+      </div>
+    </div>
+    <div class="text-center mt-10">
+      <SubmitButton :is-loading="isLoading" text="Next" />
     </div>
   </form>
 </template>
-
-<script>
-import { defineComponent } from 'vue';
-import CountrySelect from '@/components/selects/CountrySelect.vue';
-import CitySelect from '@/components/selects/CitySelect.vue';
-import { mapActions } from 'vuex';
-import TelInput from './TelInput.vue';
-import StateSelect from '../selects/StateSelect.vue';
-import { useNotyf } from '../../composables/useNotyf';
-
-const notyf = useNotyf();
-
-export default defineComponent({
-  data() {
-    return {
-      form: {
-        week_time: [{ day: 'monday' }],
-        cafe_timezone: 'Etc/GMT+12',
-        location: {
-          lat: 0,
-          lon: 0,
-        },
-        country: '',
-        call_center: '',
-        phone_code: '',
-        state: '',
-        city: '',
-        address: '',
-      },
-      isLoading: false,
-      errors: {},
-    };
-  },
-  async mounted() {
-    await this.$store.dispatch('fetchCompany');
-    const { country, phone, state, city, address } =
-      this.$store.getters['getCompany'];
-    this.form.country = country;
-    this.form.call_center = phone;
-    this.form.state = state;
-    this.form.city = city;
-    this.form.address = address;
-  },
-  methods: {
-    ...mapActions(['postCafe', 'putStep']),
-    async submit() {
-      this.isLoading = true;
-      this.errors = {};
-      const res = await this.postCafe(this.form);
-
-      if (res.status) {
-        this.errors = {};
-        const resp = await this.putStep(this.$store.state.user.STEP_FINISH);
-        if (resp.status) {
-          this.$router.push('/entry/finish');
-        } else {
-          notyf.error('Error while updating step: ' + error.messages);
-        }
-      } else {
-        this.errors = res.data;
-      }
-      this.isLoading = false;
-    },
-    getError(key) {
-      return this.errors[key]?.[0];
-    },
-  },
-  components: { CountrySelect, CitySelect, TelInput, StateSelect },
-});
-</script>
 
 <style scoped>
 /* Chrome, Saf

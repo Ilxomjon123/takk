@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, watch, watchEffect } from 'vue';
+import { ref, watch, watchEffect } from 'vue';
 import { VueTelInput } from 'vue-tel-input';
 import 'vue-tel-input/dist/vue-tel-input.css';
 
@@ -20,11 +20,14 @@ watch(
   () => props.phoneNumber,
   (newVal) => {
     if (newVal) {
+      console.log('ok1');
       if (newVal.startsWith(props.dialCode)) {
-        phone.value = props.phoneNumber?.substring(props.dialCode?.length);
+        console.log('ok2');
+        phone.value = newVal.substring(props.dialCode.length);
       } else if (newVal.startsWith('+' + props.dialCode)) {
-        phone.value = props.phoneNumber?.substring(props.dialCode?.length + 1);
-      } else phone.value = props.phoneNumber;
+        console.log('ok3');
+        phone.value = newVal.substring(props.dialCode.length + 1);
+      } else phone.value = newVal;
     }
   },
   { immediate: true }
@@ -36,8 +39,16 @@ watchEffect(() => {
       defaultCountryCode.value = 'US';
     } else defaultCountryCode.value = Number(props.dialCode);
   }
+
   // if (props.phoneNumber) {
-  //   phone.value = props.phoneNumber?.substring(props.dialCode?.length + 1);
+  //   console.log('ok1');
+  //   if (props.phoneNumber.startsWith(props.dialCode)) {
+  //     console.log('ok2');
+  //     phone.value = props.phoneNumber.substring(props.dialCode.length);
+  //   } else if (props.phoneNumber.startsWith('+' + props.dialCode)) {
+  //     console.log('ok3');
+  //     phone.value = props.phoneNumber?.substring(props.dialCode.length + 1);
+  //   } else phone.value = props.phoneNumber;
   // }
 });
 

@@ -1,6 +1,10 @@
 <script setup>
 const props = defineProps({
   isLoading: false,
+  text: {
+    type: String,
+    default: 'Save',
+  },
 });
 </script>
 
@@ -12,6 +16,6 @@ const props = defineProps({
       color="white"
       class="my-2 mx-1"
     />
-    <span v-else>Save</span>
+    <span v-else>{{ text }}</span>
   </button>
 </template>

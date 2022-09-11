@@ -3,56 +3,52 @@ import CountrySelect from '@/components/selects/CountrySelect.vue';
 import CitySelect from '@/components/selects/CitySelect.vue';
 import StateSelect from '../selects/StateSelect.vue';
 import TelInput from './TelInput.vue';
-import { computed, onMounted, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import store from '@/store';
 import router from '@/router';
-import { useNotyf } from '../../composables/useNotyf';
+import { useNotyf } from '@/composables/useNotyf';
+import { storeCompany } from '@/api';
+import SubmitButton from '../buttons/SubmitButton.vue';
 
 const user = computed(() => store.getters['getUser']);
 const notyf = useNotyf();
-const form = ref({
+const form = reactive({
   email: user.value.email,
   phone: user.value.phone,
   phone_code: user.value.phone_code,
   country: '236',
+  country_code: 'US',
+  cashback_persent: 10,
+  name: '',
 });
+const errors = reactive({});
 const isLoading = ref(false);
-const errors = ref({});
-const errorNotification = ref();
-// const { countriesList, selectedCountry } = useCountries();
 
 async function submit() {
-  isLoading.value = true;
-  errors.value = {};
-  // const country = countriesList.value.find(
-  //   item => item.id == selectedCountry.value
-  // );
-  form.value.country_code = 'US';
-  form.value.cashback_persent = 10;
+  try {
+    isLoading.value = true;
+    Object.assign(errors, {});
 
-  const res = await store.dispatch('postCompany', form.value);
+    const res = await storeCompany(form);
 
-  if (res.status) {
-    await goCafe();
-  } else {
-    if (res.data?.detail == 'You already have a company') await goCafe();
-    else errors.value = res.data;
+    if (res.data?.detail == 'You already have a company') {
+      notyf.info(res.data?.detail);
+      router.push('/entry/cafe');
+    }
+
+    await store.dispatch('putStep', user.value.STEP_CAFE);
+    notyf.success();
+    router.push('/entry/cafe');
+  } catch (error) {
+    Object.assign(errors, error.response?.data);
+    notyf.error('Error while updating step: ' + error.message);
+  } finally {
+    isLoading.value = false;
   }
-  isLoading.value = false;
 }
 
 function getError(key) {
-  return errors.value[key]?.[0];
-}
-
-async function goCafe() {
-  try {
-    errors.value = {};
-    const resp = await store.dispatch('putStep', user.value.STEP_CAFE);
-    router.push('/entry/cafe');
-  } catch (error) {
-    notyf.error('Error while updating step: ' + error.messages);
-  }
+  return errors[key]?.[0];
 }
 </script>
 
@@ -73,7 +69,6 @@ async function goCafe() {
           "
           placeholder="Company Name"
           v-model="form.name"
-          required
         />
         <div class="text-theme-6" v-text="getError('name')" />
       </div>
@@ -159,20 +154,8 @@ async function goCafe() {
       </div>
     </div>
     <div class="text-theme-6 text-center" v-text="errors['detail']" />
-    <div>
-      <button
-        type="submit"
-        class="btn btn-primary px-4 block mx-auto mt-8 px-10 align-top"
-        :disabled="isLoading"
-      >
-        {{ isLoading ? '' : 'Next' }}
-        <LoadingIcon
-          v-if="isLoading"
-          icon="three-dots"
-          color="white"
-          class="w-8 h-8 my-2"
-        />
-      </button>
+    <div class="text-center mt-10">
+      <SubmitButton :is-loading="isLoading" text="Next" />
     </div>
   </form>
 </template>
