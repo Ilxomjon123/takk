@@ -52,15 +52,22 @@ const chart = reactive({
 watch(
   () => cafe.value,
   async (newVal) => {
-    await fetchData(type.value);
+    await fetchData();
   },
   { immediate: true }
 );
 
-async function fetchData(val) {
+watch(
+  () => type.value,
+  async (newVal) => {
+    await fetchData();
+  },
+  { immediate: true }
+);
+
+async function fetchData() {
   try {
     let res;
-    type.value = val;
 
     if (cafe.value != 0) {
       res = await store.dispatch('adminCompany/fetchAdminStatisticsSalesYear', {
@@ -103,10 +110,10 @@ async function fetchData(val) {
 <template>
   <div class="flex">
     <AdminCafeSelect v-model="cafe" class="md:w-80" />
-    <button class="ml-auto btn btn-primary mr-2" @click="fetchData('users')">
+    <button class="ml-auto btn btn-primary mr-2" @click="type = 'users'">
       <UserIcon />
     </button>
-    <button class="btn btn-primary" @click="fetchData(null)">
+    <button class="btn btn-primary" @click="type = null">
       <DollarSignIcon />
     </button>
   </div>
