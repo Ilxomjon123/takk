@@ -135,27 +135,21 @@ const actions = {
     return response;
   },
 
-  async fetchAdminTransactions({ commit, rootGetters }, payload) {
-    let response;
-
-    await axios
-      // .get(`/adham/companies/${rootGetters.getCompanyId}/transactions/`, {
-      .get(`/adham/companies/transactions/`, {
-        headers: rootGetters.getHttpHeader,
+  async fetchAdminTransactions({ commit, getters }, payload) {
+    try {
+      const { data } = await api.get(`/adham/transactions/`, {
         params: {
           ...payload,
-          ...rootGetters['adminCompany/getAdminParameter'],
+          company: getters['getAdminSelectedCompanyID'],
         },
-      })
-      .then((res) => {
-        response = res.data;
-        commit('setTransactions', res.data);
-      })
-      .catch((err) => {
-        response = err.data;
-        // commit('setTransactions', err.response.data);
       });
-    return response;
+
+      commit('setTransactions', data);
+
+      return data;
+    } catch (error) {
+      throw error;
+    }
   },
   async fetchAdminStripeConnect({ commit, rootGetters }) {
     let response;

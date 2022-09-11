@@ -4,23 +4,19 @@ import moment from 'moment';
 
 onMounted(() => {
   emit('submit', {
-    start: startDate.value,
-    end: endDate.value
+    start: moment(startDate.value).format('YYYY-MM-DD'),
+    end: moment(endDate.value).format('YYYY-MM-DD'),
   });
 });
 
 const emit = defineEmits(['submit']);
+const todayDate = moment().format('DD MMM YYYY');
+const startDate = ref(moment().subtract(1, 'month').format('DD MMM YYYY'));
+const endDate = ref(todayDate);
 
-const startDate = ref(
-  moment()
-    .subtract(1, 'month')
-    .format('DD-MM-YYYY')
-);
-const endDate = ref(moment().format('DD-MM-YYYY'));
+const dateRange = computed(() => `${startDate.value} - ${endDate.value}`);
 
-const daterange = computed(() => `${startDate.value} - ${endDate.value}`);
-
-const search = rangeString => {
+const search = (rangeString) => {
   if (rangeString) {
     const dates = rangeString.split(' - ');
     startDate.value = dates[0];
@@ -28,42 +24,34 @@ const search = rangeString => {
   }
 
   emit('submit', {
-    start: startDate.value,
-    end: endDate.value
+    start: moment(startDate.value).format('YYYY-MM-DD'),
+    end: moment(endDate.value).format('YYYY-MM-DD'),
   });
 };
 
-const setRange = val => {
+const setRange = (val) => {
   if (val < 7) {
-    startDate.value = moment()
-      .subtract(val, 'day')
-      .format('DD-MM-YYYY');
-    endDate.value = moment()
-      .subtract(val, 'day')
-      .format('DD-MM-YYYY');
+    startDate.value = moment().subtract(val, 'day').format('DD MMM YYYY');
+    endDate.value = moment().subtract(val, 'day').format('DD MMM YYYY');
   } else {
     switch (val) {
       case 10:
-        startDate.value = moment()
-          .startOf('month')
-          .format('DD-MM-YYYY');
-        endDate.value = moment().format('DD-MM-YYYY');
+        startDate.value = moment().startOf('month').format('DD MMM YYYY');
+        endDate.value = todayDate;
         break;
       case 20:
         startDate.value = moment()
           .subtract(1, 'month')
           .startOf('month')
-          .format('DD-MM-YYYY');
+          .format('DD MMM YYYY');
         endDate.value = moment()
           .subtract(1, 'month')
           .endOf('month')
-          .format('DD-MM-YYYY');
+          .format('DD MMM YYYY');
         break;
       default:
-        startDate.value = moment()
-          .subtract(val, 'days')
-          .format('DD-MM-YYYY');
-        endDate.value = moment().format('DD-MM-YYYY');
+        startDate.value = moment().subtract(val, 'days').format('DD MMM YYYY');
+        endDate.value = todayDate;
     }
   }
   search();
@@ -76,7 +64,7 @@ const setRange = val => {
       <a
         class="dropdown-toggle form-control cursor-pointer"
         aria-expanded="false"
-        >{{ daterange }}
+        >{{ dateRange }}
       </a>
       <div class="dropdown-menu w-60">
         <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
@@ -126,10 +114,10 @@ const setRange = val => {
           <div id="daterangepicker">
             <div>
               <Litepicker
-                v-model="daterange"
+                v-model="dateRange"
                 @update:modelValue="search"
                 :options="{
-                  format: 'DD-MM-YYYY',
+                  format: 'DD MMM YYYY',
                   autoApply: false,
                   singleMode: false,
                   numberOfColumns: 2,
@@ -139,8 +127,8 @@ const setRange = val => {
                     minYear: 1990,
                     maxYear: new Date().getFullYear(),
                     months: true,
-                    years: true
-                  }
+                    years: true,
+                  },
                 }"
                 class="form-control block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md text-left w-full"
               />

@@ -2,21 +2,22 @@
 import { reactive, ref } from 'vue';
 import MainPaginator from '@/components/paginator/MainPaginator.vue';
 import ExcelExportButton from '@/components/buttons/ExcelExportButton.vue';
-import TransactionSearch from '@/components/forms/TransactionSearch.vue';
+import DateRangePicker from '../../../components/forms/DateRangePicker.vue';
 
 const items = ref([]),
-  paginator = ref(null),
   order = reactive({}),
-  form = reactive({}),
+  form = reactive({
+    create_date: '',
+  }),
+  paginator = ref(null),
   statuses = ref(['PAID', 'REFUND']);
 
 function setItems(val) {
   items.value = val;
 }
 
-async function search(formData) {
-  Object.assign(form, formData);
-  // console.log(form);
+async function search(dateRangeObj) {
+  form.create_date = dateRangeObj.start;
   await paginator.value.paginate(1, form);
 }
 
@@ -38,7 +39,8 @@ function setOrder(val) {
           <div class="hidden md:block mx-auto text-gray-600"></div>
           <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
             <div class="w-56 relative text-gray-700 dark:text-gray-300">
-              <TransactionSearch @submit="search($event)" />
+              <!-- <TransactionSearch @submit="search($event)" /> -->
+              <DateRangePicker @submit="search" />
             </div>
           </div>
         </div>

@@ -18,6 +18,7 @@ const selectedCafe = computed({
   }
 });
 const cafeList = computed(() => store.getters['adminCafe/getAdminCafeList']);
+
 if (cafeList.value.length == 0) {
   store.dispatch('adminCafe/fetchAdminCafeList');
 }

@@ -74,7 +74,7 @@
             :options="{
               autoApply: false,
               showWeekNumbers: true,
-              format: 'YYYY-MM-DD',
+              format: 'DD MMM YYYY',
               dropdowns: {
                 minYear: 1990,
                 maxYear: null,

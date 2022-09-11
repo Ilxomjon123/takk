@@ -36,7 +36,7 @@ function fetchData() {
 <template>
   <div class="flex">
     <AdminCafeSelect class="md:w-80" @update:model-value="changeCafe" />
-    <DateRangePicker class="mt-2 ml-auto" @submit="changeDateRange" />
+    <DateRangePicker class="mt-2.5 ml-auto" @submit="changeDateRange" />
   </div>
   <div class="mt-3 overflow-auto lg:overflow-visible">
     <table class="table table-report">
