@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref, inject, watch } from 'vue';
 import { helper as $h } from '@/utils/helper';
-import Chart from 'chart.js';
+import { Chart } from 'chart.js';
 
 const props = defineProps({
   type: {
