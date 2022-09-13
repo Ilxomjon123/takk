@@ -8,7 +8,7 @@ export async function fetchCategories(
 ) {
   try {
     const res = await api({
-      url: `/admn/menus/${menuID}/categories/`,
+      url: `https://api.takk.cafe/api/v1/dashboard/admin/menus/${menuID}/categories/`,
       params: payload,
     });
     return res.data;

@@ -61,7 +61,7 @@ const mutations = {
 const actions = {
   async fetchAdminCompanies({ commit, rootGetters }) {
     await axios
-      .get('/admn/companies/', {
+      .get('https://api.takk.cafe/api/v1/dashboard/admin/companies/', {
         headers: rootGetters.getHttpHeader,
       })
       .then((res) => {
@@ -74,7 +74,7 @@ const actions = {
 
   async fetchAdminCompany({ commit, rootGetters }) {
     await axios
-      .get('/admn/companies/', {
+      .get('https://api.takk.cafe/api/v1/dashboard/admin/companies/', {
         headers: rootGetters.getHttpHeader,
         params: {
           id: rootGetters.getCompanyId,
@@ -92,12 +92,16 @@ const actions = {
   async putCompany({ rootGetters }, payload) {
     let response;
     await axios
-      .put(`/admn/companies/${payload.id}/`, payload.form, {
-        headers: {
-          ...rootGetters.getHttpHeader,
-          'Content-Type': 'multipart/form-data',
-        },
-      })
+      .put(
+        `https://api.takk.cafe/api/v1/dashboard/admin/companies/${payload.id}/`,
+        payload.form,
+        {
+          headers: {
+            ...rootGetters.getHttpHeader,
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      )
       .then(async (res) => {
         response = {
           status: true,
@@ -116,14 +120,17 @@ const actions = {
   async fetchAdminCustomers({ commit, rootGetters }, payload) {
     let response;
     await axios
-      // .get(`/admn/companies/${rootGetters.getCompanyId}/customers/`, {
-      .get(`/admn/companies/customers/`, {
-        headers: rootGetters.getHttpHeader,
-        params: {
-          ...payload,
-          ...rootGetters['adminCompany/getAdminParameter'],
-        },
-      })
+      // .get(`https://api.takk.cafe/api/v1/dashboard/admin/companies/${rootGetters.getCompanyId}/customers/`, {
+      .get(
+        `https://api.takk.cafe/api/v1/dashboard/admin/companies/customers/`,
+        {
+          headers: rootGetters.getHttpHeader,
+          params: {
+            ...payload,
+            ...rootGetters['adminCompany/getAdminParameter'],
+          },
+        }
+      )
       .then((res) => {
         response = res.data;
         commit('setCustomers', res.data);
@@ -137,12 +144,15 @@ const actions = {
 
   async fetchAdminTransactions({ commit, getters }, payload) {
     try {
-      const { data } = await api.get(`/admn/transactions/`, {
-        params: {
-          ...payload,
-          company: getters['getAdminSelectedCompanyID'],
-        },
-      });
+      const { data } = await api.get(
+        `https://api.takk.cafe/api/v1/dashboard/admin/transactions/`,
+        {
+          params: {
+            ...payload,
+            company: getters['getAdminSelectedCompanyID'],
+          },
+        }
+      );
 
       commit('setTransactions', data);
 
@@ -154,8 +164,8 @@ const actions = {
   async fetchAdminStripeConnect({ commit, rootGetters }) {
     let response;
     await axios
-      // .get(`/admn/companies/${rootGetters.getCompanyId}/transactions/`, {
-      .get(`/admn/stripe/connect/`, {
+      // .get(`https://api.takk.cafe/api/v1/dashboard/admin/companies/${rootGetters.getCompanyId}/transactions/`, {
+      .get(`https://api.takk.cafe/api/v1/dashboard/admin/stripe/connect/`, {
         headers: rootGetters.getHttpHeader,
       })
       .then((res) => {
@@ -170,12 +180,15 @@ const actions = {
 
   async fetchAdminStatisticsSalesYear({ getters }, payload) {
     try {
-      const { data } = await api.get(`/admn/statistics/sales/year/`, {
-        params: {
-          ...payload,
-          company: getters['getAdminSelectedCompanyID'],
-        },
-      });
+      const { data } = await api.get(
+        `https://api.takk.cafe/api/v1/dashboard/admin/statistics/sales/year/`,
+        {
+          params: {
+            ...payload,
+            company: getters['getAdminSelectedCompanyID'],
+          },
+        }
+      );
       return data;
     } catch (error) {
       throw error;
@@ -185,13 +198,16 @@ const actions = {
   async fetchAdminStatisticsSalesWeek({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/admn/statistics/sales/week/`, {
-        headers: rootGetters.getHttpHeader,
-        params: {
-          ...payload,
-          ...rootGetters['adminCompany/getAdminParameter'],
-        },
-      })
+      .get(
+        `https://api.takk.cafe/api/v1/dashboard/admin/statistics/sales/week/`,
+        {
+          headers: rootGetters.getHttpHeader,
+          params: {
+            ...payload,
+            ...rootGetters['adminCompany/getAdminParameter'],
+          },
+        }
+      )
       .then((res) => {
         response = { status: true, ...res.data };
       })
@@ -203,13 +219,16 @@ const actions = {
   async fetchAdminStatisticsTransactionYear({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/admn/statistics/transaction/year/`, {
-        headers: rootGetters.getHttpHeader,
-        params: {
-          ...payload,
-          ...rootGetters['adminCompany/getAdminParameter'],
-        },
-      })
+      .get(
+        `https://api.takk.cafe/api/v1/dashboard/admin/statistics/transaction/year/`,
+        {
+          headers: rootGetters.getHttpHeader,
+          params: {
+            ...payload,
+            ...rootGetters['adminCompany/getAdminParameter'],
+          },
+        }
+      )
       .then((res) => {
         response = { status: true, ...res.data };
       })
@@ -222,13 +241,16 @@ const actions = {
     let response;
 
     await axios
-      .get(`/admn/statistics/transaction/week/`, {
-        headers: rootGetters.getHttpHeader,
-        params: {
-          ...payload,
-          ...rootGetters['adminCompany/getAdminParameter'],
-        },
-      })
+      .get(
+        `https://api.takk.cafe/api/v1/dashboard/admin/statistics/transaction/week/`,
+        {
+          headers: rootGetters.getHttpHeader,
+          params: {
+            ...payload,
+            ...rootGetters['adminCompany/getAdminParameter'],
+          },
+        }
+      )
       .then((res) => {
         response = { status: true, ...res.data };
       })
@@ -240,13 +262,16 @@ const actions = {
   async fetchAdminStatisticsRegistrationYear({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/admn/statistics/user-register/year/`, {
-        headers: rootGetters.getHttpHeader,
-        params: {
-          ...payload,
-          ...rootGetters['adminCompany/getAdminParameter'],
-        },
-      })
+      .get(
+        `https://api.takk.cafe/api/v1/dashboard/admin/statistics/user-register/year/`,
+        {
+          headers: rootGetters.getHttpHeader,
+          params: {
+            ...payload,
+            ...rootGetters['adminCompany/getAdminParameter'],
+          },
+        }
+      )
       .then((res) => {
         response = { status: true, ...res.data };
       })
@@ -258,13 +283,16 @@ const actions = {
   async fetchAdminStatisticsRegistrationWeek({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/admn/statistics/user-register/week/`, {
-        headers: rootGetters.getHttpHeader,
-        params: {
-          ...payload,
-          ...rootGetters['adminCompany/getAdminParameter'],
-        },
-      })
+      .get(
+        `https://api.takk.cafe/api/v1/dashboard/admin/statistics/user-register/week/`,
+        {
+          headers: rootGetters.getHttpHeader,
+          params: {
+            ...payload,
+            ...rootGetters['adminCompany/getAdminParameter'],
+          },
+        }
+      )
       .then((res) => {
         response = { status: true, ...res.data };
       })
@@ -276,14 +304,17 @@ const actions = {
   async fetchAdminStatisticsCustomer({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/admn/statistics/customers/`, {
-        headers: rootGetters.getHttpHeader,
-        params: {
-          ...payload,
-          ...rootGetters['adminCompany/getAdminParameter'],
-          limit: 10,
-        },
-      })
+      .get(
+        `https://api.takk.cafe/api/v1/dashboard/admin/statistics/customers/`,
+        {
+          headers: rootGetters.getHttpHeader,
+          params: {
+            ...payload,
+            ...rootGetters['adminCompany/getAdminParameter'],
+            limit: 10,
+          },
+        }
+      )
       .then((res) => {
         commit('setStatisticCustomers', res.data.results);
         response = { status: true, ...res.data };
@@ -296,14 +327,17 @@ const actions = {
   async fetchAdminStatisticsProducts({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/admn/statistics/products/`, {
-        headers: rootGetters.getHttpHeader,
-        params: {
-          ...payload,
-          ...rootGetters['adminCompany/getAdminParameter'],
-          limit: 10,
-        },
-      })
+      .get(
+        `https://api.takk.cafe/api/v1/dashboard/admin/statistics/products/`,
+        {
+          headers: rootGetters.getHttpHeader,
+          params: {
+            ...payload,
+            ...rootGetters['adminCompany/getAdminParameter'],
+            limit: 10,
+          },
+        }
+      )
       .then((res) => {
         commit('setStatisticProducts', res.data.results);
         response = { status: true, ...res.data };

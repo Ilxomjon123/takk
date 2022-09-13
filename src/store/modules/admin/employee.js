@@ -28,7 +28,7 @@ const actions = {
   async fetchAdminEmployees({ commit, rootGetters }, payload) {
     try {
       const { data } = await api({
-        url: `/admn/employee/`,
+        url: `https://api.takk.cafe/api/v1/dashboard/admin/employee/`,
         params: {
           ...payload,
           ...rootGetters['adminCompany/getAdminParameter'],
@@ -43,7 +43,9 @@ const actions = {
   },
   async fetchAdminEmployee({ commit }, id) {
     try {
-      const { data } = await api.get(`/admn/employee/${id}/`);
+      const { data } = await api.get(
+        `https://api.takk.cafe/api/v1/dashboard/admin/employee/${id}/`
+      );
       commit('setAdminEmployee', data);
       return data;
     } catch (error) {
@@ -53,12 +55,16 @@ const actions = {
   async postAdminEmployeeNew({ rootGetters }, payload) {
     let response;
     await axios
-      .post(`/admn/employee/new/`, payload, {
-        headers: {
-          ...rootGetters.getHttpHeader,
-          // 'Content-Type': 'multipart/form-data'
-        },
-      })
+      .post(
+        `https://api.takk.cafe/api/v1/dashboard/admin/employee/new/`,
+        payload,
+        {
+          headers: {
+            ...rootGetters.getHttpHeader,
+            // 'Content-Type': 'multipart/form-data'
+          },
+        }
+      )
       .then(async (res) => {
         response = {
           status: true,
@@ -76,12 +82,16 @@ const actions = {
   async postAdminEmployeeExist({ rootGetters }, payload) {
     let response;
     await axios
-      .post(`/admn/employee/exists/`, payload, {
-        headers: {
-          ...rootGetters.getHttpHeader,
-          // 'Content-Type': 'multipart/form-data'
-        },
-      })
+      .post(
+        `https://api.takk.cafe/api/v1/dashboard/admin/employee/exists/`,
+        payload,
+        {
+          headers: {
+            ...rootGetters.getHttpHeader,
+            // 'Content-Type': 'multipart/form-data'
+          },
+        }
+      )
       .then(async (res) => {
         response = {
           status: true,
@@ -100,7 +110,7 @@ const actions = {
   async putAdminEmployee({ commit }, payload) {
     try {
       const { data } = await api({
-        url: `/admn/employee/${payload.id}/`,
+        url: `https://api.takk.cafe/api/v1/dashboard/admin/employee/${payload.id}/`,
         method: 'PUT',
         data: payload.form,
       });
@@ -113,12 +123,15 @@ const actions = {
   async deleteAdminEmployee({ rootGetters }, payload) {
     let response;
     await axios
-      .delete(`/admn/employee/${payload}/`, {
-        headers: {
-          ...rootGetters.getHttpHeader,
-          // 'Content-Type': 'multipart/form-data'
-        },
-      })
+      .delete(
+        `https://api.takk.cafe/api/v1/dashboard/admin/employee/${payload}/`,
+        {
+          headers: {
+            ...rootGetters.getHttpHeader,
+            // 'Content-Type': 'multipart/form-data'
+          },
+        }
+      )
       .then(async (res) => {
         response = {
           status: true,

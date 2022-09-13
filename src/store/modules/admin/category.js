@@ -25,11 +25,14 @@ const actions = {
   async fetchCategories({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/admn/menus/${rootGetters.getSelectedMenuId}/categories/`, {
-        // .get(`/admn/transactions/`, {
-        headers: rootGetters.getHttpHeader,
-        params: payload,
-      })
+      .get(
+        `https://api.takk.cafe/api/v1/dashboard/admin/menus/${rootGetters.getSelectedMenuId}/categories/`,
+        {
+          // .get(`https://api.takk.cafe/api/v1/dashboard/admin/transactions/`, {
+          headers: rootGetters.getHttpHeader,
+          params: payload,
+        }
+      )
       .then((res) => {
         response = res.data;
         commit('setCategories', res?.data?.results);
@@ -43,10 +46,13 @@ const actions = {
   async fetchCategory({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/admn/categories/${payload}/`, {
-        // .get(`/admn/transactions/`, {
-        headers: rootGetters.getHttpHeader,
-      })
+      .get(
+        `https://api.takk.cafe/api/v1/dashboard/admin/categories/${payload}/`,
+        {
+          // .get(`https://api.takk.cafe/api/v1/dashboard/admin/transactions/`, {
+          headers: rootGetters.getHttpHeader,
+        }
+      )
       .then((res) => {
         response = res.data;
         commit('setCategory', res?.data);
@@ -60,12 +66,16 @@ const actions = {
   async postCategory({ rootGetters }, payload) {
     let response;
     await axios
-      .post(`/admn/categories/`, payload, {
-        headers: {
-          ...rootGetters.getHttpHeader,
-          'Conten-type': 'multipart/form-data',
-        },
-      })
+      .post(
+        `https://api.takk.cafe/api/v1/dashboard/admin/categories/`,
+        payload,
+        {
+          headers: {
+            ...rootGetters.getHttpHeader,
+            'Conten-type': 'multipart/form-data',
+          },
+        }
+      )
       .then(async (res) => {
         response = {
           status: true,
@@ -83,9 +93,13 @@ const actions = {
   async putCategory({ rootGetters }, payload) {
     let response;
     await axios
-      .put(`/admn/categories/${payload.id}/`, payload.form, {
-        headers: rootGetters.getHttpHeader,
-      })
+      .put(
+        `https://api.takk.cafe/api/v1/dashboard/admin/categories/${payload.id}/`,
+        payload.form,
+        {
+          headers: rootGetters.getHttpHeader,
+        }
+      )
       .then(async (res) => {
         response = {
           status: true,
@@ -103,9 +117,12 @@ const actions = {
   async deleteCategory({ rootGetters }, payload) {
     let response;
     await axios
-      .delete(`/admn/categories/${payload}/`, {
-        headers: rootGetters.getHttpHeader,
-      })
+      .delete(
+        `https://api.takk.cafe/api/v1/dashboard/admin/categories/${payload}/`,
+        {
+          headers: rootGetters.getHttpHeader,
+        }
+      )
       .then(async (res) => {
         response = {
           status: true,

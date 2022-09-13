@@ -39,10 +39,13 @@ const mutations = {
 const actions = {
   async fetchAdminCafeList({ rootGetters, commit }) {
     try {
-      const res = await axios.get('/admn/cafes/', {
-        params: rootGetters['adminCompany/getAdminParameter'],
-        headers: rootGetters.getHttpHeader,
-      });
+      const res = await axios.get(
+        'https://api.takk.cafe/api/v1/dashboard/admin/cafes/',
+        {
+          params: rootGetters['adminCompany/getAdminParameter'],
+          headers: rootGetters.getHttpHeader,
+        }
+      );
       commit('setAdminCafeList', res.data.results);
       return res.data;
     } catch (err) {
@@ -52,9 +55,12 @@ const actions = {
 
   async fetchAdminSquareCafeList({ rootGetters, commit }) {
     try {
-      const res = await axios.get('/admn/square/locations/parse/', {
-        headers: rootGetters.getHttpHeader,
-      });
+      const res = await axios.get(
+        'https://api.takk.cafe/api/v1/dashboard/admin/square/locations/parse/',
+        {
+          headers: rootGetters.getHttpHeader,
+        }
+      );
       commit('setSquareCafeList', res.data);
     } catch (err) {
       return console.log('error while fetching cafes: ', err);
@@ -63,10 +69,13 @@ const actions = {
 
   async fetchAdminCafeById({ rootGetters, commit }, payload) {
     try {
-      const res = await axios.get('/admn/cafes/' + payload + '/', {
-        // params: { id: payload },
-        headers: rootGetters.getHttpHeader,
-      });
+      const res = await axios.get(
+        'https://api.takk.cafe/api/v1/dashboard/admin/cafes/' + payload + '/',
+        {
+          // params: { id: payload },
+          headers: rootGetters.getHttpHeader,
+        }
+      );
 
       commit('setAdminCafeById', res.data);
     } catch (err) {
@@ -79,7 +88,7 @@ const actions = {
 
     try {
       const res = await api({
-        url: `/admn/cafes/`,
+        url: `https://api.takk.cafe/api/v1/dashboard/admin/cafes/`,
         method: 'post',
         data,
       });
@@ -93,7 +102,7 @@ const actions = {
     let response;
     await axios
       .post(
-        `/admn/square/locations/import/`,
+        `https://api.takk.cafe/api/v1/dashboard/admin/square/locations/import/`,
         { locations: payload },
         { headers: rootGetters.getHttpHeader }
       )
@@ -114,7 +123,7 @@ const actions = {
   },
   squareCafeNotification({ rootGetters }, payload) {
     axios.post(
-      `/admn/cafes/square/notifications/`,
+      `https://api.takk.cafe/api/v1/dashboard/admin/cafes/square/notifications/`,
       { cafe: payload },
       { headers: rootGetters.getHttpHeader }
     );
@@ -124,7 +133,7 @@ const actions = {
     await dispatch('fetchSquareCafeList');
     await axios
       .post(
-        `/admn/square/locations/import/`,
+        `https://api.takk.cafe/api/v1/dashboard/admin/square/locations/import/`,
         {
           locations: getters.getSquareCafeIDList,
         },

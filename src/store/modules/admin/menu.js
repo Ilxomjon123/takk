@@ -29,7 +29,7 @@ const actions = {
   async fetchMenus({ commit }, payload) {
     try {
       const { data } = await api({
-        url: `/admn/menus/`,
+        url: `https://api.takk.cafe/api/v1/dashboard/admin/menus/`,
         params: payload,
       });
       commit('setMenus', data);
@@ -44,7 +44,7 @@ const actions = {
     let response;
     await axios
       .post(
-        `/admn/menus/`,
+        `https://api.takk.cafe/api/v1/dashboard/admin/menus/`,
         { ...payload, company: rootGetters.getCompanyId },
         {
           headers: rootGetters.getHttpHeader,
@@ -69,7 +69,7 @@ const actions = {
     let response;
     await axios
       .put(
-        `/admn/menus/${payload.id}/`,
+        `https://api.takk.cafe/api/v1/dashboard/admin/menus/${payload.id}/`,
         { ...payload, company: rootGetters.getCompanyId },
         {
           headers: rootGetters.getHttpHeader,
@@ -94,7 +94,7 @@ const actions = {
     if (payload === state.selectedMenuId) commit('setSelectedMenuId', null);
     try {
       const res = await api({
-        url: `/admn/menus/${payload}/`,
+        url: `https://api.takk.cafe/api/v1/dashboard/admin/menus/${payload}/`,
         method: 'DELETE',
       });
 
@@ -107,7 +107,7 @@ const actions = {
   async updateModifierTypePositions({ rootGetters }, payload) {
     try {
       const res = api({
-        url: '/admn/menus/ordering-items/',
+        url: 'https://api.takk.cafe/api/v1/dashboard/admin/menus/ordering-items/',
         method: 'PUT',
         data: payload,
       });

@@ -30,11 +30,14 @@ const actions = {
   async fetchModifierTypes({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/admn/menus/${rootGetters.getSelectedMenuId}/modifiers/`, {
-        // .get(`/admn/transactions/`, {
-        headers: rootGetters.getHttpHeader,
-        params: payload,
-      })
+      .get(
+        `https://api.takk.cafe/api/v1/dashboard/admin/menus/${rootGetters.getSelectedMenuId}/modifiers/`,
+        {
+          // .get(`https://api.takk.cafe/api/v1/dashboard/admin/transactions/`, {
+          headers: rootGetters.getHttpHeader,
+          params: payload,
+        }
+      )
       .then((res) => {
         response = res.data;
         commit('setModifierTypes', res.data);
@@ -49,7 +52,7 @@ const actions = {
     let response;
     await axios
       .post(
-        `/admn/modifiers/`,
+        `https://api.takk.cafe/api/v1/dashboard/admin/modifiers/`,
         { ...payload, menu: rootGetters.getSelectedMenuId },
         {
           headers: rootGetters.getHttpHeader,
@@ -73,7 +76,7 @@ const actions = {
     let response;
     await axios
       .put(
-        `/admn/modifiers/${payload.id}/`,
+        `https://api.takk.cafe/api/v1/dashboard/admin/modifiers/${payload.id}/`,
         { ...payload, menu: rootGetters.getSelectedMenuId },
         {
           headers: rootGetters.getHttpHeader,
@@ -96,9 +99,12 @@ const actions = {
   async deleteModifierType({ rootGetters }, payload) {
     let response;
     await axios
-      .delete(`/admn/modifiers/${payload}/`, {
-        headers: rootGetters.getHttpHeader,
-      })
+      .delete(
+        `https://api.takk.cafe/api/v1/dashboard/admin/modifiers/${payload}/`,
+        {
+          headers: rootGetters.getHttpHeader,
+        }
+      )
       .then(async (res) => {
         response = {
           status: true,
@@ -117,7 +123,7 @@ const actions = {
     let response;
     await axios
       .post(
-        `/admn/modifiers/items/`,
+        `https://api.takk.cafe/api/v1/dashboard/admin/modifiers/items/`,
         { ...payload /*  modifier: rootGetters.getSelectedModifierTypeId */ },
         {
           headers: rootGetters.getHttpHeader,
@@ -141,7 +147,7 @@ const actions = {
     let response;
     await axios
       .put(
-        `/admn/modifiers/items/${payload.id}/`,
+        `https://api.takk.cafe/api/v1/dashboard/admin/modifiers/items/${payload.id}/`,
         { ...payload /*  modifier: rootGetters.getSelectedModifierTypeId  */ },
         {
           headers: rootGetters.getHttpHeader,
@@ -164,9 +170,12 @@ const actions = {
   async deleteModifier({ rootGetters }, payload) {
     let response;
     await axios
-      .delete(`/admn/modifiers/items/${payload}/`, {
-        headers: rootGetters.getHttpHeader,
-      })
+      .delete(
+        `https://api.takk.cafe/api/v1/dashboard/admin/modifiers/items/${payload}/`,
+        {
+          headers: rootGetters.getHttpHeader,
+        }
+      )
       .then(async (res) => {
         response = {
           status: true,

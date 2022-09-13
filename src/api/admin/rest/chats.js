@@ -10,7 +10,7 @@ const api = useApi();
 export const fetchChats = async () => {
   try {
     const res = await api({
-      url: `/admn/ws-chat/`,
+      url: `https://api.takk.cafe/api/v1/dashboard/admin/ws-chat/`,
     });
 
     return res.data;
@@ -22,7 +22,7 @@ export const fetchChats = async () => {
 export const fetchChatMessages = async (chatID, page = 1) => {
   try {
     const res = await api({
-      url: `/admn/ws-chat/${chatID}/messages/`,
+      url: `https://api.takk.cafe/api/v1/dashboard/admin/ws-chat/${chatID}/messages/`,
       params: { page },
     });
 
@@ -35,7 +35,7 @@ export const fetchChatMessages = async (chatID, page = 1) => {
 export const sendMessagesInChatroom = async (payload) => {
   try {
     const res = await api({
-      url: `/admn/ws-chat/send-messages-chat/`,
+      url: `https://api.takk.cafe/api/v1/dashboard/admin/ws-chat/send-messages-chat/`,
       method: 'post',
       data: payload,
     });
@@ -49,7 +49,7 @@ export const sendMessagesInChatroom = async (payload) => {
 export const sendMessageToCustomers = async (payload) => {
   try {
     const res = await api({
-      url: `/admn/ws-chat/send-messages-customer/`,
+      url: `https://api.takk.cafe/api/v1/dashboard/admin/ws-chat/send-messages-customer/`,
       method: 'post',
       data: payload, // {item_type -> тип сообщения [video, image, message, video], files -> список файлов, chat*}
     });

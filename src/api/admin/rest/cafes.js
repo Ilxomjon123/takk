@@ -5,7 +5,7 @@ const api = useApi();
 export const fetchCafeList = async (payload = { limit: 10, company: '' }) => {
   try {
     const res = await api({
-      url: `/admn/cafes/`,
+      url: `https://api.takk.cafe/api/v1/dashboard/admin/cafes/`,
       params: payload,
     });
 
@@ -18,7 +18,7 @@ export const fetchCafeList = async (payload = { limit: 10, company: '' }) => {
 export const fetchCafe = async (cafeID) => {
   try {
     const res = await api({
-      url: `/admn/cafes/${cafeID}/`,
+      url: `https://api.takk.cafe/api/v1/dashboard/admin/cafes/${cafeID}/`,
     });
 
     return res.data;
@@ -30,7 +30,7 @@ export const fetchCafe = async (cafeID) => {
 export const fetchCafeGallery = async (cafeID) => {
   try {
     const res = await api({
-      url: `/admn/cafes/${cafeID}/photos/`,
+      url: `https://api.takk.cafe/api/v1/dashboard/admin/cafes/${cafeID}/photos/`,
     });
 
     return res.data;
@@ -42,7 +42,7 @@ export const fetchCafeGallery = async (cafeID) => {
 export const fetchCafeWorkDays = async (cafeID) => {
   try {
     const res = await api({
-      url: `/admn/cafes/${cafeID}/work-days/`,
+      url: `https://api.takk.cafe/api/v1/dashboard/admin/cafes/${cafeID}/work-days/`,
     });
 
     return res.data;
@@ -54,7 +54,7 @@ export const fetchCafeWorkDays = async (cafeID) => {
 export const updateCafeWorkDays = async (payload) => {
   try {
     const res = await api({
-      url: `/admn/cafes/${payload.id}/work-days/`,
+      url: `https://api.takk.cafe/api/v1/dashboard/admin/cafes/${payload.id}/work-days/`,
       method: 'PUT',
       data: payload.data,
     });
@@ -68,7 +68,7 @@ export const updateCafeWorkDays = async (payload) => {
 export const updateCafe = async (payload) => {
   try {
     const res = await api({
-      url: `/admn/cafes/${payload.id}/`,
+      url: `https://api.takk.cafe/api/v1/dashboard/admin/cafes/${payload.id}/`,
       method: 'PUT',
       data: payload.data,
     });
@@ -82,7 +82,7 @@ export const updateCafe = async (payload) => {
 export const storeCafe = async (payload) => {
   try {
     const res = await api({
-      url: `/admn/cafes/`,
+      url: `https://api.takk.cafe/api/v1/dashboard/admin/cafes/`,
       method: 'POST',
       data: payload,
     });
@@ -96,7 +96,7 @@ export const storeCafe = async (payload) => {
 export const addCafeGallery = async (payload) => {
   try {
     const res = await api({
-      url: `/admn/cafes/photos/`,
+      url: `https://api.takk.cafe/api/v1/dashboard/admin/cafes/photos/`,
       method: 'POST',
       data: payload,
     });
@@ -110,7 +110,7 @@ export const addCafeGallery = async (payload) => {
 export const deleteCafe = async (payload) => {
   try {
     const res = await api({
-      url: `/admn/cafes/${payload}/`,
+      url: `https://api.takk.cafe/api/v1/dashboard/admin/cafes/${payload}/`,
       method: 'DELETE',
     });
 
@@ -123,7 +123,7 @@ export const deleteCafe = async (payload) => {
 export const deleteCafeImage = async (imageID) => {
   try {
     const res = await api({
-      url: `/admn/cafes/photos/${imageID}/`,
+      url: `https://api.takk.cafe/api/v1/dashboard/admin/cafes/photos/${imageID}/`,
       method: 'DELETE',
     });
 
