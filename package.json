@@ -18,6 +18,7 @@
     "apexcharts": "^3.35.3",
     "axios": "^0.27.2",
     "cash-dom": "^8.1.0",
+    "chart.js": "^3.9.1",
     "dayjs": "^1.10.4",
     "feather-icons": "^4.28.0",
     "js-beautify": "^1.13.5",

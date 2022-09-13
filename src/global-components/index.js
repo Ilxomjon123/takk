@@ -1,4 +1,4 @@
-// import Chart from './chart/Main.vue';
+import Chart from './chart/Main.vue';
 // import GoogleMapLoader from './google-map-loader/Main.vue';
 // import Highlight from './highlight/Main.vue';
 import Litepicker from './litepicker/Main.vue';
@@ -18,7 +18,7 @@ import LoadingIcon from './loading-icon/Main.vue';
 import * as featherIcons from '@zhuowenli/vue-feather-icons';
 
 export default (app) => {
-  // app.component('Chart', Chart);
+  app.component('Chart', Chart);
   // app.component('GoogleMapLoader', GoogleMapLoader);
   // app.component('Highlight', Highlight);
   app.component('Litepicker', Litepicker);
