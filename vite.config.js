@@ -18,7 +18,7 @@ export default defineConfig({
   server: {
     proxy: {
       // with options
-      '^/api': {
+      '^/api/.*': {
         // target: 'http://18.117.105.144:8080/api/v1/dashboard/client',
         target: 'https://api.takk.cafe/api/v1/dashboard/client',
         // port: 8080,
