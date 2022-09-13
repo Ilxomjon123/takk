@@ -12,10 +12,10 @@
         class="dropdown-menu__content box bg-theme-26 dark:bg-dark-6 text-white"
       >
         <div class="p-4 border-b border-theme-27 dark:border-dark-3">
-          <div class="font-medium">{{ getUser.username }}</div>
-          <div class="text-xs text-theme-28 mt-0.5 dark:text-gray-600">
+          <div class="font-medium text-lg">{{ getUser.username }}</div>
+          <!-- <div class="text-xs text-theme-28 mt-0.5 dark:text-gray-600">
             {{ getUser.user_type }}
-          </div>
+          </div> -->
         </div>
         <div class="p-2">
           <router-link
