@@ -2,12 +2,12 @@ import { useApi } from '@/composables/useApi';
 
 const api = useApi();
 
-export const updateProductPositions = async payload => {
+export const updateProductPositions = async (payload) => {
   try {
     const res = api({
-      url: '/adham/menus/ordering-items/',
+      url: '/api2/menus/ordering-items/',
       method: 'post',
-      data: payload
+      data: payload,
     });
 
     return (await res).data;
@@ -19,7 +19,7 @@ export const updateProductPositions = async payload => {
 export const fetchMenus = async () => {
   try {
     const res = await api({
-      url: '/adham/menus/'
+      url: '/api2/menus/',
     });
 
     return res.data;
@@ -31,11 +31,11 @@ export const fetchMenus = async () => {
 export const fetchSelectedMenuCategories = async (menuID, limit = 10) => {
   try {
     const res = await api({
-      url: `/adham/menus/${menuID}/categories/`,
+      url: `/api2/menus/${menuID}/categories/`,
       method: 'get',
       params: {
-        limit
-      }
+        limit,
+      },
     });
 
     return res.data;
@@ -44,11 +44,11 @@ export const fetchSelectedMenuCategories = async (menuID, limit = 10) => {
   }
 };
 
-export const fetchSelectedMenuModifiers = async menuID => {
+export const fetchSelectedMenuModifiers = async (menuID) => {
   try {
     const res = await api({
-      url: `/adham/menus/${menuID}/modifiers/`,
-      method: 'get'
+      url: `/api2/menus/${menuID}/modifiers/`,
+      method: 'get',
     });
 
     return res.data;

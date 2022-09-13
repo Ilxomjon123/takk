@@ -3,13 +3,13 @@ import axios from 'axios';
 const state = () => {
   return {
     categories: [],
-    category: {}
+    category: {},
   };
 };
 
 const getters = {
-  getCategories: state => state.categories,
-  getCategory: state => state.category
+  getCategories: (state) => state.categories,
+  getCategory: (state) => state.category,
 };
 
 const mutations = {
@@ -18,23 +18,23 @@ const mutations = {
   },
   setCategory(state, payload) {
     state.category = payload;
-  }
+  },
 };
 
 const actions = {
   async fetchCategories({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/adham/menus/${rootGetters.getSelectedMenuId}/categories/`, {
-        // .get(`/adham/transactions/`, {
+      .get(`/api2/menus/${rootGetters.getSelectedMenuId}/categories/`, {
+        // .get(`/api2/transactions/`, {
         headers: rootGetters.getHttpHeader,
-        params: payload
+        params: payload,
       })
-      .then(res => {
+      .then((res) => {
         response = res.data;
         commit('setCategories', res?.data?.results);
       })
-      .catch(err => {
+      .catch((err) => {
         response = err.data;
         // commit('setTransactions', err.response.data);
       });
@@ -43,15 +43,15 @@ const actions = {
   async fetchCategory({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/adham/categories/${payload}/`, {
-        // .get(`/adham/transactions/`, {
-        headers: rootGetters.getHttpHeader
+      .get(`/api2/categories/${payload}/`, {
+        // .get(`/api2/transactions/`, {
+        headers: rootGetters.getHttpHeader,
       })
-      .then(res => {
+      .then((res) => {
         response = res.data;
         commit('setCategory', res?.data);
       })
-      .catch(err => {
+      .catch((err) => {
         response = err.data;
         // commit('setTransactions', err.response.data);
       });
@@ -60,22 +60,22 @@ const actions = {
   async postCategory({ rootGetters }, payload) {
     let response;
     await axios
-      .post(`/adham/categories/`, payload, {
+      .post(`/api2/categories/`, payload, {
         headers: {
           ...rootGetters.getHttpHeader,
-          'Conten-type': 'multipart/form-data'
-        }
+          'Conten-type': 'multipart/form-data',
+        },
       })
-      .then(async res => {
+      .then(async (res) => {
         response = {
           status: true,
-          data: res.data
+          data: res.data,
         };
       })
-      .catch(err => {
+      .catch((err) => {
         response = {
           status: false,
-          data: err.response.data
+          data: err.response.data,
         };
       });
     return response;
@@ -83,19 +83,19 @@ const actions = {
   async putCategory({ rootGetters }, payload) {
     let response;
     await axios
-      .put(`/adham/categories/${payload.id}/`, payload.form, {
-        headers: rootGetters.getHttpHeader
+      .put(`/api2/categories/${payload.id}/`, payload.form, {
+        headers: rootGetters.getHttpHeader,
       })
-      .then(async res => {
+      .then(async (res) => {
         response = {
           status: true,
-          data: res.data
+          data: res.data,
         };
       })
-      .catch(err => {
+      .catch((err) => {
         response = {
           status: false,
-          data: err.response.data
+          data: err.response.data,
         };
       });
     return response;
@@ -103,23 +103,23 @@ const actions = {
   async deleteCategory({ rootGetters }, payload) {
     let response;
     await axios
-      .delete(`/adham/categories/${payload}/`, {
-        headers: rootGetters.getHttpHeader
+      .delete(`/api2/categories/${payload}/`, {
+        headers: rootGetters.getHttpHeader,
       })
-      .then(async res => {
+      .then(async (res) => {
         response = {
           status: true,
-          data: res.data
+          data: res.data,
         };
       })
-      .catch(err => {
+      .catch((err) => {
         response = {
           status: false,
-          data: err.response.data
+          data: err.response.data,
         };
       });
     return response;
-  }
+  },
 };
 
 export default {
@@ -127,5 +127,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

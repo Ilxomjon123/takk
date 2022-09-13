@@ -6,13 +6,13 @@ const api = useApi();
 const state = () => {
   return {
     adminEmployees: [],
-    adminEmployee: {}
+    adminEmployee: {},
   };
 };
 
 const getters = {
-  getAdminEmployees: state => state.adminEmployees,
-  getAdminEmployee: state => state.adminEmployee
+  getAdminEmployees: (state) => state.adminEmployees,
+  getAdminEmployee: (state) => state.adminEmployee,
 };
 
 const mutations = {
@@ -21,18 +21,18 @@ const mutations = {
   },
   setAdminEmployee(state, payload) {
     state.adminEmployee = payload;
-  }
+  },
 };
 
 const actions = {
   async fetchAdminEmployees({ commit, rootGetters }, payload) {
     try {
       const { data } = await api({
-        url: `/adham/employee/`,
+        url: `/api2/employee/`,
         params: {
           ...payload,
-          ...rootGetters['adminCompany/getAdminParameter']
-        }
+          ...rootGetters['adminCompany/getAdminParameter'],
+        },
       });
 
       commit('setAdminEmployees', data);
@@ -43,7 +43,7 @@ const actions = {
   },
   async fetchAdminEmployee({ commit }, id) {
     try {
-      const { data } = await api.get(`/adham/employee/${id}/`);
+      const { data } = await api.get(`/api2/employee/${id}/`);
       commit('setAdminEmployee', data);
       return data;
     } catch (error) {
@@ -53,22 +53,22 @@ const actions = {
   async postAdminEmployeeNew({ rootGetters }, payload) {
     let response;
     await axios
-      .post(`/adham/employee/new/`, payload, {
+      .post(`/api2/employee/new/`, payload, {
         headers: {
-          ...rootGetters.getHttpHeader
+          ...rootGetters.getHttpHeader,
           // 'Content-Type': 'multipart/form-data'
-        }
+        },
       })
-      .then(async res => {
+      .then(async (res) => {
         response = {
           status: true,
-          data: res.data
+          data: res.data,
         };
       })
-      .catch(err => {
+      .catch((err) => {
         response = {
           status: false,
-          data: err.response.data
+          data: err.response.data,
         };
       });
     return response;
@@ -76,22 +76,22 @@ const actions = {
   async postAdminEmployeeExist({ rootGetters }, payload) {
     let response;
     await axios
-      .post(`/adham/employee/exists/`, payload, {
+      .post(`/api2/employee/exists/`, payload, {
         headers: {
-          ...rootGetters.getHttpHeader
+          ...rootGetters.getHttpHeader,
           // 'Content-Type': 'multipart/form-data'
-        }
+        },
       })
-      .then(async res => {
+      .then(async (res) => {
         response = {
           status: true,
-          data: res.data
+          data: res.data,
         };
       })
-      .catch(err => {
+      .catch((err) => {
         response = {
           status: false,
-          data: err.response.data
+          data: err.response.data,
         };
       });
     return response;
@@ -100,9 +100,9 @@ const actions = {
   async putAdminEmployee({ commit }, payload) {
     try {
       const { data } = await api({
-        url: `/adham/employee/${payload.id}/`,
+        url: `/api2/employee/${payload.id}/`,
         method: 'PUT',
-        data: payload.form
+        data: payload.form,
       });
 
       return data;
@@ -113,26 +113,26 @@ const actions = {
   async deleteAdminEmployee({ rootGetters }, payload) {
     let response;
     await axios
-      .delete(`/adham/employee/${payload}/`, {
+      .delete(`/api2/employee/${payload}/`, {
         headers: {
-          ...rootGetters.getHttpHeader
+          ...rootGetters.getHttpHeader,
           // 'Content-Type': 'multipart/form-data'
-        }
+        },
       })
-      .then(async res => {
+      .then(async (res) => {
         response = {
           status: true,
-          data: res.data
+          data: res.data,
         };
       })
-      .catch(err => {
+      .catch((err) => {
         response = {
           status: false,
-          data: err.response.data
+          data: err.response.data,
         };
       });
     return response;
-  }
+  },
 };
 
 export default {
@@ -140,5 +140,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

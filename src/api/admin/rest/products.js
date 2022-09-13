@@ -5,7 +5,7 @@ const api = useApi();
 export const fetchProductsList = async (payload) => {
   try {
     const res = await api({
-      url: `/adham/menus/${payload.menuId}/products/`,
+      url: `/api2/menus/${payload.menuId}/products/`,
       params: payload,
     });
 
@@ -18,7 +18,7 @@ export const fetchProductsList = async (payload) => {
 export const fetchProduct = async (productID) => {
   try {
     const res = await api({
-      url: `/adham/products/${productID}/`,
+      url: `/api2/products/${productID}/`,
     });
 
     return res.data;
@@ -30,7 +30,7 @@ export const fetchProduct = async (productID) => {
 export const fetchProductSizes = async (productSizeID) => {
   try {
     const res = await api({
-      url: `/adham/products/sizes/${productSizeID}/`,
+      url: `/api2/products/sizes/${productSizeID}/`,
     });
 
     return res.data;
@@ -42,7 +42,7 @@ export const fetchProductSizes = async (productSizeID) => {
 export const updateProduct = async (payload) => {
   try {
     const res = await api({
-      url: `/adham/products/${payload.id}/`,
+      url: `/api2/products/${payload.id}/`,
       method: 'put',
       data: payload.data,
     });
@@ -56,7 +56,7 @@ export const updateProduct = async (payload) => {
 export const createProduct = async (payload) => {
   try {
     const res = await api({
-      url: `/adham/products/`,
+      url: `/api2/products/`,
       method: 'post',
       data: payload,
     });
@@ -70,7 +70,7 @@ export const createProduct = async (payload) => {
 export const duplicateProduct = async (payload) => {
   try {
     const res = await api({
-      url: `/adham/products/duplicate/`,
+      url: `/api2/products/duplicate/`,
       method: 'post',
       data: payload,
     });
@@ -84,7 +84,7 @@ export const duplicateProduct = async (payload) => {
 export const isProductAvailable = async (payload) => {
   try {
     const res = await api({
-      url: `/adham/products/available/`,
+      url: `/api2/products/available/`,
       method: 'post',
       data: payload,
     });
@@ -98,7 +98,7 @@ export const isProductAvailable = async (payload) => {
 export const deleteProduct = async (productID) => {
   try {
     const res = await api({
-      url: `/adham/products/${productID}/`,
+      url: `/api2/products/${productID}/`,
       method: 'delete',
     });
 

@@ -5,7 +5,7 @@ const api = useApi();
 export const fetchCompanyList = async (limit = 10, page = 1) => {
   try {
     const res = await api({
-      url: `/adham/companies/?page=${page}&limit=${limit}`
+      url: `/api2/companies/?page=${page}&limit=${limit}`,
     });
 
     return res.data;
@@ -14,10 +14,10 @@ export const fetchCompanyList = async (limit = 10, page = 1) => {
   }
 };
 
-export const fetchCompanyById = async id => {
+export const fetchCompanyById = async (id) => {
   try {
     const { data } = await api({
-      url: `/adham/companies/${id}/`
+      url: `/api2/companies/${id}/`,
     });
 
     return data;
@@ -29,9 +29,9 @@ export const fetchCompanyById = async id => {
 export const updateCompanyById = async (id, payload) => {
   try {
     const res = await api({
-      url: `/adham/companies/${id}/`,
+      url: `/api2/companies/${id}/`,
       method: 'PUT',
-      data: payload
+      data: payload,
     });
 
     return res.data;
@@ -40,12 +40,12 @@ export const updateCompanyById = async (id, payload) => {
   }
 };
 
-export const createCompany = async payload => {
+export const createCompany = async (payload) => {
   try {
     const res = await api({
-      url: `/adham/companies/`,
+      url: `/api2/companies/`,
       method: 'POST',
-      data: payload
+      data: payload,
     });
 
     return res.data;
@@ -54,11 +54,11 @@ export const createCompany = async payload => {
   }
 };
 
-export const removeCompanyById = async id => {
+export const removeCompanyById = async (id) => {
   try {
     const res = await api({
-      url: `/adham/companies/${id}/`,
-      method: 'DELETE'
+      url: `/api2/companies/${id}/`,
+      method: 'DELETE',
     });
 
     return res.data;

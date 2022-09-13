@@ -29,7 +29,7 @@ const actions = {
   async fetchMenus({ commit }, payload) {
     try {
       const { data } = await api({
-        url: `/adham/menus/`,
+        url: `/api2/menus/`,
         params: payload,
       });
       commit('setMenus', data);
@@ -44,7 +44,7 @@ const actions = {
     let response;
     await axios
       .post(
-        `/adham/menus/`,
+        `/api2/menus/`,
         { ...payload, company: rootGetters.getCompanyId },
         {
           headers: rootGetters.getHttpHeader,
@@ -69,7 +69,7 @@ const actions = {
     let response;
     await axios
       .put(
-        `/adham/menus/${payload.id}/`,
+        `/api2/menus/${payload.id}/`,
         { ...payload, company: rootGetters.getCompanyId },
         {
           headers: rootGetters.getHttpHeader,
@@ -94,7 +94,7 @@ const actions = {
     if (payload === state.selectedMenuId) commit('setSelectedMenuId', null);
     try {
       const res = await api({
-        url: `/adham/menus/${payload}/`,
+        url: `/api2/menus/${payload}/`,
         method: 'DELETE',
       });
 
@@ -107,7 +107,7 @@ const actions = {
   async updateModifierTypePositions({ rootGetters }, payload) {
     try {
       const res = api({
-        url: '/adham/menus/ordering-items/',
+        url: '/api2/menus/ordering-items/',
         method: 'PUT',
         data: payload,
       });

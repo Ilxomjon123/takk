@@ -4,14 +4,14 @@ const state = () => {
   return {
     modifierTypes: [],
     selectedModifierTypeId: null,
-    modifiers: []
+    modifiers: [],
   };
 };
 
 const getters = {
-  getModifiers: state => state.modifiers,
-  getModifierTypes: state => state.modifierTypes,
-  getSelectedModifierTypeId: state => state.selectedModifierTypeId
+  getModifiers: (state) => state.modifiers,
+  getModifierTypes: (state) => state.modifierTypes,
+  getSelectedModifierTypeId: (state) => state.selectedModifierTypeId,
 };
 
 const mutations = {
@@ -23,23 +23,23 @@ const mutations = {
   },
   setSelectedModifierTypeId(state, payload) {
     state.selectedModifierTypeId = payload;
-  }
+  },
 };
 
 const actions = {
   async fetchModifierTypes({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/adham/menus/${rootGetters.getSelectedMenuId}/modifiers/`, {
-        // .get(`/adham/transactions/`, {
+      .get(`/api2/menus/${rootGetters.getSelectedMenuId}/modifiers/`, {
+        // .get(`/api2/transactions/`, {
         headers: rootGetters.getHttpHeader,
-        params: payload
+        params: payload,
       })
-      .then(res => {
+      .then((res) => {
         response = res.data;
         commit('setModifierTypes', res.data);
       })
-      .catch(err => {
+      .catch((err) => {
         response = err.data;
         // commit('setTransactions', err.response.data);
       });
@@ -49,22 +49,22 @@ const actions = {
     let response;
     await axios
       .post(
-        `/adham/modifiers/`,
+        `/api2/modifiers/`,
         { ...payload, menu: rootGetters.getSelectedMenuId },
         {
-          headers: rootGetters.getHttpHeader
+          headers: rootGetters.getHttpHeader,
         }
       )
-      .then(async res => {
+      .then(async (res) => {
         response = {
           status: true,
-          data: res.data
+          data: res.data,
         };
       })
-      .catch(err => {
+      .catch((err) => {
         response = {
           status: false,
-          data: err.response.data
+          data: err.response.data,
         };
       });
     return response;
@@ -73,22 +73,22 @@ const actions = {
     let response;
     await axios
       .put(
-        `/adham/modifiers/${payload.id}/`,
+        `/api2/modifiers/${payload.id}/`,
         { ...payload, menu: rootGetters.getSelectedMenuId },
         {
-          headers: rootGetters.getHttpHeader
+          headers: rootGetters.getHttpHeader,
         }
       )
-      .then(async res => {
+      .then(async (res) => {
         response = {
           status: true,
-          data: res.data
+          data: res.data,
         };
       })
-      .catch(err => {
+      .catch((err) => {
         response = {
           status: false,
-          data: err.response.data
+          data: err.response.data,
         };
       });
     return response;
@@ -96,19 +96,19 @@ const actions = {
   async deleteModifierType({ rootGetters }, payload) {
     let response;
     await axios
-      .delete(`/adham/modifiers/${payload}/`, {
-        headers: rootGetters.getHttpHeader
+      .delete(`/api2/modifiers/${payload}/`, {
+        headers: rootGetters.getHttpHeader,
       })
-      .then(async res => {
+      .then(async (res) => {
         response = {
           status: true,
-          data: res.data
+          data: res.data,
         };
       })
-      .catch(err => {
+      .catch((err) => {
         response = {
           status: false,
-          data: err.response.data
+          data: err.response.data,
         };
       });
     return response;
@@ -117,22 +117,22 @@ const actions = {
     let response;
     await axios
       .post(
-        `/adham/modifiers/items/`,
+        `/api2/modifiers/items/`,
         { ...payload /*  modifier: rootGetters.getSelectedModifierTypeId */ },
         {
-          headers: rootGetters.getHttpHeader
+          headers: rootGetters.getHttpHeader,
         }
       )
-      .then(async res => {
+      .then(async (res) => {
         response = {
           status: true,
-          data: res.data
+          data: res.data,
         };
       })
-      .catch(err => {
+      .catch((err) => {
         response = {
           status: false,
-          data: err.response.data
+          data: err.response.data,
         };
       });
     return response;
@@ -141,22 +141,22 @@ const actions = {
     let response;
     await axios
       .put(
-        `/adham/modifiers/items/${payload.id}/`,
+        `/api2/modifiers/items/${payload.id}/`,
         { ...payload /*  modifier: rootGetters.getSelectedModifierTypeId  */ },
         {
-          headers: rootGetters.getHttpHeader
+          headers: rootGetters.getHttpHeader,
         }
       )
-      .then(async res => {
+      .then(async (res) => {
         response = {
           status: true,
-          data: res.data
+          data: res.data,
         };
       })
-      .catch(err => {
+      .catch((err) => {
         response = {
           status: false,
-          data: err.response.data
+          data: err.response.data,
         };
       });
     return response;
@@ -164,23 +164,23 @@ const actions = {
   async deleteModifier({ rootGetters }, payload) {
     let response;
     await axios
-      .delete(`/adham/modifiers/items/${payload}/`, {
-        headers: rootGetters.getHttpHeader
+      .delete(`/api2/modifiers/items/${payload}/`, {
+        headers: rootGetters.getHttpHeader,
       })
-      .then(async res => {
+      .then(async (res) => {
         response = {
           status: true,
-          data: res.data
+          data: res.data,
         };
       })
-      .catch(err => {
+      .catch((err) => {
         response = {
           status: false,
-          data: err.response.data
+          data: err.response.data,
         };
       });
     return response;
-  }
+  },
 };
 
 export default {
@@ -188,5 +188,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };
