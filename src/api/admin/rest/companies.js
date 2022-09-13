@@ -5,7 +5,7 @@ const api = useApi();
 export const fetchCompanyList = async (limit = 10, page = 1) => {
   try {
     const res = await api({
-      url: `/api2/companies/?page=${page}&limit=${limit}`,
+      url: `/admn/companies/?page=${page}&limit=${limit}`,
     });
 
     return res.data;
@@ -17,7 +17,7 @@ export const fetchCompanyList = async (limit = 10, page = 1) => {
 export const fetchCompanyById = async (id) => {
   try {
     const { data } = await api({
-      url: `/api2/companies/${id}/`,
+      url: `/admn/companies/${id}/`,
     });
 
     return data;
@@ -29,7 +29,7 @@ export const fetchCompanyById = async (id) => {
 export const updateCompanyById = async (id, payload) => {
   try {
     const res = await api({
-      url: `/api2/companies/${id}/`,
+      url: `/admn/companies/${id}/`,
       method: 'PUT',
       data: payload,
     });
@@ -43,7 +43,7 @@ export const updateCompanyById = async (id, payload) => {
 export const createCompany = async (payload) => {
   try {
     const res = await api({
-      url: `/api2/companies/`,
+      url: `/admn/companies/`,
       method: 'POST',
       data: payload,
     });
@@ -57,7 +57,7 @@ export const createCompany = async (payload) => {
 export const removeCompanyById = async (id) => {
   try {
     const res = await api({
-      url: `/api2/companies/${id}/`,
+      url: `/admn/companies/${id}/`,
       method: 'DELETE',
     });
 

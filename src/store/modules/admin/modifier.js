@@ -30,8 +30,8 @@ const actions = {
   async fetchModifierTypes({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/api2/menus/${rootGetters.getSelectedMenuId}/modifiers/`, {
-        // .get(`/api2/transactions/`, {
+      .get(`/admn/menus/${rootGetters.getSelectedMenuId}/modifiers/`, {
+        // .get(`/admn/transactions/`, {
         headers: rootGetters.getHttpHeader,
         params: payload,
       })
@@ -49,7 +49,7 @@ const actions = {
     let response;
     await axios
       .post(
-        `/api2/modifiers/`,
+        `/admn/modifiers/`,
         { ...payload, menu: rootGetters.getSelectedMenuId },
         {
           headers: rootGetters.getHttpHeader,
@@ -73,7 +73,7 @@ const actions = {
     let response;
     await axios
       .put(
-        `/api2/modifiers/${payload.id}/`,
+        `/admn/modifiers/${payload.id}/`,
         { ...payload, menu: rootGetters.getSelectedMenuId },
         {
           headers: rootGetters.getHttpHeader,
@@ -96,7 +96,7 @@ const actions = {
   async deleteModifierType({ rootGetters }, payload) {
     let response;
     await axios
-      .delete(`/api2/modifiers/${payload}/`, {
+      .delete(`/admn/modifiers/${payload}/`, {
         headers: rootGetters.getHttpHeader,
       })
       .then(async (res) => {
@@ -117,7 +117,7 @@ const actions = {
     let response;
     await axios
       .post(
-        `/api2/modifiers/items/`,
+        `/admn/modifiers/items/`,
         { ...payload /*  modifier: rootGetters.getSelectedModifierTypeId */ },
         {
           headers: rootGetters.getHttpHeader,
@@ -141,7 +141,7 @@ const actions = {
     let response;
     await axios
       .put(
-        `/api2/modifiers/items/${payload.id}/`,
+        `/admn/modifiers/items/${payload.id}/`,
         { ...payload /*  modifier: rootGetters.getSelectedModifierTypeId  */ },
         {
           headers: rootGetters.getHttpHeader,
@@ -164,7 +164,7 @@ const actions = {
   async deleteModifier({ rootGetters }, payload) {
     let response;
     await axios
-      .delete(`/api2/modifiers/items/${payload}/`, {
+      .delete(`/admn/modifiers/items/${payload}/`, {
         headers: rootGetters.getHttpHeader,
       })
       .then(async (res) => {

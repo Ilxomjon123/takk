@@ -61,7 +61,7 @@ const mutations = {
 const actions = {
   async fetchAdminCompanies({ commit, rootGetters }) {
     await axios
-      .get('/api2/companies/', {
+      .get('/admn/companies/', {
         headers: rootGetters.getHttpHeader,
       })
       .then((res) => {
@@ -74,7 +74,7 @@ const actions = {
 
   async fetchAdminCompany({ commit, rootGetters }) {
     await axios
-      .get('/api2/companies/', {
+      .get('/admn/companies/', {
         headers: rootGetters.getHttpHeader,
         params: {
           id: rootGetters.getCompanyId,
@@ -92,7 +92,7 @@ const actions = {
   async putCompany({ rootGetters }, payload) {
     let response;
     await axios
-      .put(`/api2/companies/${payload.id}/`, payload.form, {
+      .put(`/admn/companies/${payload.id}/`, payload.form, {
         headers: {
           ...rootGetters.getHttpHeader,
           'Content-Type': 'multipart/form-data',
@@ -116,8 +116,8 @@ const actions = {
   async fetchAdminCustomers({ commit, rootGetters }, payload) {
     let response;
     await axios
-      // .get(`/api2/companies/${rootGetters.getCompanyId}/customers/`, {
-      .get(`/api2/companies/customers/`, {
+      // .get(`/admn/companies/${rootGetters.getCompanyId}/customers/`, {
+      .get(`/admn/companies/customers/`, {
         headers: rootGetters.getHttpHeader,
         params: {
           ...payload,
@@ -137,7 +137,7 @@ const actions = {
 
   async fetchAdminTransactions({ commit, getters }, payload) {
     try {
-      const { data } = await api.get(`/api2/transactions/`, {
+      const { data } = await api.get(`/admn/transactions/`, {
         params: {
           ...payload,
           company: getters['getAdminSelectedCompanyID'],
@@ -154,8 +154,8 @@ const actions = {
   async fetchAdminStripeConnect({ commit, rootGetters }) {
     let response;
     await axios
-      // .get(`/api2/companies/${rootGetters.getCompanyId}/transactions/`, {
-      .get(`/api2/stripe/connect/`, {
+      // .get(`/admn/companies/${rootGetters.getCompanyId}/transactions/`, {
+      .get(`/admn/stripe/connect/`, {
         headers: rootGetters.getHttpHeader,
       })
       .then((res) => {
@@ -170,7 +170,7 @@ const actions = {
 
   async fetchAdminStatisticsSalesYear({ getters }, payload) {
     try {
-      const { data } = await api.get(`/api2/statistics/sales/year/`, {
+      const { data } = await api.get(`/admn/statistics/sales/year/`, {
         params: {
           ...payload,
           company: getters['getAdminSelectedCompanyID'],
@@ -185,7 +185,7 @@ const actions = {
   async fetchAdminStatisticsSalesWeek({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/api2/statistics/sales/week/`, {
+      .get(`/admn/statistics/sales/week/`, {
         headers: rootGetters.getHttpHeader,
         params: {
           ...payload,
@@ -203,7 +203,7 @@ const actions = {
   async fetchAdminStatisticsTransactionYear({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/api2/statistics/transaction/year/`, {
+      .get(`/admn/statistics/transaction/year/`, {
         headers: rootGetters.getHttpHeader,
         params: {
           ...payload,
@@ -222,7 +222,7 @@ const actions = {
     let response;
 
     await axios
-      .get(`/api2/statistics/transaction/week/`, {
+      .get(`/admn/statistics/transaction/week/`, {
         headers: rootGetters.getHttpHeader,
         params: {
           ...payload,
@@ -240,7 +240,7 @@ const actions = {
   async fetchAdminStatisticsRegistrationYear({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/api2/statistics/user-register/year/`, {
+      .get(`/admn/statistics/user-register/year/`, {
         headers: rootGetters.getHttpHeader,
         params: {
           ...payload,
@@ -258,7 +258,7 @@ const actions = {
   async fetchAdminStatisticsRegistrationWeek({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/api2/statistics/user-register/week/`, {
+      .get(`/admn/statistics/user-register/week/`, {
         headers: rootGetters.getHttpHeader,
         params: {
           ...payload,
@@ -276,7 +276,7 @@ const actions = {
   async fetchAdminStatisticsCustomer({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/api2/statistics/customers/`, {
+      .get(`/admn/statistics/customers/`, {
         headers: rootGetters.getHttpHeader,
         params: {
           ...payload,
@@ -296,7 +296,7 @@ const actions = {
   async fetchAdminStatisticsProducts({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/api2/statistics/products/`, {
+      .get(`/admn/statistics/products/`, {
         headers: rootGetters.getHttpHeader,
         params: {
           ...payload,

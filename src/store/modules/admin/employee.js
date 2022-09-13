@@ -28,7 +28,7 @@ const actions = {
   async fetchAdminEmployees({ commit, rootGetters }, payload) {
     try {
       const { data } = await api({
-        url: `/api2/employee/`,
+        url: `/admn/employee/`,
         params: {
           ...payload,
           ...rootGetters['adminCompany/getAdminParameter'],
@@ -43,7 +43,7 @@ const actions = {
   },
   async fetchAdminEmployee({ commit }, id) {
     try {
-      const { data } = await api.get(`/api2/employee/${id}/`);
+      const { data } = await api.get(`/admn/employee/${id}/`);
       commit('setAdminEmployee', data);
       return data;
     } catch (error) {
@@ -53,7 +53,7 @@ const actions = {
   async postAdminEmployeeNew({ rootGetters }, payload) {
     let response;
     await axios
-      .post(`/api2/employee/new/`, payload, {
+      .post(`/admn/employee/new/`, payload, {
         headers: {
           ...rootGetters.getHttpHeader,
           // 'Content-Type': 'multipart/form-data'
@@ -76,7 +76,7 @@ const actions = {
   async postAdminEmployeeExist({ rootGetters }, payload) {
     let response;
     await axios
-      .post(`/api2/employee/exists/`, payload, {
+      .post(`/admn/employee/exists/`, payload, {
         headers: {
           ...rootGetters.getHttpHeader,
           // 'Content-Type': 'multipart/form-data'
@@ -100,7 +100,7 @@ const actions = {
   async putAdminEmployee({ commit }, payload) {
     try {
       const { data } = await api({
-        url: `/api2/employee/${payload.id}/`,
+        url: `/admn/employee/${payload.id}/`,
         method: 'PUT',
         data: payload.form,
       });
@@ -113,7 +113,7 @@ const actions = {
   async deleteAdminEmployee({ rootGetters }, payload) {
     let response;
     await axios
-      .delete(`/api2/employee/${payload}/`, {
+      .delete(`/admn/employee/${payload}/`, {
         headers: {
           ...rootGetters.getHttpHeader,
           // 'Content-Type': 'multipart/form-data'

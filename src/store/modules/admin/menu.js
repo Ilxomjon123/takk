@@ -29,7 +29,7 @@ const actions = {
   async fetchMenus({ commit }, payload) {
     try {
       const { data } = await api({
-        url: `/api2/menus/`,
+        url: `/admn/menus/`,
         params: payload,
       });
       commit('setMenus', data);
@@ -44,7 +44,7 @@ const actions = {
     let response;
     await axios
       .post(
-        `/api2/menus/`,
+        `/admn/menus/`,
         { ...payload, company: rootGetters.getCompanyId },
         {
           headers: rootGetters.getHttpHeader,
@@ -69,7 +69,7 @@ const actions = {
     let response;
     await axios
       .put(
-        `/api2/menus/${payload.id}/`,
+        `/admn/menus/${payload.id}/`,
         { ...payload, company: rootGetters.getCompanyId },
         {
           headers: rootGetters.getHttpHeader,
@@ -94,7 +94,7 @@ const actions = {
     if (payload === state.selectedMenuId) commit('setSelectedMenuId', null);
     try {
       const res = await api({
-        url: `/api2/menus/${payload}/`,
+        url: `/admn/menus/${payload}/`,
         method: 'DELETE',
       });
 
@@ -107,7 +107,7 @@ const actions = {
   async updateModifierTypePositions({ rootGetters }, payload) {
     try {
       const res = api({
-        url: '/api2/menus/ordering-items/',
+        url: '/admn/menus/ordering-items/',
         method: 'PUT',
         data: payload,
       });

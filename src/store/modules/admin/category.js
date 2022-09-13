@@ -25,8 +25,8 @@ const actions = {
   async fetchCategories({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/api2/menus/${rootGetters.getSelectedMenuId}/categories/`, {
-        // .get(`/api2/transactions/`, {
+      .get(`/admn/menus/${rootGetters.getSelectedMenuId}/categories/`, {
+        // .get(`/admn/transactions/`, {
         headers: rootGetters.getHttpHeader,
         params: payload,
       })
@@ -43,8 +43,8 @@ const actions = {
   async fetchCategory({ commit, rootGetters }, payload) {
     let response;
     await axios
-      .get(`/api2/categories/${payload}/`, {
-        // .get(`/api2/transactions/`, {
+      .get(`/admn/categories/${payload}/`, {
+        // .get(`/admn/transactions/`, {
         headers: rootGetters.getHttpHeader,
       })
       .then((res) => {
@@ -60,7 +60,7 @@ const actions = {
   async postCategory({ rootGetters }, payload) {
     let response;
     await axios
-      .post(`/api2/categories/`, payload, {
+      .post(`/admn/categories/`, payload, {
         headers: {
           ...rootGetters.getHttpHeader,
           'Conten-type': 'multipart/form-data',
@@ -83,7 +83,7 @@ const actions = {
   async putCategory({ rootGetters }, payload) {
     let response;
     await axios
-      .put(`/api2/categories/${payload.id}/`, payload.form, {
+      .put(`/admn/categories/${payload.id}/`, payload.form, {
         headers: rootGetters.getHttpHeader,
       })
       .then(async (res) => {
@@ -103,7 +103,7 @@ const actions = {
   async deleteCategory({ rootGetters }, payload) {
     let response;
     await axios
-      .delete(`/api2/categories/${payload}/`, {
+      .delete(`/admn/categories/${payload}/`, {
         headers: rootGetters.getHttpHeader,
       })
       .then(async (res) => {

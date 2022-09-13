@@ -39,7 +39,7 @@ const mutations = {
 const actions = {
   async fetchAdminCafeList({ rootGetters, commit }) {
     try {
-      const res = await axios.get('/api2/cafes/', {
+      const res = await axios.get('/admn/cafes/', {
         params: rootGetters['adminCompany/getAdminParameter'],
         headers: rootGetters.getHttpHeader,
       });
@@ -52,7 +52,7 @@ const actions = {
 
   async fetchAdminSquareCafeList({ rootGetters, commit }) {
     try {
-      const res = await axios.get('/api2/square/locations/parse/', {
+      const res = await axios.get('/admn/square/locations/parse/', {
         headers: rootGetters.getHttpHeader,
       });
       commit('setSquareCafeList', res.data);
@@ -63,7 +63,7 @@ const actions = {
 
   async fetchAdminCafeById({ rootGetters, commit }, payload) {
     try {
-      const res = await axios.get('/api2/cafes/' + payload + '/', {
+      const res = await axios.get('/admn/cafes/' + payload + '/', {
         // params: { id: payload },
         headers: rootGetters.getHttpHeader,
       });
@@ -79,7 +79,7 @@ const actions = {
 
     try {
       const res = await api({
-        url: `/api2/cafes/`,
+        url: `/admn/cafes/`,
         method: 'post',
         data,
       });
@@ -93,7 +93,7 @@ const actions = {
     let response;
     await axios
       .post(
-        `/api2/square/locations/import/`,
+        `/admn/square/locations/import/`,
         { locations: payload },
         { headers: rootGetters.getHttpHeader }
       )
@@ -114,7 +114,7 @@ const actions = {
   },
   squareCafeNotification({ rootGetters }, payload) {
     axios.post(
-      `/api2/cafes/square/notifications/`,
+      `/admn/cafes/square/notifications/`,
       { cafe: payload },
       { headers: rootGetters.getHttpHeader }
     );
@@ -124,7 +124,7 @@ const actions = {
     await dispatch('fetchSquareCafeList');
     await axios
       .post(
-        `/api2/square/locations/import/`,
+        `/admn/square/locations/import/`,
         {
           locations: getters.getSquareCafeIDList,
         },

@@ -8,7 +8,7 @@ export async function fetchCategories(
 ) {
   try {
     const res = await api({
-      url: `/api2/menus/${menuID}/categories/`,
+      url: `/admn/menus/${menuID}/categories/`,
       params: payload,
     });
     return res.data;

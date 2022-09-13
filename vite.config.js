@@ -27,12 +27,12 @@ export default defineConfig({
         secure: false,
         ws: true,
       },
-      '^/api2/.*': {
+      '^/admn/.*': {
         // target: 'http://18.117.105.144:8080/api/v1/dashboard/client',
         target: 'https://api.takk.cafe/api/v1/dashboard/admin',
         // port: 8080,
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api2/, ''),
+        rewrite: (path) => path.replace(/^\/admn/, ''),
         secure: false,
         ws: true,
       },
