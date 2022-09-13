@@ -123,7 +123,9 @@ async function updateLimit(limit) {
         v-for="(item, index) in menusData.results"
         :key="index"
         :class="
-          item.id == activeMenuId ? 'bg-theme-1 dark:bg-theme-1 text-white' : ''
+          item.id == activeMenuId
+            ? 'bg-theme-31 dark:bg-theme-31 text-white'
+            : ''
         "
       >
         <div class="flex col-span-12 w-full">
