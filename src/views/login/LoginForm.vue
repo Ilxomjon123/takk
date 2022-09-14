@@ -105,13 +105,13 @@ async function submit() {
         v-model="form.sms_code"
         v-if="!isDisabled"
       />
-      <input
+      <!-- <input
         v-if="isRegister"
         type="text"
         class="intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4"
         placeholder="Username"
         v-model="form.username"
-      />
+      /> -->
       <input
         v-if="isRegister"
         type="email"

@@ -49,7 +49,7 @@ import StatisticsProducts from '@/components/lists/StatisticsProducts.vue';
           </div>
         </div>
       </div>
-      <div class="col-span-12 lg:col-span-6">
+      <!-- <div class="col-span-12 lg:col-span-6">
         <div class="intro-y box">
           <div
             class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200 dark:border-dark-5"
@@ -86,7 +86,7 @@ import StatisticsProducts from '@/components/lists/StatisticsProducts.vue';
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="col-span-12 lg:col-span-6">
         <div class="intro-y box">
           <div
