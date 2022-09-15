@@ -57,80 +57,86 @@ function removeProductSize(index) {
         <h2 class="font-medium text-base mr-auto">Product size info</h2>
       </div>
       <template v-for="(item, index) in formFields.sizes">
-        <div class="flex justify-between">
-          <div class="form-check">
-            <input
-              :id="'product_size_available' + index"
-              class="form-check-switch"
-              type="checkbox"
-              v-model="item.available"
-            />
-            <label
-              class="form-check-label"
-              :for="'product_size_available' + index"
-              >Available</label
+        <div class="shadow border rounded-md p-5 mb-5">
+          <div class="flex flex-col lg:flex-row gap-5 pb-5">
+            <div class="input-form">
+              <label class="form-label" :for="'product_size_name' + index">
+                Product variance name
+                <span class="text-theme-6">*</span>
+                <Tippy content="For example:  Large, Medium, Small">
+                  <InfoIcon class="block w-4" />
+                </Tippy>
+              </label>
+              <input
+                :id="'product_size_name' + index"
+                v-model="item.name"
+                class="form-control"
+                type="text"
+              />
+              <span class="text-theme-6 mt-2">{{
+                externalErrors.sizes && externalErrors.sizes[0]
+              }}</span>
+            </div>
+            <div class="input-form">
+              <label class="form-label" :for="'product_size_price' + index">
+                Product variance price
+                <span class="text-theme-6">*</span>
+                <Tippy class="invisible" content="Fill price">
+                  <InfoIcon class="block w-4" />
+                </Tippy>
+              </label>
+              <input
+                :id="'product_size_price' + index"
+                v-model="item.price"
+                class="form-control"
+                type="number"
+                step="0.01"
+              />
+              <span class="text-theme-6 mt-2">{{
+                externalErrors.sizes && externalErrors.sizes[0]
+              }}</span>
+            </div>
+          </div>
+          <div class="flex justify-between">
+            <div class="form-check">
+              <input
+                :id="'product_size_available' + index"
+                class="form-check-switch"
+                type="checkbox"
+                v-model="item.available"
+              />
+              <label
+                class="form-check-label"
+                :for="'product_size_available' + index"
+                >Available</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                :id="'product_size_is_default' + index"
+                class="form-check-switch"
+                type="checkbox"
+                v-model="item.default"
+              />
+              <label
+                class="form-check-label"
+                :for="'product_size_is_default' + index"
+                >Default</label
+              >
+            </div>
+            <button
+              type="button"
+              class="disabled:cursor-not-allowed"
+              :disabled="formFields.sizes.length === 1"
+              @click="removeProductSize(index)"
             >
-          </div>
-          <div class="form-check">
-            <input
-              :id="'product_size_is_default' + index"
-              class="form-check-switch"
-              type="checkbox"
-              v-model="item.default"
-            />
-            <label
-              class="form-check-label"
-              :for="'product_size_is_default' + index"
-              >Default</label
-            >
-          </div>
-          <button
-            type="button"
-            class="btn btn-danger"
-            :disabled="formFields.sizes.length === 1"
-            @click="removeProductSize(index)"
-          >
-            <TrashIcon />
-            <span class="hidden xl:block">Remove size</span>
-          </button>
-        </div>
-        <div class="flex flex-col lg:flex-row gap-5 py-5">
-          <div class="input-form">
-            <label class="form-label" :for="'product_size_name' + index">
-              Product variance name
-              <span class="text-theme-6">*</span>
-              <Tippy content="For example:  Large, Medium, Small">
-                <InfoIcon class="block w-4" />
-              </Tippy>
-            </label>
-            <input
-              :id="'product_size_name' + index"
-              v-model="item.name"
-              class="form-control"
-              type="text"
-            />
-            <span class="text-theme-6 mt-2">{{
-              externalErrors.sizes && externalErrors.sizes[0]
-            }}</span>
-          </div>
-          <div class="input-form">
-            <label class="form-label" :for="'product_size_price' + index">
-              Product variance price
-              <span class="text-theme-6">*</span>
-              <Tippy class="invisible" content="Fill price">
-                <InfoIcon class="block w-4" />
-              </Tippy>
-            </label>
-            <input
-              :id="'product_size_price' + index"
-              v-model="item.price"
-              class="form-control"
-              type="number"
-              step="0.01"
-            />
-            <span class="text-theme-6 mt-2">{{
-              externalErrors.sizes && externalErrors.sizes[0]
-            }}</span>
+              <TrashIcon
+                :class="
+                  formFields.sizes.length > 1 ? 'text-theme-6' : 'text-theme-32'
+                "
+              />
+              <!-- <span class="hidden xl:block">Remove size</span> -->
+            </button>
           </div>
         </div>
       </template>
@@ -140,7 +146,7 @@ function removeProductSize(index) {
           class="btn btn-primary"
           @click="addNewProductSize"
         >
-          <PlusIcon />Add new size
+          Add size
         </button>
       </div>
     </div>
