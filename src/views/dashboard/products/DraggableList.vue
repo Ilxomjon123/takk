@@ -54,11 +54,9 @@ function openDeleteModal(product_id) {
 
 async function deleteObj() {
   cash('#delete-confirmation-modal').modal('hide');
-  store.commit('setLoadingStatus', true);
   await deleteProduct(selectedProductId.value);
   // await fetchProducts()
   emit('update:list');
-  store.commit('setLoadingStatus', false);
 }
 
 async function handleProductDuplicate(category) {

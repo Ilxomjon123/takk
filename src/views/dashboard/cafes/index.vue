@@ -11,22 +11,16 @@ const router = useRouter();
 const list = reactive([]);
 
 onMounted(async () => {
-  store.commit('setLoadingStatus', true);
   const res = await fetchCafeList();
   Object.assign(list, res.results);
-  store.commit('setLoadingStatus', false);
 });
 
 function gotoForm(id) {
-  store.commit('setLoadingStatus', true);
-
   if (id) {
     router.push(`/dashboard/cafes/${id}`);
   } else {
     router.push(`/dashboard/cafes/add`);
   }
-
-  store.commit('setLoadingStatus', false);
 }
 </script>
 

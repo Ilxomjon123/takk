@@ -59,9 +59,6 @@ async function submit() {
             <div class="intro-y">
               <label class="form-label">Morning Background</label>
               <SimpleImageUpload
-                :title="
-                  getCompany.app_image_morning ? 'Change photo' : 'Add photo'
-                "
                 :image-path="getCompany.app_image_morning"
                 @update-image-file="morning = $event"
               />
@@ -71,7 +68,6 @@ async function submit() {
             <div class="intro-y">
               <label class="form-label">Day Background</label>
               <SimpleImageUpload
-                :title="getCompany.app_image_day ? 'Change photo' : 'Add photo'"
                 :image-path="getCompany.app_image_day"
                 @update-image-file="day = $event"
               />
@@ -81,9 +77,6 @@ async function submit() {
             <div class="intro-y">
               <label class="form-label">Evening Background</label>
               <SimpleImageUpload
-                :title="
-                  getCompany.app_image_evening ? 'Change photo' : 'Add photo'
-                "
                 :image-path="getCompany.app_image_evening"
                 @update-image-file="evening = $event"
               />

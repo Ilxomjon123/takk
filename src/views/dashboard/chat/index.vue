@@ -9,20 +9,12 @@ import ChatBox from './ChatBox.vue';
 import SendMessageModal from './SendMessageModal.vue';
 import store from '@/store';
 
-const {
-  setChatList,
-  getChatBoxLoading,
-  getSelectedChat,
-  getErrorMessage
-} = useChatState();
+const { setChatList, getChatBoxLoading, getSelectedChat, getErrorMessage } =
+  useChatState();
 
 onMounted(async () => {
-  store.commit('setLoadingStatus', true);
-
   const res = await fetchChats();
   res.results.length > 0 && setChatList(res.results);
-
-  store.commit('setLoadingStatus', false);
 });
 
 function openMessageModal() {
@@ -78,14 +70,14 @@ function openMessageModal() {
         <div
           v-if="getChatBoxLoading"
           class="absolute min-h-full w-full z-50 flex flex-col justify-center items-center"
-          style="background-color: rgba(100, 100, 100, 0.1);"
+          style="background-color: rgba(100, 100, 100, 0.1)"
         >
           <LoadingIcon icon="tail-spin" class="w-16 h-16" />
         </div>
         <div
           v-if="getChatBoxLoading"
           class="absolute min-h-full w-full z-50 flex flex-col justify-center items-center"
-          style="background-color: rgba(100, 100, 100, 0.1);"
+          style="background-color: rgba(100, 100, 100, 0.1)"
         >
           <LoadingIcon icon="tail-spin" class="w-16 h-16" />
         </div>

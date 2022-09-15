@@ -1,3 +1,7 @@
+<script setup>
+import AdminEmployeeForm from '@/components/forms/AdminEmployeeForm.vue';
+</script>
+
 <template>
   <div>
     <div class="grid grid-cols-12 gap-6">
@@ -6,7 +10,7 @@
       <!-- END: Profile Menu -->
       <div class="col-span-12 lg:col-span-12 2xl:col-span-12">
         <!-- BEGIN: Display Information -->
-        <div class="intro-y box lg:mt-5" v-if="!getLoadingStatus">
+        <div class="intro-y box lg:mt-5">
           <div
             class="flex items-center p-5 border-b border-gray-200 dark:border-dark-5"
           >
@@ -14,10 +18,7 @@
           </div>
           <div class="p-5">
             <div class="grid grid-cols-12 gap-6">
-              <AdminEmployeeForm
-                dispatcher="adminEmployee/postEmployeeExist"
-                :isAddExist="true"
-              />
+              <AdminEmployeeForm :isAddExist="true" />
             </div>
           </div>
         </div>
@@ -25,17 +26,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import { defineComponent } from 'vue';
-import { mapGetters } from 'vuex';
-import EmployeeForm from '@/components/forms/EmployeeForm.vue';
-import AdminEmployeeForm from '../../../components/forms/AdminEmployeeForm.vue';
-
-export default defineComponent({
-  components: { EmployeeForm, AdminEmployeeForm },
-  computed: {
-    ...mapGetters(['getLoadingStatus']),
-  },
-});
-</script>

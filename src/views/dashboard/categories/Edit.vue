@@ -35,18 +35,16 @@ import CategoryForm from '@/components/forms/CategoryForm.vue';
 export default defineComponent({
   components: { CategoryForm },
   computed: {
-    ...mapGetters(['getLoadingStatus', 'getCategory'])
+    ...mapGetters(['getLoadingStatus', 'getCategory']),
   },
   data() {
     return {
-      id: null
+      id: null,
     };
   },
   async created() {
     this.id = this.$route.params.id;
-    this.$store.commit('setLoadingStatus', true);
     await this.$store.dispatch('fetchCategory', this.id);
-    this.$store.commit('setLoadingStatus', false);
-  }
+  },
 });
 </script>

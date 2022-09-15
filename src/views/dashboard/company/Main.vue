@@ -82,7 +82,6 @@ function getError(key) {
             <div class="intro-y">
               <label class="form-label">Company Logo</label>
               <SimpleImageUpload
-                :title="getCompany.logo ? 'Change photo' : 'Add photo'"
                 :image-path="getCompany.logo"
                 @update-image-file="image = $event"
               />

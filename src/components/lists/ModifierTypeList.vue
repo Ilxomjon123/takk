@@ -85,7 +85,7 @@ export default defineComponent({
     MainPaginator,
     MenuModalForm,
     ModifierTypeModalForm,
-    ConfirmDeletionModal
+    ConfirmDeletionModal,
   },
   data() {
     return {
@@ -98,12 +98,12 @@ export default defineComponent({
       editDispatcher: 'putModifierType',
       successMessage: 'Successfully Deleted!',
       loadingDelete: {},
-      selectedItem: {}
+      selectedItem: {},
     };
   },
   emits: ['update-modifier-type-id'],
   computed: {
-    ...mapGetters(['getSelectedMenuId', 'getSelectedModifierTypeId'])
+    ...mapGetters(['getSelectedMenuId', 'getSelectedModifierTypeId']),
   },
   methods: {
     paginate(val) {
@@ -132,7 +132,6 @@ export default defineComponent({
     },
     async deleteItem() {
       const val = this.selectedItem?.id;
-      this.$store.commit('setLoadingStatus', true);
 
       this.selectModifierType(null);
       const res = await this.$store.dispatch('deleteModifierType', val);
@@ -143,12 +142,11 @@ export default defineComponent({
       } else {
         this.$store.commit('setErrorNotification', true);
       }
-      this.$store.commit('setLoadingStatus', false);
     },
     onDeleteAction(val) {
       this.selectedItem = val;
       this.$refs[this.deleteModalId].showModal();
-    }
-  }
+    },
+  },
 });
 </script>

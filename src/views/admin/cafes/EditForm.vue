@@ -15,7 +15,7 @@ import {
   fetchCafe,
   updateCafe,
   deleteCafe,
-  deleteCafeImage
+  deleteCafeImage,
 } from '@/api/admin';
 import router from '@/router';
 import { useNotyf } from '@/composables/useNotyf';
@@ -25,7 +25,7 @@ const notyf = useNotyf();
 const currentItem = ref('CafeInformation');
 const formFields = reactive({
   location: {
-    coordinates: [35.1234, -95.1234]
+    coordinates: [35.1234, -95.1234],
   },
   country: 236,
   name: '',
@@ -42,44 +42,44 @@ const formFields = reactive({
       day: 'monday',
       opening_time: null,
       closing_time: null,
-      is_open: false
+      is_open: false,
     },
     {
       day: 'tuesday',
       opening_time: null,
       closing_time: null,
-      is_open: false
+      is_open: false,
     },
     {
       day: 'wednesday',
       opening_time: null,
       closing_time: null,
-      is_open: false
+      is_open: false,
     },
     {
       day: 'thursday',
       opening_time: null,
       closing_time: null,
-      is_open: false
+      is_open: false,
     },
     {
       day: 'friday',
       opening_time: null,
       closing_time: null,
-      is_open: false
+      is_open: false,
     },
     {
       day: 'saturday',
       opening_time: null,
       closing_time: null,
-      is_open: false
+      is_open: false,
     },
     {
       day: 'sunday',
       opening_time: null,
       closing_time: null,
-      is_open: false
-    }
+      is_open: false,
+    },
   ],
   delivery_available: false,
   delivery_max_distance: 1,
@@ -89,7 +89,7 @@ const formFields = reactive({
   delivery_km_amount: 0,
   delivery_min_time: 30,
   cafe_timezone: 'America/New_York',
-  status: 0
+  status: 0,
 });
 const externalErrors = ref({});
 const components = {
@@ -97,16 +97,15 @@ const components = {
   CafeOperations,
   CafeDelivery,
   CafeGallery,
-  CafeWorkingDays
+  CafeWorkingDays,
 };
 const isLoading = ref(false);
 
 watch(
   () => route.params.id,
-  async newVal => {
+  async (newVal) => {
     console.log('newVal: ', newVal);
     if (newVal) {
-      store.commit('setLoadingStatus', true);
       const res1 = await fetchCafe(newVal);
       Object.assign(formFields, res1);
 
@@ -116,7 +115,6 @@ watch(
       // formFields.country = Number(res1.country);
       // formFields.state = Number(res1.state);
       // formFields.city = Number(res1.city);
-      store.commit('setLoadingStatus', false);
     }
   },
   { deep: true, immediate: true }
@@ -134,7 +132,7 @@ async function submit(formData) {
   try {
     await updateCafe({
       data: formData,
-      id: route.params.id
+      id: route.params.id,
     });
 
     notyf.success();
@@ -153,14 +151,12 @@ function openConfirmModal() {
 }
 
 async function removeCafe() {
-  store.commit('setLoadingStatus', true);
   cash('#delete-confirmation-modal').modal('hide');
   if (!isEmpty(formFields.photos)) {
     formFields.photos.forEach(async ({ id }) => await deleteCafeImage(id));
   }
   await deleteCafe(formFields.id);
-  store.commit('setLoadingStatus', false);
-  notyf.success('Data successfully removed!')
+  notyf.success('Data successfully removed!');
   router.back();
 }
 </script>

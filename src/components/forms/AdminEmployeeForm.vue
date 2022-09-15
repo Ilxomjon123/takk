@@ -7,7 +7,7 @@
         class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5 items-center"
       >
         <div class="h-60 w-60 image-fit cursor-pointer zoom-in mx-auto">
-          <img class="rounded-md" alt="Takk" :src="employee?.user?.avatar" />
+          <img class="rounded-md" alt="Takk" :src="employee.user?.avatar" />
           <input
             type="file"
             hidden
@@ -195,7 +195,7 @@ export default defineComponent({
     },
     dispatcher: {
       type: String,
-      default: 'adminEmployee/postAdminEmployeeNew',
+      default: 'adminEmployee/postEmployeeExist',
     },
     isAddExist: {
       type: Boolean,

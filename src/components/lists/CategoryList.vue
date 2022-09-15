@@ -27,9 +27,7 @@ function paginate(val) {
 }
 
 function search() {
-  store.commit('setLoadingStatus', true);
   paginator.value?.paginate(1);
-  store.commit('setLoadingStatus', false);
 }
 
 function setItems(val) {
@@ -37,7 +35,6 @@ function setItems(val) {
 }
 
 async function deleteItem(val) {
-  store.commit('setLoadingStatus', true);
   const res = await store.dispatch('deleteCategory', val);
 
   if (res.status) {
@@ -46,7 +43,6 @@ async function deleteItem(val) {
   } else {
     store.commit('setErrorNotification', true);
   }
-  store.commit('setLoadingStatus', false);
 }
 
 function toggleChildren(valId) {

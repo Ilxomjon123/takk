@@ -3,8 +3,8 @@ import { reactive, ref } from 'vue';
 import { createProduct } from '@/api';
 import FormFields from './FormFields.vue';
 import { useRouter } from 'vue-router';
-import { useNotyf } from '../../../composables/useNotyf';
-import SubmitButton from '../../../components/buttons/SubmitButton.vue';
+import { useNotyf } from '@/composables/useNotyf';
+import SubmitButton from '@/components/buttons/SubmitButton.vue';
 
 const router = useRouter();
 const notyf = useNotyf();

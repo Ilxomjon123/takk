@@ -86,7 +86,6 @@ function getError(key) {
   >
     <SimpleImageUpload
       class="w-52"
-      :title="category.image ? 'Change photo' : 'Add photo'"
       :image-path="category.image_medium"
       @update-image-file="category.image = $event"
     />

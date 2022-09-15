@@ -20,10 +20,7 @@ function gotoEditForm(company) {
 }
 
 function gotoAddForm() {
-  store.commit('setLoadingStatus', true);
-  // setSelected(undefined);
   router.push(`/admin/company/form`);
-  store.commit('setLoadingStatus', false);
 }
 </script>
 

@@ -14,25 +14,19 @@ const selectedCompanyId = computed(
 await fetchData();
 
 async function fetchData() {
-  store.commit('setLoadingStatus', true);
   const res = await fetchCafeList({
     limit: 100,
-    company: selectedCompanyId.value || ''
+    company: selectedCompanyId.value || '',
   });
   Object.assign(list, res.results);
-  store.commit('setLoadingStatus', false);
 }
 
 function gotoForm(id) {
-  store.commit('setLoadingStatus', true);
-
   if (id) {
     router.push(`/admin/cafes/${id}`);
   } else {
     router.push(`/admin/cafes/add`);
   }
-
-  store.commit('setLoadingStatus', false);
 }
 </script>
 

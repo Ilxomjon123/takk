@@ -164,13 +164,11 @@ export default defineComponent({
     },
   },
   async created() {
-    this.$store.commit('setLoadingStatus', true);
     await this.fetchProfile();
     this.user = { ...this.getUser };
     if (this.user.date_of_birthday == null) {
       this.user.date_of_birthday = '28-04-1998';
     }
-    this.$store.commit('setLoadingStatus', false);
   },
   methods: {
     ...mapActions(['putProfile', 'fetchProfile']),

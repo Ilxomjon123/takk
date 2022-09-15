@@ -3,7 +3,6 @@
     class="col-span-12 lg:col-span-4 2xl:col-span-3 flex lg:block flex-col-reverse"
   >
     <SimpleImageUpload
-      :title="employee.user?.avatar && 'Change photo'"
       :image-path="employee.user?.avatar"
       @update-image-file="employee.user.avatar = $event"
     />

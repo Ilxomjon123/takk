@@ -20,10 +20,8 @@ const imageSources = ref([]);
 
 onMounted(async () => {
   if (route.params.id) {
-    store.commit('setLoadingStatus', true);
     fetchCafeGallery(route.params.id).then((res) => {
       imageSources.value = res || [];
-      store.commit('setLoadingStatus', false);
     });
   }
 });

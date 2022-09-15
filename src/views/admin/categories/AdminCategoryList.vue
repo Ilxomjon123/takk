@@ -17,7 +17,7 @@ const selectedMenuId = computed(() => store.getters['getSelectedMenuId']);
 
 watch(
   () => selectedMenuId.value,
-  newVal => {
+  (newVal) => {
     console.log('new selectedMenuId: ', newVal);
     newVal && search();
   },
@@ -25,9 +25,7 @@ watch(
 );
 
 function search() {
-  store.commit('setLoadingStatus', true);
   paginator.value?.paginate(1);
-  store.commit('setLoadingStatus', false);
 }
 
 function setItems(val) {
@@ -35,7 +33,6 @@ function setItems(val) {
 }
 
 async function deleteItem(val) {
-  store.commit('setLoadingStatus', true);
   const res = await store.dispatch('deleteCategory', val);
 
   if (res.status) {
@@ -44,7 +41,6 @@ async function deleteItem(val) {
   } else {
     store.commit('setErrorNotification', true);
   }
-  store.commit('setLoadingStatus', false);
 }
 
 function toggleChildren(valId) {
@@ -91,7 +87,7 @@ function reorderModifierItem() {
               <span class="whitespace-nowrap">Reorder Categories</span>
             </button>
             <button
-              class="flex items-center  p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md w-full cursor-pointer disabled:cursor-not-allowed"
+              class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md w-full cursor-pointer disabled:cursor-not-allowed"
               @click="reorderModifierItem"
               :disabled="showChildren.length === 0"
               data-toggle="dropdown"
@@ -150,7 +146,7 @@ function reorderModifierItem() {
                       <router-link
                         :to="`/admin/categories/${item.id}`"
                         data-dismiss="dropdown"
-                        class="flex items-center  p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                        class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
                       >
                         <Edit2Icon class="w-4 h-4 mr-2" />Edit
                       </router-link>
@@ -202,7 +198,7 @@ function reorderModifierItem() {
                       <router-link
                         :to="`/admin/categories/${el.id}`"
                         data-dismiss="dropdown"
-                        class="flex items-center  p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                        class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
                       >
                         <Edit2Icon class="w-4 h-4 mr-3" />Edit
                       </router-link>
@@ -247,8 +243,9 @@ function reorderModifierItem() {
   />
   <DraggableItemModal
     :list="
-      items.find(item => showChildren.length > 0 && item.id == showChildren[0])
-        ?.children
+      items.find(
+        (item) => showChildren.length > 0 && item.id == showChildren[0]
+      )?.children
     "
   />
 </template>

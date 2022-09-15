@@ -17,20 +17,20 @@ export default defineComponent({
   props: {
     dispatcher: {
       type: String,
-      required: true
+      required: true,
     },
     form: {
       type: Object,
-      default: {}
-    }
+      default: {},
+    },
   },
   data() {
     return {
       paginator: {
         page: 1,
-        limit: 10
+        limit: 10,
       },
-      total: 10
+      total: 10,
     };
   },
   async mounted() {
@@ -52,16 +52,14 @@ export default defineComponent({
       if (form == {}) {
         form = this.from;
       }
-      // this.$store.commit('setLoadingStatus', true);
       const res = await this.$store.dispatch(this.dispatcher, {
         ...form,
-        ...this.paginator
+        ...this.paginator,
       });
       this.total = res?.total_objects;
       console.log('res?.results', res?.results);
       this.$emit('setItems', res?.results);
-      // this.$store.commit('setLoadingStatus', false);
-    }
-  }
+    },
+  },
 });
 </script>

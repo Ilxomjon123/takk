@@ -11,11 +11,11 @@ import {
   duplicateProduct,
   deleteProduct,
   fetchSelectedMenuCategories,
-  isProductAvailable
+  isProductAvailable,
 } from '@/api/admin';
 
 const props = defineProps({
-  list: Array
+  list: Array,
 });
 
 const emit = defineEmits(['update:list', 'reorder:list']);
@@ -39,7 +39,7 @@ async function reorderList(event) {
 function handleSwitcher(event, product_id) {
   isProductAvailable({
     product: product_id,
-    is_available: event.target.checked
+    is_available: event.target.checked,
   });
 }
 
@@ -55,11 +55,9 @@ function openDeleteModal(product_id) {
 
 async function deleteObj() {
   cash('#delete-confirmation-modal').modal('hide');
-  store.commit('setLoadingStatus', true);
   await deleteProduct(selectedProductId.value);
   // await fetchProducts()
   emit('update:list');
-  store.commit('setLoadingStatus', false);
 }
 
 async function handleProductDuplicate(category) {
@@ -67,7 +65,7 @@ async function handleProductDuplicate(category) {
     isLoading.value = true;
     const data = {
       product: selectedProductId.value,
-      category
+      category,
     };
 
     const res = await duplicateProduct(data);
@@ -104,7 +102,7 @@ async function handleProductDuplicate(category) {
               :id="'product_available' + element.id"
               class="form-check-switch"
               type="checkbox"
-              @change="e => handleSwitcher(e, element.id)"
+              @change="(e) => handleSwitcher(e, element.id)"
               :checked="element.available"
             />
           </div>
@@ -170,7 +168,7 @@ async function handleProductDuplicate(category) {
           >
             <div
               v-show="isLoading"
-              style="background-color: rgba(100, 100, 100, 0.1);"
+              style="background-color: rgba(100, 100, 100, 0.1)"
               class="absolute w-full h-full z-50 flex flex-col justify-center items-center"
             >
               <LoadingIcon

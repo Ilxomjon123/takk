@@ -4,8 +4,8 @@ import { updateProduct } from '@/api';
 import { useRoute, useRouter } from 'vue-router';
 import { fetchProduct } from '@/api';
 import FormFields from './FormFields.vue';
-import { useNotyf } from '../../../composables/useNotyf';
-import SubmitButton from '../../../components/buttons/SubmitButton.vue';
+import { useNotyf } from '@/composables/useNotyf';
+import SubmitButton from '@/components/buttons/SubmitButton.vue';
 
 const externalErrors = ref({});
 const isLoading = ref(false);
@@ -38,7 +38,7 @@ onMounted(async () => {
     formFields.name = res.name;
     formFields.description = res.description;
     formFields.tax_percent = res.tax_percent;
-    formFields.category = res.category.id.toString();
+    formFields.category = res.category.id?.toString();
     formFields.modifiers = res.modifiers;
     productImagePath.value = res.image;
   });

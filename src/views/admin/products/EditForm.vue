@@ -1,11 +1,11 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useNotyf } from '@/composables/useNotyf';
 
 import { fetchProduct, updateProduct } from '@/api/admin';
-import store from '@/store';
 import FormFields from './FormFields.vue';
-import SubmitButton from '../../../components/buttons/SubmitButton.vue';
+import SubmitButton from '@/components/buttons/SubmitButton.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -39,7 +39,7 @@ onMounted(async () => {
     formFields.name = res.name;
     formFields.description = res.description;
     formFields.tax_percent = res.tax_percent;
-    formFields.category = res.category.id.toString();
+    formFields.category = res.category.id?.toString();
     formFields.modifiers = res.modifiers;
     productImagePath.value = res.image;
   });

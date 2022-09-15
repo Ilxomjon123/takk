@@ -218,8 +218,9 @@
   />
   <DraggableItemModal
     :list="
-      items.find(item => showChildren.length > 0 && item.id == showChildren[0])
-        ?.items
+      items.find(
+        (item) => showChildren.length > 0 && item.id == showChildren[0]
+      )?.items
     "
   />
 </template>
@@ -248,7 +249,7 @@ export default defineComponent({
       itemModalId: 'item-modal-id',
       itemAddDispatcher: 'postModifier',
       itemEditDispatcher: 'putModifier',
-      itemDispatcher: 'postModifier'
+      itemDispatcher: 'postModifier',
     };
   },
   methods: {
@@ -266,7 +267,6 @@ export default defineComponent({
     },
 
     async deleteItem(val) {
-      this.$store.commit('setLoadingStatus', true);
       const res = await this.$store.dispatch('deleteModifier', val);
 
       if (res.status) {
@@ -275,11 +275,9 @@ export default defineComponent({
       } else {
         this.$store.commit('setErrorNotification', true);
       }
-      this.$store.commit('setLoadingStatus', false);
     },
 
     async deleteType(val) {
-      this.$store.commit('setLoadingStatus', true);
       const res = await this.$store.dispatch('deleteModifierType', val);
       if (res.status) {
         this.$store.commit('setSuccessNotification', true);
@@ -287,7 +285,6 @@ export default defineComponent({
       } else {
         this.$store.commit('setErrorNotification', true);
       }
-      this.$store.commit('setLoadingStatus', false);
     },
     async typeAvailableChange(val) {
       val.available = !val.available;
@@ -330,10 +327,10 @@ export default defineComponent({
     },
     reorderModifierItem() {
       cash('#draggable-modifier-item-modal').modal('show');
-    }
+    },
   },
   computed: {
-    ...mapGetters(['getSelectedMenuId'])
+    ...mapGetters(['getSelectedMenuId']),
   },
 
   components: {
@@ -342,8 +339,8 @@ export default defineComponent({
     ModifierTypeModalForm,
     ModifierModalForm,
     DraggableTypeModal,
-    DraggableItemModal
-  }
+    DraggableItemModal,
+  },
 });
 </script>
 

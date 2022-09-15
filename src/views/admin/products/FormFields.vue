@@ -21,22 +21,20 @@ const productCategories = reactive([]);
 const productModifiers = reactive([]);
 
 onMounted(() => {
-  store.commit('setLoadingStatus', true);
   fetchSelectedMenuCategories(activeMenuID.value).then((res) =>
     Object.assign(productCategories, res.results)
   );
   fetchSelectedMenuModifiers(activeMenuID.value).then((res) =>
     Object.assign(productModifiers, res.results)
   );
-  store.commit('setLoadingStatus', false);
 });
 
 function addNewProductSize() {
   props.formFields.sizes.push({ ...props.formFields.sizes[0] });
 }
 
-function removeProductSize() {
-  props.formFields.sizes.pop();
+function removeProductSize(index) {
+  props.formFields.sizes.splice(index, 1);
 }
 </script>
 
@@ -50,7 +48,6 @@ function removeProductSize() {
       </div>
       <SimpleImageUpload
         class="w-52"
-        :title="productImagePath ? 'Change photo' : 'Add photo'"
         :image-path="productImagePath"
         @update-image-file="formFields.image = $event"
       />
@@ -63,8 +60,8 @@ function removeProductSize() {
         <h2 class="font-medium text-base mr-auto">Product size info</h2>
       </div>
       <template v-for="(item, index) in formFields.sizes">
-        <div class="flex gap-5">
-          <div class="form-check basis-1/2">
+        <div class="flex justify-between">
+          <div class="form-check">
             <input
               :id="'product_size_available' + index"
               class="form-check-switch"
@@ -77,7 +74,7 @@ function removeProductSize() {
               >Available</label
             >
           </div>
-          <div class="form-check basis-1/2">
+          <div class="form-check">
             <input
               :id="'product_size_is_default' + index"
               class="form-check-switch"
@@ -90,13 +87,22 @@ function removeProductSize() {
               >Default</label
             >
           </div>
+          <button
+            type="button"
+            class="btn btn-danger"
+            :disabled="formFields.sizes.length === 1"
+            @click="removeProductSize(index)"
+          >
+            <TrashIcon />
+            <span class="hidden xl:block">Remove size</span>
+          </button>
         </div>
         <div class="flex flex-col lg:flex-row gap-5 py-5">
           <div class="input-form">
             <label class="form-label" :for="'product_size_name' + index">
               Product variance name
               <span class="text-theme-6">*</span>
-              <Tippy content="Available sizes: Large, Medium, Small">
+              <Tippy content="For example:  Large, Medium, Small">
                 <InfoIcon class="block text-xs w-4" />
               </Tippy>
             </label>
@@ -138,14 +144,6 @@ function removeProductSize() {
           @click="addNewProductSize"
         >
           <PlusIcon />Add new size
-        </button>
-        <button
-          type="button"
-          class="btn btn-danger"
-          @click="removeProductSize"
-          :disabled="formFields.sizes.length === 1"
-        >
-          <TrashIcon />Remove size
         </button>
       </div>
     </div>

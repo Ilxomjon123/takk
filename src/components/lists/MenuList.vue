@@ -69,10 +69,8 @@ async function deleteMenu() {
 }
 
 async function fetchData() {
-  store.commit('setLoadingStatus', true);
   const res = await store.dispatch('fetchMenus');
   items.value = res.results;
-  store.commit('setLoadingStatus', false);
 }
 
 async function updateList() {
