@@ -41,7 +41,7 @@ function setCompany() {
               <span class="text-theme-6">*</span>
               <span class="ml-1">Select a company</span>
             </label>
-            <CompanySelect />
+            <CompanySelect class="w-auto" />
             <!-- <div class="text-red-500">{{ errors }}</div> -->
             <div class="text-theme-6 mt-2">{{ errors }}</div>
           </div>

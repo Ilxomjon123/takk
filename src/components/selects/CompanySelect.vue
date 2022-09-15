@@ -7,10 +7,10 @@ const selectedCompany = computed({
   get: () => {
     return store.getters['adminCompany/getAdminSelectedCompanyID'];
   },
-  set: async val => {
+  set: async (val) => {
     store.commit('adminCompany/setSelectedCompanyID', val);
     location.reload();
-  }
+  },
 });
 
 const companyList = computed(
@@ -25,18 +25,14 @@ onMounted(async () => {
 
 <template>
   <TomSelect
-    class="w-44"
     v-model="selectedCompany"
     :options="{
-      placeholder: 'Select Company'
+      placeholder: 'Select Company',
     }"
   >
     <option :value="0">All Companies</option>
-    <option
-      v-for="(item, index) in companyList"
-      :key="index"
-      :value="item.id"
-      >{{ item.name }}</option
-    >
+    <option v-for="(item, index) in companyList" :key="index" :value="item.id">
+      {{ item.name }}
+    </option>
   </TomSelect>
 </template>

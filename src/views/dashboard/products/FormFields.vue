@@ -126,16 +126,11 @@ function removeProductSize(index) {
             </div>
             <button
               type="button"
-              class="disabled:cursor-not-allowed"
+              class="disabled:cursor-not-allowed disabled:text-theme-32 text-theme-6"
               :disabled="formFields.sizes.length === 1"
               @click="removeProductSize(index)"
             >
-              <TrashIcon
-                :class="
-                  formFields.sizes.length > 1 ? 'text-theme-6' : 'text-theme-32'
-                "
-              />
-              <!-- <span class="hidden xl:block">Remove size</span> -->
+              <TrashIcon />
             </button>
           </div>
         </div>

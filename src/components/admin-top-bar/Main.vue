@@ -24,7 +24,7 @@ import CompanySelect from '../selects/CompanySelect.vue';
     <!-- <Notifications /> -->
     <!-- END: Notifications -->
     <!-- <CompanySelect class="mr-3 w-60" @update:modelValue="changeCompany" v-model="selectedCompnay"/> -->
-    <CompanySelect class="mr-3" />
+    <CompanySelect class="w-44 mr-3" />
     <ProfileAvatar />
     <ThemeModeButton class="ml-3" />
     <!-- BEGIN: Account Menu -->

@@ -53,7 +53,14 @@ watchEffect(() => {
 });
 
 function onCountryChange(countryObj) {
+  // defaultCountryCode.value = '+' + countryObj.dialCode;
   emits('update:dialCode', countryObj.dialCode);
+
+  if (countryObj.dialCode == 'US') {
+    emits('update:phoneNumber', '+1' + phone.value);
+  } else {
+    emits('update:phoneNumber', '+' + countryObj.dialCode + phone.value);
+  }
 }
 
 function onPhoneChange(event) {
