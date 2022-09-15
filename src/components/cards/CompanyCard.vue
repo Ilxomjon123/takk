@@ -34,7 +34,7 @@ const company = computed(() => store.getters.getCompany);
           class="flex items-center"
           :class="{
             'text-theme-1 dark:text-theme-10 font-medium':
-              route.path == '/dashboard/company'
+              route.path == '/dashboard/company',
           }"
         >
           <SettingsIcon class="w-4 h-4 mr-2" /> Company Information
@@ -43,7 +43,7 @@ const company = computed(() => store.getters.getCompany);
           class="flex items-center mt-5"
           :class="{
             'text-theme-1 dark:text-theme-10 font-medium':
-              route.path == '/dashboard/company/square'
+              route.path == '/dashboard/company/square',
           }"
           to="/dashboard/company/square"
         >
@@ -53,7 +53,7 @@ const company = computed(() => store.getters.getCompany);
           class="flex items-center mt-5"
           :class="{
             'text-theme-1 dark:text-theme-10 font-medium':
-              route.path == '/dashboard/company/banking'
+              route.path == '/dashboard/company/banking',
           }"
           to="/dashboard/company/banking"
         >
@@ -63,7 +63,7 @@ const company = computed(() => store.getters.getCompany);
           class="flex items-center mt-5"
           :class="{
             'text-theme-1 dark:text-theme-10 font-medium':
-              route.path == '/dashboard/company/tariffs'
+              route.path == '/dashboard/company/tariffs',
           }"
           to="/dashboard/company/tariffs"
         >
@@ -73,11 +73,11 @@ const company = computed(() => store.getters.getCompany);
           class="flex items-center mt-5"
           :class="{
             'text-theme-1 dark:text-theme-10 font-medium':
-              route.path == '/dashboard/company/app-images'
+              route.path == '/dashboard/company/app-images',
           }"
           to="/dashboard/company/app-images"
         >
-          <ImageIcon class="w-4 h-4 mr-2" /> Mobile App Images
+          <ImageIcon class="w-4 h-4 mr-2" /> App background images
         </RouterLink>
       </div>
     </div>

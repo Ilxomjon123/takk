@@ -1,18 +1,18 @@
 <script setup>
-import { computed, onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 import cash from 'cash-dom';
-import CafeMenu from './CafeMenu.vue';
 import store from '@/store';
-import CafeInformation from './CafeInformation.vue';
-import { storeCafe } from '@/api/admin';
 import { useNotyf } from '@/composables/useNotyf';
+import { storeCafe } from '@/api/admin';
+import CafeMenu from './CafeMenu.vue';
+import CafeInformation from './CafeInformation.vue';
 
 const router = useRouter();
 const notyf = useNotyf();
 const formFields = reactive({
   location: {
-    coordinates: [35.1234, -95.1234]
+    coordinates: [35.1234, -95.1234],
   },
   country: 236,
   state: null,
@@ -24,7 +24,7 @@ const formFields = reactive({
   address: '',
   second_address: '',
   description: '',
-  photos: []
+  photos: [],
 });
 const externalErrors = ref({});
 const isLoading = ref(false);
@@ -32,8 +32,8 @@ const selectedCompanyId = computed(
   () => store.getters['adminCompany/getAdminSelectedCompanyID']
 );
 
-onMounted(() => {
-  selectedCompanyId.value === 0 && showCompanySelectModal();
+watchEffect(() => {
+  if (!selectedCompanyId.value) showCompanySelectModal();
 });
 
 async function submit(formData) {

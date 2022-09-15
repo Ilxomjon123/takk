@@ -122,19 +122,26 @@ async function handleSearchEvent(value) {
       sub-item-value="product_count"
     />
     <!-- Menu List end -->
-    <div class="intro-y flex flex-col sm:flex-row items-center gap-5 mt-10">
-      <h2 class="text-lg font-medium">Products List</h2>
-      <button
-        class="btn btn-primary flex align-middle"
-        @click="gotoAddPage"
-        :disabled="!activeMenuID"
-      >
-        <span class="flex items-center justify-center">
-          <PlusIcon class="w-4 h-4" />
-        </span>
-        <span class="ml-3">Add Product</span>
-      </button>
-      <SearchProduct :loading="isLoading" @searching="handleSearchEvent" />
+    <div class="grid sm:grid-cols-10 mt-10 items-center">
+      <div class="col-span-1">
+        <h2 class="text-lg font-medium">Products List</h2>
+      </div>
+      <div class="col-auto">
+        <button
+          class="btn btn-primary w-36"
+          @click="gotoAddPage"
+          :disabled="!activeMenuID"
+        >
+          Add Product
+        </button>
+      </div>
+      <div class="col-auto">
+        <SearchProduct
+          class="w-56"
+          :loading="isLoading"
+          @searching="handleSearchEvent"
+        />
+      </div>
     </div>
     <div class="pos intro-y grid grid-cols-12 gap-5 mt-5">
       <!-- BEGIN: Data List -->

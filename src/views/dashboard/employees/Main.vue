@@ -1,38 +1,14 @@
 <template>
   <div>
-    <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
-      <h2 class="text-lg font-medium">Employees List</h2>
-      <!-- <div class="dropdown inline-block" data-placement="right-start">
-        <button class="dropdown-toggle" aria-expanded="false">
-          <MoreVerticalIcon />
-        </button>
-        <div class="dropdown-menu w-48">
-          <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-            <router-link to="/dashboard/employees/add-new" data-dismiss="dropdown"
-              class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
-              <UserPlusIcon class="w-4 h-4 mr-2" />Add New User
-            </router-link>
-            <router-link to="/dashboard/employees/add-exist" data-dismiss="dropdown"
-              class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
-              <UserCheckIcon class="w-4 h-4 mr-2" />Add Existing User
-            </router-link>
-
-          </div>
-        </div>
-      </div> -->
-      <div class="w-full sm:w-auto flex mt-4 ml-2 sm:mt-0">
-        <!-- <router-link
-          to="/dashboard/employees/add-new"
-          class="btn btn-primary mr-3"
-        >
-          <PlusIcon class="w-4 h-4 mr-3" />
-          Add New Employee
-        </router-link> -->
+    <div class="grid sm:grid-cols-10 mt-5 items-center">
+      <div class="col-span-1">
+        <h2 class="text-lg font-medium">Employees List</h2>
+      </div>
+      <div class="col-auto">
         <router-link
           to="/dashboard/employees/add-exist"
-          class="btn btn-success"
+          class="btn btn-primary w-36"
         >
-          <PlusIcon class="w-4 h-4 mr-3" />
           Add Employee
         </router-link>
       </div>

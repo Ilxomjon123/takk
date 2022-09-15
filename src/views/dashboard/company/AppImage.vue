@@ -66,7 +66,7 @@ async function submit() {
           </div>
           <div class="col-span-12 lg:col-span-4 flex lg:block flex-col-reverse">
             <div class="intro-y">
-              <label class="form-label">Day Background</label>
+              <label class="form-label">Daytime Background</label>
               <SimpleImageUpload
                 :image-path="getCompany.app_image_day"
                 @update-image-file="day = $event"

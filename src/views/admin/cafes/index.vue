@@ -32,15 +32,14 @@ function gotoForm(id) {
 
 <template>
   <div>
-    <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
-      <h2 class="text-lg font-medium">Cafe List</h2>
-      <div class="w-full sm:w-auto flex ml-2 sm:mt-0">
-        <div class="intro-y flex flex-wrap sm:flex-nowrap items-center">
-          <button class="btn btn-primary shadow-md" @click="gotoForm(null)">
-            <PlusIcon class="h-4 w-4 mr-3" />
-            Add New Cafe
-          </button>
-        </div>
+    <div class="grid sm:grid-cols-10 mt-5 items-center">
+      <div class="col-span-1">
+        <h2 class="text-lg font-medium">Cafe List</h2>
+      </div>
+      <div class="col-auto">
+        <button class="btn btn-primary shadow-md w-36" @click="gotoForm(null)">
+          Add Cafe
+        </button>
       </div>
     </div>
     <div class="grid grid-cols-12 gap-6 mt-5">

@@ -80,14 +80,13 @@ async function updateList() {
 
 <template>
   <div>
-    <div class="intro-y flex flex-col sm:flex-row items-center mt-5 gap-5">
-      <h2 class="text-lg font-medium">Menus List</h2>
-      <button class="btn btn-primary" @click="addMenu">
-        <span class="flex items-center justify-center">
-          <PlusIcon class="h-4 w-4 mr-3" />
-        </span>
-        Add Menu
-      </button>
+    <div class="grid sm:grid-cols-10 mt-5 items-center">
+      <div class="col-span-1">
+        <h2 class="text-lg font-medium">Menus List</h2>
+      </div>
+      <div class="col-auto">
+        <button class="btn btn-primary w-36" @click="addMenu">Add Menu</button>
+      </div>
     </div>
 
     <div class="grid grid-cols-12 gap-5 mt-5">

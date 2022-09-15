@@ -23,8 +23,18 @@ function setAdminEmployee(item) {
 
 <template>
   <div>
-    <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
-      <h2 class="text-lg font-medium">Employees List</h2>
+    <div class="grid sm:grid-cols-10 mt-5 items-center">
+      <div class="col-span-1">
+        <h2 class="text-lg font-medium">Employees List</h2>
+      </div>
+      <div class="col-auto">
+        <router-link
+          to="/admin/employees/add-exist"
+          class="btn btn-primary w-36"
+        >
+          Add Employee
+        </router-link>
+      </div>
     </div>
 
     <!-- BEGIN: Data List -->

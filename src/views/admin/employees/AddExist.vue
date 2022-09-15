@@ -1,5 +1,21 @@
 <script setup>
 import AdminEmployeeForm from '@/components/forms/AdminEmployeeForm.vue';
+import { computed, watchEffect } from 'vue';
+import store from '@/store';
+import cash from 'cash-dom';
+
+const selectedCompanyId = computed(
+  () => store.getters['adminCompany/getAdminSelectedCompanyID']
+);
+
+watchEffect(() => {
+  if (!selectedCompanyId.value) showCompanySelectModal();
+});
+
+// Show modal
+function showCompanySelectModal() {
+  cash('#company-select-modal').modal('show');
+}
 </script>
 
 <template>

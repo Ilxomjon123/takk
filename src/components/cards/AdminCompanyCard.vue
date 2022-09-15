@@ -85,7 +85,7 @@ function showConfirmModal() {
           class="flex items-center mt-5"
           :to="`/admin/company/form/app-images${query}`"
         >
-          <ImageIcon class="w-4 h-4 mr-2" /> Mobile App Images
+          <ImageIcon class="w-4 h-4 mr-2" /> App background images
         </RouterLink>
       </div>
       <hr class="dark:border-dark-5 my-3" />
