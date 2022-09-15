@@ -27,8 +27,11 @@ onMounted(async () => {
 });
 
 function addImage(e) {
-  if (imageSources.value.length + e.target.files.length <= 5) {
-    e.target.files.forEach((file, fileIndex) => {
+  console.log({ e });
+  const files = [...e.target?.files];
+
+  if (imageSources.value.length + files.length <= 5) {
+    files.forEach((file, fileIndex) => {
       imageSources.value.push({
         image: URL.createObjectURL(file),
         id: `img-${fileIndex}-${new Date().getTime()}`,
@@ -37,7 +40,7 @@ function addImage(e) {
     });
     emit('update:image-files', imageFiles.value);
   } else {
-    notyf.error();
+    notyf.error('Maximum 5 image available');
   }
 }
 

@@ -129,13 +129,13 @@ async function submit() {
         class="btn btn-primary py-3 px-5 w-full xl:w-32 xl:mr-3 align-top"
         :disabled="isLoading"
       >
-        {{ submitText }}
         <LoadingIcon
           v-if="isLoading"
           icon="three-dots"
           color="white"
-          class="ml-2"
+          class="ml-2 py-1.5"
         />
+        <span v-else>{{ submitText }}</span>
       </button>
     </div>
   </form>

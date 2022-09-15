@@ -65,16 +65,15 @@ function reorderModifierItem() {
 <template>
   <div>
     <div v-if="selectedMenuId != null">
-      <div class="grid sm:grid-cols-10 mt-10 items-center">
+      <div
+        class="grid md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 mt-10 gap-3 md:gap-0 items-center"
+      >
         <div class="col-span-1">
           <h2 class="text-lg font-medium">Categories List</h2>
         </div>
         <div class="col-span-3 flex gap-2">
           <!-- <div class="w-full sm:w-auto flex mt-4 sm:mt-0"> -->
-          <router-link
-            to="/admin/categories/add"
-            class="btn btn-primary w-36"
-          >
+          <router-link to="/admin/categories/add" class="btn btn-primary w-36">
             Add Category
           </router-link>
           <!-- </div> -->

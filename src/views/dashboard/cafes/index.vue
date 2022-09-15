@@ -26,15 +26,15 @@ function gotoForm(id) {
 
 <template>
   <div>
-    <div class="grid sm:grid-cols-10 mt-5 items-center">
+    <div
+      class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 mt-5 items-center"
+    >
       <div class="col-span-1">
         <h2 class="text-lg font-medium">Cafe List</h2>
       </div>
-      <div class="col-auto">
-        <button class="btn btn-primary shadow-md w-36" @click="gotoForm(null)">
-          Add Cafe
-        </button>
-      </div>
+      <button class="btn btn-primary shadow-md w-36" @click="gotoForm(null)">
+        Add Cafe
+      </button>
     </div>
     <div class="grid grid-cols-12 gap-6 mt-5">
       <!-- BEGIN: Data List -->

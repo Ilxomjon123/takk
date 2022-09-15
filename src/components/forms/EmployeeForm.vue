@@ -2,25 +2,30 @@
   <div
     class="col-span-12 lg:col-span-4 2xl:col-span-3 flex lg:block flex-col-reverse"
   >
-    <SimpleImageUpload
+    <!-- <SimpleImageUpload
       :image-path="employee.user?.avatar"
       @update-image-file="employee.user.avatar = $event"
-    />
-    <!-- <div class="intro-y">
+    /> -->
+    <div class="intro-y">
       <div
         class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5 items-center"
       >
         <div class="h-60 image-fit cursor-pointer zoom-in mx-auto">
-          <img class="rounded-md" alt="Takk" :src="employee.user?.avatar" />
-          <input
+          <img
+            class="rounded-md"
+            alt="Employee's photo"
+            :src="employee.user?.avatar"
+            data-action="zoom"
+          />
+          <!-- <input
             type="file"
             hidden
             id="avatar-image"
-            @change="e => changeImage(e, 'avatar')"
-          />
+            @change="(e) => changeImage(e, 'avatar')"
+          /> -->
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
   <form
     @submit.prevent="submit"

@@ -1,3 +1,15 @@
+<script setup>
+import { ref } from 'vue';
+
+const searchDropdown = ref(false);
+const showSearchDropdown = () => {
+  searchDropdown.value = true;
+};
+const hideSearchDropdown = () => {
+  searchDropdown.value = false;
+};
+</script>
+
 <template>
   <div class="intro-x relative mr-3 sm:mr-6">
     <div class="search hidden sm:block">
@@ -86,24 +98,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import { defineComponent, ref } from 'vue'
-
-export default defineComponent({
-  setup() {
-    const searchDropdown = ref(false);
-    const showSearchDropdown = () => {
-      searchDropdown.value = true;
-    };
-    const hideSearchDropdown = () => {
-      searchDropdown.value = false;
-    };
-    return {
-      searchDropdown,
-      showSearchDropdown,
-      hideSearchDropdown
-    };
-  },
-})
-</script>

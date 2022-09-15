@@ -1,11 +1,13 @@
 <template>
   <div>
     <div v-if="getSelectedMenuId">
-      <div class="grid sm:grid-cols-10 mt-10 items-center">
+      <div
+        class="grid md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 mt-10 items-center"
+      >
         <div class="col-span-1">
           <h2 class="text-lg font-medium">Modifiers List</h2>
         </div>
-        <div class="col-span-3 flex gap-2">
+        <div class="col-auto flex gap-2 whitespace-nowrap">
           <button
             @click="addModifierType"
             class="btn btn-primary w-36"

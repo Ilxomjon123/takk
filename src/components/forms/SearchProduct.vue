@@ -22,7 +22,7 @@ function onSearch() {
         aria-describedby="input-group-search"
       />
       <button id="input-group-search" class="input-group-text" type="submit">
-        <LoadingIcon v-if="loading" class="my-1" color="#fff" />
+        <LoadingIcon v-if="loading" class="md:my-1" color="#fff" />
         <SearchIcon v-else />
       </button>
     </div>

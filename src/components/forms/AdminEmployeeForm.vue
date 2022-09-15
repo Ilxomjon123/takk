@@ -7,21 +7,18 @@
         class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5 items-center"
       >
         <div class="h-60 w-60 image-fit cursor-pointer zoom-in mx-auto">
-          <img class="rounded-md" alt="Takk" :src="employee.user?.avatar" />
-          <input
+          <img
+            class="rounded-md"
+            alt="Employee's photo"
+            :src="employee.user?.avatar"
+            data-action="zoom"
+          />
+          <!-- <input
             type="file"
             hidden
             id="avatar-image"
             @change="(e) => changeImage(e, 'avatar')"
-          />
-          <!-- <Tippy
-                        tag="div"
-                        content="Remove this profile photo?"
-                        class="w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-6 right-0 top-0 -mr-2 -mt-2"
-                        @click="removeAvatar"
-                      >
-                        <xIcon class="w-4 h-4" />
-          </Tippy>-->
+          /> -->
         </div>
       </div>
     </div>
