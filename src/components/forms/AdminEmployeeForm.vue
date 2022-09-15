@@ -145,7 +145,7 @@
 import { isUndefined } from 'lodash';
 import { defineComponent } from 'vue';
 import { mapActions, mapGetters } from 'vuex';
-import { useNotyf } from '../../composables/useNotyf';
+import { useNotyf } from '@/composables/useNotyf';
 import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
 import SubmitButton from '../buttons/SubmitButton.vue';
 
@@ -182,7 +182,7 @@ export default defineComponent({
       type: Object,
       default: {
         user: {
-          avatar: '/src/assets/images/default_employee.png',
+          avatar: '/images/default_employee.png',
         },
         cafes: [],
         employee_position: 2,

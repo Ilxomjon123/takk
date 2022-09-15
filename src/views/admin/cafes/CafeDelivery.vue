@@ -1,6 +1,6 @@
 <script setup>
 import InputField from './InputField.vue';
-import SubmitButton from '../../../components/buttons/SubmitButton.vue';
+import SubmitButton from '@/components/buttons/SubmitButton.vue';
 
 const props = defineProps({
   formData: {

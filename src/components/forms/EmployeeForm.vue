@@ -170,7 +170,7 @@ export default defineComponent({
       type: Object,
       default: {
         user: {
-          avatar: '/src/assets/images/default_employee.png',
+          avatar: '/images/default_employee.png',
         },
         cafes: [],
         employee_position: '',

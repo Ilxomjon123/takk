@@ -4,8 +4,8 @@ import store from '@/store';
 import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 import { useNotyf } from '@/composables/useNotyf';
 import { useRoute } from 'vue-router';
-import useCompany from '../../../features/useCompany';
-import SubmitButton from '../../../components/buttons/SubmitButton.vue';
+import useCompany from '@/features/useCompany';
+import SubmitButton from '@/components/buttons/SubmitButton.vue';
 
 const { getSelected } = useCompany();
 const route = useRoute();

@@ -3,7 +3,7 @@ import cash from 'cash-dom';
 import { isEmpty } from 'lodash';
 import { ref } from 'vue';
 import store from '@/store';
-import { useNotyf } from '../../composables/useNotyf';
+import { useNotyf } from '@/composables/useNotyf';
 import SubmitButton from '../buttons/SubmitButton.vue';
 
 const props = defineProps({

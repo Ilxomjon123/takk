@@ -6,13 +6,13 @@ import { fetchCategories } from '@/api/admin';
 import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 import { useStorage } from '@vueuse/core';
 import { useNotyf } from '@/composables/useNotyf';
-import SubmitButton from '../../../components/buttons/SubmitButton.vue';
+import SubmitButton from '@/components/buttons/SubmitButton.vue';
 
 const props = defineProps({
   form: {
     type: Object,
     default: {
-      image: '/src/assets/images/product_category.jpg',
+      image: '/images/product_category.jpg',
     },
   },
   isEdit: {

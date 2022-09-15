@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue';
 import MainPaginator from '@/components/paginator/MainPaginator.vue';
 import ExcelExportButton from '@/components/buttons/ExcelExportButton.vue';
-import DateRangePicker from '../../../components/forms/DateRangePicker.vue';
+import DateRangePicker from '@/components/forms/DateRangePicker.vue';
 
 const items = ref([]),
   order = reactive({}),

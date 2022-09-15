@@ -3,7 +3,7 @@ import { computed, onMounted, ref } from 'vue';
 import store from '@/store';
 import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 import { useNotyf } from '@/composables/useNotyf';
-import SubmitButton from '../../../components/buttons/SubmitButton.vue';
+import SubmitButton from '@/components/buttons/SubmitButton.vue';
 
 const notyf = useNotyf();
 const isLoading = ref(false);

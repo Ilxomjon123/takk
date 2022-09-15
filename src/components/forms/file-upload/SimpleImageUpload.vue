@@ -12,7 +12,7 @@ const props = defineProps({
   },
 });
 const emits = defineEmits(['updateImageFile']);
-const selectedFilePath = ref('/src/assets/images/plus-icon.jpg');
+const selectedFilePath = ref('/images/plus-icon.jpg');
 const image = ref(null);
 
 watchEffect(() => {
@@ -34,7 +34,7 @@ function replaceByDefault(e) {
 }
 
 function removeImage() {
-  image.value.src = '/src/assets/images/plus-icon.jpg';
+  image.value.src = '/images/plus-icon.jpg';
   emits('updateImageFile', '');
 }
 </script>
@@ -69,7 +69,7 @@ function removeImage() {
           @click="$refs.inputFile.click()"
         >
           {{
-            selectedFilePath !== '/src/assets/images/plus-icon.jpg'
+            selectedFilePath !== '/images/plus-icon.jpg'
               ? 'Change photo'
               : 'Add photo'
           }}

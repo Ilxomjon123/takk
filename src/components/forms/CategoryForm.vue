@@ -13,7 +13,7 @@ const props = defineProps({
   form: {
     type: Object,
     default: {
-      image: '/src/assets/images/product_category.jpg',
+      image: '/images/product_category.jpg',
     },
   },
   isEdit: {

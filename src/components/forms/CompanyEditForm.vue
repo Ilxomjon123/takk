@@ -218,7 +218,7 @@ import { defineComponent } from 'vue';
 import CountrySelect from '@/components/selects/CountrySelect.vue';
 import CitySelect from '@/components/selects/CitySelect.vue';
 import { mapActions } from 'vuex';
-import { useNotyf } from '../../composables/useNotyf';
+import { useNotyf } from '@/composables/useNotyf';
 import SubmitButton from '../buttons/SubmitButton.vue';
 
 const notyf = useNotyf();

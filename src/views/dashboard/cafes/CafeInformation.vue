@@ -11,8 +11,8 @@ import TelInput from '@/components/forms/TelInput.vue';
 // leaflet styles
 import 'leaflet/dist/leaflet.css';
 import useCountries from '@/features/useCountries';
-import store from '../../../store';
-import SubmitButton from '../../../components/buttons/SubmitButton.vue';
+import store from '@/store';
+import SubmitButton from '@/components/buttons/SubmitButton.vue';
 
 const props = defineProps({
   formData: {

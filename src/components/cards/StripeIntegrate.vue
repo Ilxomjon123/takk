@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
-import { useNotyf } from '../../composables/useNotyf';
+import { useNotyf } from '@/composables/useNotyf';
 
 const notyf = useNotyf();
 const store = useStore();

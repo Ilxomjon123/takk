@@ -18,7 +18,7 @@
 import { defineComponent } from 'vue';
 import { mapActions } from 'vuex';
 import MenuForm from '@/components/forms/MenuForm.vue';
-import { useNotyf } from '../../composables/useNotyf';
+import { useNotyf } from '@/composables/useNotyf';
 
 const notyf = useNotyf();
 

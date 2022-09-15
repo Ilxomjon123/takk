@@ -2,9 +2,9 @@
 import { useRoute } from 'vue-router';
 import { addCafeGallery } from '@/api/admin';
 import MultipleImageUpload from './MultipleImageUpload.vue';
-import { useNotyf } from '../../../composables/useNotyf';
+import { useNotyf } from '@/composables/useNotyf';
 import { ref } from 'vue';
-import SubmitButton from '../../../components/buttons/SubmitButton.vue';
+import SubmitButton from '@/components/buttons/SubmitButton.vue';
 
 const props = defineProps({
   formData: {

@@ -12,7 +12,7 @@ import useCountries from '@/features/useCountries';
 
 // leaflet styles
 import 'leaflet/dist/leaflet.css';
-import SubmitButton from '../../../components/buttons/SubmitButton.vue';
+import SubmitButton from '@/components/buttons/SubmitButton.vue';
 
 const props = defineProps({
   formData: {

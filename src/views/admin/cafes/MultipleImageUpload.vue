@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import store from '@/store';
 import { deleteCafeImage, fetchCafeGallery } from '@/api';
-import { useNotyf } from '../../../composables/useNotyf';
+import { useNotyf } from '@/composables/useNotyf';
 import { remove } from 'lodash';
 
 const props = defineProps({

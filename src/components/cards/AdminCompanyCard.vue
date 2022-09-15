@@ -6,7 +6,7 @@ import useCompany from '@/features/useCompany';
 import ConfirmModal from '../modals/ConfirmModal.vue';
 import cash from 'cash-dom';
 import { updateCompanyById } from '@/api/admin';
-import { useNotyf } from '../../composables/useNotyf';
+import { useNotyf } from '@/composables/useNotyf';
 
 const notyf = useNotyf();
 const { getSelected, setSelected } = useCompany();

@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router';
 import WeekDayTimeForm from '@/components/forms/cafes/WeekDayTimeForm.vue';
 import { fetchCafeWorkDays, updateCafeWorkDays } from '@/api';
 import { useNotyf } from '@/composables/useNotyf';
-import SubmitButton from '../../../components/buttons/SubmitButton.vue';
+import SubmitButton from '@/components/buttons/SubmitButton.vue';
 
 const props = defineProps({
   formData: {

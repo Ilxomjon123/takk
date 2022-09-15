@@ -2,8 +2,8 @@
 import AdminCompanyCard from '@/components/cards/AdminCompanyCard.vue';
 import { computed, reactive, watch, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
-import { fetchCompanyById } from '../../api/admin';
-import useCompany from '../../features/useCompany';
+import { fetchCompanyById } from '@/api/admin';
+import useCompany from '@/features/useCompany';
 
 const route = useRoute();
 const { setSelected } = useCompany();
@@ -30,7 +30,7 @@ watchEffect(async () => {
       cashback_percent: 10,
       pub_show_reviews: '',
       pub_show_like: '',
-      about: ''
+      about: '',
     });
   }
 });
@@ -48,9 +48,7 @@ watchEffect(async () => {
             <component :is="Component" :key="route" />
 
             <!-- loading state -->
-            <template #fallback>
-              Loading...
-            </template>
+            <template #fallback> Loading... </template>
           </Suspense>
           <!-- </KeepAlive> -->
         </Transition>

@@ -7,7 +7,7 @@ import StateSelect from '@/components/selects/StateSelect.vue';
 import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 import TelInput from '@/components/forms/TelInput.vue';
 import { useNotyf } from '@/composables/useNotyf';
-import SubmitButton from '../../../components/buttons/SubmitButton.vue';
+import SubmitButton from '@/components/buttons/SubmitButton.vue';
 
 const notyf = useNotyf();
 const image = ref(null);

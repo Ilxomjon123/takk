@@ -2,7 +2,7 @@
 import MainPaginator from '@/components/paginator/MainPaginator.vue';
 import EmployeeCard from '@/components/cards/EmployeeCard.vue';
 import { reactive, ref } from 'vue';
-import store from '../../../store';
+import store from '@/store';
 
 const items = ref([]),
   paginator = ref(null),
@@ -29,20 +29,7 @@ function setAdminEmployee(item) {
 
     <!-- BEGIN: Data List -->
     <div
-      class="
-      intro-y
-      grid
-      grid-cols-1
-      sm:grid-cols-2
-      md:grid-cols-3
-      xl:grid-cols-4
-      2xl:grid-cols-5
-      gap-5
-      mt-5
-      pt-5
-      border-t
-      border-theme-5
-      "
+      class="intro-y grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 mt-5 pt-5 border-t border-theme-5"
     >
       <router-link
         v-for="(item, index) in items"

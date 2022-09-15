@@ -1,7 +1,7 @@
 <script setup>
 import store from '@/store';
 import { useRouter } from 'vue-router';
-import { useNotyf } from '../../composables/useNotyf';
+import { useNotyf } from '@/composables/useNotyf';
 
 const notyf = useNotyf();
 

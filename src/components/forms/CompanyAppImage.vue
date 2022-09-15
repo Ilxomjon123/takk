@@ -139,7 +139,7 @@ import CitySelect from '@/components/selects/CitySelect.vue';
 import { mapActions } from 'vuex';
 import StateSelect from '../selects/StateSelect.vue';
 import TelInput from './TelInput.vue';
-import { useNotyf } from '../../composables/useNotyf';
+import { useNotyf } from '@/composables/useNotyf';
 
 const notyf = useNotyf();
 

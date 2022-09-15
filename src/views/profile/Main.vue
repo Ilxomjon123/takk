@@ -143,7 +143,7 @@
 import { defineComponent } from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import { useNotyf } from '@/composables/useNotyf';
-import SubmitButton from '../../components/buttons/SubmitButton.vue';
+import SubmitButton from '@/components/buttons/SubmitButton.vue';
 
 const notyf = useNotyf();
 

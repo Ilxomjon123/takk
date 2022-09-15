@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import MenuList from '@/components/lists/MenuList.vue';
 import ModifiersList from '@/components/lists/ModifiersList.vue';
-import AdminMenuList from '../../../components/lists/AdminMenuList.vue';
+import AdminMenuList from '@/components/lists/AdminMenuList.vue';
 
 const modifiersList = ref();
 
