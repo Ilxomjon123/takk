@@ -35,7 +35,7 @@
                   <div class="text-theme-6" v-text="getError('is_single')" />
                 </div>
               </div>
-              <div class="w-full mb-3 md:w-1/2">
+              <!-- <div class="w-full mb-3 md:w-1/2">
                 <div class="form-check">
                   <input
                     v-model="modifier.available"
@@ -50,7 +50,7 @@
                   >
                   <div class="text-theme-6" v-text="getError('available')" />
                 </div>
-              </div>
+              </div> -->
               <div class="w-full mb-3 md:w-1/2">
                 <div class="form-check">
                   <input
@@ -106,7 +106,9 @@ export default defineComponent({
       name: null,
       id: null,
       isLoading: false,
-      modifier: {},
+      modifier: {
+        available: true,
+      },
       errors: {},
     };
   },

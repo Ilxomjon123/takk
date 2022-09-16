@@ -103,7 +103,7 @@ function reorderModifierItem() {
                   data-toggle="dropdown"
                 >
                   <ShuffleIcon class="w-4 h-4 mr-3" />
-                  <span class="whitespace-nowrap">Reorder Category Items</span>
+                  <span class="whitespace-nowrap">Reorder Subcategories</span>
                 </button>
               </div>
             </div>

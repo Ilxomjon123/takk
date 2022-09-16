@@ -26,7 +26,7 @@ const props = defineProps({
   },
 });
 
-const category = reactive({});
+const category = reactive({ available: true });
 const images = reactive({});
 const errors = reactive({});
 const isLoading = ref(false);
@@ -140,32 +140,6 @@ function getError(key) {
     class="col-span-12 lg:col-span-8 2xl:col-span-9"
   >
     <div class="flex flex-wrap -mx-3 mb-3">
-      <div class="w-full md:w-1/2 px-3 mb-3">
-        <div class="form-check">
-          <input
-            v-model="category.available"
-            id="category-available"
-            class="form-check-switch"
-            type="checkbox"
-          />
-          <label class="form-check-label text-base" for="category-available"
-            >Available</label
-          >
-        </div>
-      </div>
-      <div class="w-full md:w-1/2 px-3 mb-3">
-        <div class="form-check">
-          <input
-            v-model="category.is_kitchen"
-            id="kitchen-order"
-            class="form-check-switch"
-            type="checkbox"
-          />
-          <label class="form-check-label text-base" for="kitchen-order"
-            >Kitchen Order</label
-          >
-        </div>
-      </div>
       <div class="w-full px-3 mb-3">
         <label for="name" class="form-label">Name</label>
         <input
@@ -233,6 +207,32 @@ function getError(key) {
         <div class="text-theme-6" v-text="getError('parent')" />
       </div>
       <div class="text-theme-6" v-text="errors?.detail" />
+      <!-- <div class="w-full md:w-1/2 px-3 mb-3">
+        <div class="form-check">
+          <input
+            v-model="category.available"
+            id="category-available"
+            class="form-check-switch"
+            type="checkbox"
+          />
+          <label class="form-check-label text-base" for="category-available"
+            >Available</label
+          >
+        </div>
+      </div> -->
+      <div class="w-full md:w-1/2 px-3 mb-3">
+        <div class="form-check">
+          <input
+            v-model="category.is_kitchen"
+            id="kitchen-order"
+            class="form-check-switch"
+            type="checkbox"
+          />
+          <label class="form-check-label text-base" for="kitchen-order"
+            >Kitchen Order</label
+          >
+        </div>
+      </div>
     </div>
     <div class="flex justify-end gap-3">
       <SubmitButton :is-loading="isLoading" />

@@ -19,7 +19,7 @@ const formFields = reactive({
       name: '',
       square_id: '',
       price: 0,
-      available: false,
+      available: true,
       default: false,
     },
   ],

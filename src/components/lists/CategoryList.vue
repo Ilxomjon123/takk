@@ -74,7 +74,7 @@ function reorderModifierItem() {
           <h2 class="text-lg font-medium">Categories List</h2>
         </div>
         <router-link
-          to="/dashboard/categories/add"
+          :to="`/dashboard/categories/${activeMenuID}/add`"
           class="btn btn-primary w-36 whitespace-nowrap"
         >
           Add Category
@@ -102,7 +102,7 @@ function reorderModifierItem() {
                 data-toggle="dropdown"
               >
                 <ShuffleIcon class="w-4 h-4 mr-3" />
-                <span class="whitespace-nowrap">Reorder Category Items</span>
+                <span class="whitespace-nowrap">Reorder Subcategories</span>
               </button>
             </div>
           </div>

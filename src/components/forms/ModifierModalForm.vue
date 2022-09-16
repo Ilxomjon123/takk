@@ -60,7 +60,7 @@
                 </div>
                 <div class="text-theme-6" v-text="getError('price')" />
               </div>
-              <div class="w-full mb-3 md:w-1/2">
+              <!-- <div class="w-full mb-3 md:w-1/2">
                 <div class="form-check">
                   <input
                     v-model="modifier.available"
@@ -75,7 +75,7 @@
                   >
                   <div class="text-theme-6" v-text="getError('available')" />
                 </div>
-              </div>
+              </div> -->
               <div class="w-full mb-3 md:w-1/2">
                 <div class="form-check">
                   <input
@@ -135,7 +135,7 @@ export default defineComponent({
       modifierTypeId: null,
       isLoading: false,
       modifier: {
-        available: false,
+        available: true,
         default: false,
         modifier: null,
         price: 0,

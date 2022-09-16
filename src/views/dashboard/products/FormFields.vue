@@ -98,7 +98,7 @@ function removeProductSize(index) {
             </div>
           </div>
           <div class="flex justify-between">
-            <div class="form-check">
+            <!-- <div class="form-check">
               <input
                 :id="'product_size_available' + index"
                 class="form-check-switch"
@@ -110,7 +110,7 @@ function removeProductSize(index) {
                 :for="'product_size_available' + index"
                 >Available</label
               >
-            </div>
+            </div> -->
             <div class="form-check">
               <input
                 :id="'product_size_is_default' + index"
@@ -151,7 +151,7 @@ function removeProductSize(index) {
       >
         <h2 class="font-medium text-base mr-auto">Product info</h2>
       </div>
-      <div class="flex flex-col lg:flex-row gap-5 pt-3">
+      <div class="flex flex-col lg:flex-row gap-5">
         <div class="input-form lg:basis-1/2">
           <label class="form-label" for="product_name">
             Product name
@@ -185,16 +185,17 @@ function removeProductSize(index) {
           }}</span>
         </div>
       </div>
-      <div
+      <!-- <div
         class="flex flex-col sm:flex-row items-center my-5 border-b border-gray-200 dark:border-dark-5"
-      >
-        <h2 class="font-medium text-base mr-auto">
-          Product Availability Time
-          <Tippy content="If left blank product is always available.">
-            <InfoIcon class="block w-4 mb-1" />
-          </Tippy>
-        </h2>
-      </div>
+      > -->
+      <label class="form-label pt-3">
+        Product Availability Time
+        <span class="text-theme-6">*</span>
+        <Tippy content="If left blank product is always available.">
+          <InfoIcon class="block w-4 mb-1" />
+        </Tippy>
+      </label>
+      <!-- </div> -->
       <div class="flex flex-col lg:flex-row gap-5">
         <div class="input-form lg:basis-1/2">
           <!-- <label for="product_start_time" class="form-label">
