@@ -34,9 +34,15 @@ function fetchData() {
 </script>
 
 <template>
-  <div class="flex">
-    <AdminCafeSelect class="md:w-80" @update:modelValue="changeCafe" />
-    <DateRangePicker class="mt-2.5 ml-auto" @submit="changeDateRange" />
+  <div class="flex flex-col sm:flex-row">
+    <AdminCafeSelect
+      class="md:w-72 lg:w-40 xl:w-56"
+      @update:modelValue="changeCafe"
+    />
+    <DateRangePicker
+      class="sm:mt-2.5 mt-5 sm:ml-auto"
+      @submit="changeDateRange"
+    />
   </div>
   <div class="mt-3 overflow-auto lg:overflow-visible">
     <table class="table table-report">

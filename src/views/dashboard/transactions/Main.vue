@@ -7,7 +7,8 @@ import DateRangePicker from '@/components/forms/DateRangePicker.vue';
 const items = ref([]),
   order = reactive({}),
   form = reactive({
-    create_date: '',
+    start: '',
+    end: '',
   }),
   paginator = ref(null),
   statuses = ref(['PAID', 'REFUND']);
@@ -17,7 +18,8 @@ function setItems(val) {
 }
 
 async function search(dateRangeObj) {
-  form.create_date = dateRangeObj.start;
+  form.start = dateRangeObj.start;
+  form.end = dateRangeObj.end;
   await paginator.value.paginate(1, form);
 }
 

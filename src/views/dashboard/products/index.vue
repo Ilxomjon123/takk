@@ -111,6 +111,27 @@ async function handleSearchEvent(value) {
     isLoading.value = false;
   }
 }
+
+async function handleSearchSubmit(value) {
+  isLoading.value = true;
+  try {
+    const res = await fetchProductsList({
+      menuId: activeMenuID.value,
+      page: paginator.page,
+      limit: paginator.limit,
+      search: value,
+    });
+
+    if (res) {
+      Object.assign(products, res);
+      paginator.total = res.total_objects;
+    }
+  } catch (error) {
+    notyf.error('Error while fetching data list: ' + error.message);
+  } finally {
+    isLoading.value = false;
+  }
+}
 </script>
 
 <template>
@@ -123,22 +144,23 @@ async function handleSearchEvent(value) {
     />
     <!-- Menu List end -->
     <div
-      class="grid md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 mt-10 items-center"
+      class="grid md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3 sm:gap-0 mt-10 items-center"
     >
       <div class="col-span-1">
         <h2 class="text-lg font-medium">Products List</h2>
       </div>
       <button
-        class="btn btn-primary w-36 whitespace-nowrap"
+        class="col-auto btn btn-primary w-36 whitespace-nowrap"
         @click="gotoAddPage"
         :disabled="!activeMenuID"
       >
         Add Product
       </button>
       <SearchProduct
-        class="w-56 md:ml-3"
+        class="md:col-start-4 lg:col-start-6 xl:col-start-8"
         :loading="isLoading"
         @searching="handleSearchEvent"
+        @search:manual="handleSearchSubmit"
       />
     </div>
     <div class="pos intro-y grid grid-cols-12 gap-5 mt-5">

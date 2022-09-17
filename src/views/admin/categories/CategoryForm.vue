@@ -1,6 +1,6 @@
 <script setup>
 import { jsonToFormData } from '@/utils/functions';
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, watchEffect } from 'vue';
 import store from '@/store';
 import { fetchCategories } from '@/api/admin';
 import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
@@ -28,51 +28,57 @@ const props = defineProps({
 const notyf = useNotyf();
 const category = reactive({});
 const images = reactive({});
-const errors = reactive({});
+const errors = reactive({
+  name: [],
+});
 const isLoading = ref(false);
 const menuID = useStorage('selected-productmenu-id', null);
 const filteredCategories = ref([]);
 
 onMounted(async () => {
   // store.commit('setSelectedMenuId', menuID);
-  Object.assign(category, props.form);
   const res = await fetchCategories(menuID.value);
   filteredCategories.value = res.results?.filter(
     (item) => item.id !== category?.id
   );
 });
 
+watchEffect(() => {
+  if (props.form) Object.assign(category, props.form);
+});
+
 async function submit() {
-  isLoading.value = true;
+  try {
+    isLoading.value = true;
+    errors.name = [];
 
-  if (category?.parent == 0) {
-    category.parent = null;
-  }
+    if (category?.parent == 0) {
+      category.parent = null;
+    }
 
-  let formData;
-  const data = { ...category, ...images, menu: menuID.value };
+    let formData;
+    const data = { ...category, ...images, menu: menuID.value };
 
-  if (typeof data.image == 'string') delete data.image;
+    if (typeof data.image == 'string') delete data.image;
 
-  if (props.isEdit) {
-    formData = {
-      id: data.id,
-      form: jsonToFormData(data),
-    };
-  } else {
-    formData = jsonToFormData(data);
-  }
+    if (props.isEdit) {
+      formData = {
+        id: data.id,
+        form: jsonToFormData(data),
+      };
+    } else {
+      formData = jsonToFormData(data);
+    }
 
-  const res = await store.dispatch(props.dispatcher, formData);
+    const res = await store.dispatch(props.dispatcher, formData);
 
-  if (res.status) {
-    Object.assign(errors, {});
     notyf.success();
-  } else {
-    Object.assign(errors, res.data);
+  } catch (error) {
+    Object.assign(errors, error.response.data);
     notyf.error();
+  } finally {
+    isLoading.value = false;
   }
-  isLoading.value = false;
 }
 
 function getError(key) {
@@ -117,7 +123,7 @@ function getError(key) {
           href="javascript:;"
           content="If left blank product is always available."
         >
-          <InfoIcon class="block text-xs" />
+          <InfoIcon class="block text-xs w-4" />
         </Tippy>
       </label>
       <div class="w-full px-3 mb-3 md:w-1/2">

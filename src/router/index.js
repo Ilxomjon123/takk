@@ -10,11 +10,11 @@ const router = createRouter({
     if (to.hash) {
       return {
         el: to.hash,
-        behavior: 'smooth'
+        behavior: 'smooth',
       };
     }
     return savedPosition || { left: 0, top: 0 };
-  }
+  },
 });
 
 router.beforeEach(async (to, from, next) => {
@@ -22,20 +22,24 @@ router.beforeEach(async (to, from, next) => {
   const isLoggedIn = computed(() => store.getters['isLoggedIn']);
   const isSuperuser = computed(() => store.getters['isSuperuser']);
 
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!isLoggedIn.value) {
       next({ path: '/login' });
     } else {
       await store.dispatch('fetchProfile');
 
-      if (to.matched.some(record => record.meta.requiresSuperUser)) {
+      if (to.matched.some((record) => record.meta.requiresSuperUser)) {
         if (!isSuperuser.value) {
           next({ path: '/error' });
         } else {
           next();
         }
       } else {
-        if (to.matched.some(record => record.meta.isEntry)) {
+        // console.log({ to });
+        if (to.fullPath.startsWith('/dashboard') && isSuperuser.value) {
+          next('/admin');
+        }
+        if (to.matched.some((record) => record.meta.isEntry)) {
           if (isSuperuser.value) next('/admin');
           else next();
         } else {

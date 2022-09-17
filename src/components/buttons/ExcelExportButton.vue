@@ -1,32 +1,44 @@
 <template>
-<button class="btn btn-primary" @click="tableToExcel('Transactions')">Export Excel
-<LoadingIcon icon="oval" color="white" class="w-4 h-4 ml-2" v-if="loading"/></button>
+  <button class="btn btn-primary" @click="tableToExcel('Transactions')">
+    Export Excel
+    <LoadingIcon
+      icon="oval"
+      color="white"
+      class="w-4 h-4 ml-2"
+      v-if="loading"
+    />
+  </button>
 </template>
 
 <script>
-import axios from 'axios';
-import { mapGetters, mapMutations } from 'vuex';
+import { useNotyf } from '@/composables/useNotyf';
+import store from '@/store';
+
+const notyf = useNotyf();
+
 export default {
-  data(){
+  data() {
     return {
-      loading:false,
-    }
+      loading: false,
+    };
   },
   props: {
     url: {
       type: String,
-      default: '/api/companies/transactions/export/'
+      default: '/api/companies/transactions/export/',
     },
     form: {
-      type:Object,
-      default:{
-        start:'01-01-2020',
-        end:'01-01-2021'
-      }
-    }
+      type: Object,
+      default: {
+        start: '01-01-2020',
+        end: '01-01-2021',
+      },
+    },
   },
-  computed:{
-    ...mapGetters(['getHttpHeader']),
+  computed: {
+    httpHeader() {
+      return store.getters['getHttpHeader'];
+    },
   },
   methods: {
     blobToBase64(blob) {
@@ -36,65 +48,47 @@ export default {
         reader.readAsDataURL(blob);
       });
     },
-    tableToExcel(name) {
-      const type = "xlsx";
-      this.loading = true;
-      // const res = axios
-      //   .get(
-      //     this.url, {
-      //       headers: {
-      //         ...this.getHttpHeader,
-      //       },
-      //       params:this.form,
-      //     }, {
-      //       responseType: 'blob'
-      //     }
-      //   )
-      //   .then(response => {
-      //     const url = window.URL.createObjectURL(new Blob([response.data]));
-      //     const link = document.createElement("a");
-      //     link.href = url;
-      //     link.setAttribute("download", `${name}.${type}`);
-      //     document.body.appendChild(link);
-      //     link.click();
+    async tableToExcel(name) {
+      try {
+        this.loading = true;
 
-      //     this.loading = false;
-      //   })
-      //   .catch(error => {
-      //   this.$store.commit('setErrorNotification', true);
-      //     // console.log(error);
-      //     this.loading = false;
-      //   });
+        const xhr = new XMLHttpRequest();
+        let url = this.url;
+        url += '?';
 
-      var xhr = new XMLHttpRequest();
-      let url = this.url
-      url += '?'
-      Object.keys(this.form).forEach(item=>{
-       url += `${item}=${this.form[item]}&`
-      })
-      console.log(url);
-      xhr.open('GET', url, true);
-      xhr.responseType = 'blob';
-      Object.keys(this.getHttpHeader).forEach(item => {
-        xhr.setRequestHeader(item, this.getHttpHeader[item]);
-      })
-      const vm = this;
-      xhr.onload = function (e) {
-          var blob = e.currentTarget.response;
-          var contentDispo = e.currentTarget.getResponseHeader('Content-Disposition');
-          var fileName = contentDispo.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)[1];
-          saveBlob(blob, 'Transaction.xlsx');
-          vm.loading = false;
+        Object.keys(this.form).forEach((item) => {
+          url += `${item}=${this.form[item]}&`;
+        });
+
+        xhr.open('GET', url, true);
+        xhr.responseType = 'blob';
+
+        Object.keys(this.httpHeader).forEach((item) => {
+          xhr.setRequestHeader(item, this.httpHeader[item]);
+        });
+
+        const this_vm = this;
+        xhr.onload = function (e) {
+          const blob = e.currentTarget.response;
+          saveBlob(
+            blob,
+            `Transaction_for_${this_vm.form.start}_${this_vm.form.end}.xlsx`
+          );
+        };
+        xhr.send();
+
+        function saveBlob(blob, fileName) {
+          const a = document.createElement('a');
+          a.href = window.URL.createObjectURL(blob);
+          a.download = fileName;
+          a.dispatchEvent(new MouseEvent('click'));
+        }
+      } catch (error) {
+        notyf.error(error.message);
+      } finally {
+        this.loading = false;
       }
-      xhr.send();
-
-      function saveBlob(blob, fileName) {
-        var a = document.createElement('a');
-        a.href = window.URL.createObjectURL(blob);
-        a.download = fileName;
-        a.dispatchEvent(new MouseEvent('click'));
-      }
-    }
-  }
-}
+    },
+  },
+};
 </script>

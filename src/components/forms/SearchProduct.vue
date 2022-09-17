@@ -2,16 +2,36 @@
 import { ref } from 'vue';
 
 const props = defineProps({ loading: false });
-const emit = defineEmits(['searching']);
+const emit = defineEmits(['searching', 'search:manual']);
 const searchInput = ref('');
 
 function onSearch() {
   emit('searching', searchInput.value);
 }
+
+function onSubmit() {
+  emit('search:manual', searchInput.value);
+}
 </script>
 
 <template>
-  <form @submit.prevent="onSearch">
+  <div class="w-56 sm:w-full relative text-gray-700 dark:text-gray-300">
+    <form @submit.prevent="onSubmit">
+      <input
+        type="text"
+        v-model="searchInput"
+        class="form-control w-56 sm:w-full box pr-10 placeholder-theme-13"
+        placeholder="Search..."
+        @input="onSearch"
+      />
+      <SearchIcon
+        type="submit"
+        class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0 cursor-pointer"
+        @click="onSearch"
+      />
+    </form>
+  </div>
+  <!-- <form @submit.prevent="onSearch">
     <div class="input-group">
       <input
         id="tabulator-html-filter-value"
@@ -26,5 +46,5 @@ function onSearch() {
         <SearchIcon v-else />
       </button>
     </div>
-  </form>
+  </form> -->
 </template>

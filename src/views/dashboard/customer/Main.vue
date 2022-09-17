@@ -1,3 +1,20 @@
+<script setup>
+import MainPaginator from '@/components/paginator/MainPaginator.vue';
+import { reactive, ref } from 'vue';
+
+const items = ref([]);
+const paginator = ref(null);
+const form = reactive({});
+
+function setItems(val) {
+  items.value = val;
+}
+
+function search() {
+  paginator.value.paginate(1);
+}
+</script>
+
 <template>
   <div>
     <h2 class="intro-y text-lg font-medium mt-10">Customers List</h2>
@@ -99,26 +116,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import { defineComponent } from 'vue';
-import MainPaginator from '@/components/paginator/MainPaginator.vue';
-
-export default defineComponent({
-  components: { MainPaginator },
-  data() {
-    return {
-      items: [],
-      form: {}
-    };
-  },
-  methods: {
-    setItems(val) {
-      this.items = val;
-    },
-    search() {
-      this.$refs.paginator.paginate(1);
-    }
-  }
-});
-</script>

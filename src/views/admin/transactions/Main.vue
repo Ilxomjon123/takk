@@ -7,7 +7,8 @@ import DateRangePicker from '@/components/forms/DateRangePicker.vue';
 const items = ref([]),
   order = reactive({}),
   form = reactive({
-    create_date: '',
+    start: '',
+    end: '',
   }),
   paginator = ref(null),
   statuses = ref(['PAID', 'REFUND']);
@@ -17,7 +18,8 @@ function setItems(val) {
 }
 
 async function search(dateRangeObj) {
-  form.create_date = dateRangeObj.start;
+  form.start = dateRangeObj.start;
+  form.end = dateRangeObj.end;
   await paginator.value.paginate(1, form);
 }
 
@@ -35,7 +37,7 @@ function setOrder(val) {
         <div
           class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"
         >
-          <ExcelExportButton :form="form" />
+          <ExcelExportButton :form="form" url="/adham/transactions/export/" />
           <div class="hidden md:block mx-auto text-gray-600"></div>
           <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
             <div class="w-56 relative text-gray-700 dark:text-gray-300">
