@@ -1,6 +1,7 @@
 import { useApi } from '@/composables/useApi';
 
 const api = useApi();
+// api.defaults.baseURL = 'https://api.takk.cafe/api/v1/dashboard/admin';
 
 export async function fetchCategories(
   menuID,
@@ -8,7 +9,7 @@ export async function fetchCategories(
 ) {
   try {
     const res = await api({
-      url: `/adham/menus/${menuID}/categories/`,
+      url: `https://api.takk.cafe/api/v1/dashboard/admin/menus/${menuID}/categories/`,
       params: payload,
     });
     return res.data;

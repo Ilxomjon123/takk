@@ -2,6 +2,8 @@ import axios from 'axios';
 import { useApi } from '@/composables/useApi';
 
 const api = useApi();
+// api.defaults.baseURL = 'https://api.takk.cafe/api/v1/dashboard/admin';
+
 const state = () => {
   return {
     modifierTypes: [],
@@ -100,7 +102,9 @@ const actions = {
   },
   async deleteModifierType(ctx, payload) {
     try {
-      const res = await api.delete(`/adham/modifiers/${payload}/`);
+      const res = await api.delete(
+        `https://api.takk.cafe/api/v1/dashboard/admin/modifiers/${payload}/`
+      );
       return res.data;
     } catch (error) {
       throw error;
@@ -156,7 +160,9 @@ const actions = {
   },
   async deleteModifier(ctx, payload) {
     try {
-      const res = await api.delete(`/adham/modifiers/items/${payload}/`);
+      const res = await api.delete(
+        `https://api.takk.cafe/api/v1/dashboard/admin/modifiers/items/${payload}/`
+      );
       return res.data;
     } catch (error) {
       throw error;

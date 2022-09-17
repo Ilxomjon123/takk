@@ -106,7 +106,7 @@ async function handleSearchEvent(value) {
       }
     }
   } catch (error) {
-    notyf.error();
+    notyf.error('Error while fetching data list: ' + error.message);
   } finally {
     isLoading.value = false;
   }
@@ -159,6 +159,7 @@ async function handleSearchSubmit(value) {
       <SearchProduct
         class="md:col-start-4 lg:col-start-6 xl:col-start-8"
         :loading="isLoading"
+        :is-disabled="!activeMenuID"
         @searching="handleSearchEvent"
         @search:manual="handleSearchSubmit"
       />

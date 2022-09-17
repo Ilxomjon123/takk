@@ -31,7 +31,7 @@ async function handleSearchEvent(value) {
       }
     }
   } catch (error) {
-    notyf.error();
+    notyf.error('Error while fetching data list: ' + error.message);
   } finally {
     isLoading.value = false;
   }

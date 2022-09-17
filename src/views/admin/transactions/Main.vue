@@ -11,7 +11,8 @@ const items = ref([]),
     end: '',
   }),
   paginator = ref(null),
-  statuses = ref(['PAID', 'REFUND']);
+  statuses = ref(['PAID', 'REFUND']),
+  exportUrl = import.meta.env.VITE_ADMIN_API_URL + '/transactions/export/';
 
 function setItems(val) {
   items.value = val;
@@ -34,7 +35,7 @@ function setOrder(val) {
     <div>
       <h2 class="intro-y text-lg font-medium mt-10">Transactions List</h2>
       <div class="intro-y flex items-center mt-5">
-        <ExcelExportButton url="/adham/transactions/export/" :form="form" />
+        <ExcelExportButton :url="exportUrl" :form="form" />
         <DateRangePicker class="ml-auto" @submit="search" />
       </div>
       <!-- BEGIN: Data List -->
