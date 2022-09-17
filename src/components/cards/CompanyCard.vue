@@ -47,7 +47,27 @@ const company = computed(() => store.getters.getCompany);
           }"
           to="/dashboard/company/square"
         >
-          <BoxIcon class="w-4 h-4 mr-2" /> Square
+          <svg
+            class="w-4 h-4 mr-2"
+            xmlns="http://www.w3.org/2000/svg"
+            x="0px"
+            y="0px"
+            viewBox="0 0 48 48"
+            :style="
+              route.path == '/dashboard/company/square'
+                ? 'fill:#1C3FAA'
+                : store.getters.darkMode
+                ? 'fill:#3160D8'
+                : ''
+            "
+          >
+            <path
+              d="M33.537,6H14.463C9.789,6,6,9.789,6,14.463v19.074C6,38.211,9.789,42,14.463,42h19.074 C38.211,42,42,38.211,42,33.537V14.463C42,9.789,38.211,6,33.537,6z M35,31.992C35,33.654,33.654,35,31.992,35H16.008 C14.346,35,13,33.654,13,31.992V16.008C13,14.346,14.346,13,16.008,13h15.985C33.654,13,35,14.346,35,16.008V31.992z"
+            ></path>
+            <path d="M19 19H29V29H19z"></path>
+          </svg>
+          <!-- <BoxIcon class="w-4 h-4 mr-2" />  -->
+          Square
         </RouterLink>
         <RouterLink
           class="flex items-center mt-5"
