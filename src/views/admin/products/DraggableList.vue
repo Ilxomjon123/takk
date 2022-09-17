@@ -89,7 +89,7 @@ async function handleProductDuplicate(category) {
     :animation="300"
   >
     <template #item="{ element }">
-      <tr class="intro-x">
+      <tr class="intro-x zoom-in">
         <!-- <td>
           <div class="form-check">
             <input :id="'selected_product_' + element.id" class="form-check" type="checkbox"

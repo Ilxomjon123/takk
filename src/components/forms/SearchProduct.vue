@@ -27,7 +27,7 @@ function onSubmit() {
       <SearchIcon
         type="submit"
         class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0 cursor-pointer"
-        @click="onSearch"
+        @click="onSubmit"
       />
     </form>
   </div>

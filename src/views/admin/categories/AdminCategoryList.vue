@@ -282,4 +282,10 @@ function reorderModifierItem() {
 .inner-tr td {
   background-color: #dfdfdf !important;
 }
+
+.zoom-in {
+  &:hover {
+    @apply scale-[1.01] shadow-xl;
+  }
+}
 </style>

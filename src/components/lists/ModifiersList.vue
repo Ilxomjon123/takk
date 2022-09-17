@@ -76,8 +76,8 @@
                     class="flex items-center gap-3 hover:text-theme-9"
                     @click="toggleChildren(item.id)"
                   >
-                    <PlusIcon v-if="!isVisibleChildren(item.id)" />
                     <MinusIcon v-if="isVisibleChildren(item.id)" />
+                    <PlusIcon v-else />
                     {{ item.name }}
                   </div>
                 </td>
@@ -102,26 +102,24 @@
                       <MoreVerticalIcon />
                     </button>
                     <div class="dropdown-menu w-40">
-                      <div
-                        class="dropdown-menu__content box dark:bg-dark-1 p-2"
-                      >
+                      <div class="box dark:bg-dark-1 p-2 flex flex-col gap-3">
                         <a
+                          href="javascript:;"
                           @click="editModifierType(item)"
                           data-dismiss="dropdown"
-                          class="flex cursor-pointer items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                          class="hover:text-theme-6"
                         >
-                          <Edit2Icon class="w-4 h-4 mr-2" />Edit
+                          <Edit2Icon class="w-4 h-4 mr-2" />
+                          <span>Edit</span>
                         </a>
                         <a
+                          href="javascript:;"
+                          @click="onTypeDeleteAction(item.id)"
                           data-dismiss="dropdown"
-                          class="flex cursor-pointer items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+                          class="hover:text-theme-6"
                         >
-                          <DeleteConfirmModal
-                            @onConfirmedDelete="deleteType(item.id)"
-                            :isIcon="true"
-                            :modalId="`modifier-type-delete-modal-${item.id}`"
-                            iconClass="w-4 h-4 mr-2"
-                          />
+                          <TrashIcon class="w-4 h-4 mr-2" />
+                          <span>Delete</span>
                         </a>
                       </div>
                     </div>
@@ -161,10 +159,8 @@
                       <MoreVerticalIcon />
                     </button>
                     <div class="dropdown-menu w-40">
-                      <div
-                        class="dropdown-menu__content box dark:bg-dark-1 p-2"
-                      >
-                        <a
+                      <div class="box dark:bg-dark-1 p-2 flex flex-col gap-3">
+                        <!-- <a
                           @click="editModifierItem(el, item.id)"
                           data-dismiss="dropdown"
                           class="flex cursor-pointer items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
@@ -181,6 +177,24 @@
                             :modalId="`modifier-delete-modal-${item.id}-${el.id}`"
                             iconClass="w-4 h-4 mr-2"
                           />
+                        </a> -->
+                        <a
+                          href="javascript:;"
+                          @click="editModifierItem(el, item.id)"
+                          data-dismiss="dropdown"
+                          class="hover:text-theme-6"
+                        >
+                          <Edit2Icon class="w-4 h-4 mr-2" />
+                          <span>Edit</span>
+                        </a>
+                        <a
+                          href="javascript:;"
+                          @click="onItemDeleteAction(el.id)"
+                          data-dismiss="dropdown"
+                          class="hover:text-theme-6"
+                        >
+                          <TrashIcon class="w-4 h-4 mr-2" />
+                          <span>Delete</span>
                         </a>
                       </div>
                     </div>
@@ -201,23 +215,25 @@
         @setItems="setItems($event)"
         :form="form"
       />
-      <ModifierTypeModalForm
-        :dispatcher="typeDispatcher"
-        :modalId="typeModalId"
-        :ref="typeModalId"
-        @submitted="search"
-      />
-      <ModifierModalForm
-        :dispatcher="itemDispatcher"
-        :modalId="itemModalId"
-        :ref="itemModalId"
-        @submitted="search"
-      />
       <!-- END: Pagination -->
     </div>
     <div v-else class="text-base text-center mt-10 text-gray-600">
       For showing Categories Please select Menu
     </div>
+
+    <ModifierTypeModalForm
+      :dispatcher="typeDispatcher"
+      :modalId="typeModalId"
+      :ref="typeModalId"
+      @submitted="search"
+    />
+    <ModifierModalForm
+      :dispatcher="itemDispatcher"
+      :modalId="itemModalId"
+      :ref="itemModalId"
+      @submitted="search"
+    />
+
     <DraggableTypeModal
       :list="items"
       :paginator="{ ...$refs.paginator?.paginator }"
@@ -228,6 +244,14 @@
           (item) => showChildren.length > 0 && item.id == showChildren[0]
         )?.items
       "
+    />
+    <ConfirmDeletionModal
+      modal-id="confirm-modifier-type-deletion-modal"
+      @confirm="deleteType"
+    />
+    <ConfirmDeletionModal
+      modal-id="confirm-modifier-item-deletion-modal"
+      @confirm="deleteItem"
     />
   </div>
 </template>
@@ -242,8 +266,18 @@ import ModifierModalForm from '../forms/ModifierModalForm.vue';
 import DraggableTypeModal from '@/views/dashboard/modifiers/DraggableTypeModal.vue';
 import DraggableItemModal from '@/views/dashboard/modifiers/DraggableItemModal.vue';
 import cash from 'cash-dom';
+import ConfirmDeletionModal from '../modals/ConfirmDeletionModal.vue';
+import { useNotyf } from '@/composables/useNotyf';
+
+const notyf = useNotyf();
 
 export default defineComponent({
+  props: {
+    withAdmin: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       items: [],
@@ -254,9 +288,14 @@ export default defineComponent({
       typeEditDispatcher: 'putModifierType',
       typeDispatcher: 'postModifierType',
       itemModalId: 'item-modal-id',
-      itemAddDispatcher: 'postModifier',
+      itemAddDispatcher: this.withAdmin
+        ? 'adminModifier/postModifier'
+        : 'postModifier',
       itemEditDispatcher: 'putModifier',
       itemDispatcher: 'postModifier',
+      deleteModalId: 'modifier-type-delete-modal',
+      selectedModifierItemId: null,
+      selectedModifierTypeId: null,
     };
   },
   methods: {
@@ -273,24 +312,36 @@ export default defineComponent({
       // });
     },
 
-    async deleteItem(val) {
-      const res = await this.$store.dispatch('deleteModifier', val);
+    async deleteItem() {
+      try {
+        const deleteAction = this.withAdmin
+          ? 'adminModifier/deleteModifier'
+          : 'deleteModifier';
+        const res = await this.$store.dispatch(
+          deleteAction,
+          this.selectedModifierItemId
+        );
 
-      if (res.status) {
-        this.$store.commit('setSuccessNotification', true);
+        notyf.success('Record deleted successfully!');
         this.search();
-      } else {
-        this.$store.commit('setErrorNotification', true);
+      } catch (error) {
+        notyf.error('Error while deleting record: ' + error.message);
       }
     },
 
-    async deleteType(val) {
-      const res = await this.$store.dispatch('deleteModifierType', val);
-      if (res.status) {
-        this.$store.commit('setSuccessNotification', true);
+    async deleteType() {
+      try {
+        const deleteAction = this.withAdmin
+          ? 'adminModifier/deleteModifierType'
+          : 'deleteModifierType';
+        const res = await this.$store.dispatch(
+          deleteAction,
+          this.selectedModifierTypeId
+        );
+        notyf.success('Record deleted successfully!');
         this.search();
-      } else {
-        this.$store.commit('setErrorNotification', true);
+      } catch (error) {
+        notyf.error('Error while deleting record');
       }
     },
     async typeAvailableChange(val) {
@@ -314,26 +365,42 @@ export default defineComponent({
       return val ? 'YES' : 'NO';
     },
     addModifierType() {
-      this.typeDispatcher = this.typeAddDispatcher;
+      this.typeDispatcher = this.withAdmin
+        ? 'adminModifier/' + this.typeAddDispatcher
+        : this.typeAddDispatcher;
       this.$refs[this.typeModalId].showModal({});
     },
     editModifierType(val) {
-      this.typeDispatcher = this.typeEditDispatcher;
+      this.typeDispatcher = this.withAdmin
+        ? 'adminModifier/' + this.typeEditDispatcher
+        : this.typeEditDispatcher;
       this.$refs[this.typeModalId].showModal({ ...val });
     },
     addModifierItem() {
-      this.itemDispatcher = this.itemAddDispatcher;
+      this.itemDispatcher = this.withAdmin
+        ? 'adminModifier/' + this.itemAddDispatcher
+        : this.itemAddDispatcher;
       this.$refs[this.itemModalId].showModal({});
     },
     editModifierItem(val, typeId) {
-      this.itemDispatcher = this.itemEditDispatcher;
-      this.$refs[this.itemModalId].showModal({ ...val }, typeId);
+      this.itemDispatcher = this.withAdmin
+        ? 'adminModifier/' + this.itemEditDispatcher
+        : this.itemEditDispatcher;
+      this.$refs[this.itemModalId].showModal({ ...val, modifier: typeId });
     },
     reorderModifierType() {
       cash('#draggable-modifier-type-modal').modal('show');
     },
     reorderModifierItem() {
       cash('#draggable-modifier-item-modal').modal('show');
+    },
+    onTypeDeleteAction(val) {
+      this.selectedModifierTypeId = val;
+      cash('#confirm-modifier-type-deletion-modal').modal('show');
+    },
+    onItemDeleteAction(val) {
+      this.selectedModifierItemId = val;
+      cash('#confirm-modifier-item-deletion-modal').modal('show');
     },
   },
   computed: {
@@ -347,6 +414,7 @@ export default defineComponent({
     ModifierModalForm,
     DraggableTypeModal,
     DraggableItemModal,
+    ConfirmDeletionModal,
   },
 });
 </script>
@@ -358,5 +426,11 @@ export default defineComponent({
 
 .inner-tr td {
   background-color: #dfdfdf !important;
+}
+
+.zoom-in {
+  &:hover {
+    @apply scale-[1.01] shadow-xl;
+  }
 }
 </style>

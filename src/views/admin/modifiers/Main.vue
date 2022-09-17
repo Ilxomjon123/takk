@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue';
-import MenuList from '@/components/lists/MenuList.vue';
 import ModifiersList from '@/components/lists/ModifiersList.vue';
 import AdminMenuList from '@/components/lists/AdminMenuList.vue';
 
@@ -21,6 +20,6 @@ function fetchData() {
     />
     <!-- Menu List end -->
 
-    <ModifiersList ref="modifiersList" />
+    <ModifiersList ref="modifiersList" :with-admin="true" />
   </div>
 </template>

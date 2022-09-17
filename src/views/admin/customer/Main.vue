@@ -1,3 +1,64 @@
+<script setup>
+import { reactive, ref } from 'vue';
+import MainPaginator from '@/components/paginator/MainPaginator.vue';
+import SearchProduct from '@/components/forms/SearchProduct.vue';
+import { useNotyf } from '@/composables/useNotyf';
+
+const notyf = useNotyf();
+const isLoading = ref(false);
+const items = ref([]);
+const paginator = ref(null);
+const form = reactive([]);
+
+function setItems(val) {
+  items.value = val;
+}
+
+async function handleSearchEvent(value) {
+  isLoading.value = true;
+  try {
+    if (value.length === 0 || value.length > 2) {
+      const res = await fetchCustomersList({
+        menuId: activeMenuID.value,
+        page: paginator.page,
+        limit: paginator.limit,
+        search: value,
+      });
+
+      if (res) {
+        Object.assign(products, res);
+        paginator.total = res.total_objects;
+      }
+    }
+  } catch (error) {
+    notyf.error();
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+async function handleSearchSubmit(value) {
+  isLoading.value = true;
+  try {
+    const res = await fetchProductsList({
+      menuId: activeMenuID.value,
+      page: paginator.page,
+      limit: paginator.limit,
+      search: value,
+    });
+
+    if (res) {
+      Object.assign(products, res);
+      paginator.total = res.total_objects;
+    }
+  } catch (error) {
+    notyf.error('Error while fetching data list: ' + error.message);
+  } finally {
+    isLoading.value = false;
+  }
+}
+</script>
+
 <template>
   <div>
     <h2 class="intro-y text-lg font-medium mt-10">Customers List</h2>
@@ -34,23 +95,12 @@
             </div>
           </div>
         </div>
-        <div class="hidden md:block mx-auto text-gray-600"></div>
-        <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
-          <div class="w-56 relative text-gray-700 dark:text-gray-300">
-            <form @submit.prevent="search">
-              <input
-                type="text"
-                v-model="form.search"
-                class="form-control w-56 box pr-10 placeholder-theme-13"
-                placeholder="Search..."
-              />
-              <SearchIcon
-                type="submit"
-                class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0 cursor-pointer"
-              />
-            </form>
-          </div>
-        </div>
+        <SearchProduct
+          class="md:col-start-4 lg:col-start-6 xl:col-start-8"
+          :loading="isLoading"
+          @searching="handleSearchEvent"
+          @search:manual="handleSearchSubmit"
+        />
       </div>
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto">
@@ -99,26 +149,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import { defineComponent } from 'vue';
-import MainPaginator from '@/components/paginator/MainPaginator.vue';
-
-export default defineComponent({
-  components: { MainPaginator },
-  data() {
-    return {
-      items: [],
-      form: {}
-    };
-  },
-  methods: {
-    setItems(val) {
-      this.items = val;
-    },
-    search() {
-      this.$refs.paginator.paginate(1);
-    }
-  }
-});
-</script>

@@ -33,20 +33,12 @@ function setOrder(val) {
   <div>
     <div>
       <h2 class="intro-y text-lg font-medium mt-10">Transactions List</h2>
+      <div class="intro-y flex items-center mt-5">
+        <ExcelExportButton url="/adham/transactions/export/" :form="form" />
+        <DateRangePicker class="ml-auto" @submit="search" />
+      </div>
+      <!-- BEGIN: Data List -->
       <div class="grid grid-cols-12 gap-6 mt-5">
-        <div
-          class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"
-        >
-          <ExcelExportButton :form="form" url="/adham/transactions/export/" />
-          <div class="hidden md:block mx-auto text-gray-600"></div>
-          <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
-            <div class="w-56 relative text-gray-700 dark:text-gray-300">
-              <!-- <TransactionSearch @submit="search($event)" /> -->
-              <DateRangePicker @submit="search" />
-            </div>
-          </div>
-        </div>
-        <!-- BEGIN: Data List -->
         <div class="intro-y col-span-12 overflow-auto">
           <table class="table table-report -mt-2">
             <thead>

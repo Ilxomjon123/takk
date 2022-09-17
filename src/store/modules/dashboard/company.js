@@ -93,42 +93,30 @@ const actions = {
     }
   },
 
-  async fetchCustomers({ commit, rootGetters }, payload) {
-    let response;
-    await axios
-      // .get(`/api/companies/${rootGetters.getCompanyId}/customers/`, {
-      .get(`/api/companies/customers/`, {
-        headers: rootGetters.getHttpHeader,
+  async fetchCustomers({ commit }, payload) {
+    try {
+      const res = await api.get(`/api/companies/customers/`, {
         params: payload,
-      })
-      .then((res) => {
-        response = res.data;
-        commit('setCustomers', res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        // commit('setCustomers', err.response.data);
       });
-    return response;
+
+      commit('setCustomers', res.data);
+      return res.data;
+    } catch (error) {
+      throw error;
+    }
   },
 
-  async fetchTransactions({ commit, rootGetters }, payload) {
-    let response;
-    await axios
-      // .get(`/api/companies/${rootGetters.getCompanyId}/transactions/`, {
-      .get(`/api/companies/transactions/`, {
-        headers: rootGetters.getHttpHeader,
+  async fetchTransactions({ commit }, payload) {
+    try {
+      const res = await api.get(`/api/companies/transactions/`, {
         params: payload,
-      })
-      .then((res) => {
-        response = res.data;
-        commit('setTransactions', res.data);
-      })
-      .catch((err) => {
-        response = err.data;
-        // commit('setTransactions', err.response.data);
       });
-    return response;
+
+      commit('setTransactions', res.data);
+      return res.data;
+    } catch (error) {
+      throw error;
+    }
   },
 
   async fetchStripeConnect() {

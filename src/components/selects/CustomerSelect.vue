@@ -7,15 +7,26 @@ const customers = computed(() => store.getters.getCustomers);
 const selectedCustomers = ref([]);
 
 onMounted(() => {
-  store.dispatch('fetchCustomers')
+  store.dispatch('fetchCustomers');
 });
 </script>
 
 <template>
-  <TomSelect v-model="selectedCustomers" :options="{
-    placeholder: 'Select customers'
-  }" multiple class="w-full">
+  <TomSelect
+    v-model="selectedCustomers"
+    :options="{
+      placeholder: 'Select customers',
+    }"
+    multiple
+    class="w-full"
+  >
     <option value="all">All</option>
-    <option v-for="(item, index) in customers.results" :key="index" :value="item.id">{{ item.username }}</option>
+    <option
+      v-for="(item, index) in customers.results"
+      :key="index"
+      :value="item.id"
+    >
+      {{ item.username }}
+    </option>
   </TomSelect>
 </template>

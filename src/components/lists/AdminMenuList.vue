@@ -36,14 +36,6 @@ const activeMenuId = computed(() => store.getters['getSelectedMenuId']);
 
 await fetchData();
 
-function search() {
-  selectMenu(null);
-}
-
-function setItems(val) {
-  menusData.results = val;
-}
-
 function selectMenu(val) {
   store.commit('setSelectedMenuId', val);
   emit('update-id', val);

@@ -2,8 +2,8 @@
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import store from '@/store';
-import { jsonToFormData } from '@/utils/functions';
 import { useNotyf } from '@/composables/useNotyf';
+import { jsonToFormData } from '@/utils/functions';
 import SubmitButton from '../buttons/SubmitButton.vue';
 
 const notyf = useNotyf();
@@ -50,11 +50,6 @@ function changeImage(e, name) {
   images[name] = e.target.files[0];
   const fileUrl = URL.createObjectURL(e.target.files[0]);
   category[name] = fileUrl;
-}
-
-function removeAvatar() {
-  images['image'] == null;
-  form.user.image == null;
 }
 
 async function submit() {

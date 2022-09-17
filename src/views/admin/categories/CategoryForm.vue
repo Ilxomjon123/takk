@@ -1,11 +1,12 @@
 <script setup>
-import { jsonToFormData } from '@/utils/functions';
 import { onMounted, reactive, ref, watchEffect } from 'vue';
+import { useRouter } from 'vue-router';
 import store from '@/store';
-import { fetchCategories } from '@/api/admin';
-import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 import { useStorage } from '@vueuse/core';
 import { useNotyf } from '@/composables/useNotyf';
+import { jsonToFormData } from '@/utils/functions';
+import { fetchCategories } from '@/api/admin';
+import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
 import SubmitButton from '@/components/buttons/SubmitButton.vue';
 
 const props = defineProps({
@@ -25,6 +26,7 @@ const props = defineProps({
   },
 });
 
+const router = useRouter();
 const notyf = useNotyf();
 const category = reactive({});
 const images = reactive({});
@@ -71,8 +73,8 @@ async function submit() {
     }
 
     const res = await store.dispatch(props.dispatcher, formData);
-
     notyf.success();
+    router.push('/admin/categories');
   } catch (error) {
     Object.assign(errors, error.response.data);
     notyf.error();

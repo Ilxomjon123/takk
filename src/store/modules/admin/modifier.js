@@ -1,5 +1,7 @@
 import axios from 'axios';
+import { useApi } from '@/composables/useApi';
 
+const api = useApi();
 const state = () => {
   return {
     modifierTypes: [],
@@ -96,28 +98,13 @@ const actions = {
       });
     return response;
   },
-  async deleteModifierType({ rootGetters }, payload) {
-    let response;
-    await axios
-      .delete(
-        `https://api.takk.cafe/api/v1/dashboard/admin/modifiers/${payload}/`,
-        {
-          headers: rootGetters.getHttpHeader,
-        }
-      )
-      .then(async (res) => {
-        response = {
-          status: true,
-          data: res.data,
-        };
-      })
-      .catch((err) => {
-        response = {
-          status: false,
-          data: err.response.data,
-        };
-      });
-    return response;
+  async deleteModifierType(ctx, payload) {
+    try {
+      const res = await api.delete(`/adham/modifiers/${payload}/`);
+      return res.data;
+    } catch (error) {
+      throw error;
+    }
   },
   async postModifier({ rootGetters }, payload) {
     let response;
@@ -167,28 +154,13 @@ const actions = {
       });
     return response;
   },
-  async deleteModifier({ rootGetters }, payload) {
-    let response;
-    await axios
-      .delete(
-        `https://api.takk.cafe/api/v1/dashboard/admin/modifiers/items/${payload}/`,
-        {
-          headers: rootGetters.getHttpHeader,
-        }
-      )
-      .then(async (res) => {
-        response = {
-          status: true,
-          data: res.data,
-        };
-      })
-      .catch((err) => {
-        response = {
-          status: false,
-          data: err.response.data,
-        };
-      });
-    return response;
+  async deleteModifier(ctx, payload) {
+    try {
+      const res = await api.delete(`/adham/modifiers/items/${payload}/`);
+      return res.data;
+    } catch (error) {
+      throw error;
+    }
   },
 };
 

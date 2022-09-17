@@ -17,6 +17,7 @@ import adminCategory from './modules/admin/category';
 import adminCompany from './modules/admin/company';
 import adminMenu from './modules/admin/menu';
 import adminEmployee from './modules/admin/employee';
+import adminModifier from './modules/admin/modifier';
 
 const store = createStore({
   modules: {
@@ -38,8 +39,9 @@ const store = createStore({
     adminCategory,
     adminCompany,
     adminMenu,
-    adminEmployee
-  }
+    adminEmployee,
+    adminModifier,
+  },
 });
 
 export function useStore() {

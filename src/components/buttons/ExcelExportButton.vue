@@ -1,10 +1,10 @@
 <template>
-  <button class="btn btn-primary" @click="tableToExcel('Transactions')">
-    Export Excel
+  <button class="btn btn-primary" @click="exportToExcel">
+    <span>Export Excel</span>
     <LoadingIcon
       icon="oval"
       color="white"
-      class="w-4 h-4 ml-2"
+      class="w-4 h-4 ml-3"
       v-if="loading"
     />
   </button>
@@ -13,7 +13,9 @@
 <script>
 import { useNotyf } from '@/composables/useNotyf';
 import store from '@/store';
+import { useApi } from '@/composables/useApi';
 
+const api = useApi();
 const notyf = useNotyf();
 
 export default {
@@ -68,16 +70,16 @@ export default {
         });
 
         const this_vm = this;
-        xhr.onload = function (e) {
+        xhr.onload = async function (e) {
           const blob = e.currentTarget.response;
-          saveBlob(
+          await saveBlob(
             blob,
             `Transaction_for_${this_vm.form.start}_${this_vm.form.end}.xlsx`
           );
         };
         xhr.send();
 
-        function saveBlob(blob, fileName) {
+        async function saveBlob(blob, fileName) {
           const a = document.createElement('a');
           a.href = window.URL.createObjectURL(blob);
           a.download = fileName;
@@ -85,6 +87,35 @@ export default {
         }
       } catch (error) {
         notyf.error(error.message);
+      } finally {
+        this.loading = false;
+      }
+    },
+    async exportToExcel() {
+      try {
+        this.loading = true;
+        const res = await api({
+          url: this.url,
+          params: this.form,
+          responseType: 'blob',
+        });
+
+        const url = URL.createObjectURL(
+          new Blob([res], {
+            type: 'application/vnd.ms-excel',
+          })
+        );
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute(
+          'download',
+          `Transaction_for_${this_vm.form.start}_${this_vm.form.end}.xlsx`
+        );
+        document.body.appendChild(link);
+        link.click();
+      } catch (error) {
+        notyf.error(error.message);
+        console.log({ error });
       } finally {
         this.loading = false;
       }

@@ -4,12 +4,12 @@ import cash from 'cash-dom';
 const props = defineProps({
   isLoading: {
     type: Boolean,
-    default: false
+    default: false,
   },
   modalId: {
     type: String,
-    default: 'confirm-deletion-modal'
-  }
+    default: 'confirm-deletion-modal',
+  },
 });
 defineEmits(['confirm']);
 
@@ -35,7 +35,7 @@ function showModal() {
             <button
               type="button"
               data-dismiss="modal"
-              class="btn btn-outline-secondary w-24 dark:border-dark-5 dark:text-gray-300 mr-1"
+              class="btn btn-outline-secondary w-24 dark:border-dark-5 dark:text-gray-300 mr-3"
             >
               Cancel
             </button>

@@ -1,75 +1,107 @@
 <script setup>
-import MainPaginator from '@/components/paginator/MainPaginator.vue';
 import { reactive, ref } from 'vue';
+import MainPaginator from '@/components/paginator/MainPaginator.vue';
+import SearchProduct from '@/components/forms/SearchProduct.vue';
+import { useNotyf } from '@/composables/useNotyf';
+import store from '../../../store';
 
+const notyf = useNotyf();
+const isLoading = ref(false);
 const items = ref([]);
 const paginator = ref(null);
-const form = reactive({});
+const form = reactive([]);
 
 function setItems(val) {
   items.value = val;
 }
 
-function search() {
-  paginator.value.paginate(1);
+async function handleSearchEvent(value) {
+  isLoading.value = true;
+  try {
+    if (value.length === 0 || value.length > 2) {
+      const res = await store.dispatch('fetchCustomers', {
+        page: paginator.page,
+        limit: paginator.limit,
+        search: value,
+      });
+
+      if (res) {
+        items.value = res.results;
+        paginator.total = res.total_objects;
+      }
+    }
+  } catch (error) {
+    notyf.error();
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+async function handleSearchSubmit(value) {
+  isLoading.value = true;
+  try {
+    const res = await store.dispatch('fetchCustomers', {
+      page: paginator.page,
+      limit: paginator.limit,
+      search: value,
+    });
+
+    if (res) {
+      items.value = res.results;
+      paginator.total = res.total_objects;
+    }
+  } catch (error) {
+    notyf.error('Error while fetching data list: ' + error.message);
+  } finally {
+    isLoading.value = false;
+  }
 }
 </script>
 
 <template>
   <div>
     <h2 class="intro-y text-lg font-medium mt-10">Customers List</h2>
-    <div class="grid grid-cols-12 gap-6 mt-5">
-      <div
-        class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"
-      >
-        <div class="dropdown">
-          <button
-            class="dropdown-toggle btn px-2 box text-gray-700 dark:text-gray-300"
-            aria-expanded="false"
-          >
-            <span class="w-5 h-5 flex items-center justify-center">
-              <PlusIcon class="w-4 h-4" />
-            </span>
-          </button>
-          <div class="dropdown-menu w-40">
-            <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-              <a
-                class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
-              >
-                <PrinterIcon class="w-4 h-4 mr-2" />Print
-              </a>
-              <a
-                class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
-              >
-                <FileTextIcon class="w-4 h-4 mr-2" />Export to Excel
-              </a>
-              <a
-                class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
-              >
-                <FileTextIcon class="w-4 h-4 mr-2" />Export to PDF
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="hidden md:block mx-auto text-gray-600"></div>
-        <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
-          <div class="w-56 relative text-gray-700 dark:text-gray-300">
-            <form @submit.prevent="search">
-              <input
-                type="text"
-                v-model="form.search"
-                class="form-control w-56 box pr-10 placeholder-theme-13"
-                placeholder="Search..."
-              />
-              <SearchIcon
-                type="submit"
-                class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0 cursor-pointer"
-              />
-            </form>
+    <div class="flex items-center mt-2">
+      <div class="dropdown">
+        <button
+          class="dropdown-toggle btn px-2 box text-gray-700 dark:text-gray-300"
+          aria-expanded="false"
+        >
+          <span class="w-5 h-5 flex items-center justify-center">
+            <PlusIcon class="w-4 h-4" />
+          </span>
+        </button>
+        <div class="dropdown-menu w-40">
+          <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
+            <a
+              class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+            >
+              <PrinterIcon class="w-4 h-4 mr-2" />Print
+            </a>
+            <a
+              class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+            >
+              <FileTextIcon class="w-4 h-4 mr-2" />Export to Excel
+            </a>
+            <a
+              class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
+            >
+              <FileTextIcon class="w-4 h-4 mr-2" />Export to PDF
+            </a>
           </div>
         </div>
       </div>
-      <!-- BEGIN: Data List -->
+      <div class="ml-auto">
+        <SearchProduct
+          class=""
+          :loading="isLoading"
+          @searching="handleSearchEvent"
+          @search:manual="handleSearchSubmit"
+        />
+      </div>
+    </div>
+    <!-- BEGIN: Data List -->
+    <div class="grid grid-cols-12 gap-6 mt-5">
       <div class="intro-y col-span-12 overflow-auto">
         <table class="table table-report -mt-2">
           <thead>

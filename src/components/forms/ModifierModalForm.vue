@@ -12,7 +12,6 @@
                 <label for="modifier-name">Name</label>
                 <input
                   id="modifier-name"
-                  required
                   v-model="modifier.name"
                   class="form-control w-full mt-2"
                   placeholder="Name"
@@ -21,7 +20,7 @@
               </div>
               <div class="w-full mb-3">
                 <label for="modifier-name">Modifier Type</label>
-                <!-- <TomSelect
+                <TomSelect
                   v-model="modifier.modifier"
                   :options="{
                     placeholder: 'Select Modifier Type',
@@ -32,13 +31,15 @@
                     v-for="(item, index) in getModifierTypes.results"
                     :key="index"
                     :value="item.id"
-                  >{{ item.name }}</option>
-                </TomSelect>-->
-                <SingleSelect
+                  >
+                    {{ item.name }}
+                  </option>
+                </TomSelect>
+                <!-- <SingleSelect
                   class="mt-2"
                   :items="getModifierTypes.results"
                   v-model="modifierTypeId"
-                />
+                /> -->
 
                 <div class="text-theme-6" v-text="getError('modifier')" />
               </div>
@@ -48,7 +49,6 @@
                   <div id="input-group-price" class="input-group-text">$</div>
                   <input
                     id="modifier-price"
-                    required
                     v-model="modifier.price"
                     type="number"
                     step="0.01"
@@ -116,6 +116,9 @@ import cash from 'cash-dom';
 import { mapGetters } from 'vuex';
 import SingleSelect from '../selects/SingleSelect.vue';
 import SubmitButton from '../buttons/SubmitButton.vue';
+import { useNotyf } from '@/composables/useNotyf';
+
+const notyf = useNotyf();
 
 export default defineComponent({
   props: {
@@ -135,41 +138,57 @@ export default defineComponent({
       modifierTypeId: null,
       isLoading: false,
       modifier: {
-        available: true,
-        default: false,
+        name: '',
         modifier: null,
         price: 0,
-        name: '',
+        default: true,
+        available: true,
       },
       errors: {},
     };
   },
   methods: {
     async submit() {
-      this.isLoading = true;
-      console.log('this.modifier: ', this.modifier);
-      const res = await this.$store.dispatch(this.dispatcher, {
-        ...this.modifier,
-        modifier: this.modifierTypeId,
-      });
-      if (res.status) {
+      try {
+        this.isLoading = true;
+        // console.log('this.modifier: ', this.modifier);
+        const res = await this.$store.dispatch(this.dispatcher, {
+          ...this.modifier,
+          // modifier: this.modifierTypeId,
+        });
+
         this.hideModal();
         this.$emit('submitted', {
           type: this.modifier.id ? 'edit' : 'add',
           ...res.data,
         });
-      } else {
-        this.errors = res.data;
+
+        notyf.success();
+      } catch (error) {
+        this.errors = error.response.data;
+        notyf.error();
+      } finally {
+        this.isLoading = false;
       }
-      this.isLoading = false;
     },
-    showModal(form, modifierTypeId) {
-      this.modifier = form;
-      this.modifierTypeId = modifierTypeId;
-      if (this.modifier.modifier == null) this.modifier.modifier = 0;
+    showModal(form) {
+      this.modifier = {
+        ...this.modifier,
+        ...form,
+      };
+      // this.modifierTypeId = modifierTypeId;
+      // if (this.modifier.modifier == null) this.modifier.modifier = 0;
       cash('#' + this.modalId).modal('show');
     },
     hideModal() {
+      this.modifier = {
+        name: '',
+        modifier: null,
+        price: 0,
+        default: true,
+        available: true,
+      };
+
       cash('#' + this.modalId).modal('hide');
     },
     getError(key) {
