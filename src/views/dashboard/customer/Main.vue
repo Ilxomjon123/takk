@@ -60,8 +60,8 @@ async function handleSearchSubmit(value) {
 
 <template>
   <div>
-    <h2 class="intro-y text-lg font-medium mt-10">Customers List</h2>
-    <div class="flex items-center mt-2">
+    <h2 class="text-lg font-medium mt-5">Customers List</h2>
+    <div class="flex items-center">
       <div class="dropdown">
         <button
           class="dropdown-toggle btn px-2 box text-gray-700 dark:text-gray-300"

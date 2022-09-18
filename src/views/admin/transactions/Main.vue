@@ -33,8 +33,8 @@ function setOrder(val) {
 <template>
   <div>
     <div>
-      <h2 class="intro-y text-lg font-medium mt-10">Transactions List</h2>
-      <div class="intro-y flex items-center mt-5">
+      <h2 class="intro-y text-lg font-medium mt-5">Transactions List</h2>
+      <div class="intro-y flex items-center">
         <ExcelExportButton :url="exportUrl" :form="form" />
         <DateRangePicker class="ml-auto" @submit="search" />
       </div>

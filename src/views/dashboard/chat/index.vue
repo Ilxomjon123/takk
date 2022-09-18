@@ -24,7 +24,7 @@ function openMessageModal() {
 
 <template>
   <div>
-    <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
+    <div class="flex flex-col sm:flex-row items-center mt-5">
       <h2 class="text-lg font-medium mr-auto">Chat</h2>
       <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
         <button
