@@ -12,13 +12,16 @@ import ConfirmDeletionModal from '../modals/ConfirmDeletionModal.vue';
 import SearchProduct from '../forms/SearchProduct.vue';
 
 const notyf = useNotyf();
-const props = {
+const props = defineProps({
   withAdmin: {
     type: Boolean,
     default: false,
   },
-};
+});
 const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
+const dispatcherAction = computed(() =>
+  props.withAdmin ? 'adminModifier/fetchModifierTypes' : 'fetchModifierTypes'
+);
 const isLoading = ref(false);
 const items = ref([]),
   form = reactive({}),
@@ -345,24 +348,6 @@ async function handleSearchSubmit(value) {
                     </button>
                     <div class="dropdown-menu w-40">
                       <div class="box dark:bg-dark-1 p-2 flex flex-col gap-3">
-                        <!-- <a
-                          @click="editModifierItem(el, item.id)"
-                          data-dismiss="dropdown"
-                          class="flex cursor-pointer items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
-                        >
-                          <Edit2Icon class="w-4 h-4 mr-2" />Edit
-                        </a>
-                        <a
-                          data-dismiss="dropdown"
-                          class="flex cursor-pointer items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"
-                        >
-                          <DeleteConfirmModal
-                            @onConfirmedDelete="deleteItem(el.id)"
-                            :isIcon="true"
-                            :modalId="`modifier-delete-modal-${item.id}-${el.id}`"
-                            iconClass="w-4 h-4 mr-2"
-                          />
-                        </a> -->
                         <a
                           href="javascript:;"
                           @click="editModifierItem(el, item.id)"
@@ -395,9 +380,7 @@ async function handleSearchSubmit(value) {
       <MainPaginator
         v-if="activeMenuID"
         class="mt-5"
-        :dispatcher="
-          withAdmin ? 'adminModifier/fetchModifierTypes' : 'fetchModifierTypes'
-        "
+        :dispatcher="dispatcherAction"
         ref="paginator"
         @setItems="setItems($event)"
         :form="form"

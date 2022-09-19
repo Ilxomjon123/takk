@@ -7,13 +7,14 @@ import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
 import DraggableTypeModal from '@/views/dashboard/categories/DraggableTypeModal.vue';
 import DraggableItemModal from '@/views/dashboard/categories/DraggableItemModal.vue';
 import SearchProduct from '../forms/SearchProduct.vue';
+import { useNotyf } from '@/composables/useNotyf';
 
 const items = ref([]);
 const form = reactive({});
 const showChildren = ref([]);
 const paginator = ref(null);
 const isLoading = ref(false);
-
+const notyf = useNotyf();
 const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
 
 watch(
