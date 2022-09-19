@@ -1,5 +1,7 @@
 import axios from 'axios';
+import { useApi } from '@/composables/useApi';
 
+const api = useApi();
 const state = () => {
   return {
     categories: [],
@@ -23,25 +25,17 @@ const mutations = {
 
 const actions = {
   async fetchCategories({ commit, rootGetters }, payload) {
-    let response;
-    await axios
-      .get(
+    try {
+      const res = await api.get(
         `https://api.takk.cafe/api/v1/dashboard/admin/menus/${rootGetters.getSelectedMenuId}/categories/`,
-        {
-          // .get(`https://api.takk.cafe/api/v1/dashboard/admin/transactions/`, {
-          headers: rootGetters.getHttpHeader,
-          params: payload,
-        }
-      )
-      .then((res) => {
-        response = res.data;
-        commit('setCategories', res?.data?.results);
-      })
-      .catch((err) => {
-        response = err.data;
-        // commit('setTransactions', err.response.data);
-      });
-    return response;
+        { params: payload }
+      );
+
+      commit('setCategories', res?.data?.results);
+      return res.data;
+    } catch (error) {
+      throw error;
+    }
   },
   async fetchCategory({ commit, rootGetters }, payload) {
     let response;

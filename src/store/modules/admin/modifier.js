@@ -2,8 +2,6 @@ import axios from 'axios';
 import { useApi } from '@/composables/useApi';
 
 const api = useApi();
-// api.defaults.baseURL = 'https://api.takk.cafe/api/v1/dashboard/admin';
-
 const state = () => {
   return {
     modifierTypes: [],
@@ -32,26 +30,19 @@ const mutations = {
 
 const actions = {
   async fetchModifierTypes({ commit, rootGetters }, payload) {
-    let response;
-    await axios
-      .get(
+    try {
+      const res = await api.get(
         `https://api.takk.cafe/api/v1/dashboard/admin/menus/${rootGetters.getSelectedMenuId}/modifiers/`,
-        {
-          // .get(`https://api.takk.cafe/api/v1/dashboard/admin/transactions/`, {
-          headers: rootGetters.getHttpHeader,
-          params: payload,
-        }
-      )
-      .then((res) => {
-        response = res.data;
-        commit('setModifierTypes', res.data);
-      })
-      .catch((err) => {
-        response = err.data;
-        // commit('setTransactions', err.response.data);
-      });
-    return response;
+        { params: payload }
+      );
+
+      commit('setModifierTypes', res.data);
+      return res.data;
+    } catch (error) {
+      throw error;
+    }
   },
+
   async postModifierType({ rootGetters }, payload) {
     let response;
     await axios

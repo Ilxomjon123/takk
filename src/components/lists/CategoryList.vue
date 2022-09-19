@@ -1,16 +1,18 @@
 <script setup>
 import { computed, reactive, ref, watch } from 'vue';
 import cash from 'cash-dom';
+import store from '@/store';
 import MainPaginator from '../paginator/MainPaginator.vue';
 import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
 import DraggableTypeModal from '@/views/dashboard/categories/DraggableTypeModal.vue';
 import DraggableItemModal from '@/views/dashboard/categories/DraggableItemModal.vue';
-import store from '@/store';
+import SearchProduct from '../forms/SearchProduct.vue';
 
 const items = ref([]);
 const form = reactive({});
 const showChildren = ref([]);
 const paginator = ref(null);
+const isLoading = ref(false);
 
 const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
 
@@ -21,10 +23,6 @@ watch(
   },
   { deep: true, immediate: true }
 );
-
-function paginate(val) {
-  items.value = val;
-}
 
 function search() {
   paginator.value?.paginate(1);
@@ -62,6 +60,48 @@ function reorderModifierType() {
 function reorderModifierItem() {
   cash('#draggable-category-item-modal').modal('show');
 }
+
+async function handleSearchEvent(value) {
+  isLoading.value = true;
+  const fetchList = 'fetchCategories';
+
+  try {
+    if (value.length === 0 || value.length > 2) {
+      const res = store.dispatch(fetchList, {
+        page: paginator.page,
+        limit: paginator.limit,
+        search: value,
+      });
+
+      setItems(res.results);
+      paginator.total = res.total_objects;
+    }
+  } catch (error) {
+    notyf.error('Error while fetching data list: ' + error.message);
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+async function handleSearchSubmit(value) {
+  isLoading.value = true;
+  const fetchList = 'fetchCategories';
+
+  try {
+    const res = await store.dispatch(fetchList, {
+      page: paginator.page,
+      limit: paginator.limit,
+      search: value,
+    });
+
+    setItems(res.results);
+    paginator.total = res.total_objects;
+  } catch (error) {
+    notyf.error('Error while fetching data list: ' + error.message);
+  } finally {
+    isLoading.value = false;
+  }
+}
 </script>
 
 <template>
@@ -73,40 +113,53 @@ function reorderModifierItem() {
         <div class="col-span-1">
           <h2 class="text-lg font-medium">Categories List</h2>
         </div>
-        <router-link
-          :to="`/dashboard/categories/${activeMenuID}/add`"
-          class="btn btn-primary w-36 whitespace-nowrap"
-        >
-          Add Category
-        </router-link>
-        <div class="dropdown" data-placement="right-start">
-          <button class="btn btn-primary dropdown-toggle" aria-expanded="false">
-            <!-- <MoreVerticalIcon /> -->
-            Reorder
-          </button>
-          <div class="dropdown-menu w-fit">
-            <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-              <button
-                class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md w-full"
-                @click="reorderModifierType"
-                :disabled="items.length < 2"
-                data-toggle="dropdown"
-              >
-                <ShuffleIcon class="w-4 h-4 mr-3" />
-                <span class="whitespace-nowrap">Reorder Categories</span>
-              </button>
-              <button
-                class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md w-full cursor-pointer disabled:cursor-not-allowed"
-                @click="reorderModifierItem"
-                :disabled="showChildren.length === 0"
-                data-toggle="dropdown"
-              >
-                <ShuffleIcon class="w-4 h-4 mr-3" />
-                <span class="whitespace-nowrap">Reorder Subcategories</span>
-              </button>
+        <div class="col-auto flex gap-2 whitespace-nowrap">
+          <router-link
+            :to="`/dashboard/categories/${activeMenuID}/add`"
+            class="btn btn-primary w-36 whitespace-nowrap"
+          >
+            Add Category
+          </router-link>
+          <div class="dropdown" data-placement="right-start">
+            <button
+              class="btn btn-primary dropdown-toggle"
+              aria-expanded="false"
+            >
+              <!-- <MoreVerticalIcon /> -->
+              Reorder
+            </button>
+            <div class="dropdown-menu w-fit">
+              <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
+                <button
+                  class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md w-full"
+                  @click="reorderModifierType"
+                  :disabled="items.length < 2"
+                  data-toggle="dropdown"
+                >
+                  <ShuffleIcon class="w-4 h-4 mr-3" />
+                  <span class="whitespace-nowrap">Reorder Categories</span>
+                </button>
+                <button
+                  class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md w-full cursor-pointer disabled:cursor-not-allowed"
+                  @click="reorderModifierItem"
+                  :disabled="showChildren.length === 0"
+                  data-toggle="dropdown"
+                >
+                  <ShuffleIcon class="w-4 h-4 mr-3" />
+                  <span class="whitespace-nowrap">Reorder Subcategories</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
+        <!-- search input -->
+        <SearchProduct
+          class="md:col-start-4 lg:col-start-6 xl:col-start-8"
+          :loading="isLoading"
+          :is-disabled="!activeMenuID"
+          @searching="handleSearchEvent"
+          @search:manual="handleSearchSubmit"
+        />
       </div>
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">

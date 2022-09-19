@@ -6,13 +6,13 @@ const api = useApi();
 const state = () => {
   return {
     categories: [],
-    category: {}
+    category: {},
   };
 };
 
 const getters = {
-  getCategories: state => state.categories,
-  getCategory: state => state.category
+  getCategories: (state) => state.categories,
+  getCategory: (state) => state.category,
 };
 
 const mutations = {
@@ -21,7 +21,7 @@ const mutations = {
   },
   setCategory(state, payload) {
     state.category = payload;
-  }
+  },
 };
 
 const actions = {
@@ -29,10 +29,10 @@ const actions = {
     try {
       const res = await api({
         url: `/api/menus/${rootGetters.getSelectedMenuId}/categories/`,
-        params: payload
+        params: payload,
       });
 
-      commit('setCategories', res.data.results);
+      commit('setCategories', res.data?.results);
       return res.data;
     } catch (error) {
       throw error;
@@ -43,13 +43,13 @@ const actions = {
     await axios
       .get(`/api/categories/${payload}/`, {
         // .get(`/api/transactions/`, {
-        headers: rootGetters.getHttpHeader
+        headers: rootGetters.getHttpHeader,
       })
-      .then(res => {
+      .then((res) => {
         response = res.data;
         commit('setCategory', res?.data);
       })
-      .catch(err => {
+      .catch((err) => {
         response = err.data;
         // commit('setTransactions', err.response.data);
       });
@@ -60,7 +60,7 @@ const actions = {
       const res = await api({
         url: '/api/categories/',
         method: 'POST',
-        data: payload
+        data: payload,
       });
 
       return res.data;
@@ -72,18 +72,18 @@ const actions = {
     let response;
     await axios
       .put(`/api/categories/${payload.id}/`, payload.form, {
-        headers: rootGetters.getHttpHeader
+        headers: rootGetters.getHttpHeader,
       })
-      .then(async res => {
+      .then(async (res) => {
         response = {
           status: true,
-          data: res.data
+          data: res.data,
         };
       })
-      .catch(err => {
+      .catch((err) => {
         response = {
           status: false,
-          data: err.response.data
+          data: err.response.data,
         };
       });
     return response;
@@ -92,27 +92,27 @@ const actions = {
     let response;
     await axios
       .delete(`/api/categories/${payload}/`, {
-        headers: rootGetters.getHttpHeader
+        headers: rootGetters.getHttpHeader,
       })
-      .then(async res => {
+      .then(async (res) => {
         response = {
           status: true,
-          data: res.data
+          data: res.data,
         };
       })
-      .catch(err => {
+      .catch((err) => {
         response = {
           status: false,
-          data: err.response.data
+          data: err.response.data,
         };
       });
     return response;
-  }
+  },
 };
 
 export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

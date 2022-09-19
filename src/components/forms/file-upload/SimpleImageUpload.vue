@@ -53,14 +53,6 @@ function removeImage() {
           @error="replaceByDefault"
           data-action="zoom"
         />
-        <!-- <Tippy
-          tag="div"
-          content="Remove this logo?"
-          class="w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-6 right-0 top-0 -mr-2 -mt-2"
-          @click="removeImage"
-        >
-          <xIcon class="w-4 h-4" />
-        </Tippy>-->
       </div>
       <div class="mx-auto relative mt-5">
         <button

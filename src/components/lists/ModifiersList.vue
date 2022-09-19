@@ -1,6 +1,183 @@
+<script setup>
+import { computed, reactive, ref } from 'vue';
+import store from '@/store';
+import cash from 'cash-dom';
+import { useNotyf } from '@/composables/useNotyf';
+import MainPaginator from '../paginator/MainPaginator.vue';
+import ModifierTypeModalForm from '../forms/ModifierTypeModalForm.vue';
+import ModifierModalForm from '../forms/ModifierModalForm.vue';
+import DraggableTypeModal from '@/views/dashboard/modifiers/DraggableTypeModal.vue';
+import DraggableItemModal from '@/views/dashboard/modifiers/DraggableItemModal.vue';
+import ConfirmDeletionModal from '../modals/ConfirmDeletionModal.vue';
+import SearchProduct from '../forms/SearchProduct.vue';
+
+const notyf = useNotyf();
+const props = {
+  withAdmin: {
+    type: Boolean,
+    default: false,
+  },
+};
+const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
+const isLoading = ref(false);
+const items = ref([]),
+  form = reactive({}),
+  showChildren = ref([]),
+  typeModalId = ref(null),
+  itemModalId = ref(null),
+  typeAddDispatcher = ref('postModifierType'),
+  typeEditDispatcher = ref('putModifierType'),
+  typeDispatcher = ref('postModifierType'),
+  itemAddDispatcher = computed(() =>
+    props.withAdmin ? 'adminModifier/postModifier' : 'postModifier'
+  ),
+  itemEditDispatcher = ref('putModifier'),
+  itemDispatcher = ref('postModifier'),
+  selectedModifierItemId = ref(null),
+  selectedModifierTypeId = ref(null),
+  paginator = ref(null);
+
+const search = () => {
+    paginator.value?.paginate(1);
+  },
+  setItems = (val) => {
+    items.value = val;
+  },
+  deleteItem = async () => {
+    try {
+      const deleteAction = props.withAdmin
+        ? 'adminModifier/deleteModifier'
+        : 'deleteModifier';
+      const res = await store.dispatch(
+        deleteAction,
+        selectedModifierItemId.value
+      );
+
+      notyf.success('Record deleted successfully!');
+      search();
+    } catch (error) {
+      notyf.error('Error while deleting record: ' + error.message);
+    }
+  },
+  deleteType = async () => {
+    try {
+      const deleteAction = props.withAdmin
+        ? 'adminModifier/deleteModifierType'
+        : 'deleteModifierType';
+      const res = await store.dispatch(
+        deleteAction,
+        selectedModifierTypeId.value
+      );
+      notyf.success('Record deleted successfully!');
+      search();
+    } catch (error) {
+      notyf.error('Error while deleting record');
+    }
+  },
+  typeAvailableChange = async (val) => {
+    val.available = !val.available;
+    await store.dispatch(typeEditDispatcher.value, val);
+  },
+  itemAvailableChange = async (val) => {
+    val.available = !val.available;
+    await store.dispatch(itemEditDispatcher.value, val);
+  },
+  toggleChildren = (valId) => {
+    isVisibleChildren(valId)
+      ? (showChildren.value = [])
+      : (showChildren.value = [valId]);
+  },
+  isVisibleChildren = (val) => showChildren.value.includes(val),
+  getYesNo = (val) => (val ? 'YES' : 'NO'),
+  addModifierType = () => {
+    typeDispatcher.value = props.withAdmin
+      ? 'adminModifier/' + typeAddDispatcher.value
+      : typeAddDispatcher.value;
+    typeModalId.value.showModal({});
+  },
+  editModifierType = (val) => {
+    typeDispatcher.value = props.withAdmin
+      ? 'adminModifier/' + typeEditDispatcher.value
+      : typeEditDispatcher.value;
+    typeModalId.value.showModal({ ...val });
+  },
+  addModifierItem = () => {
+    itemDispatcher.value = props.withAdmin
+      ? 'adminModifier/' + itemAddDispatcher.value
+      : itemAddDispatcher.value;
+    itemModalId.value.showModal({});
+  },
+  editModifierItem = (val, typeId) => {
+    itemDispatcher.value = props.withAdmin
+      ? 'adminModifier/' + itemEditDispatcher.value
+      : itemEditDispatcher.value;
+    itemModalId.value.showModal({ ...val, modifier: typeId });
+  },
+  reorderModifierType = () => {
+    cash('#draggable-modifier-type-modal').modal('show');
+  },
+  reorderModifierItem = () => {
+    cash('#draggable-modifier-item-modal').modal('show');
+  },
+  onTypeDeleteAction = (val) => {
+    selectedModifierTypeId.value = val;
+    cash('#confirm-modifier-type-deletion-modal').modal('show');
+  },
+  onItemDeleteAction = (val) => {
+    selectedModifierItemId.value = val;
+    cash('#confirm-modifier-item-deletion-modal').modal('show');
+  };
+
+async function handleSearchEvent(value) {
+  isLoading.value = true;
+  const fetchList = props.withAdmin
+    ? 'adminModifier/fetchModifierTypes'
+    : 'fetchModifierTypes';
+
+  try {
+    if (value.length === 0 || value.length > 2) {
+      const res = store.dispatch(fetchList, {
+        page: paginator.page,
+        limit: paginator.limit,
+        search: value,
+      });
+
+      setItems(res.results);
+      paginator.total = res.total_objects;
+    }
+  } catch (error) {
+    notyf.error('Error while fetching data list: ' + error.message);
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+async function handleSearchSubmit(value) {
+  isLoading.value = true;
+  const fetchList = props.withAdmin
+    ? 'adminModifier/fetchModifierTypes'
+    : 'fetchModifierTypes';
+
+  try {
+    const res = await store.dispatch(fetchList, {
+      page: paginator.page,
+      limit: paginator.limit,
+      search: value,
+    });
+
+    setItems(res.results);
+    paginator.total = res.total_objects;
+  } catch (error) {
+    notyf.error('Error while fetching data list: ' + error.message);
+  } finally {
+    isLoading.value = false;
+  }
+}
+</script>
+
 <template>
   <div>
-    <div v-if="getSelectedMenuId">
+    <div v-if="activeMenuID">
       <div
         class="grid md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 mt-10 items-center"
       >
@@ -53,6 +230,14 @@
             </div>
           </div>
         </div>
+        <!-- search input -->
+        <SearchProduct
+          class="md:col-start-4 lg:col-start-6 xl:col-start-8"
+          :loading="isLoading"
+          :is-disabled="!activeMenuID"
+          @searching="handleSearchEvent"
+          @search:manual="handleSearchSubmit"
+        />
       </div>
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
@@ -208,9 +393,11 @@
       <!-- END: Data List -->
       <!-- BEGIN: Pagination -->
       <MainPaginator
-        v-if="getSelectedMenuId"
+        v-if="activeMenuID"
         class="mt-5"
-        dispatcher="fetchModifierTypes"
+        :dispatcher="
+          withAdmin ? 'adminModifier/fetchModifierTypes' : 'fetchModifierTypes'
+        "
         ref="paginator"
         @setItems="setItems($event)"
         :form="form"
@@ -223,14 +410,14 @@
 
     <ModifierTypeModalForm
       :dispatcher="typeDispatcher"
-      :modalId="typeModalId"
-      :ref="typeModalId"
+      modalId="typeModalId"
+      ref="typeModalId"
       @submitted="search"
     />
     <ModifierModalForm
       :dispatcher="itemDispatcher"
-      :modalId="itemModalId"
-      :ref="itemModalId"
+      modalId="itemModalId"
+      ref="itemModalId"
       @submitted="search"
     />
 
@@ -255,169 +442,6 @@
     />
   </div>
 </template>
-
-<script>
-import { defineComponent } from 'vue';
-import { mapGetters } from 'vuex';
-import MainPaginator from '../paginator/MainPaginator.vue';
-import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
-import ModifierTypeModalForm from '../forms/ModifierTypeModalForm.vue';
-import ModifierModalForm from '../forms/ModifierModalForm.vue';
-import DraggableTypeModal from '@/views/dashboard/modifiers/DraggableTypeModal.vue';
-import DraggableItemModal from '@/views/dashboard/modifiers/DraggableItemModal.vue';
-import cash from 'cash-dom';
-import ConfirmDeletionModal from '../modals/ConfirmDeletionModal.vue';
-import { useNotyf } from '@/composables/useNotyf';
-
-const notyf = useNotyf();
-
-export default defineComponent({
-  props: {
-    withAdmin: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return {
-      items: [],
-      form: {},
-      showChildren: [],
-      typeModalId: 'type-modal-id',
-      typeAddDispatcher: 'postModifierType',
-      typeEditDispatcher: 'putModifierType',
-      typeDispatcher: 'postModifierType',
-      itemModalId: 'item-modal-id',
-      itemAddDispatcher: this.withAdmin
-        ? 'adminModifier/postModifier'
-        : 'postModifier',
-      itemEditDispatcher: 'putModifier',
-      itemDispatcher: 'postModifier',
-      deleteModalId: 'modifier-type-delete-modal',
-      selectedModifierItemId: null,
-      selectedModifierTypeId: null,
-    };
-  },
-  methods: {
-    paginate(val) {
-      this.items = val;
-    },
-    search() {
-      this.$refs.paginator?.paginate(1);
-    },
-    setItems(val) {
-      this.items = val;
-      // this.showChildren = val.map(item => {
-      //   if (item.items.length > 0) return item.id
-      // });
-    },
-
-    async deleteItem() {
-      try {
-        const deleteAction = this.withAdmin
-          ? 'adminModifier/deleteModifier'
-          : 'deleteModifier';
-        const res = await this.$store.dispatch(
-          deleteAction,
-          this.selectedModifierItemId
-        );
-
-        notyf.success('Record deleted successfully!');
-        this.search();
-      } catch (error) {
-        notyf.error('Error while deleting record: ' + error.message);
-      }
-    },
-
-    async deleteType() {
-      try {
-        const deleteAction = this.withAdmin
-          ? 'adminModifier/deleteModifierType'
-          : 'deleteModifierType';
-        const res = await this.$store.dispatch(
-          deleteAction,
-          this.selectedModifierTypeId
-        );
-        notyf.success('Record deleted successfully!');
-        this.search();
-      } catch (error) {
-        notyf.error('Error while deleting record');
-      }
-    },
-    async typeAvailableChange(val) {
-      val.available = !val.available;
-      await this.$store.dispatch(this.typeEditDispatcher, val);
-    },
-    async itemAvailableChange(val) {
-      console.log(val);
-      val.available = !val.available;
-      await this.$store.dispatch(this.itemEditDispatcher, val);
-    },
-    toggleChildren(valId) {
-      this.isVisibleChildren(valId)
-        ? (this.showChildren = [])
-        : (this.showChildren = [valId]);
-    },
-    isVisibleChildren(val) {
-      return this.showChildren.includes(val);
-    },
-    getYesNo(val) {
-      return val ? 'YES' : 'NO';
-    },
-    addModifierType() {
-      this.typeDispatcher = this.withAdmin
-        ? 'adminModifier/' + this.typeAddDispatcher
-        : this.typeAddDispatcher;
-      this.$refs[this.typeModalId].showModal({});
-    },
-    editModifierType(val) {
-      this.typeDispatcher = this.withAdmin
-        ? 'adminModifier/' + this.typeEditDispatcher
-        : this.typeEditDispatcher;
-      this.$refs[this.typeModalId].showModal({ ...val });
-    },
-    addModifierItem() {
-      this.itemDispatcher = this.withAdmin
-        ? 'adminModifier/' + this.itemAddDispatcher
-        : this.itemAddDispatcher;
-      this.$refs[this.itemModalId].showModal({});
-    },
-    editModifierItem(val, typeId) {
-      this.itemDispatcher = this.withAdmin
-        ? 'adminModifier/' + this.itemEditDispatcher
-        : this.itemEditDispatcher;
-      this.$refs[this.itemModalId].showModal({ ...val, modifier: typeId });
-    },
-    reorderModifierType() {
-      cash('#draggable-modifier-type-modal').modal('show');
-    },
-    reorderModifierItem() {
-      cash('#draggable-modifier-item-modal').modal('show');
-    },
-    onTypeDeleteAction(val) {
-      this.selectedModifierTypeId = val;
-      cash('#confirm-modifier-type-deletion-modal').modal('show');
-    },
-    onItemDeleteAction(val) {
-      this.selectedModifierItemId = val;
-      cash('#confirm-modifier-item-deletion-modal').modal('show');
-    },
-  },
-  computed: {
-    ...mapGetters(['getSelectedMenuId']),
-  },
-
-  components: {
-    MainPaginator,
-    DeleteConfirmModal,
-    ModifierTypeModalForm,
-    ModifierModalForm,
-    DraggableTypeModal,
-    DraggableItemModal,
-    ConfirmDeletionModal,
-  },
-});
-</script>
 
 <style lang="scss" scoped>
 .dark .inner-tr td {

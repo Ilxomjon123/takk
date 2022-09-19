@@ -1,24 +1,24 @@
 <script setup>
 import { computed, reactive, ref, watch } from 'vue';
-import MainPaginator from '@/components/paginator/MainPaginator.vue';
-import DeleteConfirmModal from '@/components/modals/DeleteConfirmModal.vue';
-import DraggableTypeModal from './DraggableTypeModal.vue';
-import DraggableItemModal from './DraggableItemModal.vue';
 import cash from 'cash-dom';
 import store from '@/store';
+import MainPaginator from '@/components/paginator/MainPaginator.vue';
+import DeleteConfirmModal from '@/components/modals/DeleteConfirmModal.vue';
+import SearchProduct from '@/components/forms/SearchProduct.vue';
+import DraggableTypeModal from './DraggableTypeModal.vue';
+import DraggableItemModal from './DraggableItemModal.vue';
 
-const items = reactive([]);
+const items = ref([]);
 const form = reactive({});
 const showChildren = ref([]);
 const paginator = ref(null);
+const isLoading = ref(false);
 
-// const selectedMenuId = useStorage('selected-productmenu-id', null);
-const selectedMenuId = computed(() => store.getters['getSelectedMenuId']);
+const activeMenuID = computed(() => store.getters['getSelectedMenuId']);
 
 watch(
-  () => selectedMenuId.value,
+  () => activeMenuID.value,
   (newVal) => {
-    console.log('new selectedMenuId: ', newVal);
     newVal && search();
   },
   { deep: true, immediate: true }
@@ -29,7 +29,7 @@ function search() {
 }
 
 function setItems(val) {
-  Object.assign(items, val);
+  items.value = val;
 }
 
 async function deleteItem(val) {
@@ -60,18 +60,60 @@ function reorderModifierType() {
 function reorderModifierItem() {
   cash('#draggable-category-item-modal').modal('show');
 }
+
+async function handleSearchEvent(value) {
+  isLoading.value = true;
+  const fetchList = 'adminCategory/fetchCategories';
+
+  try {
+    if (value.length === 0 || value.length > 2) {
+      const res = store.dispatch(fetchList, {
+        page: paginator.page,
+        limit: paginator.limit,
+        search: value,
+      });
+
+      setItems(res.results);
+      paginator.total = res.total_objects;
+    }
+  } catch (error) {
+    notyf.error('Error while fetching data list: ' + error.message);
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+async function handleSearchSubmit(value) {
+  isLoading.value = true;
+  const fetchList = 'adminCategory/fetchCategories';
+
+  try {
+    const res = await store.dispatch(fetchList, {
+      page: paginator.page,
+      limit: paginator.limit,
+      search: value,
+    });
+
+    setItems(res.results);
+    paginator.total = res.total_objects;
+  } catch (error) {
+    notyf.error('Error while fetching data list: ' + error.message);
+  } finally {
+    isLoading.value = false;
+  }
+}
 </script>
 
 <template>
   <div>
-    <div v-if="selectedMenuId != null">
+    <div v-if="activeMenuID != null">
       <div
         class="grid md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 mt-10 gap-3 md:gap-0 items-center"
       >
         <div class="col-span-1">
           <h2 class="text-lg font-medium">Categories List</h2>
         </div>
-        <div class="col-span-3 flex gap-2">
+        <div class="col-auto flex gap-2 whitespace-nowrap">
           <!-- <div class="w-full sm:w-auto flex mt-4 sm:mt-0"> -->
           <router-link to="/admin/categories/add" class="btn btn-primary w-36">
             Add Category
@@ -109,6 +151,14 @@ function reorderModifierItem() {
             </div>
           </div>
         </div>
+        <!-- search input -->
+        <SearchProduct
+          class="md:col-start-4 lg:col-start-6 xl:col-start-8"
+          :loading="isLoading"
+          :is-disabled="!activeMenuID"
+          @searching="handleSearchEvent"
+          @search:manual="handleSearchSubmit"
+        />
       </div>
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
@@ -248,7 +298,7 @@ function reorderModifierItem() {
       <!-- END: Data List -->
       <!-- BEGIN: Pagination -->
       <MainPaginator
-        v-if="selectedMenuId != 'null' && selectedMenuId"
+        v-if="activeMenuID != 'null' && activeMenuID"
         class="mt-5"
         dispatcher="adminCategory/fetchCategories"
         ref="paginator"
