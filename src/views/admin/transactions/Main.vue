@@ -1,26 +1,32 @@
 <script setup>
 import { ref, reactive } from 'vue';
+import store from '@/store';
+import { useNotyf } from '@/composables/useNotyf';
 import MainPaginator from '@/components/paginator/MainPaginator.vue';
 import ExcelExportButton from '@/components/buttons/ExcelExportButton.vue';
 import DateRangePicker from '@/components/forms/DateRangePicker.vue';
+import SearchProduct from '@/components/forms/SearchProduct.vue';
 
+const notyf = useNotyf();
 const items = ref([]),
   order = reactive({}),
   form = reactive({
-    start: '',
-    end: '',
+    start_date: '',
+    end_date: '',
+    search: '',
   }),
   paginator = ref(null),
   statuses = ref(['PAID', 'REFUND']),
   exportUrl = import.meta.env.VITE_ADMIN_API_URL + '/transactions/export/';
+const isLoading = ref(false);
 
 function setItems(val) {
   items.value = val;
 }
 
 async function search(dateRangeObj) {
-  form.start = dateRangeObj.start;
-  form.end = dateRangeObj.end;
+  form.start_date = dateRangeObj.start;
+  form.end_date = dateRangeObj.end;
   await paginator.value.paginate(1, form);
 }
 
@@ -28,15 +34,69 @@ function setOrder(val) {
   Object.assign(order, val.order);
   order['order_detail'] = val.order_detail;
 }
+
+async function handleSearchEvent(value) {
+  isLoading.value = true;
+  const fetchList = 'adminCompany/fetchAdminTransactions';
+
+  try {
+    if (value.length === 0 || value.length > 2) {
+      // const res = store.dispatch(fetchList, {
+      //   page: paginator.page,
+      //   limit: paginator.limit,
+      //   search: value,
+      // });
+
+      // setItems(res.results);
+      // paginator.total = res.total_objects;
+      form.search = value;
+      await paginator.value.paginate(1, form);
+    }
+  } catch (error) {
+    notyf.error('Error while fetching data list: ' + error.message);
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+async function handleSearchSubmit(value) {
+  isLoading.value = true;
+  const fetchList = 'adminCompany/fetchAdminTransactions';
+
+  try {
+    // const res = await store.dispatch(fetchList, {
+    //   page: paginator.page,
+    //   limit: paginator.limit,
+    //   search: value,
+    // });
+
+    // setItems(res.results);
+    // paginator.total = res.total_objects;
+    form.search = value;
+    await paginator.value.paginate(1, form);
+  } catch (error) {
+    notyf.error('Error while fetching data list: ' + error.message);
+  } finally {
+    isLoading.value = false;
+  }
+}
 </script>
 
 <template>
   <div>
     <div>
       <h2 class="intro-y text-lg font-medium mt-5">Transactions List</h2>
-      <div class="intro-y flex items-center">
+      <div class="flex flex-col md:flex-row items-center gap-5 my-5">
         <ExcelExportButton :url="exportUrl" :form="form" />
-        <DateRangePicker class="ml-auto" @submit="search" />
+        <!-- search input -->
+        <div class="flex flex-col md:flex-row items-center gap-5 sm:ml-auto">
+          <SearchProduct
+            :loading="isLoading"
+            @searching="handleSearchEvent"
+            @search:manual="handleSearchSubmit"
+          />
+          <DateRangePicker class="whitespace-nowrap" @submit="search" />
+        </div>
       </div>
       <!-- BEGIN: Data List -->
       <div class="grid grid-cols-12 gap-6 mt-5">

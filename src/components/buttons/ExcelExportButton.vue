@@ -1,5 +1,5 @@
 <template>
-  <button class="btn btn-primary" @click="exportToExcel">
+  <button type="button" class="btn btn-primary" @click="exportToExcel">
     <span>Export Excel</span>
     <LoadingIcon
       icon="oval"

@@ -136,8 +136,7 @@ const actions = {
         commit('setCustomers', res.data);
       })
       .catch((err) => {
-        console.log(err);
-        // commit('setCustomers', err.response.data);
+        throw err;
       });
     return response;
   },

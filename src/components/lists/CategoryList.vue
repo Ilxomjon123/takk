@@ -2,12 +2,12 @@
 import { computed, reactive, ref, watch } from 'vue';
 import cash from 'cash-dom';
 import store from '@/store';
+import { useNotyf } from '@/composables/useNotyf';
 import MainPaginator from '../paginator/MainPaginator.vue';
 import DeleteConfirmModal from '../modals/DeleteConfirmModal.vue';
 import DraggableTypeModal from '@/views/dashboard/categories/DraggableTypeModal.vue';
 import DraggableItemModal from '@/views/dashboard/categories/DraggableItemModal.vue';
 import SearchProduct from '../forms/SearchProduct.vue';
-import { useNotyf } from '@/composables/useNotyf';
 
 const items = ref([]);
 const form = reactive({});
