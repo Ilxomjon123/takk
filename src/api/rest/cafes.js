@@ -5,7 +5,7 @@ const api = useApi();
 export const fetchCafeList = async () => {
   try {
     const res = await api({
-      url: `/api/cafes/`
+      url: `/api/cafes/`,
     });
 
     return res.data;
@@ -14,10 +14,10 @@ export const fetchCafeList = async () => {
   }
 };
 
-export const fetchCafe = async cafeID => {
+export const fetchCafe = async (cafeID) => {
   try {
     const res = await api({
-      url: `/api/cafes/${cafeID}/`
+      url: `/api/cafes/${cafeID}/`,
     });
 
     return res.data;
@@ -26,10 +26,10 @@ export const fetchCafe = async cafeID => {
   }
 };
 
-export const fetchCafeGallery = async cafeID => {
+export const fetchCafeGallery = async (cafeID) => {
   try {
     const res = await api({
-      url: `/api/cafes/${cafeID}/photos/`
+      url: `/api/cafes/${cafeID}/photos/`,
     });
 
     return res.data;
@@ -38,10 +38,10 @@ export const fetchCafeGallery = async cafeID => {
   }
 };
 
-export const fetchCafeWorkDays = async cafeID => {
+export const fetchCafeWorkDays = async (cafeID) => {
   try {
     const res = await api({
-      url: `/api/cafes/${cafeID}/work-days/`
+      url: `/api/cafes/${cafeID}/work-days/`,
     });
 
     return res.data;
@@ -50,12 +50,12 @@ export const fetchCafeWorkDays = async cafeID => {
   }
 };
 
-export const updateCafeWorkDays = async payload => {
+export const updateCafeWorkDays = async (payload) => {
   try {
     const res = await api({
       url: `/api/cafes/${payload.id}/work-days/`,
-      method: 'put',
-      data: payload.data
+      method: 'PUT',
+      data: payload.data,
     });
 
     return res.data;
@@ -64,12 +64,12 @@ export const updateCafeWorkDays = async payload => {
   }
 };
 
-export const updateCafe = async payload => {
+export const updateCafe = async (payload) => {
   try {
     const res = await api({
       url: `/api/cafes/${payload.id}/`,
-      method: 'put',
-      data: payload.data
+      method: 'PUT',
+      data: payload.data,
     });
 
     return res.data;
@@ -78,12 +78,12 @@ export const updateCafe = async payload => {
   }
 };
 
-export const storeCafe = async payload => {
+export const storeCafe = async (payload) => {
   try {
     const res = await api({
       url: `/api/cafes/`,
-      method: 'post',
-      data: payload
+      method: 'POST',
+      data: payload,
     });
 
     return res.data;
@@ -92,12 +92,12 @@ export const storeCafe = async payload => {
   }
 };
 
-export const addCafeGallery = async payload => {
+export const addCafeGallery = async (payload) => {
   try {
     const res = await api({
       url: `/api/cafes/photos/`,
-      method: 'post',
-      data: payload
+      method: 'POST',
+      data: payload,
     });
 
     return res.data;
@@ -106,11 +106,11 @@ export const addCafeGallery = async payload => {
   }
 };
 
-export const deleteCafe = async payload => {
+export const deleteCafe = async (payload) => {
   try {
     const res = await api({
       url: `/api/cafes/${payload}/`,
-      method: 'delete'
+      method: 'DELETE',
     });
 
     return res.data;
@@ -119,15 +119,29 @@ export const deleteCafe = async payload => {
   }
 };
 
-export const deleteCafeImage = async imageID => {
+export const deleteCafeImage = async (imageID) => {
   try {
     const res = await api({
       url: `/api/cafes/photos/${imageID}/`,
-      method: 'delete'
+      method: 'DELETE',
     });
 
     return res.data;
   } catch (error) {
     throw error;
+  }
+};
+
+export const updateCafeStatus = async (payload) => {
+  try {
+    const res = await api({
+      url: `/api/cafes/${payload.id}/`,
+      method: 'PUT',
+      data: payload.data,
+    });
+
+    return res.data;
+  } catch (err) {
+    throw err;
   }
 };

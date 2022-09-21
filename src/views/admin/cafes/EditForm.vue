@@ -14,11 +14,13 @@ import CafeWorkingDays from './CafeWorkingDays.vue';
 import {
   fetchCafe,
   updateCafe,
+  updateCafeStatus,
   deleteCafe,
   deleteCafeImage,
 } from '@/api/admin';
 import router from '@/router';
 import { useNotyf } from '@/composables/useNotyf';
+import CafeStatusFormModal from '@/components/modals/CafeStatusFormModal.vue';
 
 const route = useRoute();
 const notyf = useNotyf();
@@ -104,7 +106,6 @@ const isLoading = ref(false);
 watch(
   () => route.params.id,
   async (newVal) => {
-    console.log('newVal: ', newVal);
     if (newVal) {
       const res1 = await fetchCafe(newVal);
       Object.assign(formFields, res1);
@@ -148,6 +149,30 @@ async function submit(formData) {
 
 function openConfirmModal() {
   cash('#delete-confirmation-modal').modal('show');
+}
+
+async function updateCafeStatusAction(cafeStatus) {
+  isLoading.value = true;
+  // externalErrors.value = {};
+
+  try {
+    const res = await updateCafeStatus({
+      data: { name: formFields.name, status: cafeStatus },
+      id: route.params.id,
+    });
+
+    Object.assign(formFields, res);
+
+    cash('#cafe-status-modal').modal('hide');
+    notyf.success('Status successfully updated!');
+  } catch (error) {
+    if (error.response) {
+      notyf.error();
+      // externalErrors.value = error.response.data;
+    }
+  } finally {
+    isLoading.value = false;
+  }
 }
 
 async function removeCafe() {
@@ -226,5 +251,10 @@ async function removeCafe() {
       </div>
     </div>
     <!-- END: Delete Confirmation Modal -->
+
+    <CafeStatusFormModal
+      :status="formFields.status"
+      @update:status="updateCafeStatusAction"
+    />
   </div>
 </template>
