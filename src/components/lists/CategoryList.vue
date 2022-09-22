@@ -68,14 +68,8 @@ async function handleSearchEvent(value) {
 
   try {
     if (value.length === 0 || value.length > 2) {
-      const res = store.dispatch(fetchList, {
-        page: paginator.page,
-        limit: paginator.limit,
-        search: value,
-      });
-
-      setItems(res.results);
-      paginator.total = res.total_objects;
+      form.search = value;
+      await paginator.value.paginate(1, form);
     }
   } catch (error) {
     notyf.error('Error while fetching data list: ' + error.message);
@@ -89,14 +83,8 @@ async function handleSearchSubmit(value) {
   const fetchList = 'fetchCategories';
 
   try {
-    const res = await store.dispatch(fetchList, {
-      page: paginator.page,
-      limit: paginator.limit,
-      search: value,
-    });
-
-    setItems(res.results);
-    paginator.total = res.total_objects;
+    form.search = value;
+    await paginator.value.paginate(1, form);
   } catch (error) {
     notyf.error('Error while fetching data list: ' + error.message);
   } finally {
@@ -114,7 +102,7 @@ async function handleSearchSubmit(value) {
         <div class="col-span-1">
           <h2 class="text-lg font-medium">Categories List</h2>
         </div>
-        <div class="col-auto flex gap-2 whitespace-nowrap">
+        <div class="col-span-2 flex gap-2 whitespace-nowrap">
           <router-link
             :to="`/dashboard/categories/${activeMenuID}/add`"
             class="btn btn-primary w-36 whitespace-nowrap"
@@ -134,7 +122,7 @@ async function handleSearchSubmit(value) {
                 <button
                   class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md w-full"
                   @click="reorderModifierType"
-                  :disabled="items.length < 2"
+                  :disabled="items?.length < 2"
                   data-toggle="dropdown"
                 >
                   <ShuffleIcon class="w-4 h-4 mr-3" />
@@ -143,7 +131,7 @@ async function handleSearchSubmit(value) {
                 <button
                   class="flex items-center p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md w-full cursor-pointer disabled:cursor-not-allowed"
                   @click="reorderModifierItem"
-                  :disabled="showChildren.length === 0"
+                  :disabled="showChildren?.length === 0"
                   data-toggle="dropdown"
                 >
                   <ShuffleIcon class="w-4 h-4 mr-3" />
@@ -318,7 +306,7 @@ async function handleSearchSubmit(value) {
     />
     <DraggableItemModal
       :list="
-        items.find(
+        items?.find(
           (item) => showChildren.length > 0 && item.id == showChildren[0]
         )?.children
       "

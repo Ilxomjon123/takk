@@ -8,28 +8,47 @@ import SubmitButton from '@/components/buttons/SubmitButton.vue';
 
 const router = useRouter();
 const notyf = useNotyf();
-const externalErrors = reactive({});
+const externalErrors = reactive({
+  category: [],
+  end: [],
+  image: [],
+  name: [],
+  sizes: [],
+  start: [],
+});
 const isLoading = ref(false);
 const productImagePath = ref('');
 
 const formFields = reactive({
+  category: '',
+  description: '',
+  end: '',
+  image: '',
+  modifiers: [],
+  name: '',
   sizes: [
     {
       name: '',
-      // square_id: '',
       price: 0,
       available: true,
       default: false,
     },
   ],
-  modifiers: [],
   quickest_time: 5,
+  start: '',
   tax_percent: '100',
 });
 
 async function onSubmit() {
   isLoading.value = true;
-  Object.assign(externalErrors, {});
+  Object.assign(externalErrors, {
+    category: [],
+    end: [],
+    image: [],
+    name: [],
+    sizes: [],
+    start: [],
+  });
 
   try {
     const formData = new FormData();

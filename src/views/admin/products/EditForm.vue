@@ -10,21 +10,34 @@ import SubmitButton from '@/components/buttons/SubmitButton.vue';
 const route = useRoute();
 const router = useRouter();
 const notyf = useNotyf();
-const externalErrors = ref({});
+const externalErrors = reactive({
+  category: [],
+  end: [],
+  image: [],
+  name: [],
+  sizes: [],
+  start: [],
+});
 const isLoading = ref(false);
 const currentId = route.params?.id ?? null;
 const formFields = reactive({
+  category: '',
+  description: '',
+  end: '',
+  image: '',
+  modifiers: [],
+  name: '',
   sizes: [
     {
       name: '',
-      square_id: '',
       price: 0,
       available: true,
       default: false,
     },
   ],
-  modifiers: [],
   quickest_time: 5,
+  start: '',
+  tax_percent: '100',
 });
 
 const productImagePath = ref(null);
@@ -47,7 +60,14 @@ onMounted(async () => {
 
 async function onSubmit() {
   isLoading.value = true;
-  externalErrors.value = {};
+  Object.assign(externalErrors, {
+    category: [],
+    end: [],
+    image: [],
+    name: [],
+    sizes: [],
+    start: [],
+  });
   try {
     const formData = new FormData();
 
@@ -84,7 +104,7 @@ async function onSubmit() {
     notyf.success();
     router.push('/admin/products');
   } catch (error) {
-    externalErrors.value = error.response.data;
+    Object.assign(externalErrors, error.response.data);
     notyf.error();
   } finally {
     isLoading.value = false;

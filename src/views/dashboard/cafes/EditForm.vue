@@ -1,19 +1,26 @@
 <script setup>
-import { onMounted, reactive, ref } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { isEmpty } from 'lodash';
 import cash from 'cash-dom';
 
 import store from '@/store';
+import router from '@/router';
+import { useNotyf } from '@/composables/useNotyf';
 import CafeMenu from './CafeMenu.vue';
 import CafeInformation from './CafeInformation.vue';
 import CafeOperations from './CafeOperations.vue';
 import CafeDelivery from './CafeDelivery.vue';
 import CafeGallery from './CafeGallery.vue';
 import CafeWorkingDays from './CafeWorkingDays.vue';
-import { fetchCafe, updateCafe, deleteCafe, deleteCafeImage } from '@/api';
-import router from '@/router';
-import { useNotyf } from '@/composables/useNotyf';
+import {
+  fetchCafe,
+  deleteCafe,
+  deleteCafeImage,
+  updateCafe,
+  updateCafeStatus,
+} from '@/api';
+import CafeStatusFormModal from '@/components/modals/CafeStatusFormModal.vue';
 
 const route = useRoute();
 const notyf = useNotyf();
@@ -21,7 +28,7 @@ const currentItem = ref('CafeInformation');
 const formFields = reactive({
   location: {
     lat: 35.1234,
-    lon: -95.1234
+    lon: -95.1234,
   },
   country: 236,
   name: '',
@@ -39,44 +46,44 @@ const formFields = reactive({
       day: 'monday',
       opening_time: null,
       closing_time: null,
-      is_open: false
+      is_open: false,
     },
     {
       day: 'tuesday',
       opening_time: null,
       closing_time: null,
-      is_open: false
+      is_open: false,
     },
     {
       day: 'wednesday',
       opening_time: null,
       closing_time: null,
-      is_open: false
+      is_open: false,
     },
     {
       day: 'thursday',
       opening_time: null,
       closing_time: null,
-      is_open: false
+      is_open: false,
     },
     {
       day: 'friday',
       opening_time: null,
       closing_time: null,
-      is_open: false
+      is_open: false,
     },
     {
       day: 'saturday',
       opening_time: null,
       closing_time: null,
-      is_open: false
+      is_open: false,
     },
     {
       day: 'sunday',
       opening_time: null,
       closing_time: null,
-      is_open: false
-    }
+      is_open: false,
+    },
   ],
   delivery_available: false,
   delivery_max_distance: 1,
@@ -86,22 +93,33 @@ const formFields = reactive({
   delivery_km_amount: 0,
   delivery_min_time: 30,
   cafe_timezone: 'America/New_York',
-  status: 0
+  status: 0,
 });
-const externalErrors = reactive({});
-const isLoading = ref(false);
+const externalErrors = reactive({
+  name: [],
+});
 const components = {
   CafeInformation,
   CafeOperations,
   CafeDelivery,
   CafeGallery,
-  CafeWorkingDays
+  CafeWorkingDays,
 };
+const isLoading = ref(false);
 
-onMounted(async () => {
-  const res1 = await fetchCafe(route.params.id);
-  Object.assign(formFields, res1);
-});
+watch(
+  () => route.params.id,
+  async (newVal) => {
+    if (newVal) {
+      const res1 = await fetchCafe(newVal);
+      Object.assign(formFields, res1);
+
+      if (isEmpty(formFields.country) || !Number(formFields.country))
+        formFields.country = 236;
+    }
+  },
+  { deep: true, immediate: true }
+);
 
 function changeComponent(componentName) {
   currentItem.value = componentName;
@@ -109,11 +127,16 @@ function changeComponent(componentName) {
 
 async function submit(formData) {
   isLoading.value = true;
-  Object.assign(externalErrors, {});
+  Object.assign(externalErrors, {
+    name: [],
+  });
   delete formData.logo;
 
   try {
-    await updateCafe({ data: formData, id: route.params.id });
+    await updateCafe({
+      data: formData,
+      id: route.params.id,
+    });
 
     notyf.success();
   } catch (error) {
@@ -128,6 +151,30 @@ function openConfirmModal() {
   cash('#delete-confirmation-modal').modal('show');
 }
 
+async function updateCafeStatusAction(cafeStatus) {
+  isLoading.value = true;
+  // externalErrors.value = {};
+
+  try {
+    const res = await updateCafeStatus({
+      data: { name: formFields.name, status: cafeStatus },
+      id: route.params.id,
+    });
+
+    Object.assign(formFields, res);
+
+    cash('#cafe-status-modal').modal('hide');
+    notyf.success('Status successfully updated!');
+  } catch (error) {
+    if (error.response) {
+      notyf.error();
+      // externalErrors.value = error.response.data;
+    }
+  } finally {
+    isLoading.value = false;
+  }
+}
+
 async function removeCafe() {
   isLoading.value = true;
   cash('#delete-confirmation-modal').modal('hide');
@@ -136,6 +183,7 @@ async function removeCafe() {
   }
   await deleteCafe(formFields.id);
   isLoading.value = true;
+  notyf.success('Data successfully removed!');
   router.push('/dashboard/cafes');
 }
 </script>
@@ -203,5 +251,10 @@ async function removeCafe() {
       </div>
     </div>
     <!-- END: Delete Confirmation Modal -->
+
+    <CafeStatusFormModal
+      :status="formFields.status"
+      @update:status="updateCafeStatusAction"
+    />
   </div>
 </template>

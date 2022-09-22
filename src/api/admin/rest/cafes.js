@@ -133,3 +133,17 @@ export const deleteCafeImage = async (imageID) => {
     throw err;
   }
 };
+
+export const updateCafeStatus = async (payload) => {
+  try {
+    const res = await api({
+      url: `https://api.takk.cafe/api/v1/dashboard/admin/cafes/${payload.id}/`,
+      method: 'PUT',
+      data: payload.data,
+    });
+
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+};

@@ -1,35 +1,49 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue';
-import { updateProduct } from '@/api';
 import { useRoute, useRouter } from 'vue-router';
-import { fetchProduct } from '@/api';
-import FormFields from './FormFields.vue';
 import { useNotyf } from '@/composables/useNotyf';
+
+import { fetchProduct, updateProduct } from '@/api';
+import FormFields from './FormFields.vue';
 import SubmitButton from '@/components/buttons/SubmitButton.vue';
 
-const externalErrors = ref({});
-const isLoading = ref(false);
 const route = useRoute();
 const router = useRouter();
 const notyf = useNotyf();
+const externalErrors = reactive({
+  category: [],
+  end: [],
+  image: [],
+  name: [],
+  sizes: [],
+  start: [],
+});
+const isLoading = ref(false);
+const currentId = route.params?.id ?? null;
 const formFields = reactive({
+  category: '',
+  description: '',
+  end: '',
+  image: '',
+  modifiers: [],
+  name: '',
   sizes: [
     {
       name: '',
-      square_id: '',
       price: 0,
       available: true,
       default: false,
     },
   ],
-  modifiers: [],
   quickest_time: 5,
+  start: '',
+  tax_percent: '100',
 });
 
 const productImagePath = ref(null);
 
 onMounted(async () => {
-  await fetchProduct(route.params.id).then((res) => {
+  await fetchProduct(currentId).then((res) => {
     formFields.sizes = res.sizes;
     formFields.start = res.start;
     formFields.end = res.end;
@@ -46,7 +60,14 @@ onMounted(async () => {
 
 async function onSubmit() {
   isLoading.value = true;
-  externalErrors.value = {};
+  Object.assign(externalErrors, {
+    category: [],
+    end: [],
+    image: [],
+    name: [],
+    sizes: [],
+    start: [],
+  });
   try {
     const formData = new FormData();
 
@@ -78,12 +99,12 @@ async function onSubmit() {
       formData.append('modifiers', formFields.modifiers[i]);
     }
 
-    const res = await updateProduct({ id: route.params.id, data: formData });
+    const res = await updateProduct({ id: currentId, data: formData });
 
     notyf.success();
     router.push('/dashboard/products');
   } catch (error) {
-    externalErrors.value = error.response.data;
+    Object.assign(externalErrors, error.response.data);
     notyf.error();
   } finally {
     isLoading.value = false;

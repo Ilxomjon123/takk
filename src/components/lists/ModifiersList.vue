@@ -139,14 +139,16 @@ async function handleSearchEvent(value) {
 
   try {
     if (value.length === 0 || value.length > 2) {
-      const res = store.dispatch(fetchList, {
-        page: paginator.page,
-        limit: paginator.limit,
-        search: value,
-      });
+      // const res = await store.dispatch(fetchList, {
+      //   page: paginator.page,
+      //   limit: paginator.limit,
+      //   search: value,
+      // });
 
-      setItems(res.results);
-      paginator.total = res.total_objects;
+      // setItems(res.results);
+      // paginator.total = res.total_objects;
+      form.search = value;
+      await paginator.value.paginate(1, form);
     }
   } catch (error) {
     notyf.error('Error while fetching data list: ' + error.message);
@@ -162,14 +164,16 @@ async function handleSearchSubmit(value) {
     : 'fetchModifierTypes';
 
   try {
-    const res = await store.dispatch(fetchList, {
-      page: paginator.page,
-      limit: paginator.limit,
-      search: value,
-    });
+    // const res = await store.dispatch(fetchList, {
+    //   page: paginator.page,
+    //   limit: paginator.limit,
+    //   search: value,
+    // });
 
-    setItems(res.results);
-    paginator.total = res.total_objects;
+    // setItems(res.results);
+    // paginator.total = res.total_objects;
+    form.search = value;
+    await paginator.value.paginate(1, form);
   } catch (error) {
     notyf.error('Error while fetching data list: ' + error.message);
   } finally {

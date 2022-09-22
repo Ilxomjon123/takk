@@ -33,34 +33,54 @@ export default {
       type: '',
       series: [
         {
-          data: []
+          data: [],
         },
         {
-          data: []
-        }
+          data: [],
+        },
       ],
       chartOptions: {
         dataLabels: {
           enabled: true,
-          enabledOnSeries: []
+          enabledOnSeries: [],
         },
         chart: {
-          type: 'bar'
+          type: 'bar',
         },
         tooltip: {
           shared: true,
-          intersect: false
+          intersect: false,
         },
         xaxis: {
-          // categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        }
-      }
+          categories: [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec',
+          ],
+        },
+        yaxis: {
+          labels: {
+            formatter: (value, index) => {
+              return Math.fround(value).toLocaleString();
+            },
+          },
+        },
+      },
     };
   },
   watch: {
     cafe(to, from) {
       this.fetchData(this.type);
-    }
+    },
   },
   methods: {
     ...mapActions(['fetchStatisticsSalesYear']),
@@ -70,11 +90,11 @@ export default {
       if (this.cafe != 0) {
         res = await this.fetchStatisticsSalesYear({
           cafe: this.cafe,
-          type: this.type
+          type: this.type,
         });
       } else {
         res = await this.fetchStatisticsSalesYear({
-          type: this.type
+          type: this.type,
         });
       }
       if (res.status) {
@@ -82,25 +102,25 @@ export default {
           {
             // data: res.last_year.map(item => item.count),
             data: res.last,
-            name: 'Last Year'
+            name: 'Last Year',
           },
           {
             // data: res.this_year.map(item => item.count),
             data: res.current,
-            name: 'This Year'
-          }
+            name: 'This Year',
+          },
         ];
         this.chartOptions = {
           ...this.chartOptions,
           xaxis: {
-            categories: res.months.map(item => this.toMonthName(item))
-          }
+            categories: res.months.map((item) => this.toMonthName(item)),
+          },
         };
       }
-    }
+    },
   },
   components: {
-    CafeSelect
-  }
+    CafeSelect,
+  },
 };
 </script>
