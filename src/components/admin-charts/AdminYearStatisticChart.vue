@@ -30,7 +30,6 @@ const chart = reactive({
       intersect: false,
     },
     xaxis: {
-      // categories: [],
       categories: [
         'Jan',
         'Feb',
@@ -45,6 +44,13 @@ const chart = reactive({
         'Nov',
         'Dec',
       ],
+    },
+    yaxis: {
+      labels: {
+        formatter: (value, index) => {
+          return Math.fround(value).toLocaleString();
+        },
+      },
     },
   },
 });
@@ -80,8 +86,6 @@ async function fetchData() {
       });
     }
 
-    console.log({ res });
-
     chart.series = [
       {
         // data: res.last_year.map(item => item.count),
@@ -101,7 +105,6 @@ async function fetchData() {
       },
     };
   } catch (error) {
-    console.log({ error });
     notyf.error('Error while fetching first chart data: ' + error.message);
   }
 }

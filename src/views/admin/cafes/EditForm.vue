@@ -5,6 +5,8 @@ import { isEmpty } from 'lodash';
 import cash from 'cash-dom';
 
 import store from '@/store';
+import router from '@/router';
+import { useNotyf } from '@/composables/useNotyf';
 import CafeMenu from './CafeMenu.vue';
 import CafeInformation from './CafeInformation.vue';
 import CafeOperations from './CafeOperations.vue';
@@ -13,13 +15,11 @@ import CafeGallery from './CafeGallery.vue';
 import CafeWorkingDays from './CafeWorkingDays.vue';
 import {
   fetchCafe,
-  updateCafe,
-  updateCafeStatus,
   deleteCafe,
   deleteCafeImage,
+  updateCafe,
+  updateCafeStatus,
 } from '@/api/admin';
-import router from '@/router';
-import { useNotyf } from '@/composables/useNotyf';
 import CafeStatusFormModal from '@/components/modals/CafeStatusFormModal.vue';
 
 const route = useRoute();
@@ -32,6 +32,7 @@ const formFields = reactive({
   country: 236,
   name: '',
   call_center: '',
+  phone_code: '',
   website: '',
   state: '',
   city: '',
@@ -93,7 +94,9 @@ const formFields = reactive({
   cafe_timezone: 'America/New_York',
   status: 0,
 });
-const externalErrors = ref({});
+const externalErrors = reactive({
+  name: [],
+});
 const components = {
   CafeInformation,
   CafeOperations,
@@ -112,10 +115,6 @@ watch(
 
       if (isEmpty(formFields.country) || !Number(formFields.country))
         formFields.country = 236;
-
-      // formFields.country = Number(res1.country);
-      // formFields.state = Number(res1.state);
-      // formFields.city = Number(res1.city);
     }
   },
   { deep: true, immediate: true }
@@ -127,7 +126,9 @@ function changeComponent(componentName) {
 
 async function submit(formData) {
   isLoading.value = true;
-  externalErrors.value = {};
+  Object.assign(externalErrors, {
+    name: [],
+  });
   delete formData.logo;
 
   try {
@@ -138,10 +139,8 @@ async function submit(formData) {
 
     notyf.success();
   } catch (error) {
-    if (error.response) {
-      notyf.error();
-      externalErrors.value = error.response.data;
-    }
+    notyf.error();
+    Object.assign(externalErrors, error.response?.data);
   } finally {
     isLoading.value = false;
   }
@@ -176,39 +175,39 @@ async function updateCafeStatusAction(cafeStatus) {
 }
 
 async function removeCafe() {
+  isLoading.value = true;
   cash('#delete-confirmation-modal').modal('hide');
   if (!isEmpty(formFields.photos)) {
     formFields.photos.forEach(async ({ id }) => await deleteCafeImage(id));
   }
   await deleteCafe(formFields.id);
+  isLoading.value = true;
   notyf.success('Data successfully removed!');
-  router.back();
+  router.push('/admin/cafes');
 }
 </script>
 
 <template>
   <div>
-    <div>
-      <div class="intro-y flex items-center mt-8">
-        <h2 class="text-lg font-medium mr-auto">Cafe Edit Form</h2>
-      </div>
-      <div class="grid grid-cols-12 gap-6">
-        <CafeMenu
-          @update:selected-item="changeComponent($event)"
-          form-type="edit"
+    <div class="intro-y flex items-center mt-8">
+      <h2 class="text-lg font-medium mr-auto">Cafe Edit Form</h2>
+    </div>
+    <div class="grid grid-cols-12 gap-6">
+      <CafeMenu
+        @update:selected-item="changeComponent($event)"
+        form-type="edit"
+        :form-data="formFields"
+        :external-errors="externalErrors"
+        @remove:form-data="openConfirmModal"
+      />
+      <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
+        <component
+          :is="components[currentItem]"
           :form-data="formFields"
+          :is-loading="isLoading"
           :external-errors="externalErrors"
-          @remove:form-data="openConfirmModal"
+          @update:form-data="submit($event)"
         />
-        <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
-          <component
-            :is="components[currentItem]"
-            :form-data="formFields"
-            :is-loading="isLoading"
-            :external-errors="externalErrors"
-            @update:form-data="submit($event)"
-          />
-        </div>
       </div>
     </div>
 

@@ -106,19 +106,6 @@ function removeProductSize(index) {
             </div>
           </div>
           <div class="flex justify-between">
-            <!-- <div class="form-check">
-              <input
-                :id="'product_size_available' + index"
-                class="form-check-switch"
-                type="checkbox"
-                v-model="item.available"
-              />
-              <label
-                class="form-check-label"
-                :for="'product_size_available' + index"
-                >Available</label
-              >
-            </div> -->
             <div class="form-check">
               <input
                 :id="'product_size_is_default' + index"
@@ -149,7 +136,7 @@ function removeProductSize(index) {
           class="btn btn-primary"
           @click="addNewProductSize"
         >
-          Add size
+          Add variance
         </button>
       </div>
     </div>

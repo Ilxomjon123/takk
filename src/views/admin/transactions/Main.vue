@@ -41,14 +41,6 @@ async function handleSearchEvent(value) {
 
   try {
     if (value.length === 0 || value.length > 2) {
-      // const res = store.dispatch(fetchList, {
-      //   page: paginator.page,
-      //   limit: paginator.limit,
-      //   search: value,
-      // });
-
-      // setItems(res.results);
-      // paginator.total = res.total_objects;
       form.search = value;
       await paginator.value.paginate(1, form);
     }
@@ -64,14 +56,6 @@ async function handleSearchSubmit(value) {
   const fetchList = 'adminCompany/fetchAdminTransactions';
 
   try {
-    // const res = await store.dispatch(fetchList, {
-    //   page: paginator.page,
-    //   limit: paginator.limit,
-    //   search: value,
-    // });
-
-    // setItems(res.results);
-    // paginator.total = res.total_objects;
     form.search = value;
     await paginator.value.paginate(1, form);
   } catch (error) {

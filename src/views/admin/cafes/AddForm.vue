@@ -1,32 +1,35 @@
 <script setup>
-import { computed, onMounted, reactive, ref, watchEffect } from 'vue';
+import { computed, reactive, ref, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 import cash from 'cash-dom';
 import store from '@/store';
 import { useNotyf } from '@/composables/useNotyf';
 import { storeCafe } from '@/api/admin';
-import CafeMenu from './CafeMenu.vue';
 import CafeInformation from './CafeInformation.vue';
+import CafeMenu from './CafeMenu.vue';
 
 const router = useRouter();
 const notyf = useNotyf();
 const formFields = reactive({
+  address: '',
+  call_center: '',
+  city: '',
+  country: 236,
+  description: '',
   location: {
     coordinates: [35.1234, -95.1234],
   },
-  country: 236,
-  state: null,
-  city: null,
   name: '',
-  call_center: '',
-  website: '',
-  postal_code: '',
-  address: '',
-  second_address: '',
-  description: '',
+  phone_code: '',
   photos: [],
+  postal_code: '',
+  second_address: '',
+  state: '',
+  website: '',
 });
-const externalErrors = ref({});
+const externalErrors = reactive({
+  name: [],
+});
 const isLoading = ref(false);
 const selectedCompanyId = computed(
   () => store.getters['adminCompany/getAdminSelectedCompanyID']
@@ -38,7 +41,10 @@ watchEffect(() => {
 
 async function submit(formData) {
   isLoading.value = true;
-  externalErrors.value = {};
+  Object.assign(externalErrors, {
+    name: [],
+  });
+
   formData.company = selectedCompanyId.value;
 
   try {
@@ -48,7 +54,7 @@ async function submit(formData) {
     notyf.success();
   } catch (error) {
     notyf.error();
-    externalErrors.value = error.response?.data;
+    Object.assign(externalErrors, error.response?.data);
   } finally {
     isLoading.value = false;
   }

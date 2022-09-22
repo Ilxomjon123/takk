@@ -73,9 +73,11 @@ function removeProductSize(index) {
                 class="form-control"
                 type="text"
               />
-              <span class="text-theme-6 mt-2">{{
-                externalErrors.sizes && externalErrors.sizes[0]
-              }}</span>
+              <span
+                v-if="externalErrors.sizes?.length"
+                class="text-theme-6 mt-2"
+                >{{ externalErrors.sizes[0]?.name[0] }}</span
+              >
             </div>
             <div class="input-form">
               <label class="form-label" :for="'product_size_price' + index">
@@ -92,25 +94,12 @@ function removeProductSize(index) {
                 type="number"
                 step="0.01"
               />
-              <span class="text-theme-6 mt-2">{{
-                externalErrors.sizes && externalErrors.sizes[0]
-              }}</span>
+              <span class="text-theme-6 mt-2">
+                <!-- {{ externalErrors.sizes && externalErrors.sizes[0]?.name[0] }} -->
+              </span>
             </div>
           </div>
           <div class="flex justify-between">
-            <!-- <div class="form-check">
-              <input
-                :id="'product_size_available' + index"
-                class="form-check-switch"
-                type="checkbox"
-                v-model="item.available"
-              />
-              <label
-                class="form-check-label"
-                :for="'product_size_available' + index"
-                >Available</label
-              >
-            </div> -->
             <div class="form-check">
               <input
                 :id="'product_size_is_default' + index"
@@ -141,7 +130,7 @@ function removeProductSize(index) {
           class="btn btn-primary"
           @click="addNewProductSize"
         >
-          Add size
+          Add variance
         </button>
       </div>
     </div>

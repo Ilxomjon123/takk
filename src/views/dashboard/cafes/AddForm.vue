@@ -1,38 +1,43 @@
 <script setup>
-import { reactive, ref } from 'vue';
+import { computed, reactive, ref, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
-import CafeMenu from './CafeMenu.vue';
+import cash from 'cash-dom';
 import store from '@/store';
-import CafeInformation from './CafeInformation.vue';
-import { storeCafe } from '@/api';
 import { useNotyf } from '@/composables/useNotyf';
+import { storeCafe } from '@/api';
+import CafeInformation from './CafeInformation.vue';
+import CafeMenu from './CafeMenu.vue';
 
 const router = useRouter();
 const notyf = useNotyf();
 const formFields = reactive({
+  address: '',
+  call_center: '',
+  city: '',
+  country: 236,
+  description: '',
   location: {
     lat: 35.1234,
-    lon: -95.1234
+    lon: -95.1234,
   },
-  country: 236,
   name: '',
-  call_center: '',
   phone_code: '',
-  website: '',
-  state: '',
-  city: '',
+  photos: [],
   postal_code: '',
-  address: '',
   second_address: '',
-  description: '',
-  photos: []
+  state: '',
+  website: '',
 });
-const externalErrors = reactive({});
+const externalErrors = reactive({
+  name: [],
+});
 const isLoading = ref(false);
 
 async function submit(formData) {
   isLoading.value = true;
-  Object.assign(externalErrors, {});
+  Object.assign(externalErrors, {
+    name: [],
+  });
 
   try {
     const res1 = await storeCafe(formData);

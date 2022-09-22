@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive, ref } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { isEmpty } from 'lodash';
 import cash from 'cash-dom';
@@ -95,8 +95,9 @@ const formFields = reactive({
   cafe_timezone: 'America/New_York',
   status: 0,
 });
-const externalErrors = reactive({});
-const isLoading = ref(false);
+const externalErrors = reactive({
+  name: [],
+});
 const components = {
   CafeInformation,
   CafeOperations,
@@ -104,11 +105,21 @@ const components = {
   CafeGallery,
   CafeWorkingDays,
 };
+const isLoading = ref(false);
 
-onMounted(async () => {
-  const res1 = await fetchCafe(route.params.id);
-  Object.assign(formFields, res1);
-});
+watch(
+  () => route.params.id,
+  async (newVal) => {
+    if (newVal) {
+      const res1 = await fetchCafe(newVal);
+      Object.assign(formFields, res1);
+
+      if (isEmpty(formFields.country) || !Number(formFields.country))
+        formFields.country = 236;
+    }
+  },
+  { deep: true, immediate: true }
+);
 
 function changeComponent(componentName) {
   currentItem.value = componentName;
@@ -116,11 +127,16 @@ function changeComponent(componentName) {
 
 async function submit(formData) {
   isLoading.value = true;
-  Object.assign(externalErrors, {});
+  Object.assign(externalErrors, {
+    name: [],
+  });
   delete formData.logo;
 
   try {
-    await updateCafe({ data: formData, id: route.params.id });
+    await updateCafe({
+      data: formData,
+      id: route.params.id,
+    });
 
     notyf.success();
   } catch (error) {
@@ -167,6 +183,7 @@ async function removeCafe() {
   }
   await deleteCafe(formFields.id);
   isLoading.value = true;
+  notyf.success('Data successfully removed!');
   router.push('/dashboard/cafes');
 }
 </script>

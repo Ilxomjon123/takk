@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 
 const props = defineProps({
-  cafe: Object
+  cafe: Object,
 });
 
 const happyCount = ref(3);
@@ -15,11 +15,18 @@ const offerCount = ref(4);
   <div class="wrapper antialiased">
     <div class="hover01 column relative shadow-lg">
       <figure class="rounded-xl">
-        <img :src="cafe.photos[0]?.image_medium" alt="cafe image"
-          class="w-full h-60 lg:h-72 object-cover object-center" />
+        <img
+          :src="cafe.photos[0]?.image_medium"
+          alt="cafe image"
+          class="w-full h-60 lg:h-72 object-cover object-center"
+        />
       </figure>
-      <div class="bg-dark-1/50 rounded-xl rounded-t-none absolute bottom-0 w-full p-3">
-        <h4 class="mt-1 text-xl font-semibold uppercase leading-tight truncate">{{ cafe.name }}</h4>
+      <div
+        class="bg-dark-1/50 text-theme-5 rounded-xl rounded-t-none absolute bottom-0 w-full p-3"
+      >
+        <h4 class="mt-1 text-xl font-semibold uppercase leading-tight truncate">
+          {{ cafe.name }}
+        </h4>
 
         <div class="mt-1">{{ cafe.address }}</div>
         <!-- <div class="mt-1">
