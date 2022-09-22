@@ -6,7 +6,7 @@ import MainPaginator from '@/components/paginator/MainPaginator.vue';
 import ExcelExportButton from '@/components/buttons/ExcelExportButton.vue';
 import DateRangePicker from '@/components/forms/DateRangePicker.vue';
 import SearchProduct from '@/components/forms/SearchProduct.vue';
-
+import moment from 'moment';
 const notyf = useNotyf();
 const items = ref([]),
   order = reactive({}),
@@ -123,7 +123,7 @@ async function handleSearchSubmit(value) {
                 <td v-text="item.cafe?.name" />
                 <td v-text="item.net_proceeds" />
                 <td v-text="item.state" />
-                <td v-text="new Date(item.updated_dt)" />
+                <td v-text="moment(item.updated_dt).format('DD MMM yyyy')" />
                 <td>
                   <a
                     class="btn btn-primary"
@@ -193,7 +193,9 @@ async function handleSearchSubmit(value) {
             </div>
             <div class="flex mt-4">
               <div class="mr-auto text-base">Updated Time</div>
-              <div class="font-medium">{{ new Date(order.updated_dt) }}</div>
+              <div class="font-medium">
+                {{ moment(order.updated_dt).format('DD MMM yyyy') }}
+              </div>
             </div>
           </div>
         </div>

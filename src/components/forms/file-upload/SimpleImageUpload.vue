@@ -12,7 +12,7 @@ const props = defineProps({
   },
 });
 const emits = defineEmits(['updateImageFile']);
-const selectedFilePath = ref('/images/plus-icon.jpg');
+const selectedFilePath = ref('/images/product_category.jpg');
 const image = ref(null);
 
 watchEffect(() => {

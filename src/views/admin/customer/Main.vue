@@ -3,7 +3,7 @@ import { reactive, ref } from 'vue';
 import MainPaginator from '@/components/paginator/MainPaginator.vue';
 import SearchProduct from '@/components/forms/SearchProduct.vue';
 import { useNotyf } from '@/composables/useNotyf';
-
+import moment from 'moment';
 const notyf = useNotyf();
 const isLoading = ref(false);
 const items = ref([]);
@@ -126,11 +126,11 @@ async function handleSearchSubmit(value) {
               <td v-text="item.username" />
               <td v-text="item.phone" />
               <td v-text="item.email" />
-              <td v-text="item.date_joined" />
+              <td v-text="moment(item.date_joined).format('DD MMM yyyy')" />
               <td v-text="item.order_count" />
               <td v-text="item.orders_total_price" />
+              <td v-text="moment(item.last_order_date).format('DD MMM yyyy')" />
               <td v-text="item.os_type" />
-              <td v-text="item.last_order_date" />
               <td v-text="item.free_items_count" />
               <td v-text="item.points" />
             </tr>
