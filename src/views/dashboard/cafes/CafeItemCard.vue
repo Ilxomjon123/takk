@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 const props = defineProps({
   cafe: Object,
@@ -9,6 +9,12 @@ const happyCount = ref(3);
 const unhappyCount = ref(1);
 const messageCount = ref(2);
 const offerCount = ref(4);
+
+const cafeMainPhoto = computed(() =>
+  props.cafe.photos?.length
+    ? props.cafe.photos[0]?.image_medium
+    : props.cafe.logo_small
+);
 </script>
 
 <template>
@@ -16,7 +22,7 @@ const offerCount = ref(4);
     <div class="hover01 column relative shadow-lg">
       <figure class="rounded-xl">
         <img
-          :src="cafe.photos[0]?.image_medium"
+          :src="cafeMainPhoto"
           alt="cafe image"
           class="w-full h-60 lg:h-72 object-cover object-center"
         />

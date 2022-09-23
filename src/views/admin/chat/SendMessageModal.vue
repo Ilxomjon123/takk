@@ -4,7 +4,7 @@ import { useStore } from 'vuex';
 import { isEmpty } from 'lodash';
 import CustomerSelect from '@/components/selects/CustomerSelect.vue';
 import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
-import { sendMessageToCustomers } from '@/api';
+import { sendMessageToCustomers } from '@/api/admin';
 
 const store = useStore();
 const selectedCustomers = ref([]);
@@ -46,7 +46,11 @@ async function handleSendMessage() {
           <!-- message textarea -->
           <div id="classic-editor" class="mt-5">
             <div class>
-              <textarea v-model="textMessage" rows="3" class="form-control" />
+              <textarea
+                v-model="textMessage"
+                rows="3"
+                class="form-control mb-3"
+              />
               <SimpleImageUpload
                 class="h-full"
                 @update-image-file="imageMessage = $event"

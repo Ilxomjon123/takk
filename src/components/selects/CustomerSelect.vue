@@ -22,11 +22,11 @@ onMounted(() => {
   >
     <option value="all">All</option>
     <option
-      v-for="(item, index) in customers.results"
+      v-for="(customer, index) in customers.results"
       :key="index"
-      :value="item.id"
+      :value="customer.id"
     >
-      {{ item.username }}
+      <span>{{ customer.username }} ({{ customer.phone }})</span>
     </option>
   </TomSelect>
 </template>

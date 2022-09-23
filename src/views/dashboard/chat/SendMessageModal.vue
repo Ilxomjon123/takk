@@ -46,8 +46,15 @@ async function handleSendMessage() {
           <!-- message textarea -->
           <div id="classic-editor" class="mt-5">
             <div class>
-              <textarea v-model="textMessage" rows="5" class="form-control" />
-              <SimpleImageUpload @update-image-file="imageMessage = $event" />
+              <textarea
+                v-model="textMessage"
+                rows="3"
+                class="form-control mb-3"
+              />
+              <SimpleImageUpload
+                class="h-full"
+                @update-image-file="imageMessage = $event"
+              />
             </div>
           </div>
           <!-- action btns -->

@@ -1,10 +1,10 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { remove } from 'lodash';
 import store from '@/store';
 import { deleteCafeImage, fetchCafeGallery } from '@/api';
 import { useNotyf } from '@/composables/useNotyf';
-import { remove } from 'lodash';
 
 const props = defineProps({
   objId: null,
@@ -27,8 +27,10 @@ onMounted(async () => {
 });
 
 function addImage(e) {
-  if (imageSources.value.length + e.target.files.length <= 5) {
-    e.target.files.forEach((file, fileIndex) => {
+  const files = [...e.target?.files];
+
+  if (imageSources.value.length + files.length <= 5) {
+    files.forEach((file, fileIndex) => {
       imageSources.value.push({
         image: URL.createObjectURL(file),
         id: `img-${fileIndex}-${new Date().getTime()}`,
@@ -83,7 +85,7 @@ function removeImage(imgID, imgIndex) {
         <img
           class="rounded-md"
           alt="Logo"
-          :src="item.image_small"
+          :src="item.image_small || item.image"
           data-action="zoom"
         />
         <Tippy

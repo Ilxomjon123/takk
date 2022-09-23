@@ -1,10 +1,10 @@
 <script setup>
-import { remove } from 'lodash';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { remove } from 'lodash';
+import store from '@/store';
 import { deleteCafeImage, fetchCafeGallery } from '@/api';
 import { useNotyf } from '@/composables/useNotyf';
-import store from '@/store';
 
 const props = defineProps({
   objId: null,
@@ -12,11 +12,11 @@ const props = defineProps({
 
 const emit = defineEmits(['update:image-files']);
 
+const route = useRoute();
+const notyf = useNotyf();
 const inputFile = ref(null);
 const imageFiles = ref([]);
 const imageSources = ref([]);
-const route = useRoute();
-const notyf = useNotyf();
 
 onMounted(async () => {
   if (route.params.id) {
@@ -27,7 +27,6 @@ onMounted(async () => {
 });
 
 function addImage(e) {
-  console.log({ e });
   const files = [...e.target?.files];
 
   if (imageSources.value.length + files.length <= 5) {
@@ -40,7 +39,7 @@ function addImage(e) {
     });
     emit('update:image-files', imageFiles.value);
   } else {
-    notyf.error('Maximum 5 image available');
+    notyf.warning('You can add max 5 images');
   }
 }
 
@@ -86,7 +85,7 @@ function removeImage(imgID, imgIndex) {
         <img
           class="rounded-md"
           alt="Logo"
-          :src="item.image"
+          :src="item.image_small || item.image"
           data-action="zoom"
         />
         <Tippy

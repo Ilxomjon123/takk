@@ -46,7 +46,7 @@ async function saveReorderedList() {
       <div class="modal-content">
         <!-- BEGIN: Modal Header -->
         <div class="modal-header">
-          <h2 class="font-medium text-base mr-auto">Reorder items</h2>
+          <h2 class="font-medium text-base mr-auto">Reorder modifier types</h2>
         </div>
         <!-- END: Modal Header -->
         <div class="modal-body p-10">

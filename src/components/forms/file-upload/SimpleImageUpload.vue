@@ -44,9 +44,9 @@ function removeImage() {
     <div
       class="border-2 border-dashed shadow-sm border-gray-200 dark:border-dark-5 rounded-md p-5"
     >
-      <div class="h-40 relative image-fit zoom-in mx-auto">
+      <div class="relative zoom-in mx-auto">
         <img
-          class="rounded-md"
+          class="rounded-md w-full"
           alt="Add image"
           :src="selectedFilePath"
           ref="image"
