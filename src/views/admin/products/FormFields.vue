@@ -233,15 +233,15 @@ function removeProductSize(index) {
               <InfoIcon class="text-xs w-4" />
             </Tippy>
           </label>
-          <select
+          <TomSelect
             id="product_tax_percent"
+            class=""
             v-model="formFields.tax_percent"
-            class="form-select"
           >
             <option value="100">Full tax rate</option>
             <option value="50">Half the tax rate</option>
             <option value="0">No tax</option>
-          </select>
+          </TomSelect>
           <span class="text-theme-6 mt-2">{{
             externalErrors.tax_percent && externalErrors.tax_percent[0]
           }}</span>
@@ -252,15 +252,15 @@ function removeProductSize(index) {
             <span class="text-theme-6">*</span>
             <InfoIcon class="invisible" />
           </label>
-          <select
-            class="form-select"
+          <TomSelect
             id="product_categories"
+            class=""
             v-model="formFields.category"
           >
             <option v-for="item in productCategories" :value="item.id">
               {{ item.name }}
             </option>
-          </select>
+          </TomSelect>
           <span class="text-theme-6 mt-2">{{
             externalErrors.category && externalErrors.category[0]
           }}</span>

@@ -1,7 +1,5 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
-import { isEmpty } from 'lodash';
-import store from '@/store';
+import { computed, ref } from 'vue';
 
 const props = defineProps({
   status: 0,
@@ -9,9 +7,9 @@ const props = defineProps({
 const emits = defineEmits(['update:modelValue']);
 
 const statusList = ref([
-  { label: 'BLOCKED', value: 0 },
+  { label: 'INACTIVE', value: 0 },
   { label: 'ACTIVE', value: 1 },
-  { label: 'PENDING', value: 2 },
+  // { label: 'PENDING', value: 2 },
 ]);
 
 const selectedStatus = computed({
@@ -24,7 +22,6 @@ const selectedStatus = computed({
 
 <template>
   <TomSelect v-model="selectedStatus">
-    <!-- <option :value="3" disabled>Select status</option> -->
     <option
       v-for="(item, index) in statusList"
       :key="index"

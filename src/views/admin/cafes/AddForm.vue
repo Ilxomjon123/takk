@@ -25,6 +25,7 @@ const formFields = reactive({
   postal_code: '',
   second_address: '',
   state: '',
+  status: 0,
   website: '',
 });
 const externalErrors = reactive({
