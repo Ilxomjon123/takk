@@ -54,6 +54,40 @@ import AdminStatisticsProducts from '@/components/lists/AdminStatisticsProducts.
           <div
             class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200 dark:border-dark-5"
           >
+            <h2 class="font-medium text-base mr-auto">Transactions Overview</h2>
+            <div
+              class="w-full sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0"
+            ></div>
+          </div>
+          <div id="vertical-bar-chart" class="p-5">
+            <div class="preview">
+              <AdminYearTransactionChart />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-span-12 lg:col-span-6">
+        <div class="intro-y box">
+          <div
+            class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200 dark:border-dark-5"
+          >
+            <h2 class="font-medium text-base mr-auto">Transactions Overview</h2>
+            <div
+              class="w-full sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0"
+            ></div>
+          </div>
+          <div id="horizontal-bar-chart" class="p-5">
+            <div class="preview">
+              <AdminWeekTransactionChart />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-span-12 lg:col-span-6">
+        <div class="intro-y box">
+          <div
+            class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200 dark:border-dark-5"
+          >
             <h2 class="font-medium text-base mr-auto">
               User Regisrations Overview
             </h2>
@@ -87,40 +121,7 @@ import AdminStatisticsProducts from '@/components/lists/AdminStatisticsProducts.
           </div>
         </div>
       </div>
-      <!-- <div class="col-span-12 lg:col-span-6">
-        <div class="intro-y box">
-          <div
-            class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200 dark:border-dark-5"
-          >
-            <h2 class="font-medium text-base mr-auto">Transactions Overview</h2>
-            <div
-              class="w-full sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0"
-            ></div>
-          </div>
-          <div id="vertical-bar-chart" class="p-5">
-            <div class="preview">
-              <AdminYearTransactionChart />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-span-12 lg:col-span-6">
-        <div class="intro-y box">
-          <div
-            class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200 dark:border-dark-5"
-          >
-            <h2 class="font-medium text-base mr-auto">Transactions Overview</h2>
-            <div
-              class="w-full sm:w-auto flex items-center sm:ml-auto mt-3 sm:mt-0"
-            ></div>
-          </div>
-          <div id="horizontal-bar-chart" class="p-5">
-            <div class="preview">
-              <AdminWeekTransactionChart />
-            </div>
-          </div>
-        </div>
-      </div> -->
+
       <div class="col-span-12 lg:col-span-6">
         <div class="intro-y box">
           <div

@@ -61,7 +61,7 @@ async function submit(formData) {
     </div>
     <div class="grid grid-cols-12 gap-6">
       <!-- <CafeMenu :form-data="formFields" :external-errors="externalErrors" /> -->
-      <div class="col-span-12 lg:col-span-8 2xl:col-span-9">
+      <div class="col-span-12">
         <CafeInformation
           :form-data="formFields"
           :is-loading="isLoading"
