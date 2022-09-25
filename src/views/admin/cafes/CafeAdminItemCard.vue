@@ -25,7 +25,7 @@ const offerCount = ref(4);
         />
       </figure>
       <div
-        class="bg-dark-1/50 rounded-xl rounded-t-none absolute bottom-0 w-full p-3"
+        class="bg-dark-1/50 text-theme-5 rounded-xl rounded-t-none absolute bottom-0 w-full p-3"
       >
         <h4 class="mt-1 text-xl font-semibold uppercase leading-tight truncate">
           {{ cafe.name }}
@@ -49,11 +49,11 @@ const offerCount = ref(4);
             <br />
             {{ cafe.dislike_count }}
           </button>
-          <button type="button">
+          <!-- <button type="button">
             <MessageSquareIcon size="1.5x" />
             <br />
             {{ messageCount }}
-          </button>
+          </button> -->
           <button type="button">
             <CoffeeIcon size="1.5x" />
             <br />

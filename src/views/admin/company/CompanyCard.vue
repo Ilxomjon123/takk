@@ -4,8 +4,8 @@ import { ref } from 'vue';
 const props = defineProps({
   company: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 });
 </script>
 
@@ -20,7 +20,7 @@ const props = defineProps({
         />
       </figure>
       <div
-        class="bg-dark-1/50 rounded-xl rounded-t-none absolute bottom-0 w-full p-3"
+        class="bg-dark-1/50 rounded-xl text-theme-5 rounded-t-none absolute bottom-0 w-full p-3"
       >
         <h4 class="mt-1 text-xl font-semibold uppercase leading-tight truncate">
           {{ company.name }}
