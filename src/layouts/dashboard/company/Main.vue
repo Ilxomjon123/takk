@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted } from 'vue';
 import { useStore } from 'vuex';
-import CompanyCard from '@/components/cards/CompanyCard.vue';
+import CompanySidemenu from '@/components/cards/CompanySidemenu.vue';
 
 const store = useStore();
 
@@ -12,7 +12,7 @@ onMounted(() => {
 
 <template>
   <div class="grid grid-cols-12 gap-6 lg:pt-5">
-    <CompanyCard />
+    <CompanySidemenu />
     <RouterView />
   </div>
 </template>

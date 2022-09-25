@@ -74,17 +74,15 @@ watch(
 async function fetchData() {
   try {
     let res;
+    const params = {
+      cafe: cafe.value != 0 ? cafe.value : null,
+      type: type.value || null,
+    };
 
-    if (cafe.value != 0) {
-      res = await store.dispatch('adminCompany/fetchAdminStatisticsSalesYear', {
-        cafe: cafe.value,
-        type: type.value,
-      });
-    } else {
-      res = await store.dispatch('adminCompany/fetchAdminStatisticsSalesYear', {
-        type: type.value,
-      });
-    }
+    res = await store.dispatch(
+      'adminCompany/fetchAdminStatisticsSalesYear',
+      params
+    );
 
     chart.series = [
       {

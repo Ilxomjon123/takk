@@ -21,6 +21,7 @@ import {
   updateCafeStatus,
 } from '@/api/admin';
 import CafeStatusFormModal from '@/components/modals/CafeStatusFormModal.vue';
+import ConfirmModal from '../../../components/modals/ConfirmModal.vue';
 
 const route = useRoute();
 const notyf = useNotyf();
@@ -150,25 +151,21 @@ function openConfirmModal() {
   cash('#delete-confirmation-modal').modal('show');
 }
 
-async function updateCafeStatusAction(cafeStatus) {
+async function updateCafeStatusAction() {
   isLoading.value = true;
   // externalErrors.value = {};
 
   try {
     const res = await updateCafeStatus({
-      data: { name: formFields.name, status: cafeStatus },
+      data: { name: formFields.name, status: formFields.status == 1 ? 0 : 1 },
       id: route.params.id,
     });
 
     Object.assign(formFields, res);
 
-    cash('#cafe-status-modal').modal('hide');
     notyf.success('Status successfully updated!');
   } catch (error) {
-    if (error.response) {
-      notyf.error();
-      // externalErrors.value = error.response.data;
-    }
+    notyf.error(error.message);
   } finally {
     isLoading.value = false;
   }
@@ -251,9 +248,13 @@ async function removeCafe() {
     </div>
     <!-- END: Delete Confirmation Modal -->
 
-    <CafeStatusFormModal
+    <!-- <CafeStatusFormModal
       :status="formFields.status"
       @update:status="updateCafeStatusAction"
+    /> -->
+    <ConfirmModal
+      @confirm="updateCafeStatusAction()"
+      :ok-color="formFields.status == 1 ? 'btn-danger' : 'btn-success'"
     />
   </div>
 </template>

@@ -93,7 +93,6 @@ function showConfirmModal() {
         <button
           v-if="company?.id"
           class="btn"
-          href="javascript:;"
           :class="company?.is_activate ? 'btn-danger' : 'btn-success'"
           @click="showConfirmModal"
         >

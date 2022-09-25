@@ -61,8 +61,8 @@ function selectItem(item) {
   emit('update:selectedItem', item);
 }
 
-function openStatusFormModal() {
-  cash('#cafe-status-modal').modal('show');
+function showConfirmModal() {
+  cash('#confirm-modal').modal('show');
 }
 </script>
 
@@ -123,12 +123,11 @@ function openStatusFormModal() {
       </div>
       <div class="p-5 border-t border-gray-200 dark:border-dark-5 flex">
         <button
-          type="button"
-          class="btn btn-warning py-1 px-2"
-          @click="openStatusFormModal"
-          :disabled="!formData.id"
+          class="btn"
+          :class="formData?.status == 1 ? 'btn-danger' : 'btn-success'"
+          @click="showConfirmModal"
         >
-          Change status
+          {{ formData?.status == 1 ? 'Inactivate' : 'Activate' }}
         </button>
         <button
           type="button"

@@ -1,5 +1,5 @@
 <script setup>
-import AdminCompanyCard from '@/components/cards/AdminCompanyCard.vue';
+import AdminCompanySidemenu from '@/components/cards/AdminCompanySidemenu.vue';
 import { computed, reactive, watch, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 import { fetchCompanyById } from '@/api/admin';
@@ -38,7 +38,7 @@ watchEffect(async () => {
 
 <template>
   <div class="grid grid-cols-12 gap-6 lg:pt-5">
-    <AdminCompanyCard />
+    <AdminCompanySidemenu />
     <RouterView v-slot="{ Component, route }">
       <template v-if="Component">
         <Transition name="fade-fast" mode="out-in">

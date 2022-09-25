@@ -8,8 +8,8 @@ import { fetchChatMessages } from '@/api';
 const props = defineProps({
   chatType: {
     type: String,
-    default: ''
-  }
+    default: '',
+  },
 });
 
 const {
@@ -18,7 +18,7 @@ const {
   chatList,
   getSelectedChat,
   setErrorMessage,
-  setChatBoxLoading
+  setChatBoxLoading,
 } = useChatState();
 
 const searchValue = ref('');
@@ -26,7 +26,7 @@ const searchValue = ref('');
 const filteredChatList = computed(() => {
   if (searchValue.value) {
     return chatList.filter(
-      chat =>
+      (chat) =>
         chat.customer?.username
           .toLowerCase()
           .includes(searchValue.value.toLowerCase()) ||
@@ -34,7 +34,7 @@ const filteredChatList = computed(() => {
     );
   }
   if (props.chatType) {
-    return chatList.filter(chat => chat.chat_type === props.chatType);
+    return chatList.filter((chat) => chat.chat_type === props.chatType);
   } else return chatList;
 });
 
@@ -42,7 +42,7 @@ onMounted(() => {
   document.addEventListener('keyup', keyListener);
 });
 
-const selectChat = async chat => {
+const selectChat = async (chat) => {
   if (getSelectedChat.value.id !== chat.id) {
     try {
       setChatBoxLoading(true);
@@ -58,7 +58,7 @@ const selectChat = async chat => {
   }
 };
 
-const formattedDate = value => {
+const formattedDate = (value) => {
   return moment(value).fromNow();
 };
 
@@ -87,7 +87,7 @@ function keyListener(event) {
         class="intro-x cursor-pointer relative flex p-3"
         :class="{
           'bg-theme-1 dark:bg-theme-1 text-white':
-            chat.id === getSelectedChat.id
+            chat.id === getSelectedChat.id,
         }"
         @click="selectChat(chat)"
       >
@@ -101,13 +101,13 @@ function keyListener(event) {
         </div>
         <div class="ml-2 overflow-hidden w-full">
           <div class="flex">
-            <h6 href="javascript:;" class="font-medium">
+            <h6 class="font-medium">
               {{ chat.customer?.username }}
             </h6>
             <div class="text-xs text-gray-500 ml-auto">
               {{
                 chat.last_message?.created_dt &&
-                  formattedDate(chat.last_message.created_dt)
+                formattedDate(chat.last_message.created_dt)
               }}
             </div>
           </div>

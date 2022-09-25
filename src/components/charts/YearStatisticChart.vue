@@ -84,19 +84,16 @@ export default {
   },
   methods: {
     ...mapActions(['fetchStatisticsSalesYear']),
-    async fetchData(val) {
+    async fetchData(type) {
       let res;
-      this.type = val;
-      if (this.cafe != 0) {
-        res = await this.fetchStatisticsSalesYear({
-          cafe: this.cafe,
-          type: this.type,
-        });
-      } else {
-        res = await this.fetchStatisticsSalesYear({
-          type: this.type,
-        });
-      }
+      this.type = type;
+      const params = {
+        cafe: this.cafe != 0 ? this.cafe : null,
+        type: this.type || null,
+      };
+
+      res = await this.fetchStatisticsSalesYear(params);
+
       if (res.status) {
         this.series = [
           {

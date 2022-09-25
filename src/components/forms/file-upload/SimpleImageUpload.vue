@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watchEffect } from 'vue';
+import { ref, watchEffect } from 'vue';
 
 const props = defineProps({
   imagePath: {
@@ -10,6 +10,10 @@ const props = defineProps({
     type: String,
     default: 'Add photo',
   },
+  clearImagePath: {
+    type: Boolean,
+    default: false,
+  },
 });
 const emits = defineEmits(['updateImageFile']);
 const selectedFilePath = ref('/images/product_category.jpg');
@@ -17,6 +21,8 @@ const image = ref(null);
 
 watchEffect(() => {
   if (props.imagePath) selectedFilePath.value = props.imagePath;
+  if (props.clearImagePath)
+    selectedFilePath.value = '/images/product_category.jpg';
 });
 
 function changeImage(e) {

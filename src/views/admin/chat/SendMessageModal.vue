@@ -1,28 +1,50 @@
 <script setup>
 import { ref } from 'vue';
-import { useStore } from 'vuex';
-import { isEmpty } from 'lodash';
+import { isEmpty, isNil } from 'lodash';
+import cash from 'cash-dom';
+import { useNotyf } from '@/composables/useNotyf';
+import { sendMessageToCustomers } from '@/api/admin';
 import CustomerSelect from '@/components/selects/CustomerSelect.vue';
 import SimpleImageUpload from '@/components/forms/file-upload/SimpleImageUpload.vue';
-import { sendMessageToCustomers } from '@/api/admin';
 
-const store = useStore();
+const notyf = useNotyf();
 const selectedCustomers = ref([]);
-
-const textMessage = ref(null);
+const isLoading = ref(false);
+const clearImagePath = ref(false);
+const textMessage = ref('');
 const imageMessage = ref(null);
 
 async function handleSendMessage() {
-  const customer_ids = selectedCustomers.value.filter((item) => item !== 'all');
-  const isAll = selectedCustomers.value.includes('All');
+  try {
+    isLoading.value = true;
+    if (
+      !isEmpty(selectedCustomers.value) &&
+      (!isEmpty(textMessage.value) || !isNil(imageMessage.value))
+    ) {
+      const customer_ids = selectedCustomers.value.filter(
+        (item) => item !== 'all'
+      );
+      const isAll = selectedCustomers.value.includes('all');
 
-  const formData = new FormData();
-  !isEmpty(customer_ids) && formData.append('customer_id[]', customer_ids);
-  formData.append('customer_all', isAll);
-  formData.append('text', textMessage.value);
-  formData.append('files[]', imageMessage.value);
+      const formData = new FormData();
+      !isEmpty(customer_ids) && formData.append('customer_id[]', customer_ids);
+      formData.append('customer_all', isAll);
+      formData.append('text', textMessage.value);
+      formData.append('files', imageMessage.value);
 
-  const res = await sendMessageToCustomers(formData);
+      const res = await sendMessageToCustomers(formData);
+      selectedCustomers.value = [];
+      textMessage.value = '';
+      imageMessage.value = null;
+      clearImagePath.value = true;
+      cash('#new-chatmessage-modal').modal('hide');
+      notyf.success('Message send successfully!');
+    } else notyf.warning('Customers not selected or message is empty');
+  } catch (error) {
+    notyf.error('Error while sending message to customers: ' + error.message);
+  } finally {
+    isLoading.value = false;
+  }
 }
 </script>
 
@@ -37,7 +59,7 @@ async function handleSendMessage() {
       <div class="modal-content">
         <!-- BEGIN: Modal Header -->
         <div class="modal-header">
-          <h2 class="font-medium text-base mr-auto">Create new message</h2>
+          <h2 class="font-medium text-base mr-auto">Send new message</h2>
         </div>
         <!-- END: Modal Header -->
         <div class="modal-body">
@@ -53,6 +75,7 @@ async function handleSendMessage() {
               />
               <SimpleImageUpload
                 class="h-full"
+                :clear-image-path="clearImagePath"
                 @update-image-file="imageMessage = $event"
               />
             </div>
@@ -73,7 +96,7 @@ async function handleSendMessage() {
             class="btn btn-primary"
             @click="handleSendMessage"
           >
-            Create
+            Send
           </button>
         </div>
         <!-- END: Modal Footer -->

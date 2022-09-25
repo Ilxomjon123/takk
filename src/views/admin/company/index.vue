@@ -49,12 +49,6 @@ function gotoAddForm() {
             class="cafe_item"
           />
         </div>
-        <!-- <div
-            v-else
-            class="hidden md:block mx-auto text-gray-600 text-center col-span-12"
-          >
-            No Data
-          </div> -->
       </div>
       <!-- END: Data List -->
     </div>

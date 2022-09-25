@@ -33,74 +33,71 @@ export default {
       type: '',
       series: [
         {
-          data: []
+          data: [],
         },
         {
-          data: []
-        }
+          data: [],
+        },
       ],
       chartOptions: {
         dataLabels: {
           enabled: true,
-          enabledOnSeries: []
+          enabledOnSeries: [],
         },
         chart: {
-          type: 'bar'
+          type: 'bar',
         },
         tooltip: {
           shared: true,
-          intersect: false
+          intersect: false,
         },
         xaxis: {
-          categories: []
+          categories: [],
           // categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        }
-      }
+        },
+      },
     };
   },
   watch: {
     async cafe(to, from) {
       await this.fetchData(this.type);
-    }
+    },
   },
   methods: {
     ...mapActions(['adminCompany/fetchAdminStatisticsSalesWeek']),
     async fetchData(val) {
       this.type = val;
       let res;
-      if (this.cafe != 0) {
-        res = await this['adminCompany/fetchAdminStatisticsSalesWeek']({
-          cafe: this.cafe,
-          type: this.type
-        });
-      } else {
-        res = await this['adminCompany/fetchAdminStatisticsSalesWeek']({
-          type: this.type
-        });
-      }
+      const params = {
+        cafe: this.cafe != 0 ? this.cafe : null,
+        type: this.type || null,
+      };
+
+      res = await this['adminCompany/fetchAdminStatisticsSalesWeek'](params);
+
       if (res.status) {
         this.series = [
           {
             // data: res.last_year.map(item => item.count),
             data: res.last,
-            name: 'Last Week'
+            name: 'Last Week',
           },
           {
             // data: res.this_year.map(item => item.count),
             data: res.current,
-            name: 'This Week'
-          }
+            name: 'This Week',
+          },
         ];
         this.chartOptions = {
           xaxis: {
-            categories: res.days
-          }
+            categories: res.days,
+          },
         };
       }
-    }
+    },
   },
   components: {
-    AdminCafeSelect
-  }
+    AdminCafeSelect,
+  },
 };
 </script>
