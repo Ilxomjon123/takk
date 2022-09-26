@@ -2,7 +2,10 @@
 import { computed, ref } from 'vue';
 
 const props = defineProps({
-  cafe: Object,
+  cafe: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 
 const happyCount = ref(3);
@@ -35,13 +38,7 @@ const cafeMainPhoto = computed(() =>
         </h4>
 
         <div class="mt-1">{{ cafe.address }}</div>
-        <!-- <div class="mt-1">
-          $1800
-          <span class="text-gray-600 text-sm">/wk</span>
-        </div>-->
         <div class="flex justify-center mt-4 space-x-3">
-          <!-- <span class="text-teal-600 text-md font-semibold">4/5 ratings</span>
-          <span class="text-sm text-gray-600">(based on 234 ratings)</span>-->
           <button type="button">
             <SmileIcon size="1.5x" />
             <br />
@@ -94,11 +91,4 @@ figure {
   -webkit-transform: scale(1.2);
   transform: scale(1.2);
 }
-
-// .wrapper .info {
-// margin-top: -8.5rem;
-// @media (min-width: 1440px) {
-//   margin-top: -9.8rem;
-// }
-// }
 </style>

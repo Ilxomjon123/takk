@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import store from '@/store';
 import { useNotyf } from '@/composables/useNotyf';
 import MainPaginator from '@/components/paginator/MainPaginator.vue';
@@ -69,7 +69,7 @@ async function handleSearchSubmit(value) {
 <template>
   <div>
     <div>
-      <h2 class="intro-y text-lg font-medium mt-5">Transactions List</h2>
+      <h2 class="text-lg font-medium mt-5">Transactions List</h2>
       <div class="flex flex-col md:flex-row items-center gap-5 my-5">
         <ExcelExportButton :url="exportUrl" :form="form" />
         <!-- search input -->
@@ -83,7 +83,7 @@ async function handleSearchSubmit(value) {
         </div>
       </div>
       <!-- BEGIN: Data List -->
-      <div class="grid grid-cols-12 gap-6 mt-5">
+      <div class="grid grid-cols-12 gap-5">
         <div class="intro-y col-span-12 overflow-auto">
           <table class="table table-report -mt-2">
             <thead>
@@ -134,6 +134,8 @@ async function handleSearchSubmit(value) {
         <!-- END: Pagination -->
       </div>
     </div>
+
+    <!-- modals -->
     <div id="order-detail-modal" class="modal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">

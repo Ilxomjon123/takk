@@ -56,12 +56,12 @@ async function saveReorderedList() {
             item-key="id"
             @change="isReordered = true"
           >
-            <template #item="{ element, elementIndex }">
+            <template #item="{ element, index }">
               <li class="flex gap-3">
                 <AlignJustifyIcon class="handle" />
 
                 <span>{{ element.name }}</span>
-                <span class="ml-auto">{{ elementIndex + 1 }}</span>
+                <span class="ml-auto">{{ index + 1 }}</span>
               </li>
             </template>
           </draggable>

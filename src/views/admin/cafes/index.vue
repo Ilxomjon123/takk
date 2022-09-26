@@ -3,7 +3,7 @@ import { computed, onMounted, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { fetchCafeList } from '@/api/admin';
 import store from '@/store';
-import CafeAdminItemCard from './CafeAdminItemCard.vue';
+import CafeItemCard from './CafeItemCard.vue';
 
 const router = useRouter();
 const list = reactive([]);
@@ -49,7 +49,7 @@ function gotoForm(id) {
           v-if="list.length"
           class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10"
         >
-          <CafeAdminItemCard
+          <CafeItemCard
             v-for="(cafe, index) in list"
             :key="index"
             :cafe="cafe"
