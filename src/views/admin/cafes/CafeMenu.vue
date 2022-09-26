@@ -48,8 +48,8 @@ const cafeMenuItems = reactive([
 
 const selectedItem = ref('CafeInformation');
 const statusList = ref([
-  { label: 'BLOCKED', value: 0 },
-  { label: 'ACTIVE', value: 1 },
+  { label: 'Not Active', value: 0 },
+  { label: 'Active', value: 1 },
   { label: 'PENDING', value: 2 },
 ]);
 const cafeCurrentStatus = computed(() =>
@@ -74,15 +74,12 @@ function showConfirmModal() {
     <div class="intro-y box mt-5">
       <div class="relative flex items-center p-5">
         <div class="w-24 h-24 image-fit">
-          <img
-            alt="cafe_logo"
-            class="rounded-full"
-            :src="
+          <img alt="cafe_logo" class="rounded-full" :src="formData.logo" />
+          <!-- :src="
               formData.photos?.length > 0
                 ? formData.photos[0].image_small
                 : defaultLogo
-            "
-          />
+            " -->
         </div>
         <div class="ml-4 mr-auto">
           <div class="font-medium text-base">

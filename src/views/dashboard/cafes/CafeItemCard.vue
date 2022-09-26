@@ -52,11 +52,11 @@ const cafeMainPhoto = computed(() =>
             <br />
             {{ cafe.dislike_count }}
           </button>
-          <button type="button">
+          <!-- <button type="button">
             <MessageSquareIcon size="1.5x" />
             <br />
             {{ messageCount }}
-          </button>
+          </button> -->
           <button type="button">
             <CoffeeIcon size="1.5x" />
             <br />
