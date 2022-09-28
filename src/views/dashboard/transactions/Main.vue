@@ -108,7 +108,11 @@ async function handleSearchSubmit(value) {
                 <td v-text="item.cafe?.name" />
                 <td v-text="item.net_proceeds" />
                 <td v-text="item.state" />
-                <td v-text="moment(item.updated_dt).format('DD MMM yyyy')" />
+                <td
+                  v-text="
+                    moment(item.updated_dt).format('DD MMM yyyy HH:mm:ss')
+                  "
+                />
                 <td>
                   <a
                     class="btn btn-primary"
@@ -179,7 +183,7 @@ async function handleSearchSubmit(value) {
             <div class="flex mt-4">
               <div class="mr-auto text-base">Updated Time</div>
               <div class="font-medium">
-                {{ moment(order.updated_dt).format('DD MMM yyyy') }}
+                {{ moment(order.updated_dt).format('DD MMM yyyy HH:mm:ss') }}
               </div>
             </div>
           </div>

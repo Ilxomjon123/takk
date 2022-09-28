@@ -11,8 +11,8 @@ const list = computed(() => store.getters.getStatisticCustomers);
 const form = {};
 
 function changeDateRange(range) {
-  form.start = range.start;
-  form.end = range.end;
+  form.start_date = range.start;
+  form.end_date = range.end;
   fetchData();
 }
 
