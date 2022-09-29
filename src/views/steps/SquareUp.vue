@@ -4,10 +4,12 @@ import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
 import cash from 'cash-dom';
 import { postSquareAuth } from '@/api';
+import { useNotyf } from '../../composables/useNotyf';
 
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
+const notyf = useNotyf();
 
 onMounted(async () => {
   cash('body').removeClass('main').removeClass('login').addClass('error-page');
@@ -16,13 +18,18 @@ onMounted(async () => {
 
   if (typeof code === 'undefined' || typeof state === 'undefined') {
     // location.href = '/entry';
+    notyf.error(
+      'Something went wrong while integrating with Square! Please, try again later'
+    );
   } else {
     const res = await postSquareAuth({ code, state });
-    console.log(res);
+    // console.log(res);
     store.dispatch('putStep', 4);
+    notyf.success('Integration with Square successfully created!');
   }
+  router.push('/dashboard/company/square');
 
-  await store.dispatch('cafes/fetchSquareCafeList');
+  // await store.dispatch('cafes/fetchSquareCafeList');
   // store.dispatch('cafes/storeSquareIDCafe')
 });
 //   }
