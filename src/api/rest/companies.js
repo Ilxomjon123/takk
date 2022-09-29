@@ -29,3 +29,15 @@ export const updateCompany = async (payload) => {
     throw error;
   }
 };
+
+export const fetchTariffsList = async () => {
+  try {
+    const { data } = await api({
+      url: '/api/companies/tariff/',
+    });
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};

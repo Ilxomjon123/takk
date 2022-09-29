@@ -1,3 +1,9 @@
+<script setup>
+import { fetchTariffsList } from '@/api';
+
+const list = await fetchTariffsList();
+</script>
+
 <template>
   <div class="bg-theme-2 rounded-md">
     <div class="flex items-center">

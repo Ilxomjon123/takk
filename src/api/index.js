@@ -4,3 +4,4 @@ export * from './rest/companies.js';
 export * from './rest/countries.js';
 export * from './rest/productMenu';
 export * from './rest/products.js';
+export * from './rest/squareup.js';

@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import store from '@/store';
 import { useNotyf } from '@/composables/useNotyf';
+import { fetchSquareRedirectUrl } from '@/api';
 
 const router = useRouter();
 const route = useRoute();
@@ -15,7 +16,6 @@ onMounted(() => {
   if (typeof squareError !== 'undefined') {
     notyf.error('Error');
   }
-
 });
 
 async function toCompany() {
@@ -29,8 +29,8 @@ async function toCompany() {
 }
 
 async function gotoSquareUpSite() {
-  const res = await store.dispatch('fetchSquareRedirectUrl', {
-    is_make_create_order
+  const res = await fetchSquareRedirectUrl({
+    is_make_create_order,
   });
   // console.log(res);
   if (res.status) {
@@ -118,9 +118,7 @@ function logout() {
         </div>
       </div>
       <div class="flex items-center justify-center w-full py-10">
-        <button class="btn btn-danger" @click="logout">
-          Logout
-        </button>
+        <button class="btn btn-danger" @click="logout">Logout</button>
       </div>
     </div>
 
