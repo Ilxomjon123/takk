@@ -121,9 +121,8 @@ const actions = {
 
   async fetchStripeConnect() {
     try {
-      const { data } = await api
-        // .get(`/api/companies/${rootGetters.getCompanyId}/transactions/`, {
-        .get(`/api/stripe/connect/`);
+      const { data } = await api.get(`/api/stripe/connect/`);
+      // .get(`/api/companies/${rootGetters.getCompanyId}/transactions/`, {
       return data;
     } catch (error) {
       throw error;

@@ -41,3 +41,17 @@ export const fetchTariffsList = async () => {
     throw error;
   }
 };
+
+export const updateTariff = async (payload) => {
+  try {
+    const { data } = await api({
+      url: '/api/companies/tariff/',
+      method: 'PUT',
+      data: payload,
+    });
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};

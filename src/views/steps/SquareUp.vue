@@ -4,7 +4,7 @@ import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
 import cash from 'cash-dom';
 import { postSquareAuth } from '@/api';
-import { useNotyf } from '../../composables/useNotyf';
+import { useNotyf } from '@/composables/useNotyf';
 
 const router = useRouter();
 const route = useRoute();
@@ -27,6 +27,7 @@ onMounted(async () => {
     store.dispatch('putStep', 4);
     notyf.success('Integration with Square successfully created!');
   }
+
   router.push('/dashboard/company/square');
 
   // await store.dispatch('cafes/fetchSquareCafeList');

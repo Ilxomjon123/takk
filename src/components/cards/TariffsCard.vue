@@ -1,7 +1,12 @@
 <script setup>
-import { fetchTariffsList } from '@/api';
+import { fetchTariffsList, updateTariff } from '@/api';
 
 const list = await fetchTariffsList();
+
+async function changeTariff(tariff_type) {
+  const res = await updateTariff({ tariff_type });
+  console.log({ res });
+}
 </script>
 
 <template>
@@ -32,11 +37,13 @@ const list = await fetchTariffsList();
               </div>
             </div>
             <div class="mt-auto">
-              <a
+              <button
                 type="button"
-                class="btn btn-rounded-primary py-3 px-4 block mx-auto mt-8"
-                >PURCHASE NOW</a
+                class="btn btn-rounded-primary py-3 px-4 w-full mx-auto mt-8"
+                @click="changeTariff('custom_fee')"
               >
+                PURCHASE NOW
+              </button>
               <!-- <a href="javascript:;" data-toggle="modal" data-target="#squareup-modal-preview"
                     class="btn btn-rounded-primary py-3 px-4 block mx-auto mt-8">PURCHASE NOW</a> -->
             </div>
@@ -67,11 +74,13 @@ const list = await fetchTariffsList();
               </div>
             </div>
             <div class="mt-auto">
-              <a
+              <button
                 type="button"
-                class="btn btn-rounded-primary py-3 px-4 block mx-auto mt-8"
-                >PURCHASE NOW</a
+                class="btn btn-rounded-primary py-3 px-4 w-full mx-auto mt-8"
+                @click="changeTariff('subscription')"
               >
+                PURCHASE NOW
+              </button>
             </div>
           </div>
         </div>

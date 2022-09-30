@@ -1,11 +1,13 @@
 <script setup>
-import { Notyf } from 'notyf';
 import { ref } from 'vue';
 import { useStore } from 'vuex';
 import { fetchSquareRedirectUrl } from '@/api';
+import { useNotyf } from '@/composables/useNotyf';
 
 const store = useStore();
+const notyf = useNotyf();
 const loading = ref(false);
+
 async function gotoSquareUpSite() {
   try {
     loading.value = true;
@@ -13,11 +15,9 @@ async function gotoSquareUpSite() {
       is_make_create_order: true,
     });
 
-    if (res.status) {
-      location.href = res?.data?.url;
-    }
+    location.href = res?.url;
   } catch (error) {
-    Notyf.error('Error while redirect: ' + error.message);
+    notyf.error('Error while redirect: ' + error.message);
   } finally {
     loading.value = false;
   }

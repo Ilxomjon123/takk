@@ -4,7 +4,12 @@ const api = useApi();
 
 export const fetchSquareRedirectUrl = async (payload) => {
   try {
-    const { data } = await api.post(`/api/square/redirect/`, payload);
+    const { data } = await api({
+      url: `/api/square/redirect/`,
+      method: 'POST',
+      data: payload,
+    });
+
     return data;
   } catch (error) {
     throw error;
@@ -13,7 +18,12 @@ export const fetchSquareRedirectUrl = async (payload) => {
 
 export const postSquareAuth = async (payload) => {
   try {
-    const { data } = await api.post(`/api/square/auth/`, payload);
+    const { data } = await api({
+      url: `/api/square/auth/`,
+      method: 'POST',
+      data: payload,
+    });
+
     return data;
   } catch (error) {
     throw error;
@@ -22,7 +32,10 @@ export const postSquareAuth = async (payload) => {
 
 export const syncSquare = async () => {
   try {
-    const res = await api.get('/api/square/locations/parse/');
+    const res = await api({
+      url: '/api/square/locations/parse/',
+    });
+
     return res;
   } catch (error) {
     throw error;
