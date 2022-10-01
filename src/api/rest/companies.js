@@ -30,7 +30,7 @@ export const updateCompany = async (payload) => {
   }
 };
 
-export const fetchTariffsList = async () => {
+export const fetchCurrentTariff = async () => {
   try {
     const { data } = await api({
       url: '/api/companies/tariff/',

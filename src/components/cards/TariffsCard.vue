@@ -1,16 +1,23 @@
 <script setup>
-import { fetchTariffsList, updateTariff } from '@/api';
+import { fetchCurrentTariff, updateTariff } from '@/api';
+import { onMounted, reactive } from 'vue';
 
-const list = await fetchTariffsList();
+const currentTariff = reactive({});
+
+onMounted(async () => {
+  const res = await fetchCurrentTariff();
+  Object.assign(currentTariff, res);
+});
 
 async function changeTariff(tariff_type) {
   const res = await updateTariff({ tariff_type });
-  console.log({ res });
+  Object.assign(currentTariff, res);
+  // console.log({ res });
 }
 </script>
 
 <template>
-  <div class="bg-theme-2 rounded-md">
+  <div class="rounded-md">
     <div class="flex items-center">
       <div class="box flex flex-col lg:flex-row w-full">
         <div
@@ -41,8 +48,13 @@ async function changeTariff(tariff_type) {
                 type="button"
                 class="btn btn-rounded-primary py-3 px-4 w-full mx-auto mt-8"
                 @click="changeTariff('custom_fee')"
+                :disabled="currentTariff.tariff_type === 'custom_fee'"
               >
-                PURCHASE NOW
+                {{
+                  currentTariff.tariff_type === 'custom_fee'
+                    ? "YOU'VE GOT THIS TARIFF"
+                    : 'PURCHASE NOW'
+                }}
               </button>
               <!-- <a href="javascript:;" data-toggle="modal" data-target="#squareup-modal-preview"
                     class="btn btn-rounded-primary py-3 px-4 block mx-auto mt-8">PURCHASE NOW</a> -->
@@ -78,8 +90,13 @@ async function changeTariff(tariff_type) {
                 type="button"
                 class="btn btn-rounded-primary py-3 px-4 w-full mx-auto mt-8"
                 @click="changeTariff('subscription')"
+                :disabled="currentTariff.tariff_type === 'subscription'"
               >
-                PURCHASE NOW
+                {{
+                  currentTariff.tariff_type === 'subscription'
+                    ? "YOU'VE GOT THIS TARIFF"
+                    : 'PURCHASE NOW'
+                }}
               </button>
             </div>
           </div>
