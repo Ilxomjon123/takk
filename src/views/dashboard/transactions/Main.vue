@@ -10,12 +10,12 @@ import moment from 'moment';
 const notyf = useNotyf();
 const items = ref([]),
   order = reactive({}),
+  paginator = ref(null),
   form = reactive({
     start_date: '',
     end_date: '',
-    search: '',
+    search: null,
   }),
-  paginator = ref(null),
   statuses = ref(['PAID', 'REFUND']),
   exportUrl = import.meta.env.VITE_ADMIN_API_URL + '/transactions/export/';
 const isLoading = ref(false);
@@ -37,8 +37,6 @@ function setOrder(val) {
 
 async function handleSearchEvent(value) {
   isLoading.value = true;
-  const fetchList = 'fetchTransactions';
-
   try {
     if (value.length === 0 || value.length > 2) {
       form.search = value;
@@ -53,8 +51,6 @@ async function handleSearchEvent(value) {
 
 async function handleSearchSubmit(value) {
   isLoading.value = true;
-  const fetchList = 'fetchTransactions';
-
   try {
     form.search = value;
     await paginator.value.paginate(1, form);

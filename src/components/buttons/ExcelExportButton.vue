@@ -14,6 +14,7 @@
 import { useNotyf } from '@/composables/useNotyf';
 import store from '@/store';
 import { useApi } from '@/composables/useApi';
+import moment from 'moment';
 
 const api = useApi();
 const notyf = useNotyf();
@@ -31,10 +32,10 @@ export default {
     },
     form: {
       type: Object,
-      default: {
-        start: '01-01-2020',
-        end: '01-01-2021',
-      },
+      default: () => ({
+        start_date: moment().subtract(1, 'month').format('DD-MM-YYYY'),
+        end_date: moment().format('DD-MM-YYYY'),
+      }),
     },
   },
   computed: {

@@ -5,11 +5,14 @@ import SearchProduct from '@/components/forms/SearchProduct.vue';
 import { useNotyf } from '@/composables/useNotyf';
 import store from '../../../store';
 import moment from 'moment';
+import ExcelExportButton from '../../../components/buttons/ExcelExportButton.vue';
 const notyf = useNotyf();
 const isLoading = ref(false);
 const items = ref([]);
 const paginator = ref(null);
-const form = reactive([]);
+const form = reactive({
+  search: null,
+});
 
 function setItems(val) {
   items.value = val;
@@ -19,16 +22,8 @@ async function handleSearchEvent(value) {
   isLoading.value = true;
   try {
     if (value.length === 0 || value.length > 2) {
-      const res = await store.dispatch('fetchCustomers', {
-        page: paginator.page,
-        limit: paginator.limit,
-        search: value,
-      });
-
-      if (res) {
-        items.value = res.results;
-        paginator.total = res.total_objects;
-      }
+      form.search = value;
+      await paginator.value.paginate(1, form);
     }
   } catch (error) {
     notyf.error('Error while fetching data list: ' + error.message);
@@ -40,16 +35,8 @@ async function handleSearchEvent(value) {
 async function handleSearchSubmit(value) {
   isLoading.value = true;
   try {
-    const res = await store.dispatch('fetchCustomers', {
-      page: paginator.page,
-      limit: paginator.limit,
-      search: value,
-    });
-
-    if (res) {
-      items.value = res.results;
-      paginator.total = res.total_objects;
-    }
+    form.search = value;
+    await paginator.value.paginate(1, form);
   } catch (error) {
     notyf.error('Error while fetching data list: ' + error.message);
   } finally {
@@ -61,8 +48,9 @@ async function handleSearchSubmit(value) {
 <template>
   <div>
     <h2 class="text-lg font-medium mt-5">Customers List</h2>
-    <div class="flex items-center">
-      <div class="dropdown">
+    <div class="flex flex-col md:flex-row items-center my-5">
+      <ExcelExportButton :form="form" url="/api/companies/customers/export/" />
+      <!-- <div class="dropdown">
         <button
           class="dropdown-toggle btn px-2 box text-gray-700 dark:text-gray-300"
           aria-expanded="false"
@@ -90,10 +78,9 @@ async function handleSearchSubmit(value) {
             </a>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="ml-auto">
         <SearchProduct
-          class=""
           :loading="isLoading"
           @searching="handleSearchEvent"
           @search:manual="handleSearchSubmit"
