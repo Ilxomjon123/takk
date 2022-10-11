@@ -1,12 +1,5 @@
 <script setup>
-import {
-  computed,
-  nextTick,
-  onBeforeUnmount,
-  onMounted,
-  onUpdated,
-  ref,
-} from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import moment from 'moment';
 import { isEmpty } from 'lodash';
 import store from '@/store';
@@ -25,7 +18,7 @@ const chatBoxBody = ref(null);
 const textInput = ref('');
 const currentPage = ref(1);
 const totalPages = ref(1);
-const chatMessages = ref(getSelectedChatMessages.value);
+const chatMessages = computed(() => getSelectedChatMessages.value);
 
 onMounted(() => {
   chatBoxBody.value.addEventListener('scroll', handleScroll);
@@ -314,13 +307,13 @@ async function fetchMessages() {
           <div
             class="w-4 h-4 sm:w-5 sm:h-5 relative text-gray-600 mr-3 sm:mr-5"
           >
-            <PaperclipIcon class="w-full h-full" />
             <input
               type="file"
-              class="w-full h-full top-0 left-0 absolute opacity-0"
+              class="absolute top-0 left-0 opacity-0"
               @input="handleFileInput"
               accept="image/*"
             />
+            <PaperclipIcon class="w-full h-full" />
           </div>
         </div>
         <button
@@ -343,5 +336,11 @@ img[data-action='zoom'] {
 img.zoom-img,
 .zoom-overlay {
   cursor: default;
+}
+
+input[type='file'],
+input[type='file']::-webkit-file-upload-button {
+  /* chromes and blink button */
+  cursor: pointer;
 }
 </style>

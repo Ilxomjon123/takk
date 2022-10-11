@@ -113,7 +113,6 @@ const actions = {
       });
       return (await res).data;
     } catch (error) {
-      console.log('error while updating Product: ', err);
       throw err;
     }
   },

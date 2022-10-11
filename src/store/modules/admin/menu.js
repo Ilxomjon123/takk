@@ -108,12 +108,11 @@ const actions = {
     try {
       const res = api({
         url: 'https://api.takk.cafe/api/v1/dashboard/admin/menus/ordering-items/',
-        method: 'PUT',
+        method: 'POST',
         data: payload,
       });
       return (await res).data;
     } catch (error) {
-      console.log('error while updating Product: ', err);
       throw err;
     }
   },
